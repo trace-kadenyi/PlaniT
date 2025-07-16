@@ -1,3 +1,6 @@
+import heroBg from "../assets/hero_bg.png"
+
+
 export default function LandingPage() {
   return (
     <div className="bg-white text-[#374151] font-sans">
@@ -39,7 +42,7 @@ export default function LandingPage() {
         {/* Background Image Placeholder */}
         <div className="flex-1">
           <div className="w-full h-64 md:h-80 rounded bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-400">[ Hero Image Placeholder ]</span>
+           <img src={heroBg}  />
           </div>
         </div>
       </section>
