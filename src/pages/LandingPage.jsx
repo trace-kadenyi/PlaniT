@@ -1,5 +1,6 @@
 import heroBg from "../assets/hero_bg.png"
 import HeroImage from "../components/landing/HeroAnimation";
+import Hero2 from "../components/landing/HeroAnimation2"
 
 
 export default function LandingPage() {
@@ -42,9 +43,9 @@ export default function LandingPage() {
 
         {/* Background Image Placeholder */}
         <div className="flex-1">
-          <div className="w-full h-64 md:h-80 rounded bg-gray-100 flex items-center justify-center">
+          <div className="w-full flex items-center justify-center">
            {/* <img src={heroBg}  /> */}
-           <HeroImage/>
+           <Hero2 />
           </div>
         </div>
       </section>
