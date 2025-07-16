@@ -1,70 +1,74 @@
 export default function LandingPage() {
   return (
-    <div className="bg-[#9B2C62] text-white min-h-screen flex flex-col">
-      {/* Navbar */}
-      <nav className="flex justify-between items-center px-6 py-4">
-        <h1 className="text-2xl font-bold">PlaniT</h1>
-        <div className="space-x-4">
-          <button className="border border-white rounded px-4 py-1">Sign Up</button>
-          <button className="border border-white rounded px-4 py-1">Log in</button>
+    <div className="bg-white text-[#374151] font-sans">
+      {/* Header */}
+      <header className="bg-[#9B2C62] text-white px-6 py-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold">PlaniT</h1>
+          <nav className="space-x-4">
+            <button className="bg-white text-[#9B2C62] font-medium px-4 py-2 rounded hover:bg-[#f3f4f6] transition">
+              Sign Up
+            </button>
+            <button className="border border-white px-4 py-2 rounded hover:bg-white hover:text-[#9B2C62] transition">
+              Log In
+            </button>
+          </nav>
         </div>
-      </nav>
+      </header>
 
-      {/* Hero */}
-      <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-6xl mx-auto gap-10">
-        {/* Text */}
+      {/* Hero Section */}
+      <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10">
+        {/* Text Content */}
         <div className="flex-1">
           <h2 className="text-4xl font-bold leading-tight mb-4">
-            Simplify<br />Event Planning
+            Simplify Your <br /> Event Planning
           </h2>
-          <p className="text-[#E5E7EB] mb-6 max-w-md">
-            PlaniT helps event planners organize, budget, and execute with confidence.
+          <p className="text-gray-600 mb-6 max-w-md">
+            PlaniT helps event planners manage tasks, budgets, and resources efficiently, with elegance and ease.
           </p>
           <div className="flex gap-4">
-            <button className="bg-[#F59E0B] text-black font-semibold px-6 py-2 rounded hover:bg-[#d97706]">
+            <button className="bg-[#F59E0B] text-black font-semibold px-6 py-2 rounded hover:bg-[#d97706] transition">
               Get Started
             </button>
-            <button className="border border-white px-6 py-2 rounded font-semibold hover:bg-white hover:text-[#9B2C62] transition">
+            <button className="border border-[#F59E0B] text-[#F59E0B] px-6 py-2 rounded font-semibold hover:bg-[#fef3c7] transition">
               View Demo
             </button>
           </div>
         </div>
 
-        {/* Placeholder for Image */}
+        {/* Background Image Placeholder */}
         <div className="flex-1">
-          <div className="w-full h-64 md:h-80 rounded bg-[#7c1c2e] flex items-center justify-center">
-            <span className="text-white opacity-70">[ Illustration Here ]</span>
+          <div className="w-full h-64 md:h-80 rounded bg-gray-100 flex items-center justify-center">
+            <span className="text-gray-400">[ Hero Image Placeholder ]</span>
           </div>
         </div>
       </section>
 
-       {/* <div className="grid grid-cols-2 gap-4">
-        <div className="bg-[#7C1C2E] text-white p-4 rounded">
-          Primary – Crimson Plum
+      {/* Feature Section */}
+      <section className="bg-gray-50 py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h3 className="text-2xl font-bold mb-10 text-[#9B2C62]">Core Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded shadow">
+              <h4 className="text-lg font-semibold mb-2">Task Management</h4>
+              <p className="text-sm text-gray-600">Assign tasks, set deadlines, and track progress easily.</p>
+            </div>
+            <div className="bg-white p-6 rounded shadow">
+              <h4 className="text-lg font-semibold mb-2">Budget Tracking</h4>
+              <p className="text-sm text-gray-600">Manage expenses and stay within budget per event.</p>
+            </div>
+            <div className="bg-white p-6 rounded shadow">
+              <h4 className="text-lg font-semibold mb-2">Vendor Coordination</h4>
+              <p className="text-sm text-gray-600">Store and manage vendor details and bookings.</p>
+            </div>
+          </div>
         </div>
-        <div className="bg-[#D97706] text-black border p-4 rounded">
-          Pumpkin
-        </div>
+      </section>
 
-        <div className="bg-[#9B2C62] text-white p-4 rounded">
-          Secondary – Deep Mulberry
-        </div>
-        <div className="bg-[#F59E0B] text-black p-4 rounded">
-          Warning – Saffron Gold
-        </div>
-
-        <div className="bg-[#BE3455] text-white p-4 rounded">
-          Berry Blush – Vivid Hybrid
-        </div>
-
-        <div className="bg-[#374151] text-white p-4 rounded">
-          Slate – Strong Neutral
-        </div>
-
-        <div className="bg-white text-black border p-4 rounded">
-          Background – White
-        </div>
-      </div> */}
+      {/* Footer */}
+      <footer className="bg-[#f3f4f6] text-sm text-center text-gray-600 py-6">
+        &copy; {new Date().getFullYear()} PlaniT. All rights reserved.
+      </footer>
     </div>
   );
 }
