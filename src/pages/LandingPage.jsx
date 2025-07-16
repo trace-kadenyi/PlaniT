@@ -1,7 +1,6 @@
-import heroBg from "../assets/hero_bg.png"
+import heroBg from "../assets/hero_bg.png";
 import HeroImage from "../components/landing/HeroAnimation";
-import Hero2 from "../components/landing/HeroAnimation2"
-
+import Hero2 from "../components/landing/HeroAnimation2";
 
 export default function LandingPage() {
   return (
@@ -29,7 +28,8 @@ export default function LandingPage() {
             Simplify Your <br /> Event Planning
           </h2>
           <p className="text-gray-600 mb-6 max-w-md">
-            PlaniT helps event planners manage tasks, budgets, and resources efficiently, with elegance and ease.
+            PlaniT helps event planners manage tasks, budgets, and resources
+            efficiently, with elegance and ease.
           </p>
           <div className="flex gap-4">
             <button className="bg-[#F59E0B] text-black font-semibold px-6 py-2 rounded hover:bg-[#d97706] transition">
@@ -42,30 +42,37 @@ export default function LandingPage() {
         </div>
 
         {/* Background Image Placeholder */}
-        <div className="flex-1">
-          <div className="w-full flex items-center justify-center">
-           {/* <img src={heroBg}  /> */}
-           <Hero2 />
-          </div>
+        <div className="flex-1 flex justify-center items-center">
+          <Hero2 />
         </div>
       </section>
 
       {/* Feature Section */}
       <section className="bg-gray-50 py-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h3 className="text-2xl font-bold mb-10 text-[#9B2C62]">Core Features</h3>
+          <h3 className="text-2xl font-bold mb-10 text-[#9B2C62]">
+            Core Features
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded shadow">
               <h4 className="text-lg font-semibold mb-2">Task Management</h4>
-              <p className="text-sm text-gray-600">Assign tasks, set deadlines, and track progress easily.</p>
+              <p className="text-sm text-gray-600">
+                Assign tasks, set deadlines, and track progress easily.
+              </p>
             </div>
             <div className="bg-white p-6 rounded shadow">
               <h4 className="text-lg font-semibold mb-2">Budget Tracking</h4>
-              <p className="text-sm text-gray-600">Manage expenses and stay within budget per event.</p>
+              <p className="text-sm text-gray-600">
+                Manage expenses and stay within budget per event.
+              </p>
             </div>
             <div className="bg-white p-6 rounded shadow">
-              <h4 className="text-lg font-semibold mb-2">Vendor Coordination</h4>
-              <p className="text-sm text-gray-600">Store and manage vendor details and bookings.</p>
+              <h4 className="text-lg font-semibold mb-2">
+                Vendor Coordination
+              </h4>
+              <p className="text-sm text-gray-600">
+                Store and manage vendor details and bookings.
+              </p>
             </div>
           </div>
         </div>
