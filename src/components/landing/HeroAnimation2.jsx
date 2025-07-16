@@ -1,10 +1,15 @@
-import Lottie from 'lottie-react';
-import planningLottie from '../../assets/animations/eventPlanning.json';
+import Lottie from "lottie-react";
+import planningLottie from "../../assets/animations/Meetings.json";
 
 export default function HeroAnimation() {
   return (
-    <div className="w-80 mx-auto md:ml-0 md:w-[320px]">
-      <Lottie animationData={planningLottie} loop autoplay />
+    <div className="w-full max-w-[500px] mx-auto md:ml-0">
+      <Lottie
+        animationData={planningLottie}
+        loop
+        autoplay
+        style={{ width: "100%", height: "100%" }}
+      />
     </div>
   );
 }
