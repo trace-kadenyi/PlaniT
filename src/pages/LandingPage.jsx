@@ -1,4 +1,5 @@
 import HeroImg from "../components/landing/HeroAnimation2";
+import LogoIcon from "../components/headers/Logoicon";
 
 export default function LandingPage() {
   return (
@@ -6,7 +7,9 @@ export default function LandingPage() {
       {/* Header */}
       <header className="bg-[#9B2C62] text-white px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">PlaniT</h1>
+          <div className="flex items-center gap-1">
+            <LogoIcon /> PlaniT
+          </div>
           <nav className="space-x-4">
             <button className="bg-white text-[#9B2C62] font-medium px-4 py-2 rounded hover:bg-[#f3f4f6] transition">
               Sign Up
