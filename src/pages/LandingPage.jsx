@@ -12,6 +12,8 @@ import {
   delayedFadeUp,
   EaseOutFunc,
 } from "../components/accessories/FramerMotion";
+import EventList from "../components/taskManagerFolders/events/EventsList";
+import TaskList from "../components/taskManagerFolders/tasks/TaskList";
 
 export default function LandingPage() {
   return (
@@ -69,6 +71,11 @@ export default function LandingPage() {
           <HeroImg />
         </motion.div>
       </section>
+
+      <div className="max-w-4xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <EventList />
+        <TaskList />
+      </div>
 
       {/* Core Features Section */}
       <ScrollFadeFunc>
