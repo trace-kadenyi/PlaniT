@@ -1,10 +1,19 @@
+import { easeOut, motion } from "framer-motion";
+
 import HeroImg from "../components/landing/HeroAnimation2";
 import LogoWordmark from "../components/headers/LogoWordmark";
 import { features, steps } from "../data/homeData";
+import {
+  ScrollFadeFunc,
+  HoverFunc,
+  heroVariants,
+  fadeUp,
+  StepCard,
+} from "../components/accessories/FramerMotion";
 
 export default function LandingPage() {
   return (
-    <div className="bg-white text-[#374151] font-sans">
+    <main className="bg-white text-[#374151] font-sans">
       {/* Header */}
       <header className="bg-[#9B2C62] text-white px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -24,69 +33,86 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10">
-        <div className="flex-1">
-          <h2 className="text-4xl font-bold leading-tight mb-4">
+        <motion.div
+          variants={heroVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex-1"
+        >
+          <motion.h1
+            variants={fadeUp}
+            className="text-4xl font-bold leading-tight mb-4"
+          >
             Simplify Your <br /> Event Planning
-          </h2>
-          <p className="text-gray-600 mb-6 max-w-md">
+          </motion.h1>
+          <motion.p variants={fadeUp} className="text-gray-600 mb-6 max-w-md">
             PlaniT helps event planners manage tasks, budgets, and resources
             efficiently, with elegance and ease.
-          </p>
-          <div className="flex gap-4">
+          </motion.p>
+          <motion.div variants={fadeUp} className="flex gap-4">
             <button className="bg-[#F59E0B] text-black font-semibold px-6 py-2 rounded hover:bg-[#d97706] transition">
               Get Started
             </button>
             <button className="border border-[#F59E0B] text-[#F59E0B] px-6 py-2 rounded font-semibold hover:bg-[#fef3c7] transition">
               View Demo
             </button>
-          </div>
-        </div>
-        <div className="flex-1 flex justify-center items-center">
+          </motion.div>
+        </motion.div>
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="flex-1 flex justify-center items-center"
+        >
           <HeroImg />
-        </div>
+        </motion.div>
       </section>
 
       {/* Core Features Section */}
-      <section className="bg-gray-50 py-16 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <h3 className="text-2xl font-bold mb-10 text-[#9B2C62]">
-            Core MVP Features
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            {features.map((feature) => (
-              <div
-                key={feature.title}
-                className="bg-white p-6 rounded shadow hover:shadow-md transition"
-              >
-                <h4 className="text-lg font-semibold mb-2 text-[#9B2C62]">
-                  {feature.title}
-                </h4>
-                <p className="text-sm text-gray-600">{feature.desc}</p>
-              </div>
-            ))}
+      <ScrollFadeFunc>
+        <section className="bg-gray-50 py-16 px-6">
+          <div className="max-w-6xl mx-auto text-center">
+            <h3 className="text-2xl font-bold mb-10 text-[#9B2C62]">
+              Core MVP Features
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+              {features.map((feature) => (
+                <div
+                  key={feature.title}
+                  className="bg-white p-6 rounded shadow hover:shadow-md transition"
+                >
+                  <h4 className="text-lg font-semibold mb-2 text-[#9B2C62]">
+                    {feature.title}
+                  </h4>
+                  <p className="text-sm text-gray-600">{feature.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </ScrollFadeFunc>
 
       {/* Process or How it Works Section */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-5xl mx-auto text-center">
-          <h3 className="text-2xl font-bold mb-12 text-[#9B2C62]">
-            How PlaniT Works
-          </h3>
-          <div className="flex flex-col md:flex-row justify-between gap-10 text-left">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className="bg-gray-50 p-6 rounded shadow hover:shadow-md transition"
-              >
-                <h4 className="text-lg font-bold mb-2">{step.title}</h4>
-                <p className="text-sm text-gray-600">{step.text}</p>
-              </div>
-            ))}
+      <ScrollFadeFunc>
+        <section className="py-20 px-6 bg-white">
+          <div className="max-w-5xl mx-auto text-center">
+            <h3 className="text-2xl font-bold mb-12 text-[#9B2C62]">
+              How PlaniT Works
+            </h3>
+            <div className="flex flex-col md:flex-row justify-between gap-10 text-left">
+              {steps.map((step, index) => (
+                <HoverFunc
+                  key={index}
+                  className="bg-gray-50 p-6 rounded shadow hover:shadow-md transition"
+                >
+                  <h4 className="text-lg font-bold mb-2">{step.title}</h4>
+                  <p className="text-sm text-gray-600">{step.text}</p>
+                </HoverFunc>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </ScrollFadeFunc>
 
       {/* Call to Action Section */}
       <section className="bg-[#9B2C62] text-white py-16 px-6 text-center">
@@ -101,6 +127,6 @@ export default function LandingPage() {
           </button>
         </div>
       </section>
-    </div>
+    </main>
   );
 }
