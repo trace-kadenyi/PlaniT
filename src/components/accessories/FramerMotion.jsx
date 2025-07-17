@@ -86,3 +86,17 @@ export const StepCard = ({ Icon, stepNumber, text }) => (
     </p>
   </HoverFunc>
 );
+
+// delayed fade up
+export const delayedFadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.6, // Adjust this delay to match your stagger timing
+      ease: "easeOut",
+      duration: 0.6,
+    },
+  },
+};
