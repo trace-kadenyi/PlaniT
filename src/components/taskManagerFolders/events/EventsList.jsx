@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEvents } from "../../../features/events/eventsSlice";
-import { fetchTasks, clearTasks } from "../../../features/tasks/tasksSlice";
+import { fetchEvents } from "../../../features/eventsSlice";
+import { fetchTasks, clearTasks } from "../../../features/tasksSlice";
 
 export default function EventList() {
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTasks, deleteTask } from "../../../features/tasks/tasksSlice";
+import { fetchTasks, deleteTask } from "../../../features/tasksSlice";
 
 export default function TasksViewer({ selectedEventId }) {
   const dispatch = useDispatch();
