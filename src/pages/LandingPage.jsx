@@ -92,7 +92,42 @@ export default function LandingPage() {
         </div>
       </section>
 
-    
+      {/* Process or How it Works Section */}
+      <section className="py-20 px-6 bg-white">
+        <div className="max-w-5xl mx-auto text-center">
+          <h3 className="text-2xl font-bold mb-12 text-[#9B2C62]">
+            How PlaniT Works
+          </h3>
+          <div className="flex flex-col md:flex-row justify-between gap-10 text-left">
+            {[
+              {
+                title: "1. Set Up Your Event",
+                text: "Start by creating your event and setting a budget.",
+              },
+              {
+                title: "2. Plan and Assign Tasks",
+                text: "Break down the event into manageable tasks and assign them.",
+              },
+              {
+                title: "3. Manage Vendors & Resources",
+                text: "Store vendor info and track bookings in one place.",
+              },
+              {
+                title: "4. Track Progress & Budget",
+                text: "Stay on top of your tasks, finances, and calendar deadlines.",
+              },
+            ].map((step, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 p-6 rounded shadow hover:shadow-md transition"
+              >
+                <h4 className="text-lg font-bold mb-2">{step.title}</h4>
+                <p className="text-sm text-gray-600">{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
     
     </div>
