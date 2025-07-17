@@ -72,3 +72,17 @@ export const fadeUp = {
   },
 };
 
+// step card
+export const StepCard = ({ Icon, stepNumber, text }) => (
+  <HoverFunc className="flex flex-col items-center text-center w-72 p-6 bg-gradient-to-b from-white to-slate-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+    <div className="relative">
+      <Icon className="w-20 h-20 p-4 bg-white dark:bg-gray-800  border-2 border-blue-100 dark:border-gray-700 rounded-full shadow-md dark:text-blue-400" />
+      <div className="absolute -top-2 -right-2 bg-green-500 dark:bg-green-600 text-white dark:text-gray-300 text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+        {stepNumber}
+      </div>
+    </div>
+    <p className="mt-4 text-sm font-medium text-gray-600 dark:text-gray-300">
+      {text}
+    </p>
+  </HoverFunc>
+);
