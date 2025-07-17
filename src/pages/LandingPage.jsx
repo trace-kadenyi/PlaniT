@@ -9,6 +9,7 @@ import {
   heroVariants,
   fadeUp,
   StepCard,
+  delayedFadeUp,
 } from "../components/accessories/FramerMotion";
 
 export default function LandingPage() {
@@ -59,7 +60,7 @@ export default function LandingPage() {
           </motion.div>
         </motion.div>
         <motion.div
-          variants={fadeUp}
+          variants={delayedFadeUp}
           initial="hidden"
           animate="visible"
           className="flex-1 flex justify-center items-center"
