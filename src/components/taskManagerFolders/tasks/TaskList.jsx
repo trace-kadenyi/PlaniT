@@ -1,32 +1,24 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchTasks } from "../../../features/tasks/tasksSlice"
+// src/components/TaskList.jsx
+import { useSelector } from "react-redux";
 
-export default function TasksList() {
-  const dispatch = useDispatch();
+export default function TaskList() {
   const { items: tasks, status } = useSelector((state) => state.tasks);
   const selectedEventId = useSelector((state) => state.events.selectedEventId);
 
-  useEffect(() => {
-    if (selectedEventId) {
-      dispatch(fetchTasks(selectedEventId));
-    }
-  }, [dispatch, selectedEventId]);
+  if (!selectedEventId) return <p className="p-4">Select an event to view tasks.</p>;
 
   return (
-    <div>
-      <h2 className="text-xl font-bold">Tasks for Selected Event</h2>
-      {status === "loading" ? (
-        <p>Loading...</p>
-      ) : !tasks.length ? (
-        <p>No tasks found for this event.</p>
-      ) : (
-        tasks.map((task) => (
-          <div key={task._id} className="border p-2 my-2">
-            <h3>{task.title}</h3>
-            <p>{task.description}</p>
-          </div>
-        ))
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-2">Tasks</h2>
+      {status === "loading" && <p>Loading tasks...</p>}
+      {status === "failed" && <p>Error loading tasks</p>}
+      {status === "succeeded" && tasks.length === 0 && <p>No tasks for this event.</p>}
+      {status === "succeeded" && tasks.length > 0 && (
+        <ul className="list-disc ml-6">
+          {tasks.map((task) => (
+            <li key={task._id}>{task.title}</li>
+          ))}
+        </ul>
       )}
     </div>
   );
