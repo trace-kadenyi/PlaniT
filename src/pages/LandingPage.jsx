@@ -23,7 +23,6 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10">
-        {/* Text Content */}
         <div className="flex-1">
           <h2 className="text-4xl font-bold leading-tight mb-4">
             Simplify Your <br /> Event Planning
@@ -41,48 +40,61 @@ export default function LandingPage() {
             </button>
           </div>
         </div>
-
-        {/* Background Image Placeholder */}
         <div className="flex-1 flex justify-center items-center">
           <HeroImg />
         </div>
       </section>
 
-      {/* Feature Section */}
+      {/* Core Features Section */}
       <section className="bg-gray-50 py-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <h3 className="text-2xl font-bold mb-10 text-[#9B2C62]">
-            Core Features
+            Core MVP Features
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded shadow">
-              <h4 className="text-lg font-semibold mb-2">Task Management</h4>
-              <p className="text-sm text-gray-600">
-                Assign tasks, set deadlines, and track progress easily.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded shadow">
-              <h4 className="text-lg font-semibold mb-2">Budget Tracking</h4>
-              <p className="text-sm text-gray-600">
-                Manage expenses and stay within budget per event.
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded shadow">
-              <h4 className="text-lg font-semibold mb-2">
-                Vendor Coordination
-              </h4>
-              <p className="text-sm text-gray-600">
-                Store and manage vendor details and bookings.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            {[
+              {
+                title: "Event Dashboard",
+                desc: "Overview of events with statuses and quick stats.",
+              },
+              {
+                title: "Task Management",
+                desc: "Create tasks, assign them, and track progress.",
+              },
+              {
+                title: "Vendor & Resource Management",
+                desc: "Manage caterers, decorators, venues and track payments.",
+              },
+              {
+                title: "Budgeting Tools",
+                desc: "Set budgets, categorize expenses, and see what’s left.",
+              },
+              {
+                title: "Client Details",
+                desc: "Store client preferences, notes, and event history.",
+              },
+              {
+                title: "Calendar & Scheduling",
+                desc: "Visualize timelines and sync deadlines to Google Calendar.",
+              },
+            ].map((feature) => (
+              <div
+                key={feature.title}
+                className="bg-white p-6 rounded shadow hover:shadow-md transition"
+              >
+                <h4 className="text-lg font-semibold mb-2 text-[#9B2C62]">
+                  {feature.title}
+                </h4>
+                <p className="text-sm text-gray-600">{feature.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#f3f4f6] text-sm text-center text-gray-600 py-6">
-        &copy; {new Date().getFullYear()} PlaniT. All rights reserved.
-      </footer>
+    
+
+    
     </div>
   );
 }
