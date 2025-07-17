@@ -9,10 +9,12 @@ export default function EventList() {
   const tasksState = useSelector((state) => state.tasks);
   const [selectedEventId, setSelectedEventId] = useState(null);
 
+  // fetch events
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
+  // handle event click
   const handleEventClick = (eventId) => {
     if (eventId === selectedEventId) {
       setSelectedEventId(null);
@@ -23,6 +25,7 @@ export default function EventList() {
     }
   };
 
+  // handle status
   if (status === "loading") return <p>Loading events...</p>;
   if (status === "failed") return <p>Error loading events: {error}</p>;
 
@@ -51,7 +54,7 @@ export default function EventList() {
               <p>{new Date(event.date).toLocaleDateString()}</p>
 
               {/* Show tasks if this event is selected */}
-              {selectedEventId === event._id && (
+              {/* {selectedEventId === event._id && (
                 <div>
                   <h4>Tasks</h4>
                   {tasksState.status === "loading" && <p>Loading tasks...</p>}
@@ -70,7 +73,7 @@ export default function EventList() {
                     ))}
                   </ul>
                 </div>
-              )}
+              )} */}
             </li>
           ))}
         </ul>
