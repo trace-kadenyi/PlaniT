@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+import api from "../../services/api"
 // Async thunk to fetch tasks for a specific event
 export const fetchTasks = createAsyncThunk("tasks/fetchTasks", async (eventId) => {
-  const res = await axios.get(`/api/tasks?eventId=${eventId}`);
+  const res = await api.get(`/api/tasks?eventId=${eventId}`);
   return res.data;
 });
 
