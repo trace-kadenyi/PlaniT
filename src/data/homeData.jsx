@@ -26,3 +26,22 @@ export const features = [
   },
 ];
 
+// process
+export const steps = [
+  {
+    title: "1. Set Up Your Event",
+    text: "Start by creating your event and setting a budget.",
+  },
+  {
+    title: "2. Plan and Assign Tasks",
+    text: "Break down the event into manageable tasks and assign them.",
+  },
+  {
+    title: "3. Manage Vendors & Resources",
+    text: "Store vendor info and track bookings in one place.",
+  },
+  {
+    title: "4. Track Progress & Budget",
+    text: "Stay on top of your tasks, finances, and calendar deadlines.",
+  },
+];
