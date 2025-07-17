@@ -78,16 +78,20 @@ export default function LandingPage() {
               Core MVP Features
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-              {features.map((feature) => (
-                <div
+              {features.map((feature, i) => (
+                <motion.div
                   key={feature.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1, duration: 0.5, ease: easeOut }}
+                  viewport={{ once: true }}
                   className="bg-white p-6 rounded shadow hover:shadow-md transition"
                 >
                   <h4 className="text-lg font-semibold mb-2 text-[#9B2C62]">
                     {feature.title}
                   </h4>
                   <p className="text-sm text-gray-600">{feature.desc}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
