@@ -1,5 +1,6 @@
 import HeroImg from "../components/landing/HeroAnimation2";
 import LogoWordmark from "../components/headers/LogoWordmark";
+import { features } from "../data/landingPage";
 
 export default function LandingPage() {
   return (
@@ -52,32 +53,7 @@ export default function LandingPage() {
             Core MVP Features
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-            {[
-              {
-                title: "Event Dashboard",
-                desc: "Overview of events with statuses and quick stats.",
-              },
-              {
-                title: "Task Management",
-                desc: "Create tasks, assign them, and track progress.",
-              },
-              {
-                title: "Vendor & Resource Management",
-                desc: "Manage caterers, decorators, venues and track payments.",
-              },
-              {
-                title: "Budgeting Tools",
-                desc: "Set budgets, categorize expenses, and see what’s left.",
-              },
-              {
-                title: "Client Details",
-                desc: "Store client preferences, notes, and event history.",
-              },
-              {
-                title: "Calendar & Scheduling",
-                desc: "Visualize timelines and sync deadlines to Google Calendar.",
-              },
-            ].map((feature) => (
+            {features.map((feature) => (
               <div
                 key={feature.title}
                 className="bg-white p-6 rounded shadow hover:shadow-md transition"
