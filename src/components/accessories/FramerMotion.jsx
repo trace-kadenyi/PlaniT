@@ -47,5 +47,19 @@ export const HoverFunc = ({ children, className }) => {
   );
 };
 
+// hero variants func
+export const heroVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.2,
+      ease: "easeOut",
+      duration: 0.2,
+    },
+  },
+};
 
 
