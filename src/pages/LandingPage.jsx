@@ -5,12 +5,10 @@ import LogoWordmark from "../components/headers/LogoWordmark";
 import { features, steps } from "../data/homeData";
 import {
   ScrollFadeFunc,
-  HoverFunc,
   heroVariants,
   fadeUp,
   StepCard,
   delayedFadeUp,
-  EaseOutFunc,
 } from "../components/accessories/FramerMotion";
 import EventList from "../components/taskManagerFolders/events/EventsList";
 import TaskList from "../components/taskManagerFolders/tasks/TaskList";
