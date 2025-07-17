@@ -1,6 +1,6 @@
 import HeroImg from "../components/landing/HeroAnimation2";
 import LogoWordmark from "../components/headers/LogoWordmark";
-import { features } from "../data/landingPage";
+import { features, steps } from "../data/homeData";
 
 export default function LandingPage() {
   return (
@@ -75,24 +75,7 @@ export default function LandingPage() {
             How PlaniT Works
           </h3>
           <div className="flex flex-col md:flex-row justify-between gap-10 text-left">
-            {[
-              {
-                title: "1. Set Up Your Event",
-                text: "Start by creating your event and setting a budget.",
-              },
-              {
-                title: "2. Plan and Assign Tasks",
-                text: "Break down the event into manageable tasks and assign them.",
-              },
-              {
-                title: "3. Manage Vendors & Resources",
-                text: "Store vendor info and track bookings in one place.",
-              },
-              {
-                title: "4. Track Progress & Budget",
-                text: "Stay on top of your tasks, finances, and calendar deadlines.",
-              },
-            ].map((step, index) => (
+            {steps.map((step, index) => (
               <div
                 key={index}
                 className="bg-gray-50 p-6 rounded shadow hover:shadow-md transition"
