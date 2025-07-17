@@ -1,33 +1,39 @@
+// src/components/EventList.jsx
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEvents, setSelectedEventId } from "../../../features/events/eventsSlice"
+import { fetchEvents, setSelectedEventId } from "../../../features/events/eventsSlice";
+import { fetchTasks, clearTasks } from "../../../features/tasks/tasksSlice";
 
-export default function EventsList() {
+export default function EventList() {
   const dispatch = useDispatch();
-  const { items: events, selectedEventId, status } = useSelector((state) => state.events);
+  const { items: events, status } = useSelector((state) => state.events);
 
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  const handleSelect = (id) => dispatch(setSelectedEventId(id));
+  const handleEventClick = (eventId) => {
+    dispatch(setSelectedEventId(eventId));
+    dispatch(fetchTasks(eventId));
+  };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold">Events</h2>
-      {status === "loading" ? (
-        <p>Loading...</p>
-      ) : (
-        events.map((event) => (
-          <div key={event._id}>
-            <button
-              onClick={() => handleSelect(event._id)}
-              className={`p-2 ${selectedEventId === event._id ? "bg-blue-200" : ""}`}
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-2">Events</h2>
+      {status === "loading" && <p>Loading events...</p>}
+      {status === "failed" && <p>Error loading events</p>}
+      {status === "succeeded" && (
+        <ul className="space-y-2">
+          {events.map((event) => (
+            <li
+              key={event._id}
+              className="cursor-pointer text-blue-600 hover:underline"
+              onClick={() => handleEventClick(event._id)}
             >
               {event.title}
-            </button>
-          </div>
-        ))
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
