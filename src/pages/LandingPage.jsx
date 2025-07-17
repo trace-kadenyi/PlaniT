@@ -97,19 +97,19 @@ export default function LandingPage() {
       {/* Process or How it Works Section */}
       <ScrollFadeFunc>
         <section className="py-20 px-6 bg-white">
-          <div className="max-w-5xl mx-auto text-center">
+          <div className="max-w-6xl mx-auto text-center">
             <h3 className="text-2xl font-bold mb-12 text-[#9B2C62]">
               How PlaniT Works
             </h3>
-            <div className="flex flex-col md:flex-row justify-between gap-10 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
               {steps.map((step, index) => (
-                <HoverFunc
+                <StepCard
                   key={index}
-                  className="bg-gray-50 p-6 rounded shadow hover:shadow-md transition"
-                >
-                  <h4 className="text-lg font-bold mb-2">{step.title}</h4>
-                  <p className="text-sm text-gray-600">{step.text}</p>
-                </HoverFunc>
+                  Icon={step.Icon}
+                  stepNumber={index + 1}
+                  title={step.title}
+                  text={step.text}
+                />
               ))}
             </div>
           </div>
