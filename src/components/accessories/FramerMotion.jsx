@@ -87,7 +87,7 @@ export const StepCard = ({ Icon, stepNumber, text }) => (
   </HoverFunc>
 );
 
-// delayed fade up
+// delayed fadeup func
 export const delayedFadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: {
