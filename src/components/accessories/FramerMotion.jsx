@@ -17,6 +17,22 @@ export const ScrollFadeFunc = ({ children }) => {
     </motion.div>
   );
 };
+// EaseOut function
+export const EaseOutFunc = ({ children }) => {
+  const ref = useRef(null);
+  const isView = useInView(ref, { once: true });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={isView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 
 
