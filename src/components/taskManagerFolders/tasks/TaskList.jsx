@@ -6,12 +6,14 @@ export default function TasksViewer({ selectedEventId }) {
   const dispatch = useDispatch();
   const { items: tasks, status, error } = useSelector((state) => state.tasks);
 
+  // fetch tasks
   useEffect(() => {
     if (selectedEventId) {
       dispatch(fetchTasks(selectedEventId));
     }
   }, [selectedEventId, dispatch]);
 
+  // handle delete
   const handleDelete = (taskId) => {
     dispatch(deleteTask(taskId));
   };
