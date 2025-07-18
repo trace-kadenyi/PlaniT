@@ -46,16 +46,14 @@ export default function Events() {
                 onClick={() => navigate(`/events/${event._id}`)}
                 className="block text-left w-full space-y-2"
               >
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-[#BE3455]">
-                    {event.name}
-                  </h2>
-                  <span className="text-xs px-2 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B]">
-                    {event.type}
-                  </span>
-                </div>
+                <p className="inline-block text-xs px-2 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B]">
+                  {event.type}
+                </p>
+                <h2 className="mt-5 text-xl font-semibold text-[#BE3455]">
+                  {event.name}
+                </h2>
 
-                <p className="text-sm text-gray-600">
+                <p className="text-sm italic text-gray-600">
                   {formatDateTime(event.date)}
                 </p>
 
@@ -76,21 +74,24 @@ export default function Events() {
                   </span>
                 </div>
               </button>
-
-              <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition">
+              {/* delete/edit buttons */}
+              <div className="absolute top-5 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition">
                 <button
                   onClick={() => navigate(`/events/${event._id}/edit`)}
-                  className="p-1 rounded-full hover:bg-[#F59E0B]/20"
+                  className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
                   title="Edit"
                 >
-                  <Pencil className="h-5 w-5 text-[#F59E0B]" />
+                  <Pencil className="w-3 h-3" />
+                  <span>edit</span>
                 </button>
+
                 <button
                   onClick={() => handleDelete(event._id)}
-                  className="p-1 rounded-full hover:bg-red-100"
+                  className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-red-100/30 text-red-600 hover:bg-red-200 transition text-xs cursor-pointer"
                   title="Delete"
                 >
-                  <Trash2 className="h-5 w-5 text-red-500" />
+                  <Trash2 className="w-3 h-3" />
+                  <span>delete</span>
                 </button>
               </div>
             </li>
