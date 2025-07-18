@@ -87,7 +87,7 @@ export default function Events() {
                   {event.name}
                 </h2>
 
-                <p className="text-xs text-gray-500 font-semibold underline">
+                <p className="text-xs text-gray-500 font-semibold">
                   {formatDateTime(event.date)}
                 </p>
 
