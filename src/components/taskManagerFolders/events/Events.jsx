@@ -19,6 +19,30 @@ export default function Events() {
     }
   };
 
+  const formatDateTime = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleString(undefined, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case "completed":
+        return "bg-green-100 text-green-700";
+      case "cancelled":
+        return "bg-red-100 text-red-700";
+      case "upcoming":
+        return "bg-blue-100 text-blue-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
   return (
     <main className="p-6 min-h-screen bg-white">
       <h1 className="text-3xl font-bold text-[#9B2C62] mb-6">My Events</h1>
@@ -27,7 +51,6 @@ export default function Events() {
         <p className="text-gray-600">Loading events...</p>
       )}
       {status === "failed" && <p className="text-red-500">Error: {error}</p>}
-
       {status === "succeeded" && events.length === 0 && (
         <p className="text-gray-600">No events found. Start by creating one!</p>
       )}
@@ -41,17 +64,37 @@ export default function Events() {
             >
               <button
                 onClick={() => navigate(`/events/${event._id}`)}
-                className="block text-left w-full"
+                className="block text-left w-full space-y-2"
               >
-                <h2 className="text-xl font-semibold text-[#BE3455]">
-                  {event.name}
-                </h2>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold text-[#BE3455]">
+                    {event.name}
+                  </h2>
+                  <span className="text-xs px-2 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B]">
+                    {event.type}
+                  </span>
+                </div>
+
                 <p className="text-sm text-gray-600">
-                  {new Date(event.date).toLocaleDateString()}
+                  {formatDateTime(event.date)}
                 </p>
-                <p className="mt-2 text-gray-700 line-clamp-2">
+
+                <p className="text-sm text-gray-700 line-clamp-2">
                   {event.description || "No description provided."}
                 </p>
+
+                <div className="flex items-center justify-between mt-2">
+                  <p className="text-sm text-gray-500">
+                    {event.location?.city}, {event.location?.country}
+                  </p>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(
+                      event.status
+                    )}`}
+                  >
+                    {event.status}
+                  </span>
+                </div>
               </button>
 
               <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition">
