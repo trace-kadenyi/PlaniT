@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import "./App.css";
 import PrimaryHeader from "./components/headers/PrimaryHeader";
@@ -11,6 +12,7 @@ import EditEventForm from "./components/taskManagerFolders/events/EditEventForm"
 function App() {
   return (
     <>
+      <Toaster position="top-right" />
       <Router>
         <PrimaryHeader />
         <Routes>
