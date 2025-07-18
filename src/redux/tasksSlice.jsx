@@ -79,7 +79,7 @@ const tasksSlice = createSlice({
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.items = action.payload;
-        state.eventId = action.meta.arg; // eventId from fetchTasks(eventId)
+        state.eventId = action.meta.arg;
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.status = "failed";
@@ -87,29 +87,47 @@ const tasksSlice = createSlice({
       })
 
       // Add task
+      .addCase(addTask.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
       .addCase(addTask.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.items.push(action.payload);
       })
       .addCase(addTask.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload || "Failed to add task";
       })
 
       // Update task
+      .addCase(updateTask.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
       .addCase(updateTask.fulfilled, (state, action) => {
+        state.status = "succeeded";
         const index = state.items.findIndex(
           (t) => t._id === action.payload._id
         );
         if (index !== -1) state.items[index] = action.payload;
       })
       .addCase(updateTask.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload || "Failed to update task";
       })
 
       // Delete task
+      .addCase(deleteTask.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
       .addCase(deleteTask.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.items = state.items.filter((t) => t._id !== action.payload);
       })
       .addCase(deleteTask.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload || "Failed to delete task";
       });
   },
