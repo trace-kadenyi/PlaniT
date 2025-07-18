@@ -5,19 +5,17 @@ import LogoWordmark from "../components/headers/LogoWordmark";
 import { features, steps } from "../data/homeData";
 import {
   ScrollFadeFunc,
-  HoverFunc,
   heroVariants,
   fadeUp,
   StepCard,
   delayedFadeUp,
-  EaseOutFunc,
 } from "../components/accessories/FramerMotion";
 import EventList from "../components/taskManagerFolders/events/EventsList";
 import TaskList from "../components/taskManagerFolders/tasks/TaskList";
 
 export default function LandingPage() {
   return (
-    <main className="bg-white text-[#374151] font-sans">
+    <main className="bg-white text-[#374151]">
       {/* Header */}
       <header className="bg-[#9B2C62] text-white px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
