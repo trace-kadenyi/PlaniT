@@ -37,7 +37,7 @@ export default function Dashboard() {
           {events.map((event) => (
             <li
               key={event._id}
-              className="relative p-5 border border-gray-200 rounded-2xl shadow-sm bg-white hover:shadow-md transition group"
+              className="relative p-5 border border-gray-200 rounded-2xl shadow-sm bg-[#FFF8F2] hover:shadow-md transition group"
             >
               <button
                 onClick={() => navigate(`/events/${event._id}`)}
