@@ -9,16 +9,19 @@ export default function Events() {
   const navigate = useNavigate();
   const { items: events, status, error } = useSelector((state) => state.events);
 
+  // fetch events
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
+  // handle delete
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       dispatch(deleteEvent(id));
     }
   };
 
+  // format date time
   const formatDateTime = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleString(undefined, {
@@ -30,6 +33,7 @@ export default function Events() {
     });
   };
 
+  // get status color
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
       case "completed":
