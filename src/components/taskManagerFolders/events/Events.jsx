@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents, deleteEvent } from "../../../redux/eventsSlice";
 import { useNavigate } from "react-router-dom";
 import { Trash2, Pencil } from "lucide-react";
+import toast from "react-hot-toast";
 
 import { formatDateTime, getStatusColor } from "../utils/formatting";
 
@@ -18,9 +19,39 @@ export default function Events() {
 
   // handle delete
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this event?")) {
-      dispatch(deleteEvent(id));
-    }
+    toast(
+      (t) => (
+        <div className="p-4 rounded-lg bg-white border border-gray-200 shadow-lg max-w-[300px]">
+          <p className="text-sm text-gray-800 mb-4">
+            This action will permanently{" "}
+            <span className="font-semibold text-red-600">delete</span> the event
+            and all associated tasks. It cannot be undone.
+          </p>
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => {
+                dispatch(deleteEvent(id));
+                toast.dismiss(t.id);
+                toast.success("Event deleted");
+              }}
+              className="px-4 py-1.5 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg transition cursor-pointer"
+            >
+              Yes, Delete
+            </button>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="px-4 py-1.5 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-green-600 hover:text-white transition cursor-pointer"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: 10000,
+        position: "top-center",
+      }
+    );
   };
 
   return (
