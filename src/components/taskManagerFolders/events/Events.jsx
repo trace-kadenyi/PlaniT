@@ -40,20 +40,23 @@ export default function Events() {
           {events.map((event) => (
             <li
               key={event._id}
-              className="relative p-5 border border-gray-200 rounded-2xl shadow-sm bg-[#FFF8F2] hover:shadow-md transition group"
+              className="relative p-6 rounded-xl bg-[#FFF8F2] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)] hover:scale-[1.01] hover:-translate-y-1 transition-all group"
             >
               <button
                 onClick={() => navigate(`/events/${event._id}`)}
                 className="block text-left w-full space-y-2"
               >
-                <p className="inline-block text-xs px-2 py-1 rounded-full bg-[#F59E0B]/20 text-[#F59E0B]">
+                <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
                   {event.type}
                 </p>
-                <h2 className="mt-5 text-xl font-semibold text-[#BE3455]">
+                <h2
+                  className="mt-4 text-lg font-semibold text-[#9B2C62] tracking-tight line-clamp-1 hover:underline cursor-pointer"
+                  onClick={() => navigate(`/events/${event._id}/edit`)}
+                >
                   {event.name}
                 </h2>
 
-                <p className="text-sm italic text-gray-600">
+                <p className="text-xs text-gray-500 font-semibold underline">
                   {formatDateTime(event.date)}
                 </p>
 
@@ -62,7 +65,7 @@ export default function Events() {
                 </p>
 
                 <div className="flex items-center justify-between mt-2">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs text-gray-500 font-medium">
                     {event.location?.city}, {event.location?.country}
                   </p>
                   <span
