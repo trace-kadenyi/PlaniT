@@ -8,7 +8,7 @@ import {
   fadeUp,
   StepCard,
   delayedFadeUp,
-} from "../components/accessories/FramerMotion";
+} from "../components/ui/FramerMotion";
 
 export default function LandingPage() {
   return (

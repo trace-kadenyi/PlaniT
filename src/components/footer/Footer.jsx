@@ -1,4 +1,4 @@
-import { EaseOutFunc } from "../accessories/FramerMotion";
+import { EaseOutFunc } from "../ui/FramerMotion";
 
 export default function Footer() {
   return (
