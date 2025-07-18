@@ -4,6 +4,8 @@ import { fetchEvents, deleteEvent } from "../../../redux/eventsSlice";
 import { useNavigate } from "react-router-dom";
 import { Trash2, Pencil } from "lucide-react";
 
+import { formatDateTime, getStatusColor } from "../utils/formatting";
+
 export default function Events() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,32 +20,6 @@ export default function Events() {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       dispatch(deleteEvent(id));
-    }
-  };
-
-  // format date time
-  const formatDateTime = (dateStr) => {
-    const date = new Date(dateStr);
-    return date.toLocaleString(undefined, {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  // get status color
-  const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case "completed":
-        return "bg-green-100 text-green-700";
-      case "cancelled":
-        return "bg-red-100 text-red-700";
-      case "upcoming":
-        return "bg-blue-100 text-blue-700";
-      default:
-        return "bg-gray-100 text-gray-700";
     }
   };
 
