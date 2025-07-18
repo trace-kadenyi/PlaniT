@@ -1,4 +1,5 @@
 import { easeOut, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 import HeroImg from "../components/landing/HeroAnimation2";
 import LogoWordmark from "../components/headers/LogoWordmark";
@@ -14,6 +15,7 @@ import EventList from "../components/taskManagerFolders/events/EventsList";
 import TaskList from "../components/taskManagerFolders/tasks/TaskList";
 
 export default function LandingPage() {
+  const navigate = useNavigate()
   return (
     <main className="bg-white text-[#374151]">
       {/* Header */}
@@ -22,6 +24,9 @@ export default function LandingPage() {
           <div className="flex items-center gap-1">
             <LogoWordmark />
           </div>
+          <button onClick={() => navigate("/dashboard")}>
+            Dashboard
+          </button>
           <nav className="space-x-4">
             <button className="bg-white text-[#9B2C62] font-medium px-4 py-2 rounded hover:bg-[#f3f4f6] transition">
               Sign Up
