@@ -4,7 +4,7 @@ import "./App.css";
 import PrimaryHeader from "./components/headers/PrimaryHeader";
 import LandingPage from "./pages/LandingPage";
 import Footer from "./components/footer/Footer";
-import Dashboard from "./components/dashboard/Dashboard";
+import Events from "./components/taskManagerFolders/events/Events";
 import Event from "./components/dashboard/Event";
 import EditEventForm from "./components/taskManagerFolders/events/EditEventForm";
 
@@ -15,7 +15,7 @@ function App() {
         <PrimaryHeader />
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<Event />} />
           <Route path="/events/:id/edit" element={<EditEventForm />} />
         </Routes>
