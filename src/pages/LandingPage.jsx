@@ -1,7 +1,6 @@
 import { easeOut, motion } from "framer-motion";
 
 import HeroImg from "../components/landing/HeroAnimation2";
-import LogoWordmark from "../components/headers/LogoWordmark";
 import { features, steps } from "../data/homeData";
 import {
   ScrollFadeFunc,
@@ -9,30 +8,11 @@ import {
   fadeUp,
   StepCard,
   delayedFadeUp,
-} from "../components/accessories/FramerMotion";
-import EventList from "../components/taskManagerFolders/events/EventsList";
-import TaskList from "../components/taskManagerFolders/tasks/TaskList";
+} from "../components/ui/FramerMotion";
 
 export default function LandingPage() {
   return (
     <main className="bg-white text-[#374151]">
-      {/* Header */}
-      <header className="bg-[#9B2C62] text-white px-6 py-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-1">
-            <LogoWordmark />
-          </div>
-          <nav className="space-x-4">
-            <button className="bg-white text-[#9B2C62] font-medium px-4 py-2 rounded hover:bg-[#f3f4f6] transition">
-              Sign Up
-            </button>
-            <button className="border border-white px-4 py-2 rounded hover:bg-white hover:text-[#9B2C62] transition">
-              Log In
-            </button>
-          </nav>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10">
         <motion.div
@@ -69,11 +49,6 @@ export default function LandingPage() {
           <HeroImg />
         </motion.div>
       </section>
-
-      <div className="max-w-4xl mx-auto mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <EventList />
-        <TaskList />
-      </div>
 
       {/* Core Features Section */}
       <ScrollFadeFunc>
