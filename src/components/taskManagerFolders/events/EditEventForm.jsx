@@ -7,6 +7,7 @@ import {
   fetchEventById,
   updateEvent,
   clearEventStatuses,
+  resetUpdateState,
 } from "../../../redux/eventsSlice";
 
 export default function EditEventForm() {
@@ -80,6 +81,18 @@ export default function EditEventForm() {
       }
     );
   };
+  // reset update state
+  useEffect(() => {
+    return () => {
+      dispatch(resetUpdateState());
+    };
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (updateStatus === "succeeded") {
+      dispatch(resetUpdateState()); // 🎯 Reset after successful submission
+    }
+  }, [updateStatus, dispatch]);
 
   return (
     <main className="min-h-screen bg-white p-6">
@@ -222,9 +235,10 @@ export default function EditEventForm() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="bg-[#F59E0B] hover:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all"
+            disabled={updateStatus === "loading"}
+            className="bg-[#F59E0B] hover:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Save Changes
+            {updateStatus === "loading" ? "Saving..." : "Save Changes"}
           </button>
         </form>
       </div>
