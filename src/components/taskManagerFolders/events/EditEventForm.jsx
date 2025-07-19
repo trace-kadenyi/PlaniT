@@ -105,7 +105,7 @@ export default function EditEventForm() {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              rows={3}
+              rows={4}
               maxLength={300}
               className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
             />
