@@ -90,9 +90,13 @@ export default function CreateEventForm() {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              maxLength={70} // 👈 set your desired max length here
               required
               className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
             />
+            <p className="text-xs text-right text-gray-500 mt-1">
+              {formData.name.length}/70 characters
+            </p>
           </div>
 
           {/* Description */}
