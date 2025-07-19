@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTasks } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import { Pencil, Trash2, Plus } from "lucide-react";
+
 import {
   formatDateTime,
   getStatusColor,
@@ -20,6 +21,7 @@ export default function Event() {
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
 
+  // fetch tasks
   useEffect(() => {
     if (eventsState.items.length === 0) dispatch(fetchEvents());
     dispatch(fetchTasks(id));
@@ -27,11 +29,14 @@ export default function Event() {
 
   const event = eventsState.items.find((event) => event._id === id);
 
+  // handle loading state
   if (eventsState.status === "loading") return <p>Loading event...</p>;
+  // handle failed state
   if (eventsState.status === "failed")
     return <p>Error loading event: {eventsState.error}</p>;
   if (!event) return <p>Event not found.</p>;
 
+  // handle delete
   const handleDelete = () => {
     const duration = 10000;
     toast(
