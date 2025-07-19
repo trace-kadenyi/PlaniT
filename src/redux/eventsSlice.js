@@ -18,9 +18,13 @@ export const fetchEventById = createAsyncThunk(
 
 export const createEvent = createAsyncThunk(
   "events/createEvent",
-  async (newEvent) => {
-    const res = await api.post("/api/events", newEvent);
-    return res.data;
+  async (newEvent, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/api/events", newEvent);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data); // capture the backend's error message
+    }
   }
 );
 
@@ -123,7 +127,10 @@ const eventsSlice = createSlice({
       })
       .addCase(createEvent.rejected, (state, action) => {
         state.createStatus = "failed";
-        state.createError = action.error.message;
+        state.createError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to create event.";
       });
 
     // Update
