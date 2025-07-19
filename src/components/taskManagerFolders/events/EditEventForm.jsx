@@ -106,8 +106,12 @@ export default function EditEventForm() {
               value={formData.description}
               onChange={handleChange}
               rows={3}
+              maxLength={300}
               className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
             />
+            <p className="text-xs text-right text-gray-500 mt-1">
+              {formData.description.length}/300 characters
+            </p>
           </div>
           {/* Date */}
           <div>
