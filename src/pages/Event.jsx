@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTasks } from "../redux/tasksSlice";
+import { fetchTasks, clearTasks } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import { Pencil, Trash2, Plus } from "lucide-react";
 
@@ -23,8 +23,12 @@ export default function Event() {
 
   // fetch tasks
   useEffect(() => {
-    if (eventsState.items.length === 0) dispatch(fetchEvents());
-    dispatch(fetchTasks(id));
+    if (eventsState.items.length === 0) {
+      dispatch(fetchEvents());
+    }
+
+    dispatch(clearTasks()); // ✅ Clear old tasks immediately
+    dispatch(fetchTasks(id)); // ✅ Then load new tasks
   }, [dispatch, id]);
 
   const event = eventsState.items.find((event) => event._id === id);
@@ -140,8 +144,10 @@ export default function Event() {
           <span>Create Task</span>
         </button>
       </div>
+      {tasksState.status === "loading" && tasksState.items.length === 0 && (
+        <p>Loading tasks...</p>
+      )}
 
-      {tasksState.status === "loading" && <p>Loading tasks...</p>}
       {tasksState.status === "failed" && (
         <p className="text-red-500">Error: {tasksState.error}</p>
       )}
