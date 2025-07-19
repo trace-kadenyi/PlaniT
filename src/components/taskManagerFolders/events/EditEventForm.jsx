@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
+import { Trash2, Pencil } from "lucide-react";
+
 import {
   fetchEventById,
   updateEvent,
@@ -16,6 +18,7 @@ export default function EditEventForm() {
     (state) => state.events
   );
 
+  // form data
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -29,12 +32,13 @@ export default function EditEventForm() {
       country: "",
     },
   });
-
+  // fetch event
   useEffect(() => {
     dispatch(fetchEventById(id));
     dispatch(clearEventStatuses());
   }, [dispatch, id]);
 
+  // populate form
   useEffect(() => {
     if (selectedEvent) {
       setFormData({
@@ -44,6 +48,7 @@ export default function EditEventForm() {
     }
   }, [selectedEvent]);
 
+  // handle input fields
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -64,6 +69,7 @@ export default function EditEventForm() {
     }
   };
 
+  // submit form
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateEvent({ eventId: id, updatedEvent: formData })).then(
@@ -142,6 +148,7 @@ export default function EditEventForm() {
               />
             </div>
 
+            {/* status */}
             <div>
               <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
                 Status
@@ -160,6 +167,7 @@ export default function EditEventForm() {
             </div>
           </div>
 
+          {/* location */}
           <fieldset className="border rounded-lg p-4">
             <legend className="text-sm font-semibold text-[#9B2C62]">
               Location
