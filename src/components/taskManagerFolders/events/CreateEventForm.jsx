@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { Pencil } from "lucide-react";
-
+import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../redux/eventsSlice";
 
 export default function CreateEventForm() {
@@ -75,7 +74,7 @@ export default function CreateEventForm() {
       <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border border-[#F3EDE9]">
         <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62]">
           <span className="hidden sm:block">
-            <Pencil />
+            <Plus className="w-7 h-7" />
           </span>
           Create Event
         </h1>
