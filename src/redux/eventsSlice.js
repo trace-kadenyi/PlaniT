@@ -87,10 +87,19 @@ const eventsSlice = createSlice({
       state.createError = null;
     },
     resetUpdateState: (state) => {
-  state.updateStatus = "idle";
-  state.updateError = null;
-}
-
+      state.updateStatus = "idle";
+      state.updateError = null;
+    },
+    clearSelectedEvent: (state) => {
+      state.fetchOneStatus = "idle";
+      state.fetchOneError = null;
+      state.selectedEvent = null;
+      state.selectedEventId = null;
+    },
+    resetDeleteState: (state) => {
+      state.deleteStatus = "idle";
+      state.deleteError = null;
+    },
   },
 
   extraReducers: (builder) => {
@@ -188,5 +197,12 @@ const eventsSlice = createSlice({
   },
 });
 
-export const { setSelectedEventId, clearEventStatuses, resetCreateState, resetUpdateState } = eventsSlice.actions;
+export const {
+  setSelectedEventId,
+  clearEventStatuses,
+  resetCreateState,
+  resetUpdateState,
+  clearSelectedEvent,
+  resetDeleteState,
+} = eventsSlice.actions;
 export default eventsSlice.reducer;
