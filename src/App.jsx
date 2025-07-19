@@ -8,6 +8,7 @@ import Footer from "./components/footer/Footer";
 import Events from "./components/taskManagerFolders/events/Events";
 import Event from "./components/dashboard/Event";
 import EditEventForm from "./components/taskManagerFolders/events/EditEventForm";
+import CreateEventForm from "./components/taskManagerFolders/events/CreateEventForm";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<Event />} />
           <Route path="/events/:id/edit" element={<EditEventForm />} />
+          <Route path="/events/create" element={<CreateEventForm />} />
         </Routes>
         <Footer />
       </Router>
