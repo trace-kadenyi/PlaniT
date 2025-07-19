@@ -5,8 +5,8 @@ import "./App.css";
 import PrimaryHeader from "./components/headers/PrimaryHeader";
 import LandingPage from "./pages/LandingPage";
 import Footer from "./components/footer/Footer";
-import Events from "./components/taskManagerFolders/events/Events";
-import Event from "./components/dashboard/Event";
+import Events from "./pages/Events";
+import Event from "./pages/Event";
 import EditEventForm from "./components/taskManagerFolders/events/EditEventForm";
 import CreateEventForm from "./components/taskManagerFolders/events/CreateEventForm";
 
