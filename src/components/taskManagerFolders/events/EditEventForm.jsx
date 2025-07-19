@@ -116,7 +116,7 @@ export default function EditEventForm() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
             />
           </div>
 
@@ -131,7 +131,7 @@ export default function EditEventForm() {
               onChange={handleChange}
               rows={4}
               maxLength={300}
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
             />
             <p className="text-xs text-right text-gray-500 mt-1">
               {formData.description.length}/300 characters
@@ -147,7 +147,7 @@ export default function EditEventForm() {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
             />
           </div>
 
@@ -162,7 +162,7 @@ export default function EditEventForm() {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
               />
             </div>
 
@@ -175,7 +175,7 @@ export default function EditEventForm() {
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
               >
                 <option value="Planning">Planning</option>
                 <option value="In Progress">In Progress</option>
