@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { Pencil } from "lucide-react";
 
-import { createEvent } from "../../../redux/eventsSlice";
+import { createEvent, resetCreateState } from "../../../redux/eventsSlice";
 
 export default function CreateEventForm() {
   const dispatch = useDispatch();
@@ -56,6 +56,19 @@ export default function CreateEventForm() {
       }
     });
   };
+
+  useEffect(() => {
+    // 🧹 Clean up when component unmounts
+    return () => {
+      dispatch(resetCreateState());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (createStatus === "succeeded") {
+      dispatch(resetCreateState()); // 🎯 Reset after successful submission
+    }
+  }, [createStatus, dispatch]);
 
   return (
     <main className="min-h-screen bg-white p-6">
