@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../redux/eventsSlice";
 
@@ -71,7 +71,7 @@ export default function CreateEventForm() {
 
   return (
     <main className="min-h-screen bg-white p-6">
-      <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border border-[#F3EDE9]">
+      <div className="max-w-3xl mx-auto bg-[#F7F7FA] p-8 rounded-xl shadow border-t-4 border-[#BE3455]">
         <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62]">
           <span className="hidden sm:block">
             <Plus className="w-7 h-7" />
@@ -91,7 +91,7 @@ export default function CreateEventForm() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
             />
           </div>
 
@@ -106,7 +106,7 @@ export default function CreateEventForm() {
               onChange={handleChange}
               rows={4}
               maxLength={300}
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
             />
             <p className="text-xs text-right text-gray-500 mt-1">
               {formData.description.length}/300 characters
@@ -122,7 +122,7 @@ export default function CreateEventForm() {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
             />
           </div>
 
@@ -137,7 +137,7 @@ export default function CreateEventForm() {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+                className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
               />
             </div>
 
@@ -150,7 +150,7 @@ export default function CreateEventForm() {
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
+                className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
               >
                 <option value="Planning">Planning</option>
                 <option value="In Progress">In Progress</option>
