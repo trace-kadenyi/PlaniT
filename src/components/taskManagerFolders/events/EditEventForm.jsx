@@ -77,63 +77,76 @@ export default function EditEventForm() {
 
   return (
     <main className="min-h-screen bg-white p-6">
-      <div className="max-w-3xl mx-auto bg-[#F8F8F8] p-6 rounded-xl shadow">
-        <h1 className="text-2xl font-bold mb-4 text-[#9B2C62]">Edit Event</h1>
+      <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border border-[#F3EDE9]">
+        <h1 className="text-3xl font-bold mb-6 text-[#9B2C62]">Edit Event</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Event Name */}
           <div>
-            <label className="block font-medium mb-1">Event Name</label>
+            <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+              Event Name
+            </label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
             />
           </div>
 
+          {/* Description */}
           <div>
-            <label className="block font-medium mb-1">Description</label>
+            <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+              Description
+            </label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleChange}
               rows={3}
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
             />
           </div>
-
+          {/* Date */}
           <div>
-            <label className="block font-medium mb-1">Date</label>
+            <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+              Date
+            </label>
             <input
               type="datetime-local"
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="w-full border px-3 py-2 rounded-lg"
+              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
             />
           </div>
 
+          {/* Type & Status */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block font-medium mb-1">Type</label>
+              <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+                Type
+              </label>
               <input
                 type="text"
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-lg"
+                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
               />
             </div>
 
             <div>
-              <label className="block font-medium mb-1">Status</label>
+              <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+                Status
+              </label>
               <select
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-lg"
+                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F59E0B]"
               >
                 <option value="Planning">Planning</option>
                 <option value="In Progress">In Progress</option>
@@ -184,13 +197,15 @@ export default function EditEventForm() {
             </div>
           </fieldset>
 
+          {/* Error Message */}
           {updateStatus === "failed" && (
-            <p className="text-red-500">Error: {updateError}</p>
+            <p className="text-sm text-red-600">Error: {updateError}</p>
           )}
 
+          {/* Submit Button */}
           <button
             type="submit"
-            className="bg-[#F59E0B] hover:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg"
+            className="bg-[#F59E0B] hover:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all"
           >
             Save Changes
           </button>
