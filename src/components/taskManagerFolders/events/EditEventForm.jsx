@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { Trash2, Pencil } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 import {
   fetchEventById,
@@ -84,7 +84,12 @@ export default function EditEventForm() {
   return (
     <main className="min-h-screen bg-white p-6">
       <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border border-[#F3EDE9]">
-        <h1 className="text-3xl font-bold mb-6 text-[#9B2C62]">Edit Event</h1>
+        <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62]">
+          <span className="hidden sm:block">
+            <Pencil />
+          </span>
+          Edit Event
+        </h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Event Name */}
