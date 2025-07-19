@@ -82,6 +82,10 @@ const eventsSlice = createSlice({
       state.deleteStatus = "idle";
       state.deleteError = null;
     },
+    resetCreateState: (state) => {
+      state.createStatus = "idle";
+      state.createError = null;
+    },
   },
 
   extraReducers: (builder) => {
