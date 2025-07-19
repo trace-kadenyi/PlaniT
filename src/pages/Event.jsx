@@ -35,7 +35,18 @@ export default function Event() {
   const event = eventsState.items.find((event) => event._id === id);
 
   // handle loading state
-  if (eventsState.status === "loading") return <p>Loading event...</p>;
+  if (
+    eventsState.status === "loading" ||
+    tasksState.status === "loading" ||
+    !event
+  ) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <p className="text-sm text-gray-500">Loading event...</p>
+      </main>
+    );
+  }
+
   // handle failed state
   if (eventsState.status === "failed")
     return <p>Error loading event: {eventsState.error}</p>;
