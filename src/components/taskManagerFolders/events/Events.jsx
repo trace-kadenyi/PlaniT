@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEvents, deleteEvent } from "../../../redux/eventsSlice";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import { Trash2, Pencil } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { formatDateTime, getStatusColor } from "../utils/formatting";
+import { toastWithProgress } from "../utils/toastWithProgress";
+import DeleteEventToast from "../utils/deleteEventToast";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -18,42 +20,30 @@ export default function Events() {
   }, [dispatch]);
 
   // handle delete
+
+  // Inside your handleDelete function:
   const handleDelete = (id) => {
+    const duration = 10000; // 10 seconds
+
     toast(
       (t) => (
-        <div className="p-4 rounded-lg bg-white border border-gray-200 shadow-lg max-w-[300px]">
-          <p className="text-sm text-gray-800 mb-4">
-            This action will permanently{" "}
-            <span className="font-semibold text-red-600">delete</span> the event
-            and all associated tasks. It cannot be undone.
-          </p>
-          <div className="flex justify-end gap-3">
-            <button
-              onClick={() => {
-                dispatch(deleteEvent(id));
-                toast.dismiss(t.id);
-                toast.success("Event deleted");
-              }}
-              className="px-4 py-1.5 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg transition cursor-pointer"
-            >
-              Yes, Delete
-            </button>
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="px-4 py-1.5 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-green-600 hover:text-white transition cursor-pointer"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+        <DeleteEventToast
+          t={t}
+          duration={duration}
+          onConfirm={() => {
+            dispatch(deleteEvent(id));
+            toast.dismiss(t.id);
+            toastWithProgress("Event deleted");
+          }}
+          onCancel={() => toast.dismiss(t.id)}
+        />
       ),
       {
-        duration: 10000,
+        duration,
         position: "top-center",
       }
     );
   };
-
   return (
     <main className="p-6 min-h-screen bg-white">
       <h1 className="text-3xl font-bold text-[#9B2C62] mb-6">My Events</h1>
