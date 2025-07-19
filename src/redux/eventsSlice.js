@@ -18,9 +18,13 @@ export const fetchEventById = createAsyncThunk(
 
 export const createEvent = createAsyncThunk(
   "events/createEvent",
-  async (newEvent) => {
-    const res = await api.post("/api/events", newEvent);
-    return res.data;
+  async (newEvent, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/api/events", newEvent);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data); // capture the backend's error message
+    }
   }
 );
 
@@ -78,6 +82,24 @@ const eventsSlice = createSlice({
       state.deleteStatus = "idle";
       state.deleteError = null;
     },
+    resetCreateState: (state) => {
+      state.createStatus = "idle";
+      state.createError = null;
+    },
+    resetUpdateState: (state) => {
+      state.updateStatus = "idle";
+      state.updateError = null;
+    },
+    clearSelectedEvent: (state) => {
+      state.fetchOneStatus = "idle";
+      state.fetchOneError = null;
+      state.selectedEvent = null;
+      state.selectedEventId = null;
+    },
+    resetDeleteState: (state) => {
+      state.deleteStatus = "idle";
+      state.deleteError = null;
+    },
   },
 
   extraReducers: (builder) => {
@@ -123,7 +145,10 @@ const eventsSlice = createSlice({
       })
       .addCase(createEvent.rejected, (state, action) => {
         state.createStatus = "failed";
-        state.createError = action.error.message;
+        state.createError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to create event.";
       });
 
     // Update
@@ -172,5 +197,12 @@ const eventsSlice = createSlice({
   },
 });
 
-export const { setSelectedEventId, clearEventStatuses } = eventsSlice.actions;
+export const {
+  setSelectedEventId,
+  clearEventStatuses,
+  resetCreateState,
+  resetUpdateState,
+  clearSelectedEvent,
+  resetDeleteState,
+} = eventsSlice.actions;
 export default eventsSlice.reducer;

@@ -67,7 +67,7 @@ export default function LandingPage() {
                   viewport={{ once: true }}
                   className="bg-white p-6 rounded shadow hover:shadow-md transition"
                 >
-                  <h4 className="text-lg font-semibold mb-2 text-[#9B2C62]">
+                  <h4 className="text-lg font-semibold mb-2 text-[#BE3455]">
                     {feature.title}
                   </h4>
                   <p className="text-sm text-gray-600">{feature.desc}</p>

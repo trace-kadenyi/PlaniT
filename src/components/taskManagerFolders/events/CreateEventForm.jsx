@@ -1,23 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import { Pencil } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Plus } from "lucide-react";
+import { createEvent, resetCreateState } from "../../../redux/eventsSlice";
 
-import {
-  fetchEventById,
-  updateEvent,
-  clearEventStatuses,
-  resetUpdateState,
-} from "../../../redux/eventsSlice";
-
-export default function EditEventForm() {
-  const { id } = useParams();
+export default function CreateEventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { selectedEvent, updateStatus, updateError } = useSelector(
-    (state) => state.events
-  );
+  const { createStatus, createError } = useSelector((state) => state.events);
 
   // form data
   const [formData, setFormData] = useState({
@@ -33,21 +24,6 @@ export default function EditEventForm() {
       country: "",
     },
   });
-  // fetch event
-  useEffect(() => {
-    dispatch(fetchEventById(id));
-    dispatch(clearEventStatuses());
-  }, [dispatch, id]);
-
-  // populate form
-  useEffect(() => {
-    if (selectedEvent) {
-      setFormData({
-        ...selectedEvent,
-        date: selectedEvent.date?.slice(0, 16), // format for input type="datetime-local"
-      });
-    }
-  }, [selectedEvent]);
 
   // handle input fields
   const handleChange = (e) => {
@@ -73,35 +49,34 @@ export default function EditEventForm() {
   // submit form
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateEvent({ eventId: id, updatedEvent: formData })).then(
-      (res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          navigate(`/events/${id}`);
-        }
+    dispatch(createEvent(formData)).then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        navigate(`/events/${res.payload._id}`);
       }
-    );
+    });
   };
-  // reset update state
-  useEffect(() => {
-    return () => {
-      dispatch(resetUpdateState());
-    };
-  }, [dispatch, id]);
 
   useEffect(() => {
-    if (updateStatus === "succeeded") {
-      dispatch(resetUpdateState()); // 🎯 Reset after successful submission
+    // 🧹 Clean up when component unmounts
+    return () => {
+      dispatch(resetCreateState());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (createStatus === "succeeded") {
+      dispatch(resetCreateState()); // 🎯 Reset after successful submission
     }
-  }, [updateStatus, dispatch]);
+  }, [createStatus, dispatch]);
 
   return (
     <main className="min-h-screen bg-white p-6">
-      <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border-t-4 border-[#F59E0B]">
+      <div className="max-w-3xl mx-auto bg-[#F7F7FA] p-8 rounded-xl shadow border-t-4 border-[#BE3455]">
         <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62]">
           <span className="hidden sm:block">
-            <Pencil />
+            <Plus className="w-7 h-7" />
           </span>
-          Edit Event
+          Create Event
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -115,9 +90,13 @@ export default function EditEventForm() {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              maxLength={70} // 👈 set your desired max length here
               required
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
             />
+            <p className="text-xs text-right text-gray-500 mt-1">
+              {formData.name.length}/70 characters
+            </p>
           </div>
 
           {/* Description */}
@@ -131,7 +110,7 @@ export default function EditEventForm() {
               onChange={handleChange}
               rows={4}
               maxLength={300}
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
             />
             <p className="text-xs text-right text-gray-500 mt-1">
               {formData.description.length}/300 characters
@@ -147,7 +126,7 @@ export default function EditEventForm() {
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
+              className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
             />
           </div>
 
@@ -162,7 +141,7 @@ export default function EditEventForm() {
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
+                className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
               />
             </div>
 
@@ -175,7 +154,7 @@ export default function EditEventForm() {
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="w-full border border-[#E5E7EB] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F59E0B]"
+                className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
               >
                 <option value="Planning">Planning</option>
                 <option value="In Progress">In Progress</option>
@@ -228,17 +207,16 @@ export default function EditEventForm() {
           </fieldset>
 
           {/* Error Message */}
-          {updateStatus === "failed" && (
-            <p className="text-sm text-red-600">Error: {updateError}</p>
+          {createStatus === "failed" && (
+            <p className="text-sm text-red-600">Error: {createError}</p>
           )}
 
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={updateStatus === "loading"}
-            className="bg-[#F59E0B] hover:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#F59E0B] hover:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all"
           >
-            {updateStatus === "loading" ? "Saving..." : "Save Changes"}
+            Add Event
           </button>
         </form>
       </div>
