@@ -12,6 +12,7 @@ import {
 import toast from "react-hot-toast";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteEventToast from "../components/taskManagerFolders/utils/deleteEventToast";
+import { EventDetailsBtns } from "../components/common/EditDeleteEvent";
 
 export default function Event() {
   const { id } = useParams();
@@ -67,25 +68,11 @@ export default function Event() {
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
       <div className="relative p-6 rounded-xl bg-[#FFF8F2] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8">
-        {/* Edit/Delete buttons */}
-        <div className="absolute top-5 right-4 flex space-x-2">
-          <button
-            onClick={() => navigate(`/events/${event._id}/edit`)}
-            className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
-            title="Edit"
-          >
-            <Pencil className="w-3 h-3" />
-            <span>Edit</span>
-          </button>
-          <button
-            onClick={handleDelete}
-            className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-red-100/30 text-red-600 hover:bg-red-200 transition text-xs cursor-pointer"
-            title="Delete"
-          >
-            <Trash2 className="w-3 h-3" />
-            <span>Delete</span>
-          </button>
-        </div>
+        <EventDetailsBtns
+          navigate={navigate}
+          eventID={event._id}
+          handleDelete={handleDelete}
+        />
 
         <div className="space-y-2">
           <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
@@ -94,7 +81,7 @@ export default function Event() {
 
           <h1 className="text-2xl font-bold text-[#9B2C62]">{event.name}</h1>
 
-          <p className="text-sm text-gray-600 font-medium">
+          <p className="text-sm text-gray-600 font-bold">
             {formatDateTime(event.date)}
           </p>
 
