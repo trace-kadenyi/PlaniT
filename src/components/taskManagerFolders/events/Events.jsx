@@ -19,9 +19,7 @@ export default function Events() {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  // handle delete
-
-  // Inside your handleDelete function:
+  // handle delete event
   const handleDelete = (id) => {
     const duration = 10000; // 10 seconds
 
@@ -46,6 +44,10 @@ export default function Events() {
   };
   return (
     <main className="p-6 min-h-screen bg-white">
+      <button className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700" onClick={() => navigate("/events/create")}>
+        + Create Event
+      </button>
+
       <h1 className="text-3xl font-bold text-[#9B2C62] mb-6">My Events</h1>
 
       {status === "loading" && (
