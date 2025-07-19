@@ -5,9 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { Trash2, Pencil } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { formatDateTime, getStatusColor } from "../components/taskManagerFolders/utils/formatting";
+import {
+  formatDateTime,
+  getStatusColor,
+} from "../components/taskManagerFolders/utils/formatting";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteEventToast from "../components/taskManagerFolders/utils/deleteEventToast";
+import EditDeleteEvent from "../components/common/EditDeleteEvent";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -44,7 +48,10 @@ export default function Events() {
   };
   return (
     <main className="p-6 min-h-screen bg-white">
-      <button className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700" onClick={() => navigate("/events/create")}>
+      <button
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
+        onClick={() => navigate("/events/create")}
+      >
         + Create Event
       </button>
 
@@ -101,25 +108,11 @@ export default function Events() {
                 </div>
               </button>
               {/* delete/edit buttons */}
-              <div className="absolute top-5 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition">
-                <button
-                  onClick={() => navigate(`/events/${event._id}/edit`)}
-                  className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
-                  title="Edit"
-                >
-                  <Pencil className="w-3 h-3" />
-                  <span>edit</span>
-                </button>
-
-                <button
-                  onClick={() => handleDelete(event._id)}
-                  className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-red-100/30 text-red-600 hover:bg-red-200 transition text-xs cursor-pointer"
-                  title="Delete"
-                >
-                  <Trash2 className="w-3 h-3" />
-                  <span>delete</span>
-                </button>
-              </div>
+              <EditDeleteEvent
+                navigate={navigate}
+                eventID={event._id}
+                handleDelete={handleDelete}
+              />
             </li>
           ))}
         </ul>
