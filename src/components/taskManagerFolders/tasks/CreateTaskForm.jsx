@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, resetTaskStatus, updateTask } from "../../../redux/tasksSlice";
+import {
+  addTask,
+  resetTaskStatus,
+  updateTask,
+} from "../../../redux/tasksSlice";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function CreateTaskForm({ onClose, task }) {
   const dispatch = useDispatch();
-  const { id: eventId } = useParams(); // grabs eventId from URL
+  const { id: eventId } = useParams();
   const taskStatus = useSelector((state) => state.tasks.status);
 
   const [form, setForm] = useState({
@@ -24,7 +28,6 @@ export default function CreateTaskForm({ onClose, task }) {
     }
   }, [task]);
 
-  //   clear form after successful submission
   useEffect(() => {
     if (taskStatus === "succeeded") {
       setForm({
@@ -73,18 +76,6 @@ export default function CreateTaskForm({ onClose, task }) {
       <h2 className="text-xl font-bold text-[#9B2C62]">
         {task ? "Edit Task" : "Create Task"}
       </h2>
-
-      <button
-        type="submit"
-        disabled={taskStatus === "loading"}
-        className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition"
-      >
-        {taskStatus === "loading"
-          ? "Saving..."
-          : task
-          ? "Update Task"
-          : "Create Task"}
-      </button>
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
@@ -174,21 +165,23 @@ export default function CreateTaskForm({ onClose, task }) {
       </div>
 
       <div className="flex justify-end gap-3 pt-4">
-        {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
-          >
-            Cancel
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+        >
+          Cancel
+        </button>
         <button
           type="submit"
           disabled={taskStatus === "loading"}
           className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition"
         >
-          {taskStatus === "loading" ? "Saving..." : "Create Task"}
+          {taskStatus === "loading"
+            ? "Saving..."
+            : task
+            ? "Update Task"
+            : "Create Task"}
         </button>
       </div>
     </form>
