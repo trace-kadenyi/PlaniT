@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 export default function EditTaskForm({ task, onClose }) {
   const dispatch = useDispatch();
   const taskStatus = useSelector((state) => state.tasks.status);
+  const taskError = useSelector((state) => state.tasks.error);
 
   // initialize form
   const [form, setForm] = useState({
@@ -41,14 +42,20 @@ export default function EditTaskForm({ task, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(
-        updateTask({ taskId: task._id, updatedData: form })
-      ).unwrap();
-      toast.success("Task updated successfully");
-      dispatch(resetTaskStatus());
-      if (onClose) onClose();
+      const result = await dispatch(
+        updateTask({
+          taskId: task._id,
+          updatedData: form,
+        })
+      );
+
+      if (updateTask.fulfilled.match(result)) {
+        toast.success("Task updated successfully");
+        if (onClose) onClose();
+      }
     } catch (err) {
-      toast.error("Failed to update task: " + err);
+      // The error will be automatically handled by Redux
+      console.error("Update error:", err);
     }
   };
 
@@ -145,6 +152,13 @@ export default function EditTaskForm({ task, onClose }) {
           </select>
         </div>
       </div>
+      {/* Error Message */}
+      {taskStatus === "failed" && (
+        <div className="p-3 bg-red-50 rounded-md">
+          <p className="text-red-600 font-medium">Error creating task:</p>
+          <p className="text-red-500 text-sm mt-1">{taskError}</p>
+        </div>
+      )}
       {/* cancel/submit btns */}
       <div className="flex justify-end gap-3 pt-4">
         {onClose && (
