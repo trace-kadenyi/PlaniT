@@ -214,7 +214,9 @@ export default function CreateEventForm() {
 
           {/* Error Message */}
           {createStatus === "failed" && (
-            <p className="text-sm text-red-600">Error: {createError}</p>
+            <div className="p-3 bg-red-50 rounded-md">
+              <p className="text-sm text-red-600">Error: {createError}</p>
+            </div>
           )}
 
           {/* Submit Button */}

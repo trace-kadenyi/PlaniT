@@ -172,7 +172,6 @@ export default function EditTaskForm({ task, onClose }) {
       {/* Error Message */}
       {taskStatus === "failed" && taskError && !(taskStatus === "loading") && (
         <div className="p-3 bg-red-50 rounded-md">
-          <p className="text-red-600 font-medium">Error updating task:</p>
           <p className="text-red-500 text-sm mt-1">{taskError}</p>
         </div>
       )}

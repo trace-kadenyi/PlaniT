@@ -34,7 +34,7 @@ export default function CreateTaskForm({ onClose }) {
             priority: "Medium",
             status: "To Do",
           });
-          toastWithProgress("Task created successfully")
+          toastWithProgress("Task created successfully");
           if (onClose) onClose();
         }
       })
@@ -157,7 +157,6 @@ export default function CreateTaskForm({ onClose }) {
       {/* Error Message */}
       {taskStatus === "failed" && (
         <div className="p-3 bg-red-50 rounded-md">
-          <p className="text-red-600 font-medium">Error creating task:</p>
           <p className="text-red-500 text-sm mt-1">{taskError}</p>
         </div>
       )}
