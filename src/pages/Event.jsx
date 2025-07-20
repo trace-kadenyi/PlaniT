@@ -38,7 +38,7 @@ export default function Event() {
 
   const event = eventsState.items.find((event) => event._id === id);
 
-  // handle loading state
+  // handle event loading state
   if (
     eventsState.status === "loading" ||
     tasksState.status === "loading" ||
@@ -46,11 +46,22 @@ export default function Event() {
   ) {
     return (
       <main className="min-h-screen flex items-center justify-center">
-        <p className="text-sm text-gray-500">Loading event...</p>
+        <div className="flex flex-col items-center space-y-2">
+          <div className="w-10 h-10 border-4 border-[#F59E0B]/30 border-t-[#F59E0B] rounded-full animate-spin"></div>
+          <p className="text-sm text-gray-500">Loading event details...</p>
+        </div>
       </main>
     );
   }
 
+  // For tasks loading
+  {
+    tasksState.status === "loading" && tasksState.items.length === 0 && (
+      <div className="flex justify-center py-8">
+        <div className="w-8 h-8 border-2 border-[#9B2C62]/30 border-t-[#9B2C62] rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   // handle failed state
   if (eventsState.status === "failed")
     return <p>Error loading event: {eventsState.error}</p>;
@@ -90,7 +101,7 @@ export default function Event() {
 
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
-      <div className="relative p-6 rounded-xl bg-[#FFF8F2] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8">
+      <div className="relative p-6 rounded-xl bg-[#FFF5EB] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8">
         {/* edit/delete btns */}
         <EventDetailsBtns
           navigate={navigate}
@@ -201,7 +212,7 @@ export default function Event() {
         {tasksState.items.map((task) => (
           <li
             key={task._id}
-            className="relative bg-[#FFF8F2] border border-[#F3EDE9] rounded-xl shadow-md p-4 space-y-2"
+            className="relative bg-[#FFF9F5] border border-[#F3EDE9] rounded-xl shadow-md p-4 space-y-2"
           >
             <div className="flex justify-between items-start">
               <div>
@@ -234,7 +245,7 @@ export default function Event() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 text-xs text-gray-600 gap-y-1 pt-2">
+            <div className="grid grid-cols-2 text-xs text-gray-600 pt-2 gap-1">
               <div>
                 <span className="font-semibold text-gray-500">Priority:</span>{" "}
                 <span
@@ -269,7 +280,7 @@ export default function Event() {
                 <span className="font-semibold text-gray-500">
                   Assigned To:
                 </span>{" "}
-                {task.assignedTo || "—"}
+                {task.assignedTo || "Unassigned"}
               </div>
               <div>
                 <span className="font-semibold text-gray-500">Deadline:</span>{" "}
