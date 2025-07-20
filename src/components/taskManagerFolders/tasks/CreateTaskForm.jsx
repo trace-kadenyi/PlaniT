@@ -87,8 +87,12 @@ export default function CreateTaskForm({ onClose, task }) {
           required
           value={form.title}
           onChange={handleChange}
+          maxLength={50}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
+        <p className="text-xs text-right text-gray-500 mt-1">
+          {form.title.length}/50 characters
+        </p>
       </div>
 
       <div>
@@ -99,8 +103,13 @@ export default function CreateTaskForm({ onClose, task }) {
           name="description"
           value={form.description}
           onChange={handleChange}
+          rows={2}
+          maxLength={150}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
+        <p className="text-xs text-right text-gray-500 mt-1">
+          {form.description.length}/150 characters
+        </p>
       </div>
 
       <div>
