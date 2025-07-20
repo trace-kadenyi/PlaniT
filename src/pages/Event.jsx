@@ -318,7 +318,12 @@ export default function Event() {
                 <span className="font-semibold text-gray-500">
                   Assigned To:
                 </span>{" "}
-                {task.assignedTo || "Unassigned"}
+                <span
+                  className="max-w-[120px] truncate inline-block align-bottom"
+                  title={task.assignedTo || "Unassigned"} // Show full name on hover
+                >
+                  {task.assignedTo || "Unassigned"}
+                </span>
               </div>
               <div>
                 <span className="font-semibold text-gray-500">Deadline:</span>{" "}
