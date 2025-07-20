@@ -3,11 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Pencil, Trash2, Plus, XCircle } from "lucide-react";
 
-import {
-  fetchTasks,
-  clearTasks,
-  deleteTask,
-} from "../redux/tasksSlice";
+import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import CreateTaskForm from "../components/taskManagerFolders/tasks/CreateTaskForm";
 import EditTaskForm from "../components/taskManagerFolders/tasks/EditTasksForm";
@@ -172,7 +168,7 @@ export default function Event() {
         </button>
       </div>
 
-      {/* show task creation form */}
+      {/* show task creation/editing form */}
       {showCreateTaskForm && (
         <div className="mb-6">
           {taskToEdit ? (
