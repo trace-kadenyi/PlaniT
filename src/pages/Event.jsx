@@ -168,7 +168,7 @@ export default function Event() {
         </button>
       </div>
 
-      {/* show task creation/editing form */}
+      {/* show task creation form */}
       {showCreateTaskForm && (
         <div className="mb-6">
           {taskToEdit ? (
