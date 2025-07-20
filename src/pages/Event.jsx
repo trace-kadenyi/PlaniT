@@ -95,7 +95,9 @@ export default function Event() {
             {event.type}
           </p>
           {/* event name */}
-          <h1 className="mt-3 text-2xl font-bold text-[#9B2C62]">{event.name}</h1>
+          <h1 className="mt-3 text-2xl font-bold text-[#9B2C62]">
+            {event.name}
+          </h1>
           {/* event date */}
           <p className="text-sm text-gray-600 font-bold">
             {formatDateTime(event.date)}
@@ -170,14 +172,98 @@ export default function Event() {
         <p className="text-gray-600">No tasks for this event.</p>
       )}
       {/* tasks display */}
-      <ul className="space-y-3">
+      <ul className="grid sm:grid-cols-2 gap-4">
         {tasksState.items.map((task) => (
           <li
             key={task._id}
-            className="bg-white p-4 border border-gray-200 rounded-lg shadow-sm"
+            className="relative bg-[#FFF8F2] border border-[#F3EDE9] rounded-xl shadow-md p-4 space-y-2"
           >
-            <h3 className="font-semibold text-gray-800">{task.title}</h3>
-            <p className="text-sm text-gray-600">{task.description}</p>
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-lg font-semibold text-[#9B2C62]">
+                  {task.title}
+                </h3>
+                <p className="text-sm text-gray-700">
+                  {task.description || "No description."}
+                </p>
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  className="text-[#9B2C62] hover:text-[#7b224e]"
+                  title="Edit Task"
+                  onClick={() => {
+                    // Set task for editing (depends on your modal/form logic)
+                  }}
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+                <button
+                  className="text-[#BE3455] hover:text-[#9B2C62]"
+                  title="Delete Task"
+                  onClick={() => {
+                    // Call your deleteTask dispatch here
+                    dispatch(deleteTask(task._id));
+                  }}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 text-xs text-gray-600 gap-y-1 pt-2">
+              <div>
+                <span className="font-semibold text-gray-500">Priority:</span>{" "}
+                <span
+                  className={`inline-block px-2 py-0.5 rounded-full font-medium ${
+                    task.priority === "High"
+                      ? "bg-[#F59E0B]/20 text-[#C2410C]"
+                      : task.priority === "Medium"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {task.priority}
+                </span>
+              </div>
+              <div>
+                <span className="font-semibold text-gray-500">Status:</span>{" "}
+                <span
+                  className={`inline-block px-2 py-0.5 rounded-full font-medium ${
+                    task.status === "Completed"
+                      ? "bg-green-100 text-green-700"
+                      : task.status === "In Review"
+                      ? "bg-purple-100 text-purple-700"
+                      : task.status === "In Progress"
+                      ? "bg-blue-100 text-blue-700"
+                      : "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {task.status}
+                </span>
+              </div>
+              <div>
+                <span className="font-semibold text-gray-500">
+                  Assigned To:
+                </span>{" "}
+                {task.assignedTo || "—"}
+              </div>
+              <div>
+                <span className="font-semibold text-gray-500">Deadline:</span>{" "}
+                {task.deadline
+                  ? new Date(task.deadline).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })
+                  : "—"}
+              </div>
+            </div>
+
+            <div className="text-[10px] text-gray-400 pt-2">
+              Created: {new Date(task.createdAt).toLocaleString()}
+              <br />
+              Updated: {new Date(task.updatedAt).toLocaleString()}
+            </div>
           </li>
         ))}
       </ul>
