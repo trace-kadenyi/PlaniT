@@ -18,6 +18,16 @@ export default function EditTaskForm({ task, onClose }) {
     status: "To Do",
   });
 
+  // Reset status when task changes (when opening a different task)
+  useEffect(() => {
+    dispatch(resetTaskStatus());
+
+    return () => {
+      // Cleanup when component unmounts
+      dispatch(resetTaskStatus());
+    };
+  }, [task?._id, dispatch]); // Reset when task ID changes
+
   // populate form
   useEffect(() => {
     if (task) {
