@@ -152,11 +152,15 @@ export default function Event() {
       </div>
 
       {/* Tasks Section */}
-
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-[#9B2C62]">Tasks</h2>
         <button
-          onClick={() => setShowCreateTaskForm(!showCreateTaskForm)}
+          onClick={() => {
+            if (showCreateTaskForm) {
+              setTaskToEdit(null);
+            }
+            setShowCreateTaskForm(!showCreateTaskForm);
+          }}
           className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer"
         >
           {showCreateTaskForm ? (
@@ -201,7 +205,7 @@ export default function Event() {
           >
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-lg font-semibold text-[#9B2C62]">
+                <h3 className="mb-2 text-md font-semibold text-[#9B2C62]">
                   {task.title}
                 </h3>
                 <p className="text-sm text-gray-700">
