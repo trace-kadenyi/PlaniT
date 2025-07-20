@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTask, resetTaskStatus } from "../../../redux/tasksSlice";
 import toast from "react-hot-toast";
+
+import { updateTask, resetTaskStatus } from "../../../redux/tasksSlice";
+
+import { toastWithProgress } from "../utils/toastWithProgress";
 
 export default function EditTaskForm({ task, onClose }) {
   const dispatch = useDispatch();
@@ -60,11 +63,11 @@ export default function EditTaskForm({ task, onClose }) {
       );
 
       if (updateTask.fulfilled.match(result)) {
-        toast.success("Task updated successfully");
+        toastWithProgress("Task updated successfully");
         if (onClose) onClose();
       }
     } catch (err) {
-      toast.error("Failed to update task");
+      toastWithProgress("Failed to update task");
       console.error("Update error:", err);
     }
   };
