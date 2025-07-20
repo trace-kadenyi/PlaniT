@@ -10,7 +10,7 @@ import {
   getStatusColor,
 } from "../components/taskManagerFolders/utils/formatting";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
-import DeleteEventToast from "../components/taskManagerFolders/utils/deleteEventToast";
+import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
 import EditDeleteEvent from "../components/common/EditDeleteEvent";
 
 export default function Events() {
@@ -29,7 +29,7 @@ export default function Events() {
 
     toast(
       (t) => (
-        <DeleteEventToast
+        <DeleteConfirmationToast
           t={t}
           duration={duration}
           onConfirm={() => {
