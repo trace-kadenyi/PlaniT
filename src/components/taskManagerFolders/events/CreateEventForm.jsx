@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../redux/eventsSlice";
+import { toastWithProgress } from "../utils/toastWithProgress";
 
 export default function CreateEventForm() {
   const dispatch = useDispatch();
@@ -49,11 +50,16 @@ export default function CreateEventForm() {
   // submit form
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createEvent(formData)).then((res) => {
-      if (res.meta.requestStatus === "fulfilled") {
-        navigate(`/events/${res.payload._id}`);
-      }
-    });
+    try {
+      dispatch(createEvent(formData)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          toastWithProgress(`Event successfully created`);
+          navigate(`/events/${res.payload._id}`);
+        }
+      });
+    } catch (err) {
+      toastWithProgress(`Error: ${err.message}`);
+    }
   };
 
   useEffect(() => {
@@ -208,7 +214,9 @@ export default function CreateEventForm() {
 
           {/* Error Message */}
           {createStatus === "failed" && (
-            <p className="text-sm text-red-600">Error: {createError}</p>
+            <div className="p-3 bg-red-50 rounded-md">
+              <p className="text-sm text-red-600">Error: {createError}</p>
+            </div>
           )}
 
           {/* Submit Button */}
