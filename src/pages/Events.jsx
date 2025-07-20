@@ -48,14 +48,15 @@ export default function Events() {
   };
   return (
     <main className="p-6 min-h-screen bg-white">
-      <button
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
-        onClick={() => navigate("/events/create")}
-      >
-        + Create Event
-      </button>
-
-      <h1 className="text-3xl font-bold text-[#9B2C62] mb-6">My Events</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold text-[#9B2C62]">Events Manager</h1>
+        <button
+          onClick={() => navigate("/events/create")}
+          className="flex items-center gap-2 bg-[#9B2C62] text-white px-4 py-2 rounded-lg shadow hover:bg-[#801f4f] transition"
+        >
+          + Create New Event
+        </button>
+      </div>
 
       {status === "loading" && (
         <p className="text-gray-600">Loading events...</p>
