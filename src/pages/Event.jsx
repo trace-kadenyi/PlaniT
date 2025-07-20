@@ -7,10 +7,8 @@ import {
   fetchTasks,
   clearTasks,
   deleteTask,
-  updateTask,
 } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
-import TaskForm from "../components/taskManagerFolders/tasks/TaskForm";
 import CreateTaskForm from "../components/taskManagerFolders/tasks/CreateTaskForm";
 import EditTaskForm from "../components/taskManagerFolders/tasks/EditTasksForm";
 
