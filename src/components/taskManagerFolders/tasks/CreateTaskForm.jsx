@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, resetTaskStatus } from "../../../redux/tasksSlice";
+import { addTask, resetTaskStatus, updateTask } from "../../../redux/tasksSlice";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
-export default function CreateTaskForm({ onClose }) {
+export default function CreateTaskForm({ onClose, task }) {
   const dispatch = useDispatch();
   const { id: eventId } = useParams(); // grabs eventId from URL
   const taskStatus = useSelector((state) => state.tasks.status);
@@ -17,6 +17,12 @@ export default function CreateTaskForm({ onClose }) {
     priority: "Medium",
     status: "To Do",
   });
+
+  useEffect(() => {
+    if (task) {
+      setForm(task);
+    }
+  }, [task]);
 
   //   clear form after successful submission
   useEffect(() => {
@@ -43,8 +49,16 @@ export default function CreateTaskForm({ onClose }) {
     const taskData = { ...form };
 
     try {
-      await dispatch(addTask({ eventId, taskData })).unwrap();
-      toast.success("Task created successfully");
+      if (task) {
+        await dispatch(
+          updateTask({ taskId: task._id, updatedData: taskData })
+        ).unwrap();
+        toast.success("Task updated successfully");
+      } else {
+        await dispatch(addTask({ eventId, taskData })).unwrap();
+        toast.success("Task created successfully");
+      }
+
       if (onClose) onClose();
     } catch (err) {
       toast.error(`Error: ${err}`);
@@ -56,7 +70,21 @@ export default function CreateTaskForm({ onClose }) {
       onSubmit={handleSubmit}
       className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
     >
-      <h2 className="text-xl font-bold text-[#9B2C62]">Create Task</h2>
+      <h2 className="text-xl font-bold text-[#9B2C62]">
+        {task ? "Edit Task" : "Create Task"}
+      </h2>
+
+      <button
+        type="submit"
+        disabled={taskStatus === "loading"}
+        className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition"
+      >
+        {taskStatus === "loading"
+          ? "Saving..."
+          : task
+          ? "Update Task"
+          : "Create Task"}
+      </button>
 
       <div>
         <label className="block text-sm font-medium text-gray-700">
