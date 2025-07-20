@@ -30,9 +30,13 @@ export const createEvent = createAsyncThunk(
 
 export const updateEvent = createAsyncThunk(
   "events/updateEvent",
-  async ({ eventId, updatedEvent }) => {
-    const res = await api.put(`/api/events/${eventId}`, updatedEvent);
-    return res.data;
+  async ({ eventId, updatedEvent }, { rejectWithValue }) => {
+    try {
+      const res = await api.put(`/api/events/${eventId}`, updatedEvent);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data); // ← return proper backend error
+    }
   }
 );
 
@@ -171,7 +175,10 @@ const eventsSlice = createSlice({
       })
       .addCase(updateEvent.rejected, (state, action) => {
         state.updateStatus = "failed";
-        state.updateError = action.error.message;
+        state.updateError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to update event.";
       });
 
     // Delete
