@@ -193,10 +193,7 @@ export default function Event() {
       {tasksState.status === "loading" && tasksState.items.length === 0 && (
         <p>Loading tasks...</p>
       )}
-      {/* error loading tasks */}
-      {tasksState.status === "failed" && (
-        <p className="text-red-500">Error: {tasksState.error}</p>
-      )}
+
       {tasksState.items.length === 0 && tasksState.status === "succeeded" && (
         <p className="text-gray-600">No tasks for this event.</p>
       )}
