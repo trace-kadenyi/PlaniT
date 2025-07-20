@@ -28,6 +28,7 @@ export const addTask = createAsyncThunk(
 );
 
 // Update a task
+
 export const updateTask = createAsyncThunk(
   "tasks/updateTask",
   async ({ taskId, updatedData }, { rejectWithValue }) => {
@@ -35,7 +36,9 @@ export const updateTask = createAsyncThunk(
       const res = await api.put(`/api/tasks/${taskId}`, updatedData);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
+      return rejectWithValue(
+        err.response?.data?.message || err.message || "Update failed"
+      );
     }
   }
 );
@@ -135,8 +138,8 @@ const tasksSlice = createSlice({
         if (index !== -1) state.items[index] = action.payload;
       })
       .addCase(updateTask.rejected, (state, action) => {
-        state.updateStatus = "failed";
-        state.updateError = action.payload || "Failed to update task";
+        state.status = "failed";
+        state.error = action.payload; // Make sure this is set
       })
 
       // Delete task - Modified to match eventsSlice pattern
