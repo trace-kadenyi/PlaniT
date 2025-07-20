@@ -3,7 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Pencil, Trash2, Plus, XCircle } from "lucide-react";
 
-import { fetchTasks, clearTasks } from "../redux/tasksSlice";
+import {
+  fetchTasks,
+  clearTasks,
+  deleteTask,
+  updateTask,
+} from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import CreateTaskForm from "../components/taskManagerFolders/tasks/CreateTaskForm";
 
@@ -55,7 +60,7 @@ export default function Event() {
     return <p>Error loading event: {eventsState.error}</p>;
   if (!event) return <p>Event not found.</p>;
 
-  // handle delete
+  // handle event delete
   const handleDelete = () => {
     const duration = 10000;
     toast(
@@ -77,6 +82,14 @@ export default function Event() {
         position: "top-center",
       }
     );
+  };
+
+  // handle task delete
+  const handleTaskDelete = (taskId) => {
+    dispatch(deleteTask(taskId))
+      .unwrap()
+      .then(() => toast.success("Task deleted"))
+      .catch((err) => toast.error(`Failed to delete task: ${err}`));
   };
 
   return (
@@ -200,10 +213,7 @@ export default function Event() {
                 <button
                   className="text-[#BE3455] hover:text-[#9B2C62]"
                   title="Delete Task"
-                  onClick={() => {
-                    // Call your deleteTask dispatch here
-                    dispatch(deleteTask(task._id));
-                  }}
+                  onClick={() => handleTaskDelete(task._id)}
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
