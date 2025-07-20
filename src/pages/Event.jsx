@@ -11,6 +11,8 @@ import {
 } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import TaskForm from "../components/taskManagerFolders/tasks/TaskForm";
+import CreateTaskForm from "../components/taskManagerFolders/tasks/CreateTaskForm";
+import EditTaskForm from "../components/taskManagerFolders/tasks/EditTasksForm";
 
 import {
   formatDateTime,
@@ -175,13 +177,21 @@ export default function Event() {
       {/* show task creation form */}
       {showCreateTaskForm && (
         <div className="mb-6">
-          <TaskForm
-            task={taskToEdit}
-            onClose={() => {
-              setShowCreateTaskForm(false);
-              setTaskToEdit(null);
-            }}
-          />
+          {taskToEdit ? (
+            <EditTaskForm
+              task={taskToEdit}
+              onClose={() => {
+                setTaskToEdit(null);
+                setShowCreateTaskForm(false);
+              }}
+            />
+          ) : (
+            <CreateTaskForm
+              onClose={() => {
+                setShowCreateTaskForm(false);
+              }}
+            />
+          )}
         </div>
       )}
 
