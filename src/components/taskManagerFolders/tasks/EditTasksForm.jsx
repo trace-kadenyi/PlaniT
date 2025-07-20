@@ -169,12 +169,12 @@ export default function EditTaskForm({ task, onClose }) {
         </div>
       </div>
       {/* Error Message */}
-      {taskStatus === "failed" && (
-        <div className="p-3 bg-red-50 rounded-md">
-          <p className="text-red-600 font-medium">Error creating task:</p>
-          <p className="text-red-500 text-sm mt-1">{taskError}</p>
-        </div>
-      )}
+     {taskStatus === "failed" && taskError && !(taskStatus === "loading") && (
+  <div className="p-3 bg-red-50 rounded-md">
+    <p className="text-red-600 font-medium">Error updating task:</p>
+    <p className="text-red-500 text-sm mt-1">{taskError}</p>
+  </div>
+)}
       {/* cancel/submit btns */}
       <div className="flex justify-end gap-3 pt-4">
         {onClose && (
