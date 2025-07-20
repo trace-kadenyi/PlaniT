@@ -95,7 +95,7 @@ export default function Event() {
             {event.type}
           </p>
           {/* event name */}
-          <h1 className="text-2xl font-bold text-[#9B2C62]">{event.name}</h1>
+          <h1 className="mt-3 text-2xl font-bold text-[#9B2C62]">{event.name}</h1>
           {/* event date */}
           <p className="text-sm text-gray-600 font-bold">
             {formatDateTime(event.date)}
