@@ -68,7 +68,7 @@ export default function Event() {
           onConfirm={() => {
             dispatch(deleteEvent(id));
             toast.dismiss(t.id);
-            toastWithProgress("Event deleted");
+            toastWithProgress("Event deleted successfully");
             navigate("/events");
           }}
           onCancel={() => toast.dismiss(t.id)}
@@ -85,8 +85,8 @@ export default function Event() {
   const handleTaskDelete = (taskId) => {
     dispatch(deleteTask(taskId))
       .unwrap()
-      .then(() => toast.success("Task deleted"))
-      .catch((err) => toast.error(`Failed to delete task: ${err}`));
+      .then(() => toastWithProgress("Task deleted successfully"))
+      .catch((err) => toastWithProgress(`Failed to delete task: ${err}`));
   };
 
   return (
