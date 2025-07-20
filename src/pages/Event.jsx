@@ -26,6 +26,7 @@ export default function Event() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState(null);
 
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
@@ -170,9 +171,16 @@ export default function Event() {
       {/* show task creation form */}
       {showCreateTaskForm && (
         <div className="mb-6">
-          <CreateTaskForm onClose={() => setShowCreateTaskForm(false)} />
+          <CreateTaskForm
+            task={taskToEdit}
+            onClose={() => {
+              setShowCreateTaskForm(false);
+              setTaskToEdit(null);
+            }}
+          />
         </div>
       )}
+
       {/* loading tasks */}
       {tasksState.status === "loading" && tasksState.items.length === 0 && (
         <p>Loading tasks...</p>
@@ -205,11 +213,13 @@ export default function Event() {
                   className="text-[#9B2C62] hover:text-[#7b224e]"
                   title="Edit Task"
                   onClick={() => {
-                    // Set task for editing (depends on your modal/form logic)
+                    setTaskToEdit(task);
+                    setShowCreateTaskForm(true);
                   }}
                 >
                   <Pencil className="w-4 h-4" />
                 </button>
+
                 <button
                   className="text-[#BE3455] hover:text-[#9B2C62]"
                   title="Delete Task"
