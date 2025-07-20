@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
 
 import { updateTask, resetTaskStatus } from "../../../redux/tasksSlice";
-
 import { toastWithProgress } from "../utils/toastWithProgress";
 
 export default function EditTaskForm({ task, onClose }) {
