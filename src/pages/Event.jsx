@@ -2,17 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Pencil, Trash2, Plus, XCircle } from "lucide-react";
+import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import CreateTaskForm from "../components/taskManagerFolders/tasks/CreateTaskForm";
 import EditTaskForm from "../components/taskManagerFolders/tasks/EditTasksForm";
-
 import {
   formatDateTime,
   getStatusColor,
 } from "../components/taskManagerFolders/utils/formatting";
-import toast from "react-hot-toast";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteEventToast from "../components/taskManagerFolders/utils/deleteEventToast";
 import { EventDetailsBtns } from "../components/common/EditDeleteEvent";
