@@ -58,8 +58,15 @@ const tasksSlice = createSlice({
   initialState: {
     items: [],
     eventId: null,
-    status: "idle",
+    status: "idle", // For fetch operations
     error: null,
+    // Add separate statuses for different operations like eventsSlice
+    createStatus: "idle",
+    createError: null,
+    updateStatus: "idle",
+    updateError: null,
+    deleteStatus: "idle",
+    deleteError: null,
   },
   reducers: {
     clearTasks: (state) => {
@@ -69,8 +76,19 @@ const tasksSlice = createSlice({
       state.error = null;
     },
     resetTaskStatus: (state) => {
+      // Reset all statuses
       state.status = "idle";
+      state.createStatus = "idle";
+      state.updateStatus = "idle";
+      state.deleteStatus = "idle";
       state.error = null;
+      state.createError = null;
+      state.updateError = null;
+      state.deleteError = null;
+    },
+    resetCreateState: (state) => {
+      state.createStatus = "idle";
+      state.createError = null;
     },
   },
   extraReducers: (builder) => {
@@ -90,52 +108,53 @@ const tasksSlice = createSlice({
         state.error = action.payload || "Failed to fetch tasks";
       })
 
-      // Add task
+      // Add task - Modified to match eventsSlice pattern
       .addCase(addTask.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+        state.createStatus = "loading";
+        state.createError = null;
       })
       .addCase(addTask.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.createStatus = "succeeded";
         state.items.push(action.payload);
       })
       .addCase(addTask.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload || "Failed to add task";
+        state.error = action.payload; // This now contains the proper error message
       })
 
-      // Update task
+      // Update task - Modified to match eventsSlice pattern
       .addCase(updateTask.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+        state.updateStatus = "loading";
+        state.updateError = null;
       })
       .addCase(updateTask.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.updateStatus = "succeeded";
         const index = state.items.findIndex(
           (t) => t._id === action.payload._id
         );
         if (index !== -1) state.items[index] = action.payload;
       })
       .addCase(updateTask.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload || "Failed to update task";
+        state.updateStatus = "failed";
+        state.updateError = action.payload || "Failed to update task";
       })
 
-      // Delete task
+      // Delete task - Modified to match eventsSlice pattern
       .addCase(deleteTask.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
+        state.deleteStatus = "loading";
+        state.deleteError = null;
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.deleteStatus = "succeeded";
         state.items = state.items.filter((t) => t._id !== action.payload);
       })
       .addCase(deleteTask.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload || "Failed to delete task";
+        state.deleteStatus = "failed";
+        state.deleteError = action.payload || "Failed to delete task";
       });
   },
 });
 
-export const { clearTasks, resetTaskStatus } = tasksSlice.actions;
+export const { clearTasks, resetTaskStatus, resetCreateState } =
+  tasksSlice.actions;
 export default tasksSlice.reducer;
