@@ -7,6 +7,7 @@ export default function EditTaskForm({ task, onClose }) {
   const dispatch = useDispatch();
   const taskStatus = useSelector((state) => state.tasks.status);
 
+  // initialize form
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -16,6 +17,7 @@ export default function EditTaskForm({ task, onClose }) {
     status: "To Do",
   });
 
+  // populate form
   useEffect(() => {
     if (task) {
       setForm({
@@ -29,11 +31,13 @@ export default function EditTaskForm({ task, onClose }) {
     }
   }, [task]);
 
+  // handle change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
 
+  // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -54,7 +58,7 @@ export default function EditTaskForm({ task, onClose }) {
       className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
     >
       <h2 className="text-xl font-bold text-[#9B2C62]">Edit Task</h2>
-
+      {/* title */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Title <span className="text-red-500">*</span>
@@ -68,7 +72,7 @@ export default function EditTaskForm({ task, onClose }) {
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
       </div>
-
+      {/* description */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Description
@@ -80,7 +84,7 @@ export default function EditTaskForm({ task, onClose }) {
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
       </div>
-
+      {/* assigned to */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Assigned To
@@ -93,7 +97,7 @@ export default function EditTaskForm({ task, onClose }) {
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
       </div>
-
+      {/* deadline */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Deadline
@@ -106,7 +110,7 @@ export default function EditTaskForm({ task, onClose }) {
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
       </div>
-
+      {/* priority */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -123,7 +127,7 @@ export default function EditTaskForm({ task, onClose }) {
             <option>High</option>
           </select>
         </div>
-
+        {/* status */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Status
@@ -141,7 +145,7 @@ export default function EditTaskForm({ task, onClose }) {
           </select>
         </div>
       </div>
-
+      {/* cancel/submit btns */}
       <div className="flex justify-end gap-3 pt-4">
         {onClose && (
           <button
