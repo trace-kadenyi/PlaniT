@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask, resetTaskStatus } from "../../../redux/tasksSlice";
 import { useParams } from "react-router-dom";
-import toast from "react-hot-toast";
+
+import { addTask, resetTaskStatus } from "../../../redux/tasksSlice";
+import { toastWithProgress } from "../utils/toastWithProgress";
 
 export default function CreateTaskForm({ onClose }) {
   const dispatch = useDispatch();
@@ -33,12 +34,13 @@ export default function CreateTaskForm({ onClose }) {
             priority: "Medium",
             status: "To Do",
           });
+          toastWithProgress("Task created successfully")
           if (onClose) onClose();
         }
       })
       .catch((err) => {
         // Error will be automatically handled by the slice
-        toast.error(`Error: ${err.message}`);
+        toastWithProgress(`Error: ${err.message}`);
       });
   };
 
