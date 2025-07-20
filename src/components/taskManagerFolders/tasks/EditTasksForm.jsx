@@ -59,6 +59,12 @@ export default function EditTaskForm({ task, onClose }) {
     }
   };
 
+  // handle close
+  const handleClose = () => {
+    dispatch(resetTaskStatus()); // Reset the error state
+    if (onClose) onClose(); // Call the original onClose
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -164,7 +170,7 @@ export default function EditTaskForm({ task, onClose }) {
         {onClose && (
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
           >
             Cancel
