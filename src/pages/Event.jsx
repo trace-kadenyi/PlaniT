@@ -13,7 +13,7 @@ import {
   getStatusColor,
 } from "../components/taskManagerFolders/utils/formatting";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
-import DeleteEventToast from "../components/taskManagerFolders/utils/deleteEventToast";
+import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/common/EditDeleteEvent";
 
 export default function Event() {
@@ -72,9 +72,10 @@ export default function Event() {
     const duration = 10000;
     toast(
       (t) => (
-        <DeleteEventToast
+        <DeleteConfirmationToast
           t={t}
           duration={duration}
+          type="event"
           onConfirm={() => {
             dispatch(deleteEvent(id));
             toast.dismiss(t.id);
@@ -84,19 +85,36 @@ export default function Event() {
           onCancel={() => toast.dismiss(t.id)}
         />
       ),
-      {
-        duration,
-        position: "top-center",
-      }
+      { duration, position: "top-center" }
     );
   };
 
   // handle task delete
   const handleTaskDelete = (taskId) => {
-    dispatch(deleteTask(taskId))
-      .unwrap()
-      .then(() => toastWithProgress("Task deleted successfully"))
-      .catch((err) => toastWithProgress(`Failed to delete task: ${err}`));
+    const duration = 10000;
+    toast(
+      (t) => (
+        <DeleteConfirmationToast
+          t={t}
+          duration={duration}
+          type="task"
+          onConfirm={() => {
+            dispatch(deleteTask(taskId))
+              .unwrap()
+              .then(() => {
+                toast.dismiss(t.id);
+                toastWithProgress("Task deleted successfully");
+              })
+              .catch((err) => {
+                toast.dismiss(t.id);
+                toastWithProgress(`Failed to delete task: ${err}`);
+              });
+          }}
+          onCancel={() => toast.dismiss(t.id)}
+        />
+      ),
+      { duration, position: "top-center" }
+    );
   };
 
   return (
@@ -224,8 +242,11 @@ export default function Event() {
                 </p>
               </div>
               <div className="flex space-x-2">
+                {/* Edit Button */}
                 <button
-                  className="text-[#9B2C62] hover:text-[#7b224e]"
+                  className="p-1.5 rounded-md transition-all duration-200 
+              text-[#9B2C62] hover:text-white hover:bg-[#9B2C62]
+              group relative"
                   title="Edit Task"
                   onClick={() => {
                     setTaskToEdit(task);
@@ -233,14 +254,31 @@ export default function Event() {
                   }}
                 >
                   <Pencil className="w-4 h-4" />
+                  {/* Optional tooltip */}
+                  <span
+                    className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+                  >
+                    Edit Task
+                  </span>
                 </button>
 
+                {/* Delete Button */}
                 <button
-                  className="text-[#BE3455] hover:text-[#9B2C62]"
+                  className="p-1.5 rounded-md transition-all duration-200 
+              text-[#BE3455] hover:text-white hover:bg-[#BE3455]
+              group relative"
                   title="Delete Task"
                   onClick={() => handleTaskDelete(task._id)}
                 >
                   <Trash2 className="w-4 h-4" />
+                  {/* Optional tooltip */}
+                  <span
+                    className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+                  >
+                    Delete Task
+                  </span>
                 </button>
               </div>
             </div>
