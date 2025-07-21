@@ -6,8 +6,8 @@ import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
-import CreateTaskForm from "../components/taskManagerFolders/tasks/CreateTaskForm";
-import EditTaskForm from "../components/taskManagerFolders/tasks/EditTasksForm";
+import CreateTaskForm from "../components/taskManagerFolders/tasks/forms/CreateTaskForm";
+import EditTaskForm from "../components/taskManagerFolders/tasks/forms/EditTasksForm";
 import {
   formatDateTime,
   getStatusColor,
