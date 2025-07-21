@@ -14,7 +14,7 @@ import {
 } from "../components/taskManagerFolders/utils/formatting";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
-import { EventDetailsBtns } from "../components/common/EditDeleteEvent";
+import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
 import TaskCard from "../components/ui/TaskCard";
 
 export default function Event() {
@@ -232,7 +232,7 @@ export default function Event() {
           tasks={tasksState.items}
           setTaskToEdit={setTaskToEdit}
           setShowCreateTaskForm={setShowCreateTaskForm}
-          handleTaskDelete={handleDelete}
+          handleTaskDelete={handleTaskDelete}
         />
       }
     </main>
