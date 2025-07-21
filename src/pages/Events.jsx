@@ -11,7 +11,7 @@ import {
 } from "../components/taskManagerFolders/utils/formatting";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
-import EditDeleteEvent from "../components/common/EditDeleteEvent";
+import EditDeleteEvent from "../components/shared/EditDeleteEvent";
 
 export default function Events() {
   const dispatch = useDispatch();
