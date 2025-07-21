@@ -56,6 +56,7 @@ export default function EventFormFields({
           name="date"
           value={formData.date}
           onChange={onFieldChange}
+          min={new Date().toISOString().slice(0, 16)}
           className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
         />
       </div>
