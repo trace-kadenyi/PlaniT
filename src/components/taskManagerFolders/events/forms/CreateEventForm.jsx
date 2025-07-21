@@ -57,7 +57,7 @@ export default function CreateEventForm() {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
       };
-      dispatch(createEvent(formData)).then((res) => {
+      dispatch(createEvent(dataToSend)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           toastWithProgress(`Event successfully created`);
           navigate(`/events/${res.payload._id}`);
