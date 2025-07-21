@@ -11,6 +11,7 @@ import {
 } from "../../../../redux/eventsSlice";
 import { toastWithProgress } from "../../utils/toastWithProgress";
 import EventFormFields from "./EventFormFields";
+import { formatForDateTimeLocal } from "../../utils/dateHelpers";
 
 export default function EditEventForm() {
   const { id } = useParams();
@@ -46,7 +47,7 @@ export default function EditEventForm() {
     if (selectedEvent) {
       setFormData({
         ...selectedEvent,
-        date: selectedEvent.date?.slice(0, 16), // format for input type="datetime-local"
+        date: formatForDateTimeLocal(selectedEvent.date),
       });
     }
   }, [selectedEvent]);
@@ -55,7 +56,12 @@ export default function EditEventForm() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name.startsWith("location.")) {
+    if (name === "date") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value, // Store local format temporarily
+      }));
+    } else if (name.startsWith("location.")) {
       const key = name.split(".")[1];
       setFormData((prev) => ({
         ...prev,
@@ -71,12 +77,16 @@ export default function EditEventForm() {
       }));
     }
   };
-
   // submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(updateEvent({ eventId: id, updatedEvent: formData })).then(
+      const dataToSend = {
+        ...formData,
+        date: formData.date ? new Date(formData.date).toISOString() : null,
+      };
+
+      dispatch(updateEvent({ eventId: id, updatedEvent: dataToSend })).then(
         (res) => {
           if (res.meta.requestStatus === "fulfilled") {
             toastWithProgress("Event updated successfully");
