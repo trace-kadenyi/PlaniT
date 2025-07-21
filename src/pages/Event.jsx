@@ -16,7 +16,12 @@ import { toastWithProgress } from "../components/taskManagerFolders/utils/toastW
 import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
 import TaskCard from "../components/ui/TaskCard";
-import { EventLoadingState, TasksLoadingState } from "../components/shared/LoadingStates";
+import {
+  EventLoadingState,
+  TasksLoadingState,
+} from "../components/shared/LoadingStates";
+import { createEventDeleteHandler } from "../components/taskManagerFolders/utils/handlers/eventHandlers";
+import { createTaskDeleteHandler } from "../components/taskManagerFolders/utils/handlers/taskHandlers";
 
 export default function Event() {
   const { id } = useParams();
@@ -46,17 +51,13 @@ export default function Event() {
     tasksState.status === "loading" ||
     !event
   ) {
-    return (
-     <EventLoadingState />
-    );
+    return <EventLoadingState />;
   }
 
   // For tasks loading
   {
     tasksState.status === "loading" && tasksState.items.length === 0 && (
-      <div className="flex justify-center py-8">
-        <div className="w-8 h-8 border-2 border-[#9B2C62]/30 border-t-[#9B2C62] rounded-full animate-spin"></div>
-      </div>
+      <TasksLoadingState />
     );
   }
   // handle failed state
@@ -65,54 +66,14 @@ export default function Event() {
   if (!event) return <p>Event not found.</p>;
 
   // handle event delete
-  const handleDelete = () => {
-    const duration = 10000;
-    toast(
-      (t) => (
-        <DeleteConfirmationToast
-          t={t}
-          duration={duration}
-          type="event"
-          onConfirm={() => {
-            dispatch(deleteEvent(id));
-            toast.dismiss(t.id);
-            toastWithProgress("Event deleted successfully");
-            navigate("/events");
-          }}
-          onCancel={() => toast.dismiss(t.id)}
-        />
-      ),
-      { duration, position: "top-center" }
-    );
-  };
-
+  const handleDelete = createEventDeleteHandler(
+    dispatch,
+    id,
+    navigate,
+    deleteEvent
+  );
   // handle task delete
-  const handleTaskDelete = (taskId) => {
-    const duration = 10000;
-    toast(
-      (t) => (
-        <DeleteConfirmationToast
-          t={t}
-          duration={duration}
-          type="task"
-          onConfirm={() => {
-            dispatch(deleteTask(taskId))
-              .unwrap()
-              .then(() => {
-                toast.dismiss(t.id);
-                toastWithProgress("Task deleted successfully");
-              })
-              .catch((err) => {
-                toast.dismiss(t.id);
-                toastWithProgress(`Failed to delete task: ${err}`);
-              });
-          }}
-          onCancel={() => toast.dismiss(t.id)}
-        />
-      ),
-      { duration, position: "top-center" }
-    );
-  };
+  const handleTaskDelete = createTaskDeleteHandler(dispatch, deleteTask);
 
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
