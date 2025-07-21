@@ -16,6 +16,7 @@ import { toastWithProgress } from "../components/taskManagerFolders/utils/toastW
 import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
 import TaskCard from "../components/ui/TaskCard";
+import { EventLoadingState, TasksLoadingState } from "../components/shared/LoadingStates";
 
 export default function Event() {
   const { id } = useParams();
@@ -46,12 +47,7 @@ export default function Event() {
     !event
   ) {
     return (
-      <main className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-10 h-10 border-4 border-[#F59E0B]/30 border-t-[#F59E0B] rounded-full animate-spin"></div>
-          <p className="text-sm text-gray-500">Loading event details...</p>
-        </div>
-      </main>
+     <EventLoadingState />
     );
   }
 
