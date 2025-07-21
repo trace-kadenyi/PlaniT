@@ -9,6 +9,7 @@ import {
   clearEventStatuses,
   resetUpdateState,
 } from "../../../redux/eventsSlice";
+import { toastWithProgress } from "../utils/toastWithProgress";
 
 export default function EditEventForm() {
   const { id } = useParams();
@@ -71,15 +72,21 @@ export default function EditEventForm() {
   };
 
   // submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(updateEvent({ eventId: id, updatedEvent: formData })).then(
-      (res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          navigate(`/events/${id}`);
+    try {
+      dispatch(updateEvent({ eventId: id, updatedEvent: formData })).then(
+        (res) => {
+          if (res.meta.requestStatus === "fulfilled") {
+            toastWithProgress("Event updated successfully");
+            navigate(`/events/${id}`);
+          }
         }
-      }
-    );
+      );
+    } catch (err) {
+      toastWithProgress("Failed to update event");
+      console.error("Update error:", err);
+    }
   };
   // reset update state
   useEffect(() => {
