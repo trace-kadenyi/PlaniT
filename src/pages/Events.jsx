@@ -11,7 +11,7 @@ import {
 } from "../components/taskManagerFolders/utils/formatting";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
-import EditDeleteEvent from "../components/common/EditDeleteEvent";
+import EditDeleteEvent from "../components/shared/EditDeleteEvent";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export default function Events() {
           onConfirm={() => {
             dispatch(deleteEvent(id));
             toast.dismiss(t.id);
-            toastWithProgress("Event deleted");
+            toastWithProgress("Event deleted successfully");
           }}
           onCancel={() => toast.dismiss(t.id)}
         />

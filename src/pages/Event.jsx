@@ -6,15 +6,22 @@ import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
-import CreateTaskForm from "../components/taskManagerFolders/tasks/CreateTaskForm";
-import EditTaskForm from "../components/taskManagerFolders/tasks/EditTasksForm";
+import CreateTaskForm from "../components/taskManagerFolders/tasks/forms/CreateTaskForm";
+import EditTaskForm from "../components/taskManagerFolders/tasks/forms/EditTasksForm";
 import {
   formatDateTime,
   getStatusColor,
 } from "../components/taskManagerFolders/utils/formatting";
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
-import { EventDetailsBtns } from "../components/common/EditDeleteEvent";
+import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
+import TaskCard from "../components/ui/TaskCard";
+import {
+  EventLoadingState,
+  TasksLoadingState,
+} from "../components/shared/LoadingStates";
+import { createEventDeleteHandler } from "../components/taskManagerFolders/utils/handlers/eventHandlers";
+import { createTaskDeleteHandler } from "../components/taskManagerFolders/utils/handlers/taskHandlers";
 
 export default function Event() {
   const { id } = useParams();
@@ -44,22 +51,13 @@ export default function Event() {
     tasksState.status === "loading" ||
     !event
   ) {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-2">
-          <div className="w-10 h-10 border-4 border-[#F59E0B]/30 border-t-[#F59E0B] rounded-full animate-spin"></div>
-          <p className="text-sm text-gray-500">Loading event details...</p>
-        </div>
-      </main>
-    );
+    return <EventLoadingState />;
   }
 
   // For tasks loading
   {
     tasksState.status === "loading" && tasksState.items.length === 0 && (
-      <div className="flex justify-center py-8">
-        <div className="w-8 h-8 border-2 border-[#9B2C62]/30 border-t-[#9B2C62] rounded-full animate-spin"></div>
-      </div>
+      <TasksLoadingState />
     );
   }
   // handle failed state
@@ -68,54 +66,23 @@ export default function Event() {
   if (!event) return <p>Event not found.</p>;
 
   // handle event delete
-  const handleDelete = () => {
-    const duration = 10000;
-    toast(
-      (t) => (
-        <DeleteConfirmationToast
-          t={t}
-          duration={duration}
-          type="event"
-          onConfirm={() => {
-            dispatch(deleteEvent(id));
-            toast.dismiss(t.id);
-            toastWithProgress("Event deleted successfully");
-            navigate("/events");
-          }}
-          onCancel={() => toast.dismiss(t.id)}
-        />
-      ),
-      { duration, position: "top-center" }
-    );
-  };
-
+  const handleDelete = createEventDeleteHandler(
+    dispatch,
+    id,
+    navigate,
+    deleteEvent,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
   // handle task delete
-  const handleTaskDelete = (taskId) => {
-    const duration = 10000;
-    toast(
-      (t) => (
-        <DeleteConfirmationToast
-          t={t}
-          duration={duration}
-          type="task"
-          onConfirm={() => {
-            dispatch(deleteTask(taskId))
-              .unwrap()
-              .then(() => {
-                toast.dismiss(t.id);
-                toastWithProgress("Task deleted successfully");
-              })
-              .catch((err) => {
-                toast.dismiss(t.id);
-                toastWithProgress(`Failed to delete task: ${err}`);
-              });
-          }}
-          onCancel={() => toast.dismiss(t.id)}
-        />
-      ),
-      { duration, position: "top-center" }
-    );
-  };
+  const handleTaskDelete = createTaskDeleteHandler(
+    dispatch,
+    deleteTask,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
 
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
@@ -226,125 +193,14 @@ export default function Event() {
         <p className="text-gray-600">No tasks for this event.</p>
       )}
       {/* tasks display */}
-      <ul className="grid sm:grid-cols-2 gap-4">
-        {tasksState.items.map((task) => (
-          <li
-            key={task._id}
-            className="relative bg-[#FFF9F5] border border-[#F3EDE9] rounded-xl shadow-md p-4 space-y-2"
-          >
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="mb-2 text-md font-semibold text-[#9B2C62]">
-                  {task.title}
-                </h3>
-                <p className="text-sm text-gray-700">
-                  {task.description || "No description."}
-                </p>
-              </div>
-              <div className="flex space-x-2">
-                {/* Edit Button */}
-                <button
-                  className="p-1.5 rounded-md transition-all duration-200 
-              text-[#9B2C62] hover:text-white hover:bg-[#9B2C62]
-              group relative"
-                  title="Edit Task"
-                  onClick={() => {
-                    setTaskToEdit(task);
-                    setShowCreateTaskForm(true);
-                  }}
-                >
-                  <Pencil className="w-4 h-4" />
-                  {/* Optional tooltip */}
-                  <span
-                    className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
-                  >
-                    Edit Task
-                  </span>
-                </button>
-
-                {/* Delete Button */}
-                <button
-                  className="p-1.5 rounded-md transition-all duration-200 
-              text-[#BE3455] hover:text-white hover:bg-[#BE3455]
-              group relative"
-                  title="Delete Task"
-                  onClick={() => handleTaskDelete(task._id)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                  {/* Optional tooltip */}
-                  <span
-                    className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
-                  >
-                    Delete Task
-                  </span>
-                </button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 text-xs text-gray-600 pt-2 gap-1">
-              <div>
-                <span className="font-semibold text-gray-500">Priority:</span>{" "}
-                <span
-                  className={`inline-block px-2 py-0.5 rounded-full font-medium ${
-                    task.priority === "High"
-                      ? "bg-[#F59E0B]/20 text-[#C2410C]"
-                      : task.priority === "Medium"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : "bg-gray-100 text-gray-600"
-                  }`}
-                >
-                  {task.priority}
-                </span>
-              </div>
-              <div>
-                <span className="font-semibold text-gray-500">Status:</span>{" "}
-                <span
-                  className={`inline-block px-2 py-0.5 rounded-full font-medium ${
-                    task.status === "Completed"
-                      ? "bg-green-100 text-green-700"
-                      : task.status === "In Review"
-                      ? "bg-purple-100 text-purple-700"
-                      : task.status === "In Progress"
-                      ? "bg-blue-100 text-blue-700"
-                      : "bg-gray-100 text-gray-600"
-                  }`}
-                >
-                  {task.status}
-                </span>
-              </div>
-              <div>
-                <span className="font-semibold text-gray-500">
-                  Assigned To:
-                </span>{" "}
-                <span
-                  className="max-w-[120px] truncate inline-block align-bottom"
-                  title={task.assignedTo || "Unassigned"} // Show full name on hover
-                >
-                  {task.assignedTo || "Unassigned"}
-                </span>
-              </div>
-              <div>
-                <span className="font-semibold text-gray-500">Deadline:</span>{" "}
-                {task.deadline
-                  ? new Date(task.deadline).toLocaleDateString(undefined, {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })
-                  : "—"}
-              </div>
-            </div>
-
-            <div className="text-[10px] text-gray-400 pt-2">
-              Created: {new Date(task.createdAt).toLocaleString()}
-              <br />
-              Updated: {new Date(task.updatedAt).toLocaleString()}
-            </div>
-          </li>
-        ))}
-      </ul>
+      {
+        <TaskCard
+          tasks={tasksState.items}
+          setTaskToEdit={setTaskToEdit}
+          setShowCreateTaskForm={setShowCreateTaskForm}
+          handleTaskDelete={handleTaskDelete}
+        />
+      }
     </main>
   );
 }

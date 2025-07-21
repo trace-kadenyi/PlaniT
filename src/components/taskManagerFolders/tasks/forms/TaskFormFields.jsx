@@ -1,67 +1,20 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-
-import { addTask, resetTaskStatus } from "../../../redux/tasksSlice";
-import { toastWithProgress } from "../utils/toastWithProgress";
-
-export default function CreateTaskForm({ onClose }) {
-  const dispatch = useDispatch();
-  const { id: eventId } = useParams();
-  const taskStatus = useSelector((state) => state.tasks.status);
-  const taskError = useSelector((state) => state.tasks.error);
-
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    assignedTo: "",
-    deadline: "",
-    priority: "Medium",
-    status: "To Do",
-  });
-
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(addTask({ eventId, taskData: form }))
-      .then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          setForm({
-            title: "",
-            description: "",
-            assignedTo: "",
-            deadline: "",
-            priority: "Medium",
-            status: "To Do",
-          });
-          toastWithProgress("Task created successfully");
-          if (onClose) onClose();
-        }
-      })
-      .catch((err) => {
-        // Error will be automatically handled by the slice
-        toastWithProgress(`Error: ${err.message}`);
-      });
-  };
-
-  // Reset status when unmounting
-  useEffect(() => {
-    return () => {
-      dispatch(resetTaskStatus());
-    };
-  }, [dispatch]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
+export default function TaskFormFields({
+  form,
+  onFieldChange,
+  taskStatus,
+  taskError,
+  onClose,
+  onSubmit,
+  mode = "create",
+}) {
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
     >
-      <h2 className="text-xl font-bold text-[#9B2C62]">Create Task</h2>
+      <h2 className="text-xl font-bold text-[#9B2C62]">
+        {mode === "create" ? "Create Task" : "Edit Task"}
+      </h2>
 
       {/* Title */}
       <div>
@@ -72,10 +25,14 @@ export default function CreateTaskForm({ onClose }) {
           type="text"
           name="title"
           required
+          maxLength={50}
           value={form.title}
-          onChange={handleChange}
+          onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
+        <p className="text-xs text-right text-gray-500 mt-1">
+          {form.title.length}/50 characters
+        </p>
       </div>
 
       {/* Description */}
@@ -85,10 +42,15 @@ export default function CreateTaskForm({ onClose }) {
         </label>
         <textarea
           name="description"
+          rows={2}
+          maxLength={150}
           value={form.description}
-          onChange={handleChange}
+          onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
+        <p className="text-xs text-right text-gray-500 mt-1">
+          {form.description.length}/150 characters
+        </p>
       </div>
 
       {/* Assigned To */}
@@ -100,7 +62,7 @@ export default function CreateTaskForm({ onClose }) {
           type="text"
           name="assignedTo"
           value={form.assignedTo}
-          onChange={handleChange}
+          onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
       </div>
@@ -114,7 +76,7 @@ export default function CreateTaskForm({ onClose }) {
           type="date"
           name="deadline"
           value={form.deadline}
-          onChange={handleChange}
+          onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
       </div>
@@ -128,7 +90,7 @@ export default function CreateTaskForm({ onClose }) {
           <select
             name="priority"
             value={form.priority}
-            onChange={handleChange}
+            onChange={onFieldChange}
             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
           >
             <option>Low</option>
@@ -143,7 +105,7 @@ export default function CreateTaskForm({ onClose }) {
           <select
             name="status"
             value={form.status}
-            onChange={handleChange}
+            onChange={onFieldChange}
             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
           >
             <option>To Do</option>
@@ -177,7 +139,13 @@ export default function CreateTaskForm({ onClose }) {
           disabled={taskStatus === "loading"}
           className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition"
         >
-          {taskStatus === "loading" ? "Saving..." : "Create Task"}
+          {taskStatus === "loading"
+            ? mode === "create"
+              ? "Creating..."
+              : "Saving..."
+            : mode === "create"
+            ? "Create Task"
+            : "Save Changes"}
         </button>
       </div>
     </form>
