@@ -25,10 +25,14 @@ export default function TaskFormFields({
           type="text"
           name="title"
           required
+          maxLength={50}
           value={form.title}
           onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
+        <p className="text-xs text-right text-gray-500 mt-1">
+          {form.title.length}/50 characters
+        </p>
       </div>
 
       {/* Description */}
@@ -38,10 +42,15 @@ export default function TaskFormFields({
         </label>
         <textarea
           name="description"
+          rows={2}
+          maxLength={150}
           value={form.description}
           onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
+        <p className="text-xs text-right text-gray-500 mt-1">
+          {form.description.length}/150 characters
+        </p>
       </div>
 
       {/* Assigned To */}
