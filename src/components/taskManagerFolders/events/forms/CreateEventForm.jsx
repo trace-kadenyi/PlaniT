@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
 import { toastWithProgress } from "../../utils/toastWithProgress";
 import EventFormFields from "./EventFormFields";
+import { formatForDateTimeLocal } from "../../utils/dateHelpers";
 
 export default function CreateEventForm() {
   const dispatch = useDispatch();
@@ -52,6 +53,10 @@ export default function CreateEventForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
+      const dataToSend = {
+        ...formData,
+        date: formData.date ? new Date(formData.date).toISOString() : null,
+      };
       dispatch(createEvent(formData)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           toastWithProgress(`Event successfully created`);
