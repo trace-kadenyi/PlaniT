@@ -35,7 +35,7 @@ export default function Events() {
           onConfirm={() => {
             dispatch(deleteEvent(id));
             toast.dismiss(t.id);
-            toastWithProgress("Event deleted");
+            toastWithProgress("Event deleted successfully");
           }}
           onCancel={() => toast.dismiss(t.id)}
         />
