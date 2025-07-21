@@ -70,10 +70,19 @@ export default function Event() {
     dispatch,
     id,
     navigate,
-    deleteEvent
+    deleteEvent,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
   );
   // handle task delete
-  const handleTaskDelete = createTaskDeleteHandler(dispatch, deleteTask);
+  const handleTaskDelete = createTaskDeleteHandler(
+    dispatch,
+    deleteTask,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
 
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">

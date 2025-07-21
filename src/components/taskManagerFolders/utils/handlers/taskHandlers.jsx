@@ -1,9 +1,10 @@
-import toast from "react-hot-toast";
-
-import { toastWithProgress } from "../toastWithProgress";
-import DeleteConfirmationToast from "../deleteConfirmationToast";
-
-export const createTaskDeleteHandler = (dispatch, deleteTask) => {
+export const createTaskDeleteHandler = (
+  dispatch,
+  deleteTask,
+  toast,
+  toastWithProgress,
+  DeleteConfirmationToast
+) => {
   return (taskId) => {
     const duration = 10000;
     toast(

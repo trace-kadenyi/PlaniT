@@ -1,13 +1,9 @@
-import toast from "react-hot-toast";
-
-import { toastWithProgress } from "../toastWithProgress";
-import DeleteConfirmationToast from "../deleteConfirmationToast";
 
 export const createEventDeleteHandler = (
   dispatch,
   id,
   navigate,
-  deleteEvent
+  deleteEvent, toast, toastWithProgress, DeleteConfirmationToast
 ) => {
   return () => {
     const duration = 10000;
