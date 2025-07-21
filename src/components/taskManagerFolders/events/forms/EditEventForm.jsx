@@ -8,8 +8,8 @@ import {
   updateEvent,
   clearEventStatuses,
   resetUpdateState,
-} from "../../../redux/eventsSlice";
-import { toastWithProgress } from "../utils/toastWithProgress";
+} from "../../../../redux/eventsSlice";
+import { toastWithProgress } from "../../utils/toastWithProgress";
 import EventFormFields from "./EventFormFields";
 
 export default function EditEventForm() {

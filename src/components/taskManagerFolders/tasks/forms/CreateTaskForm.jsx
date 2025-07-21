@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { addTask, resetTaskStatus } from "../../../redux/tasksSlice";
-import { toastWithProgress } from "../utils/toastWithProgress";
+import { addTask, resetTaskStatus } from "../../../../redux/tasksSlice";
+import { toastWithProgress } from "../../utils/toastWithProgress";
 import TaskFormFields from "./TaskFormFields";
 
 export default function CreateTaskForm({ onClose }) {

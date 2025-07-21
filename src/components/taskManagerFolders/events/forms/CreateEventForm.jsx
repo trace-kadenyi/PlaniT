@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
-import { createEvent, resetCreateState } from "../../../redux/eventsSlice";
-import { toastWithProgress } from "../utils/toastWithProgress";
+import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
+import { toastWithProgress } from "../../utils/toastWithProgress";
 import EventFormFields from "./EventFormFields";
 
 export default function CreateEventForm() {
@@ -86,7 +86,7 @@ export default function CreateEventForm() {
           Create Event
         </h1>
 
-         <EventFormFields
+        <EventFormFields
           formData={formData}
           onFieldChange={handleChange}
           onSubmit={handleSubmit}
