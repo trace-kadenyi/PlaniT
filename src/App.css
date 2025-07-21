@@ -6,3 +6,7 @@ body {
   overflow-y: scroll;
   font-family: "Montserrat", sans-serif;
 }
+
+input[type="datetime-local"]::-webkit-datetime-edit-text {
+  padding: 0 0.1em;
+}
