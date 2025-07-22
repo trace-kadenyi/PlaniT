@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import { updateTask, resetTaskStatus } from "../../../../redux/tasksSlice";
 import { toastWithProgress } from "../../utils/toastWithProgress";
@@ -7,8 +8,12 @@ import TaskFormFields from "./TaskFormFields";
 
 export default function EditTaskForm({ task, onClose }) {
   const dispatch = useDispatch();
+  const { id: eventId } = useParams();
   const taskStatus = useSelector((state) => state.tasks.status);
   const taskError = useSelector((state) => state.tasks.error);
+  const event = useSelector((state) =>
+    state.events.items.find((event) => event._id === eventId)
+  );
 
   // initialize form
   const [form, setForm] = useState({
@@ -53,6 +58,19 @@ export default function EditTaskForm({ task, onClose }) {
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Client-side deadline validation
+    if (event && form.deadline) {
+      const taskDeadline = new Date(form.deadline);
+      const eventDate = new Date(event.date);
+
+      if (taskDeadline > eventDate) {
+        toastWithProgress(
+          "Error: Task deadline cannot be after the event date"
+        );
+        return;
+      }
+    }
     try {
       const result = await dispatch(
         updateTask({
@@ -85,6 +103,7 @@ export default function EditTaskForm({ task, onClose }) {
       onClose={handleClose}
       taskStatus={taskStatus}
       taskError={taskError}
+      eventDate={event?.date}
       mode="edit"
     />
   );
