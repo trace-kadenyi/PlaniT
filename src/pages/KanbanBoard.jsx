@@ -16,7 +16,7 @@ const KanbanBoard = () => {
     updateError,
   } = useSelector((state) => state.tasks);
 
-  //   sorted tasks
+//   sorted tasks
   const sortedTasks = useMemo(
     () =>
       [...tasks].sort((a, b) => new Date(a.deadline) - new Date(b.deadline)),
@@ -179,9 +179,7 @@ const KanbanBoard = () => {
 
   return (
     <div className="p-4 bg-white min-h-screen">
-      <h1 className="text-2xl font-bold text-[#9B2C62] mb-6 text-center">
-        Task Board
-      </h1>
+      <h1 className="text-2xl font-bold text-[#9B2C62] my-6 text-center">Task Board</h1>
       {/* update error */}
       {updateError && (
         <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
