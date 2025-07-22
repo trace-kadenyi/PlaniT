@@ -163,7 +163,14 @@ const tasksSlice = createSlice({
         const index = state.items.findIndex(
           (t) => t._id === action.payload._id
         );
-        if (index !== -1) state.items[index] = action.payload;
+        if (index !== -1) {
+          // Preserve the eventName if it exists in the current state
+          const eventName = state.items[index].eventName;
+          state.items[index] = {
+            ...action.payload,
+            eventName: action.payload.eventName || eventName,
+          };
+        }
       })
       .addCase(updateTask.rejected, (state, action) => {
         state.status = "failed";
