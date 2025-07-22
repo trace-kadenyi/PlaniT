@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllTasks,
@@ -15,6 +15,13 @@ const KanbanBoard = () => {
     error: fetchError,
     updateError,
   } = useSelector((state) => state.tasks);
+
+//   sorted tasks
+  const sortedTasks = useMemo(
+    () =>
+      [...tasks].sort((a, b) => new Date(a.deadline) - new Date(b.deadline)),
+    [tasks]
+  );
 
   // Memoize the task mapping function
   const mapTaskToCard = useCallback(
@@ -35,10 +42,10 @@ const KanbanBoard = () => {
   // Memoize the columns creation
   const getColumnsFromTasks = useCallback(() => {
     const filteredTasks = {
-      todo: tasks.filter((task) => task.status === "To Do"),
-      inProgress: tasks.filter((task) => task.status === "In Progress"),
-      inReview: tasks.filter((task) => task.status === "In Review"),
-      completed: tasks.filter((task) => task.status === "Completed"),
+      todo: sortedTasks.filter((task) => task.status === "To Do"),
+      inProgress: sortedTasks.filter((task) => task.status === "In Progress"),
+      inReview: sortedTasks.filter((task) => task.status === "In Review"),
+      completed: sortedTasks.filter((task) => task.status === "Completed"),
     };
 
     return {
@@ -67,7 +74,7 @@ const KanbanBoard = () => {
         color: "#4CAF50",
       },
     };
-  }, [tasks, mapTaskToCard]);
+  }, [sortedTasks, mapTaskToCard]);
 
   // Initialize columns with empty state
   const [columns, setColumns] = useState(() => ({
