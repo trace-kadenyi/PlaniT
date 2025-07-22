@@ -19,3 +19,7 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
 [data-rbd-droppable-context-id] {
   min-height: 20px;
 }
+
+.task-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
