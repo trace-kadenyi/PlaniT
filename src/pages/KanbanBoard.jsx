@@ -21,7 +21,7 @@ const KanbanBoard = () => {
     (task) => ({
       id: task._id,
       title: task.title,
-      event: task.eventId?.name || "Unassigned",
+      event: task.eventName || task.eventId?.name || "Unassigned",
       due: task.deadline
         ? new Date(task.deadline).toLocaleDateString()
         : "No deadline",
@@ -106,6 +106,7 @@ const KanbanBoard = () => {
     }
   }, [tasks, fetchStatus, getColumnsFromTasks]);
 
+  //   drag and drop function
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
 
@@ -119,24 +120,44 @@ const KanbanBoard = () => {
     };
     const newStatus = statusMap[destination.droppableId];
 
-    // Optimistic update
-    setColumns((prevColumns) => {
-      const newColumns = { ...prevColumns };
-      const sourceColumn = { ...newColumns[source.droppableId] };
-      const destColumn = { ...newColumns[destination.droppableId] };
+    // Find the original task with populated event data
+    const originalTask = tasks.find((task) => task._id === draggableId);
+    if (!originalTask) return;
 
-      const [movedTask] = sourceColumn.tasks.splice(source.index, 1);
-      movedTask.status = newStatus;
-      destColumn.tasks.splice(destination.index, 0, movedTask);
-
-      return {
-        ...newColumns,
-        [source.droppableId]: sourceColumn,
-        [destination.droppableId]: destColumn,
-      };
-    });
+    // Store current columns for rollback
+    const currentColumns = columns;
 
     try {
+      // Optimistic update
+      setColumns((prevColumns) => {
+        const newColumns = JSON.parse(JSON.stringify(prevColumns));
+        const sourceColumn = newColumns[source.droppableId];
+        const destColumn = newColumns[destination.droppableId];
+
+        // Find and remove the task
+        const taskIndex = sourceColumn.tasks.findIndex(
+          (t) => t.id === draggableId
+        );
+        if (taskIndex === -1) return prevColumns;
+
+        const [movedTask] = sourceColumn.tasks.splice(taskIndex, 1);
+
+        // Create new task with guaranteed event data
+        const updatedTask = {
+          ...movedTask,
+          status: newStatus,
+          event:
+            originalTask.eventName ||
+            originalTask.eventId?.name ||
+            "Unassigned",
+        };
+
+        destColumn.tasks.splice(destination.index, 0, updatedTask);
+
+        return newColumns;
+      });
+
+      // API update
       await dispatch(
         updateTask({
           taskId: draggableId,
@@ -144,8 +165,8 @@ const KanbanBoard = () => {
         })
       ).unwrap();
     } catch (err) {
-      // Revert on error
-      setColumns(getColumnsFromTasks());
+      setColumns(currentColumns);
+      console.error("Task update failed:", err);
     }
   };
 
