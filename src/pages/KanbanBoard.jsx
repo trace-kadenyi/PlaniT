@@ -5,14 +5,19 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const KanbanBoard = () => {
   const dispatch = useDispatch();
-  const tasks = useSelector((state) => state.tasks.items);
-  const status = useSelector((state) => state.tasks.status);
+  const {
+    items: tasks,
+    status: fetchStatus,
+    updateStatus,
+    error: fetchError,
+    updateError,
+  } = useSelector((state) => state.tasks);
 
   useEffect(() => {
-    if (status === "idle") {
+    if (fetchStatus === "idle") {
       dispatch(fetchAllTasks());
     }
-  }, [status, dispatch]);
+  }, [fetchStatus, dispatch]);
 
   // Transform tasks into kanban columns
   const getColumnsFromTasks = () => {
@@ -76,7 +81,6 @@ const KanbanBoard = () => {
     if (!destination) return;
     if (source.droppableId === destination.droppableId) return;
 
-    // Map column IDs to status values
     const statusMap = {
       todo: "To Do",
       inProgress: "In Progress",
@@ -87,43 +91,31 @@ const KanbanBoard = () => {
 
     // Optimistic update
     setColumns((prevColumns) => {
-      const newColumns = { ...prevColumns };
-      const sourceTasks = [...newColumns[source.droppableId].tasks];
-      const [movedTask] = sourceTasks.splice(source.index, 1);
-
-      // Create updated task data
-      const updatedTask = {
-        ...movedTask,
-        status: newStatus,
-      };
-
+      const newColumns = JSON.parse(JSON.stringify(prevColumns));
+      const [movedTask] = newColumns[source.droppableId].tasks.splice(
+        source.index,
+        1
+      );
+      movedTask.status = newStatus;
       newColumns[destination.droppableId].tasks.splice(
         destination.index,
         0,
-        updatedTask
+        movedTask
       );
       return newColumns;
     });
 
     try {
-      // Use your existing updateTask thunk
       await dispatch(
         updateTask({
           taskId: draggableId,
-          updatedData: { status: newStatus }, // Only send the changed field
+          updatedData: { status: newStatus },
         })
       ).unwrap();
     } catch (err) {
-      // Revert on error
       setColumns(getColumnsFromTasks());
-      console.error("Status update failed:", err);
     }
   };
-
-  // Show loading state during updates
-  if (updateTask === 'loading') {
-    return <div className="p-4 text-[#9B2C62]">Updating task...</div>;
-  }
 
   return (
     <div className="p-4 bg-white min-h-screen">
