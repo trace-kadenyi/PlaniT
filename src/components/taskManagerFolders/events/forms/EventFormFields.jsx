@@ -1,3 +1,8 @@
+import {
+  formatLocalDateTimeForDisplay,
+  getLocalDateTimeString,
+} from "../../utils/dateHelpers";
+
 export default function EventFormFields({
   formData,
   onFieldChange,
@@ -7,25 +12,6 @@ export default function EventFormFields({
   onSubmit,
   mode = "create",
 }) {
-  const formatLocalDateTimeForDisplay = (date) => {
-    return date.toLocaleString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
-  // Keep your existing getLocalDateTimeString function
-  const getLocalDateTimeString = () => {
-    const now = new Date();
-    const timezoneOffset = now.getTimezoneOffset() * 60000;
-    const localTime = new Date(now - timezoneOffset);
-    return localTime.toISOString().slice(0, 16);
-  };
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Event Name */}
