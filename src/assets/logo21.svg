@@ -1,0 +1,22 @@
+<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .plani { 
+      fill: #FFFFFF; 
+      font-family: 'Montserrat', sans-serif; 
+      font-weight: 700; 
+      font-size: 48px; 
+    }
+    .t { 
+      fill: #F59E0B; 
+    }
+    .dot { 
+      fill: #F59E0B; 
+    }
+  </style>
+  <!-- White "Plani" -->
+  <text x="10" y="50" class="plani">Plani</text>
+  <!-- Saffron Gold "T" -->
+  <text x="129" y="50" class="plani t">T</text>
+  <!-- Saffron Gold dot on "i" -->
+  <circle cx="118" cy="18" r="5" class="dot"/>
+</svg>
