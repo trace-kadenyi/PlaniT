@@ -8,25 +8,25 @@ export default function TaskFormFields({
   eventDate,
   mode = "create",
 }) {
-
-   // Calculate min/max dates
-  const today = new Date().toISOString().split('T')[0];
-  const maxDate = eventDate ? new Date(eventDate).toISOString().split('T')[0] : null;
+  // Calculate min/max dates
+  const today = new Date().toISOString().split("T")[0];
+  const maxDate = eventDate
+    ? new Date(eventDate).toISOString().split("T")[0]
+    : null;
 
   // Handle date change with validation
   const handleDateChange = (e) => {
     const selectedDate = e.target.value;
-    
+
     // Basic client-side validation
     if (maxDate && selectedDate > maxDate) {
       // You can show a toast or inline error here if needed
-      console.warn('Selected date is after event date');
+      console.warn("Selected date is after event date");
       return;
     }
-    
+
     onFieldChange(e); // Proceed with normal change
   };
-
 
   return (
     <form
@@ -101,7 +101,6 @@ export default function TaskFormFields({
           onChange={handleDateChange}
           min={today}
           max={maxDate}
-          required
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
         <div className="absolute right-3 top-12 transform -translate-y-1/2 pointer-events-none">
@@ -120,12 +119,17 @@ export default function TaskFormFields({
         </div>
         {maxDate && (
           <p className="text-xs text-gray-500 mt-1">
-            Must be before {new Date(maxDate).toLocaleDateString()}
+            Must be before the event date:{" "}
+            <span className="font-semibold">
+              {new Date(maxDate).toLocaleDateString()}
+            </span>{" "}
+            and after the current date:{" "}
+            <span className="font-semibold">
+              {new Date().toLocaleDateString()}
+            </span>
           </p>
         )}
       </div>
-
-
 
       {/* Priority & Status */}
       <div className="grid grid-cols-2 gap-4">
