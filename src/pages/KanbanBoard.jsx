@@ -120,6 +120,11 @@ const KanbanBoard = () => {
     }
   };
 
+  // Show loading state during updates
+  if (updateStatus === 'loading') {
+    return <div className="p-4 text-[#9B2C62]">Updating task...</div>;
+  }
+
   return (
     <div className="p-4 bg-white min-h-screen">
       <h1 className="text-2xl font-bold text-[#9B2C62] mb-6">Task Board</h1>
