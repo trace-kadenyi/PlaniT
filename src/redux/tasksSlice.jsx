@@ -182,6 +182,6 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { clearTasks, resetTaskStatus, resetCreateState } =
+export const { clearTasks, resetTaskStatus, resetCreateState, updateStatus } =
   tasksSlice.actions;
 export default tasksSlice.reducer;
