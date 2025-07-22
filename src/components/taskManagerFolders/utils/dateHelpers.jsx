@@ -12,3 +12,19 @@ export const parseFromDateTimeLocal = (localString) => {
   // Convert back to proper ISO format for backend
   return new Date(localString).toISOString();
 };
+
+
+const formatLocalDateTimeForDisplay = (date) => {
+    return date.toLocaleString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
+
+  
