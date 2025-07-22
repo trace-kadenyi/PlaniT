@@ -12,16 +12,45 @@ const KanbanBoard = () => {
   const {
     items: tasks,
     status: fetchStatus,
-    updateStatus,
-    error: fetchError,
     updateError,
   } = useSelector((state) => state.tasks);
 
+  // Initialize columns with empty state
+  const [columns, setColumns] = useState({
+    todo: { id: "todo", title: "To Do", tasks: [], color: "#F59E0B" },
+    inProgress: {
+      id: "inProgress",
+      title: "In Progress",
+      tasks: [],
+      color: "#FF7E33",
+    },
+    inReview: {
+      id: "inReview",
+      title: "In Review",
+      tasks: [],
+      color: "#9B2C62",
+    },
+    completed: {
+      id: "completed",
+      title: "Completed",
+      tasks: [],
+      color: "#4CAF50",
+    },
+  });
+
+  //   fetch all tasks
   useEffect(() => {
     if (fetchStatus === "idle") {
       dispatch(fetchAllTasks());
     }
   }, [fetchStatus, dispatch]);
+
+  //   get columns from tasks
+  useEffect(() => {
+    if (tasks.length > 0) {
+      setColumns(getColumnsFromTasks());
+    }
+  }, [tasks]);
 
   // Transform tasks into kanban columns
   const getColumnsFromTasks = () => {
@@ -72,8 +101,6 @@ const KanbanBoard = () => {
     assignee: task.assignedTo,
     status: task.status,
   });
-
-  const [columns, setColumns] = useState(getColumnsFromTasks());
 
   useEffect(() => {
     setColumns(getColumnsFromTasks());
@@ -137,8 +164,13 @@ const KanbanBoard = () => {
         </div>
       )}
 
-      {status === "loading" ? (
-        <div className="text-[#9B2C62]">Loading tasks...</div>
+      {/* loading state */}
+      {fetchStatus === "loading" ? (
+        <div className="flex space-x-4 animate-pulse">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="bg-gray-100 rounded-lg p-4 w-72 h-64"></div>
+          ))}
+        </div>
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="flex space-x-4 overflow-x-auto pb-4">
