@@ -5,8 +5,27 @@ export default function TaskFormFields({
   taskError,
   onClose,
   onSubmit,
+  eventDate,
   mode = "create",
 }) {
+
+   // Calculate min/max dates
+  const today = new Date().toISOString().split('T')[0];
+  const maxDate = eventDate ? new Date(eventDate).toISOString().split('T')[0] : null;
+
+  // Handle date change with validation
+  const handleDateChange = (e) => {
+    const selectedDate = e.target.value;
+    
+    // Basic client-side validation
+    if (maxDate && selectedDate > maxDate) {
+      // You can show a toast or inline error here if needed
+      console.warn('Selected date is after event date');
+      return;
+    }
+    
+    onFieldChange(e); // Proceed with normal change
+  };
   return (
     <form
       onSubmit={onSubmit}
