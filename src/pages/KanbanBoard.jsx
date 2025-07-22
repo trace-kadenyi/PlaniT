@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchAllTasks,
@@ -12,11 +12,65 @@ const KanbanBoard = () => {
   const {
     items: tasks,
     status: fetchStatus,
+    error: fetchError,
     updateError,
   } = useSelector((state) => state.tasks);
 
+  // Memoize the task mapping function
+  const mapTaskToCard = useCallback(
+    (task) => ({
+      id: task._id,
+      title: task.title,
+      event: task.eventId?.name || "Unassigned",
+      due: task.deadline
+        ? new Date(task.deadline).toLocaleDateString()
+        : "No deadline",
+      priority: task.priority.toLowerCase(),
+      assignee: task.assignedTo,
+      status: task.status,
+    }),
+    []
+  );
+
+  // Memoize the columns creation
+  const getColumnsFromTasks = useCallback(() => {
+    const filteredTasks = {
+      todo: tasks.filter((task) => task.status === "To Do"),
+      inProgress: tasks.filter((task) => task.status === "In Progress"),
+      inReview: tasks.filter((task) => task.status === "In Review"),
+      completed: tasks.filter((task) => task.status === "Completed"),
+    };
+
+    return {
+      todo: {
+        id: "todo",
+        title: "To Do",
+        tasks: filteredTasks.todo.map(mapTaskToCard),
+        color: "#F59E0B",
+      },
+      inProgress: {
+        id: "inProgress",
+        title: "In Progress",
+        tasks: filteredTasks.inProgress.map(mapTaskToCard),
+        color: "#FF7E33",
+      },
+      inReview: {
+        id: "inReview",
+        title: "In Review",
+        tasks: filteredTasks.inReview.map(mapTaskToCard),
+        color: "#9B2C62",
+      },
+      completed: {
+        id: "completed",
+        title: "Completed",
+        tasks: filteredTasks.completed.map(mapTaskToCard),
+        color: "#4CAF50",
+      },
+    };
+  }, [tasks, mapTaskToCard]);
+
   // Initialize columns with empty state
-  const [columns, setColumns] = useState({
+  const [columns, setColumns] = useState(() => ({
     todo: { id: "todo", title: "To Do", tasks: [], color: "#F59E0B" },
     inProgress: {
       id: "inProgress",
@@ -36,81 +90,26 @@ const KanbanBoard = () => {
       tasks: [],
       color: "#4CAF50",
     },
-  });
+  }));
 
-  //   fetch all tasks
+  // Fetch all tasks
   useEffect(() => {
     if (fetchStatus === "idle") {
       dispatch(fetchAllTasks());
     }
   }, [fetchStatus, dispatch]);
 
-  //   get columns from tasks
+  // Update columns when tasks change
   useEffect(() => {
-    if (tasks.length > 0) {
+    if (tasks.length > 0 || fetchStatus === "succeeded") {
       setColumns(getColumnsFromTasks());
     }
-  }, [tasks]);
-
-  // Transform tasks into kanban columns
-  const getColumnsFromTasks = () => {
-    return {
-      todo: {
-        id: "todo",
-        title: "To Do",
-        tasks: tasks
-          .filter((task) => task.status === "To Do")
-          .map(mapTaskToCard),
-        color: "#F59E0B", // Saffron gold
-      },
-      inProgress: {
-        id: "inProgress",
-        title: "In Progress",
-        tasks: tasks
-          .filter((task) => task.status === "In Progress")
-          .map(mapTaskToCard),
-        color: "#FF7E33", // Pumpkin
-      },
-      inReview: {
-        id: "inReview",
-        title: "In Review",
-        tasks: tasks
-          .filter((task) => task.status === "In Review")
-          .map(mapTaskToCard),
-        color: "#9B2C62", // Deep mulberry
-      },
-      completed: {
-        id: "completed",
-        title: "Completed",
-        tasks: tasks
-          .filter((task) => task.status === "Completed")
-          .map(mapTaskToCard),
-        color: "#4CAF50", // Complementary green
-      },
-    };
-  };
-
-  const mapTaskToCard = (task) => ({
-    id: task._id,
-    title: task.title,
-    event: task.eventId?.name || "Unassigned",
-    due: task.deadline
-      ? new Date(task.deadline).toLocaleDateString()
-      : "No deadline",
-    priority: task.priority.toLowerCase(),
-    assignee: task.assignedTo,
-    status: task.status,
-  });
-
-  useEffect(() => {
-    setColumns(getColumnsFromTasks());
-  }, [tasks]);
+  }, [tasks, fetchStatus, getColumnsFromTasks]);
 
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
 
-    if (!destination) return;
-    if (source.droppableId === destination.droppableId) return;
+    if (!destination || source.droppableId === destination.droppableId) return;
 
     const statusMap = {
       todo: "To Do",
@@ -122,18 +121,19 @@ const KanbanBoard = () => {
 
     // Optimistic update
     setColumns((prevColumns) => {
-      const newColumns = JSON.parse(JSON.stringify(prevColumns));
-      const [movedTask] = newColumns[source.droppableId].tasks.splice(
-        source.index,
-        1
-      );
+      const newColumns = { ...prevColumns };
+      const sourceColumn = { ...newColumns[source.droppableId] };
+      const destColumn = { ...newColumns[destination.droppableId] };
+
+      const [movedTask] = sourceColumn.tasks.splice(source.index, 1);
       movedTask.status = newStatus;
-      newColumns[destination.droppableId].tasks.splice(
-        destination.index,
-        0,
-        movedTask
-      );
-      return newColumns;
+      destColumn.tasks.splice(destination.index, 0, movedTask);
+
+      return {
+        ...newColumns,
+        [source.droppableId]: sourceColumn,
+        [destination.droppableId]: destColumn,
+      };
     });
 
     try {
@@ -144,6 +144,7 @@ const KanbanBoard = () => {
         })
       ).unwrap();
     } catch (err) {
+      // Revert on error
       setColumns(getColumnsFromTasks());
     }
   };
@@ -161,6 +162,12 @@ const KanbanBoard = () => {
           >
             Retry
           </button>
+        </div>
+      )}
+      {/* error fetching tasks */}
+      {fetchError && (
+        <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
+          Failed to load tasks: {fetchError}
         </div>
       )}
 
