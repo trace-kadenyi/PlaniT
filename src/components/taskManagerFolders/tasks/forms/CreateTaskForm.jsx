@@ -11,6 +11,9 @@ export default function CreateTaskForm({ onClose }) {
   const { id: eventId } = useParams();
   const taskStatus = useSelector((state) => state.tasks.status);
   const taskError = useSelector((state) => state.tasks.error);
+  const event = useSelector((state) =>
+    state.events.items.find((event) => event._id === eventId)
+  );
 
   const [form, setForm] = useState({
     title: "",
@@ -24,6 +27,16 @@ export default function CreateTaskForm({ onClose }) {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Client-side deadline validation
+    if (event && form.deadline) {
+      const taskDeadline = new Date(form.deadline);
+      const eventDate = new Date(event.date);
+
+      if (taskDeadline > eventDate) {
+        toastWithProgress("Task deadline cannot be after the event date");
+        return;
+      }
+    }
     dispatch(addTask({ eventId, taskData: form }))
       .then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
@@ -65,6 +78,7 @@ export default function CreateTaskForm({ onClose }) {
       onClose={onClose}
       taskStatus={taskStatus}
       taskError={taskError}
+      eventDate={event?.date}
       mode="create"
     />
   );

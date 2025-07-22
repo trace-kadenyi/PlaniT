@@ -5,8 +5,29 @@ export default function TaskFormFields({
   taskError,
   onClose,
   onSubmit,
+  eventDate,
   mode = "create",
 }) {
+  // Calculate min/max dates
+  const today = new Date().toISOString().split("T")[0];
+  const maxDate = eventDate
+    ? new Date(eventDate).toISOString().split("T")[0]
+    : null;
+
+  // Handle date change with validation
+  const handleDateChange = (e) => {
+    const selectedDate = e.target.value;
+
+    // Basic client-side validation
+    if (maxDate && selectedDate > maxDate) {
+      // You can show a toast or inline error here if needed
+      console.warn("Selected date is after event date");
+      return;
+    }
+
+    onFieldChange(e); // Proceed with normal change
+  };
+
   return (
     <form
       onSubmit={onSubmit}
@@ -68,17 +89,46 @@ export default function TaskFormFields({
       </div>
 
       {/* Deadline */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Deadline
+      {/* Enhanced Deadline Field */}
+      <div className="relative">
+        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          Deadline <span className="text-red-500">*</span>
         </label>
         <input
           type="date"
           name="deadline"
           value={form.deadline}
-          onChange={onFieldChange}
+          onChange={handleDateChange}
+          min={today}
+          max={maxDate}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
+        <div className="absolute right-3 top-12 transform -translate-y-1/2 pointer-events-none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-[#9B2C62]"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+        {maxDate && (
+          <p className="text-xs text-gray-500 mt-1">
+            Must be before the event date:{" "}
+            <span className="font-semibold">
+              {new Date(maxDate).toLocaleDateString()}
+            </span>{" "}
+            and after the current date:{" "}
+            <span className="font-semibold">
+              {new Date().toLocaleDateString()}
+            </span>
+          </p>
+        )}
       </div>
 
       {/* Priority & Status */}

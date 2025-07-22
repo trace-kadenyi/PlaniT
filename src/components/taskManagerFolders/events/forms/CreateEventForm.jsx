@@ -95,6 +95,7 @@ export default function CreateEventForm() {
           formData={formData}
           onFieldChange={handleChange}
           onSubmit={handleSubmit}
+          onCancel={() => navigate(`/events`)}
           formStatus={createStatus}
           formError={createError}
           mode="create"
