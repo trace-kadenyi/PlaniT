@@ -13,23 +13,21 @@ export const parseFromDateTimeLocal = (localString) => {
   return new Date(localString).toISOString();
 };
 
+export const formatLocalDateTimeForDisplay = (date) => {
+  return date.toLocaleString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
 
-const formatLocalDateTimeForDisplay = (date) => {
-    return date.toLocaleString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
-
-  const getLocalDateTimeString = () => {
-    const now = new Date();
-    const timezoneOffset = now.getTimezoneOffset() * 60000;
-    const localTime = new Date(now - timezoneOffset);
-    return localTime.toISOString().slice(0, 16);
-  };
+export const getLocalDateTimeString = () => {
+  const now = new Date();
+  const timezoneOffset = now.getTimezoneOffset() * 60000;
+  const localTime = new Date(now - timezoneOffset);
+  return localTime.toISOString().slice(0, 16);
+};
