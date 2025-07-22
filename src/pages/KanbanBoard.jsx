@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTasks, updateTask } from "../redux/tasksSlice";
+import {
+  fetchAllTasks,
+  updateTask,
+  clearUpdateError,
+} from "../redux/tasksSlice";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const KanbanBoard = () => {
@@ -120,6 +124,18 @@ const KanbanBoard = () => {
   return (
     <div className="p-4 bg-white min-h-screen">
       <h1 className="text-2xl font-bold text-[#9B2C62] mb-6">Task Board</h1>
+      {/* update error */}
+      {updateError && (
+        <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
+          <span>Update failed: {updateError}</span>
+          <button
+            onClick={() => dispatch(clearUpdateError())}
+            className="text-[#9B2C62] font-medium"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       {status === "loading" ? (
         <div className="text-[#9B2C62]">Loading tasks...</div>
