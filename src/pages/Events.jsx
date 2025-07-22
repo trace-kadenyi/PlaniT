@@ -24,6 +24,11 @@ export default function Events() {
     dispatch(fetchEvents());
   }, [dispatch]);
 
+  // Sort events by date in ascending order (earliest first)
+  const sortedEvents = [...events].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
   // handle delete event
   const handleDelete = (id) => {
     const duration = 10000; // 10 seconds
@@ -68,7 +73,7 @@ export default function Events() {
 
       {status === "succeeded" && events.length > 0 && (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map((event) => (
+          {sortedEvents.map((event) => (
             <li
               key={event._id}
               className="relative p-6 rounded-xl bg-[#FFF8F2] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)] hover:scale-[1.01] hover:-translate-y-1 transition-all group"
