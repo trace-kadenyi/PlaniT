@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTasks } from "../redux/tasksSlice";
+import { fetchAllTasks, updateTask } from "../redux/tasksSlice";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 const KanbanBoard = () => {
@@ -121,7 +121,7 @@ const KanbanBoard = () => {
   };
 
   // Show loading state during updates
-  if (updateStatus === 'loading') {
+  if (updateTask === 'loading') {
     return <div className="p-4 text-[#9B2C62]">Updating task...</div>;
   }
 
