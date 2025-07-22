@@ -102,6 +102,10 @@ const tasksSlice = createSlice({
       state.createStatus = "idle";
       state.createError = null;
     },
+    clearUpdateError: (state) => {
+      state.updateError = null;
+      state.updateStatus = "idle";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -182,6 +186,10 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { clearTasks, resetTaskStatus, resetCreateState, updateStatus } =
-  tasksSlice.actions;
+export const {
+  clearTasks,
+  resetTaskStatus,
+  resetCreateState,
+  clearUpdateError,
+} = tasksSlice.actions;
 export default tasksSlice.reducer;
