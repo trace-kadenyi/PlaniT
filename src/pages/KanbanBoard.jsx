@@ -16,7 +16,7 @@ const KanbanBoard = () => {
     updateError,
   } = useSelector((state) => state.tasks);
 
-//   sorted tasks
+  //   sorted tasks
   const sortedTasks = useMemo(
     () =>
       [...tasks].sort((a, b) => new Date(a.deadline) - new Date(b.deadline)),
@@ -179,7 +179,9 @@ const KanbanBoard = () => {
 
   return (
     <div className="p-4 bg-white min-h-screen">
-      <h1 className="text-2xl font-bold text-[#9B2C62] my-6 text-center">Task Board</h1>
+      <h1 className="text-2xl font-bold text-[#9B2C62] my-6 text-center">
+        Task Board
+      </h1>
       {/* update error */}
       {updateError && (
         <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
@@ -215,7 +217,11 @@ const KanbanBoard = () => {
                   <div
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    className="bg-white border border-gray-200 rounded-lg p-4 w-72 flex-shrink-0 shadow-sm"
+                    className="bg-white border border-gray-200 rounded-lg p-4 w-72 flex-shrink-0 shadow-sm flex flex-col"
+                    style={{
+                      height: "calc(100vh - 12rem)",
+                      minHeight: "200px",
+                    }}
                   >
                     <h2 className="font-semibold text-[#9B2C62] mb-4 flex items-center">
                       <span
@@ -225,7 +231,7 @@ const KanbanBoard = () => {
                       {column.title} ({column.tasks.length})
                     </h2>
 
-                    <div className="space-y-3">
+                    <div className="space-y-3 overflow-y-auto flex-1">
                       {column.tasks.map((task, index) => (
                         <Draggable
                           key={task.id}
