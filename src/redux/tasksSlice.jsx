@@ -14,6 +14,15 @@ export const fetchTasks = createAsyncThunk(
   }
 );
 
+// Fetch all tasks
+export const fetchAllTasks = createAsyncThunk(
+  "events/fetchAllTasks",
+  async () => {
+    const res = await api.get("/api/tasks");
+    return res.data;
+  }
+);
+
 // Add a new task
 export const addTask = createAsyncThunk(
   "tasks/addTask",
@@ -109,6 +118,21 @@ const tasksSlice = createSlice({
       .addCase(fetchTasks.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload || "Failed to fetch tasks";
+      })
+
+      // Fetch all tasks
+      .addCase(fetchAllTasks.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchAllTasks.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+        state.eventId = action.meta.arg;
+      })
+      .addCase(fetchAllTasks.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload || "Failed to fetch all tasks";
       })
 
       // Add task - Modified to match eventsSlice pattern
