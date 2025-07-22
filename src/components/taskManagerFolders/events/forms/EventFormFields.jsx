@@ -7,6 +7,25 @@ export default function EventFormFields({
   onSubmit,
   mode = "create",
 }) {
+  const formatLocalDateTimeForDisplay = (date) => {
+    return date.toLocaleString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
+  // Keep your existing getLocalDateTimeString function
+  const getLocalDateTimeString = () => {
+    const now = new Date();
+    const timezoneOffset = now.getTimezoneOffset() * 60000;
+    const localTime = new Date(now - timezoneOffset);
+    return localTime.toISOString().slice(0, 16);
+  };
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Event Name */}
@@ -57,7 +76,7 @@ export default function EventFormFields({
             name="date"
             value={formData.date}
             onChange={onFieldChange}
-            min={new Date().toISOString().slice(0, 16)}
+            min={getLocalDateTimeString()}
             className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455] appearance-none"
           />
           {/* Custom calendar icon */}
@@ -77,7 +96,15 @@ export default function EventFormFields({
           </div>
         </div>
         {/* Helper text */}
-        <p className="text-xs text-gray-500 mt-1">Select date and time</p>
+        <div className="text-xs text-gray-500 mt-1 space-y-1">
+          <p>• Select a future date and time</p>
+          <p>
+            • Current local time:{" "}
+            <span className="font-semibold">
+              {formatLocalDateTimeForDisplay(new Date())}
+            </span>
+          </p>
+        </div>
       </div>
 
       {/* Type & Status */}
@@ -158,7 +185,7 @@ export default function EventFormFields({
       {/* Error Message */}
       {formStatus === "failed" && (
         <div className="p-3 bg-red-50 rounded-md">
-          <p className="text-sm text-red-600">Error: {formError}</p>
+          <p className="text-sm text-red-600">{formError}</p>
         </div>
       )}
 
