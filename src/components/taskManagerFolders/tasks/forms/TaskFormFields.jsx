@@ -125,21 +125,7 @@ export default function TaskFormFields({
         )}
       </div>
 
-      {/* Enhanced Error Display */}
-      {taskStatus === "failed" && (
-        <div className="p-3 bg-red-50 rounded-md">
-          <p className="text-red-500 text-sm mt-1">
-            {taskError?.includes('deadline') ? (
-              <>
-                Invalid deadline: {taskError}.<br />
-                The event date is {new Date(eventDate).toLocaleDateString()}
-              </>
-            ) : (
-              taskError
-            )}
-          </p>
-        </div>
-      )}
+
 
       {/* Priority & Status */}
       <div className="grid grid-cols-2 gap-4">
