@@ -33,9 +33,7 @@ export default function CreateTaskForm({ onClose }) {
       const eventDate = new Date(event.date);
 
       if (taskDeadline > eventDate) {
-        toastWithProgress(
-          "Error: Task deadline cannot be after the event date"
-        );
+        toastWithProgress("Task deadline cannot be after the event date");
         return;
       }
     }
