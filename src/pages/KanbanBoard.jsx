@@ -9,7 +9,7 @@ const KanbanBoard = () => {
   const status = useSelector((state) => state.tasks.status);
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === "idle") {
       dispatch(fetchAllTasks());
     }
   }, [status, dispatch]);
@@ -18,29 +18,33 @@ const KanbanBoard = () => {
   const getColumnsFromTasks = () => {
     return {
       todo: {
-        id: 'todo',
-        title: 'To Do',
-        tasks: tasks.filter(task => task.status === 'To Do')
-                   .map(mapTaskToCard)
+        id: "todo",
+        title: "To Do",
+        tasks: tasks
+          .filter((task) => task.status === "To Do")
+          .map(mapTaskToCard),
       },
       inProgress: {
-        id: 'inProgress',
-        title: 'In Progress',
-        tasks: tasks.filter(task => task.status === 'In Progress')
-                   .map(mapTaskToCard)
+        id: "inProgress",
+        title: "In Progress",
+        tasks: tasks
+          .filter((task) => task.status === "In Progress")
+          .map(mapTaskToCard),
       },
       inReview: {
-        id: 'inReview',
-        title: 'In Review',
-        tasks: tasks.filter(task => task.status === 'In Review')
-                   .map(mapTaskToCard)
+        id: "inReview",
+        title: "In Review",
+        tasks: tasks
+          .filter((task) => task.status === "In Review")
+          .map(mapTaskToCard),
       },
       completed: {
-        id: 'completed',
-        title: 'Completed',
-        tasks: tasks.filter(task => task.status === 'Completed')
-                   .map(mapTaskToCard)
-      }
+        id: "completed",
+        title: "Completed",
+        tasks: tasks
+          .filter((task) => task.status === "Completed")
+          .map(mapTaskToCard),
+      },
     };
   };
 
@@ -48,12 +52,14 @@ const KanbanBoard = () => {
   const mapTaskToCard = (task) => ({
     id: task._id,
     title: task.title,
-    event: task.eventId?.name || 'Unassigned',
-    due: task.deadline ? new Date(task.deadline).toLocaleDateString() : 'No deadline',
+    event: task.eventId?.name || "Unassigned",
+    due: task.deadline
+      ? new Date(task.deadline).toLocaleDateString()
+      : "No deadline",
     priority: task.priority.toLowerCase(),
     assignee: task.assignedTo,
     status: task.status, // Include status for updates
-    originalData: task // Keep reference to original
+    originalData: task, // Keep reference to original
   });
 
   const [columns, setColumns] = useState(getColumnsFromTasks());
@@ -65,16 +71,16 @@ const KanbanBoard = () => {
 
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
-    
+
     if (!destination) return;
     if (source.droppableId === destination.droppableId) return;
 
     // Determine new status based on destination column
     const newStatus = {
-      'todo': 'To Do',
-      'inProgress': 'In Progress',
-      'inReview': 'In Review',
-      'completed': 'Completed'
+      todo: "To Do",
+      inProgress: "In Progress",
+      inReview: "In Review",
+      completed: "Completed",
     }[destination.droppableId];
 
     try {
@@ -82,14 +88,17 @@ const KanbanBoard = () => {
       const updatedColumns = { ...columns };
       const sourceTasks = [...updatedColumns[source.droppableId].tasks];
       const [movedTask] = sourceTasks.splice(source.index, 1);
-      
+
       movedTask.status = newStatus;
-      updatedColumns[destination.droppableId].tasks.splice(destination.index, 0, movedTask);
+      updatedColumns[destination.droppableId].tasks.splice(
+        destination.index,
+        0,
+        movedTask
+      );
       setColumns(updatedColumns);
 
       // TODO: Dispatch Redux action to update task status in backend
       // await dispatch(updateTaskStatus({ taskId: draggableId, status: newStatus }));
-      
     } catch (err) {
       // Revert if update fails
       setColumns(getColumnsFromTasks());
@@ -100,7 +109,7 @@ const KanbanBoard = () => {
     <div className="p-4 bg-[#242424] min-h-screen">
       <h1 className="text-2xl font-bold text-white mb-6">Task Board</h1>
 
-      {status === 'loading' ? (
+      {status === "loading" ? (
         <div className="text-white">Loading tasks...</div>
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -114,13 +123,17 @@ const KanbanBoard = () => {
                     className="bg-[#2D2D2D] rounded-lg p-4 w-72 flex-shrink-0"
                   >
                     <h2 className="font-semibold text-white mb-4 flex items-center">
-                      <span 
+                      <span
                         className="inline-block w-3 h-3 rounded-full mr-2"
                         style={{
                           backgroundColor:
-                            column.id === "todo" ? "#F59E0B" :
-                            column.id === "inProgress" ? "#3B82F6" :
-                            column.id === "inReview" ? "#8B5CF6" : "#10B981"
+                            column.id === "todo"
+                              ? "#F59E0B"
+                              : column.id === "inProgress"
+                              ? "#3B82F6"
+                              : column.id === "inReview"
+                              ? "#8B5CF6"
+                              : "#10B981",
                         }}
                       ></span>
                       {column.title} ({column.tasks.length})
@@ -128,7 +141,11 @@ const KanbanBoard = () => {
 
                     <div className="space-y-3">
                       {column.tasks.map((task, index) => (
-                        <Draggable key={task.id} draggableId={task.id} index={index}>
+                        <Draggable
+                          key={task.id}
+                          draggableId={task.id}
+                          index={index}
+                        >
                           {(provided) => (
                             <div
                               ref={provided.innerRef}
@@ -140,7 +157,7 @@ const KanbanBoard = () => {
                                 <h3 className="font-medium text-white">
                                   {task.title}
                                 </h3>
-                                {task.priority === 'high' && (
+                                {task.priority === "high" && (
                                   <span className="text-xs bg-[#BE3455] text-white px-2 py-1 rounded-full">
                                     {task.priority}
                                   </span>
@@ -166,6 +183,12 @@ const KanbanBoard = () => {
                           )}
                         </Draggable>
                       ))}
+                      {/* Add empty state here */}
+                      {column.tasks.length === 0 && (
+                        <div className="text-gray-400 text-sm italic p-2 text-center">
+                          No tasks here yet
+                        </div>
+                      )}
                       {provided.placeholder}
                     </div>
                   </div>
