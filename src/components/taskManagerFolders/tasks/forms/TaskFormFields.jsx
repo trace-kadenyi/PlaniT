@@ -26,6 +26,8 @@ export default function TaskFormFields({
     
     onFieldChange(e); // Proceed with normal change
   };
+
+
   return (
     <form
       onSubmit={onSubmit}
@@ -87,15 +89,19 @@ export default function TaskFormFields({
       </div>
 
       {/* Deadline */}
+      {/* Enhanced Deadline Field */}
       <div className="relative">
         <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
-          Deadline
+          Deadline <span className="text-red-500">*</span>
         </label>
         <input
           type="date"
           name="deadline"
           value={form.deadline}
-          onChange={onFieldChange}
+          onChange={handleDateChange}
+          min={today}
+          max={maxDate}
+          required
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
         <div className="absolute right-3 top-12 transform -translate-y-1/2 pointer-events-none">
@@ -112,7 +118,28 @@ export default function TaskFormFields({
             />
           </svg>
         </div>
+        {maxDate && (
+          <p className="text-xs text-gray-500 mt-1">
+            Must be before {new Date(maxDate).toLocaleDateString()}
+          </p>
+        )}
       </div>
+
+      {/* Enhanced Error Display */}
+      {taskStatus === "failed" && (
+        <div className="p-3 bg-red-50 rounded-md">
+          <p className="text-red-500 text-sm mt-1">
+            {taskError?.includes('deadline') ? (
+              <>
+                Invalid deadline: {taskError}.<br />
+                The event date is {new Date(eventDate).toLocaleDateString()}
+              </>
+            ) : (
+              taskError
+            )}
+          </p>
+        </div>
+      )}
 
       {/* Priority & Status */}
       <div className="grid grid-cols-2 gap-4">
