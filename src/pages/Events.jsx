@@ -12,7 +12,7 @@ import {
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
 import EditDeleteEvent from "../components/shared/EditDeleteEvent";
-import logo from "../assets/logo21.svg"
+import logo from "../assets/logo21.svg";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -58,9 +58,6 @@ export default function Events() {
           + Create New Event
         </button>
       </div>
-<div className="w-[520px] h-[520px] bg-black"><img src={logo} /></div>
-      
-
       {status === "loading" && (
         <p className="text-gray-600">Loading events...</p>
       )}
