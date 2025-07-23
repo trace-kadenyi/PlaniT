@@ -144,13 +144,15 @@ export const getInitialColumns = () => ({
   },
 });
 
-// utils/dashboardHelpers.js
+// filter tasks func
 export const filterTasks = (
   tasks,
   filters,
   filterByDateRange,
   customDateRange = null
 ) => {
+  const searchTerm = filters.search?.toLowerCase() || "";
+
   return tasks.filter((task) => {
     const matchesPriority =
       filters.priority === "all" ||
@@ -162,7 +164,13 @@ export const filterTasks = (
       filters.dateRange,
       filters.dateRange === "custom" ? customDateRange : null
     );
-    return matchesPriority && matchesAssignee && matchesDate;
+    const matchesSearch =
+      searchTerm === "" ||
+      task.title.toLowerCase().includes(searchTerm) ||
+      (task.eventName && task.eventName.toLowerCase().includes(searchTerm)) ||
+      (task.assignedTo && task.assignedTo.toLowerCase().includes(searchTerm));
+
+    return matchesPriority && matchesAssignee && matchesDate && matchesSearch;
   });
 };
 
