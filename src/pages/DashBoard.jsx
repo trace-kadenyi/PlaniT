@@ -7,7 +7,7 @@ import {
 } from "../redux/tasksSlice";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Link } from "react-router-dom";
-import { mapTaskToCard } from "../utils/dashboardHelpers";
+import { mapTaskToCard, getColumnsFromTasks } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
   const dispatch = useDispatch();
@@ -26,43 +26,11 @@ export default function DashBoard() {
   );
 
   // Memoize the task mapping function
-   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
+  const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
 
   // Memoize the columns creation
-  const getColumnsFromTasks = useCallback(() => {
-    const filteredTasks = {
-      todo: sortedTasks.filter((task) => task.status === "To Do"),
-      inProgress: sortedTasks.filter((task) => task.status === "In Progress"),
-      inReview: sortedTasks.filter((task) => task.status === "In Review"),
-      completed: sortedTasks.filter((task) => task.status === "Completed"),
-    };
-
-    return {
-      todo: {
-        id: "todo",
-        title: "To Do",
-        tasks: filteredTasks.todo.map(mapTaskToCardMemoized),
-        color: "#F59E0B",
-      },
-      inProgress: {
-        id: "inProgress",
-        title: "In Progress",
-        tasks: filteredTasks.inProgress.map(mapTaskToCardMemoized),
-        color: "#FF7E33",
-      },
-      inReview: {
-        id: "inReview",
-        title: "In Review",
-        tasks: filteredTasks.inReview.map(mapTaskToCardMemoized),
-        color: "#9B2C62",
-      },
-      completed: {
-        id: "completed",
-        title: "Completed",
-        tasks: filteredTasks.completed.map(mapTaskToCardMemoized),
-        color: "#4CAF50",
-      },
-    };
+  const getColumnsFromTasksMemoized = useCallback(() => {
+    return getColumnsFromTasks(sortedTasks, mapTaskToCardMemoized);
   }, [sortedTasks, mapTaskToCardMemoized]);
 
   // Initialize columns with empty state
@@ -96,9 +64,9 @@ export default function DashBoard() {
   // Update columns when tasks change
   useEffect(() => {
     if (tasks.length > 0 || fetchStatus === "succeeded") {
-      setColumns(getColumnsFromTasks());
+      setColumns(getColumnsFromTasksMemoized());
     }
-  }, [tasks, fetchStatus, getColumnsFromTasks]);
+  }, [tasks, fetchStatus, getColumnsFromTasksMemoized]);
 
   //   drag and drop function
   const onDragEnd = async (result) => {
