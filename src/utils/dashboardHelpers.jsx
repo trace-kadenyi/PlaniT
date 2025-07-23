@@ -116,6 +116,34 @@ export const handleDragEnd = async (
   }
 };
 
+// get initial columns
+export const getInitialColumns = () => ({
+  todo: {
+    id: "todo",
+    title: "To Do",
+    tasks: [],
+    color: "#F59E0B",
+  },
+  inProgress: {
+    id: "inProgress",
+    title: "In Progress",
+    tasks: [],
+    color: "#FF7E33",
+  },
+  inReview: {
+    id: "inReview",
+    title: "In Review",
+    tasks: [],
+    color: "#9B2C62",
+  },
+  completed: {
+    id: "completed",
+    title: "Completed",
+    tasks: [],
+    color: "#4CAF50",
+  },
+});
+
 // loading state
 export const LoadingDashboard = () => {
   return (
