@@ -43,35 +43,8 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
 
 .filter-dropdown:focus {
   outline: none;
-  border-color: #9b2c62;
+  /* border-color: #9b2c62; */
   box-shadow: 0 0 0 2px rgba(155, 44, 98, 0.15);
-}
-
-/* Priority option styles */
-.priority-option {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-}
-
-.priority-dot {
-  display: inline-block;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-}
-
-.priority-high {
-  background-color: #f59e0b;
-}
-
-.priority-medium {
-  background-color: #3b82f6;
-}
-
-.priority-low {
-  background-color: #9ca3af;
 }
 
 .filter-dropdown option.high {
@@ -90,4 +63,18 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Ccircle cx='4' cy='4' r='4' fill='%239CA3AF'/%3E%3C/svg%3E")
     no-repeat left center;
   padding-left: 20px;
+}
+
+/* Hover/selected states */
+.filter-dropdown option:hover,
+.filter-dropdown option:focus,
+.filter-dropdown option:checked {
+  background-color: #f3e8ed !important;
+  color: #9b2c62 !important;
+}
+
+/* For Firefox - removes dotted outline */
+.filter-dropdown option:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #9b2c62;
 }
