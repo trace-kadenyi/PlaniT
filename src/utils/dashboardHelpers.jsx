@@ -15,12 +15,12 @@ export const mapTaskToCard = (task) => ({
 });
 
 // get columns from tasks func
-export const getColumnsFromTasks = (sortedTasks, mapTaskToCardFn) => {
+export const getColumnsFromTasks = (tasks, mapTaskToCardFn) => {
   const filteredTasks = {
-    todo: sortedTasks.filter((task) => task.status === "To Do"),
-    inProgress: sortedTasks.filter((task) => task.status === "In Progress"),
-    inReview: sortedTasks.filter((task) => task.status === "In Review"),
-    completed: sortedTasks.filter((task) => task.status === "Completed"),
+    todo: tasks.filter((task) => task.status === "To Do"),
+    inProgress: tasks.filter((task) => task.status === "In Progress"),
+    inReview: tasks.filter((task) => task.status === "In Review"),
+    completed: tasks.filter((task) => task.status === "Completed"),
   };
 
   return {
