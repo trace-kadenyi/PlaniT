@@ -103,10 +103,8 @@ const KanbanBoard = () => {
 
   // Fetch all tasks
   useEffect(() => {
-    if (fetchStatus === "idle") {
-      dispatch(fetchAllTasks());
-    }
-  }, [fetchStatus, dispatch]);
+    dispatch(fetchAllTasks());
+  }, [dispatch]);
 
   // Update columns when tasks change
   useEffect(() => {
@@ -210,7 +208,7 @@ const KanbanBoard = () => {
 
       {/* loading state */}
       {fetchStatus === "loading" ? (
-        <div className="flex space-x-4 animate-pulse">
+        <div className="flex space-x-4 animate-pulse justify-center">
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className="bg-gray-100 rounded-lg p-4 w-72 h-64"></div>
           ))}
@@ -264,21 +262,21 @@ const KanbanBoard = () => {
                               </div>
 
                               <div className="mt-2 flex items-center text-xs text-gray-600">
-  {task.eventId ? (
-    <Link 
-      to={`/events/${task.eventId}`} 
-      className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2 hover:underline"
-      onClick={(e) => e.stopPropagation()} // Prevent drag when clicking
-    >
-      {task.event}
-    </Link>
-  ) : (
-    <span className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2">
-      {task.event}
-    </span>
-  )}
-  <span>Due: {task.due}</span>
-</div>
+                                {task.eventId ? (
+                                  <Link
+                                    to={`/events/${task.eventId}`}
+                                    className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2 hover:underline"
+                                    onClick={(e) => e.stopPropagation()} // Prevent drag when clicking
+                                  >
+                                    {task.event}
+                                  </Link>
+                                ) : (
+                                  <span className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2">
+                                    {task.event}
+                                  </span>
+                                )}
+                                <span>Due: {task.due}</span>
+                              </div>
 
                               <div className="mt-3 flex justify-between items-center text-xs">
                                 <span className="text-gray-500">
