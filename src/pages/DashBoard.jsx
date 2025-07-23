@@ -67,8 +67,11 @@ export default function DashBoard() {
 
   // Memoize the columns creation
   const getColumnsFromTasksMemoized = useCallback(() => {
-    return getColumnsFromTasks(filteredTasks, mapTaskToCardMemoized);
-  }, [filteredTasks, mapTaskToCardMemoized]);
+    return getColumnsFromTasks(
+      filteredTasks, // Always use filteredTasks
+      mapTaskToCardMemoized
+    );
+  }, [filteredTasks, mapTaskToCardMemoized]); // Remove tasks and columnsInitialized from deps
 
   // Initialize columns with empty state
   const [columns, setColumns] = useState(() => getInitialColumns);
@@ -80,15 +83,28 @@ export default function DashBoard() {
 
   // Update columns when tasks change
   useEffect(() => {
-    if (!columnsInitialized && fetchStatus === "succeeded") {
-      setColumns(getColumnsFromTasksMemoized());
-      setColumnsInitialized(true); // prevent future resets
+    if (fetchStatus === "succeeded") {
+      // Only update columns if not initialized OR if search filter changes
+      if (!columnsInitialized || filters.search) {
+        setColumns(getColumnsFromTasksMemoized());
+      }
+      if (!columnsInitialized) setColumnsInitialized(true);
     }
-  }, [fetchStatus, getColumnsFromTasksMemoized, columnsInitialized]);
+  }, [fetchStatus, filteredTasks, columnsInitialized, filters.search]);
+
+  // Handle priority/assignee/date filters
+  useEffect(() => {
+    if (columnsInitialized && fetchStatus === "succeeded") {
+      setColumns(getColumnsFromTasksMemoized());
+    }
+  }, [filters.priority, filters.assignee, filters.dateRange, customDateRange]);
 
   //   drag and drop function
   const onDragEnd = useCallback(
-    (result) => handleDragEnd(result, { tasks, columns, setColumns, dispatch }),
+    (result) => {
+      handleDragEnd(result, { tasks, columns, setColumns, dispatch });
+      // ✅ DON’T modify columnsInitialized here
+    },
     [tasks, columns, setColumns, dispatch]
   );
 
