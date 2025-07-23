@@ -23,7 +23,7 @@ function App() {
           <Route path="/events/:id" element={<Event />} />
           <Route path="/events/:id/edit" element={<EditEventForm />} />
           <Route path="/events/create" element={<CreateEventForm />} />
-<Route path="/board" element={<KanbanBoard />} />
+          <Route path="/board" element={<KanbanBoard />} />
         </Routes>
         <Footer />
       </Router>
