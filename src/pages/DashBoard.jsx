@@ -14,6 +14,11 @@ import {
 } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
+  // Filter state
+  const [filters, setFilters] = useState({
+    priority: "all",
+    assignee: "all",
+  });
   const dispatch = useDispatch();
   const {
     items: tasks,
@@ -33,9 +38,26 @@ export default function DashBoard() {
   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
 
   // Memoize the columns creation
+  // const getColumnsFromTasksMemoized = useCallback(() => {
+  //   return getColumnsFromTasks(sortedTasks, mapTaskToCardMemoized);
+  // }, [sortedTasks, mapTaskToCardMemoized]);
+
+   // Filter tasks based on current filters
+  const filteredTasks = useMemo(() => {
+    return sortedTasks.filter(task => {
+      const matchesPriority = filters.priority === 'all' || 
+                            task.priority.toLowerCase() === filters.priority;
+      const matchesAssignee = filters.assignee === 'all' || 
+                            task.assignedTo === filters.assignee;
+                            
+      return matchesPriority && matchesAssignee;
+    });
+  }, [sortedTasks, filters]);
+
+    // Update getColumnsFromTasksMemoized to use filteredTasks
   const getColumnsFromTasksMemoized = useCallback(() => {
-    return getColumnsFromTasks(sortedTasks, mapTaskToCardMemoized);
-  }, [sortedTasks, mapTaskToCardMemoized]);
+    return getColumnsFromTasks(filteredTasks, mapTaskToCardMemoized);
+  }, [filteredTasks, mapTaskToCardMemoized]);
 
   // Initialize columns with empty state
   const [columns, setColumns] = useState(() => getInitialColumns);
@@ -58,8 +80,25 @@ export default function DashBoard() {
     [tasks, columns, setColumns, dispatch]
   );
 
+  
+  // Get unique assignees for filter dropdown
+  const assignees = useMemo(() => {
+    const uniqueAssignees = new Set();
+    tasks.forEach(task => {
+      if (task.assignedTo) uniqueAssignees.add(task.assignedTo);
+    });
+    return ['all', ...Array.from(uniqueAssignees)];
+  }, [tasks]);
+
+ 
+
+  // // Update getColumnsFromTasksMemoized to use filteredTasks
+  // const getColumnsFromTasksMemoized = useCallback(() => {
+  //   return getColumnsFromTasks(filteredTasks, mapTaskToCardMemoized);
+  // }, [filteredTasks, mapTaskToCardMemoized]);
+
   return (
-    <div className="p-4 bg-white min-h-screen">
+        <div className="p-4 bg-white min-h-screen">
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold text-[#9B2C62] my-2">Task Board</h1>
         <p className="text-gray-600 max-w-4xl mx-auto">
@@ -67,6 +106,44 @@ export default function DashBoard() {
           automatically sorted by due date - stay organized and track your
           workflow at a glance!
         </p>
+        
+        {/* Filter Controls */}
+        <div className="flex justify-center gap-4 mt-4">
+          <div className="flex items-center gap-2">
+            <label htmlFor="priority-filter" className="text-sm font-medium text-gray-700">
+              Priority:
+            </label>
+            <select
+              id="priority-filter"
+              className="rounded-md border-gray-300 shadow-sm focus:border-[#9B2C62] focus:ring focus:ring-[#9B2C62] focus:ring-opacity-50"
+              value={filters.priority}
+              onChange={(e) => setFilters({...filters, priority: e.target.value})}
+            >
+              <option value="all">All Priorities</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <label htmlFor="assignee-filter" className="text-sm font-medium text-gray-700">
+              Assignee:
+            </label>
+            <select
+              id="assignee-filter"
+              className="rounded-md border-gray-300 shadow-sm focus:border-[#9B2C62] focus:ring focus:ring-[#9B2C62] focus:ring-opacity-50"
+              value={filters.assignee}
+              onChange={(e) => setFilters({...filters, assignee: e.target.value})}
+            >
+              {assignees.map(assignee => (
+                <option key={assignee} value={assignee}>
+                  {assignee === 'all' ? 'All Assignees' : assignee}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
       {/* update error */}
       {updateError && (
