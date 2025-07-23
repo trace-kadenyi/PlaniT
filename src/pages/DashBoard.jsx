@@ -112,52 +112,67 @@ export default function DashBoard() {
                             <div
                               ref={provided.innerRef}
                               {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow"
+                              className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative"
                             >
-                              <div className="flex justify-between items-start">
-                                <h3 className="font-medium text-gray-800">
-                                  {task.title}
-                                </h3>
-                                {task.priority === "high" && (
-                                  <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
+                              <div
+                                {...provided.dragHandleProps}
+                                className="absolute inset-0 cursor-grab z-10"
+                                style={{ pointerEvents: "auto" }}
+                              />
+
+                              {/* Card content */}
+                              <div
+                                className="relative z-20"
+                                style={{ pointerEvents: "none" }}
+                              >
+                                <div className="flex justify-between items-start">
+                                  <h3 className="font-medium text-gray-800">
+                                    {task.title}
+                                  </h3>
+                                  {task.priority === "high" && (
+                                    <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
+                                      {task.priority}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div className="mt-2 flex items-center text-xs text-gray-600">
+                                  {task.eventId ? (
+                                    <Link
+                                      to={`/events/${task.eventId}`}
+                                      className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2 hover:underline"
+                                      style={{ pointerEvents: "auto" }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        e.nativeEvent.stopImmediatePropagation();
+                                      }}
+                                    >
+                                      {task.event}
+                                    </Link>
+                                  ) : (
+                                    <span className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2">
+                                      {task.event}
+                                    </span>
+                                  )}
+                                  <span>Due: {task.due}</span>
+                                </div>
+
+                                <div className="mt-3 flex justify-between items-center text-xs">
+                                  <span className="text-gray-500">
+                                    {task.assignee}
+                                  </span>
+                                  <span
+                                    className={`px-2 py-1 rounded ${
+                                      task.priority === "high"
+                                        ? "bg-[#F59E0B]/20 text-[#F59E0B]"
+                                        : task.priority === "medium"
+                                        ? "bg-blue-100 text-blue-800"
+                                        : "bg-gray-100 text-gray-800"
+                                    }`}
+                                  >
                                     {task.priority}
                                   </span>
-                                )}
-                              </div>
-
-                              <div className="mt-2 flex items-center text-xs text-gray-600">
-                                {task.eventId ? (
-                                  <Link
-                                    to={`/events/${task.eventId}`}
-                                    className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2 hover:underline"
-                                    onClick={(e) => e.stopPropagation()} // Prevent drag when clicking
-                                  >
-                                    {task.event}
-                                  </Link>
-                                ) : (
-                                  <span className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2">
-                                    {task.event}
-                                  </span>
-                                )}
-                                <span>Due: {task.due}</span>
-                              </div>
-
-                              <div className="mt-3 flex justify-between items-center text-xs">
-                                <span className="text-gray-500">
-                                  {task.assignee}
-                                </span>
-                                <span
-                                  className={`px-2 py-1 rounded ${
-                                    task.priority === "high"
-                                      ? "bg-[#F59E0B]/20 text-[#F59E0B]"
-                                      : task.priority === "medium"
-                                      ? "bg-blue-100 text-blue-800"
-                                      : "bg-gray-100 text-gray-800"
-                                  }`}
-                                >
-                                  {task.priority}
-                                </span>
+                                </div>
                               </div>
                             </div>
                           )}
