@@ -43,16 +43,22 @@ export default function FilterBox({
           <div className="relative">
             <select
               id="priority-filter"
-              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#9B2C62] focus:border-[#9B2C62] rounded-md shadow-sm bg-white"
+              className="filter-dropdown block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 focus:border-[#9B2C62] focus:ring-1 focus:ring-[#9B2C62]"
               value={filters.priority}
               onChange={(e) =>
                 setFilters({ ...filters, priority: e.target.value })
               }
             >
               <option value="all">All Priorities</option>
-              <option value="high">High Priority</option>
-              <option value="medium">Medium Priority</option>
-              <option value="low">Low Priority</option>
+              <option value="high" className="high">
+                High Priority
+              </option>
+              <option value="medium" className="medium">
+                Medium Priority
+              </option>
+              <option value="low" className="low">
+                Low Priority
+              </option>
             </select>
           </div>
         </div>
@@ -65,14 +71,14 @@ export default function FilterBox({
           <div className="relative">
             <select
               id="assignee-filter"
-              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#9B2C62] focus:border-[#9B2C62] rounded-md shadow-sm bg-white"
+              className="filter-dropdown block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 focus:border-[#9B2C62] focus:ring-1 focus:ring-[#9B2C62]"
               value={filters.assignee}
               onChange={(e) =>
                 setFilters({ ...filters, assignee: e.target.value })
               }
             >
               {assignees.map((assignee) => (
-                <option key={assignee} value={assignee}>
+                <option key={assignee} value={assignee} className="py-1">
                   {assignee === "all" ? "All Assignees" : assignee}
                 </option>
               ))}
@@ -88,14 +94,14 @@ export default function FilterBox({
           <div className="relative">
             <select
               id="date-filter"
-              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#9B2C62] focus:border-[#9B2C62] rounded-md shadow-sm bg-white"
+              className="filter-dropdown block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 focus:border-[#9B2C62] focus:ring-1 focus:ring-[#9B2C62]"
               value={filters.dateRange}
               onChange={(e) =>
                 setFilters({ ...filters, dateRange: e.target.value })
               }
             >
               {Object.entries(dateFilters).map(([value, label]) => (
-                <option key={value} value={value}>
+                <option key={value} value={value} className="py-1">
                   {label}
                 </option>
               ))}
