@@ -9,7 +9,7 @@ import Events from "./pages/Events";
 import Event from "./pages/Event";
 import EditEventForm from "./components/taskManagerFolders/events/forms/EditEventForm";
 import CreateEventForm from "./components/taskManagerFolders/events/forms/CreateEventForm";
-import KanbanBoard from "./pages/KanbanBoard";
+import DashBoard from "./pages/DashBoard";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path="/events/:id" element={<Event />} />
           <Route path="/events/:id/edit" element={<EditEventForm />} />
           <Route path="/events/create" element={<CreateEventForm />} />
-          <Route path="/board" element={<KanbanBoard />} />
+          <Route path="/board" element={<DashBoard />} />
         </Routes>
         <Footer />
       </Router>
