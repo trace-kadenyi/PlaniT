@@ -1,4 +1,4 @@
-import { updateTask } from "../redux/tasksSlice";
+import { updateTask, clearUpdateError } from "../redux/tasksSlice";
 
 // map task to card func
 export const mapTaskToCard = (task) => ({
@@ -123,6 +123,21 @@ export const LoadingDashboard = () => {
       {[1, 2, 3, 4].map((i) => (
         <div key={i} className="bg-gray-100 rounded-lg p-4 w-72 h-64"></div>
       ))}
+    </div>
+  );
+};
+
+// update error render
+export const UpdateDashboardError = ({ updateError, dispatch }) => {
+  return (
+    <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
+      <span>Update failed: {updateError}</span>
+      <button
+        onClick={() => dispatch(clearUpdateError())}
+        className="text-[#9B2C62] font-medium"
+      >
+        Retry
+      </button>
     </div>
   );
 };
