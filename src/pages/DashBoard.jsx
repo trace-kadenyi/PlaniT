@@ -7,7 +7,11 @@ import {
 } from "../redux/tasksSlice";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Link } from "react-router-dom";
-import { mapTaskToCard, getColumnsFromTasks } from "../utils/dashboardHelpers";
+import {
+  mapTaskToCard,
+  getColumnsFromTasks,
+  handleDragEnd,
+} from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
   const dispatch = useDispatch();
@@ -69,68 +73,10 @@ export default function DashBoard() {
   }, [tasks, fetchStatus, getColumnsFromTasksMemoized]);
 
   //   drag and drop function
-  const onDragEnd = async (result) => {
-    const { source, destination, draggableId } = result;
-
-    if (!destination || source.droppableId === destination.droppableId) return;
-
-    const statusMap = {
-      todo: "To Do",
-      inProgress: "In Progress",
-      inReview: "In Review",
-      completed: "Completed",
-    };
-    const newStatus = statusMap[destination.droppableId];
-
-    // Find the original task with populated event data
-    const originalTask = tasks.find((task) => task._id === draggableId);
-    if (!originalTask) return;
-
-    // Store current columns for rollback
-    const currentColumns = columns;
-
-    try {
-      // Optimistic update
-      setColumns((prevColumns) => {
-        const newColumns = JSON.parse(JSON.stringify(prevColumns));
-        const sourceColumn = newColumns[source.droppableId];
-        const destColumn = newColumns[destination.droppableId];
-
-        // Find and remove the task
-        const taskIndex = sourceColumn.tasks.findIndex(
-          (t) => t.id === draggableId
-        );
-        if (taskIndex === -1) return prevColumns;
-
-        const [movedTask] = sourceColumn.tasks.splice(taskIndex, 1);
-
-        // Create new task with guaranteed event data
-        const updatedTask = {
-          ...movedTask,
-          status: newStatus,
-          event:
-            originalTask.eventName ||
-            originalTask.eventId?.name ||
-            "Unassigned",
-        };
-
-        destColumn.tasks.splice(destination.index, 0, updatedTask);
-
-        return newColumns;
-      });
-
-      // API update
-      await dispatch(
-        updateTask({
-          taskId: draggableId,
-          updatedData: { status: newStatus },
-        })
-      ).unwrap();
-    } catch (err) {
-      setColumns(currentColumns);
-      console.error("Task update failed:", err);
-    }
-  };
+  const onDragEnd = useCallback(
+    (result) => handleDragEnd(result, { tasks, columns, setColumns, dispatch }),
+    [tasks, columns, setColumns, dispatch]
+  );
 
   return (
     <div className="p-4 bg-white min-h-screen">
