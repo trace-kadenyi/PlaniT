@@ -1,5 +1,5 @@
 import { updateTask, clearUpdateError } from "../redux/tasksSlice";
-import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
+import { taskToastProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 
 // map task to card func
 export const mapTaskToCard = (task) => ({
@@ -79,6 +79,7 @@ export const handleDragEnd = async (
   try {
     // Store the task title before optimistic update
     const taskTitle = originalTask.title;
+    const formerStatus = originalTask.status;
     // Optimistic update
     setColumns((prevColumns) => {
       const newColumns = JSON.parse(JSON.stringify(prevColumns));
@@ -113,9 +114,12 @@ export const handleDragEnd = async (
         updatedData: { status: newStatus },
       })
     ).unwrap();
-    toastWithProgress(
+    taskToastProgress(
       <span>
-        Status of <strong>{taskTitle}</strong> successfully updated.
+        Status of <span className="font-bold">{taskTitle}</span> successfully
+        updated from{" "}
+        <span className="font-semibold text-[#9B2C62]">{formerStatus}</span> to{" "}
+        <span className="font-semibold text-[#9B2C62]">{newStatus}</span>.
       </span>
     );
   } catch (err) {
