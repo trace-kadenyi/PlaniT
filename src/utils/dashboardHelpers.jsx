@@ -144,7 +144,27 @@ export const getInitialColumns = () => ({
   },
 });
 
-
+// utils/dashboardHelpers.js
+export const filterTasks = (
+  tasks,
+  filters,
+  filterByDateRange,
+  customDateRange = null
+) => {
+  return tasks.filter((task) => {
+    const matchesPriority =
+      filters.priority === "all" ||
+      task.priority.toLowerCase() === filters.priority;
+    const matchesAssignee =
+      filters.assignee === "all" || task.assignedTo === filters.assignee;
+    const matchesDate = filterByDateRange(
+      task,
+      filters.dateRange,
+      filters.dateRange === "custom" ? customDateRange : null
+    );
+    return matchesPriority && matchesAssignee && matchesDate;
+  });
+};
 
 // loading state
 export const LoadingDashboard = () => {
