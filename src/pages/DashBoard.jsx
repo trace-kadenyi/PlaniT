@@ -167,7 +167,7 @@ export default function DashBoard() {
                                         ? "bg-[#F59E0B]/20 text-[#F59E0B]"
                                         : task.priority === "medium"
                                         ? "bg-blue-100 text-blue-800"
-                                        : "bg-gray-100 text-gray-800"
+                                        : "bg-gray-200 text-gray-800"
                                     }`}
                                   >
                                     {task.priority}
