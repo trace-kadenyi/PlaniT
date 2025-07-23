@@ -14,6 +14,15 @@ export const fetchTasks = createAsyncThunk(
   }
 );
 
+// Fetch all tasks
+export const fetchAllTasks = createAsyncThunk(
+  "events/fetchAllTasks",
+  async () => {
+    const res = await api.get("/api/tasks");
+    return res.data;
+  }
+);
+
 // Add a new task
 export const addTask = createAsyncThunk(
   "tasks/addTask",
@@ -93,6 +102,10 @@ const tasksSlice = createSlice({
       state.createStatus = "idle";
       state.createError = null;
     },
+    clearUpdateError: (state) => {
+      state.updateError = null;
+      state.updateStatus = "idle";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -109,6 +122,21 @@ const tasksSlice = createSlice({
       .addCase(fetchTasks.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload || "Failed to fetch tasks";
+      })
+
+      // Fetch all tasks
+      .addCase(fetchAllTasks.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchAllTasks.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+        state.eventId = action.meta.arg;
+      })
+      .addCase(fetchAllTasks.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload || "Failed to fetch all tasks";
       })
 
       // Add task - Modified to match eventsSlice pattern
@@ -135,7 +163,14 @@ const tasksSlice = createSlice({
         const index = state.items.findIndex(
           (t) => t._id === action.payload._id
         );
-        if (index !== -1) state.items[index] = action.payload;
+        if (index !== -1) {
+          // Preserve the eventName if it exists in the current state
+          const eventName = state.items[index].eventName;
+          state.items[index] = {
+            ...action.payload,
+            eventName: action.payload.eventName || eventName,
+          };
+        }
       })
       .addCase(updateTask.rejected, (state, action) => {
         state.status = "failed";
@@ -158,6 +193,10 @@ const tasksSlice = createSlice({
   },
 });
 
-export const { clearTasks, resetTaskStatus, resetCreateState } =
-  tasksSlice.actions;
+export const {
+  clearTasks,
+  resetTaskStatus,
+  resetCreateState,
+  clearUpdateError,
+} = tasksSlice.actions;
 export default tasksSlice.reducer;

@@ -1,11 +1,22 @@
 import { Pencil, Trash2, Plus, XCircle } from "lucide-react";
 
 export default function TaskCard({
-    tasks, setTaskToEdit, setShowCreateTaskForm, handleTaskDelete
+  tasks,
+  setTaskToEdit,
+  setShowCreateTaskForm,
+  handleTaskDelete,
 }) {
+  // Sort tasks by deadline (earliest first)
+  const sortedTasks = [...tasks].sort((a, b) => {
+    // Handle cases where deadline might be missing
+    if (!a.deadline && !b.deadline) return 0;
+    if (!a.deadline) return 1; // tasks without deadline go to the end
+    if (!b.deadline) return -1; // tasks without deadline go to the end
+    return new Date(a.deadline) - new Date(b.deadline);
+  });
   return (
     <ul className="grid sm:grid-cols-2 gap-4">
-      {tasks.map((task) => (
+      {sortedTasks.map((task) => (
         <li
           key={task._id}
           className="relative bg-[#FFF9F5] border border-[#F3EDE9] rounded-xl shadow-md p-4 space-y-2"
@@ -70,7 +81,7 @@ export default function TaskCard({
                     ? "bg-[#F59E0B]/20 text-[#C2410C]"
                     : task.priority === "Medium"
                     ? "bg-yellow-100 text-yellow-700"
-                    : "bg-gray-100 text-gray-600"
+                    : "bg-gray-200 text-gray-600"
                 }`}
               >
                 {task.priority}

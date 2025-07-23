@@ -19,7 +19,7 @@ export default function PrimaryHeader() {
 
         {/* Center: Desktop Navigation */}
         <nav className="hidden md:flex space-x-6 text-sm font-semibold">
-          <Link to="/dashboard" className="hover:text-[#F59E0B] transition">
+          <Link to="/board" className="hover:text-[#F59E0B] transition">
             Dashboard
           </Link>
           <Link to="/events" className="hover:text-[#F59E0B] transition">
@@ -49,7 +49,7 @@ export default function PrimaryHeader() {
       {/* Mobile Nav */}
       {isMobileMenuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2 text-sm font-semibold bg-[#9B2C62]">
-          <Link to="/dashboard" className="block hover:text-[#F59E0B]">
+          <Link to="/board" className="block hover:text-[#F59E0B]">
             Dashboard
           </Link>
           <Link to="/events" className="block hover:text-[#F59E0B]">

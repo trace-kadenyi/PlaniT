@@ -12,7 +12,7 @@ import {
 import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
 import EditDeleteEvent from "../components/shared/EditDeleteEvent";
-import logo from "../assets/logo21.svg"
+import logo from "../assets/logo21.svg";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -23,6 +23,11 @@ export default function Events() {
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
+
+  // Sort events by date in ascending order (earliest first)
+  const sortedEvents = [...events].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
 
   // handle delete event
   const handleDelete = (id) => {
@@ -58,9 +63,6 @@ export default function Events() {
           + Create New Event
         </button>
       </div>
-<div className="w-[520px] h-[520px] bg-black"><img src={logo} /></div>
-      
-
       {status === "loading" && (
         <p className="text-gray-600">Loading events...</p>
       )}
@@ -71,7 +73,7 @@ export default function Events() {
 
       {status === "succeeded" && events.length > 0 && (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map((event) => (
+          {sortedEvents.map((event) => (
             <li
               key={event._id}
               className="relative p-6 rounded-xl bg-[#FFF8F2] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)] hover:scale-[1.01] hover:-translate-y-1 transition-all group"
