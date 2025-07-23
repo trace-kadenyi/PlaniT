@@ -81,7 +81,7 @@ export default function TaskCard({
                     ? "bg-[#F59E0B]/20 text-[#C2410C]"
                     : task.priority === "Medium"
                     ? "bg-yellow-100 text-yellow-700"
-                    : "bg-gray-100 text-gray-600"
+                    : "bg-gray-200 text-gray-600"
                 }`}
               >
                 {task.priority}
