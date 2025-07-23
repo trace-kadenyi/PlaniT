@@ -17,6 +17,9 @@ import { filterByDateRange, dateFilters } from "../utils/dashboardDateHandlers";
 import FilterBox from "../components/ui/FilterBox";
 
 export default function DashBoard() {
+  // initialize column state
+  const [columnsInitialized, setColumnsInitialized] = useState(false);
+
   // filter state
   const [filters, setFilters] = useState({
     priority: "all",
@@ -40,13 +43,6 @@ export default function DashBoard() {
     updateError,
   } = useSelector((state) => state.tasks);
 
-  // sorted tasks
-  const sortedTasks = useMemo(
-    () =>
-      [...tasks].sort((a, b) => new Date(a.deadline) - new Date(b.deadline)),
-    [tasks]
-  );
-
   // Memoize the task mapping function
   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
 
@@ -62,12 +58,12 @@ export default function DashBoard() {
   // // Filter tasks based on current filters
   const filteredTasks = useMemo(() => {
     return filterTasks(
-      sortedTasks,
+      tasks,
       filters,
       filterByDateRange,
       filters.dateRange === "custom" ? customDateRange : null
     );
-  }, [sortedTasks, filters, customDateRange]);
+  }, [tasks, filters, customDateRange]);
 
   // Memoize the columns creation
   const getColumnsFromTasksMemoized = useCallback(() => {
@@ -84,10 +80,11 @@ export default function DashBoard() {
 
   // Update columns when tasks change
   useEffect(() => {
-    if (tasks.length > 0 || fetchStatus === "succeeded") {
+    if (!columnsInitialized && fetchStatus === "succeeded") {
       setColumns(getColumnsFromTasksMemoized());
+      setColumnsInitialized(true); // prevent future resets
     }
-  }, [tasks, fetchStatus, getColumnsFromTasksMemoized]);
+  }, [fetchStatus, getColumnsFromTasksMemoized, columnsInitialized]);
 
   //   drag and drop function
   const onDragEnd = useCallback(
@@ -95,14 +92,23 @@ export default function DashBoard() {
     [tasks, columns, setColumns, dispatch]
   );
 
+  // refresh tasks function
+  const refreshTasks = () => {
+    setColumnsInitialized(false);
+    dispatch(fetchAllTasks());
+  };
+  // refresh task on page load
+  useEffect(() => {
+    refreshTasks();
+  }, []);
+
   return (
     <div className="p-4 bg-white min-h-screen">
       <div className="text-center mb-6">
         <h1 className="text-2xl font-bold text-[#9B2C62] my-2">Task Board</h1>
         <p className="text-gray-600 max-w-4xl mx-auto mb-4">
-          Drag and drop tasks between columns to update their status. Tasks are
-          automatically sorted by due date - stay organized and track your
-          workflow at a glance!
+          Drag and drop tasks between columns to update their status - stay
+          organized and track your workflow at a glance!
         </p>
 
         {/* Filter Container */}
