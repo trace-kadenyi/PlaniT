@@ -11,9 +11,9 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
   padding: 0 0.1em;
 }
 /* Ensure draggables have pointer-events */
-[data-rbd-drag-handle-context-id] {
+/* [data-rbd-drag-handle-context-id] {
   cursor: grab;
-}
+} */
 
 /* Space for dropped items */
 [data-rbd-droppable-context-id] {
