@@ -179,9 +179,14 @@ const KanbanBoard = () => {
 
   return (
     <div className="p-4 bg-white min-h-screen">
-      <h1 className="text-2xl font-bold text-[#9B2C62] my-6 text-center">
-        Task Board
-      </h1>
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-bold text-[#9B2C62] my-2">Task Board</h1>
+        <p className="text-gray-600 max-w-4xl mx-auto">
+          Drag and drop tasks between columns to update their status. Tasks are
+          automatically sorted by due date - stay organized and track your
+          workflow at a glance!
+        </p>
+      </div>
       {/* update error */}
       {updateError && (
         <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
@@ -219,7 +224,7 @@ const KanbanBoard = () => {
                     ref={provided.innerRef}
                     className="bg-white border border-gray-200 rounded-lg p-4 w-72 flex-shrink-0 shadow-sm flex flex-col"
                     style={{
-                      height: "calc(100vh - 12rem)",
+                      height: "calc(100vh - 14rem)",
                       minHeight: "200px",
                     }}
                   >
