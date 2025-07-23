@@ -11,6 +11,8 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialColumns,
+  filterByDateRange,
+  dateFilters,
 } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
@@ -18,6 +20,7 @@ export default function DashBoard() {
   const [filters, setFilters] = useState({
     priority: "all",
     assignee: "all",
+    dateRange: "all",
   });
   // dispatch
   const dispatch = useDispatch();
@@ -39,6 +42,15 @@ export default function DashBoard() {
   // Memoize the task mapping function
   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
 
+  // Get unique assignees for filter dropdown
+  const assignees = useMemo(() => {
+    const uniqueAssignees = new Set();
+    tasks.forEach((task) => {
+      if (task.assignedTo) uniqueAssignees.add(task.assignedTo);
+    });
+    return ["all", ...Array.from(uniqueAssignees)];
+  }, [tasks]);
+
   // Filter tasks based on current filters
   const filteredTasks = useMemo(() => {
     return sortedTasks.filter((task) => {
@@ -47,7 +59,8 @@ export default function DashBoard() {
         task.priority.toLowerCase() === filters.priority;
       const matchesAssignee =
         filters.assignee === "all" || task.assignedTo === filters.assignee;
-      return matchesPriority && matchesAssignee;
+      const matchesDate = filterByDateRange(task, filters.dateRange);
+      return matchesPriority && matchesAssignee && matchesDate;
     });
   }, [sortedTasks, filters]);
 
@@ -76,15 +89,6 @@ export default function DashBoard() {
     (result) => handleDragEnd(result, { tasks, columns, setColumns, dispatch }),
     [tasks, columns, setColumns, dispatch]
   );
-
-  // Get unique assignees for filter dropdown
-  const assignees = useMemo(() => {
-    const uniqueAssignees = new Set();
-    tasks.forEach((task) => {
-      if (task.assignedTo) uniqueAssignees.add(task.assignedTo);
-    });
-    return ["all", ...Array.from(uniqueAssignees)];
-  }, [tasks]);
 
   return (
     <div className="p-4 bg-white min-h-screen">
@@ -143,6 +147,44 @@ export default function DashBoard() {
                 </option>
               ))}
             </select>
+          </div>
+          {/* due date filter */}
+          <div className="flex items-center gap-2">
+            <label
+              htmlFor="date-filter"
+              className="text-sm font-medium text-gray-700"
+            >
+              Due Date:
+            </label>
+            <select
+              id="date-filter"
+              className="rounded-md border-gray-300 shadow-sm focus:border-[#9B2C62] focus:ring focus:ring-[#9B2C62] focus:ring-opacity-50"
+              value={filters.dateRange}
+              onChange={(e) =>
+                setFilters({ ...filters, dateRange: e.target.value })
+              }
+            >
+              {Object.entries(dateFilters).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* clear filters */}
+          <div>
+            <button
+              onClick={() =>
+                setFilters({
+                  priority: "all",
+                  assignee: "all",
+                  dateRange: "all",
+                })
+              }
+              className="text-sm text-[#9B2C62] hover:underline ml-2"
+            >
+              Clear Filters
+            </button>
           </div>
         </div>
       </div>
