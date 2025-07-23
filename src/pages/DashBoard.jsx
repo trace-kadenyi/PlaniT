@@ -7,6 +7,7 @@ import {
 } from "../redux/tasksSlice";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Link } from "react-router-dom";
+import { mapTaskToCard } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
   const dispatch = useDispatch();
@@ -25,21 +26,7 @@ export default function DashBoard() {
   );
 
   // Memoize the task mapping function
-  const mapTaskToCard = useCallback(
-    (task) => ({
-      id: task._id,
-      title: task.title,
-      event: task.eventName || task.eventId?.name || "Unassigned",
-      eventId: task.eventId?._id || null,
-      due: task.deadline
-        ? new Date(task.deadline).toLocaleDateString()
-        : "No deadline",
-      priority: task.priority.toLowerCase(),
-      assignee: task.assignedTo,
-      status: task.status,
-    }),
-    []
-  );
+   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
 
   // Memoize the columns creation
   const getColumnsFromTasks = useCallback(() => {
@@ -54,29 +41,29 @@ export default function DashBoard() {
       todo: {
         id: "todo",
         title: "To Do",
-        tasks: filteredTasks.todo.map(mapTaskToCard),
+        tasks: filteredTasks.todo.map(mapTaskToCardMemoized),
         color: "#F59E0B",
       },
       inProgress: {
         id: "inProgress",
         title: "In Progress",
-        tasks: filteredTasks.inProgress.map(mapTaskToCard),
+        tasks: filteredTasks.inProgress.map(mapTaskToCardMemoized),
         color: "#FF7E33",
       },
       inReview: {
         id: "inReview",
         title: "In Review",
-        tasks: filteredTasks.inReview.map(mapTaskToCard),
+        tasks: filteredTasks.inReview.map(mapTaskToCardMemoized),
         color: "#9B2C62",
       },
       completed: {
         id: "completed",
         title: "Completed",
-        tasks: filteredTasks.completed.map(mapTaskToCard),
+        tasks: filteredTasks.completed.map(mapTaskToCardMemoized),
         color: "#4CAF50",
       },
     };
-  }, [sortedTasks, mapTaskToCard]);
+  }, [sortedTasks, mapTaskToCardMemoized]);
 
   // Initialize columns with empty state
   const [columns, setColumns] = useState(() => ({
