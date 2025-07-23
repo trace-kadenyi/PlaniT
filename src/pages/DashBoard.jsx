@@ -7,6 +7,7 @@ import {
   mapTaskToCard,
   getColumnsFromTasks,
   handleDragEnd,
+  LoadingDashboard,
 } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
@@ -105,11 +106,7 @@ export default function DashBoard() {
 
       {/* loading state */}
       {fetchStatus === "loading" ? (
-        <div className="flex space-x-4 animate-pulse justify-center">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-gray-100 rounded-lg p-4 w-72 h-64"></div>
-          ))}
-        </div>
+        <LoadingDashboard />
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="flex space-x-4 overflow-x-auto pb-4 justify-center">
