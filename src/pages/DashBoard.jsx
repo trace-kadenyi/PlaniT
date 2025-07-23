@@ -10,6 +10,7 @@ import {
   LoadingDashboard,
   UpdateDashboardError,
   FetchDashboardError,
+  getInitialColumns,
 } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
@@ -37,27 +38,7 @@ export default function DashBoard() {
   }, [sortedTasks, mapTaskToCardMemoized]);
 
   // Initialize columns with empty state
-  const [columns, setColumns] = useState(() => ({
-    todo: { id: "todo", title: "To Do", tasks: [], color: "#F59E0B" },
-    inProgress: {
-      id: "inProgress",
-      title: "In Progress",
-      tasks: [],
-      color: "#FF7E33",
-    },
-    inReview: {
-      id: "inReview",
-      title: "In Review",
-      tasks: [],
-      color: "#9B2C62",
-    },
-    completed: {
-      id: "completed",
-      title: "Completed",
-      tasks: [],
-      color: "#4CAF50",
-    },
-  }));
+  const [columns, setColumns] = useState(() => getInitialColumns);
 
   // Fetch all tasks
   useEffect(() => {
