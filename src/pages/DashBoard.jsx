@@ -11,9 +11,8 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialColumns,
-  filterByDateRange,
-  dateFilters,
 } from "../utils/dashboardHelpers";
+import { filterByDateRange, dateFilters } from "../utils/dashboardDateHandlers";
 
 export default function DashBoard() {
   // filter state
@@ -22,11 +21,11 @@ export default function DashBoard() {
     assignee: "all",
     dateRange: "all",
   });
-// custom date range
+  // custom date range
   const [customDateRange, setCustomDateRange] = useState({
-  start: '',
-  end: ''
-});
+    start: "",
+    end: "",
+  });
   // dispatch
   const dispatch = useDispatch();
   // tasks
@@ -57,20 +56,21 @@ export default function DashBoard() {
   }, [tasks]);
 
   // Filter tasks based on current filters
- const filteredTasks = useMemo(() => {
-  return sortedTasks.filter(task => {
-    const matchesPriority = filters.priority === 'all' || 
-                          task.priority.toLowerCase() === filters.priority;
-    const matchesAssignee = filters.assignee === 'all' || 
-                          task.assignedTo === filters.assignee;
-    const matchesDate = filterByDateRange(
-      task, 
-      filters.dateRange, 
-      filters.dateRange === 'custom' ? customDateRange : null
-    );
-    return matchesPriority && matchesAssignee && matchesDate;
-  });
-}, [sortedTasks, filters, customDateRange]);
+  const filteredTasks = useMemo(() => {
+    return sortedTasks.filter((task) => {
+      const matchesPriority =
+        filters.priority === "all" ||
+        task.priority.toLowerCase() === filters.priority;
+      const matchesAssignee =
+        filters.assignee === "all" || task.assignedTo === filters.assignee;
+      const matchesDate = filterByDateRange(
+        task,
+        filters.dateRange,
+        filters.dateRange === "custom" ? customDateRange : null
+      );
+      return matchesPriority && matchesAssignee && matchesDate;
+    });
+  }, [sortedTasks, filters, customDateRange]);
 
   // Memoize the columns creation
   const getColumnsFromTasksMemoized = useCallback(() => {
@@ -179,21 +179,51 @@ export default function DashBoard() {
               ))}
             </select>
           </div>
-          {/* clear filters */}
-          <div>
-            <button
-              onClick={() =>
-                setFilters({
-                  priority: "all",
-                  assignee: "all",
-                  dateRange: "all",
-                })
-              }
-              className="text-sm text-[#9B2C62] hover:underline ml-2"
-            >
-              Clear Filters
-            </button>
-          </div>
+
+          {/* Add this new section for custom date range */}
+          {filters.dateRange === "custom" && (
+            <div className="flex items-center gap-2 w-full justify-center mt-2">
+              <div className="flex items-center gap-2">
+                <input
+                  type="date"
+                  value={customDateRange.start}
+                  onChange={(e) =>
+                    setCustomDateRange({
+                      ...customDateRange,
+                      start: e.target.value,
+                    })
+                  }
+                  className="rounded-md border-gray-300 shadow-sm p-1"
+                />
+                <span className="text-gray-600">to</span>
+                <input
+                  type="date"
+                  value={customDateRange.end}
+                  onChange={(e) =>
+                    setCustomDateRange({
+                      ...customDateRange,
+                      end: e.target.value,
+                    })
+                  }
+                  className="rounded-md border-gray-300 shadow-sm p-1"
+                />
+              </div>
+            </div>
+          )}
+
+          <button
+            onClick={() => {
+              setFilters({
+                priority: "all",
+                assignee: "all",
+                dateRange: "all",
+              });
+              setCustomDateRange({ start: "", end: "" });
+            }}
+            className="text-sm text-[#9B2C62] hover:underline ml-2"
+          >
+            Clear Filters
+          </button>
         </div>
       </div>
       {/* update error */}
