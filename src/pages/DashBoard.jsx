@@ -17,25 +17,26 @@ import { filterByDateRange, dateFilters } from "../utils/dashboardDateHandlers";
 import FilterBox from "../components/ui/FilterBox";
 
 export default function DashBoard() {
-  // initialize column state
+  // Track whether columns have been initialized to prevent unnecessary recalculations
   const [columnsInitialized, setColumnsInitialized] = useState(false);
 
-  // filter state
+  // Filter state (priority, assignee, date range, search)
   const [filters, setFilters] = useState({
     priority: "all",
     assignee: "all",
     dateRange: "all",
     search: "",
   });
-  // custom date range
+
+  // Custom date range for advanced filtering
   const [customDateRange, setCustomDateRange] = useState({
     start: "",
     end: "",
   });
-  // dispatch
+
   const dispatch = useDispatch();
 
-  // tasks
+  // Get tasks from Redux store
   const {
     items: tasks,
     status: fetchStatus,
@@ -43,10 +44,10 @@ export default function DashBoard() {
     updateError,
   } = useSelector((state) => state.tasks);
 
-  // Memoize the task mapping function
+  // Memoize task-to-card mapping to prevent unnecessary recalculations
   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
 
-  // Get unique assignees for filter dropdown
+  // Extract unique assignees for filter dropdown
   const assignees = useMemo(() => {
     const uniqueAssignees = new Set();
     tasks.forEach((task) => {
@@ -55,7 +56,7 @@ export default function DashBoard() {
     return ["all", ...Array.from(uniqueAssignees)];
   }, [tasks]);
 
-  // // Filter tasks based on current filters
+  // Apply all active filters to tasks
   const filteredTasks = useMemo(() => {
     return filterTasks(
       tasks,
@@ -65,23 +66,20 @@ export default function DashBoard() {
     );
   }, [tasks, filters, customDateRange]);
 
-  // Memoize the columns creation
+  // Memoize columns generation to optimize performance
   const getColumnsFromTasksMemoized = useCallback(() => {
-    return getColumnsFromTasks(
-      filteredTasks, // Always use filteredTasks
-      mapTaskToCardMemoized
-    );
-  }, [filteredTasks, mapTaskToCardMemoized]); // Remove tasks and columnsInitialized from deps
+    return getColumnsFromTasks(filteredTasks, mapTaskToCardMemoized);
+  }, [filteredTasks, mapTaskToCardMemoized]);
 
   // Initialize columns with empty state
-  const [columns, setColumns] = useState(() => getInitialColumns);
+  const [columns, setColumns] = useState(getInitialColumns);
 
-  // Fetch all tasks
+  // Fetch tasks on initial render
   useEffect(() => {
     dispatch(fetchAllTasks());
   }, [dispatch]);
 
-  // Update columns when tasks change
+  // Update columns when tasks load or search filter changes
   useEffect(() => {
     if (fetchStatus === "succeeded") {
       // Only update columns if not initialized OR if search filter changes
@@ -92,14 +90,14 @@ export default function DashBoard() {
     }
   }, [fetchStatus, filteredTasks, columnsInitialized, filters.search]);
 
-  // Handle priority/assignee/date filters
+  // Recalculate columns when priority/assignee/date filters change
   useEffect(() => {
     if (columnsInitialized && fetchStatus === "succeeded") {
       setColumns(getColumnsFromTasksMemoized());
     }
   }, [filters.priority, filters.assignee, filters.dateRange, customDateRange]);
 
-  //   drag and drop function
+  // Handle drag-and-drop reordering
   const onDragEnd = useCallback(
     (result) => {
       handleDragEnd(result, { tasks, columns, setColumns, dispatch });
@@ -107,15 +105,11 @@ export default function DashBoard() {
     [tasks, columns, setColumns, dispatch]
   );
 
-  // refresh tasks function
-  const refreshTasks = () => {
+  // Refresh tasks and reset column state
+  const refreshTasks = useCallback(() => {
     setColumnsInitialized(false);
     dispatch(fetchAllTasks());
-  };
-  // refresh task on page load
-  useEffect(() => {
-    refreshTasks();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="p-4 bg-white min-h-screen">
@@ -126,7 +120,7 @@ export default function DashBoard() {
           organized and track your workflow at a glance!
         </p>
 
-        {/* Filter Container */}
+        {/* Filter controls */}
         <FilterBox
           filters={filters}
           setFilters={setFilters}
@@ -136,14 +130,14 @@ export default function DashBoard() {
           setCustomDateRange={setCustomDateRange}
         />
       </div>
-      {/* update error */}
+
+      {/* Error messages */}
       {updateError && (
         <UpdateDashboardError updateError={updateError} dispatch={dispatch} />
       )}
-      {/* error fetching tasks */}
       {fetchError && <FetchDashboardError fetchError={fetchError} />}
 
-      {/* loading state */}
+      {/* Main content */}
       {fetchStatus === "loading" ? (
         <LoadingDashboard />
       ) : (
@@ -182,13 +176,14 @@ export default function DashBoard() {
                               {...provided.draggableProps}
                               className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative"
                             >
+                              {/* Drag handle (invisible overlay) */}
                               <div
                                 {...provided.dragHandleProps}
                                 className="absolute inset-0 cursor-grab z-10"
                                 style={{ pointerEvents: "auto" }}
                               />
 
-                              {/* Card content */}
+                              {/* Task card content */}
                               <div
                                 className="relative z-20"
                                 style={{ pointerEvents: "none" }}
@@ -210,10 +205,7 @@ export default function DashBoard() {
                                       to={`/events/${task.eventId}`}
                                       className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2 hover:underline"
                                       style={{ pointerEvents: "auto" }}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        e.nativeEvent.stopImmediatePropagation();
-                                      }}
+                                      onClick={(e) => e.stopPropagation()}
                                     >
                                       {task.event}
                                     </Link>
