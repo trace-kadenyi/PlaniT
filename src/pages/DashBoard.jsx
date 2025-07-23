@@ -22,6 +22,11 @@ export default function DashBoard() {
     assignee: "all",
     dateRange: "all",
   });
+// custom date range
+  const [customDateRange, setCustomDateRange] = useState({
+  start: '',
+  end: ''
+});
   // dispatch
   const dispatch = useDispatch();
   // tasks
@@ -52,17 +57,20 @@ export default function DashBoard() {
   }, [tasks]);
 
   // Filter tasks based on current filters
-  const filteredTasks = useMemo(() => {
-    return sortedTasks.filter((task) => {
-      const matchesPriority =
-        filters.priority === "all" ||
-        task.priority.toLowerCase() === filters.priority;
-      const matchesAssignee =
-        filters.assignee === "all" || task.assignedTo === filters.assignee;
-      const matchesDate = filterByDateRange(task, filters.dateRange);
-      return matchesPriority && matchesAssignee && matchesDate;
-    });
-  }, [sortedTasks, filters]);
+ const filteredTasks = useMemo(() => {
+  return sortedTasks.filter(task => {
+    const matchesPriority = filters.priority === 'all' || 
+                          task.priority.toLowerCase() === filters.priority;
+    const matchesAssignee = filters.assignee === 'all' || 
+                          task.assignedTo === filters.assignee;
+    const matchesDate = filterByDateRange(
+      task, 
+      filters.dateRange, 
+      filters.dateRange === 'custom' ? customDateRange : null
+    );
+    return matchesPriority && matchesAssignee && matchesDate;
+  });
+}, [sortedTasks, filters, customDateRange]);
 
   // Memoize the columns creation
   const getColumnsFromTasksMemoized = useCallback(() => {
