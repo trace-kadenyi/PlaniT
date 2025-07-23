@@ -141,3 +141,12 @@ export const UpdateDashboardError = ({ updateError, dispatch }) => {
     </div>
   );
 };
+
+// fetch error render
+export const FetchDashboardError = ({ fetchError }) => {
+  return (
+    <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
+      Failed to load tasks: {fetchError}
+    </div>
+  );
+};
