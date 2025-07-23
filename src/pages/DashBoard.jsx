@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTasks, clearUpdateError } from "../redux/tasksSlice";
+import { fetchAllTasks } from "../redux/tasksSlice";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Link } from "react-router-dom";
 import {
@@ -11,6 +11,7 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialColumns,
+  filterTasks,
 } from "../utils/dashboardHelpers";
 import { filterByDateRange, dateFilters } from "../utils/dashboardDateHandlers";
 
@@ -28,6 +29,7 @@ export default function DashBoard() {
   });
   // dispatch
   const dispatch = useDispatch();
+
   // tasks
   const {
     items: tasks,
@@ -55,21 +57,14 @@ export default function DashBoard() {
     return ["all", ...Array.from(uniqueAssignees)];
   }, [tasks]);
 
-  // Filter tasks based on current filters
+  // // Filter tasks based on current filters
   const filteredTasks = useMemo(() => {
-    return sortedTasks.filter((task) => {
-      const matchesPriority =
-        filters.priority === "all" ||
-        task.priority.toLowerCase() === filters.priority;
-      const matchesAssignee =
-        filters.assignee === "all" || task.assignedTo === filters.assignee;
-      const matchesDate = filterByDateRange(
-        task,
-        filters.dateRange,
-        filters.dateRange === "custom" ? customDateRange : null
-      );
-      return matchesPriority && matchesAssignee && matchesDate;
-    });
+    return filterTasks(
+      sortedTasks,
+      filters,
+      filterByDateRange,
+      filters.dateRange === "custom" ? customDateRange : null
+    );
   }, [sortedTasks, filters, customDateRange]);
 
   // Memoize the columns creation
