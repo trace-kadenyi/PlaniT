@@ -152,13 +152,25 @@ export const dateFilters = {
   thisWeek: "This Week",
   nextWeek: "Next Week",
   overdue: "Overdue",
+  custom: "Custom Range", // Add this new option
 };
 
 // filter by date range
-export const filterByDateRange = (task, range) => {
+export const filterByDateRange = (
+  task,
+  range,
+  customRange = { start: "", end: "" }
+) => {
   if (!task.deadline) return false;
-  const now = new Date();
   const taskDate = new Date(task.deadline);
+
+  if (range === "custom") {
+    if (!customRange.start || !customRange.end) return false;
+    const startDate = new Date(customRange.start);
+    const endDate = new Date(customRange.end);
+    return taskDate >= startDate && taskDate <= endDate;
+  }
+  const now = new Date();
   const startOfWeek = new Date(now);
   startOfWeek.setDate(now.getDate() - now.getDay());
   const endOfWeek = new Date(startOfWeek);
