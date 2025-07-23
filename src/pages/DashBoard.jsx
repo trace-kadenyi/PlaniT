@@ -8,6 +8,7 @@ import {
   getColumnsFromTasks,
   handleDragEnd,
   LoadingDashboard,
+  UpdateDashboardError,
 } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
@@ -87,15 +88,7 @@ export default function DashBoard() {
       </div>
       {/* update error */}
       {updateError && (
-        <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
-          <span>Update failed: {updateError}</span>
-          <button
-            onClick={() => dispatch(clearUpdateError())}
-            className="text-[#9B2C62] font-medium"
-          >
-            Retry
-          </button>
-        </div>
+        <UpdateDashboardError updateError={updateError} dispatch={dispatch} />
       )}
       {/* error fetching tasks */}
       {fetchError && (
