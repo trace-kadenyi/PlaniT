@@ -1,10 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAllTasks,
-  updateTask,
-  clearUpdateError,
-} from "../redux/tasksSlice";
+import { fetchAllTasks, clearUpdateError } from "../redux/tasksSlice";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Link } from "react-router-dom";
 import {
