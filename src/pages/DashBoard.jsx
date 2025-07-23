@@ -14,12 +14,14 @@ import {
 } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
-  // Filter state
+  // filter state
   const [filters, setFilters] = useState({
     priority: "all",
     assignee: "all",
   });
+  // dispatch
   const dispatch = useDispatch();
+  // tasks
   const {
     items: tasks,
     status: fetchStatus,
@@ -27,7 +29,7 @@ export default function DashBoard() {
     updateError,
   } = useSelector((state) => state.tasks);
 
-  //   sorted tasks
+  // sorted tasks
   const sortedTasks = useMemo(
     () =>
       [...tasks].sort((a, b) => new Date(a.deadline) - new Date(b.deadline)),
@@ -37,11 +39,6 @@ export default function DashBoard() {
   // Memoize the task mapping function
   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
 
-  // Memoize the columns creation
-  // const getColumnsFromTasksMemoized = useCallback(() => {
-  //   return getColumnsFromTasks(sortedTasks, mapTaskToCardMemoized);
-  // }, [sortedTasks, mapTaskToCardMemoized]);
-
   // Filter tasks based on current filters
   const filteredTasks = useMemo(() => {
     return sortedTasks.filter((task) => {
@@ -50,14 +47,11 @@ export default function DashBoard() {
         task.priority.toLowerCase() === filters.priority;
       const matchesAssignee =
         filters.assignee === "all" || task.assignedTo === filters.assignee;
-      const matchesSearch =
-        filters.search === "" ||
-        task.title.toLowerCase().includes(filters.search.toLowerCase());
-      return matchesPriority && matchesAssignee && matchesSearch;
+      return matchesPriority && matchesAssignee;
     });
   }, [sortedTasks, filters]);
 
-  // Update getColumnsFromTasksMemoized to use filteredTasks
+  // Memoize the columns creation
   const getColumnsFromTasksMemoized = useCallback(() => {
     return getColumnsFromTasks(filteredTasks, mapTaskToCardMemoized);
   }, [filteredTasks, mapTaskToCardMemoized]);
@@ -92,11 +86,6 @@ export default function DashBoard() {
     return ["all", ...Array.from(uniqueAssignees)];
   }, [tasks]);
 
-  // // Update getColumnsFromTasksMemoized to use filteredTasks
-  // const getColumnsFromTasksMemoized = useCallback(() => {
-  //   return getColumnsFromTasks(filteredTasks, mapTaskToCardMemoized);
-  // }, [filteredTasks, mapTaskToCardMemoized]);
-
   return (
     <div className="p-4 bg-white min-h-screen">
       <div className="text-center mb-6">
@@ -109,6 +98,7 @@ export default function DashBoard() {
 
         {/* Filter Controls */}
         <div className="flex justify-center gap-4 mt-4">
+          {/* priority filter */}
           <div className="flex items-center gap-2">
             <label
               htmlFor="priority-filter"
@@ -131,6 +121,7 @@ export default function DashBoard() {
             </select>
           </div>
 
+          {/* assignee filter */}
           <div className="flex items-center gap-2">
             <label
               htmlFor="assignee-filter"
