@@ -9,6 +9,7 @@ import {
   handleDragEnd,
   LoadingDashboard,
   UpdateDashboardError,
+  FetchDashboardError,
 } from "../utils/dashboardHelpers";
 
 export default function DashBoard() {
@@ -91,11 +92,7 @@ export default function DashBoard() {
         <UpdateDashboardError updateError={updateError} dispatch={dispatch} />
       )}
       {/* error fetching tasks */}
-      {fetchError && (
-        <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
-          Failed to load tasks: {fetchError}
-        </div>
-      )}
+      {fetchError && <FetchDashboardError fetchError={fetchError} />}
 
       {/* loading state */}
       {fetchStatus === "loading" ? (
