@@ -103,7 +103,6 @@ export default function DashBoard() {
   const onDragEnd = useCallback(
     (result) => {
       handleDragEnd(result, { tasks, columns, setColumns, dispatch });
-      // ✅ DON’T modify columnsInitialized here
     },
     [tasks, columns, setColumns, dispatch]
   );
