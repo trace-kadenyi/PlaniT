@@ -19,6 +19,7 @@ import {
 import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
 import { createTaskDeleteHandler } from "../components/taskManagerCollection/utils/handlers/taskHandlers";
 import TasksTab from "../components/taskManagerCollection/tasks/TasksTab";
+import BudgetTab from "../components/taskManagerCollection/events/BudgetTab";
 
 export default function Event() {
   const { id } = useParams();
@@ -84,6 +85,7 @@ export default function Event() {
 
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
+      {/* event card */}
       <div className="relative p-6 rounded-xl bg-[#FFF5EB] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8">
         {/* edit/delete btns */}
         <EventDetailsBtns
@@ -141,7 +143,7 @@ export default function Event() {
       </div>
 
       {/* Tasks Section */}
-      {/* Tabs */}
+      {/* Tab buttons */}
       <div className="flex border-b border-gray-200 mb-6 space-x-6">
         <button
           onClick={() => setActiveTab("tasks")}
@@ -165,24 +167,13 @@ export default function Event() {
         </button>
       </div>
 
-      {/* Tabs Content */}
       {/* tasks tab */}
       {activeTab === "tasks" && (
         <TasksTab tasks={tasksState} handleTaskDelete={handleTaskDelete} />
       )}
 
       {/* budget tab */}
-      {activeTab === "budget" && (
-        <div className="p-4 bg-gray-50 border rounded-lg">
-          <h2 className="text-xl font-bold text-[#F59E0B] mb-2">
-            Budget Overview
-          </h2>
-          <p className="text-sm text-gray-600">
-            This is a placeholder for the budget view. Add progress bar, budget
-            totals, and expenses list here.
-          </p>
-        </div>
-      )}
+      {activeTab === "budget" && <BudgetTab />}
     </main>
   );
 }
