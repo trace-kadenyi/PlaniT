@@ -1,13 +1,10 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Plus, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
-import CreateTaskForm from "../components/taskManagerCollection/tasks/forms/CreateTaskForm";
-import EditTaskForm from "../components/taskManagerCollection/tasks/forms/EditTasksForm";
 import {
   formatDateTime,
   getStatusColor,
@@ -15,7 +12,6 @@ import {
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
-import TaskCard from "../components/taskManagerCollection/tasks/TaskCard";
 import {
   EventLoadingState,
   TasksLoadingState,
@@ -28,11 +24,8 @@ export default function Event() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const formRef = useRef(null);
 
-  const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
-  const [taskToEdit, setTaskToEdit] = useState(null);
-  const [scrollToForm, setScrollToForm] = useState(false);
+ 
   const [activeTab, setActiveTab] = useState("tasks");
 
   const eventsState = useSelector((state) => state.events);
