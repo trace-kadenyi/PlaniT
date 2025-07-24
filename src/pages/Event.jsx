@@ -179,6 +179,7 @@ export default function Event() {
       </div>
 
       {/* Tabs Content */}
+      {/* tasks tab */}
       {activeTab === "tasks" && (
         <>
           <div className="flex justify-between items-center mb-4">
@@ -242,6 +243,7 @@ export default function Event() {
           />
         </>
       )}
+
       {/* budget tab */}
       {activeTab === "budget" && (
         <div className="p-4 bg-gray-50 border rounded-lg">
