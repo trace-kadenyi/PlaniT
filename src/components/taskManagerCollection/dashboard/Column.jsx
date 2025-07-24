@@ -3,17 +3,17 @@ import DashTaskCard from "./dashTaskCard";
 
 export default function Column({ columns }) {
   return (
-    <div className="flex space-x-4 overflow-x-auto pb-4 justify-center">
+    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 overflow-x-auto pb-4 px-2 md:justify-center">
       {Object.values(columns).map((column) => (
         <Droppable droppableId={column.id} key={column.id}>
           {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              className="bg-white border border-gray-200 rounded-lg p-4 w-72 flex-shrink-0 shadow-sm flex flex-col"
+              className="bg-white border border-gray-200 rounded-lg p-4 w-full md:w-72 flex-shrink-0 shadow-sm flex flex-col"
               style={{
-                height: "calc(100vh - 14rem)",
                 minHeight: "200px",
+                maxHeight: "calc(100vh - 16rem)",
               }}
             >
               <h2 className="font-semibold text-[#9B2C62] mb-4 flex items-center">
