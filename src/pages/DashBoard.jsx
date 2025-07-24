@@ -15,6 +15,9 @@ import {
 } from "../utils/dashboardHelpers";
 import { filterByDateRange, dateFilters } from "../utils/dashboardDateHandlers";
 import FilterBox from "../components/ui/FilterBox";
+import DashTaskCard from "../components/taskManagerFolders/dashboard/dashTaskCard";
+import Column from "../components/taskManagerFolders/dashboard/Column";
+import { useTaskFilters } from "../components/taskManagerFolders/hooks/useFilters";
 
 export default function DashBoard() {
   // Track whether columns have been initialized to prevent unnecessary recalculations
@@ -46,6 +49,7 @@ export default function DashBoard() {
 
   // Memoize task-to-card mapping to prevent unnecessary recalculations
   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
+  const filteredTasks = useTaskFilters(tasks, filters, customDateRange);
 
   // Extract unique assignees for filter dropdown
   const assignees = useMemo(() => {
@@ -55,16 +59,6 @@ export default function DashBoard() {
     });
     return ["all", ...Array.from(uniqueAssignees)];
   }, [tasks]);
-
-  // Apply all active filters to tasks
-  const filteredTasks = useMemo(() => {
-    return filterTasks(
-      tasks,
-      filters,
-      filterByDateRange,
-      filters.dateRange === "custom" ? customDateRange : null
-    );
-  }, [tasks, filters, customDateRange]);
 
   // Memoize columns generation to optimize performance
   const getColumnsFromTasksMemoized = useCallback(() => {
@@ -111,6 +105,11 @@ export default function DashBoard() {
     dispatch(fetchAllTasks());
   }, [dispatch]);
 
+  // refresh task on page load
+  useEffect(() => {
+    refreshTasks();
+  }, []);
+
   return (
     <div className="p-4 bg-white min-h-screen">
       <div className="text-center mb-6">
@@ -142,114 +141,7 @@ export default function DashBoard() {
         <LoadingDashboard />
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="flex space-x-4 overflow-x-auto pb-4 justify-center">
-            {Object.values(columns).map((column) => (
-              <Droppable droppableId={column.id} key={column.id}>
-                {(provided) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    className="bg-white border border-gray-200 rounded-lg p-4 w-72 flex-shrink-0 shadow-sm flex flex-col"
-                    style={{
-                      height: "calc(100vh - 14rem)",
-                      minHeight: "200px",
-                    }}
-                  >
-                    <h2 className="font-semibold text-[#9B2C62] mb-4 flex items-center">
-                      <span
-                        className="inline-block w-3 h-3 rounded-full mr-2"
-                        style={{ backgroundColor: column.color }}
-                      ></span>
-                      {column.title} ({column.tasks.length})
-                    </h2>
-
-                    <div className="space-y-3 overflow-y-auto flex-1">
-                      {column.tasks.map((task, index) => (
-                        <Draggable
-                          key={task.id}
-                          draggableId={task.id}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative"
-                            >
-                              {/* Drag handle (invisible overlay) */}
-                              <div
-                                {...provided.dragHandleProps}
-                                className="absolute inset-0 cursor-grab z-10"
-                                style={{ pointerEvents: "auto" }}
-                              />
-
-                              {/* Task card content */}
-                              <div
-                                className="relative z-20"
-                                style={{ pointerEvents: "none" }}
-                              >
-                                <div className="flex justify-between items-start">
-                                  <h3 className="font-medium text-gray-800">
-                                    {task.title}
-                                  </h3>
-                                  {task.priority === "high" && (
-                                    <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
-                                      {task.priority}
-                                    </span>
-                                  )}
-                                </div>
-
-                                <div className="mt-2 flex items-center text-xs text-gray-600">
-                                  {task.eventId ? (
-                                    <Link
-                                      to={`/events/${task.eventId}`}
-                                      className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2 hover:underline"
-                                      style={{ pointerEvents: "auto" }}
-                                      onClick={(e) => e.stopPropagation()}
-                                    >
-                                      {task.event}
-                                    </Link>
-                                  ) : (
-                                    <span className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2">
-                                      {task.event}
-                                    </span>
-                                  )}
-                                  <span>Due: {task.due}</span>
-                                </div>
-
-                                <div className="mt-3 flex justify-between items-center text-xs">
-                                  <span className="text-gray-500">
-                                    {task.assignee}
-                                  </span>
-                                  <span
-                                    className={`px-2 py-1 rounded ${
-                                      task.priority === "high"
-                                        ? "bg-[#F59E0B]/20 text-[#F59E0B]"
-                                        : task.priority === "medium"
-                                        ? "bg-blue-100 text-blue-800"
-                                        : "bg-gray-200 text-gray-800"
-                                    }`}
-                                  >
-                                    {task.priority}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {column.tasks.length === 0 && (
-                        <div className="text-gray-400 text-sm italic p-2 text-center">
-                          No tasks here yet
-                        </div>
-                      )}
-                      {provided.placeholder}
-                    </div>
-                  </div>
-                )}
-              </Droppable>
-            ))}
-          </div>
+          <Column columns={columns} />
         </DragDropContext>
       )}
     </div>
