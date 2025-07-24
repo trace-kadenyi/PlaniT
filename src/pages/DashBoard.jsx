@@ -1,8 +1,7 @@
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllTasks } from "../redux/tasksSlice";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { Link } from "react-router-dom";
+import { DragDropContext } from "@hello-pangea/dnd";
 import {
   mapTaskToCard,
   getColumnsFromTasks,
@@ -11,16 +10,14 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialColumns,
-  filterTasks,
-} from "../utils/dashboardHelpers";
-import { filterByDateRange, dateFilters } from "../utils/dashboardDateHandlers";
-import FilterBox from "../components/ui/FilterBox";
-import DashTaskCard from "../components/taskManagerFolders/dashboard/dashTaskCard";
-import Column from "../components/taskManagerFolders/dashboard/Column";
+} from "../components/taskManagerCollection/utils/dashboardHelpers";
+import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
+import FilterBox from "../components/taskManagerCollection/dashboard/FilterBox";
+import Column from "../components/taskManagerCollection/dashboard/Column";
 import {
   useTaskFilters,
   useAssignees,
-} from "../components/taskManagerFolders/hooks/useFilters";
+} from "../components/taskManagerCollection/hooks/useFilters";
 
 export default function DashBoard() {
   // Track whether columns have been initialized to prevent unnecessary recalculations
