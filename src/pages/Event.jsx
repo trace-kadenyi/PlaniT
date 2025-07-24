@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Plus, XCircle } from "lucide-react";
@@ -27,11 +27,21 @@ export default function Event() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const formRef = useRef(null);
+
   const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState(null);
+  const [scrollToForm, setScrollToForm] = useState(false);
 
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
+
+  useEffect(() => {
+    if (scrollToForm && showCreateTaskForm && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      setScrollToForm(false); // reset the trigger
+    }
+  }, [scrollToForm, showCreateTaskForm]);
 
   // fetch tasks
   useEffect(() => {
@@ -165,7 +175,7 @@ export default function Event() {
 
       {/* show task creation form */}
       {showCreateTaskForm && (
-        <div className="mb-6">
+        <div ref={formRef} className="mb-6">
           {taskToEdit ? (
             <EditTaskForm
               task={taskToEdit}
@@ -199,6 +209,7 @@ export default function Event() {
           setTaskToEdit={setTaskToEdit}
           setShowCreateTaskForm={setShowCreateTaskForm}
           handleTaskDelete={handleTaskDelete}
+          setScrollToForm={setScrollToForm}
         />
       }
     </main>
