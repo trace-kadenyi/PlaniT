@@ -11,10 +11,17 @@ import EditEventForm from "./components/taskManagerCollection/events/forms/EditE
 import CreateEventForm from "./components/taskManagerCollection/events/forms/CreateEventForm";
 import DashBoard from "./pages/DashBoard";
 
+import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
+
 function App() {
+  const isSmallScreen = useIsSmallScreen();
   return (
     <>
-      <Toaster position="top-right" />
+      {isSmallScreen ? (
+        <Toaster position="top-center" />
+      ) : (
+        <Toaster position="top-right" />
+      )}
       <Router>
         <PrimaryHeader />
         <Routes>
