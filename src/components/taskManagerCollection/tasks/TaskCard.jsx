@@ -1,10 +1,11 @@
-import { Pencil, Trash2, Plus, XCircle } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
 export default function TaskCard({
   tasks,
   setTaskToEdit,
   setShowCreateTaskForm,
   handleTaskDelete,
+  setScrollToForm,
 }) {
   // Sort tasks by deadline (earliest first)
   const sortedTasks = [...tasks].sort((a, b) => {
@@ -40,6 +41,9 @@ export default function TaskCard({
                 onClick={() => {
                   setTaskToEdit(task);
                   setShowCreateTaskForm(true);
+                  if (typeof setScrollToForm === "function") {
+                    setScrollToForm(true);
+                  }
                 }}
               >
                 <Pencil className="w-4 h-4" />

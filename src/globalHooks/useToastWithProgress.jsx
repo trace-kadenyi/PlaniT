@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import CustomToast from "../../ui/CustomToast";
+import CustomToast from "../components/ui/CustomToast";
 
 // toast with progress
 export function toastWithProgress(message, duration = 4000) {

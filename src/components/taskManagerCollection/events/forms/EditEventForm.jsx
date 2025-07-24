@@ -9,7 +9,7 @@ import {
   clearEventStatuses,
   resetUpdateState,
 } from "../../../../redux/eventsSlice";
-import { toastWithProgress } from "../../utils/toastWithProgress";
+import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 import { formatForDateTimeLocal } from "../../utils/dateHelpers";
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
-import { toastWithProgress } from "../../utils/toastWithProgress";
+import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 import { formatForDateTimeLocal } from "../../utils/dateHelpers";
 

@@ -1,37 +1,47 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Pencil, Trash2, Plus, XCircle } from "lucide-react";
+import { Plus, XCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
-import CreateTaskForm from "../components/taskManagerFolders/tasks/forms/CreateTaskForm";
-import EditTaskForm from "../components/taskManagerFolders/tasks/forms/EditTasksForm";
+import CreateTaskForm from "../components/taskManagerCollection/tasks/forms/CreateTaskForm";
+import EditTaskForm from "../components/taskManagerCollection/tasks/forms/EditTasksForm";
 import {
   formatDateTime,
   getStatusColor,
-} from "../components/taskManagerFolders/utils/formatting";
-import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
-import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
+} from "../components/taskManagerCollection/utils/formatting";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
-import TaskCard from "../components/ui/TaskCard";
+import TaskCard from "../components/taskManagerCollection/tasks/TaskCard";
 import {
   EventLoadingState,
   TasksLoadingState,
 } from "../components/shared/LoadingStates";
-import { createEventDeleteHandler } from "../components/taskManagerFolders/utils/handlers/eventHandlers";
-import { createTaskDeleteHandler } from "../components/taskManagerFolders/utils/handlers/taskHandlers";
+import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
+import { createTaskDeleteHandler } from "../components/taskManagerCollection/utils/handlers/taskHandlers";
 
 export default function Event() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const formRef = useRef(null);
+
   const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState(null);
+  const [scrollToForm, setScrollToForm] = useState(false);
 
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
+
+  useEffect(() => {
+    if (scrollToForm && showCreateTaskForm && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      setScrollToForm(false); // reset the trigger
+    }
+  }, [scrollToForm, showCreateTaskForm]);
 
   // fetch tasks
   useEffect(() => {
@@ -165,7 +175,7 @@ export default function Event() {
 
       {/* show task creation form */}
       {showCreateTaskForm && (
-        <div className="mb-6">
+        <div ref={formRef} className="mb-6">
           {taskToEdit ? (
             <EditTaskForm
               task={taskToEdit}
@@ -199,6 +209,7 @@ export default function Event() {
           setTaskToEdit={setTaskToEdit}
           setShowCreateTaskForm={setShowCreateTaskForm}
           handleTaskDelete={handleTaskDelete}
+          setScrollToForm={setScrollToForm}
         />
       }
     </main>
