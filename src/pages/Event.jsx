@@ -25,13 +25,11 @@ export default function Event() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
- 
+  //  initialize tab state
   const [activeTab, setActiveTab] = useState("tasks");
-
+  // events and tasks states
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
-
- 
 
   // fetch tasks
   useEffect(() => {
@@ -94,7 +92,7 @@ export default function Event() {
           handleDelete={handleDelete}
         />
 
-        {/* event type */}
+        {/* event details */}
         <div className="space-y-2">
           <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
             {event.type}
