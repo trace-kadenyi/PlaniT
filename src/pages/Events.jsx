@@ -1,18 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import { useNavigate } from "react-router-dom";
-import { Trash2, Pencil } from "lucide-react";
 import toast from "react-hot-toast";
 
+import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import {
   formatDateTime,
   getStatusColor,
-} from "../components/taskManagerFolders/utils/formatting";
-import { toastWithProgress } from "../components/taskManagerFolders/utils/toastWithProgress";
-import DeleteConfirmationToast from "../components/taskManagerFolders/utils/deleteConfirmationToast";
+} from "../components/taskManagerCollection/utils/formatting";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import EditDeleteEvent from "../components/shared/EditDeleteEvent";
-import logo from "../assets/logo21.svg";
 
 export default function Events() {
   const dispatch = useDispatch();
