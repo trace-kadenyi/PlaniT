@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 
 import "./App.css";
 import PrimaryHeader from "./components/headers/PrimaryHeader";
-import LandingPage from "./pages/LandingPage";
+import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
 import Event from "./pages/Event";
@@ -25,7 +25,7 @@ function App() {
       <Router>
         <PrimaryHeader />
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<Event />} />
           <Route path="/events/:id/edit" element={<EditEventForm />} />
