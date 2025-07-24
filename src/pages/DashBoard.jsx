@@ -17,7 +17,10 @@ import { filterByDateRange, dateFilters } from "../utils/dashboardDateHandlers";
 import FilterBox from "../components/ui/FilterBox";
 import DashTaskCard from "../components/taskManagerFolders/dashboard/dashTaskCard";
 import Column from "../components/taskManagerFolders/dashboard/Column";
-import { useTaskFilters } from "../components/taskManagerFolders/hooks/useFilters";
+import {
+  useTaskFilters,
+  useAssignees,
+} from "../components/taskManagerFolders/hooks/useFilters";
 
 export default function DashBoard() {
   // Track whether columns have been initialized to prevent unnecessary recalculations
@@ -50,15 +53,7 @@ export default function DashBoard() {
   // Memoize task-to-card mapping to prevent unnecessary recalculations
   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
   const filteredTasks = useTaskFilters(tasks, filters, customDateRange);
-
-  // Extract unique assignees for filter dropdown
-  const assignees = useMemo(() => {
-    const uniqueAssignees = new Set();
-    tasks.forEach((task) => {
-      if (task.assignedTo) uniqueAssignees.add(task.assignedTo);
-    });
-    return ["all", ...Array.from(uniqueAssignees)];
-  }, [tasks]);
+  const assignees = useAssignees(tasks);
 
   // Memoize columns generation to optimize performance
   const getColumnsFromTasksMemoized = useCallback(() => {
