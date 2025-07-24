@@ -18,8 +18,8 @@ import {
 } from "../components/shared/LoadingStates";
 import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
 import { createTaskDeleteHandler } from "../components/taskManagerCollection/utils/handlers/taskHandlers";
-import TasksTab from "../components/taskManagerCollection/tasks/TasksTab";
-import BudgetTab from "../components/taskManagerCollection/events/BudgetTab";
+import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
+import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
 
 export default function Event() {

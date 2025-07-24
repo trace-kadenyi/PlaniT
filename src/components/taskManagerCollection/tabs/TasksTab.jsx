@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Plus, XCircle } from "lucide-react";
 
-import EditTaskForm from "./forms/EditTasksForm";
-import CreateTaskForm from "./forms/CreateTaskForm";
-import TaskCard from "./TaskCard";
+import EditTaskForm from "../tasks/forms/EditTasksForm";
+import CreateTaskForm from "../tasks/forms/CreateTaskForm";
+import TaskCard from "../tasks/TaskCard";
 
 export default function TasksTab({ tasks, handleTaskDelete }) {
   const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
