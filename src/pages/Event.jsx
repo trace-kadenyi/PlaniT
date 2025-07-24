@@ -178,7 +178,8 @@ export default function Event() {
         </button>
       </div>
 
-    
+      {/* Tabs Content */}
+      {activeTab === "tasks" && (
         <>
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold text-[#9B2C62]">Tasks</h2>
@@ -240,7 +241,7 @@ export default function Event() {
             setScrollToForm={setScrollToForm}
           />
         </>
-    
+      )}
    
     </main>
   );
