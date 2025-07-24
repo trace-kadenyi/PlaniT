@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { updateTask, resetTaskStatus } from "../../../../redux/tasksSlice";
-import { toastWithProgress } from "../../utils/toastWithProgress";
+import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import TaskFormFields from "./TaskFormFields";
 
 export default function EditTaskForm({ task, onClose }) {

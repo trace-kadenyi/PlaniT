@@ -1,4 +1,4 @@
-import { Pencil, Trash2, Plus, XCircle } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
 export default function TaskCard({
   tasks,
