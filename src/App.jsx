@@ -7,8 +7,8 @@ import LandingPage from "./pages/LandingPage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
 import Event from "./pages/Event";
-import EditEventForm from "./components/taskManagerFolders/events/forms/EditEventForm";
-import CreateEventForm from "./components/taskManagerFolders/events/forms/CreateEventForm";
+import EditEventForm from "./components/taskManagerCollection/events/forms/EditEventForm";
+import CreateEventForm from "./components/taskManagerCollection/events/forms/CreateEventForm";
 import DashBoard from "./pages/DashBoard";
 
 function App() {
