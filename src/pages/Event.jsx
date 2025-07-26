@@ -22,6 +22,7 @@ import { createTaskDeleteHandler } from "../components/taskManagerCollection/uti
 import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
+import BudgetOverview from "../components/taskManagerCollection/budgeting/BudgetOverview";
 
 export default function Event() {
   const { id } = useParams();
@@ -33,12 +34,12 @@ export default function Event() {
   // events, tasks and expenses selectors
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
-const expensesState = useSelector((state) => state.expenses);
+  const expensesState = useSelector((state) => state.expenses);
 
   // fetch tasks
   useEffect(() => {
     dispatch(fetchEventById(id));
-    dispatch(fetchExpenses(id))
+    dispatch(fetchExpenses(id));
     dispatch(clearTasks());
     dispatch(fetchTasks(id));
   }, [dispatch, id]);
@@ -140,6 +141,10 @@ const expensesState = useSelector((state) => state.expenses);
               </span>
             </div>
           </div>
+          {/* budget overview bar */}
+          {expensesState.budgetStatus && (
+            <BudgetOverview budgetStatus={expensesState.budgetStatus} />
+          )}
         </div>
       </div>
 
@@ -154,11 +159,11 @@ const expensesState = useSelector((state) => state.expenses);
 
       {/* budget tab */}
       {activeTab === "budget" && (
-  <BudgetTab 
-    expenses={expensesState.items} 
-    budgetStatus={expensesState.budgetStatus} 
-  />
-)}
+        <BudgetTab
+          expenses={expensesState.items}
+          budgetStatus={expensesState.budgetStatus}
+        />
+      )}
     </main>
   );
 }
