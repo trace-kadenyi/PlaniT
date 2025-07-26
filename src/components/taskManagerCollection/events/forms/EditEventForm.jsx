@@ -20,13 +20,13 @@ export default function EditEventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { 
-  selectedEvent, 
-  updateStatus, 
-  updateError,
-  updateBudgetStatus,
-  updateBudgetError 
-} = useSelector((state) => state.events);
+  const {
+    selectedEvent,
+    updateStatus,
+    updateError,
+    updateBudgetStatus,
+    updateBudgetError,
+  } = useSelector((state) => state.events);
   // form data
   const [formData, setFormData] = useState({
     name: "",
@@ -88,50 +88,57 @@ export default function EditEventForm() {
   };
   // submit form
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const dataToSend = {
-      ...formData,
-      date: formData.date ? new Date(formData.date).toISOString() : null,
-    };
+    e.preventDefault();
+    try {
+      const dataToSend = {
+        ...formData,
+        date: formData.date ? new Date(formData.date).toISOString() : null,
+      };
 
-    // Remove budget fields before sending event update
-    const { initialBudget, budgetNotes, ...eventData } = dataToSend;
-    
-    // Dispatch both updates in parallel
-    await Promise.all([
-      dispatch(updateEvent({ 
-        eventId: id, 
-        updatedEvent: eventData 
-      })),
-      dispatch(updateBudget({
-        eventId: id,
-        updatedBudget: {
-          totalBudget: Number(initialBudget),
-          notes: budgetNotes
-        }
-      }))
-    ]);
+      // Remove budget fields before sending event update
+      const { initialBudget, budgetNotes, ...eventData } = dataToSend;
 
-    toastWithProgress("Event updated successfully");
-    navigate(`/events/${id}`);
-  } catch (err) {
-    toastWithProgress("Failed to update event");
-    console.error("Update error:", err);
-  }
-};
-  // reset update state
+      // Dispatch both updates in parallel
+      await Promise.all([
+        dispatch(
+          updateEvent({
+            eventId: id,
+            updatedEvent: eventData,
+          })
+        ),
+        dispatch(
+          updateBudget({
+            eventId: id,
+            updatedBudget: {
+              totalBudget: Number(initialBudget),
+              notes: budgetNotes,
+            },
+          })
+        ),
+      ]);
+
+      toastWithProgress("Event updated successfully");
+      navigate(`/events/${id}`);
+    } catch (err) {
+      toastWithProgress("Failed to update event");
+      console.error("Update error:", err);
+    }
+  };
+  // Update the cleanup effect
   useEffect(() => {
     return () => {
       dispatch(resetUpdateState());
+      dispatch(resetBudgetUpdateState());
     };
   }, [dispatch, id]);
 
+  // Update the success effect
   useEffect(() => {
-    if (updateStatus === "succeeded") {
-      dispatch(resetUpdateState()); // 🎯 Reset after successful submission
+    if (updateStatus === "succeeded" && updateBudgetStatus === "succeeded") {
+      dispatch(resetUpdateState());
+      dispatch(resetBudgetUpdateState());
     }
-  }, [updateStatus, dispatch]);
+  }, [updateStatus, updateBudgetStatus, dispatch]);
 
   return (
     <main className="min-h-screen bg-white p-6">
