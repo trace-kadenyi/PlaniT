@@ -191,7 +191,7 @@ export default function EventFormFields({
                 step="0.01"
                 value={formData.initialBudget || ""}
                 onChange={onFieldChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold"
                 placeholder="0.00"
               />
             </div>
@@ -211,7 +211,7 @@ export default function EventFormFields({
                 rows={3}
                 value={formData.budgetNotes || ""}
                 onChange={onFieldChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2"
                 placeholder="Any notes about the budget..."
               />
             </div>
