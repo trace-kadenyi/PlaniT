@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
-import {
-  createEvent,
-  resetCreateState,
-} from "../../../../redux/eventsSlice";
+import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 
@@ -54,28 +51,28 @@ export default function CreateEventForm() {
   };
 
   // submit form
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const dataToSend = {
-      ...formData,
-      date: formData.date ? new Date(formData.date).toISOString() : null,
-      initialBudget: Number(formData.initialBudget) || 0, // Ensure number type
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const dataToSend = {
+        ...formData,
+        date: formData.date ? new Date(formData.date).toISOString() : null,
+        initialBudget: Number(formData.initialBudget) || 0, // Ensure number type
+      };
 
-    const res = await dispatch(createEvent(dataToSend)).unwrap();
+      const res = await dispatch(createEvent(dataToSend)).unwrap();
 
-    toastWithProgress("Event successfully created");
+      toastWithProgress("Event successfully created");
 
-    // Use the event ID from the response
-    const newEventId = res.event?._id || res._id;
-    if (newEventId) {
-      navigate(`/events/${newEventId}`);
+      // Use the event ID from the response
+      const newEventId = res.event?._id || res._id;
+      if (newEventId) {
+        navigate(`/events/${newEventId}`);
+      }
+    } catch (err) {
+      toastWithProgress(`Error: ${err.message || "Failed to create event"}`);
     }
-  } catch (err) {
-    toastWithProgress(`Error: ${err.message || "Failed to create event"}`);
-  }
-};
+  };
 
   useEffect(() => {
     // 🧹 Clean up when component unmounts
@@ -111,5 +108,5 @@ const handleSubmit = async (e) => {
         />
       </div>
     </main>
-  ); 
+  );
 }
