@@ -5,11 +5,9 @@ import { Plus } from "lucide-react";
 import {
   createEvent,
   resetCreateState,
-  fetchEvents,
 } from "../../../../redux/eventsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
-import { formatForDateTimeLocal } from "../../utils/dateHelpers";
 
 export default function CreateEventForm() {
   const dispatch = useDispatch();
@@ -110,5 +108,5 @@ export default function CreateEventForm() {
         />
       </div>
     </main>
-  );
+  ); 
 }
