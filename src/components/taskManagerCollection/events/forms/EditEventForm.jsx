@@ -6,8 +6,10 @@ import { Pencil } from "lucide-react";
 import {
   fetchEventById,
   updateEvent,
-  clearEventStatuses,
+  updateBudget,
   resetUpdateState,
+  resetBudgetUpdateState,
+  clearEventStatuses,
 } from "../../../../redux/eventsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
@@ -18,10 +20,13 @@ export default function EditEventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { selectedEvent, updateStatus, updateError } = useSelector(
-    (state) => state.events
-  );
-
+  const { 
+  selectedEvent, 
+  updateStatus, 
+  updateError,
+  updateBudgetStatus,
+  updateBudgetError 
+} = useSelector((state) => state.events);
   // form data
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +34,8 @@ export default function EditEventForm() {
     date: "",
     type: "",
     status: "Planning",
+    initialBudget: "",
+    budgetNotes: "",
     location: {
       venue: "",
       address: "",
@@ -47,6 +54,8 @@ export default function EditEventForm() {
     if (selectedEvent) {
       setFormData({
         ...selectedEvent,
+        initialBudget: selectedEvent.budget?.totalBudget || "",
+        budgetNotes: selectedEvent.budget?.notes || "",
         date: formatForDateTimeLocal(selectedEvent.date),
       });
     }
@@ -86,14 +95,29 @@ export default function EditEventForm() {
         date: formData.date ? new Date(formData.date).toISOString() : null,
       };
 
-      dispatch(updateEvent({ eventId: id, updatedEvent: dataToSend })).then(
-        (res) => {
-          if (res.meta.requestStatus === "fulfilled") {
-            toastWithProgress("Event updated successfully");
-            navigate(`/events/${id}`);
-          }
-        }
+      // Remove budget fields before sending event update
+      const { initialBudget, budgetNotes, ...eventData } = dataToSend;
+
+      await dispatch(
+        updateEvent({
+          eventId: id,
+          updatedEvent: eventData,
+        })
+      ).unwrap();
+
+      // Update budget separately
+      await dispatch(
+        updateBudget({
+          eventId: id,
+          updatedBudget: {
+            totalBudget: initialBudget,
+            notes: budgetNotes,
+          },
+        })
       );
+
+      toastWithProgress("Event updated successfully");
+      navigate(`/events/${id}`);
     } catch (err) {
       toastWithProgress("Failed to update event");
       console.error("Update error:", err);
