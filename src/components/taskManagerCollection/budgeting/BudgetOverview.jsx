@@ -62,20 +62,22 @@ export default function BudgetOverview({ budgetStatus }) {
               ${totalExpenses.toLocaleString()}
             </p>
           </div>
-          <div
-            className={`p-3 rounded-lg border ${
-              isBudgetWarning
-                ? "bg-red-100 border-none"
-                : "bg-[#FFF5EB] border-[#F3EDE9]"
-            }`}
-          >
-            <p className="text-sm font-medium text-[#6B3B0F]">Remaining</p>
-            <p className="text-xl font-bold text-[#9B2C62]">
-              ${remainingBudget.toLocaleString()}
-            </p>
+          <div className="relative">
+            <div
+              className={`p-3 rounded-lg border ${
+                isBudgetWarning
+                  ? `bg-[#FFF5EB] border-[#9B2C62]`
+                  : "bg-[#FFF5EB] border-[#F3EDE9]"
+              }`}
+            >
+              <p className="text-sm font-medium text-[#6B3B0F]">Remaining</p>
+              <p className="text-xl font-bold text-[#9B2C62]">
+                ${remainingBudget.toLocaleString()}
+              </p>
+            </div>
             {isBudgetWarning && (
-              <div className="absolute -top-1 -right-1 h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#9B2C62] opacity-75"></span>
+              <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-[#9B2C62] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-[#9B2C62]"></span>
               </div>
             )}
