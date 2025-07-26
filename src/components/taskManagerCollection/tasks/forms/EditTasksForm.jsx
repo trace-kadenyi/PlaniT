@@ -11,9 +11,7 @@ export default function EditTaskForm({ task, onClose }) {
   const { id: eventId } = useParams();
   const taskStatus = useSelector((state) => state.tasks.status);
   const taskError = useSelector((state) => state.tasks.error);
-  const event = useSelector((state) =>
-    state.events.items.find((event) => event._id === eventId)
-  );
+  const event = useSelector((state) => state.events.selectedEvent);
 
   // initialize form
   const [form, setForm] = useState({
