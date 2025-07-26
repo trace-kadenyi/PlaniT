@@ -66,7 +66,7 @@ export default function BudgetOverview({ budgetStatus }) {
             <div
               className={`p-3 rounded-lg border ${
                 isBudgetWarning
-                  ? `bg-[#FFF5EB] border-[#9B2C62]`
+                  ? `bg-red-100 border-[#9B2C62]`
                   : "bg-[#FFF5EB] border-[#F3EDE9]"
               }`}
             >
