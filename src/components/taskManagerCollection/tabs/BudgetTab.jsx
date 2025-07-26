@@ -8,16 +8,17 @@ export default function BudgetTab({ expenses, budgetStatus }) {
 
   return (
     <>
+      <h2 className="text-xl font-bold text-[#9B2C62] mb-4">Expenses</h2>
+
       {expenses.length === 0 ? (
         <div>
-          <h2 className="text-xl font-bold text-[#9B2C62] mb-4">Expenses</h2>
           <p className="text-gray-600">No expenses added</p>
         </div>
       ) : (
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-semibold text-gray-800">
-              Budget Details
+              Expense Summary
             </h2>
             <div className="flex space-x-2">
               <button
