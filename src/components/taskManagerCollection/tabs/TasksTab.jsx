@@ -67,7 +67,7 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
         <p>Loading tasks...</p>
       )}
 
-      {tasks.items.length === 0 && tasks.status === "succeeded" && (
+      {tasks.items.length === 0 && (
         <p className="text-gray-600">No tasks for this event.</p>
       )}
 
