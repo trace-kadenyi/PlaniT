@@ -29,9 +29,9 @@ export default function BudgetOverview({ budgetStatus }) {
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] mb-6">
-      <h2 className="text-lg font-semibold text-[#9B2C62] mb-4">
+      {/* <h2 className="text-lg font-semibold text-[#9B2C62] mb-4">
         Budget Overview
-      </h2>
+      </h2> */}
 
       <div className="space-y-4">
         {/* Budget Progress Bar */}
@@ -49,7 +49,7 @@ export default function BudgetOverview({ budgetStatus }) {
         </div>
 
         {/* Budget Metrics */}
-        <div className="grid grid-cols-3 gap-4 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
           <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9]">
             <p className="text-sm text-[#6B3B0F] font-medium">Total Budget</p>
             <p className="text-xl font-bold text-[#9B2C62]">
