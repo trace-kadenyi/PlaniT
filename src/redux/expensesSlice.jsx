@@ -89,7 +89,59 @@ const expensesSlice = createSlice({
         state.error = action.error.message;
       });
 
- 
+    // Create expense
+    builder
+      .addCase(createExpense.pending, (state) => {
+        state.createStatus = "loading";
+      })
+      .addCase(createExpense.fulfilled, (state, action) => {
+        state.createStatus = "succeeded";
+        state.items.unshift(action.payload.expense);
+        state.budgetStatus = action.payload.budgetStatus;
+      })
+      .addCase(createExpense.rejected, (state, action) => {
+        state.createStatus = "failed";
+        state.createError = action.payload?.message || action.error.message;
+      });
+
+    // Update expense
+    builder
+      .addCase(updateExpense.pending, (state) => {
+        state.updateStatus = "loading";
+      })
+      .addCase(updateExpense.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+        const index = state.items.findIndex(
+          (e) => e._id === action.payload.expense._id
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload.expense;
+        }
+        state.budgetStatus = action.payload.budgetStatus;
+      })
+      .addCase(updateExpense.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError = action.payload?.message || action.error.message;
+      });
+
+    // Delete expense
+    builder
+      .addCase(deleteExpense.pending, (state) => {
+        state.deleteStatus = "loading";
+      })
+      .addCase(deleteExpense.fulfilled, (state, action) => {
+        state.deleteStatus = "succeeded";
+        state.items = state.items.filter(
+          (expense) => expense._id !== action.payload
+        );
+        // Note: We'd need to fetch updated budgetStatus after deletion
+      })
+      .addCase(deleteExpense.rejected, (state, action) => {
+        state.deleteStatus = "failed";
+        state.deleteError = action.payload?.message || action.error.message;
+      });
   },
 });
 
+export const { resetExpenseStatuses } = expensesSlice.actions;
+export default expensesSlice.reducer;
