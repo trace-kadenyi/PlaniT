@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
-import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
+import { fetchEvents, deleteEvent, fetchEventById } from "../redux/eventsSlice";
 import {
   formatDateTime,
   getStatusColor,
@@ -34,25 +34,26 @@ export default function Event() {
   const tasksState = useSelector((state) => state.tasks);
 
   // fetch tasks
-  useEffect(() => {
-    if (eventsState.items.length === 0) {
-      dispatch(fetchEvents());
-    }
+ useEffect(() => {
+  dispatch(fetchEventById(id));
+  dispatch(clearTasks());
+  dispatch(fetchTasks(id));
 
-    dispatch(clearTasks()); // ✅ Clear old tasks immediately
-    dispatch(fetchTasks(id)); // ✅ Then load new tasks
-  }, [dispatch, id]);
+ 
+}, [dispatch, id]);
 
-  const event = eventsState.items.find((event) => event._id === id);
+
+const event = eventsState.selectedEvent;
 
   // handle event loading state
   if (
-    eventsState.status === "loading" ||
-    tasksState.status === "loading" ||
-    !event
-  ) {
-    return <EventLoadingState />;
-  }
+  eventsState.fetchOneStatus === "loading" ||
+  tasksState.status === "loading" ||
+  !event
+) {
+  return <EventLoadingState />;
+}
+
 
   // For tasks loading
   {
