@@ -278,5 +278,6 @@ export const {
   resetUpdateState,
   clearSelectedEvent,
   resetDeleteState,
+  resetBudgetUpdateState,
 } = eventsSlice.actions;
 export default eventsSlice.reducer;
