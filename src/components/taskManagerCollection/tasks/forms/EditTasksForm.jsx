@@ -8,7 +8,6 @@ import TaskFormFields from "./TaskFormFields";
 
 export default function EditTaskForm({ task, onClose }) {
   const dispatch = useDispatch();
-  const { id: eventId } = useParams();
   const taskStatus = useSelector((state) => state.tasks.status);
   const taskError = useSelector((state) => state.tasks.error);
   const event = useSelector((state) => state.events.selectedEvent);

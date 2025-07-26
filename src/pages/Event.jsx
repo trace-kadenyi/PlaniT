@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
+import { fetchExpenses } from "../redux/expensesSlice";
 import {
   formatDateTime,
   getStatusColor,
@@ -21,6 +22,7 @@ import { createTaskDeleteHandler } from "../components/taskManagerCollection/uti
 import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
+import BudgetOverview from "../components/taskManagerCollection/budgeting/BudgetOverview";
 
 export default function Event() {
   const { id } = useParams();
@@ -29,13 +31,15 @@ export default function Event() {
 
   //  initialize tab state
   const [activeTab, setActiveTab] = useState("tasks");
-  // events and tasks states
+  // events, tasks and expenses selectors
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
+  const expensesState = useSelector((state) => state.expenses);
 
   // fetch tasks
   useEffect(() => {
     dispatch(fetchEventById(id));
+    dispatch(fetchExpenses(id));
     dispatch(clearTasks());
     dispatch(fetchTasks(id));
   }, [dispatch, id]);
@@ -137,6 +141,10 @@ export default function Event() {
               </span>
             </div>
           </div>
+          {/* budget overview bar */}
+          {expensesState.budgetStatus && (
+            <BudgetOverview budgetStatus={expensesState.budgetStatus} />
+          )}
         </div>
       </div>
 
@@ -150,7 +158,12 @@ export default function Event() {
       )}
 
       {/* budget tab */}
-      {activeTab === "budget" && <BudgetTab />}
+      {activeTab === "budget" && (
+        <BudgetTab
+          expenses={expensesState.items}
+          budgetStatus={expensesState.budgetStatus}
+        />
+      )}
     </main>
   );
 }

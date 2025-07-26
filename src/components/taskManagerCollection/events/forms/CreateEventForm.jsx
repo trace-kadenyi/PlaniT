@@ -2,14 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
-import {
-  createEvent,
-  resetCreateState,
-  fetchEvents,
-} from "../../../../redux/eventsSlice";
+import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
-import { formatForDateTimeLocal } from "../../utils/dateHelpers";
 
 export default function CreateEventForm() {
   const dispatch = useDispatch();
@@ -24,6 +19,8 @@ export default function CreateEventForm() {
     date: "",
     type: "",
     status: "Planning",
+    initialBudget: "",
+    budgetNotes: "",
     location: {
       venue: "",
       address: "",
@@ -60,14 +57,15 @@ export default function CreateEventForm() {
       const dataToSend = {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
+        initialBudget: Number(formData.initialBudget) || 0, // Ensure number type
       };
 
       const res = await dispatch(createEvent(dataToSend)).unwrap();
 
       toastWithProgress("Event successfully created");
 
-      const newEventId = res?.event?._id || res?._id;
-
+      // Use the event ID from the response
+      const newEventId = res.event?._id || res._id;
       if (newEventId) {
         navigate(`/events/${newEventId}`);
       }

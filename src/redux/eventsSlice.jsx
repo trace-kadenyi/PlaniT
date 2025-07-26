@@ -3,11 +3,13 @@ import api from "../app/api";
 
 // --- Async Thunks ---
 
+// fetch all events
 export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
   const res = await api.get("/api/events");
   return res.data;
 });
 
+// fetch event by id
 export const fetchEventById = createAsyncThunk(
   "events/fetchEventById",
   async (eventId) => {
@@ -16,6 +18,7 @@ export const fetchEventById = createAsyncThunk(
   }
 );
 
+// create event
 export const createEvent = createAsyncThunk(
   "events/createEvent",
   async (newEvent, { rejectWithValue }) => {
@@ -28,6 +31,7 @@ export const createEvent = createAsyncThunk(
   }
 );
 
+// update event
 export const updateEvent = createAsyncThunk(
   "events/updateEvent",
   async ({ eventId, updatedEvent }, { rejectWithValue }) => {
@@ -40,11 +44,25 @@ export const updateEvent = createAsyncThunk(
   }
 );
 
+// delete event
 export const deleteEvent = createAsyncThunk(
   "events/deleteEvent",
   async (eventId) => {
     await api.delete(`/api/events/${eventId}`);
     return eventId;
+  }
+);
+
+// budget updates
+export const updateBudget = createAsyncThunk(
+  "events/updateBudget",
+  async ({ eventId, updatedBudget }, { rejectWithValue }) => {
+    try {
+      const res = await api.put(`/api/budget/${eventId}`, updatedBudget);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -72,6 +90,9 @@ const eventsSlice = createSlice({
     fetchOneError: null,
 
     selectedEvent: null,
+
+    updateBudgetStatus: "idle",
+    updateBudgetError: null,
   },
 
   reducers: {
@@ -103,6 +124,10 @@ const eventsSlice = createSlice({
     resetDeleteState: (state) => {
       state.deleteStatus = "idle";
       state.deleteError = null;
+    },
+    resetBudgetUpdateState: (state) => {
+      state.updateBudgetStatus = "idle";
+      state.updateBudgetError = null;
     },
   },
 
@@ -145,7 +170,15 @@ const eventsSlice = createSlice({
       })
       .addCase(createEvent.fulfilled, (state, action) => {
         state.createStatus = "succeeded";
-        state.items.unshift(action.payload);
+        const newEvent = {
+          ...action.payload.event, // event data
+          budget: {
+            _id: action.payload.budgetId,
+            totalBudget: action.payload.event.initialBudget || 0,
+            notes: action.payload.event.budgetNotes || "",
+          },
+        };
+        state.items.unshift(newEvent);
       })
       .addCase(createEvent.rejected, (state, action) => {
         state.createStatus = "failed";
@@ -155,7 +188,7 @@ const eventsSlice = createSlice({
           "Failed to create event.";
       });
 
-    // Update
+    // Update event
     builder
       .addCase(updateEvent.pending, (state) => {
         state.updateStatus = "loading";
@@ -201,6 +234,40 @@ const eventsSlice = createSlice({
         state.deleteStatus = "failed";
         state.deleteError = action.error.message;
       });
+    // update budget
+    builder
+      .addCase(updateBudget.pending, (state) => {
+        state.updateBudgetStatus = "loading";
+        state.updateBudgetError = null;
+      })
+      .addCase(updateBudget.fulfilled, (state, action) => {
+        state.updateBudgetStatus = "succeeded";
+        const { eventId } = action.meta.arg;
+
+        // Update in items array
+        const eventIndex = state.items.findIndex((e) => e._id === eventId);
+        if (eventIndex !== -1) {
+          state.items[eventIndex].budget = {
+            ...state.items[eventIndex].budget,
+            ...action.payload,
+          };
+        }
+
+        // Update in selectedEvent
+        if (state.selectedEventId === eventId && state.selectedEvent) {
+          state.selectedEvent.budget = {
+            ...state.selectedEvent.budget,
+            ...action.payload,
+          };
+        }
+      })
+      .addCase(updateBudget.rejected, (state, action) => {
+        state.updateBudgetStatus = "failed";
+        state.updateBudgetError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to update budget";
+      });
   },
 });
 
@@ -211,5 +278,6 @@ export const {
   resetUpdateState,
   clearSelectedEvent,
   resetDeleteState,
+  resetBudgetUpdateState,
 } = eventsSlice.actions;
 export default eventsSlice.reducer;

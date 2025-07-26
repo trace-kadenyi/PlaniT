@@ -168,6 +168,57 @@ export default function EventFormFields({
         </div>
       </fieldset>
 
+      {/* Add Budget Section */}
+      <div className="mt-6 border-t border-gray-200 pt-6">
+        <h2 className="text-lg font-medium text-gray-900">
+          Budget Information
+        </h2>
+
+        <div className="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+          <div className="sm:col-span-3">
+            <label
+              htmlFor="initialBudget"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Initial Budget ($)
+            </label>
+            <div className="mt-1">
+              <input
+                type="number"
+                name="initialBudget"
+                id="initialBudget"
+                min="0"
+                step="0.01"
+                value={formData.initialBudget || ""}
+                onChange={onFieldChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold"
+                placeholder="0.00"
+              />
+            </div>
+          </div>
+
+          <div className="sm:col-span-6">
+            <label
+              htmlFor="budgetNotes"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Budget Notes (Optional)
+            </label>
+            <div className="mt-1">
+              <textarea
+                id="budgetNotes"
+                name="budgetNotes"
+                rows={3}
+                value={formData.budgetNotes || ""}
+                onChange={onFieldChange}
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2"
+                placeholder="Any notes about the budget..."
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Error Message */}
       {formStatus === "failed" && (
         <div className="p-3 bg-red-50 rounded-md">
