@@ -88,41 +88,38 @@ export default function EditEventForm() {
   };
   // submit form
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const dataToSend = {
-        ...formData,
-        date: formData.date ? new Date(formData.date).toISOString() : null,
-      };
+  e.preventDefault();
+  try {
+    const dataToSend = {
+      ...formData,
+      date: formData.date ? new Date(formData.date).toISOString() : null,
+    };
 
-      // Remove budget fields before sending event update
-      const { initialBudget, budgetNotes, ...eventData } = dataToSend;
+    // Remove budget fields before sending event update
+    const { initialBudget, budgetNotes, ...eventData } = dataToSend;
+    
+    // Dispatch both updates in parallel
+    await Promise.all([
+      dispatch(updateEvent({ 
+        eventId: id, 
+        updatedEvent: eventData 
+      })),
+      dispatch(updateBudget({
+        eventId: id,
+        updatedBudget: {
+          totalBudget: Number(initialBudget),
+          notes: budgetNotes
+        }
+      }))
+    ]);
 
-      await dispatch(
-        updateEvent({
-          eventId: id,
-          updatedEvent: eventData,
-        })
-      ).unwrap();
-
-      // Update budget separately
-      await dispatch(
-        updateBudget({
-          eventId: id,
-          updatedBudget: {
-            totalBudget: initialBudget,
-            notes: budgetNotes,
-          },
-        })
-      );
-
-      toastWithProgress("Event updated successfully");
-      navigate(`/events/${id}`);
-    } catch (err) {
-      toastWithProgress("Failed to update event");
-      console.error("Update error:", err);
-    }
-  };
+    toastWithProgress("Event updated successfully");
+    navigate(`/events/${id}`);
+  } catch (err) {
+    toastWithProgress("Failed to update event");
+    console.error("Update error:", err);
+  }
+};
   // reset update state
   useEffect(() => {
     return () => {
