@@ -22,6 +22,8 @@ export default function CreateEventForm() {
     date: "",
     type: "",
     status: "Planning",
+    initialBudget: "",
+    budgetNotes: "",
     location: {
       venue: "",
       address: "",
