@@ -90,6 +90,9 @@ const eventsSlice = createSlice({
     fetchOneError: null,
 
     selectedEvent: null,
+
+    updateBudgetStatus: "idle",
+  updateBudgetError: null,
   },
 
   reducers: {
@@ -173,7 +176,7 @@ const eventsSlice = createSlice({
           "Failed to create event.";
       });
 
-    // Update
+    // Update event
     builder
       .addCase(updateEvent.pending, (state) => {
         state.updateStatus = "loading";
@@ -218,6 +221,31 @@ const eventsSlice = createSlice({
       .addCase(deleteEvent.rejected, (state, action) => {
         state.deleteStatus = "failed";
         state.deleteError = action.error.message;
+      });
+    // update budget
+    builder
+      .addCase(updateBudget.pending, (state) => {
+        state.updateStatus = "loading";
+        state.updateError = null;
+      })
+      .addCase(updateBudget.fulfilled, (state, action) => {
+        // Update budget data in the state
+        const eventIndex = state.items.findIndex(
+          (e) => e._id === action.meta.arg.eventId
+        );
+        if (eventIndex !== -1) {
+          state.items[eventIndex].budget = action.payload;
+        }
+        if (state.selectedEventId === action.meta.arg.eventId) {
+          state.selectedEvent.budget = action.payload;
+        }
+      })
+      .addCase(updateBudget.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to update budget.";
       });
   },
 });
