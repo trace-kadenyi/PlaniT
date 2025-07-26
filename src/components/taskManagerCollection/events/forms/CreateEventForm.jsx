@@ -54,27 +54,28 @@ export default function CreateEventForm() {
   };
 
   // submit form
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const dataToSend = {
-        ...formData,
-        date: formData.date ? new Date(formData.date).toISOString() : null,
-      };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const dataToSend = {
+      ...formData,
+      date: formData.date ? new Date(formData.date).toISOString() : null,
+      initialBudget: Number(formData.initialBudget) || 0, // Ensure number type
+    };
 
-      const res = await dispatch(createEvent(dataToSend)).unwrap();
+    const res = await dispatch(createEvent(dataToSend)).unwrap();
 
-      toastWithProgress("Event successfully created");
+    toastWithProgress("Event successfully created");
 
-      const newEventId = res?.event?._id || res?._id;
-
-      if (newEventId) {
-        navigate(`/events/${newEventId}`);
-      }
-    } catch (err) {
-      toastWithProgress(`Error: ${err.message || "Failed to create event"}`);
+    // Use the event ID from the response
+    const newEventId = res.event?._id || res._id;
+    if (newEventId) {
+      navigate(`/events/${newEventId}`);
     }
-  };
+  } catch (err) {
+    toastWithProgress(`Error: ${err.message || "Failed to create event"}`);
+  }
+};
 
   useEffect(() => {
     // 🧹 Clean up when component unmounts
