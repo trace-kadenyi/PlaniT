@@ -11,9 +11,7 @@ export default function CreateTaskForm({ onClose }) {
   const { id: eventId } = useParams();
   const taskStatus = useSelector((state) => state.tasks.status);
   const taskError = useSelector((state) => state.tasks.error);
-  const event = useSelector((state) =>
-    state.events.items.find((event) => event._id === eventId)
-  );
+  const event = useSelector((state) => state.events.selectedEvent);
 
   const [form, setForm] = useState({
     title: "",
@@ -69,6 +67,14 @@ export default function CreateTaskForm({ onClose }) {
       dispatch(resetTaskStatus());
     };
   }, [dispatch]);
+
+  console.log(
+    "Redux events state:",
+    useSelector((state) => state.events)
+  );
+  console.log("Found event:", event);
+  console.log("Event date raw:", event?.date);
+  console.log("Event date as Date:", new Date(event?.date));
 
   return (
     <TaskFormFields
