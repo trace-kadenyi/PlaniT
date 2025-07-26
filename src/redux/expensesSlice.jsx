@@ -39,12 +39,12 @@ export const updateExpense = createAsyncThunk(
 // delete expense
 export const deleteExpense = createAsyncThunk(
   "expenses/deleteExpense",
-  async (id, { rejectWithValue }) => {
+  async (expenseId, { rejectWithValue }) => {
     try {
-      await api.delete(`/api/expenses/${id}`);
-      return id;
+      const res = await api.delete(`/api/expenses/${expenseId}`);
+      return res.data;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      return rejectWithValue(err.response?.data || err.message);
     }
   }
 );
@@ -131,10 +131,14 @@ const expensesSlice = createSlice({
       })
       .addCase(deleteExpense.fulfilled, (state, action) => {
         state.deleteStatus = "succeeded";
+
+        // Remove the deleted expense
         state.items = state.items.filter(
-          (expense) => expense._id !== action.payload
+          (expense) => expense._id !== action.payload.deletedExpense._id
         );
-        // Note: We'd need to fetch updated budgetStatus after deletion
+
+        // Update budget status with the fresh data from backend
+        state.budgetStatus = action.payload.budgetStatus;
       })
       .addCase(deleteExpense.rejected, (state, action) => {
         state.deleteStatus = "failed";
