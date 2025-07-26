@@ -3,8 +3,8 @@ import ProgressBar from "../../ui/ProgressBar";
 export default function BudgetOverview({ budgetStatus }) {
   if (!budgetStatus || budgetStatus.totalBudget === 0) {
     return (
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">
+      <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] mb-6">
+        <h2 className="text-lg font-semibold text-[#9B2C62] mb-4">
           Budget Overview
         </h2>
         <p className="text-gray-600">No budget set for this event</p>
@@ -17,8 +17,8 @@ export default function BudgetOverview({ budgetStatus }) {
   const isBudgetWarning = remainingBudget < totalBudget * 0.1;
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] mb-6">
+      <h2 className="text-lg font-semibold text-[#9B2C62] mb-4">
         Budget Overview
       </h2>
 
@@ -26,44 +26,48 @@ export default function BudgetOverview({ budgetStatus }) {
         {/* Budget Progress Bar */}
         <div>
           <div className="flex justify-between text-sm font-medium mb-2">
-            <span className="text-gray-600">Budget Utilization</span>
-            <span className="text-gray-800">{percentageUsed.toFixed(1)}%</span>
+            <span className="text-[#6B3B0F]">Budget Utilization</span>
+            <span className="text-[#9B2C62] font-bold">
+              {percentageUsed.toFixed(1)}%
+            </span>
           </div>
           <ProgressBar
             value={percentageUsed}
-            className={isBudgetWarning ? "bg-red-100" : "bg-blue-100"}
+            className={isBudgetWarning ? "bg-[#FFF5EB]" : "bg-[#FFF5EB]"}
           />
         </div>
 
         {/* Budget Metrics */}
         <div className="grid grid-cols-3 gap-4 text-center">
-          <div className="bg-blue-50 p-3 rounded-lg">
-            <p className="text-sm text-blue-600 font-medium">Total Budget</p>
-            <p className="text-xl font-bold text-blue-800">
+          <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9]">
+            <p className="text-sm text-[#6B3B0F] font-medium">Total Budget</p>
+            <p className="text-xl font-bold text-[#9B2C62]">
               ${totalBudget.toLocaleString()}
             </p>
           </div>
-          <div className="bg-amber-50 p-3 rounded-lg">
-            <p className="text-sm text-amber-600 font-medium">Expenses</p>
-            <p className="text-xl font-bold text-amber-800">
+          <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9]">
+            <p className="text-sm text-[#6B3B0F] font-medium">Expenses</p>
+            <p className="text-xl font-bold text-[#9B2C62]">
               ${totalExpenses.toLocaleString()}
             </p>
           </div>
           <div
-            className={`p-3 rounded-lg ${
-              isBudgetWarning ? "bg-red-50" : "bg-green-50"
+            className={`p-3 rounded-lg border ${
+              isBudgetWarning
+                ? "bg-[#FFF5EB] border-[#F59E0B]"
+                : "bg-[#FFF5EB] border-[#F3EDE9]"
             }`}
           >
             <p
               className={`text-sm font-medium ${
-                isBudgetWarning ? "text-red-600" : "text-green-600"
+                isBudgetWarning ? "text-[#6B3B0F]" : "text-[#6B3B0F]"
               }`}
             >
               Remaining
             </p>
             <p
               className={`text-xl font-bold ${
-                isBudgetWarning ? "text-red-800" : "text-green-800"
+                isBudgetWarning ? "text-[#9B2C62]" : "text-[#9B2C62]"
               }`}
             >
               ${remainingBudget.toLocaleString()}
@@ -73,7 +77,7 @@ export default function BudgetOverview({ budgetStatus }) {
 
         {/* Budget Warning (if applicable) */}
         {isBudgetWarning && (
-          <div className="mt-4 p-3 bg-red-100 rounded-lg text-red-800 text-sm">
+          <div className="mt-4 p-3 bg-[#FFF5EB] rounded-lg text-[#6B3B0F] text-sm border border-[#F59E0B]">
             ⚠️ Warning: Less than 10% of budget remaining
           </div>
         )}
