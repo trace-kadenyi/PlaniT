@@ -142,7 +142,10 @@ const expensesSlice = createSlice({
       })
       .addCase(deleteExpense.rejected, (state, action) => {
         state.deleteStatus = "failed";
-        state.deleteError = action.payload?.message || action.error.message;
+        state.deleteError =
+          action.payload?.message ||
+          action.payload?.systemMessage ||
+          action.error.message;
       });
   },
 });
