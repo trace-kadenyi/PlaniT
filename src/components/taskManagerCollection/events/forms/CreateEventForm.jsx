@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
-import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
+import {
+  createEvent,
+  resetCreateState,
+  fetchEvents,
+} from "../../../../redux/eventsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 import { formatForDateTimeLocal } from "../../utils/dateHelpers";
@@ -50,21 +54,25 @@ export default function CreateEventForm() {
   };
 
   // submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const dataToSend = {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
       };
-      dispatch(createEvent(dataToSend)).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          toastWithProgress(`Event successfully created`);
-          navigate(`/events/${res.payload._id}`);
-        }
-      });
+
+      const res = await dispatch(createEvent(dataToSend)).unwrap();
+
+      toastWithProgress("Event successfully created");
+
+      const newEventId = res?.event?._id || res?._id;
+
+      if (newEventId) {
+        navigate(`/events/${newEventId}`);
+      }
     } catch (err) {
-      toastWithProgress(`Error: ${err.message}`);
+      toastWithProgress(`Error: ${err.message || "Failed to create event"}`);
     }
   };
 
