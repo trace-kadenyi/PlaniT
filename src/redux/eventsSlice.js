@@ -125,6 +125,10 @@ const eventsSlice = createSlice({
       state.deleteStatus = "idle";
       state.deleteError = null;
     },
+    resetBudgetUpdateState: (state) => {
+  state.updateBudgetStatus = "idle";
+  state.updateBudgetError = null;
+}
   },
 
   extraReducers: (builder) => {
