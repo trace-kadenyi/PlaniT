@@ -3,11 +3,13 @@ import api from "../app/api";
 
 // --- Async Thunks ---
 
+// fetch all events
 export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
   const res = await api.get("/api/events");
   return res.data;
 });
 
+// fetch event by id
 export const fetchEventById = createAsyncThunk(
   "events/fetchEventById",
   async (eventId) => {
@@ -16,6 +18,7 @@ export const fetchEventById = createAsyncThunk(
   }
 );
 
+// create event
 export const createEvent = createAsyncThunk(
   "events/createEvent",
   async (newEvent, { rejectWithValue }) => {
@@ -28,6 +31,7 @@ export const createEvent = createAsyncThunk(
   }
 );
 
+// update event
 export const updateEvent = createAsyncThunk(
   "events/updateEvent",
   async ({ eventId, updatedEvent }, { rejectWithValue }) => {
@@ -40,11 +44,25 @@ export const updateEvent = createAsyncThunk(
   }
 );
 
+// delete event
 export const deleteEvent = createAsyncThunk(
   "events/deleteEvent",
   async (eventId) => {
     await api.delete(`/api/events/${eventId}`);
     return eventId;
+  }
+);
+
+// budget updates
+export const updateBudget = createAsyncThunk(
+  "events/updateBudget",
+  async ({ eventId, updatedBudget }, { rejectWithValue }) => {
+    try {
+      const res = await api.put(`/api/budget/${eventId}`, updatedBudget);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
