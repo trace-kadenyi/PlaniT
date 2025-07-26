@@ -169,9 +169,17 @@ const eventsSlice = createSlice({
         state.createError = null;
       })
       .addCase(createEvent.fulfilled, (state, action) => {
-        state.createStatus = "succeeded";
-        state.items.unshift(action.payload);
-      })
+  state.createStatus = "succeeded";
+  const newEvent = {
+    ...action.payload.event, // event data
+    budget: {
+      _id: action.payload.budgetId,
+      totalBudget: action.payload.event.initialBudget || 0,
+      notes: action.payload.event.budgetNotes || ""
+    }
+  };
+  state.items.unshift(newEvent);
+})
       .addCase(createEvent.rejected, (state, action) => {
         state.createStatus = "failed";
         state.createError =
