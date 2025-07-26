@@ -92,7 +92,7 @@ const eventsSlice = createSlice({
     selectedEvent: null,
 
     updateBudgetStatus: "idle",
-  updateBudgetError: null,
+    updateBudgetError: null,
   },
 
   reducers: {
@@ -126,9 +126,9 @@ const eventsSlice = createSlice({
       state.deleteError = null;
     },
     resetBudgetUpdateState: (state) => {
-  state.updateBudgetStatus = "idle";
-  state.updateBudgetError = null;
-}
+      state.updateBudgetStatus = "idle";
+      state.updateBudgetError = null;
+    },
   },
 
   extraReducers: (builder) => {
@@ -169,17 +169,17 @@ const eventsSlice = createSlice({
         state.createError = null;
       })
       .addCase(createEvent.fulfilled, (state, action) => {
-  state.createStatus = "succeeded";
-  const newEvent = {
-    ...action.payload.event, // event data
-    budget: {
-      _id: action.payload.budgetId,
-      totalBudget: action.payload.event.initialBudget || 0,
-      notes: action.payload.event.budgetNotes || ""
-    }
-  };
-  state.items.unshift(newEvent);
-})
+        state.createStatus = "succeeded";
+        const newEvent = {
+          ...action.payload.event, // event data
+          budget: {
+            _id: action.payload.budgetId,
+            totalBudget: action.payload.event.initialBudget || 0,
+            notes: action.payload.event.budgetNotes || "",
+          },
+        };
+        state.items.unshift(newEvent);
+      })
       .addCase(createEvent.rejected, (state, action) => {
         state.createStatus = "failed";
         state.createError =
@@ -237,27 +237,36 @@ const eventsSlice = createSlice({
     // update budget
     builder
       .addCase(updateBudget.pending, (state) => {
-        state.updateStatus = "loading";
-        state.updateError = null;
+        state.updateBudgetStatus = "loading";
+        state.updateBudgetError = null;
       })
       .addCase(updateBudget.fulfilled, (state, action) => {
-        // Update budget data in the state
-        const eventIndex = state.items.findIndex(
-          (e) => e._id === action.meta.arg.eventId
-        );
+        state.updateBudgetStatus = "succeeded";
+        const { eventId } = action.meta.arg;
+
+        // Update in items array
+        const eventIndex = state.items.findIndex((e) => e._id === eventId);
         if (eventIndex !== -1) {
-          state.items[eventIndex].budget = action.payload;
+          state.items[eventIndex].budget = {
+            ...state.items[eventIndex].budget,
+            ...action.payload,
+          };
         }
-        if (state.selectedEventId === action.meta.arg.eventId) {
-          state.selectedEvent.budget = action.payload;
+
+        // Update in selectedEvent
+        if (state.selectedEventId === eventId && state.selectedEvent) {
+          state.selectedEvent.budget = {
+            ...state.selectedEvent.budget,
+            ...action.payload,
+          };
         }
       })
       .addCase(updateBudget.rejected, (state, action) => {
-        state.updateStatus = "failed";
-        state.updateError =
+        state.updateBudgetStatus = "failed";
+        state.updateBudgetError =
           action.payload?.message ||
           action.error.message ||
-          "Failed to update budget.";
+          "Failed to update budget";
       });
   },
 });
