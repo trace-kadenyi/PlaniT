@@ -68,14 +68,6 @@ export default function CreateTaskForm({ onClose }) {
     };
   }, [dispatch]);
 
-  console.log(
-    "Redux events state:",
-    useSelector((state) => state.events)
-  );
-  console.log("Found event:", event);
-  console.log("Event date raw:", event?.date);
-  console.log("Event date as Date:", new Date(event?.date));
-
   return (
     <TaskFormFields
       form={form}
