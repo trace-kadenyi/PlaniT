@@ -153,7 +153,12 @@ const expensesState = useSelector((state) => state.expenses);
       )}
 
       {/* budget tab */}
-      {activeTab === "budget" && <BudgetTab />}
+      {activeTab === "budget" && (
+  <BudgetTab 
+    expenses={expensesState.items} 
+    budgetStatus={expensesState.budgetStatus} 
+  />
+)}
     </main>
   );
 }
