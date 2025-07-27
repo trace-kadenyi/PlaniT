@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateExpense, resetExpenseStatuses } from "../../../../redux/expensesSlice";
+import {
+  updateExpense,
+  resetExpenseStatuses,
+} from "../../../../redux/expensesSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
-export default function EditExpenseForm({ expense, onClose }) {
+export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
   const dispatch = useDispatch();
   const expenseStatus = useSelector((state) => state.expenses.updateStatus);
   const expenseError = useSelector((state) => state.expenses.updateError);
@@ -42,7 +45,9 @@ export default function EditExpenseForm({ expense, onClose }) {
         category: expense.category || "other",
         vendorName: expense.vendorName || "",
         paymentStatus: expense.paymentStatus || "pending",
-        paymentDate: expense.paymentDate ? expense.paymentDate.split("T")[0] : "",
+        paymentDate: expense.paymentDate
+          ? expense.paymentDate.split("T")[0]
+          : "",
         dueDate: expense.dueDate ? expense.dueDate.split("T")[0] : "",
         notes: expense.notes || "",
         receiptUrl: expense.receiptUrl || "",
@@ -59,7 +64,7 @@ export default function EditExpenseForm({ expense, onClose }) {
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const updatedExpense = {
         ...form,
@@ -97,6 +102,7 @@ export default function EditExpenseForm({ expense, onClose }) {
       onClose={handleClose}
       expenseStatus={expenseStatus}
       expenseError={expenseError}
+      budgetStatus={budgetStatus}
       mode="edit"
     />
   );
