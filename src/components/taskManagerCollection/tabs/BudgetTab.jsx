@@ -31,9 +31,6 @@ export default function BudgetTab({
     }
   }, [scrollToForm, showCreateExpenseForm]);
 
-  // Temporary debug in BudgetTab
-  console.log("handleExpenseDelete exists?", !!handleExpenseDelete);
-
   return (
     <>
       <div className="flex justify-between items-center mb-4">
