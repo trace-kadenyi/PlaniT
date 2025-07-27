@@ -62,12 +62,14 @@ export default function BudgetTab({
                 setExpenseToEdit(null);
                 setShowCreateExpenseForm(false);
               }}
+              budgetStatus={budgetStatus}
             />
           ) : (
             <CreateExpenseForm
               onClose={() => {
                 setShowCreateExpenseForm(false);
               }}
+              budgetStatus={budgetStatus}
             />
           )}
         </div>
