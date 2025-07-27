@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { Plus, XCircle, Pencil, Trash2 } from "lucide-react";
-import PropTypes from "prop-types";
 
 import { getExpensesByCategory } from "../utils/budgetHelpers";
 import EditExpenseForm from "../expenses/forms/EditExpenseForm";
@@ -11,18 +10,6 @@ export default function BudgetTab({
   budgetStatus,
   handleExpenseDelete,
 }) {
-  // Add this before the component export
-  BudgetTab.propTypes = {
-    expenses: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.shape({
-        items: PropTypes.array,
-        status: PropTypes.string,
-      }),
-    ]).isRequired,
-    budgetStatus: PropTypes.object,
-    handleExpenseDelete: PropTypes.func.isRequired, // Mark as required
-  };
   const [showCreateExpenseForm, setShowCreateExpenseForm] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const [scrollToForm, setScrollToForm] = useState(false);
