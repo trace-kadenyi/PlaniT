@@ -85,38 +85,21 @@ export default function Event() {
     DeleteConfirmationToast
   );
 
+ 
   // handle delete expense
 const handleExpenseDelete = (expenseId) => {
-  return new Promise((resolve) => {
-    toastWithProgress(
-      (t) => (
-        <DeleteConfirmationToast
-          t={t}
-          onConfirm={() => {
-            dispatch(deleteExpense(expenseId))
-              .then((res) => {
-                if (res.meta.requestStatus === "fulfilled") {
-                  toast.success("Expense deleted successfully");
-                  resolve(true);
-                } else {
-                  toast.error("Failed to delete expense");
-                  resolve(false);
-                }
-              })
-              .catch(() => {
-                toast.error("Failed to delete expense");
-                resolve(false);
-              });
-          }}
-          onCancel={() => resolve(false)}
-          message="Are you sure you want to delete this expense?"
-        />
-      ),
-      { duration: Infinity }
-    );
-  });
+  dispatch(deleteExpense(expenseId))
+    .then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        console.log("Expense deleted successfully");
+      } else {
+        console.error("Failed to delete expense");
+      }
+    })
+    .catch((err) => {
+      console.error("Delete error:", err);
+    });
 };
-
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
       {/* event card */}
@@ -194,6 +177,7 @@ const handleExpenseDelete = (expenseId) => {
         <BudgetTab
           expenses={expensesState.items}
           budgetStatus={expensesState.budgetStatus}
+          handleExpenseDelete={handleExpenseDelete}
         />
       )}
     </main>
