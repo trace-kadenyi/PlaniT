@@ -1,8 +1,9 @@
 import ProgressBar from "../../ui/ProgressBar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 export default function BudgetOverview({ budgetStatus }) {
-  const [isPulsing, setIsPulsing] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (!budgetStatus || budgetStatus.totalBudget === 0) {
     return (
@@ -19,37 +20,51 @@ export default function BudgetOverview({ budgetStatus }) {
   const percentageUsed = (totalExpenses / totalBudget) * 100;
   const isBudgetWarning = remainingBudget < totalBudget * 0.1;
 
-  useEffect(() => {
-    if (isBudgetWarning) {
-      setIsPulsing(true);
-      const timer = setTimeout(() => setIsPulsing(false), 3000); // Stop after 3 seconds
-      return () => clearTimeout(timer);
-    }
-  }, [isBudgetWarning]);
+  const renderHeader = (withChevron = false) => (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center">
+        <h2 className="text-lg font-semibold text-[#9B2C62]">
+          Budget Overview
+        </h2>
+        {withChevron && (
+          <div className="pl-4">
+            {isExpanded ? (
+              <ChevronUpIcon className="h-5 w-5 text-[#6B3B0F]" />
+            ) : (
+              <ChevronDownIcon className="h-5 w-5 text-[#6B3B0F]" />
+            )}
+          </div>
+        )}
+      </div>
+      <div className="flex justify-between text-sm font-medium">
+        <span className="text-[#6B3B0F]">Budget Utilization</span>
+        <span className="text-[#9B2C62] font-bold">
+          {percentageUsed.toFixed(1)}%
+        </span>
+      </div>
+      <ProgressBar
+        value={percentageUsed}
+        className={isBudgetWarning ? "bg-[#FFF5EB]" : "bg-[#FFF5EB]"}
+      />
+    </div>
+  );
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] mb-6">
-      <h2 className="text-lg font-semibold text-[#9B2C62] mb-4">
-        Budget Overview
-      </h2>
+      {/* Mobile Header with Toggle */}
+      <button
+        className="w-full sm:hidden text-left"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        {renderHeader(true)}
+      </button>
 
-      <div className="space-y-4">
-        {/* Budget Progress Bar */}
-        <div>
-          <div className="flex justify-between text-sm font-medium mb-2">
-            <span className="text-[#6B3B0F]">Budget Utilization</span>
-            <span className="text-[#9B2C62] font-bold">
-              {percentageUsed.toFixed(1)}%
-            </span>
-          </div>
-          <ProgressBar
-            value={percentageUsed}
-            className={isBudgetWarning ? "bg-[#FFF5EB]" : "bg-[#FFF5EB]"}
-          />
-        </div>
+      {/* Desktop Header */}
+      <div className="hidden sm:block">{renderHeader()}</div>
 
-        {/* Budget Metrics */}
-        <div className="grid grid-cols-3 gap-4 text-center">
+      {/* Content Section */}
+      <div className={isExpanded ? "block" : "hidden sm:block"}>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center mt-4">
           <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9]">
             <p className="text-sm text-[#6B3B0F] font-medium">Total Budget</p>
             <p className="text-xl font-bold text-[#9B2C62]">
@@ -84,7 +99,6 @@ export default function BudgetOverview({ budgetStatus }) {
           </div>
         </div>
 
-        {/* Budget Warning (if applicable) */}
         {isBudgetWarning && (
           <div className="mt-4 p-3 bg-[#FFF5EB] rounded-lg text-[#6B3B0F] text-sm border border-[#9B2C62] flex items-center">
             <svg

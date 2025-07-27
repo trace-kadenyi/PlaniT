@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
-import { fetchExpenses } from "../redux/expensesSlice";
+import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
 import {
   formatDateTime,
   getStatusColor,
@@ -14,11 +14,12 @@ import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
 import {
-  EventLoadingState,
+  EventLoadingState, 
   TasksLoadingState,
 } from "../components/shared/LoadingStates";
 import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
 import { createTaskDeleteHandler } from "../components/taskManagerCollection/utils/handlers/taskHandlers";
+import { createExpenseDeleteHandler } from "../components/taskManagerCollection/utils/handlers/expenseHandler";
 import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
@@ -85,6 +86,16 @@ export default function Event() {
     DeleteConfirmationToast
   );
 
+ 
+  // handle delete expense
+// Add this with your other handler creations
+const handleExpenseDelete = createExpenseDeleteHandler(
+  dispatch,
+  deleteExpense,
+  toast,
+  toastWithProgress,
+  DeleteConfirmationToast
+);
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
       {/* event card */}
@@ -162,6 +173,7 @@ export default function Event() {
         <BudgetTab
           expenses={expensesState.items}
           budgetStatus={expensesState.budgetStatus}
+          handleExpenseDelete={handleExpenseDelete}
         />
       )}
     </main>
