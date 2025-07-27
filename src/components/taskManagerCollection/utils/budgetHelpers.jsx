@@ -89,4 +89,22 @@ export function ExpenseListView({ expense }) {
   );
 }
 
-
+// handle by category view
+export function ExpenseByCategoryView({ category, amount, budgetStatus }) {
+  return (
+    <div className="border-b border-[#F3EDE9] pb-4 last:border-b-0">
+      <div className="flex justify-between items-center">
+        <h3 className="font-medium text-[#6B3B0F] capitalize">{category}</h3>
+        <div className="text-right">
+          <p className="font-bold text-[#6B3B0F]">${amount.toFixed(2)}</p>
+          <p className="text-xs text-[#9B2C62]/70">
+            {budgetStatus?.totalExpenses > 0
+              ? ((amount / budgetStatus.totalExpenses) * 100).toFixed(1)
+              : "0"}
+            % of expenses
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
