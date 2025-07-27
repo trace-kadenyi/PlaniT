@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { createExpense, resetExpenseStatuses } from "../../../../redux/expensesSlice";
+import {
+  createExpense,
+  resetExpenseStatuses,
+} from "../../../../redux/expensesSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
-export default function CreateExpenseForm({ onClose }) {
+export default function CreateExpenseForm({ onClose, budgetStatus }) {
   const dispatch = useDispatch();
   const { id: eventId } = useParams();
   const expenseStatus = useSelector((state) => state.expenses.createStatus);
@@ -32,7 +35,7 @@ export default function CreateExpenseForm({ onClose }) {
       amount: parseFloat(form.amount),
       eventId,
     };
-    
+
     dispatch(createExpense(expenseData))
       .then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
@@ -65,6 +68,7 @@ export default function CreateExpenseForm({ onClose }) {
       onClose={onClose}
       expenseStatus={expenseStatus}
       expenseError={expenseError}
+      budgetStatus={budgetStatus}
       mode="create"
     />
   );
