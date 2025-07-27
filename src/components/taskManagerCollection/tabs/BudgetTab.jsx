@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Plus, XCircle } from "lucide-react";
 
-import { getExpensesByCategory } from "../utils/budgetHelpers";
+import { getExpensesByCategory, BudgetStatus } from "../utils/budgetHelpers";
 import EditExpenseForm from "../expenses/forms/EditExpenseForm";
 import CreateExpenseForm from "../expenses/forms/CreateExpenseForm";
 import EditDeleteExpense from "../../shared/EditDeleteExpense";
@@ -68,33 +68,7 @@ export default function BudgetTab({
       )}
 
       {/* Budget Status Summary */}
-      {budgetStatus && (
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-[#F3EDE9] mb-6">
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div className="bg-[#FFF5EB] p-3 rounded-lg">
-              <p className="text-sm text-[#6B3B0F]">Total Budget</p>
-              <p className="text-xl font-bold text-[#9B2C62]">
-                ${budgetStatus.totalBudget?.toFixed(2) || "0.00"}
-              </p>
-            </div>
-            <div className="bg-[#FFF5EB] p-3 rounded-lg">
-              <p className="text-sm text-[#6B3B0F]">Total Expenses</p>
-              <p className="text-xl font-bold text-[#9B2C62]">
-                ${budgetStatus.totalExpenses?.toFixed(2) || "0.00"}
-              </p>
-            </div>
-            <div className="bg-[#FFF5EB] p-3 rounded-lg">
-              <p className="text-sm text-[#6B3B0F]">Remaining</p>
-              <p className="text-xl font-bold text-[#9B2C62]">
-                $
-                {(
-                  budgetStatus.totalBudget - budgetStatus.totalExpenses
-                )?.toFixed(2) || "0.00"}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {budgetStatus && <BudgetStatus budgetStatus={budgetStatus} />}
 
       {/* Loading/Empty States */}
       {isLoading && expensesArray.length === 0 && <p>Loading expenses...</p>}
@@ -110,7 +84,9 @@ export default function BudgetTab({
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg font-semibold text-[#6B3B0F]">
-              {activeView === "list" ? "Expenses" : "Expenses by Category"}
+              {activeView === "list"
+                ? "Expenses Summary"
+                : "Expenses by Category"}
             </h2>
             <div className="flex space-x-2">
               <button
