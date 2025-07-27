@@ -1,19 +1,39 @@
 import { useState, useEffect, useRef } from "react";
 import { Plus, XCircle, Pencil, Trash2 } from "lucide-react";
+import PropTypes from "prop-types";
+
 import { getExpensesByCategory } from "../utils/budgetHelpers";
 import EditExpenseForm from "../expenses/forms/EditExpenseForm";
 import CreateExpenseForm from "../expenses/forms/CreateExpenseForm";
 
-export default function BudgetTab({ expenses, budgetStatus, handleExpenseDelete }) {
+export default function BudgetTab({
+  expenses,
+  budgetStatus,
+  handleExpenseDelete,
+}) {
+  // Add this before the component export
+  BudgetTab.propTypes = {
+    expenses: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.shape({
+        items: PropTypes.array,
+        status: PropTypes.string,
+      }),
+    ]).isRequired,
+    budgetStatus: PropTypes.object,
+    handleExpenseDelete: PropTypes.func.isRequired, // Mark as required
+  };
   const [showCreateExpenseForm, setShowCreateExpenseForm] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const [scrollToForm, setScrollToForm] = useState(false);
   const [activeView, setActiveView] = useState("list");
 
   const formRef = useRef(null);
-  
+
   // Handle both array and Redux-style expense objects
-  const expensesArray = Array.isArray(expenses) ? expenses : expenses?.items || [];
+  const expensesArray = Array.isArray(expenses)
+    ? expenses
+    : expenses?.items || [];
   const expensesByCategory = getExpensesByCategory(expensesArray);
   const isLoading = expenses?.status === "loading";
 
@@ -23,6 +43,9 @@ export default function BudgetTab({ expenses, budgetStatus, handleExpenseDelete 
       setScrollToForm(false);
     }
   }, [scrollToForm, showCreateExpenseForm]);
+
+  // Temporary debug in BudgetTab
+  console.log("handleExpenseDelete exists?", !!handleExpenseDelete);
 
   return (
     <>
@@ -86,7 +109,10 @@ export default function BudgetTab({ expenses, budgetStatus, handleExpenseDelete 
             <div className="bg-[#FFF5EB] p-3 rounded-lg">
               <p className="text-sm text-[#6B3B0F]">Remaining</p>
               <p className="text-xl font-bold text-[#9B2C62]">
-                ${(budgetStatus.totalBudget - budgetStatus.totalExpenses)?.toFixed(2) || "0.00"}
+                $
+                {(
+                  budgetStatus.totalBudget - budgetStatus.totalExpenses
+                )?.toFixed(2) || "0.00"}
               </p>
             </div>
           </div>
@@ -94,9 +120,7 @@ export default function BudgetTab({ expenses, budgetStatus, handleExpenseDelete 
       )}
 
       {/* Loading/Empty States */}
-      {isLoading && expensesArray.length === 0 && (
-        <p>Loading expenses...</p>
-      )}
+      {isLoading && expensesArray.length === 0 && <p>Loading expenses...</p>}
 
       {expensesArray.length === 0 && !isLoading && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
@@ -189,7 +213,7 @@ export default function BudgetTab({ expenses, budgetStatus, handleExpenseDelete 
                     </button>
                     <button
                       className="p-1 rounded-md transition-all duration-200 
-                      text-[#BE3455] hover:text-white hover:bg-[#BE3455]"
+  text-[#BE3455] hover:text-white hover:bg-[#BE3455]"
                       title="Delete Expense"
                       onClick={() => handleExpenseDelete(expense._id)}
                     >
@@ -216,7 +240,10 @@ export default function BudgetTab({ expenses, budgetStatus, handleExpenseDelete 
                       </p>
                       <p className="text-xs text-[#9B2C62]/70">
                         {budgetStatus?.totalExpenses > 0
-                          ? ((amount / budgetStatus.totalExpenses) * 100).toFixed(1)
+                          ? (
+                              (amount / budgetStatus.totalExpenses) *
+                              100
+                            ).toFixed(1)
                           : "0"}
                         % of expenses
                       </p>
