@@ -19,6 +19,10 @@ export default function DeleteConfirmationToast({
       warning: "This will permanently delete the task.",
       confirm: "Yes, Delete Task",
     },
+    expense: {
+      warning: "This will permanently delete the expense.",
+      confirm: "Yes, Delete Expense",
+    },
   };
 
   useEffect(() => {
