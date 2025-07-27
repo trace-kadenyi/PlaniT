@@ -56,3 +56,37 @@ export function BudgetStatus({ budgetStatus }) {
     </div>
   );
 }
+
+// handle expense list view
+export function ExpenseListView({ expense }) {
+  return (
+    <div className="flex justify-between">
+      <div className="w-3/4">
+        <h3 className="font-medium text-[#6B3B0F]">{expense.description}</h3>
+        <p className="text-sm text-[#9B2C62]/70 capitalize">
+          {expense.category}
+          {expense.vendorName && ` • ${expense.vendorName}`}
+        </p>
+        {expense.dueDate && (
+          <p className="text-xs text-gray-500 mt-1">
+            Due: {new Date(expense.dueDate).toLocaleDateString()}
+          </p>
+        )}
+      </div>
+      <div className="text-right">
+        <p className="font-bold text-[#6B3B0F]">${expense.amount.toFixed(2)}</p>
+        <p
+          className={`text-xs ${
+            expense.paymentStatus === "paid"
+              ? "text-green-600"
+              : "text-[#F59E0B]"
+          }`}
+        >
+          {expense.paymentStatus}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
