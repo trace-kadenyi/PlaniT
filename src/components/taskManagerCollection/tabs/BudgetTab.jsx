@@ -26,11 +26,15 @@ export default function BudgetTab({
 
   // scroll to form start
   useEffect(() => {
-    if (scrollToForm && showCreateExpenseForm && formRef.current) {
+    if (
+      (scrollToForm || expenseToEdit) &&
+      showCreateExpenseForm &&
+      formRef.current
+    ) {
       formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
       setScrollToForm(false);
     }
-  }, [scrollToForm, showCreateExpenseForm]);
+  }, [scrollToForm, showCreateExpenseForm, expenseToEdit]);
 
   // Handle both array and Redux-style expense objects
   const expensesArray = Array.isArray(expenses)
@@ -47,6 +51,8 @@ export default function BudgetTab({
           onClick={() => {
             if (showCreateExpenseForm) {
               setExpenseToEdit(null);
+            } else {
+              setScrollToForm(true);
             }
             setShowCreateExpenseForm(!showCreateExpenseForm);
           }}
@@ -63,7 +69,7 @@ export default function BudgetTab({
 
       {/* Expense Form */}
       {showCreateExpenseForm && (
-        <div ref={formRef} className="mb-6">
+        <div ref={formRef} className="mb-6 scroll-mt-4">
           {expenseToEdit ? (
             <EditExpenseForm
               expense={expenseToEdit}
