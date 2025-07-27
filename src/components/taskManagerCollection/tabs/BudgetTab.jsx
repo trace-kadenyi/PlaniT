@@ -5,6 +5,7 @@ import {
   getExpensesByCategory,
   BudgetStatus,
   ExpenseListView,
+  ExpenseByCategoryView,
 } from "../utils/budgetHelpers";
 import EditExpenseForm from "../expenses/forms/EditExpenseForm";
 import CreateExpenseForm from "../expenses/forms/CreateExpenseForm";
@@ -87,6 +88,7 @@ export default function BudgetTab({
       {/* Expense List */}
       {expensesArray.length > 0 && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
+          {/* tabs List View & By Category */}
           <ExpenseTabs activeView={activeView} setActiveView={setActiveView} />
 
           {activeView === "list" ? (
@@ -96,6 +98,7 @@ export default function BudgetTab({
                   key={expense._id}
                   className="relative border-b border-[#F3EDE9] pb-4 last:border-b-0 group hover:bg-[#FFF5EB]/50"
                 >
+                  {/* list view */}
                   <ExpenseListView expense={expense} />
 
                   {/* Edit/Delete Buttons */}
@@ -111,33 +114,15 @@ export default function BudgetTab({
               ))}
             </ul>
           ) : (
-            // by category
+            // by category view
             <div className="space-y-4">
               {Object.entries(expensesByCategory).map(([category, amount]) => (
-                <div
+                <ExpenseByCategoryView
                   key={category}
-                  className="border-b border-[#F3EDE9] pb-4 last:border-b-0"
-                >
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-medium text-[#6B3B0F] capitalize">
-                      {category}
-                    </h3>
-                    <div className="text-right">
-                      <p className="font-bold text-[#6B3B0F]">
-                        ${amount.toFixed(2)}
-                      </p>
-                      <p className="text-xs text-[#9B2C62]/70">
-                        {budgetStatus?.totalExpenses > 0
-                          ? (
-                              (amount / budgetStatus.totalExpenses) *
-                              100
-                            ).toFixed(1)
-                          : "0"}
-                        % of expenses
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                  category={category}
+                  amount={amount}
+                  budgetStatus={budgetStatus}
+                />
               ))}
             </div>
           )}
