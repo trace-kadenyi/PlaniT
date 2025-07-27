@@ -151,7 +151,7 @@ export default function BudgetTab({
                   className="relative border-b border-[#F3EDE9] pb-4 last:border-b-0 group hover:bg-[#FFF5EB]/50"
                 >
                   <div className="flex justify-between">
-                    <div>
+                    <div className="w-3/4">
                       <h3 className="font-medium text-[#6B3B0F]">
                         {expense.description}
                       </h3>
@@ -182,26 +182,22 @@ export default function BudgetTab({
                   </div>
 
                   {/* Edit/Delete Buttons */}
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex space-x-1">
+                  <div className="transform -translate-y-1/2 flex space-x-2 mt-4 flex justify-self-end">
                     <button
-                      className="p-1 rounded-md transition-all duration-200 
-                      text-[#9B2C62] hover:text-white hover:bg-[#9B2C62]"
-                      title="Edit Expense"
+                      className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#9B2C62]/10 text-[#9B2C62] hover:bg-[#9B2C62] hover:text-white text-xs"
                       onClick={() => {
                         setExpenseToEdit(expense);
                         setShowCreateExpenseForm(true);
                         setScrollToForm(true);
                       }}
                     >
-                      <Pencil className="w-3.5 h-3.5" />
+                      Edit expense
                     </button>
                     <button
-                      className="p-1 rounded-md transition-all duration-200 
-  text-[#BE3455] hover:text-white hover:bg-[#BE3455]"
-                      title="Delete Expense"
+                      className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs"
                       onClick={() => handleExpenseDelete(expense._id)}
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      Delete expense
                     </button>
                   </div>
                 </li>
