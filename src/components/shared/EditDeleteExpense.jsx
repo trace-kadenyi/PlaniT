@@ -1,21 +1,10 @@
-import { useState, useEffect } from "react";
 export default function EditDeleteExpense({
-  showCreateExpenseForm,
   setShowCreateExpenseForm,
   handleExpenseDelete,
   setExpenseToEdit,
-  formRef,
   expense,
+  setScrollToForm,
 }) {
-  const [scrollToForm, setScrollToForm] = useState(false);
-
-  useEffect(() => {
-    if (scrollToForm && showCreateExpenseForm && formRef.current) {
-      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      setScrollToForm(false);
-    }
-  }, [scrollToForm, showCreateExpenseForm]);
-
   return (
     <div className="transform -translate-y-1/2 flex space-x-2 mt-4 flex justify-self-end">
       <button
