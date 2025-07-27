@@ -45,7 +45,7 @@ export default function BudgetTab({
 
   return (
     <>
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex sm:justify-between items-center mb-4 flex-col sm:flex-row gap-5 sm:gap-3">
         <h2 className="text-xl font-bold text-[#9B2C62]">Budget & Expenses</h2>
         <button
           onClick={() => {
