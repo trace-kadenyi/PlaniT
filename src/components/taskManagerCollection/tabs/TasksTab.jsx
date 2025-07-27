@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Plus, XCircle } from "lucide-react";
 
-import EditTaskForm from "../tasks/forms/EditTasksForm";
+import EditTaskForm from "../tasks/forms/EditTaskForm";
 import CreateTaskForm from "../tasks/forms/CreateTaskForm";
 import TaskCard from "../tasks/TaskCard";
 
