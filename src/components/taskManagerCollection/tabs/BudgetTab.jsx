@@ -1,7 +1,11 @@
 import { useState, useRef } from "react";
 import { Plus, XCircle } from "lucide-react";
 
-import { getExpensesByCategory, BudgetStatus } from "../utils/budgetHelpers";
+import {
+  getExpensesByCategory,
+  BudgetStatus,
+  ExpenseListView,
+} from "../utils/budgetHelpers";
 import EditExpenseForm from "../expenses/forms/EditExpenseForm";
 import CreateExpenseForm from "../expenses/forms/CreateExpenseForm";
 import EditDeleteExpense from "../../shared/EditDeleteExpense";
@@ -92,36 +96,7 @@ export default function BudgetTab({
                   key={expense._id}
                   className="relative border-b border-[#F3EDE9] pb-4 last:border-b-0 group hover:bg-[#FFF5EB]/50"
                 >
-                  <div className="flex justify-between">
-                    <div className="w-3/4">
-                      <h3 className="font-medium text-[#6B3B0F]">
-                        {expense.description}
-                      </h3>
-                      <p className="text-sm text-[#9B2C62]/70 capitalize">
-                        {expense.category}
-                        {expense.vendorName && ` • ${expense.vendorName}`}
-                      </p>
-                      {expense.dueDate && (
-                        <p className="text-xs text-gray-500 mt-1">
-                          Due: {new Date(expense.dueDate).toLocaleDateString()}
-                        </p>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      <p className="font-bold text-[#6B3B0F]">
-                        ${expense.amount.toFixed(2)}
-                      </p>
-                      <p
-                        className={`text-xs ${
-                          expense.paymentStatus === "paid"
-                            ? "text-green-600"
-                            : "text-[#F59E0B]"
-                        }`}
-                      >
-                        {expense.paymentStatus}
-                      </p>
-                    </div>
-                  </div>
+                  <ExpenseListView expense={expense} />
 
                   {/* Edit/Delete Buttons */}
                   <EditDeleteExpense
@@ -136,6 +111,7 @@ export default function BudgetTab({
               ))}
             </ul>
           ) : (
+            // by category
             <div className="space-y-4">
               {Object.entries(expensesByCategory).map(([category, amount]) => (
                 <div
