@@ -1,3 +1,5 @@
+import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress";
+
 export const createExpenseDeleteHandler = (
   dispatch,
   deleteExpense,
@@ -22,8 +24,10 @@ export const createExpenseDeleteHandler = (
               })
               .catch((err) => {
                 toast.dismiss(t.id);
-                toastWithProgress(
-                  `Failed to delete expense: ${err.message || err}`
+                taskToastProgress(
+                  <span className="font-semibold text-[#9B2C62]">
+                    {err.message || err}
+                  </span>
                 );
               });
           }}

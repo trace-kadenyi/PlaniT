@@ -1,3 +1,4 @@
+import { FormBudgetSummary } from "../../utils/budgetHelpers";
 export default function ExpenseFormFields({
   form,
   onFieldChange,
@@ -5,6 +6,7 @@ export default function ExpenseFormFields({
   expenseError,
   onClose,
   onSubmit,
+  budgetStatus,
   mode = "create",
 }) {
   // Handle date changes
@@ -18,6 +20,9 @@ export default function ExpenseFormFields({
       onSubmit={onSubmit}
       className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
     >
+      {/* budget status */}
+      {budgetStatus && <FormBudgetSummary budgetStatus={budgetStatus} />}
+
       <h2 className="text-xl font-bold text-[#9B2C62]">
         {mode === "create" ? "Add Expense" : "Edit Expense"}
       </h2>
