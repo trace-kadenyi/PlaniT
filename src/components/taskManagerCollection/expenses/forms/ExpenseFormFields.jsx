@@ -5,6 +5,7 @@ export default function ExpenseFormFields({
   expenseError,
   onClose,
   onSubmit,
+  budgetStatus,
   mode = "create",
 }) {
   // Handle date changes
@@ -18,6 +19,30 @@ export default function ExpenseFormFields({
       onSubmit={onSubmit}
       className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
     >
+      {/* budget status */}
+      {budgetStatus && (
+        <div className="bg-[#F3EDE9] p-3 rounded-md mb-4">
+          <div className="flex justify-between items-center">
+            <span className="font-medium">Remaining Budget:</span>
+            <span
+              className={`font-bold ${
+                budgetStatus.remainingBudget < 0
+                  ? "text-red-600"
+                  : "text-[#9B2C62]"
+              }`}
+            >
+              ${budgetStatus.remainingBudget.toFixed(2)}
+            </span>
+          </div>
+          <div className="text-xs text-gray-600 mt-1">
+            <span className="font-semibold">Total:</span> $
+            {budgetStatus.totalBudget.toFixed(2)} •{" "}
+            <span className="font-semibold">Spent:</span> $
+            {budgetStatus.totalExpenses.toFixed(2)}
+          </div>
+        </div>
+      )}
+
       <h2 className="text-xl font-bold text-[#9B2C62]">
         {mode === "create" ? "Add Expense" : "Edit Expense"}
       </h2>
