@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
-import { fetchExpenses } from "../redux/expensesSlice";
+import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
 import {
   formatDateTime,
   getStatusColor,
@@ -14,7 +14,7 @@ import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
 import {
-  EventLoadingState,
+  EventLoadingState, 
   TasksLoadingState,
 } from "../components/shared/LoadingStates";
 import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
@@ -84,6 +84,38 @@ export default function Event() {
     toastWithProgress,
     DeleteConfirmationToast
   );
+
+  // handle delete expense
+const handleExpenseDelete = (expenseId) => {
+  return new Promise((resolve) => {
+    toastWithProgress(
+      (t) => (
+        <DeleteConfirmationToast
+          t={t}
+          onConfirm={() => {
+            dispatch(deleteExpense(expenseId))
+              .then((res) => {
+                if (res.meta.requestStatus === "fulfilled") {
+                  toast.success("Expense deleted successfully");
+                  resolve(true);
+                } else {
+                  toast.error("Failed to delete expense");
+                  resolve(false);
+                }
+              })
+              .catch(() => {
+                toast.error("Failed to delete expense");
+                resolve(false);
+              });
+          }}
+          onCancel={() => resolve(false)}
+          message="Are you sure you want to delete this expense?"
+        />
+      ),
+      { duration: Infinity }
+    );
+  });
+};
 
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
