@@ -114,7 +114,6 @@ export default function BudgetTab({
 
                   {/* Edit/Delete Buttons */}
                   <EditDeleteExpense
-                    showCreateExpenseForm={showCreateExpenseForm}
                     setShowCreateExpenseForm={setShowCreateExpenseForm}
                     handleExpenseDelete={handleExpenseDelete}
                     setExpenseToEdit={setExpenseToEdit}
