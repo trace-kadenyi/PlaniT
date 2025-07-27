@@ -108,3 +108,27 @@ export function ExpenseByCategoryView({ category, amount, budgetStatus }) {
     </div>
   );
 }
+
+// handle budget status in forms
+export function FormBudgetSummary({ budgetStatus }) {
+  return (
+    <div className="bg-[#F3EDE9] p-3 rounded-md mb-4">
+      <div className="flex justify-between items-center">
+        <span className="font-medium">Remaining Budget:</span>
+        <span
+          className={`font-bold ${
+            budgetStatus.remainingBudget < 0 ? "text-red-600" : "text-[#9B2C62]"
+          }`}
+        >
+          ${budgetStatus.remainingBudget.toFixed(2)}
+        </span>
+      </div>
+      <div className="text-xs text-gray-600 mt-1">
+        <span className="font-semibold">Total:</span> $
+        {budgetStatus.totalBudget.toFixed(2)} •{" "}
+        <span className="font-semibold">Spent:</span> $
+        {budgetStatus.totalExpenses.toFixed(2)}
+      </div>
+    </div>
+  );
+}
