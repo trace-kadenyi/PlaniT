@@ -19,6 +19,7 @@ import {
 } from "../components/shared/LoadingStates";
 import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
 import { createTaskDeleteHandler } from "../components/taskManagerCollection/utils/handlers/taskHandlers";
+import { createExpenseDeleteHandler } from "../components/taskManagerCollection/utils/handlers/expenseHandler";
 import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
@@ -87,19 +88,14 @@ export default function Event() {
 
  
   // handle delete expense
-const handleExpenseDelete = (expenseId) => {
-  dispatch(deleteExpense(expenseId))
-    .then((res) => {
-      if (res.meta.requestStatus === "fulfilled") {
-        console.log("Expense deleted successfully");
-      } else {
-        console.error("Failed to delete expense");
-      }
-    })
-    .catch((err) => {
-      console.error("Delete error:", err);
-    });
-};
+// Add this with your other handler creations
+const handleExpenseDelete = createExpenseDeleteHandler(
+  dispatch,
+  deleteExpense,
+  toast,
+  toastWithProgress,
+  DeleteConfirmationToast
+);
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
       {/* event card */}
