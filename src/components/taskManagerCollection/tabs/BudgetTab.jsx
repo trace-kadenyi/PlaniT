@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Plus, XCircle } from "lucide-react";
 
 import {
@@ -20,8 +20,17 @@ export default function BudgetTab({
   const [showCreateExpenseForm, setShowCreateExpenseForm] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const [activeView, setActiveView] = useState("list");
+  const [scrollToForm, setScrollToForm] = useState(false);
 
   const formRef = useRef(null);
+
+  // scroll to form start
+  useEffect(() => {
+    if (scrollToForm && showCreateExpenseForm && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      setScrollToForm(false);
+    }
+  }, [scrollToForm, showCreateExpenseForm]);
 
   // Handle both array and Redux-style expense objects
   const expensesArray = Array.isArray(expenses)
@@ -111,6 +120,7 @@ export default function BudgetTab({
                     setExpenseToEdit={setExpenseToEdit}
                     formRef={formRef}
                     expense={expense}
+                    setScrollToForm={setScrollToForm}
                   />
                 </li>
               ))}
