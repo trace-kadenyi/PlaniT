@@ -47,14 +47,13 @@ export default function ExpenseFormFields({
         <textarea
           name="description"
           rows={2}
-          required
-          maxLength={200}
+          maxLength={150}
           value={form.description || ""}
           onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
         <p className="text-xs text-right text-gray-500 mt-1">
-          {form.description?.length || 0}/200 characters
+          {form.description?.length || 0}/150 characters
         </p>
       </div>
 
@@ -146,13 +145,13 @@ export default function ExpenseFormFields({
         <textarea
           name="notes"
           rows={2}
-          maxLength={300}
+          maxLength={200}
           value={form.notes || ""}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-2 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
         <p className="text-xs text-right text-gray-500 mt-1">
-          {form.notes?.length || 0}/300 characters
+          {form.notes?.length || 0}/200 characters
         </p>
       </div>
 
