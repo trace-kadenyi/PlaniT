@@ -113,7 +113,7 @@ export default function BudgetTab({
               {expensesArray.map((expense) => (
                 <li
                   key={expense._id}
-                  className="relative border-b border-[#F3EDE9] pb-4 last:border-b-0 group hover:bg-[#FFF5EB]/50"
+                  className="relative border-b border-[#F3EDE9] pb-4 last:border-b-0 group hover:bg-[#FFF5EB]/50 p-4 rounded-lg"
                 >
                   {/* list view */}
                   <ExpenseListView expense={expense} />
