@@ -113,20 +113,17 @@ export default function BudgetTab({
               {expensesArray.map((expense) => (
                 <li
                   key={expense._id}
-                  className="relative border-b border-[#F3EDE9] pb-4 last:border-b-0 group hover:bg-[#FFF5EB]/50"
+                  className="border border-[#F3EDE9] bg-white p-4 rounded-lg hover:shadow-md transition group"
                 >
-                  {/* list view */}
-                  <ExpenseListView expense={expense} />
-
-                  {/* Edit/Delete Buttons */}
-                  <EditDeleteExpense
-                    setShowCreateExpenseForm={setShowCreateExpenseForm}
-                    handleExpenseDelete={handleExpenseDelete}
-                    setExpenseToEdit={setExpenseToEdit}
-                    formRef={formRef}
-                    expense={expense}
-                    setScrollToForm={setScrollToForm}
-                  />
+                  <ExpenseListView expense={expense}>
+                    <EditDeleteExpense
+                      setShowCreateExpenseForm={setShowCreateExpenseForm}
+                      handleExpenseDelete={handleExpenseDelete}
+                      setExpenseToEdit={setExpenseToEdit}
+                      expense={expense}
+                      setScrollToForm={setScrollToForm}
+                    />
+                  </ExpenseListView>
                 </li>
               ))}
             </ul>

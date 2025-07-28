@@ -58,34 +58,104 @@ export function BudgetStatus({ budgetStatus }) {
 }
 
 // handle expense list view
-export function ExpenseListView({ expense }) {
+export function ExpenseListView({ expense, children }) {
   return (
-    <div className="flex justify-between">
-      <div className="w-3/4">
-        <h3 className="font-medium text-[#6B3B0F]">{expense.description}</h3>
-        <p className="text-sm text-[#9B2C62]/70 capitalize">
-          {expense.category}
-          {expense.vendorName && ` • ${expense.vendorName}`}
-        </p>
-        {expense.dueDate && (
-          <p className="text-xs text-gray-500 mt-1">
-            Due: {new Date(expense.dueDate).toLocaleDateString()}
+    <>
+      <div className="sm:hidden">
+        <h3 className="font-medium text-[#6B3B0F] mb-2">
+          {expense.description || "No description provided"}
+        </h3>
+
+        <div className="flex items-center text-sm text-[#9B2C62]/80 gap-1.5">
+          <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
+            {expense.category || "uncategorized"}
+          </span>
+          {expense.vendorName && (
+            <span className="truncate">
+              <span className="text-gray-400">•</span> {expense.vendorName}
+            </span>
+          )}
+        </div>
+      </div>
+      <div className="flex flex-col-reverse sm:flex-row justify-between gap-4">
+        {/* Left Section */}
+        <div className="flex-1 space-y-2">
+          <div className="hidden sm:block">
+            <h3 className="font-medium text-[#6B3B0F] mb-2">
+              {expense.description || "No description provided"}
+            </h3>
+
+            <div className="flex items-center text-sm text-[#9B2C62]/80 gap-1.5">
+              <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
+                {expense.category || "uncategorized"}
+              </span>
+              {expense.vendorName && (
+                <span className="truncate">
+                  <span className="text-gray-400">•</span> {expense.vendorName}
+                </span>
+              )}
+            </div>
+          </div>
+          {expense.notes ? (
+            <p className="text-xs text-gray-600 mt-1 w-full md:pr-10">
+              <span className="text-gray-500 font-semibold">Note:</span>{" "}
+              {expense.notes}
+            </p>
+          ) : (
+            <p className="text-xs text-gray-400 italic mt-1">No notes</p>
+          )}
+
+          {/* Receipt Link */}
+          {expense.receiptUrl ? (
+            <a
+              href={expense.receiptUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-[#9B2C62] hover:underline mt-1 inline-block"
+            >
+              View receipt ↗
+            </a>
+          ) : (
+            <p className="text-sm text-gray-400 italic mt-1">No receipt</p>
+          )}
+        </div>
+
+        {/* Right Section */}
+        <div className="flex flex-col items-start sm:items-end gap-1 min-w-[140px] sm:min-w-[120px] mt-4 sm:mt-0">
+          <p className="text-lg font-bold text-[#6B3B0F]">
+            ${expense.amount?.toFixed(2) || "0.00"}
           </p>
-        )}
+          <div className="my-2 sm:my-1 flex items-center sm:flex-col items-end gap-2">
+            <span
+              className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                expense.paymentStatus === "paid"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-amber-100 text-amber-800"
+              }`}
+            >
+              {expense.paymentStatus || "pending"}
+            </span>
+
+            <p className="text-xs text-gray-500 text-left sm:text-right">
+              {expense.paymentStatus === "paid" ? (
+                expense.paymentDate ? (
+                  <>
+                    Paid on {new Date(expense.paymentDate).toLocaleDateString()}
+                  </>
+                ) : (
+                  <>Payment date not recorded</>
+                )
+              ) : expense.dueDate ? (
+                <>Due {new Date(expense.dueDate).toLocaleDateString()}</>
+              ) : (
+                <>No due date set</>
+              )}
+            </p>
+          </div>
+          <div className="mt-2">{children}</div>
+        </div>
       </div>
-      <div className="text-right">
-        <p className="font-bold text-[#6B3B0F]">${expense.amount.toFixed(2)}</p>
-        <p
-          className={`text-xs ${
-            expense.paymentStatus === "paid"
-              ? "text-green-600"
-              : "text-[#F59E0B]"
-          }`}
-        >
-          {expense.paymentStatus}
-        </p>
-      </div>
-    </div>
+    </>
   );
 }
 

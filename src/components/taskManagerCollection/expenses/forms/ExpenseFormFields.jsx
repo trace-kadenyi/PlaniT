@@ -15,6 +15,21 @@ export default function ExpenseFormFields({
     onFieldChange({ target: { name, value: value || undefined } }); // Send undefined if empty
   };
 
+  // Handle payment status change
+  const handlePaymentStatusChange = (e) => {
+    const { value } = e.target;
+    onFieldChange(e); // Update payment status
+
+    // Clear payment date when switching to pending
+    if (value === "pending") {
+      onFieldChange({ target: { name: "paymentDate", value: undefined } });
+    }
+    // Clear due date when switching to paid
+    else if (value === "paid") {
+      onFieldChange({ target: { name: "dueDate", value: undefined } });
+    }
+  };
+
   return (
     <form
       onSubmit={onSubmit}
@@ -106,7 +121,7 @@ export default function ExpenseFormFields({
         <select
           name="paymentStatus"
           value={form.paymentStatus || "pending"}
-          onChange={onFieldChange}
+          onChange={handlePaymentStatusChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         >
           <option value="pending">Pending</option>
@@ -118,11 +133,12 @@ export default function ExpenseFormFields({
       {form.paymentStatus === "paid" && (
         <div>
           <label className="block text-sm font-medium text-gray-700">
-            Payment Date
+            Payment Date <span className="text-red-500">*</span>
           </label>
           <input
             type="date"
             name="paymentDate"
+            // required={form.paymentStatus === "paid"}
             value={form.paymentDate || ""}
             onChange={handleDateChange}
             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
@@ -130,19 +146,21 @@ export default function ExpenseFormFields({
         </div>
       )}
 
-      {/* Due Date */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Due Date
-        </label>
-        <input
-          type="date"
-          name="dueDate"
-          value={form.dueDate || ""}
-          onChange={handleDateChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
-        />
-      </div>
+      {/* Due Date (shown when status is pending) */}
+      {form.paymentStatus === "pending" && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Due Date
+          </label>
+          <input
+            type="date"
+            name="dueDate"
+            value={form.dueDate || ""}
+            onChange={handleDateChange}
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          />
+        </div>
+      )}
 
       {/* Notes */}
       <div>
