@@ -58,10 +58,10 @@ export function BudgetStatus({ budgetStatus }) {
 }
 
 // handle expense list view
-export function ExpenseListView({ expense }) {
+export function ExpenseListView({ expense, children }) {
   return (
-    <div className="grid grid-cols-5 gap-2">
-      {/* Left Column (3/5 width) */}
+    <div className="flex justify-between items-start gap-4">
+      {/* Left Section */}
       <div className="col-span-3 space-y-1.5">
         <h3 className="font-medium text-[#6B3B0F] truncate">
           {expense.description || "No description provided"}
@@ -83,62 +83,61 @@ export function ExpenseListView({ expense }) {
             <span className="text-gray-500">Note:</span> {expense.notes}
           </p>
         ) : (
-          <p className="text-sm text-gray-600 line-clamp-2">
-            No notes added for this expense.
-          </p>
+          <p className="text-sm text-gray-400 italic">No notes added</p>
         )}
-      </div>
 
-      {/* Right Column (2/5 width) */}
-      <div className="col-span-2 space-y-1.5 text-right">
-        <p className="font-bold text-[#6B3B0F] text-lg">
-          ${expense.amount?.toFixed(2) || "0.00"}
-        </p>
-
-        <div className="flex justify-end">
-          <span
-            className={`px-2 py-0.5 rounded-full text-xs ${
-              expense.paymentStatus === "paid"
-                ? "bg-green-100 text-green-800"
-                : "bg-amber-100 text-amber-800"
-            }`}
-          >
-            {expense.paymentStatus || "pending"}
-          </span>
-        </div>
-
-        <div className="text-xs text-gray-500">
-          {expense.paymentStatus === "paid" ? (
-            expense.paymentDate ? (
-              <span>
-                Paid on {new Date(expense.paymentDate).toLocaleDateString()}
-              </span>
-            ) : (
-              <span className="text-gray-400">Payment date not recorded</span>
-            )
-          ) : expense.dueDate ? (
-            <span>Due {new Date(expense.dueDate).toLocaleDateString()}</span>
-          ) : (
-            <span className="text-gray-400">No due date set</span>
-          )}
-        </div>
-
-        {expense.receiptUrl !== null ? (
+        {/* Receipt Link */}
+        {expense.receiptUrl ? (
           <a
             href={expense.receiptUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-xs text-[#9B2C62] hover:underline mt-1"
+            className="text-xs text-[#9B2C62] hover:underline"
           >
             View receipt ↗
           </a>
         ) : (
-          <p>No receipt added</p>
+          <p className="text-xs text-gray-400">No receipt added</p>
         )}
+      </div>
+
+      {/* Right Section */}
+      <div className="flex flex-col items-end gap-1 min-w-[120px]">
+        <p className="text-lg font-bold text-[#6B3B0F]">
+          ${expense.amount?.toFixed(2) || "0.00"}
+        </p>
+
+        <span
+          className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+            expense.paymentStatus === "paid"
+              ? "bg-green-100 text-green-800"
+              : "bg-amber-100 text-amber-800"
+          }`}
+        >
+          {expense.paymentStatus || "pending"}
+        </span>
+
+        <p className="text-xs text-gray-500 text-right">
+          {expense.paymentStatus === "paid" ? (
+            expense.paymentDate ? (
+              <>Paid on {new Date(expense.paymentDate).toLocaleDateString()}</>
+            ) : (
+              <>Payment date not recorded</>
+            )
+          ) : expense.dueDate ? (
+            <>Due {new Date(expense.dueDate).toLocaleDateString()}</>
+          ) : (
+            <>No due date set</>
+          )}
+        </p>
+
+        {/* Pass in buttons from parent */}
+        <div className="mt-2">{children}</div>
       </div>
     </div>
   );
 }
+
 
 // handle by category view
 export function ExpenseByCategoryView({ category, amount, budgetStatus }) {
