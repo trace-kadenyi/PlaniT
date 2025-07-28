@@ -138,7 +138,7 @@ export default function ExpenseFormFields({
           <input
             type="date"
             name="paymentDate"
-            required={form.paymentStatus === "paid"}
+            // required={form.paymentStatus === "paid"}
             value={form.paymentDate || ""}
             onChange={handleDateChange}
             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
