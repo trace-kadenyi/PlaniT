@@ -125,33 +125,33 @@ export function ExpenseListView({ expense, children }) {
           <p className="text-lg font-bold text-[#6B3B0F]">
             ${expense.amount?.toFixed(2) || "0.00"}
           </p>
+          <div className="my-2 sm:my-1 flex items-center sm:flex-col items-end gap-2">
+            <span
+              className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                expense.paymentStatus === "paid"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-amber-100 text-amber-800"
+              }`}
+            >
+              {expense.paymentStatus || "pending"}
+            </span>
 
-          <span
-            className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-              expense.paymentStatus === "paid"
-                ? "bg-green-100 text-green-800"
-                : "bg-amber-100 text-amber-800"
-            }`}
-          >
-            {expense.paymentStatus || "pending"}
-          </span>
-
-          <p className="text-xs text-gray-500 text-left sm:text-right">
-            {expense.paymentStatus === "paid" ? (
-              expense.paymentDate ? (
-                <>
-                  Paid on {new Date(expense.paymentDate).toLocaleDateString()}
-                </>
+            <p className="text-xs text-gray-500 text-left sm:text-right">
+              {expense.paymentStatus === "paid" ? (
+                expense.paymentDate ? (
+                  <>
+                    Paid on {new Date(expense.paymentDate).toLocaleDateString()}
+                  </>
+                ) : (
+                  <>Payment date not recorded</>
+                )
+              ) : expense.dueDate ? (
+                <>Due {new Date(expense.dueDate).toLocaleDateString()}</>
               ) : (
-                <>Payment date not recorded</>
-              )
-            ) : expense.dueDate ? (
-              <>Due {new Date(expense.dueDate).toLocaleDateString()}</>
-            ) : (
-              <>No due date set</>
-            )}
-          </p>
-
+                <>No due date set</>
+              )}
+            </p>
+          </div>
           <div className="mt-2">{children}</div>
         </div>
       </div>
