@@ -60,30 +60,81 @@ export function BudgetStatus({ budgetStatus }) {
 // handle expense list view
 export function ExpenseListView({ expense }) {
   return (
-    <div className="flex justify-between">
-      <div className="w-3/4">
-        <h3 className="font-medium text-[#6B3B0F]">{expense.description}</h3>
-        <p className="text-sm text-[#9B2C62]/70 capitalize">
-          {expense.category}
-          {expense.vendorName && ` • ${expense.vendorName}`}
-        </p>
-        {expense.dueDate && (
-          <p className="text-xs text-gray-500 mt-1">
-            Due: {new Date(expense.dueDate).toLocaleDateString()}
+    <div className="grid grid-cols-5 gap-2">
+      {/* Left Column (3/5 width) */}
+      <div className="col-span-3 space-y-1.5">
+        <h3 className="font-medium text-[#6B3B0F] truncate">
+          {expense.description || "No description provided"}
+        </h3>
+
+        <div className="flex items-center text-sm text-[#9B2C62]/80 gap-1.5">
+          <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
+            {expense.category || "uncategorized"}
+          </span>
+          {expense.vendorName && (
+            <span className="truncate">
+              <span className="text-gray-400">•</span> {expense.vendorName}
+            </span>
+          )}
+        </div>
+
+        {expense.notes ? (
+          <p className="text-sm text-gray-600 line-clamp-2">
+            <span className="text-gray-500">Note:</span> {expense.notes}
+          </p>
+        ) : (
+          <p className="text-sm text-gray-600 line-clamp-2">
+            No notes added for this expense.
           </p>
         )}
       </div>
-      <div className="text-right">
-        <p className="font-bold text-[#6B3B0F]">${expense.amount.toFixed(2)}</p>
-        <p
-          className={`text-xs ${
-            expense.paymentStatus === "paid"
-              ? "text-green-600"
-              : "text-[#F59E0B]"
-          }`}
-        >
-          {expense.paymentStatus}
+
+      {/* Right Column (2/5 width) */}
+      <div className="col-span-2 space-y-1.5 text-right">
+        <p className="font-bold text-[#6B3B0F] text-lg">
+          ${expense.amount?.toFixed(2) || "0.00"}
         </p>
+
+        <div className="flex justify-end">
+          <span
+            className={`px-2 py-0.5 rounded-full text-xs ${
+              expense.paymentStatus === "paid"
+                ? "bg-green-100 text-green-800"
+                : "bg-amber-100 text-amber-800"
+            }`}
+          >
+            {expense.paymentStatus || "pending"}
+          </span>
+        </div>
+
+        <div className="text-xs text-gray-500">
+          {expense.paymentStatus === "paid" ? (
+            expense.paymentDate ? (
+              <span>
+                Paid on {new Date(expense.paymentDate).toLocaleDateString()}
+              </span>
+            ) : (
+              <span className="text-gray-400">Payment date not recorded</span>
+            )
+          ) : expense.dueDate ? (
+            <span>Due {new Date(expense.dueDate).toLocaleDateString()}</span>
+          ) : (
+            <span className="text-gray-400">No due date set</span>
+          )}
+        </div>
+
+        {expense.receiptUrl !== null ? (
+          <a
+            href={expense.receiptUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-xs text-[#9B2C62] hover:underline mt-1"
+          >
+            View receipt ↗
+          </a>
+        ) : (
+          <p>No receipt added</p>
+        )}
       </div>
     </div>
   );
