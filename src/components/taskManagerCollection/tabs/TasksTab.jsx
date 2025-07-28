@@ -27,6 +27,8 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
           onClick={() => {
             if (showCreateTaskForm) {
               setTaskToEdit(null);
+            } else {
+              setScrollToForm(true);
             }
             setShowCreateTaskForm(!showCreateTaskForm);
           }}
@@ -43,7 +45,7 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
 
       {/* Task Form */}
       {showCreateTaskForm && (
-        <div ref={formRef} className="mb-6">
+        <div ref={formRef} className="mb-6 scroll-mt-4">
           {taskToEdit ? (
             <EditTaskForm
               task={taskToEdit}
