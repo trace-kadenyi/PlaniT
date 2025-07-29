@@ -151,7 +151,31 @@ export const getInitialEventColumns = () => ({
   },
 });
 
+export const filterEvents = (
+  events,
+  filters,
+  filterByDateRange,
+  customDateRange = null
+) => {
+  const searchTerm = filters.search?.toLowerCase() || "";
 
+  return events.filter((event) => {
+    const matchesType = filters.type === "all" || event.type === filters.type;
+    const matchesDate = filterByDateRange(
+      event,
+      filters.dateRange,
+      filters.dateRange === "custom" ? customDateRange : null
+    );
+    const matchesSearch =
+      searchTerm === "" ||
+      event.name.toLowerCase().includes(searchTerm) ||
+      (event.type && event.type.toLowerCase().includes(searchTerm)) ||
+      (event.location.city && event.location.city.toLowerCase().includes(searchTerm)) ||
+      (event.location.country && event.location.country.toLowerCase().includes(searchTerm));
+
+    return matchesType && matchesDate && matchesSearch;
+  });
+};
 
 
 
