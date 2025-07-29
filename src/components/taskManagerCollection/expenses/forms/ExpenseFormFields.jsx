@@ -21,7 +21,7 @@ export default function ExpenseFormFields({
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type (images + PDF only)
+    // Validate file type
     const validTypes = [
       "image/jpeg",
       "image/png",
@@ -34,26 +34,31 @@ export default function ExpenseFormFields({
     }
 
     setUploading(true);
+    setUploadProgress(0); // Reset progress on new upload
+
     try {
       const fileExt = file.name.split(".").pop();
-      const fileName = `${crypto.randomUUID()}.${fileExt}`; // More secure than Date.now()
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
       const filePath = `receipts/${fileName}`;
 
-      // Upload with error handling
+      // Modified upload call with progress tracking
       const { error: uploadError } = await supabase.storage
         .from("expense-receipts")
         .upload(filePath, file, {
-          cacheControl: "3600", // 1 hour cache
-          upsert: false, // Prevent overwrites
+          cacheControl: "3600",
+          upsert: false,
+          onProgress: (progress) => {
+            setUploadProgress(
+              Math.round((progress.loaded / progress.total) * 100)
+            );
+          },
         });
 
       if (uploadError) throw uploadError;
 
-      // Get URL (no need for .getPublicUrl if bucket is public)
       const publicUrl = `${
         import.meta.env.VITE_SUPABASE_URL
       }/storage/v1/object/public/expense-receipts/${filePath}`;
-
       onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
     } catch (error) {
       console.error("Upload error:", error);
@@ -62,6 +67,7 @@ export default function ExpenseFormFields({
       setUploading(false);
     }
   };
+
   // Handle date changes
   const handleDateChange = (e) => {
     const { name, value } = e.target;
@@ -253,7 +259,12 @@ export default function ExpenseFormFields({
             />
           </label>
           {uploading && (
-            <span className="text-sm text-gray-500">Uploading...</span>
+            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+              <div
+                className="bg-[#9B2C62] h-2.5 rounded-full transition-all duration-300"
+                style={{ width: `${uploadProgress}%` }}
+              ></div>
+            </div>
           )}
         </div>
         {form.receiptUrl && (
