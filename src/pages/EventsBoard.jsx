@@ -46,6 +46,41 @@ export default function EventsBoard() {
   // Memoize event-to-card mapping
   const mapEventToCardMemoized = useCallback(mapEventToCard, []);
 
+  // Date filtering function
+  const filterByDateRange = (event, dateRange, customRange = null) => {
+    if (dateRange === "all") return true;
+    
+    const eventDate = new Date(event.date);
+    const now = new Date();
+    
+    switch (dateRange) {
+      case "today":
+        return (
+          eventDate.getDate() === now.getDate() &&
+          eventDate.getMonth() === now.getMonth() &&
+          eventDate.getFullYear() === now.getFullYear()
+        );
+      case "week":
+        const weekStart = new Date(now);
+        weekStart.setDate(now.getDate() - now.getDay());
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+        return eventDate >= weekStart && eventDate <= weekEnd;
+      case "month":
+        return (
+          eventDate.getMonth() === now.getMonth() &&
+          eventDate.getFullYear() === now.getFullYear()
+        );
+      case "custom":
+        if (!customRange) return true;
+        const startDate = new Date(customRange.start);
+        const endDate = new Date(customRange.end);
+        return eventDate >= startDate && eventDate <= endDate;
+      default:
+        return true;
+    }
+  };
+
   // Filter events based on current filters
   const filteredEvents = useMemo(() => {
     return filterEvents(events, filters, filterByDateRange, customDateRange);
@@ -95,40 +130,7 @@ export default function EventsBoard() {
     [events, columns, setColumns, dispatch]
   );
 
-  // Date filtering function
-  const filterByDateRange = (event, dateRange, customRange = null) => {
-    if (dateRange === "all") return true;
-    
-    const eventDate = new Date(event.date);
-    const now = new Date();
-    
-    switch (dateRange) {
-      case "today":
-        return (
-          eventDate.getDate() === now.getDate() &&
-          eventDate.getMonth() === now.getMonth() &&
-          eventDate.getFullYear() === now.getFullYear()
-        );
-      case "week":
-        const weekStart = new Date(now);
-        weekStart.setDate(now.getDate() - now.getDay());
-        const weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekStart.getDate() + 6);
-        return eventDate >= weekStart && eventDate <= weekEnd;
-      case "month":
-        return (
-          eventDate.getMonth() === now.getMonth() &&
-          eventDate.getFullYear() === now.getFullYear()
-        );
-      case "custom":
-        if (!customRange) return true;
-        const startDate = new Date(customRange.start);
-        const endDate = new Date(customRange.end);
-        return eventDate >= startDate && eventDate <= endDate;
-      default:
-        return true;
-    }
-  };
+  
 
   return (
     <div className="p-4 bg-white min-h-screen">
