@@ -10,7 +10,7 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialColumns,
-} from "../components/taskManagerCollection/utils/dashboardHelpers";
+} from "../components/taskManagerCollection/utils/tasksDashboardHelpers";
 import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/taskManagerCollection/tasks/tasksDashboard/FilterBox";
 import Column from "../components/taskManagerCollection/tasks/tasksDashboard/Column";
