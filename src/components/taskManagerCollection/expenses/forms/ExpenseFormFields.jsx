@@ -2,6 +2,7 @@ import { useState } from "react";
 import { supabase } from "../../../../globalUtils/supabaseClient";
 
 import { FormBudgetSummary } from "../../utils/budgetHelpers";
+import { handleFileUpload } from "../../utils/expenseHelpers";
 
 export default function ExpenseFormFields({
   form,
@@ -17,72 +18,72 @@ export default function ExpenseFormFields({
   const [uploadProgress, setUploadProgress] = useState(0);
 
   // Add this function to handle file uploads
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  // const handleFileUpload = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
 
-    // 1. VALIDATION (Keep all security checks)
-    const validTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "application/pdf",
-    ];
-    if (!validTypes.includes(file.type)) {
-      alert("Only JPEG, PNG, WEBP, or PDF files allowed");
-      return;
-    }
+  //   // 1. VALIDATION (Keep all security checks)
+  //   const validTypes = [
+  //     "image/jpeg",
+  //     "image/png",
+  //     "image/webp",
+  //     "application/pdf",
+  //   ];
+  //   if (!validTypes.includes(file.type)) {
+  //     alert("Only JPEG, PNG, WEBP, or PDF files allowed");
+  //     return;
+  //   }
 
-    // 2. FILE SIZE CHECK (Keep this)
-    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
-    if (file.size > MAX_SIZE) {
-      alert("File must be smaller than 5MB");
-      return;
-    }
+  //   // 2. FILE SIZE CHECK (Keep this)
+  //   const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+  //   if (file.size > MAX_SIZE) {
+  //     alert("File must be smaller than 5MB");
+  //     return;
+  //   }
 
-    setUploading(true);
-    setUploadProgress(0);
+  //   setUploading(true);
+  //   setUploadProgress(0);
 
-    let filePath = "";
-    try {
-      // 3. MODIFIED UPLOAD PATH (Temporary public folder)
-      const fileExt = file.name.split(".").pop();
-      filePath = `receipts/temp_uploads/${crypto.randomUUID()}.${fileExt}`; // Changed from user.id
+  //   let filePath = "";
+  //   try {
+  //     // 3. MODIFIED UPLOAD PATH (Temporary public folder)
+  //     const fileExt = file.name.split(".").pop();
+  //     filePath = `receipts/temp_uploads/${crypto.randomUUID()}.${fileExt}`; // Changed from user.id
 
-      // 4. UPLOAD (Same as before)
-      const { error: uploadError } = await supabase.storage
-        .from("expense-receipts")
-        .upload(filePath, file, {
-          cacheControl: "3600",
-          upsert: false,
-          onProgress: (progress) => {
-            setUploadProgress(
-              Math.round((progress.loaded / progress.total) * 100)
-            );
-          },
-        });
+  //     // 4. UPLOAD (Same as before)
+  //     const { error: uploadError } = await supabase.storage
+  //       .from("expense-receipts")
+  //       .upload(filePath, file, {
+  //         cacheControl: "3600",
+  //         upsert: false,
+  //         onProgress: (progress) => {
+  //           setUploadProgress(
+  //             Math.round((progress.loaded / progress.total) * 100)
+  //           );
+  //         },
+  //       });
 
-      if (uploadError) throw uploadError;
+  //     if (uploadError) throw uploadError;
 
-      // 5. PUBLIC URL (Unchanged)
-      const publicUrl = `${
-        import.meta.env.VITE_SUPABASE_URL
-      }/storage/v1/object/public/expense-receipts/${filePath}`;
+  //     // 5. PUBLIC URL (Unchanged)
+  //     const publicUrl = `${
+  //       import.meta.env.VITE_SUPABASE_URL
+  //     }/storage/v1/object/public/expense-receipts/${filePath}`;
 
-      onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
-    } catch (error) {
-      console.error("Upload error:", error);
+  //     onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
+  //   } catch (error) {
+  //     console.error("Upload error:", error);
 
-      // 6. CLEANUP (Now checks for RLS errors specifically)
-      if (filePath && !error.message.includes("row-level security")) {
-        await supabase.storage.from("expense-receipts").remove([filePath]);
-      }
+  //     // 6. CLEANUP (Now checks for RLS errors specifically)
+  //     if (filePath && !error.message.includes("row-level security")) {
+  //       await supabase.storage.from("expense-receipts").remove([filePath]);
+  //     }
 
-      alert(`Upload failed: ${error.message}`);
-    } finally {
-      setUploading(false);
-    }
-  };
+  //     alert(`Upload failed: ${error.message}`);
+  //   } finally {
+  //     setUploading(false);
+  //   }
+  // };
 
   // Handle date changes
   const handleDateChange = (e) => {
@@ -287,7 +288,14 @@ export default function ExpenseFormFields({
             <input
               type="file"
               accept=".jpg,.jpeg,.png,.webp,.pdf"
-              onChange={handleFileUpload}
+              onChange={async (e) => {
+                await handleFileUpload(e, {
+                  setUploading,
+                  setUploadProgress,
+                  supabase,
+                  onFieldChange,
+                });
+              }}
               disabled={uploading}
               className="block w-full text-sm text-gray-500
           file:mr-4 file:py-2 file:px-4
