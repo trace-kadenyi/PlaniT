@@ -18,55 +18,76 @@ export default function ExpenseFormFields({
 
   // Add this function to handle file uploads
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  const file = e.target.files[0];
+  if (!file) return;
 
-    // Validate file type
-    const validTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "application/pdf",
-    ];
-    if (!validTypes.includes(file.type)) {
-      alert("Please upload a JPEG, PNG, WEBP, or PDF file");
-      return;
-    }
+  // 1. Validate file type
+  const validTypes = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+  if (!validTypes.includes(file.type)) {
+    alert("Only JPEG, PNG, WEBP, or PDF files are allowed");
+    return;
+  }
 
-    setUploading(true);
-    setUploadProgress(0); // Reset progress on new upload
+  // 2. Validate file size (5MB max)
+  const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+  if (file.size > MAX_SIZE) {
+    alert("File size must be less than 5MB");
+    return;
+  }
 
-    try {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${crypto.randomUUID()}.${fileExt}`;
-      const filePath = `receipts/${fileName}`;
+  // 3. Verify user is authenticated
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) {
+    alert("Please sign in to upload receipts");
+    return;
+  }
 
-      // Modified upload call with progress tracking
-      const { error: uploadError } = await supabase.storage
+  setUploading(true);
+  setUploadProgress(0);
+
+  let filePath = '';
+  try {
+    // 4. Generate user-specific path
+    const fileExt = file.name.split('.').pop();
+    filePath = `receipts/${user.id}/${crypto.randomUUID()}.${fileExt}`;
+
+    // 5. Upload with progress tracking
+    const { error: uploadError } = await supabase.storage
+      .from("expense-receipts")
+      .upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+        onProgress: (progress) => {
+          setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
+        }
+      });
+
+    if (uploadError) throw uploadError;
+
+    // 6. Get public URL
+    const publicUrl = `${
+      import.meta.env.VITE_SUPABASE_URL
+    }/storage/v1/object/public/expense-receipts/${filePath}`;
+    
+    onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
+
+  } catch (error) {
+    console.error("Upload error:", error);
+    
+    // 7. Clean up failed upload
+    if (filePath) {
+      await supabase.storage
         .from("expense-receipts")
-        .upload(filePath, file, {
-          cacheControl: "3600",
-          upsert: false,
-          onProgress: (progress) => {
-            setUploadProgress(
-              Math.round((progress.loaded / progress.total) * 100)
-            );
-          },
-        });
-
-      if (uploadError) throw uploadError;
-
-      const publicUrl = `${
-        import.meta.env.VITE_SUPABASE_URL
-      }/storage/v1/object/public/expense-receipts/${filePath}`;
-      onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
-    } catch (error) {
-      console.error("Upload error:", error);
-      alert(`Upload failed: ${error.message}`);
-    } finally {
-      setUploading(false);
+        .remove([filePath]);
     }
-  };
+
+    alert(`Upload failed: ${error.message.includes('row-level security') 
+      ? "You don't have upload permissions" 
+      : error.message}`);
+  } finally {
+    setUploading(false);
+  }
+};
 
   // Handle date changes
   const handleDateChange = (e) => {
