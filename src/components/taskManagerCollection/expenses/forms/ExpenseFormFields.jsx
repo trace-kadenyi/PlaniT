@@ -15,7 +15,7 @@ export default function ExpenseFormFields({
 }) {
   const [uploading, setUploading] = useState(false);
 
-    // Add this function to handle file uploads
+  // Add this function to handle file uploads
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -23,26 +23,26 @@ export default function ExpenseFormFields({
     setUploading(true);
     try {
       // Generate unique filename
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${Date.now()}.${fileExt}`;
       const filePath = `receipts/${fileName}`;
 
       // Upload to Supabase
       const { error: uploadError } = await supabase.storage
-        .from('expense-receipts') // Your bucket name
+        .from("expense-receipts") // Your bucket name
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('expense-receipts')
-        .getPublicUrl(filePath);
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("expense-receipts").getPublicUrl(filePath);
 
       // Update form field
-      onFieldChange({ target: { name: 'receiptUrl', value: publicUrl } });
+      onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
     } catch (error) {
-      alert('Upload failed: ' + error.message);
+      alert("Upload failed: " + error.message);
     } finally {
       setUploading(false);
     }
@@ -217,7 +217,7 @@ export default function ExpenseFormFields({
       </div>
 
       {/* Receipt URL */}
-       <div>
+      <div>
         <label className="block text-sm font-medium text-gray-700">
           Receipt Upload
         </label>
@@ -228,12 +228,14 @@ export default function ExpenseFormFields({
           disabled={uploading}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
-        {uploading && <p className="text-xs text-gray-500 mt-1">Uploading...</p>}
+        {uploading && (
+          <p className="text-xs text-gray-500 mt-1">Uploading...</p>
+        )}
         {form.receiptUrl && (
           <div className="mt-2">
-            <a 
-              href={form.receiptUrl} 
-              target="_blank" 
+            <a
+              href={form.receiptUrl}
+              target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-[#9B2C62] hover:underline"
             >
@@ -242,7 +244,6 @@ export default function ExpenseFormFields({
           </div>
         )}
       </div>
-
 
       {/* Error Message */}
       {expenseStatus === "failed" && (
