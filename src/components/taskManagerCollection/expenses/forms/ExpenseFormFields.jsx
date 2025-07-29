@@ -20,29 +20,43 @@ export default function ExpenseFormFields({
     const file = e.target.files[0];
     if (!file) return;
 
+    // Validate file type (images + PDF only)
+    const validTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "application/pdf",
+    ];
+    if (!validTypes.includes(file.type)) {
+      alert("Please upload a JPEG, PNG, WEBP, or PDF file");
+      return;
+    }
+
     setUploading(true);
     try {
-      // Generate unique filename
       const fileExt = file.name.split(".").pop();
-      const fileName = `${Date.now()}.${fileExt}`;
+      const fileName = `${crypto.randomUUID()}.${fileExt}`; // More secure than Date.now()
       const filePath = `receipts/${fileName}`;
 
-      // Upload to Supabase
+      // Upload with error handling
       const { error: uploadError } = await supabase.storage
-        .from("expense-receipts") // Your bucket name
-        .upload(filePath, file);
+        .from("expense-receipts")
+        .upload(filePath, file, {
+          cacheControl: "3600", // 1 hour cache
+          upsert: false, // Prevent overwrites
+        });
 
       if (uploadError) throw uploadError;
 
-      // Get public URL
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("expense-receipts").getPublicUrl(filePath);
+      // Get URL (no need for .getPublicUrl if bucket is public)
+      const publicUrl = `${
+        import.meta.env.VITE_SUPABASE_URL
+      }/storage/v1/object/public/expense-receipts/${filePath}`;
 
-      // Update form field
       onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
     } catch (error) {
-      alert("Upload failed: " + error.message);
+      console.error("Upload error:", error);
+      alert(`Upload failed: ${error.message}`);
     } finally {
       setUploading(false);
     }
