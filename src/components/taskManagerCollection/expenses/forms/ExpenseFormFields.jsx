@@ -15,7 +15,38 @@ export default function ExpenseFormFields({
 }) {
   const [uploading, setUploading] = useState(false);
 
-  
+    // Add this function to handle file uploads
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      // Generate unique filename
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `receipts/${fileName}`;
+
+      // Upload to Supabase
+      const { error: uploadError } = await supabase.storage
+        .from('expense-receipts') // Your bucket name
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('expense-receipts')
+        .getPublicUrl(filePath);
+
+      // Update form field
+      onFieldChange({ target: { name: 'receiptUrl', value: publicUrl } });
+    } catch (error) {
+      alert('Upload failed: ' + error.message);
+    } finally {
+      setUploading(false);
+    }
+  };
   // Handle date changes
   const handleDateChange = (e) => {
     const { name, value } = e.target;
