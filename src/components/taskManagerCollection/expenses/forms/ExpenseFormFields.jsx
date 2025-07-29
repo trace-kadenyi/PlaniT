@@ -303,7 +303,7 @@ export default function ExpenseFormFields({
               onClick={() =>
                 onFieldChange({ target: { name: "receiptUrl", value: "" } })
               }
-              className="ml-2 text-sm text-red-500 hover:text-red-700"
+              className="ml-2 text-xs font-semibold text-red-500 hover:text-red-700"
             >
               Remove
             </button>
