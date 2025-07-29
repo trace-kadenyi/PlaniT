@@ -1,0 +1,36 @@
+import { useEffect, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllEvents, updateEventStatus } from "../redux/eventsSlice";
+import { DragDropContext } from "@hello-pangea/dnd";
+import {
+  mapEventToCard,
+  getColumnsFromEvents,
+  handleEventDragEnd,
+  LoadingDashboard,
+  UpdateDashboardError,
+  FetchDashboardError,
+  getInitialEventColumns,
+  filterEvents,
+} from "../components/taskManagerCollection/utils/eventsDashboardHelpers";
+import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
+import FilterBox from "../components/taskManagerCollection/events/eventsDashboard/FilterBox";
+import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/Column";
+
+export default function EventsDashboard() {
+  
+
+
+
+
+
+ 
+ 
+ 
+ 
+
+
+  return (
+    
+  );
+}
+
