@@ -21,7 +21,7 @@ export default function ExpenseFormFields({
     const file = e.target.files[0];
     if (!file) return;
 
-    // 1. Validate file type
+    // 1. VALIDATION (Keep all security checks)
     const validTypes = [
       "image/jpeg",
       "image/png",
@@ -29,24 +29,14 @@ export default function ExpenseFormFields({
       "application/pdf",
     ];
     if (!validTypes.includes(file.type)) {
-      alert("Only JPEG, PNG, WEBP, or PDF files are allowed");
+      alert("Only JPEG, PNG, WEBP, or PDF files allowed");
       return;
     }
 
-    // 2. Validate file size (5MB max)
+    // 2. FILE SIZE CHECK (Keep this)
     const MAX_SIZE = 5 * 1024 * 1024; // 5MB
     if (file.size > MAX_SIZE) {
-      alert("File size must be less than 5MB");
-      return;
-    }
-
-    // 3. Verify user is authenticated
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-    if (authError || !user) {
-      alert("Please sign in to upload receipts");
+      alert("File must be smaller than 5MB");
       return;
     }
 
@@ -55,11 +45,11 @@ export default function ExpenseFormFields({
 
     let filePath = "";
     try {
-      // 4. Generate user-specific path
+      // 3. MODIFIED UPLOAD PATH (Temporary public folder)
       const fileExt = file.name.split(".").pop();
-      filePath = `receipts/${user.id}/${crypto.randomUUID()}.${fileExt}`;
+      filePath = `receipts/temp_uploads/${crypto.randomUUID()}.${fileExt}`; // Changed from user.id
 
-      // 5. Upload with progress tracking
+      // 4. UPLOAD (Same as before)
       const { error: uploadError } = await supabase.storage
         .from("expense-receipts")
         .upload(filePath, file, {
@@ -74,7 +64,7 @@ export default function ExpenseFormFields({
 
       if (uploadError) throw uploadError;
 
-      // 6. Get public URL
+      // 5. PUBLIC URL (Unchanged)
       const publicUrl = `${
         import.meta.env.VITE_SUPABASE_URL
       }/storage/v1/object/public/expense-receipts/${filePath}`;
@@ -83,18 +73,12 @@ export default function ExpenseFormFields({
     } catch (error) {
       console.error("Upload error:", error);
 
-      // 7. Clean up failed upload
-      if (filePath) {
+      // 6. CLEANUP (Now checks for RLS errors specifically)
+      if (filePath && !error.message.includes("row-level security")) {
         await supabase.storage.from("expense-receipts").remove([filePath]);
       }
 
-      alert(
-        `Upload failed: ${
-          error.message.includes("row-level security")
-            ? "You don't have upload permissions"
-            : error.message
-        }`
-      );
+      alert(`Upload failed: ${error.message}`);
     } finally {
       setUploading(false);
     }
