@@ -14,6 +14,7 @@ export default function ExpenseFormFields({
   mode = "create",
 }) {
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   // Add this function to handle file uploads
   const handleFileUpload = async (e) => {
