@@ -47,7 +47,11 @@ export default function EventsDashboard() {
     return filterEvents(events, filters, filterByDateRange, customDateRange);
   }, [events, filters, customDateRange]);
 
- 
+  // Memoize columns generation
+  const getColumnsFromEventsMemoized = useCallback(() => {
+    return getColumnsFromEvents(filteredEvents, mapEventToCardMemoized);
+  }, [filteredEvents, mapEventToCardMemoized]);
+
  
  
  
