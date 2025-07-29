@@ -118,6 +118,38 @@ export const handleEventDragEnd = async (
   }
 };
 
+export const getInitialEventColumns = () => ({
+  planning: {
+    id: "planning",
+    title: "Planning",
+    tasks: [],
+    color: "#F59E0B",
+  },
+  confirmed: {
+    id: "confirmed",
+    title: "Confirmed",
+    tasks: [],
+    color: "#3B82F6",
+  },
+  inProgress: {
+    id: "inProgress",
+    title: "In Progress",
+    tasks: [],
+    color: "#9B2C62",
+  },
+  completed: {
+    id: "completed",
+    title: "Completed",
+    tasks: [],
+    color: "#10B981",
+  },
+  cancelled: {
+    id: "cancelled",
+    title: "Cancelled",
+    tasks: [],
+    color: "#EF4444",
+  },
+});
 
 
 
