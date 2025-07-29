@@ -31,7 +31,7 @@ export default function DashTaskCard({ task }) {
       </div>
 
       <div className="mt-3 flex justify-between items-center text-xs">
-        <span className="text-gray-500">{task.assignee}</span>
+        <span className="text-gray-500">{task.assignee || "Unassigned"}</span>
         <span
           className={`px-2 py-1 rounded ${
             task.priority === "high"
