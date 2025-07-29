@@ -191,7 +191,12 @@ export default function ExpenseFormFields({
       {/* Receipt URL */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Receipt Upload {form.receiptUrl && "✅"}
+          Receipt Upload{" "}
+          {form.receiptUrl && (
+            <span className="inline-block ml-1 text-[#9B2C62] font-bold">
+              ✓
+            </span>
+          )}
         </label>
         <div className="mt-1 flex items-center gap-2">
           <label className="cursor-pointer">
