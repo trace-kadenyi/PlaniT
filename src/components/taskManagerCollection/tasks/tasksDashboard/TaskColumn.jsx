@@ -1,7 +1,7 @@
 import { Droppable, Draggable } from "@hello-pangea/dnd";
 import DashTaskCard from "./dashTaskCard";
 
-export default function Column({ columns }) {
+export default function TaskColumn({ columns }) {
   return (
     <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 overflow-x-auto pb-4 px-2 md:justify-center">
       {Object.values(columns).map((column) => (

@@ -13,7 +13,7 @@ import {
 } from "../components/taskManagerCollection/utils/tasksDashboardHelpers";
 import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/taskManagerCollection/tasks/tasksDashboard/FilterBox";
-import Column from "../components/taskManagerCollection/tasks/tasksDashboard/Column";
+import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
 import {
   useTaskFilters,
   useAssignees,
@@ -133,7 +133,7 @@ export default function TasksBoard() {
         <LoadingDashboard />
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
-          <Column columns={columns} />
+          <TaskColumn columns={columns} />
         </DragDropContext>
       )}
     </div>

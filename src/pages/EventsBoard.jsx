@@ -14,7 +14,7 @@ import {
 } from "../components/taskManagerCollection/utils/eventsDashboardHelpers";
 import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/taskManagerCollection/events/eventsDashboard/FilterBox";
-import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/Column";
+import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/EventColumn";
 
 export default function EventsBoard() {
   const [columnsInitialized, setColumnsInitialized] = useState(false);
@@ -135,7 +135,7 @@ export default function EventsBoard() {
   return (
     <div className="p-4 bg-white min-h-screen">
       <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold text-[#9B2C62] my-2">Events Dashboard</h1>
+        <h1 className="text-2xl font-bold text-[#9B2C62] my-2">Events Board</h1>
         <p className="text-gray-600 max-w-4xl mx-auto mb-4">
           Track and manage all your events in one place - drag and drop to update status!
         </p>
