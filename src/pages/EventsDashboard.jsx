@@ -127,7 +127,54 @@ export default function EventsDashboard() {
   };
 
   return (
-    
+    <div className="p-4 bg-white min-h-screen">
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-bold text-[#9B2C62] my-2">Events Dashboard</h1>
+        <p className="text-gray-600 max-w-4xl mx-auto mb-4">
+          Track and manage all your events in one place - drag and drop to update status!
+        </p>
+
+        <FilterBox
+          filters={filters}
+          setFilters={setFilters}
+          eventTypes={eventTypes}
+          dateFilters={dateFilters}
+          customDateRange={customDateRange}
+          setCustomDateRange={setCustomDateRange}
+        />
+      </div>
+
+      {/* Error messages */}
+      {updateError && (
+        <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
+          <span>Update failed: {updateError}</span>
+          <button
+            onClick={() => dispatch(clearUpdateError())}
+            className="text-[#9B2C62] font-medium"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+      {fetchError && (
+        <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
+          Failed to load events: {fetchError}
+        </div>
+      )}
+
+      {/* Main content */}
+      {fetchStatus === "loading" ? (
+        <div className="flex space-x-4 animate-pulse justify-center">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="bg-gray-100 rounded-lg p-4 w-80 h-64"></div>
+          ))}
+        </div>
+      ) : (
+        <DragDropContext onDragEnd={onDragEnd}>
+          <EventColumn columns={columns} />
+        </DragDropContext>
+      )}
+    </div>
   );
 }
 
