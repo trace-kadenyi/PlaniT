@@ -1,7 +1,8 @@
+import { supabase } from "../../../globalUtils/supabaseClient";
+
 // handle file upload
 export const handleFileUpload = async (e, callbacks) => {
-  const { setUploading, setUploadProgress, onFieldChange, supabase } =
-    callbacks;
+  const { setUploading, setUploadProgress, onFieldChange } = callbacks;
 
   const file = e.target.files[0];
   if (!file) return;
@@ -70,9 +71,7 @@ export const handleFileUpload = async (e, callbacks) => {
 };
 
 // handle remove receipt
-export const handleRemoveReceipt = async ({
-    supabase, form, onFieldChange
-}) => {
+export const handleRemoveReceipt = async ({ form, onFieldChange }) => {
   if (!form.receiptUrl) return;
 
   try {
