@@ -36,9 +36,11 @@ export default function EventsDashboard() {
     updateError,
   } = useSelector((state) => state.events);
 
+  // Extract unique event types for filter dropdown
+  const eventTypes = ["all", ...new Set(events.map(event => event.type))];
 
-
-
+  // Memoize event-to-card mapping
+  const mapEventToCardMemoized = useCallback(mapEventToCard, []);
 
  
  
