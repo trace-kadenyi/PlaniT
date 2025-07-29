@@ -12,8 +12,8 @@ import {
   getInitialColumns,
 } from "../components/taskManagerCollection/utils/dashboardHelpers";
 import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
-import FilterBox from "../components/taskManagerCollection/tasksDashboard/FilterBox";
-import Column from "../components/taskManagerCollection/tasksDashboard/Column";
+import FilterBox from "../components/taskManagerCollection/tasks/tasksDashboard/FilterBox";
+import Column from "../components/taskManagerCollection/tasks/tasksDashboard/Column";
 import {
   useTaskFilters,
   useAssignees,
