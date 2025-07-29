@@ -1,4 +1,8 @@
+import { useState } from "react";
+import { supabase } from "../../../../globalUtils/supabaseClient";
+
 import { FormBudgetSummary } from "../../utils/budgetHelpers";
+
 export default function ExpenseFormFields({
   form,
   onFieldChange,
@@ -9,6 +13,9 @@ export default function ExpenseFormFields({
   budgetStatus,
   mode = "create",
 }) {
+  const [uploading, setUploading] = useState(false);
+
+  
   // Handle date changes
   const handleDateChange = (e) => {
     const { name, value } = e.target;
