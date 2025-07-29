@@ -197,3 +197,8 @@ export const UpdateDashboardError = ({ updateError, dispatch }) => (
   </div>
 );
 
+export const FetchDashboardError = ({ fetchError }) => (
+  <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
+    Failed to load events: {fetchError}
+  </div>
+);
