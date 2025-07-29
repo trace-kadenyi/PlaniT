@@ -1,4 +1,11 @@
+import { useState } from "react";
+
 import { FormBudgetSummary } from "../../utils/budgetHelpers";
+import {
+  handleFileUpload,
+  handleRemoveReceipt,
+} from "../../utils/expenseHelpers";
+
 export default function ExpenseFormFields({
   form,
   onFieldChange,
@@ -9,6 +16,9 @@ export default function ExpenseFormFields({
   budgetStatus,
   mode = "create",
 }) {
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   // Handle date changes
   const handleDateChange = (e) => {
     const { name, value } = e.target;
@@ -181,16 +191,73 @@ export default function ExpenseFormFields({
       {/* Receipt URL */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Receipt URL
+          Receipt Upload{" "}
+          {form.receiptUrl && (
+            <span className="inline-block ml-1 text-[#9B2C62] font-bold">
+              ✓
+            </span>
+          )}
         </label>
-        <input
-          type="url"
-          name="receiptUrl"
-          placeholder="https://example.com/receipt.jpg"
-          value={form.receiptUrl || ""}
-          onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
-        />
+        <div className="mt-1 flex items-center gap-2">
+          <label className="cursor-pointer">
+            <span className="sr-only">Choose receipt file</span>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp,.pdf"
+              onChange={async (e) => {
+                await handleFileUpload(e, {
+                  setUploading,
+                  setUploadProgress,
+                  onFieldChange,
+                });
+              }}
+              disabled={uploading}
+              className="block w-full text-sm text-gray-500
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-md file:border-0
+          file:text-sm file:font-semibold
+          file:bg-[#9B2C62] file:text-white
+          hover:file:bg-[#801f4f]"
+            />
+          </label>
+          {uploading && (
+            <div className="mt-2 space-y-1">
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-[#9B2C62] h-2 rounded-full transition-all"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <p className="text-xs text-gray-500 text-right">
+                {uploadProgress}% uploaded
+              </p>
+            </div>
+          )}
+        </div>
+        {form.receiptUrl && (
+          <div className="mt-2 flex items-center">
+            <a
+              href={form.receiptUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-[#9B2C62] hover:underline"
+            >
+              View Receipt
+            </a>
+            <button
+              type="button"
+              onClick={async (e) => {
+                await handleRemoveReceipt({
+                  form,
+                  onFieldChange,
+                });
+              }}
+              className="ml-2 text-xs font-semibold text-red-500 hover:text-red-700"
+            >
+              Remove
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Error Message */}
