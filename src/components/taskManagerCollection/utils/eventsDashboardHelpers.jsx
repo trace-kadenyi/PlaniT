@@ -1,7 +1,3 @@
-import {
-  updateEventStatus,
-  clearUpdateError,
-} from "../../../redux/eventsSlice";
 import { taskToastProgress } from "../../../globalHooks/useToastWithProgress";
 
 // map event to card
@@ -63,7 +59,7 @@ export const getColumnsFromEvents = (events, mapEventToCardFn) => {
 // handle event drag
 export const handleEventDragEnd = async (
   result,
-  { events, columns, setColumns, dispatch, updateStatus }
+  { events, columns, setColumns, dispatch, updateEvent }
 ) => {
   const { source, destination, draggableId } = result;
 
@@ -81,7 +77,7 @@ export const handleEventDragEnd = async (
   const originalEvent = events.find((event) => event._id === draggableId);
   if (!originalEvent) return;
 
-  const currentColumns = columns;
+  const currentColumns = JSON.parse(JSON.stringify(columns));
 
   try {
     const eventName = originalEvent.name;
@@ -93,9 +89,7 @@ export const handleEventDragEnd = async (
       const sourceColumn = newColumns[source.droppableId];
       const destColumn = newColumns[destination.droppableId];
 
-      const taskIndex = sourceColumn.tasks.findIndex(
-        (t) => t.id === draggableId
-      );
+      const taskIndex = sourceColumn.tasks.findIndex((t) => t.id === draggableId);
       if (taskIndex === -1) return prevColumns;
 
       const [movedEvent] = sourceColumn.tasks.splice(taskIndex, 1);
@@ -105,11 +99,11 @@ export const handleEventDragEnd = async (
       return newColumns;
     });
 
-    // API update
+    // API update using existing updateEvent thunk
     await dispatch(
-      updateStatus({
+      updateEvent({
         eventId: draggableId,
-        updatedData: { status: newStatus },
+        updatedEvent: { status: newStatus }
       })
     ).unwrap();
 
@@ -199,11 +193,11 @@ export const LoadingDashboard = () => (
 );
 
 // update dashboard error
-export const UpdateDashboardError = ({ updateError, dispatch }) => (
+export const UpdateDashboardError = ({ updateError, dispatch, clearError }) => (
   <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
     <span>Update failed: {updateError}</span>
     <button
-      onClick={() => dispatch(clearUpdateError())}
+      onClick={() => dispatch(clearError())}
       className="text-[#9B2C62] font-medium"
     >
       Retry
