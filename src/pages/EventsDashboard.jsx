@@ -70,7 +70,14 @@ export default function EventsDashboard() {
     }
   }, [fetchStatus, filteredEvents, columnsInitialized, filters.search]);
 
- 
+  // Recalculate columns when type/date filters change
+  useEffect(() => {
+    if (columnsInitialized && fetchStatus === "succeeded") {
+      setColumns(getColumnsFromEventsMemoized());
+    }
+  }, [filters.type, filters.dateRange, customDateRange]);
+
+
 
 
   return (
