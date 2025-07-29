@@ -17,7 +17,17 @@ import FilterBox from "../components/taskManagerCollection/events/eventsDashboar
 import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/Column";
 
 export default function EventsDashboard() {
-  
+  const [columnsInitialized, setColumnsInitialized] = useState(false);
+  const [filters, setFilters] = useState({
+    type: "all",
+    dateRange: "all",
+    search: "",
+  });
+  const [customDateRange, setCustomDateRange] = useState({
+    start: "",
+    end: "",
+  });
+
 
 
 
