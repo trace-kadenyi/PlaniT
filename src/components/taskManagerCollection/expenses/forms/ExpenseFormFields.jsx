@@ -233,28 +233,47 @@ export default function ExpenseFormFields({
       {/* Receipt URL */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Receipt Upload
+          Receipt Upload {form.receiptUrl && "✅"}
         </label>
-        <input
-          type="file"
-          accept="image/*,.pdf"
-          onChange={handleFileUpload}
-          disabled={uploading}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
-        />
-        {uploading && (
-          <p className="text-xs text-gray-500 mt-1">Uploading...</p>
-        )}
+        <div className="mt-1 flex items-center gap-2">
+          <label className="cursor-pointer">
+            <span className="sr-only">Choose receipt file</span>
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp,.pdf"
+              onChange={handleFileUpload}
+              disabled={uploading}
+              className="block w-full text-sm text-gray-500
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-md file:border-0
+          file:text-sm file:font-semibold
+          file:bg-[#9B2C62] file:text-white
+          hover:file:bg-[#801f4f]"
+            />
+          </label>
+          {uploading && (
+            <span className="text-sm text-gray-500">Uploading...</span>
+          )}
+        </div>
         {form.receiptUrl && (
-          <div className="mt-2">
+          <div className="mt-2 flex items-center">
             <a
               href={form.receiptUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-[#9B2C62] hover:underline"
             >
-              View uploaded receipt
+              View Receipt
             </a>
+            <button
+              type="button"
+              onClick={() =>
+                onFieldChange({ target: { name: "receiptUrl", value: "" } })
+              }
+              className="ml-2 text-sm text-red-500 hover:text-red-700"
+            >
+              Remove
+            </button>
           </div>
         )}
       </div>
