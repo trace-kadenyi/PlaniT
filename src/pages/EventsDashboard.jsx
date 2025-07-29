@@ -28,6 +28,13 @@ export default function EventsDashboard() {
     end: "",
   });
 
+  const dispatch = useDispatch();
+  const {
+    items: events,
+    status: fetchStatus,
+    error: fetchError,
+    updateError,
+  } = useSelector((state) => state.events);
 
 
 
