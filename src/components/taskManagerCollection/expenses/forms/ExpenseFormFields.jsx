@@ -204,7 +204,6 @@ export default function ExpenseFormFields({
                 await handleFileUpload(e, {
                   setUploading,
                   setUploadProgress,
-                  supabase,
                   onFieldChange,
                 });
               }}
@@ -246,7 +245,6 @@ export default function ExpenseFormFields({
               onClick={async (e) => {
                 await handleRemoveReceipt({
                   form,
-                  supabase,
                   onFieldChange,
                 });
               }}
