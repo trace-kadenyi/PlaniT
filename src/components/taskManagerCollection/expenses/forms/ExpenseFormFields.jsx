@@ -217,19 +217,32 @@ export default function ExpenseFormFields({
       </div>
 
       {/* Receipt URL */}
-      <div>
+       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Receipt URL
+          Receipt Upload
         </label>
         <input
-          type="url"
-          name="receiptUrl"
-          placeholder="https://example.com/receipt.jpg"
-          value={form.receiptUrl || ""}
-          onChange={onFieldChange}
+          type="file"
+          accept="image/*,.pdf"
+          onChange={handleFileUpload}
+          disabled={uploading}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
+        {uploading && <p className="text-xs text-gray-500 mt-1">Uploading...</p>}
+        {form.receiptUrl && (
+          <div className="mt-2">
+            <a 
+              href={form.receiptUrl} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-sm text-[#9B2C62] hover:underline"
+            >
+              View uploaded receipt
+            </a>
+          </div>
+        )}
       </div>
+
 
       {/* Error Message */}
       {expenseStatus === "failed" && (
