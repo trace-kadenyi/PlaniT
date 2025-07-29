@@ -41,29 +41,6 @@ export default function ExpenseFormFields({
     }
   };
 
-  // const handleRemoveReceipt = async () => {
-  //   if (!form.receiptUrl) return;
-
-  //   try {
-  //     // Extract path from URL (works with both public and signed URLs)
-  //     const urlParts = form.receiptUrl.split("expense-receipts/");
-  //     const filePath = urlParts[urlParts.length - 1];
-
-  //     // Delete from storage
-  //     const { error } = await supabase.storage
-  //       .from("expense-receipts")
-  //       .remove([filePath]);
-
-  //     // Always clear the form field
-  //     onFieldChange({ target: { name: "receiptUrl", value: "" } });
-
-  //     if (error) throw error;
-  //   } catch (error) {
-  //     console.error("Failed to delete receipt:", error);
-  //     alert(`Couldn't remove receipt: ${error.message}`);
-  //   }
-  // };
-
   return (
     <form
       onSubmit={onSubmit}
