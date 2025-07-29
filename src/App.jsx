@@ -32,8 +32,7 @@ function App() {
           <Route path="/events/:id/edit" element={<EditEventForm />} />
           <Route path="/events/create" element={<CreateEventForm />} />
           <Route path="/tasks/board" element={<TasksBoard />} />
-                    <Route path="/events/board" element={<TasksBoard />} />
-
+          <Route path="/events/board" element={<EventsBoard />} />
         </Routes>
         <Footer />
       </Router>
