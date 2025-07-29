@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllEvents, updateEventStatus } from "../redux/eventsSlice";
+import { fetchAllEvents, updateEventStatus, clearUpdateError } from "../redux/eventsSlice";
 import { DragDropContext } from "@hello-pangea/dnd";
 import {
   mapEventToCard,
