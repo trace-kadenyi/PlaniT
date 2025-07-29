@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { formatDateTime } from "./utils/formatting";
+import { formatDateTime } from "../../utils/formatting";
 
 export default function DashEventCard({ event }) {
   return (
