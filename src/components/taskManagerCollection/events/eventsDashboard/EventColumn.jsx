@@ -10,7 +10,7 @@ export default function EventColumn({ columns }) {
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              className="bg-white border border-gray-200 rounded-lg p-4 w-full md:w-80 flex-shrink-0 shadow-sm flex flex-col"
+              className="bg-white border border-gray-200 rounded-lg p-4 w-full md:w-72 flex-shrink-0 shadow-sm flex flex-col"
               style={{
                 minHeight: "200px",
                 maxHeight: "calc(100vh - 16rem)",
@@ -26,7 +26,11 @@ export default function EventColumn({ columns }) {
 
               <div className="space-y-3 overflow-y-auto flex-1">
                 {column.tasks.map((event, index) => (
-                  <Draggable key={event.id} draggableId={event.id} index={index}>
+                  <Draggable
+                    key={event.id}
+                    draggableId={event.id}
+                    index={index}
+                  >
                     {(provided) => (
                       <div
                         ref={provided.innerRef}
