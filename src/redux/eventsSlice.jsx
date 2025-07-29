@@ -129,6 +129,10 @@ const eventsSlice = createSlice({
       state.updateBudgetStatus = "idle";
       state.updateBudgetError = null;
     },
+    clearUpdateError: (state) => {
+      state.updateError = null;
+      state.updateStatus = "idle";
+    },
   },
 
   extraReducers: (builder) => {
@@ -279,5 +283,6 @@ export const {
   clearSelectedEvent,
   resetDeleteState,
   resetBudgetUpdateState,
+  clearUpdateError,
 } = eventsSlice.actions;
 export default eventsSlice.reducer;
