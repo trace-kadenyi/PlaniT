@@ -42,6 +42,11 @@ export default function EventsDashboard() {
   // Memoize event-to-card mapping
   const mapEventToCardMemoized = useCallback(mapEventToCard, []);
 
+  // Filter events based on current filters
+  const filteredEvents = useMemo(() => {
+    return filterEvents(events, filters, filterByDateRange, customDateRange);
+  }, [events, filters, customDateRange]);
+
  
  
  
