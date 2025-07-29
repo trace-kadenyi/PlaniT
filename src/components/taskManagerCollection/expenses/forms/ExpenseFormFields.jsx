@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { supabase } from "../../../../globalUtils/supabaseClient";
 
 import { FormBudgetSummary } from "../../utils/budgetHelpers";
 import {
