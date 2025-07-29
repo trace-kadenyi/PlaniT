@@ -33,29 +33,41 @@ export const handleFileUpload = async (e, callbacks) => {
   try {
     // 3. MODIFIED UPLOAD PATH (Temporary public folder)
     const fileExt = file.name.split(".").pop();
-    filePath = `receipts/temp_uploads/${crypto.randomUUID()}.${fileExt}`; // Changed from user.id
+    filePath = `receipts/temp_uploads/${crypto.randomUUID()}.${fileExt}`;
 
-    // 4. UPLOAD (Same as before)
+    // Create a progress tracker
+    let lastProgressUpdate = Date.now();
+    const progressTracker = (progress) => {
+      const now = Date.now();
+      // Throttle updates to prevent UI overload
+      if (
+        now - lastProgressUpdate > 100 ||
+        progress.loaded === progress.total
+      ) {
+        setUploadProgress(Math.round((progress.loaded / progress.total) * 100));
+        lastProgressUpdate = now;
+      }
+    };
+
+    // 4. UPLOAD
     const { error: uploadError } = await supabase.storage
       .from("expense-receipts")
       .upload(filePath, file, {
         cacheControl: "3600",
         upsert: false,
-        onProgress: (progress) => {
-          setUploadProgress(
-            Math.round((progress.loaded / progress.total) * 100)
-          );
-        },
+        onProgress: progressTracker,
       });
 
     if (uploadError) throw uploadError;
 
-    // 5. PUBLIC URL (Unchanged)
+    // 5. PUBLIC URL
     const publicUrl = `${
       import.meta.env.VITE_SUPABASE_URL
     }/storage/v1/object/public/expense-receipts/${filePath}`;
 
     onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
+
+    setUploadProgress(100);
   } catch (error) {
     console.error("Upload error:", error);
 
@@ -66,7 +78,10 @@ export const handleFileUpload = async (e, callbacks) => {
 
     alert(`Upload failed: ${error.message}`);
   } finally {
-    setUploading(false);
+    setTimeout(() => {
+      setUploading(false);
+      setUploadProgress(0);
+    }, 500);
   }
 };
 
