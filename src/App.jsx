@@ -9,7 +9,8 @@ import Events from "./pages/Events";
 import Event from "./pages/Event";
 import EditEventForm from "./components/taskManagerCollection/events/forms/EditEventForm";
 import CreateEventForm from "./components/taskManagerCollection/events/forms/CreateEventForm";
-import TaskBoard from "./pages/TaskBoard";
+import TasksBoard from "./pages/TasksBoard";
+import EventsBoard from "./pages/EventsBoard";
 
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
 
@@ -30,7 +31,9 @@ function App() {
           <Route path="/events/:id" element={<Event />} />
           <Route path="/events/:id/edit" element={<EditEventForm />} />
           <Route path="/events/create" element={<CreateEventForm />} />
-          <Route path="/board" element={<TaskBoard />} />
+          <Route path="/tasks/board" element={<TasksBoard />} />
+                    <Route path="/events/board" element={<TasksBoard />} />
+
         </Routes>
         <Footer />
       </Router>
