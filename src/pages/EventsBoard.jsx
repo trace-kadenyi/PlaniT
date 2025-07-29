@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllEvents, updateEventStatus, clearUpdateError } from "../redux/eventsSlice";
+import { fetchEvents, updateEvent, clearUpdateError } from "../redux/eventsSlice";
 import { DragDropContext } from "@hello-pangea/dnd";
 import {
   mapEventToCard,
@@ -29,15 +29,19 @@ export default function EventsBoard() {
   });
 
   const dispatch = useDispatch();
-  const {
-    items: events,
-    status: fetchStatus,
-    error: fetchError,
-    updateError,
-  } = useSelector((state) => state.events);
+  
+  // Selectors declared directly in component
+  const events = useSelector((state) => state.events.items);
+  const fetchStatus = useSelector((state) => state.events.status);
+  const fetchError = useSelector((state) => state.events.error);
+  const updateStatus = useSelector((state) => state.events.updateStatus);
+  const updateError = useSelector((state) => state.events.updateError);
 
   // Extract unique event types for filter dropdown
-  const eventTypes = ["all", ...new Set(events.map(event => event.type))];
+  const eventTypes = useMemo(() => 
+    ["all", ...new Set(events.map(event => event.type))],
+    [events]
+  );
 
   // Memoize event-to-card mapping
   const mapEventToCardMemoized = useCallback(mapEventToCard, []);
@@ -57,7 +61,7 @@ export default function EventsBoard() {
 
   // Fetch events on initial render
   useEffect(() => {
-    dispatch(fetchAllEvents());
+    dispatch(fetchEvents());
   }, [dispatch]);
 
   // Update columns when events load or search filter changes
@@ -85,7 +89,7 @@ export default function EventsBoard() {
         columns, 
         setColumns, 
         dispatch,
-        updateStatus: updateEventStatus 
+        updateEvent // Using existing updateEvent thunk
       });
     },
     [events, columns, setColumns, dispatch]
@@ -146,29 +150,17 @@ export default function EventsBoard() {
 
       {/* Error messages */}
       {updateError && (
-        <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
-          <span>Update failed: {updateError}</span>
-          <button
-            onClick={() => dispatch(clearUpdateError())}
-            className="text-[#9B2C62] font-medium"
-          >
-            Retry
-          </button>
-        </div>
+        <UpdateDashboardError 
+          updateError={updateError} 
+          dispatch={dispatch} 
+          clearError={clearUpdateError}
+        />
       )}
-      {fetchError && (
-        <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
-          Failed to load events: {fetchError}
-        </div>
-      )}
+      {fetchError && <FetchDashboardError fetchError={fetchError} />}
 
       {/* Main content */}
       {fetchStatus === "loading" ? (
-        <div className="flex space-x-4 animate-pulse justify-center">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="bg-gray-100 rounded-lg p-4 w-80 h-64"></div>
-          ))}
-        </div>
+        <LoadingDashboard />
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
           <EventColumn columns={columns} />
@@ -177,4 +169,3 @@ export default function EventsBoard() {
     </div>
   );
 }
-
