@@ -1,6 +1,10 @@
-import { updateEventStatus, clearUpdateError } from "../../../redux/eventsSlice";
+import {
+  updateEventStatus,
+  clearUpdateError,
+} from "../../../redux/eventsSlice";
 import { taskToastProgress } from "../../../globalHooks/useToastWithProgress";
 
+// map event to card
 export const mapEventToCard = (event) => ({
   id: event._id,
   name: event.name,
@@ -12,6 +16,7 @@ export const mapEventToCard = (event) => ({
   description: event.description,
 });
 
+// get columns from events
 export const getColumnsFromEvents = (events, mapEventToCardFn) => {
   const filteredEvents = {
     planning: events.filter((event) => event.status === "Planning"),
@@ -55,6 +60,7 @@ export const getColumnsFromEvents = (events, mapEventToCardFn) => {
   };
 };
 
+// handle event drag
 export const handleEventDragEnd = async (
   result,
   { events, columns, setColumns, dispatch, updateStatus }
@@ -80,14 +86,16 @@ export const handleEventDragEnd = async (
   try {
     const eventName = originalEvent.name;
     const formerStatus = originalEvent.status;
-    
+
     // Optimistic update
     setColumns((prevColumns) => {
       const newColumns = JSON.parse(JSON.stringify(prevColumns));
       const sourceColumn = newColumns[source.droppableId];
       const destColumn = newColumns[destination.droppableId];
 
-      const taskIndex = sourceColumn.tasks.findIndex((t) => t.id === draggableId);
+      const taskIndex = sourceColumn.tasks.findIndex(
+        (t) => t.id === draggableId
+      );
       if (taskIndex === -1) return prevColumns;
 
       const [movedEvent] = sourceColumn.tasks.splice(taskIndex, 1);
@@ -104,7 +112,7 @@ export const handleEventDragEnd = async (
         updatedData: { status: newStatus },
       })
     ).unwrap();
-    
+
     taskToastProgress(
       <span>
         Status of <span className="font-bold">{eventName}</span> updated from{" "}
@@ -118,6 +126,7 @@ export const handleEventDragEnd = async (
   }
 };
 
+// get initial event columns
 export const getInitialEventColumns = () => ({
   planning: {
     id: "planning",
@@ -151,6 +160,7 @@ export const getInitialEventColumns = () => ({
   },
 });
 
+// filter events
 export const filterEvents = (
   events,
   filters,
@@ -170,13 +180,16 @@ export const filterEvents = (
       searchTerm === "" ||
       event.name.toLowerCase().includes(searchTerm) ||
       (event.type && event.type.toLowerCase().includes(searchTerm)) ||
-      (event.location.city && event.location.city.toLowerCase().includes(searchTerm)) ||
-      (event.location.country && event.location.country.toLowerCase().includes(searchTerm));
+      (event.location.city &&
+        event.location.city.toLowerCase().includes(searchTerm)) ||
+      (event.location.country &&
+        event.location.country.toLowerCase().includes(searchTerm));
 
     return matchesType && matchesDate && matchesSearch;
   });
 };
 
+// loading dashboard
 export const LoadingDashboard = () => (
   <div className="flex space-x-4 animate-pulse justify-center">
     {[1, 2, 3, 4, 5].map((i) => (
@@ -185,6 +198,7 @@ export const LoadingDashboard = () => (
   </div>
 );
 
+// update dashboard error
 export const UpdateDashboardError = ({ updateError, dispatch }) => (
   <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
     <span>Update failed: {updateError}</span>
@@ -197,6 +211,7 @@ export const UpdateDashboardError = ({ updateError, dispatch }) => (
   </div>
 );
 
+// fetch dashboard error
 export const FetchDashboardError = ({ fetchError }) => (
   <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
     Failed to load events: {fetchError}
