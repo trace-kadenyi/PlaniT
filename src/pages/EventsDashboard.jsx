@@ -77,6 +77,19 @@ export default function EventsDashboard() {
     }
   }, [filters.type, filters.dateRange, customDateRange]);
 
+  // Handle drag-and-drop reordering
+  const onDragEnd = useCallback(
+    (result) => {
+      handleEventDragEnd(result, { 
+        events, 
+        columns, 
+        setColumns, 
+        dispatch,
+        updateStatus: updateEventStatus 
+      });
+    },
+    [events, columns, setColumns, dispatch]
+  );
 
 
 
