@@ -16,7 +16,7 @@ import { dateFilters } from "../components/taskManagerCollection/utils/handlers/
 import FilterBox from "../components/taskManagerCollection/events/eventsDashboard/FilterBox";
 import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/Column";
 
-export default function EventsDashboard() {
+export default function EventsBoard() {
   const [columnsInitialized, setColumnsInitialized] = useState(false);
   const [filters, setFilters] = useState({
     type: "all",

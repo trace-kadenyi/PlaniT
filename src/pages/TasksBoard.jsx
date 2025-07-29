@@ -19,7 +19,7 @@ import {
   useAssignees,
 } from "../components/taskManagerCollection/hooks/useFilters";
 
-export default function TaskBoard() {
+export default function TasksBoard() {
   // Track whether columns have been initialized to prevent unnecessary recalculations
   const [columnsInitialized, setColumnsInitialized] = useState(false);
 
