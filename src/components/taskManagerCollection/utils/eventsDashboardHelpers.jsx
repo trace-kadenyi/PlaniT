@@ -16,7 +16,6 @@ export const mapEventToCard = (event) => ({
 export const getColumnsFromEvents = (events, mapEventToCardFn) => {
   const filteredEvents = {
     planning: events.filter((event) => event.status === "Planning"),
-    confirmed: events.filter((event) => event.status === "Confirmed"),
     inProgress: events.filter((event) => event.status === "In Progress"),
     completed: events.filter((event) => event.status === "Completed"),
     cancelled: events.filter((event) => event.status === "Cancelled"),
@@ -28,12 +27,6 @@ export const getColumnsFromEvents = (events, mapEventToCardFn) => {
       title: "Planning",
       tasks: filteredEvents.planning.map(mapEventToCardFn),
       color: "#F59E0B",
-    },
-    confirmed: {
-      id: "confirmed",
-      title: "Confirmed",
-      tasks: filteredEvents.confirmed.map(mapEventToCardFn),
-      color: "#3B82F6",
     },
     inProgress: {
       id: "inProgress",
@@ -67,7 +60,6 @@ export const handleEventDragEnd = async (
 
   const statusMap = {
     planning: "Planning",
-    confirmed: "Confirmed",
     inProgress: "In Progress",
     completed: "Completed",
     cancelled: "Cancelled",
@@ -89,7 +81,9 @@ export const handleEventDragEnd = async (
       const sourceColumn = newColumns[source.droppableId];
       const destColumn = newColumns[destination.droppableId];
 
-      const taskIndex = sourceColumn.tasks.findIndex((t) => t.id === draggableId);
+      const taskIndex = sourceColumn.tasks.findIndex(
+        (t) => t.id === draggableId
+      );
       if (taskIndex === -1) return prevColumns;
 
       const [movedEvent] = sourceColumn.tasks.splice(taskIndex, 1);
@@ -103,7 +97,7 @@ export const handleEventDragEnd = async (
     await dispatch(
       updateEvent({
         eventId: draggableId,
-        updatedEvent: { status: newStatus }
+        updatedEvent: { status: newStatus },
       })
     ).unwrap();
 
@@ -127,12 +121,6 @@ export const getInitialEventColumns = () => ({
     title: "Planning",
     tasks: [],
     color: "#F59E0B",
-  },
-  confirmed: {
-    id: "confirmed",
-    title: "Confirmed",
-    tasks: [],
-    color: "#3B82F6",
   },
   inProgress: {
     id: "inProgress",
