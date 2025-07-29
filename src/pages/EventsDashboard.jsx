@@ -52,8 +52,24 @@ export default function EventsDashboard() {
     return getColumnsFromEvents(filteredEvents, mapEventToCardMemoized);
   }, [filteredEvents, mapEventToCardMemoized]);
 
- 
- 
+  // Initialize columns with empty state
+  const [columns, setColumns] = useState(getInitialEventColumns);
+
+  // Fetch events on initial render
+  useEffect(() => {
+    dispatch(fetchAllEvents());
+  }, [dispatch]);
+
+  // Update columns when events load or search filter changes
+  useEffect(() => {
+    if (fetchStatus === "succeeded") {
+      if (!columnsInitialized || filters.search) {
+        setColumns(getColumnsFromEventsMemoized());
+      }
+      if (!columnsInitialized) setColumnsInitialized(true);
+    }
+  }, [fetchStatus, filteredEvents, columnsInitialized, filters.search]);
+
  
 
 
