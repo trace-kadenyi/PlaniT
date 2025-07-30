@@ -17,10 +17,10 @@ export default function DashEventCard({ event }) {
   return (
     <div className="relative z-20" style={{ pointerEvents: "none" }}>
       <div className="flex justify-between items-start gap-1">
-        <h3 className="font-medium text-gray-800">
-          {truncateText(event.name, 25)}
+        <h3 className="font-medium text-gray-800 mt-7">
+          {truncateText(event.name, 31)}
         </h3>
-        <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
+        <span className="absolute right-0 text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
           {event.type}
         </span>
       </div>
