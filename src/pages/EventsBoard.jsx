@@ -121,6 +121,12 @@ export default function EventsBoard() {
     }
   }, [dashboardStatus, filteredEvents, columnsInitialized, filters.search]);
 
+  // Recalculate columns when type/date filters change
+  useEffect(() => {
+    if (columnsInitialized && dashboardStatus === "succeeded") {
+      setColumns(getColumnsFromEventsMemoized());
+    }
+  }, [filters.type, filters.dateRange, customDateRange]);
 
 
   return (
