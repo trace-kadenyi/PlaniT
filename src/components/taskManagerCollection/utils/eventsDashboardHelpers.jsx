@@ -7,9 +7,12 @@ export const mapEventToCard = (event) => ({
   type: event.type,
   date: event.date,
   location: event.location,
-  budgetStatus: event.budgetStatus,
   status: event.status,
-  description: event.description,
+  budgetStatus: event.budgetStatus || {
+    totalBudget: 0,
+    totalExpenses: 0,
+    remainingBudget: 0,
+  },
 });
 
 // get columns from events
