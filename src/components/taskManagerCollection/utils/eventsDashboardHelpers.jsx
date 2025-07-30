@@ -145,7 +145,7 @@ export const getInitialEventColumns = () => ({
   },
 });
 
-// In your eventsDashboardHelpers.js
+// filter by date range
 export const filterByDateRange = (
   event,
   range,
@@ -208,16 +208,15 @@ export const filterByDateRange = (
   }
 };
 
-// In dashboardDateHandlers.js
-// In dashboardDateHandlers.js
+// date filters
 export const dateFilters = {
   all: "All Dates",
   today: "Today",
   tomorrow: "Tomorrow",
-  thisWeek: "This Week", // Changed from "week"
-  nextWeek: "Next Week", // Added
+  thisWeek: "This Week",
+  nextWeek: "Next Week",
   month: "This Month",
-  overdue: "Overdue", // Added
+  overdue: "Overdue",
   custom: "Custom Range",
 };
 
