@@ -34,7 +34,42 @@ export default function DashEventCard({ event }) {
       </div>
 
       {/* Enhanced Budget Display */}
-     
+      <div className="mt-3 space-y-2">
+        {hasBudget ? (
+          <>
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-gray-700 font-medium">Budget:</span>
+              <span className="font-medium">
+                ${totalExpenses.toLocaleString()} / $
+                {totalBudget.toLocaleString()}
+              </span>
+            </div>
+            <ProgressBar
+              value={percentageUsed}
+              className={isBudgetWarning ? "bg-red-100" : "bg-[#FFF5EB]"}
+              height="h-2"
+            />
+            <div className="flex justify-between text-xs">
+              <span
+                className={`${
+                  isBudgetWarning ? "text-[#9B2C62]" : "text-gray-600"
+                }`}
+              >
+                {percentageUsed.toFixed(1)}% used
+              </span>
+              <span
+                className={`font-medium ${
+                  isBudgetWarning ? "text-[#9B2C62]" : "text-gray-700"
+                }`}
+              >
+                ${remainingBudget.toLocaleString()} remaining
+              </span>
+            </div>
+          </>
+        ) : (
+          <div className="text-xs text-gray-500">No budget set</div>
+        )}
+      </div>
 
       <div className="mt-3 flex justify-end">
         <span
