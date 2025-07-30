@@ -4,7 +4,7 @@ import { formatDateTime } from "../../utils/formatting";
 import ProgressBar from "../../../ui/ProgressBar";
 import { truncateText } from "../../utils/formatting";
 
-export default function DashEventCard({ event }) {
+export default function DashEventsCard({ event }) {
   // Safely access budget data
   const {
     totalBudget = 0,
