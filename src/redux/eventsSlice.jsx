@@ -81,19 +81,19 @@ export const fetchEventsForDashboard = createAsyncThunk(
       budgetMap[item.eventId] = item.budgetStatus;
     });
 
-    console.log("Events Data:", eventsRes.data);
-    console.log("Budget Status Data:", budgetStatusRes.data);
-    console.log(
-      "Merged Data:",
-      eventsRes.data.map((event) => ({
-        ...event,
-        budgetStatus:
-          budgetMap[event._id] ||
-          {
-            /* defaults */
-          },
-      }))
-    );
+    // console.log("Events Data:", eventsRes.data);
+    // console.log("Budget Status Data:", budgetStatusRes.data);
+    // console.log(
+    //   "Merged Data:",
+    //   eventsRes.data.map((event) => ({
+    //     ...event,
+    //     budgetStatus:
+    //       budgetMap[event._id] ||
+    //       {
+    //         /* defaults */
+    //       },
+    //   }))
+    // );
 
     // Merge the data
     return eventsRes.data.map((event) => ({
