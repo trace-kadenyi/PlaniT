@@ -116,7 +116,9 @@ const eventsSlice = createSlice({
     updateBudgetStatus: "idle",
     updateBudgetError: null,
 
-    
+    dashboardItems: [],
+    dashboardStatus: "idle",
+    dashboardError: null,
   },
 
   reducers: {
