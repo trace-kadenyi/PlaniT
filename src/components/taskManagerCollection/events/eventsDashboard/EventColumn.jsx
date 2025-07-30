@@ -1,5 +1,5 @@
 import { Droppable, Draggable } from "@hello-pangea/dnd";
-import DashEventCards from "./DashEventsCard";
+import DashEventCard from "./DashEventCard";
 
 export default function EventColumn({ columns }) {
   return (
@@ -44,7 +44,7 @@ export default function EventColumn({ columns }) {
                           style={{ pointerEvents: "auto" }}
                         />
                         {/* Event card content */}
-                        <DashEventCards event={event} />
+                        <DashEventCard event={event} />
                       </div>
                     )}
                   </Draggable>
