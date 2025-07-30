@@ -145,6 +145,82 @@ export const getInitialEventColumns = () => ({
   },
 });
 
+// In your eventsDashboardHelpers.js
+export const filterByDateRange = (
+  event,
+  range,
+  customRange = { start: "", end: "" }
+) => {
+  if (!event.date) return false;
+
+  // Normalize all dates to midnight (strip time components)
+  const normalizeDate = (dateStr) => {
+    const d = new Date(dateStr);
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  };
+
+  const eventDate = normalizeDate(event.date);
+  const now = normalizeDate(new Date());
+
+  if (range === "custom") {
+    if (!customRange.start || !customRange.end) return false;
+    const startDate = normalizeDate(customRange.start);
+    const endDate = normalizeDate(customRange.end);
+    return eventDate >= startDate && eventDate <= endDate;
+  }
+
+  // Calculate week boundaries once
+  const startOfThisWeek = new Date(now);
+  startOfThisWeek.setDate(now.getDate() - now.getDay());
+  const endOfThisWeek = new Date(startOfThisWeek);
+  endOfThisWeek.setDate(startOfThisWeek.getDate() + 6);
+
+  switch (range) {
+    case "today":
+      return eventDate.getTime() === now.getTime();
+
+    case "tomorrow":
+      const tomorrow = new Date(now);
+      tomorrow.setDate(now.getDate() + 1);
+      return eventDate.getTime() === tomorrow.getTime();
+
+    case "thisWeek": // Changed from "week" to match tasks
+      return eventDate >= startOfThisWeek && eventDate <= endOfThisWeek;
+
+    case "nextWeek":
+      const startOfNextWeek = new Date(endOfThisWeek);
+      startOfNextWeek.setDate(endOfThisWeek.getDate() + 1);
+      const endOfNextWeek = new Date(startOfNextWeek);
+      endOfNextWeek.setDate(startOfNextWeek.getDate() + 6);
+      return eventDate >= startOfNextWeek && eventDate <= endOfNextWeek;
+
+    case "month":
+      return (
+        eventDate.getFullYear() === now.getFullYear() &&
+        eventDate.getMonth() === now.getMonth()
+      );
+
+    case "overdue":
+      return eventDate < now && event.status !== "Completed";
+
+    default: // "all"
+      return true;
+  }
+};
+
+// In dashboardDateHandlers.js
+// In dashboardDateHandlers.js
+export const dateFilters = {
+  all: "All Dates",
+  today: "Today",
+  tomorrow: "Tomorrow",
+  thisWeek: "This Week", // Changed from "week"
+  nextWeek: "Next Week", // Added
+  month: "This Month",
+  overdue: "Overdue", // Added
+  custom: "Custom Range",
+};
+
 // filter events
 export const filterEvents = (
   events,
