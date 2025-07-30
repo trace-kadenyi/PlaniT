@@ -28,7 +28,7 @@ export default function DashEventCard({ event }) {
       <div className="mt-2 text-xs text-gray-600 space-y-1">
         <div className="flex items-center">
           <span className="font-medium mr-1">Date:</span>
-          {formatDateTime(event.date)}
+          <span className="font-semibold">{formatDateTime(event.date)}</span>
         </div>
         <div className="flex items-center">
           <span className="font-medium mr-1">Location:</span>
@@ -61,7 +61,7 @@ export default function DashEventCard({ event }) {
                 {percentageUsed.toFixed(1)}% used
               </span>
               <span
-                className={`font-medium ${
+                className={`font-semibold ${
                   isBudgetWarning ? "text-[#9B2C62]" : "text-gray-700"
                 }`}
               >
