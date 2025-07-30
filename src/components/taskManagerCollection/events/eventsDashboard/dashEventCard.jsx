@@ -1,5 +1,6 @@
 import { formatDateTime } from "../../utils/formatting";
 import ProgressBar from "../../../ui/ProgressBar";
+import { truncateText } from "../../utils/formatting";
 
 export default function DashEventCard({ event }) {
   // Safely access budget data
@@ -16,7 +17,9 @@ export default function DashEventCard({ event }) {
   return (
     <div className="relative z-20" style={{ pointerEvents: "none" }}>
       <div className="flex justify-between items-start gap-1">
-        <h3 className="font-medium text-gray-800">{event.name}</h3>
+        <h3 className="font-medium text-gray-800">
+          {truncateText(event.name, 25)}
+        </h3>
         <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
           {event.type}
         </span>
