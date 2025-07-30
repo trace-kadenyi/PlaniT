@@ -25,9 +25,20 @@ export function useTaskFilters(tasks, filters, customDateRange) {
 export function useAssignees(tasks) {
   return useMemo(() => {
     const uniqueAssignees = new Set();
+    let hasUnassignedTasks = false;
+
     tasks.forEach((task) => {
-      if (task.assignedTo) uniqueAssignees.add(task.assignedTo);
+      if (task.assignedTo) {
+        uniqueAssignees.add(task.assignedTo);
+      } else {
+        hasUnassignedTasks = true; // Flag if any task is unassigned
+      }
     });
-    return ["all", ...Array.from(uniqueAssignees)];
+
+    // Include "Unassigned" only if there are unassigned tasks
+    const assignees = ["all", ...Array.from(uniqueAssignees)];
+    if (hasUnassignedTasks) assignees.push("Unassigned");
+
+    return assignees;
   }, [tasks]);
 }
