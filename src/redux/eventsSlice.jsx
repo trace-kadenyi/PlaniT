@@ -178,6 +178,10 @@ const eventsSlice = createSlice({
       state.updateError = null;
       state.updateStatus = "idle";
     },
+    resetDashboard: (state) => {
+    state.dashboardItems = [];
+    state.dashboardStatus = 'idle';
+  }
   },
 
   extraReducers: (builder) => {
