@@ -17,9 +17,8 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialEventColumns,
-  filterEvents, filterByDateRange
+  filterEvents, filterByDateRange, dateFilters
 } from "../components/taskManagerCollection/utils/eventsDashboardHelpers";
-import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/taskManagerCollection/events/eventsDashboard/FilterBox";
 import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/EventColumn";
 
