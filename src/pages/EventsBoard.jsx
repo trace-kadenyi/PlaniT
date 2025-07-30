@@ -4,9 +4,11 @@ import {
   fetchEvents,
   updateEvent,
   clearUpdateError,
+  resetDashboard,
 } from "../redux/eventsSlice";
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { DragDropContext } from "@hello-pangea/dnd";
+
 import {
   mapEventToCard,
   getColumnsFromEvents,
@@ -44,10 +46,13 @@ export default function EventsBoard() {
     updateError,
   } = useSelector((state) => state.events);
 
-  // Fetch data using the new thunk
+  // 1. Reset and fetch when component mounts
   useEffect(() => {
-    dispatch(fetchEventsForDashboard());
+    dispatch({ type: "events/resetDashboard" }); // Clear existing data
+    dispatch(fetchEventsForDashboard()); // Fetch fresh data
   }, [dispatch]);
+
+ 
 
   // Extract unique event types for filter dropdown - now using dashboardItems
   const eventTypes = useMemo(
