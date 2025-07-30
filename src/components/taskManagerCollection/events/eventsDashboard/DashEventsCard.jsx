@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 import { formatDateTime } from "../../utils/formatting";
 import ProgressBar from "../../../ui/ProgressBar";
 import { truncateText } from "../../utils/formatting";
 
-export default function DashEventCard({ event }) {
+export default function DashEventsCard({ event }) {
   // Safely access budget data
   const {
     totalBudget = 0,
@@ -17,10 +19,15 @@ export default function DashEventCard({ event }) {
   return (
     <div className="relative z-20" style={{ pointerEvents: "none" }}>
       <div className="flex justify-between items-start gap-1">
-        <h3 className="font-medium text-gray-800">
-          {truncateText(event.name, 25)}
-        </h3>
-        <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
+        <Link
+          to={`/events/${event.id}`}
+          className="font-medium text-gray-800 mt-7 hover:underline"
+          style={{ pointerEvents: "auto" }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {truncateText(event.name, 26)}
+        </Link>
+        <span className="absolute right-0 text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
           {event.type}
         </span>
       </div>
@@ -28,7 +35,7 @@ export default function DashEventCard({ event }) {
       <div className="mt-2 text-xs text-gray-600 space-y-1">
         <div className="flex items-center">
           <span className="font-medium mr-1">Date:</span>
-          {formatDateTime(event.date)}
+          <span className="font-semibold">{formatDateTime(event.date)}</span>
         </div>
         <div className="flex items-center">
           <span className="font-medium mr-1">Location:</span>
@@ -61,7 +68,7 @@ export default function DashEventCard({ event }) {
                 {percentageUsed.toFixed(1)}% used
               </span>
               <span
-                className={`font-medium ${
+                className={`font-semibold ${
                   isBudgetWarning ? "text-[#9B2C62]" : "text-gray-700"
                 }`}
               >
