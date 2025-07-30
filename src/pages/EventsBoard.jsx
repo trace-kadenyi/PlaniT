@@ -128,6 +128,19 @@ export default function EventsBoard() {
     }
   }, [filters.type, filters.dateRange, customDateRange]);
 
+  // Handle drag-and-drop reordering
+  const onDragEnd = useCallback(
+    (result) => {
+      handleEventDragEnd(result, {
+        events: dashboardItems,
+        columns,
+        setColumns,
+        dispatch,
+        updateEvent,
+      });
+    },
+    [dashboardItems, columns, setColumns, dispatch]
+  );
 
   return (
     <div className="p-4 bg-white min-h-screen">
