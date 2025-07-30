@@ -66,6 +66,47 @@ export const updateBudget = createAsyncThunk(
   }
 );
 
+// fetch events with budget for dashboard
+export const fetchEventsForDashboard = createAsyncThunk(
+  "events/fetchEventsForDashboard",
+  async () => {
+    const [eventsRes, budgetStatusRes] = await Promise.all([
+      api.get("/api/events"),
+      api.get("/api/expenses/budget-status"),
+    ]);
+
+    // Create a proper mapping of eventId to budgetStatus
+    const budgetMap = {};
+    budgetStatusRes.data.forEach((item) => {
+      budgetMap[item.eventId] = item.budgetStatus;
+    });
+
+    // console.log("Events Data:", eventsRes.data);
+    // console.log("Budget Status Data:", budgetStatusRes.data);
+    // console.log(
+    //   "Merged Data:",
+    //   eventsRes.data.map((event) => ({
+    //     ...event,
+    //     budgetStatus:
+    //       budgetMap[event._id] ||
+    //       {
+    //         /* defaults */
+    //       },
+    //   }))
+    // );
+
+    // Merge the data
+    return eventsRes.data.map((event) => ({
+      ...event,
+      budgetStatus: budgetMap[event._id] || {
+        totalBudget: 0,
+        totalExpenses: 0,
+        remainingBudget: 0,
+      },
+    }));
+  }
+);
+
 // --- Slice ---
 
 const eventsSlice = createSlice({
@@ -93,6 +134,10 @@ const eventsSlice = createSlice({
 
     updateBudgetStatus: "idle",
     updateBudgetError: null,
+
+    dashboardItems: [],
+    dashboardStatus: "idle",
+    dashboardError: null,
   },
 
   reducers: {
@@ -128,6 +173,14 @@ const eventsSlice = createSlice({
     resetBudgetUpdateState: (state) => {
       state.updateBudgetStatus = "idle";
       state.updateBudgetError = null;
+    },
+    clearUpdateError: (state) => {
+      state.updateError = null;
+      state.updateStatus = "idle";
+    },
+    resetDashboard: (state) => {
+      state.dashboardItems = [];
+      state.dashboardStatus = "idle";
     },
   },
 
@@ -268,6 +321,20 @@ const eventsSlice = createSlice({
           action.error.message ||
           "Failed to update budget";
       });
+
+    builder
+      .addCase(fetchEventsForDashboard.pending, (state) => {
+        state.dashboardStatus = "loading";
+        state.dashboardError = null;
+      })
+      .addCase(fetchEventsForDashboard.fulfilled, (state, action) => {
+        state.dashboardStatus = "succeeded";
+        state.dashboardItems = action.payload;
+      })
+      .addCase(fetchEventsForDashboard.rejected, (state, action) => {
+        state.dashboardStatus = "failed";
+        state.dashboardError = action.error.message;
+      });
   },
 });
 
@@ -279,5 +346,7 @@ export const {
   clearSelectedEvent,
   resetDeleteState,
   resetBudgetUpdateState,
+  clearUpdateError,
+  resetDashboard,
 } = eventsSlice.actions;
 export default eventsSlice.reducer;

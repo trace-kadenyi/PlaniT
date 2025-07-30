@@ -10,16 +10,16 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialColumns,
-} from "../components/taskManagerCollection/utils/dashboardHelpers";
+} from "../components/taskManagerCollection/utils/tasksDashboardHelpers";
 import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
-import FilterBox from "../components/taskManagerCollection/dashboard/FilterBox";
-import Column from "../components/taskManagerCollection/dashboard/Column";
+import FilterBox from "../components/taskManagerCollection/tasks/tasksDashboard/FilterBox";
+import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
 import {
   useTaskFilters,
   useAssignees,
 } from "../components/taskManagerCollection/hooks/useFilters";
 
-export default function DashBoard() {
+export default function TasksBoard() {
   // Track whether columns have been initialized to prevent unnecessary recalculations
   const [columnsInitialized, setColumnsInitialized] = useState(false);
 
@@ -133,7 +133,7 @@ export default function DashBoard() {
         <LoadingDashboard />
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
-          <Column columns={columns} />
+          <TaskColumn columns={columns} />
         </DragDropContext>
       )}
     </div>

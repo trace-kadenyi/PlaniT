@@ -23,3 +23,9 @@ export const getStatusColor = (status) => {
       return "bg-gray-100 text-gray-700";
   }
 };
+
+// truncate text
+export const truncateText = (text, maxLength = 20) => {
+  if (text.length <= maxLength) return text;
+  return `${text.substring(0, maxLength)}...`;
+};
