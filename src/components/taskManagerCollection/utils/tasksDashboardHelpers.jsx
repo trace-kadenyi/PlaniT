@@ -166,16 +166,23 @@ export const filterTasks = (
   const searchTerm = filters.search?.toLowerCase() || "";
 
   return tasks.filter((task) => {
+    // priority filter
     const matchesPriority =
       filters.priority === "all" ||
       task.priority.toLowerCase() === filters.priority;
+    // assignee filter
     const matchesAssignee =
-      filters.assignee === "all" || task.assignedTo === filters.assignee;
+      filters.assignee === "all" ||
+      (filters.assignee === "Unassigned"
+        ? !task.assignedTo || task.assignedTo.trim() === ""
+        : task.assignedTo === filters.assignee);
+    // date filter
     const matchesDate = filterByDateRange(
       task,
       filters.dateRange,
       filters.dateRange === "custom" ? customDateRange : null
     );
+    // search filter
     const matchesSearch =
       searchTerm === "" ||
       task.title.toLowerCase().includes(searchTerm) ||
