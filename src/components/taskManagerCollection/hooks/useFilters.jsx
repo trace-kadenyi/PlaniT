@@ -8,7 +8,14 @@ export function useTaskFilters(tasks, filters, customDateRange) {
     return filterTasks(
       tasks,
       filters,
-      filterByDateRange,
+      (task, range, custom) =>
+        filterByDateRange(
+          task,
+          range,
+          custom,
+          (t) => t.deadline,
+          (t) => t.status
+        ),
       filters.dateRange === "custom" ? customDateRange : null
     );
   }, [tasks, filters, customDateRange]);
