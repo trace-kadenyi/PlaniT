@@ -1,10 +1,21 @@
-import { Link } from "react-router-dom";
 import { formatDateTime } from "../../utils/formatting";
+import ProgressBar from "../../../ui/ProgressBar";
 
 export default function DashEventCard({ event }) {
+  // Safely access budget data
+  const {
+    totalBudget = 0,
+    totalExpenses = 0,
+    remainingBudget = 0,
+  } = event.budgetStatus || {};
+
+  const hasBudget = totalBudget > 0;
+  const percentageUsed = hasBudget ? (totalExpenses / totalBudget) * 100 : 0;
+  const isBudgetWarning = hasBudget && remainingBudget < totalBudget * 0.1;
+
   return (
     <div className="relative z-20" style={{ pointerEvents: "none" }}>
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start gap-1">
         <h3 className="font-medium text-gray-800">{event.name}</h3>
         <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
           {event.type}
@@ -22,12 +33,12 @@ export default function DashEventCard({ event }) {
         </div>
       </div>
 
-      <div className="mt-3 flex justify-between items-center text-xs">
-        <span className="text-gray-500">
-          Budget: ${event.budgetStatus?.totalBudget || "N/A"}
-        </span>
+      {/* Enhanced Budget Display */}
+     
+
+      <div className="mt-3 flex justify-end">
         <span
-          className={`px-2 py-1 rounded ${
+          className={`px-2 py-1 rounded text-xs ${
             event.status === "Completed"
               ? "bg-green-100 text-green-800"
               : event.status === "Cancelled"
