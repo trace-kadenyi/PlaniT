@@ -17,8 +17,12 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialEventColumns,
-  filterEvents, filterByDateRange, dateFilters
+  filterEvents,
 } from "../components/taskManagerCollection/utils/eventsDashboardHelpers";
+import {
+  filterByDateRange,
+  dateFilters,
+} from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/taskManagerCollection/events/eventsDashboard/FilterBox";
 import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/EventColumn";
 
@@ -62,17 +66,22 @@ export default function EventsBoard() {
   // Memoize event-to-card mapping
   const mapEventToCardMemoized = useCallback(mapEventToCard, []);
 
-  
-
   // Filter events based on current filters - uses dashboardItems
- const filteredEvents = useMemo(() => {
-  return filterEvents(
-    dashboardItems,
-    filters,
-    filterByDateRange,
-    filters.dateRange === "custom" ? customDateRange : null
-  );
-}, [dashboardItems, filters, customDateRange]);
+  const filteredEvents = useMemo(() => {
+    return filterEvents(
+      dashboardItems,
+      filters,
+      (event, range, custom) =>
+        filterByDateRange(
+          event,
+          range,
+          custom,
+          (e) => e.date,
+          (t) => e.status
+        ),
+      filters.dateRange === "custom" ? customDateRange : null
+    );
+  }, [dashboardItems, filters, customDateRange]);
 
   // Memoize columns generation
   const getColumnsFromEventsMemoized = useCallback(() => {
