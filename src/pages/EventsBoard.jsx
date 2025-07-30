@@ -1,13 +1,13 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DragDropContext } from "@hello-pangea/dnd";
+
 import {
-  fetchEvents,
   updateEvent,
   clearUpdateError,
   resetDashboard,
 } from "../redux/eventsSlice";
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
-import { DragDropContext } from "@hello-pangea/dnd";
 
 import {
   mapEventToCard,
@@ -38,30 +38,19 @@ export default function EventsBoard() {
   const dispatch = useDispatch();
 
   // Corrected selectors - only use dashboard-related state
-  const {
-    dashboardItems,
-    dashboardStatus,
-    dashboardError,
-    updateStatus,
-    updateError,
-  } = useSelector((state) => state.events);
+  const { dashboardItems, dashboardStatus, dashboardError, updateError } =
+    useSelector((state) => state.events);
 
   // 1. Reset and fetch when component mounts
   useEffect(() => {
-    dispatch({ type: "events/resetDashboard" }); // Clear existing data
+    dispatch(resetDashboard()); // Clear existing data
     dispatch(fetchEventsForDashboard()); // Fetch fresh data
-  }, [dispatch]);
-
-  // 1. Reset and fetch when component mounts
-  useEffect(() => {
-    dispatch({ type: 'events/resetDashboard' });  // Clear existing data
-    dispatch(fetchEventsForDashboard());          // Fetch fresh data
   }, [dispatch]);
 
   // 2. Add cleanup on unmount
   useEffect(() => {
     return () => {
-      dispatch({ type: 'events/resetDashboard' }); // Cleanup when leaving
+      dispatch(resetDashboard()); // Cleanup when leaving
     };
   }, [dispatch]);
 
