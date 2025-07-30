@@ -103,7 +103,11 @@ export default function EventsBoard() {
     );
   }, [dashboardItems, filters, customDateRange]);
 
-  
+  // Memoize columns generation
+  const getColumnsFromEventsMemoized = useCallback(() => {
+    return getColumnsFromEvents(filteredEvents, mapEventToCardMemoized);
+  }, [filteredEvents, mapEventToCardMemoized]);
+
  
 
 
