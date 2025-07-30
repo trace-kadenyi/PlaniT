@@ -66,6 +66,28 @@ export const updateBudget = createAsyncThunk(
   }
 );
 
+// fetch events with budget for dashboard
+export const fetchEventsForDashboard = createAsyncThunk(
+  "events/fetchEventsForDashboard",
+  async () => {
+    const [eventsRes, expensesRes] = await Promise.all([
+      api.get("/api/events"),
+      api.get("/api/expenses"), // Fetch all expenses
+    ]);
+
+    // Map budget status to each event
+    return eventsRes.data.map((event) => {
+      const eventExpense = expensesRes.data.find(
+        (exp) => exp.eventId === event._id
+      );
+      return {
+        ...event,
+        budgetStatus: eventExpense?.budgetStatus || {},
+      };
+    });
+  }
+);
+
 // --- Slice ---
 
 const eventsSlice = createSlice({
@@ -93,6 +115,8 @@ const eventsSlice = createSlice({
 
     updateBudgetStatus: "idle",
     updateBudgetError: null,
+
+    
   },
 
   reducers: {
