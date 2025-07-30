@@ -52,7 +52,18 @@ export default function EventsBoard() {
     dispatch(fetchEventsForDashboard()); // Fetch fresh data
   }, [dispatch]);
 
- 
+  // 1. Reset and fetch when component mounts
+  useEffect(() => {
+    dispatch({ type: 'events/resetDashboard' });  // Clear existing data
+    dispatch(fetchEventsForDashboard());          // Fetch fresh data
+  }, [dispatch]);
+
+  // 2. Add cleanup on unmount
+  useEffect(() => {
+    return () => {
+      dispatch({ type: 'events/resetDashboard' }); // Cleanup when leaving
+    };
+  }, [dispatch]);
 
   // Extract unique event types for filter dropdown - now using dashboardItems
   const eventTypes = useMemo(
