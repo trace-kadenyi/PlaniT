@@ -298,6 +298,20 @@ const eventsSlice = createSlice({
           action.error.message ||
           "Failed to update budget";
       });
+
+    builder
+      .addCase(fetchEventsForDashboard.pending, (state) => {
+        state.dashboardStatus = "loading";
+        state.dashboardError = null;
+      })
+      .addCase(fetchEventsForDashboard.fulfilled, (state, action) => {
+        state.dashboardStatus = "succeeded";
+        state.dashboardItems = action.payload;
+      })
+      .addCase(fetchEventsForDashboard.rejected, (state, action) => {
+        state.dashboardStatus = "failed";
+        state.dashboardError = action.error.message;
+      });
   },
 });
 
