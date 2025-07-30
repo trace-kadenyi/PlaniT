@@ -19,6 +19,7 @@ export default function EditEventForm() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [budgetError, setBudgetError] = useState(null);
 
   const {
     selectedEvent,
@@ -65,6 +66,10 @@ export default function EditEventForm() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    if (e.target.name === "initialBudget" && budgetError) {
+      setBudgetError(null);
+    }
+
     if (name === "date") {
       setFormData((prev) => ({
         ...prev,
@@ -89,17 +94,17 @@ export default function EditEventForm() {
   // submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setBudgetError(null); // Reset previous errors
+
     try {
       const dataToSend = {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
       };
 
-      // Remove budget fields before sending event update
       const { initialBudget, budgetNotes, ...eventData } = dataToSend;
 
-      // Dispatch both updates in parallel
-      await Promise.all([
+      const [eventResult, budgetResult] = await Promise.all([
         dispatch(
           updateEvent({
             eventId: id,
@@ -117,10 +122,24 @@ export default function EditEventForm() {
         ),
       ]);
 
+      if (budgetResult?.error) {
+        // Extract the backend message or use a default
+        const errorMessage =
+          budgetResult.payload?.message ||
+          budgetResult.error?.message ||
+          "Budget cannot be less than current expenses";
+        setBudgetError(errorMessage);
+        return;
+      }
+
+      if (eventResult.error) {
+        throw new Error(eventResult.error.message);
+      }
+
       toastWithProgress("Event updated successfully");
       navigate(`/events/${id}`);
     } catch (err) {
-      toastWithProgress("Failed to update event");
+      toastWithProgress("Failed to update event details");
       console.error("Update error:", err);
     }
   };
@@ -157,6 +176,7 @@ export default function EditEventForm() {
           onCancel={() => navigate(`/events/${id}`)}
           formStatus={updateStatus}
           formError={updateError}
+          budgetError={budgetError}
           mode="edit"
         />
       </div>
