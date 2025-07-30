@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 
+import { truncateText } from "../../utils/formatting";
+
 export default function DashTaskCard({ task }) {
   return (
     <div className="relative z-20" style={{ pointerEvents: "none" }}>
       <div className="flex justify-between items-start">
-        <h3 className="font-medium text-gray-800">{task.title}</h3>
+        <h3 className="font-medium text-gray-800">
+          {truncateText(task.title, 25)}
+        </h3>
         {task.priority === "high" && (
           <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
             {task.priority}
@@ -20,11 +24,11 @@ export default function DashTaskCard({ task }) {
             style={{ pointerEvents: "auto" }}
             onClick={(e) => e.stopPropagation()}
           >
-            {task.event}
+            {truncateText(task.event, 45)}
           </Link>
         ) : (
           <span className="bg-[#9B2C62] text-white px-2 py-1 rounded mr-2">
-            {task.event}
+            {truncateText(task.event, 25)}
           </span>
         )}
         <span>Due: {task.due}</span>
