@@ -70,21 +70,40 @@ export const updateBudget = createAsyncThunk(
 export const fetchEventsForDashboard = createAsyncThunk(
   "events/fetchEventsForDashboard",
   async () => {
-    const [eventsRes, expensesRes] = await Promise.all([
+    const [eventsRes, budgetStatusRes] = await Promise.all([
       api.get("/api/events"),
-      api.get("/api/expenses"), // Fetch all expenses
+      api.get("/api/expenses/budget-status"),
     ]);
 
-    // Map budget status to each event
-    return eventsRes.data.map((event) => {
-      const eventExpense = expensesRes.data.find(
-        (exp) => exp.eventId === event._id
-      );
-      return {
-        ...event,
-        budgetStatus: eventExpense?.budgetStatus || {},
-      };
+    // Create a proper mapping of eventId to budgetStatus
+    const budgetMap = {};
+    budgetStatusRes.data.forEach((item) => {
+      budgetMap[item.eventId] = item.budgetStatus;
     });
+
+    console.log("Events Data:", eventsRes.data);
+    console.log("Budget Status Data:", budgetStatusRes.data);
+    console.log(
+      "Merged Data:",
+      eventsRes.data.map((event) => ({
+        ...event,
+        budgetStatus:
+          budgetMap[event._id] ||
+          {
+            /* defaults */
+          },
+      }))
+    );
+
+    // Merge the data
+    return eventsRes.data.map((event) => ({
+      ...event,
+      budgetStatus: budgetMap[event._id] || {
+        totalBudget: 0,
+        totalExpenses: 0,
+        remainingBudget: 0,
+      },
+    }));
   }
 );
 
