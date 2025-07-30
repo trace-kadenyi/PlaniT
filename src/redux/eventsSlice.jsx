@@ -179,9 +179,9 @@ const eventsSlice = createSlice({
       state.updateStatus = "idle";
     },
     resetDashboard: (state) => {
-    state.dashboardItems = [];
-    state.dashboardStatus = 'idle';
-  }
+      state.dashboardItems = [];
+      state.dashboardStatus = "idle";
+    },
   },
 
   extraReducers: (builder) => {
@@ -347,5 +347,6 @@ export const {
   resetDeleteState,
   resetBudgetUpdateState,
   clearUpdateError,
+  resetDashboard,
 } = eventsSlice.actions;
 export default eventsSlice.reducer;
