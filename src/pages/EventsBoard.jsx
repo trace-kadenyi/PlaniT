@@ -108,7 +108,19 @@ export default function EventsBoard() {
     return getColumnsFromEvents(filteredEvents, mapEventToCardMemoized);
   }, [filteredEvents, mapEventToCardMemoized]);
 
- 
+  // Initialize columns with empty state
+  const [columns, setColumns] = useState(getInitialEventColumns);
+
+  // Update columns when dashboard data loads or search filter changes
+  useEffect(() => {
+    if (dashboardStatus === "succeeded") {
+      if (!columnsInitialized || filters.search) {
+        setColumns(getColumnsFromEventsMemoized());
+      }
+      if (!columnsInitialized) setColumnsInitialized(true);
+    }
+  }, [dashboardStatus, filteredEvents, columnsInitialized, filters.search]);
+
 
 
   return (
