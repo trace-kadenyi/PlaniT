@@ -128,7 +128,27 @@ const clientsSlice = createSlice({
           "Failed to create client.";
       })
 
-    
+      // Update client
+      .addCase(updateClient.pending, (state) => {
+        state.updateStatus = "loading";
+        state.updateError = null;
+      })
+      .addCase(updateClient.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+        const index = state.items.findIndex(
+          (c) => c._id === action.payload._id
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+      })
+      .addCase(updateClient.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to update client.";
+      })
 
    
   },
