@@ -1,13 +1,17 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchClients } from "../../redux/clientsSlice";
+import { fetchClients } from "../redux/clientsSlice";
 
 export default function Clients() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { items: clients, status, error } = useSelector((state) => state.clients);
+  const {
+    items: clients,
+    status,
+    error,
+  } = useSelector((state) => state.clients);
 
   useEffect(() => {
     dispatch(fetchClients());
@@ -41,9 +45,12 @@ export default function Clients() {
                 className="p-4 bg-[#F9FAFB] rounded-lg border shadow-sm flex flex-col sm:flex-row sm:items-center justify-between"
               >
                 <div>
-                  <h2 className="font-semibold text-[#374151]">{client.name}</h2>
+                  <h2 className="font-semibold text-[#374151]">
+                    {client.name}
+                  </h2>
                   <p className="text-sm text-gray-500">
-                    {client.contact?.email || "—"} | {client.contact?.phone || "—"}
+                    {client.contact?.email || "—"} |{" "}
+                    {client.contact?.phone || "—"}
                   </p>
                 </div>
                 <button
