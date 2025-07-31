@@ -12,7 +12,8 @@ import {
   getInitialColumns,
 } from "../components/taskManagerCollection/utils/tasksDashboardHelpers";
 import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
-import FilterBox from "../components/taskManagerCollection/tasks/tasksDashboard/FilterBox";
+import FilterBox from "../components/taskManagerCollection/FilterBox";
+import { tasksFilterConfig } from "../components/taskManagerCollection/config/tasksFilterConfig";
 import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
 import {
   useTaskFilters,
@@ -112,13 +113,16 @@ export default function TasksBoard() {
         </p>
 
         {/* Filter controls */}
+
         <FilterBox
           filters={filters}
           setFilters={setFilters}
-          assignees={assignees}
-          dateFilters={dateFilters}
           customDateRange={customDateRange}
           setCustomDateRange={setCustomDateRange}
+          filterConfig={{
+            ...tasksFilterConfig,
+            dynamicData: { assignees: assignees }, // Pass current assignees here
+          }}
         />
       </div>
 
