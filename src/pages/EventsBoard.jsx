@@ -26,7 +26,6 @@ import { eventsFilterConfig } from "../components/taskManagerCollection/config/e
 
 export default function EventsBoard() {
   const [columnsInitialized, setColumnsInitialized] = useState(false);
-  const [columns, setColumns] = useState(getInitialEventColumns);
   const [filters, setFilters] = useState({
     type: "all",
     dateRange: "all",
@@ -65,60 +64,60 @@ export default function EventsBoard() {
   // Memoize event-to-card mapping
   const mapEventToCardMemoized = useCallback(mapEventToCard, []);
 
-  // memo to get updated events after drag-and-drop
-  const eventsWithUpdatedStatus = useMemo(() => {
-    const columnEvents = Object.values(columns)
-      .flatMap((col) => col.tasks)
-      .reduce((acc, task) => ({ ...acc, [task.id]: task }), {});
-
-    return dashboardItems.map((event) => ({
-      ...event,
-      status: columnEvents[event._id]?.status || event.status,
-    }));
-  }, [dashboardItems, columns]);
-
-  // Filter events based on current filters - uses eventsWithUpdatedStatus
+  // Filter events based on current filters - uses dashboardItems
   const filteredEvents = useMemo(() => {
     return filterEvents(
-      eventsWithUpdatedStatus,
+      dashboardItems,
       filters,
-      (event, range, custom) => filterByDateRange(event, range, custom),
+      (event, range, custom) =>
+        filterByDateRange(
+          event,
+          range,
+          custom,
+          (e) => e.date,
+          (t) => e.status
+        ),
       filters.dateRange === "custom" ? customDateRange : null
     );
-  }, [eventsWithUpdatedStatus, filters, customDateRange]);
+  }, [dashboardItems, filters, customDateRange]);
 
   // Memoize columns generation
   const getColumnsFromEventsMemoized = useCallback(() => {
     return getColumnsFromEvents(filteredEvents, mapEventToCardMemoized);
   }, [filteredEvents, mapEventToCardMemoized]);
 
+  // Initialize columns with empty state
+  const [columns, setColumns] = useState(getInitialEventColumns);
+
   // Update columns when dashboard data loads or search filter changes
   useEffect(() => {
-    if (dashboardStatus === "succeeded" && !columnsInitialized) {
-      setColumns(getColumnsFromEventsMemoized());
-      setColumnsInitialized(true);
+    if (dashboardStatus === "succeeded") {
+      if (!columnsInitialized || filters.search) {
+        setColumns(getColumnsFromEventsMemoized());
+      }
+      if (!columnsInitialized) setColumnsInitialized(true);
     }
-  }, [dashboardStatus, columnsInitialized, getColumnsFromEventsMemoized]);
+  }, [dashboardStatus, filteredEvents, columnsInitialized, filters.search]);
 
   // Recalculate columns when type/date filters change
   useEffect(() => {
     if (columnsInitialized && dashboardStatus === "succeeded") {
       setColumns(getColumnsFromEventsMemoized());
     }
-  }, [filters, customDateRange]);
+  }, [filters.type, filters.dateRange, customDateRange]);
 
   // Handle drag-and-drop reordering
   const onDragEnd = useCallback(
     (result) => {
       handleEventDragEnd(result, {
-        events: eventsWithUpdatedStatus,
+        events: dashboardItems,
         columns,
         setColumns,
         dispatch,
         updateEvent,
       });
     },
-    [eventsWithUpdatedStatus, columns, setColumns, dispatch]
+    [dashboardItems, columns, setColumns, dispatch]
   );
 
   return (
