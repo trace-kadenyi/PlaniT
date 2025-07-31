@@ -42,7 +42,20 @@ export const updateClient = createAsyncThunk(
   }
 );
 
-
+// Delete client
+export const deleteClient = createAsyncThunk(
+  "clients/deleteClient",
+  async (clientId, { rejectWithValue }) => {
+    try {
+      await api.delete(`/api/clients/${clientId}`);
+      return clientId;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to delete client" }
+      );
+    }
+  }
+);
 
 // --- Slice ---
 
