@@ -64,6 +64,18 @@ export default function EventsBoard() {
   // Memoize event-to-card mapping
   const mapEventToCardMemoized = useCallback(mapEventToCard, []);
 
+  // 1. memo to get updated events after drag-and-drop
+const eventsWithUpdatedStatus = useMemo(() => {
+  return dashboardItems.map(event => {
+    // Find if this event exists in any column with updated status
+    const updatedEvent = Object.values(columns)
+      .flatMap(col => col.tasks)
+      .find(e => e.id === event._id);
+    
+    return updatedEvent ? { ...event, status: updatedEvent.status } : event;
+  });
+}, [dashboardItems, columns]);
+
   // Filter events based on current filters - uses dashboardItems
   const filteredEvents = useMemo(() => {
     return filterEvents(
