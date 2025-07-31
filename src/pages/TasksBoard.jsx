@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllTasks } from "../redux/tasksSlice";
 import { DragDropContext } from "@hello-pangea/dnd";
+
 import {
   mapTaskToCard,
   getColumnsFromTasks,
@@ -11,7 +12,6 @@ import {
   FetchDashboardError,
   getInitialColumns,
 } from "../components/taskManagerCollection/utils/tasksDashboardHelpers";
-import { dateFilters } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/taskManagerCollection/FilterBox";
 import { tasksFilterConfig } from "../components/taskManagerCollection/config/tasksFilterConfig";
 import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
@@ -113,7 +113,6 @@ export default function TasksBoard() {
         </p>
 
         {/* Filter controls */}
-
         <FilterBox
           filters={filters}
           setFilters={setFilters}
@@ -121,7 +120,7 @@ export default function TasksBoard() {
           setCustomDateRange={setCustomDateRange}
           filterConfig={{
             ...tasksFilterConfig,
-            dynamicData: { assignees: assignees }, // Pass current assignees here
+            dynamicData: { assignees: assignees },
           }}
         />
       </div>
