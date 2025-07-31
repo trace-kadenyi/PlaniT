@@ -10,6 +10,7 @@ export default function EventFormFields({
   formError,
   onCancel,
   onSubmit,
+  budgetError,
   mode = "create",
 }) {
   return (
@@ -174,6 +175,12 @@ export default function EventFormFields({
           Budget Information
         </h2>
 
+        {budgetError && (
+          <div className="mb-4 p-3 bg-red-50 font-semibold text-red-600 rounded-md">
+            {budgetError}
+          </div>
+        )}
+
         <div className="mt-4 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
           <div className="sm:col-span-3">
             <label
@@ -191,7 +198,9 @@ export default function EventFormFields({
                 step="0.01"
                 value={formData.initialBudget || ""}
                 onChange={onFieldChange}
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold"
+                className={`block w-full rounded-md border ${
+                  budgetError ? "border-red-500" : "border-gray-300"
+                } shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold`}
                 placeholder="0.00"
               />
             </div>

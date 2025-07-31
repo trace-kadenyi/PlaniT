@@ -104,6 +104,12 @@ export const handleEventDragEnd = async (
       })
     ).unwrap();
 
+    // ✅ Manually sync dashboardItems to reflect new status
+    dispatch({
+      type: "events/updateDashboardItemStatus",
+      payload: { ...originalEvent, status: newStatus },
+    });
+
     taskToastProgress(
       <span>
         Status of <span className="font-bold">{eventName}</span> updated from{" "}

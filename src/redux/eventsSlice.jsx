@@ -182,6 +182,15 @@ const eventsSlice = createSlice({
       state.dashboardItems = [];
       state.dashboardStatus = "idle";
     },
+    updateDashboardItemStatus: (state, action) => {
+      const updatedEvent = action.payload;
+      const index = state.dashboardItems.findIndex(
+        (e) => e._id === updatedEvent._id
+      );
+      if (index !== -1) {
+        state.dashboardItems[index].status = updatedEvent.status;
+      }
+    },
   },
 
   extraReducers: (builder) => {
@@ -348,5 +357,6 @@ export const {
   resetBudgetUpdateState,
   clearUpdateError,
   resetDashboard,
+  updateDashboardItemStatus,
 } = eventsSlice.actions;
 export default eventsSlice.reducer;
