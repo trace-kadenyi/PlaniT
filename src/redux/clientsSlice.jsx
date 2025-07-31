@@ -137,6 +137,7 @@ const clientsSlice = createSlice({
 export const {
   resetClientCreateState,
   clearClientError,
-
+  resetClientUpdateState,
+  resetClientDeleteState,
 } = clientsSlice.actions;
 export default clientsSlice.reducer;
