@@ -23,8 +23,9 @@ import {
   filterByDateRange,
   dateFilters,
 } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
-import FilterBox from "../components/taskManagerCollection/events/eventsDashboard/FilterBox";
+import FilterBox from "../components/taskManagerCollection/FilterBox";
 import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/EventColumn";
+import { eventsFilterConfig } from "../components/taskManagerCollection/config/eventsFilterConfig";
 
 export default function EventsBoard() {
   const [columnsInitialized, setColumnsInitialized] = useState(false);
@@ -134,10 +135,12 @@ export default function EventsBoard() {
         <FilterBox
           filters={filters}
           setFilters={setFilters}
-          eventTypes={eventTypes}
-          dateFilters={dateFilters}
           customDateRange={customDateRange}
           setCustomDateRange={setCustomDateRange}
+          filterConfig={{
+            ...eventsFilterConfig,
+            dynamicData: { eventTypes: eventTypes }, // Pass current eventTypes here
+          }}
         />
       </div>
 
