@@ -4,10 +4,13 @@ import api from "../app/api";
 // --- Async Thunks ---
 
 // Fetch all clients
-export const fetchClients = createAsyncThunk("clients/fetchClients", async () => {
-  const res = await api.get("/api/clients");
-  return res.data;
-});
+export const fetchClients = createAsyncThunk(
+  "clients/fetchClients",
+  async () => {
+    const res = await api.get("/api/clients");
+    return res.data;
+  }
+);
 
 // Create new client
 export const createClient = createAsyncThunk(
@@ -17,10 +20,29 @@ export const createClient = createAsyncThunk(
       const res = await api.post("/api/clients", newClient);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data || { message: "Failed to create client" });
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to create client" }
+      );
     }
   }
 );
+
+// Update client
+export const updateClient = createAsyncThunk(
+  "clients/updateClient",
+  async ({ clientId, updatedClient }, { rejectWithValue }) => {
+    try {
+      const res = await api.put(`/api/clients/${clientId}`, updatedClient);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to update client" }
+      );
+    }
+  }
+);
+
+
 
 // --- Slice ---
 
@@ -33,6 +55,12 @@ const clientsSlice = createSlice({
 
     createStatus: "idle",
     createError: null,
+
+    updateStatus: "idle",
+    updateError: null,
+
+    deleteStatus: "idle",
+    deleteError: null,
   },
 
   reducers: {
@@ -44,6 +72,7 @@ const clientsSlice = createSlice({
       state.error = null;
       state.status = "idle";
     },
+ 
   },
 
   extraReducers: (builder) => {
@@ -77,9 +106,17 @@ const clientsSlice = createSlice({
           action.payload?.message ||
           action.error.message ||
           "Failed to create client.";
-      });
+      })
+
+    
+
+   
   },
 });
 
-export const { resetClientCreateState, clearClientError } = clientsSlice.actions;
+export const {
+  resetClientCreateState,
+  clearClientError,
+
+} = clientsSlice.actions;
 export default clientsSlice.reducer;
