@@ -150,7 +150,22 @@ const clientsSlice = createSlice({
           "Failed to update client.";
       })
 
-   
+      // Delete client
+      .addCase(deleteClient.pending, (state) => {
+        state.deleteStatus = "loading";
+        state.deleteError = null;
+      })
+      .addCase(deleteClient.fulfilled, (state, action) => {
+        state.deleteStatus = "succeeded";
+        state.items = state.items.filter((c) => c._id !== action.payload);
+      })
+      .addCase(deleteClient.rejected, (state, action) => {
+        state.deleteStatus = "failed";
+        state.deleteError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to delete client.";
+      });
   },
 });
 
