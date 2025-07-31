@@ -26,6 +26,7 @@ import { eventsFilterConfig } from "../components/taskManagerCollection/config/e
 
 export default function EventsBoard() {
   const [columnsInitialized, setColumnsInitialized] = useState(false);
+  const [columns, setColumns] = useState(getInitialEventColumns);
   const [filters, setFilters] = useState({
     type: "all",
     dateRange: "all",
@@ -64,42 +65,32 @@ export default function EventsBoard() {
   // Memoize event-to-card mapping
   const mapEventToCardMemoized = useCallback(mapEventToCard, []);
 
-  // 1. memo to get updated events after drag-and-drop
-const eventsWithUpdatedStatus = useMemo(() => {
-  return dashboardItems.map(event => {
-    // Find if this event exists in any column with updated status
-    const updatedEvent = Object.values(columns)
-      .flatMap(col => col.tasks)
-      .find(e => e.id === event._id);
-    
-    return updatedEvent ? { ...event, status: updatedEvent.status } : event;
-  });
-}, [dashboardItems, columns]);
+  // memo to get updated events after drag-and-drop
+  const eventsWithUpdatedStatus = useMemo(() => {
+    return dashboardItems.map((event) => {
+      // Find if this event exists in any column with updated status
+      const updatedEvent = Object.values(columns)
+        .flatMap((col) => col.tasks)
+        .find((e) => e.id === event._id);
 
-  // Filter events based on current filters - uses dashboardItems
+      return updatedEvent ? { ...event, status: updatedEvent.status } : event;
+    });
+  }, [dashboardItems, columns]);
+
+  // Filter events based on current filters - uses eventsWithUpdatedStatus
   const filteredEvents = useMemo(() => {
     return filterEvents(
-      dashboardItems,
+      eventsWithUpdatedStatus, // Use the updated events instead of dashboardItems
       filters,
-      (event, range, custom) =>
-        filterByDateRange(
-          event,
-          range,
-          custom,
-          (e) => e.date,
-          (t) => e.status
-        ),
+      (event, range, custom) => filterByDateRange(event, range, custom),
       filters.dateRange === "custom" ? customDateRange : null
     );
-  }, [dashboardItems, filters, customDateRange]);
+  }, [eventsWithUpdatedStatus, filters, customDateRange]);
 
   // Memoize columns generation
   const getColumnsFromEventsMemoized = useCallback(() => {
     return getColumnsFromEvents(filteredEvents, mapEventToCardMemoized);
   }, [filteredEvents, mapEventToCardMemoized]);
-
-  // Initialize columns with empty state
-  const [columns, setColumns] = useState(getInitialEventColumns);
 
   // Update columns when dashboard data loads or search filter changes
   useEffect(() => {
