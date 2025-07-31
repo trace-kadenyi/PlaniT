@@ -20,7 +20,7 @@ import {
   filterEvents,
 } from "../components/taskManagerCollection/utils/eventsDashboardHelpers";
 import { filterByDateRange } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
-import FilterBox from "../components/taskManagerCollection/FilterBox";
+import FilterBox from "../components/shared/FilterBox";
 import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/EventColumn";
 import { eventsFilterConfig } from "../components/taskManagerCollection/config/eventsFilterConfig";
 
