@@ -85,7 +85,14 @@ const clientsSlice = createSlice({
       state.error = null;
       state.status = "idle";
     },
- 
+    resetClientUpdateState: (state) => {
+      state.updateStatus = "idle";
+      state.updateError = null;
+    },
+    resetClientDeleteState: (state) => {
+      state.deleteStatus = "idle";
+      state.deleteError = null;
+    },
   },
 
   extraReducers: (builder) => {
