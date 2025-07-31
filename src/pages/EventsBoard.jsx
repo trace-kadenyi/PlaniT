@@ -67,20 +67,20 @@ export default function EventsBoard() {
 
   // memo to get updated events after drag-and-drop
   const eventsWithUpdatedStatus = useMemo(() => {
-    return dashboardItems.map((event) => {
-      // Find if this event exists in any column with updated status
-      const updatedEvent = Object.values(columns)
-        .flatMap((col) => col.tasks)
-        .find((e) => e.id === event._id);
+    const columnEvents = Object.values(columns)
+      .flatMap((col) => col.tasks)
+      .reduce((acc, task) => ({ ...acc, [task.id]: task }), {});
 
-      return updatedEvent ? { ...event, status: updatedEvent.status } : event;
-    });
+    return dashboardItems.map((event) => ({
+      ...event,
+      status: columnEvents[event._id]?.status || event.status,
+    }));
   }, [dashboardItems, columns]);
 
   // Filter events based on current filters - uses eventsWithUpdatedStatus
   const filteredEvents = useMemo(() => {
     return filterEvents(
-      eventsWithUpdatedStatus, // Use the updated events instead of dashboardItems
+      eventsWithUpdatedStatus,
       filters,
       (event, range, custom) => filterByDateRange(event, range, custom),
       filters.dateRange === "custom" ? customDateRange : null
@@ -94,20 +94,18 @@ export default function EventsBoard() {
 
   // Update columns when dashboard data loads or search filter changes
   useEffect(() => {
-    if (dashboardStatus === "succeeded") {
-      if (!columnsInitialized || filters.search) {
-        setColumns(getColumnsFromEventsMemoized());
-      }
-      if (!columnsInitialized) setColumnsInitialized(true);
+    if (dashboardStatus === "succeeded" && !columnsInitialized) {
+      setColumns(getColumnsFromEventsMemoized());
+      setColumnsInitialized(true);
     }
-  }, [dashboardStatus, filteredEvents, columnsInitialized, filters.search]);
+  }, [dashboardStatus, columnsInitialized, getColumnsFromEventsMemoized]);
 
   // Recalculate columns when type/date filters change
   useEffect(() => {
     if (columnsInitialized && dashboardStatus === "succeeded") {
       setColumns(getColumnsFromEventsMemoized());
     }
-  }, [filters.type, filters.dateRange, customDateRange]);
+  }, [filters, customDateRange]);
 
   // Handle drag-and-drop reordering
   const onDragEnd = useCallback(
