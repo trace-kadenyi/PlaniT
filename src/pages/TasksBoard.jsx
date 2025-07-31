@@ -12,7 +12,7 @@ import {
   FetchDashboardError,
   getInitialColumns,
 } from "../components/taskManagerCollection/utils/tasksDashboardHelpers";
-import FilterBox from "../components/taskManagerCollection/FilterBox";
+import FilterBox from "../components/shared/FilterBox";
 import { tasksFilterConfig } from "../components/taskManagerCollection/config/tasksFilterConfig";
 import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
 import {
