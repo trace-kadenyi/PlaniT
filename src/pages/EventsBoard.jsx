@@ -113,14 +113,14 @@ export default function EventsBoard() {
   const onDragEnd = useCallback(
     (result) => {
       handleEventDragEnd(result, {
-        events: dashboardItems,
+        events: eventsWithUpdatedStatus,
         columns,
         setColumns,
         dispatch,
         updateEvent,
       });
     },
-    [dashboardItems, columns, setColumns, dispatch]
+    [eventsWithUpdatedStatus, columns, setColumns, dispatch]
   );
 
   return (
