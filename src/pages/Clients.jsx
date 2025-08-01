@@ -12,11 +12,13 @@ export default function Clients() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [filterMode, setFilterMode] = useState("active"); // "active" | "archived" | "all"
+  const [filterMode, setFilterMode] = useState("all"); // "active" | "archived" | "all"
 
-  const { items: allClients, status, error } = useSelector(
-    (state) => state.clients
-  );
+  const {
+    items: allClients,
+    status,
+    error,
+  } = useSelector((state) => state.clients);
 
   useEffect(() => {
     dispatch(fetchClients());
@@ -33,17 +35,28 @@ export default function Clients() {
     dispatch(action(clientId)).then(() => dispatch(fetchClients()));
   };
 
-  const filteredClients = allClients.filter((client) => {
-    if (filterMode === "active") return !client.isArchived;
-    if (filterMode === "archived") return client.isArchived;
-    return true; // all
-  });
+  // Modified filtering logic to keep archived at bottom when showing all
+  const filteredClients = allClients
+    .filter((client) => {
+      if (filterMode === "active") return !client.isArchived;
+      if (filterMode === "archived") return client.isArchived;
+      return true; // all
+    })
+    .sort((a, b) => {
+      // Only sort when showing all clients
+      if (filterMode === "all") {
+        return a.isArchived === b.isArchived ? 0 : a.isArchived ? 1 : -1;
+      }
+      return 0;
+    });
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] px-4 py-6">
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-[#9B2C62]">Client Directory</h1>
+          <h1 className="text-2xl font-bold text-[#9B2C62]">
+            Client Directory
+          </h1>
           <button
             onClick={() => navigate("/clients/new")}
             className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200"
@@ -53,6 +66,16 @@ export default function Clients() {
         </div>
 
         <div className="flex gap-3 mb-6">
+          <button
+            onClick={() => setFilterMode("all")}
+            className={`px-3 py-1 rounded font-medium text-sm ${
+              filterMode === "all"
+                ? "bg-[#9B2C62] text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            All
+          </button>
           <button
             onClick={() => setFilterMode("active")}
             className={`px-3 py-1 rounded font-medium text-sm ${
@@ -73,16 +96,6 @@ export default function Clients() {
           >
             Archived
           </button>
-          <button
-            onClick={() => setFilterMode("all")}
-            className={`px-3 py-1 rounded font-medium text-sm ${
-              filterMode === "all"
-                ? "bg-[#9B2C62] text-white"
-                : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            All
-          </button>
         </div>
 
         {status === "loading" && (
@@ -101,7 +114,7 @@ export default function Clients() {
                 key={client._id}
                 className={`p-4 bg-white border rounded-xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between hover:shadow-md transition ${
                   client.isArchived
-                    ? "border-gray-300 opacity-75"
+                    ? "border-gray-300 opacity-95"
                     : "border-[#F59E0B]"
                 }`}
               >
@@ -136,7 +149,7 @@ export default function Clients() {
                     disabled={client.isArchiving || client.isRestoring}
                     className={`px-3 py-1 rounded text-sm font-medium ${
                       client.isArchived
-                        ? "bg-[#F3E8FF] text-[#9B2C62] hover:bg-[#E3D5FF]"
+                        ? "bg-[#FFBF00] hover:bg-[#E6AC00] active:bg-[#CC9900] text-[#571838] hover:text-[#3D0F27] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#FFE699] focus:ring-opacity-50"
                         : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                     }`}
                   >
