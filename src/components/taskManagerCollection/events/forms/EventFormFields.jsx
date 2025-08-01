@@ -30,8 +30,8 @@ export default function EventFormFields({
             </div>
           ) : (
             <select
-              name="clientId"
-              value={formData.clientId}
+              name="client"
+              value={formData.client}
               onChange={onFieldChange}
               required
               className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
@@ -58,7 +58,7 @@ export default function EventFormFields({
           </p>
           <input
             type="hidden"
-            name="clientId"
+            name="client"
             value={preSelectedClientId}
             onChange={onFieldChange}
           />
