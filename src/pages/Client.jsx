@@ -207,16 +207,40 @@ export default function Client() {
                           <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-600">
                             <span className="flex items-center">
                               <span className="w-2 h-2 rounded-full bg-[#F59E0B] mr-2"></span>
-                              Type: {event.type}
+                              <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
+                                {event.type}
+                              </span>
                             </span>
                             <span className="flex items-center">
                               <span className="w-2 h-2 rounded-full bg-[#9B2C62] mr-2"></span>
-                              Status: {event.status}
+                              <span
+                                className={`px-2 py-1 rounded text-xs ${
+                                  event.status === "Completed"
+                                    ? "bg-green-100 text-green-800"
+                                    : event.status === "Cancelled"
+                                    ? "bg-red-100 text-red-800"
+                                    : event.status === "In Progress"
+                                    ? "bg-[#F5EBFF] text-[#9B2C62] hover:bg-[#EEDDFF] transition-colors duration-150"
+                                    : "bg-[#EFF6FF] text-[#1E40AF]"
+                                }`}
+                              >
+                                {event.status}
+                              </span>
                             </span>
                           </div>
                         </div>
                         <div className="mt-3 md:mt-0">
-                          <span className="inline-block bg-[#F3E8FF] text-[#9B2C62] px-3 py-1 rounded-full text-xs font-medium">
+                          <span
+                            className={`px-2 py-1 rounded text-xs ${
+                              event.status === "Completed"
+                                ? "bg-green-100 text-green-800"
+                                : event.status === "Cancelled"
+                                ? "bg-red-100 text-red-800"
+                                : event.status === "In Progress"
+                                ? "bg-[#F5EBFF] text-[#9B2C62] hover:bg-[#EEDDFF] transition-colors duration-150"
+                                : "bg-[#EFF6FF] text-[#1E40AF]"
+                            }`}
+                          >
                             {new Date(event.date).toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "short",
