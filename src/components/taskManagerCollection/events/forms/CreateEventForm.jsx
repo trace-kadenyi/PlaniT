@@ -104,8 +104,6 @@ export default function CreateEventForm() {
         client: formData.client,
       };
 
-      console.log("Data being sent:", dataToSend); // Debugging
-
       const res = await dispatch(createEvent(dataToSend)).unwrap();
 
       toastWithProgress("Event successfully created");
