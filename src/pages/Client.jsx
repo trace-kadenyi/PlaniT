@@ -228,10 +228,13 @@ export default function Client() {
                         <div className="flex-1 min-w-0">
                           {" "}
                           {/* Prevents text overflow */}
-                          <h3 className="font-bold text-[#9B2C62] text-lg mb-1 truncate">
+                          <Link
+                            to={`/events/${event._id}`}
+                            className="font-bold text-[#9B2C62] text-lg mb-1 truncate hover:underline hover:italic hover:text-[#7B1D52] transition-colors"
+                          >
                             {event.name}
-                          </h3>
-                          <div className="flex flex-wrap items-center gap-3 text-sm">
+                          </Link>
+                          <div className="flex flex-wrap items-center gap-3 text-sm mt-2">
                             <div className="flex items-center gap-1.5">
                               <span className="w-2 h-2 rounded-full bg-[#F59E0B] flex-shrink-0" />
                               <span className="bg-[#F59E0B]/10 text-[#B45309] px-2 py-1 rounded-full text-xs">
