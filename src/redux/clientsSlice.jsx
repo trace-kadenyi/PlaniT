@@ -89,6 +89,13 @@ const clientsSlice = createSlice({
 
     deleteStatus: "idle",
     deleteError: null,
+
+    clientDetails: {
+      data: null,
+      events: [],
+      status: "idle",
+      error: null,
+    },
   },
 
   reducers: {
