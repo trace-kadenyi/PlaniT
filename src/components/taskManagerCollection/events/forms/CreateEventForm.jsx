@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
-import { fetchClients, fetchClientWithEvents } from "../../../../redux/clientsSlice";
+import {
+  fetchClients,
+  fetchClientWithEvents,
+} from "../../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 
@@ -15,10 +18,10 @@ export default function CreateEventForm() {
   const preSelectedClientId = queryParams.get("clientId");
 
   const { createStatus, createError } = useSelector((state) => state.events);
-  const { 
-    items: clients, 
+  const {
+    items: clients,
     status: clientsStatus,
-    clientDetails 
+    clientDetails,
   } = useSelector((state) => state.clients);
 
   // form data
@@ -42,10 +45,8 @@ export default function CreateEventForm() {
   // Fetch data based on the route
   useEffect(() => {
     if (preSelectedClientId) {
-      // If coming from client page, fetch just that client
       dispatch(fetchClientWithEvents(preSelectedClientId));
     } else if (clientsStatus === "idle") {
-      // If creating from events page, fetch all clients
       dispatch(fetchClients());
     }
   }, [dispatch, clientsStatus, preSelectedClientId]);
@@ -53,12 +54,11 @@ export default function CreateEventForm() {
   // Get the specific client when coming from client page
   const getPreSelectedClient = () => {
     if (preSelectedClientId) {
-      // First check if we have it in the clientDetails (from fetchClientWithEvents)
       if (clientDetails.data?._id === preSelectedClientId) {
         return clientDetails.data;
       }
       // Then check if it's in the general clients list
-      return clients.find(client => client._id === preSelectedClientId);
+      return clients.find((client) => client._id === preSelectedClientId);
     }
     return null;
   };
@@ -101,9 +101,10 @@ export default function CreateEventForm() {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
         initialBudget: Number(formData.initialBudget) || 0,
-        // Ensure we always use the pre-selected client if available
-        clientId: preSelectedClientId || formData.clientId,
+        client: formData.clientId,
       };
+
+      console.log("Data being sent:", dataToSend); // Debugging
 
       const res = await dispatch(createEvent(dataToSend)).unwrap();
 
@@ -154,8 +155,14 @@ export default function CreateEventForm() {
           }
           formStatus={createStatus}
           formError={createError}
-          clients={preSelectedClient ? [preSelectedClient, ...clients] : clients}
-          clientsLoading={preSelectedClientId ? clientDetails.status === "loading" : clientsStatus === "loading"}
+          clients={
+            preSelectedClient ? [preSelectedClient, ...clients] : clients
+          }
+          clientsLoading={
+            preSelectedClientId
+              ? clientDetails.status === "loading"
+              : clientsStatus === "loading"
+          }
           preSelectedClientId={preSelectedClientId}
           mode="create"
         />
