@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   formatLocalDateTimeForDisplay,
   getLocalDateTimeString,
@@ -16,6 +17,10 @@ export default function EventFormFields({
   preSelectedClientId = null,
   mode = "create",
 }) {
+  const isClientArchived = preSelectedClientId
+    ? clients.find((c) => c._id === preSelectedClientId)?.isArchived
+    : false;
+
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Client Selection (only show if not pre-selected) */}
@@ -73,7 +78,14 @@ export default function EventFormFields({
           />
           {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
             <p className="mt-2 text-xs text-yellow-600">
-              Note: Archived clients cannot be assigned to new events
+              Note: Archived clients cannot be assigned to new events.{" "}
+              <Link
+                to={`/clients/${preSelectedClientId}`}
+                className="text-[#9B2C62] font-semibold underline"
+              >
+                Restore this client
+              </Link>{" "}
+              if they have an upcoming event.
             </p>
           )}
         </div>
@@ -89,8 +101,11 @@ export default function EventFormFields({
           value={formData.name}
           onChange={onFieldChange}
           maxLength={70}
+          disabled={isClientArchived}
           required
-          className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]`}
+          className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455] ${
+            isClientArchived ? "cursor-not-allowed bg-gray-200 opacity-65" : ""
+          } `}
         />
         <p className="text-xs text-right text-gray-500 mt-1">
           {formData.name.length}/70 characters
