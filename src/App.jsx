@@ -8,6 +8,7 @@ import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
 import Event from "./pages/Event";
 import Clients from "./pages/Clients";
+import Client from "./pages/Client";
 import EditEventForm from "./components/taskManagerCollection/events/forms/EditEventForm";
 import CreateEventForm from "./components/taskManagerCollection/events/forms/CreateEventForm";
 import EditClientForm from "./components/clients/forms/EditClientForm";
@@ -33,6 +34,8 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<Event />} />
           <Route path="/clients" element={<Clients />} />
+          <Route path="/clients/:id" element={<Client />} />
+
           <Route path="/events/:id/edit" element={<EditEventForm />} />
           <Route path="/events/create" element={<CreateEventForm />} />
           <Route path="/clients/:id/edit" element={<EditClientForm />} />
