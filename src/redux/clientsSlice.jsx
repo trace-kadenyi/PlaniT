@@ -234,6 +234,48 @@ const clientsSlice = createSlice({
           action.payload?.message ||
           action.error.message ||
           "Failed to fetch client details.";
+      })
+
+      // Archive client
+      .addCase(archiveClient.pending, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isArchiving: true }
+            : client
+        );
+      })
+      .addCase(archiveClient.fulfilled, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.payload._id ? action.payload : client
+        );
+      })
+      .addCase(archiveClient.rejected, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isArchiving: false }
+            : client
+        );
+      })
+
+      // Restore client
+      .addCase(restoreClient.pending, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isRestoring: true }
+            : client
+        );
+      })
+      .addCase(restoreClient.fulfilled, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.payload._id ? action.payload : client
+        );
+      })
+      .addCase(restoreClient.rejected, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isRestoring: false }
+            : client
+        );
       });
   },
 });
