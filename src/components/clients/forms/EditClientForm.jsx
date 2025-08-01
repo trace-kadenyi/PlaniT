@@ -94,7 +94,7 @@ export default function EditClientForm() {
           onSubmit={handleSubmit}
           formStatus={updateStatus}
           formError={updateError}
-          onCancel={() => navigate("/clients")}
+          onCancel={() => navigate(`/clients/${id}`)}
         />
       </div>
     </main>
