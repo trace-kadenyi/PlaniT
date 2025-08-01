@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { fetchClientWithEvents, deleteClient } from "../redux/clientsSlice";
+import { fetchClientWithEvents, deleteClient, archiveClient, restoreClient } from "../redux/clientsSlice";
 
 export default function Client() {
   const { id } = useParams();
@@ -22,6 +22,15 @@ export default function Client() {
     dispatch(deleteClient(id));
     navigate("/clients");
   };
+
+  // handle archive toggle
+  const handleArchiveToggle = () => {
+    if(client.isArchived) {
+      dispatch(restoreClient(client._id))
+    } else {
+      dispatch(archiveClient(client._id))
+    }
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] px-4 py-8">
@@ -62,6 +71,25 @@ export default function Client() {
 
         {status === "succeeded" && client && (
           <>
+           {/* Archive Warning Banner */}
+            {client.isArchived && (
+              <div className="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
+                <p className="text-yellow-700 flex items-center gap-2">
+                  <svg 
+                    className="w-5 h-5" 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                  >
+                    <path 
+                      fillRule="evenodd" 
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" 
+                      clipRule="evenodd" 
+                    />
+                  </svg>
+                  This client is archived. Events remain visible but client cannot be assigned to new events.
+                </p>
+              </div>
+            )}
             <section className="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-[#9B2C62]">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                 <h1 className="text-3xl font-bold text-[#9B2C62] mb-2 md:mb-0">
