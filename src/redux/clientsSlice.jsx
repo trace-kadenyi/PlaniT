@@ -187,6 +187,24 @@ const clientsSlice = createSlice({
           action.payload?.message ||
           action.error.message ||
           "Failed to delete client.";
+      })
+
+      // Fetch a single client with their events
+      .addCase(fetchClientWithEvents.pending, (state) => {
+        state.clientDetails.status = "loading";
+        state.clientDetails.error = null;
+      })
+      .addCase(fetchClientWithEvents.fulfilled, (state, action) => {
+        state.clientDetails.status = "succeeded";
+        state.clientDetails.data = action.payload.client;
+        state.clientDetails.events = action.payload.events;
+      })
+      .addCase(fetchClientWithEvents.rejected, (state, action) => {
+        state.clientDetails.status = "failed";
+        state.clientDetails.error =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to fetch client details.";
       });
   },
 });
