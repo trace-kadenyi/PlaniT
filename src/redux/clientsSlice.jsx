@@ -87,6 +87,20 @@ export const archiveClient = createAsyncThunk(
   }
 );
 
+// restore client
+export const restoreClient = createAsyncThunk(
+  "clients/restoreClient",
+  async (clientId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/clients/${clientId}/restore`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to restore client" }
+      );
+    }
+  }
+);
 // --- Slice ---
 
 const clientsSlice = createSlice({
