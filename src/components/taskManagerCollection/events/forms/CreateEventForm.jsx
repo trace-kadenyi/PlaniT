@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
+import { fetchClients } from "../../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 
@@ -14,6 +15,15 @@ export default function CreateEventForm() {
   const prefillClientId = queryParams.get("clientId");
 
   const { createStatus, createError } = useSelector((state) => state.events);
+  const { items: clients, status: clientsStatus } = useSelector(
+    (state) => state.clients
+  );
+
+  useEffect(() => {
+    if (clientsStatus === "idle") {
+      dispatch(fetchClients());
+    }
+  }, [dispatch, clientsStatus]);
 
   // form data
   const [formData, setFormData] = useState({
