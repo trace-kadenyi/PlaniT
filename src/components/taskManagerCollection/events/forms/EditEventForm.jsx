@@ -21,6 +21,7 @@ export default function EditEventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [budgetError, setBudgetError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const {
     selectedEvent,
@@ -52,11 +53,21 @@ export default function EditEventForm() {
   });
   // fetch event
   useEffect(() => {
-    dispatch(fetchEventById(id));
-    dispatch(fetchClients());
+    const loadData = async () => {
+      setIsLoading(true);
+      try {
+        await Promise.all([
+          dispatch(fetchEventById(id)),
+          dispatch(fetchClients()),
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
     dispatch(clearEventStatuses());
   }, [dispatch, id]);
-
   // populate form
   useEffect(() => {
     if (selectedEvent) {
@@ -68,7 +79,7 @@ export default function EditEventForm() {
         date: formatForDateTimeLocal(selectedEvent.date),
       });
     }
-  }, [selectedEvent]);
+  }, [selectedEvent, clients]);
 
   // handle input fields
   const handleChange = (e) => {
@@ -167,6 +178,17 @@ export default function EditEventForm() {
       dispatch(resetBudgetUpdateState());
     }
   }, [updateStatus, updateBudgetStatus, dispatch]);
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-white p-6 flex items-center justify-center">
+        <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border-t-4 border-[#F59E0B] text-center">
+          <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-[#9B2C62] mx-auto mb-4"></div>
+          <p className="text-[#9B2C62] font-medium">Loading event details...</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-white p-6">
