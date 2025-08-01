@@ -72,6 +72,15 @@ export const fetchClientWithEvents = createAsyncThunk(
   }
 );
 
+// fetch archived clients
+export const fetchArchivedClients = createAsyncThunk(
+  "clients/fetchArchivedClients",
+  async () => {
+    const res = await api.get("/api/clients?showArchived=true");
+    return res.data;
+  }
+);
+
 // archive client
 export const archiveClient = createAsyncThunk(
   "clients/archiveClient",
@@ -107,6 +116,7 @@ const clientsSlice = createSlice({
   name: "clients",
   initialState: {
     items: [],
+    archivedItems: [],
     status: "idle",
     error: null,
 
@@ -244,54 +254,64 @@ const clientsSlice = createSlice({
       })
 
       // Archive client
-      // Replace the existing archive/restore cases with these:
       .addCase(archiveClient.pending, (state, action) => {
-        const client = state.items.find((c) => c._id === action.meta.arg);
-        if (client) {
-          client.isArchiving = true;
-        }
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isArchiving: true }
+            : client
+        );
       })
       .addCase(archiveClient.fulfilled, (state, action) => {
-        const index = state.items.findIndex(
-          (c) => c._id === action.payload._id
+        state.items = state.items.map((client) =>
+          client._id === action.payload._id
+            ? { ...action.payload, isArchiving: false }
+            : client
         );
-        if (index !== -1) {
-          state.items[index] = {
-            ...action.payload,
-            isArchiving: false,
-          };
-        }
       })
       .addCase(archiveClient.rejected, (state, action) => {
-        const client = state.items.find((c) => c._id === action.meta.arg);
-        if (client) {
-          client.isArchiving = false;
-        }
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isArchiving: false }
+            : client
+        );
       })
 
-      // restore client
+      // Restore client
       .addCase(restoreClient.pending, (state, action) => {
-        const client = state.items.find((c) => c._id === action.meta.arg);
-        if (client) {
-          client.isRestoring = true;
-        }
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isRestoring: true }
+            : client
+        );
       })
       .addCase(restoreClient.fulfilled, (state, action) => {
-        const index = state.items.findIndex(
-          (c) => c._id === action.payload._id
+        state.items = state.items.map((client) =>
+          client._id === action.payload._id
+            ? { ...action.payload, isRestoring: false }
+            : client
         );
-        if (index !== -1) {
-          state.items[index] = {
-            ...action.payload,
-            isRestoring: false,
-          };
-        }
       })
       .addCase(restoreClient.rejected, (state, action) => {
-        const client = state.items.find((c) => c._id === action.meta.arg);
-        if (client) {
-          client.isRestoring = false;
-        }
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isRestoring: false }
+            : client
+        );
+      });
+
+    // show archived clients
+    builder
+      .addCase(fetchArchivedClients.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchArchivedClients.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.archivedItems = action.payload;
+      })
+      .addCase(fetchArchivedClients.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
       });
   },
 });
