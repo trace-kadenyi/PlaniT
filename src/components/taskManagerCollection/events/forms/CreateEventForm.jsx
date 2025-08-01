@@ -15,7 +15,7 @@ export default function CreateEventForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const preSelectedClientId = queryParams.get("clientId");
+  const preSelectedClientId = queryParams.get("client");
 
   const { createStatus, createError } = useSelector((state) => state.events);
   const {
@@ -31,7 +31,7 @@ export default function CreateEventForm() {
     date: "",
     type: "",
     status: "Planning",
-    clientId: preSelectedClientId || "",
+    client: preSelectedClientId || "",
     initialBudget: "",
     budgetNotes: "",
     location: {
@@ -91,7 +91,7 @@ export default function CreateEventForm() {
     e.preventDefault();
 
     // Validate client is selected when not coming from client page
-    if (!preSelectedClientId && !formData.clientId) {
+    if (!preSelectedClientId && !formData.client) {
       toastWithProgress("Please select a client");
       return;
     }
@@ -101,7 +101,7 @@ export default function CreateEventForm() {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
         initialBudget: Number(formData.initialBudget) || 0,
-        client: formData.clientId,
+        client: formData.client,
       };
 
       console.log("Data being sent:", dataToSend); // Debugging
