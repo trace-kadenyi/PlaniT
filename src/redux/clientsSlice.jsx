@@ -72,6 +72,21 @@ export const fetchClientWithEvents = createAsyncThunk(
   }
 );
 
+// archive client
+export const archiveClient = createAsyncThunk(
+  "clients/archiveClient",
+  async (clientId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/clients/${clientId}/archive`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to archive client" }
+      );
+    }
+  }
+);
+
 // --- Slice ---
 
 const clientsSlice = createSlice({
