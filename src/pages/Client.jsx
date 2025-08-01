@@ -127,7 +127,7 @@ export default function Client() {
                   Event History
                 </h2>
                 <Link
-                  to={`/events/new?clientId=${client._id}`}
+                  to={`/events/new?client=${client._id}`}
                   className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg"
                 >
                   + Add New Event for {client.name}
