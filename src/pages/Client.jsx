@@ -95,8 +95,8 @@ export default function Client() {
                       clipRule="evenodd"
                     />
                   </svg>
-                  This client is archived. Events remain visible but client
-                  cannot be assigned to new events.
+                  This client is archived. Their events remain visible but
+                  client cannot be assigned to new events.
                 </p>
               </div>
             )}
