@@ -55,7 +55,7 @@ export default function Events() {
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-[#9B2C62]">Events Manager</h1>
         <button
-          onClick={() => navigate("/events/create")}
+          onClick={() => navigate("/events/new")}
           className="flex items-center gap-2 bg-[#9B2C62] text-white px-4 py-2 rounded-lg shadow hover:bg-[#801f4f] transition"
         >
           + Create New Event

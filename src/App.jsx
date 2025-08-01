@@ -37,7 +37,7 @@ function App() {
           <Route path="/clients/:id" element={<Client />} />
 
           <Route path="/events/:id/edit" element={<EditEventForm />} />
-          <Route path="/events/create" element={<CreateEventForm />} />
+          <Route path="/events/new" element={<CreateEventForm />} />
           <Route path="/clients/:id/edit" element={<EditClientForm />} />
           <Route path="/clients/new" element={<CreateClientForm />} />
           <Route path="/tasks/board" element={<TasksBoard />} />
