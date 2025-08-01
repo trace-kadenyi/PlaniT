@@ -57,6 +57,21 @@ export const deleteClient = createAsyncThunk(
   }
 );
 
+// fetch client with their events
+export const fetchClientWithEvents = createAsyncThunk(
+  "clients/fetchClientWithEvents",
+  async (clientId, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`/api/clients/${clientId}`);
+      return res.data; // contains both { client, events }
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to fetch client details" }
+      );
+    }
+  }
+);
+
 // --- Slice ---
 
 const clientsSlice = createSlice({
