@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
@@ -9,6 +9,9 @@ import EventFormFields from "./EventFormFields";
 export default function CreateEventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const prefillClientId = queryParams.get("clientId");
 
   const { createStatus, createError } = useSelector((state) => state.events);
 
@@ -29,6 +32,13 @@ export default function CreateEventForm() {
       country: "",
     },
   });
+
+  // prefill client in initialstate
+  useEffect(() => {
+    if (prefillClientId) {
+      setFormData((prev) => ({ ...prev, client: prefillClientId }));
+    }
+  }, [prefillClientId]);
 
   // handle input fields
   const handleChange = (e) => {
