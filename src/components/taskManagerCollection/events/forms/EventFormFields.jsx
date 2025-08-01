@@ -11,10 +11,59 @@ export default function EventFormFields({
   onCancel,
   onSubmit,
   budgetError,
+  clients = [],
+  clientsLoading = false,
+  preSelectedClientId = null,
   mode = "create",
 }) {
   return (
     <form onSubmit={onSubmit} className="space-y-5">
+      {/* Client Selection (only show if not pre-selected) */}
+      {!preSelectedClientId && (
+        <div>
+          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+            Client
+          </label>
+          {clientsLoading ? (
+            <div className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg bg-gray-100 animate-pulse">
+              Loading clients...
+            </div>
+          ) : (
+            <select
+              name="clientId"
+              value={formData.clientId}
+              onChange={onFieldChange}
+              required
+              className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
+            >
+              <option value="">-- Select a client --</option>
+              {clients.map((client) => (
+                <option key={client._id} value={client._id}>
+                  {client.name}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+      )}
+
+      {/* Show client name if pre-selected */}
+      {preSelectedClientId && (
+        <div className="p-3 bg-[#F3E8FF] rounded-lg border border-[#E3CBC1]">
+          <p className="text-sm text-gray-600">Client:</p>
+          <p className="font-semibold text-[#9B2C62]">
+            {clients.length > 0
+              ? clients.find((c) => c._id === preSelectedClientId)?.name
+              : "Loading client..."}
+          </p>
+          <input
+            type="hidden"
+            name="clientId"
+            value={preSelectedClientId}
+            onChange={onFieldChange}
+          />
+        </div>
+      )}
       {/* Event Name */}
       <div>
         <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
