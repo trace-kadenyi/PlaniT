@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   fetchClients,
   fetchClientWithEvents,
-  deleteClient,
   archiveClient,
   restoreClient,
 } from "../redux/clientsSlice";
@@ -12,7 +11,6 @@ import {
 export default function Client() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [localIsArchived, setLocalIsArchived] = useState(false);
 
   const {
@@ -36,11 +34,8 @@ export default function Client() {
     const action = isArchived ? restoreClient : archiveClient;
 
     try {
-      await dispatch(action(clientId));
-      await Promise.all([
-        dispatch(fetchClientWithEvents(id)),
-        dispatch(fetchClients()),
-      ]);
+      await dispatch(action(clientId)); // Updates Redux
+      await dispatch(fetchClients());
     } catch (error) {
       setLocalIsArchived(isArchived);
     }
@@ -86,7 +81,7 @@ export default function Client() {
         {status === "succeeded" && client && (
           <>
             {/* Archive Warning Banner */}
-            {client.isArchived && (
+            {localIsArchived && (
               <div className="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
                 <p className="text-yellow-700 flex items-center gap-2">
                   <svg
