@@ -29,7 +29,8 @@ export const getColumnsFromEvents = (events, mapEventToCardFn) => {
       id: "planning",
       title: "Planning",
       tasks: filteredEvents.planning.map(mapEventToCardFn),
-      color: "#F59E0B",
+      // color: "#F59E0B",
+      color: "#DBEAFE",
     },
     inProgress: {
       id: "inProgress",
