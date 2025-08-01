@@ -11,6 +11,7 @@ import {
   resetBudgetUpdateState,
   clearEventStatuses,
 } from "../../../../redux/eventsSlice";
+import { fetchClients } from "../../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 import { formatForDateTimeLocal } from "../../utils/dateHelpers";
@@ -28,6 +29,10 @@ export default function EditEventForm() {
     updateBudgetStatus,
     updateBudgetError,
   } = useSelector((state) => state.events);
+  const { items: clients, status: clientsStatus } = useSelector(
+    (state) => state.clients
+  );
+
   // form data
   const [formData, setFormData] = useState({
     name: "",
@@ -35,6 +40,7 @@ export default function EditEventForm() {
     date: "",
     type: "",
     status: "Planning",
+    client: "",
     initialBudget: "",
     budgetNotes: "",
     location: {
@@ -47,6 +53,7 @@ export default function EditEventForm() {
   // fetch event
   useEffect(() => {
     dispatch(fetchEventById(id));
+    dispatch(fetchClients());
     dispatch(clearEventStatuses());
   }, [dispatch, id]);
 
@@ -55,6 +62,7 @@ export default function EditEventForm() {
     if (selectedEvent) {
       setFormData({
         ...selectedEvent,
+        client: selectedEvent.client?._id || selectedEvent.client || "",
         initialBudget: selectedEvent.budget?.totalBudget || "",
         budgetNotes: selectedEvent.budget?.notes || "",
         date: formatForDateTimeLocal(selectedEvent.date),
@@ -100,6 +108,7 @@ export default function EditEventForm() {
       const dataToSend = {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
+        client: formData.client,
       };
 
       const { initialBudget, budgetNotes, ...eventData } = dataToSend;
@@ -177,6 +186,9 @@ export default function EditEventForm() {
           formStatus={updateStatus}
           formError={updateError}
           budgetError={budgetError}
+          clients={clients}
+          clientsLoading={clientsStatus === "loading"}
+          preSelectedClientId={formData.client}
           mode="edit"
         />
       </div>
