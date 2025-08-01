@@ -1,12 +1,19 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { fetchClientWithEvents, deleteClient, archiveClient, restoreClient } from "../redux/clientsSlice";
+import {
+  fetchClients,
+  fetchClientWithEvents,
+  deleteClient,
+  archiveClient,
+  restoreClient,
+} from "../redux/clientsSlice";
 
 export default function Client() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [localIsArchived, setLocalIsArchived] = useState(false);
 
   const {
     clientDetails: { data: client, events, status, error },
@@ -17,20 +24,27 @@ export default function Client() {
     dispatch(fetchClientWithEvents(id));
   }, [dispatch, id]);
 
-  // handle delete
-  const handleClientDelete = () => {
-    dispatch(deleteClient(id));
-    navigate("/clients");
-  };
-
-  // handle archive toggle
-  const handleArchiveToggle = () => {
-    if(client.isArchived) {
-      dispatch(restoreClient(client._id))
-    } else {
-      dispatch(archiveClient(client._id))
+  // Sync local state with Redux state
+  useEffect(() => {
+    if (client) {
+      setLocalIsArchived(client.isArchived);
     }
-  }
+  }, [client]);
+  // handle archive toggle
+  const handleArchiveToggle = async (clientId, isArchived) => {
+    setLocalIsArchived(!isArchived);
+    const action = isArchived ? restoreClient : archiveClient;
+
+    try {
+      await dispatch(action(clientId));
+      await Promise.all([
+        dispatch(fetchClientWithEvents(id)),
+        dispatch(fetchClients()),
+      ]);
+    } catch (error) {
+      setLocalIsArchived(isArchived);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] px-4 py-8">
@@ -71,22 +85,23 @@ export default function Client() {
 
         {status === "succeeded" && client && (
           <>
-           {/* Archive Warning Banner */}
+            {/* Archive Warning Banner */}
             {client.isArchived && (
               <div className="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
                 <p className="text-yellow-700 flex items-center gap-2">
-                  <svg 
-                    className="w-5 h-5" 
-                    fill="currentColor" 
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
                     viewBox="0 0 20 20"
                   >
-                    <path 
-                      fillRule="evenodd" 
-                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" 
-                      clipRule="evenodd" 
+                    <path
+                      fillRule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
                     />
                   </svg>
-                  This client is archived. Events remain visible but client cannot be assigned to new events.
+                  This client is archived. Events remain visible but client
+                  cannot be assigned to new events.
                 </p>
               </div>
             )}
@@ -103,10 +118,21 @@ export default function Client() {
                     Edit Client
                   </Link>
                   <button
-                    onClick={handleClientDelete}
-                    className="bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 text-[#9B2C62] px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200"
+                    onClick={() => handleArchiveToggle(id, localIsArchived)}
+                    disabled={client?.isArchiving || client?.isRestoring}
+                    className={`px-3 py-1 rounded text-sm font-medium ${
+                      localIsArchived
+                        ? "bg-[#FFBF00] hover:bg-[#E6AC00] text-[#571838]"
+                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
                   >
-                    Delete Client
+                    {client?.isArchiving
+                      ? "Archiving..."
+                      : client?.isRestoring
+                      ? "Restoring..."
+                      : localIsArchived
+                      ? "Restore"
+                      : "Archive"}
                   </button>
                 </div>
               </div>
