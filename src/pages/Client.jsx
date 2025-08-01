@@ -1,19 +1,27 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
-import { fetchClientWithEvents } from "../redux/clientsSlice";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { fetchClientWithEvents, deleteClient } from "../redux/clientsSlice";
 
 export default function Client() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     clientDetails: { data: client, events, status, error },
   } = useSelector((state) => state.clients);
 
+  // fetch client
   useEffect(() => {
     dispatch(fetchClientWithEvents(id));
   }, [dispatch, id]);
+
+  // handle delete
+  const handleClientDelete = () => {
+    dispatch(deleteClient(id));
+    navigate("/clients");
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] px-4 py-8">
@@ -66,7 +74,10 @@ export default function Client() {
                   >
                     Edit Client
                   </Link>
-                  <button className="bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 text-[#9B2C62] px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200">
+                  <button
+                    onClick={handleClientDelete}
+                    className="bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 text-[#9B2C62] px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200"
+                  >
                     Delete Client
                   </button>
                 </div>
