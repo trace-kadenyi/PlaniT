@@ -1,4 +1,11 @@
-export default function ClientFormFields({ formData, onFieldChange, onSubmit, formStatus, formError, onCancel }) {
+export default function ClientFormFields({
+  formData,
+  onFieldChange,
+  onSubmit,
+  formStatus,
+  formError,
+  onCancel,
+}) {
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Name */}
@@ -19,7 +26,9 @@ export default function ClientFormFields({ formData, onFieldChange, onSubmit, fo
       {/* Email & Phone */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">Email</label>
+          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+            Email
+          </label>
           <input
             type="email"
             name="contact.email"
@@ -29,7 +38,9 @@ export default function ClientFormFields({ formData, onFieldChange, onSubmit, fo
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">Phone</label>
+          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+            Phone
+          </label>
           <input
             type="tel"
             name="contact.phone"
@@ -42,7 +53,9 @@ export default function ClientFormFields({ formData, onFieldChange, onSubmit, fo
 
       {/* Preferences */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">Preferences</label>
+        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          Preferences
+        </label>
         <input
           type="text"
           name="preferences"
@@ -54,7 +67,9 @@ export default function ClientFormFields({ formData, onFieldChange, onSubmit, fo
 
       {/* Notes */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">Notes</label>
+        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          Notes
+        </label>
         <textarea
           name="notes"
           value={formData.notes}
@@ -66,9 +81,7 @@ export default function ClientFormFields({ formData, onFieldChange, onSubmit, fo
 
       {/* Error Message */}
       {formStatus === "failed" && (
-        <div className="p-3 bg-red-50 rounded-md text-red-600">
-          {formError}
-        </div>
+        <div className="p-3 bg-red-50 rounded-md text-red-600">{formError}</div>
       )}
 
       {/* Submit Buttons */}
@@ -76,7 +89,7 @@ export default function ClientFormFields({ formData, onFieldChange, onSubmit, fo
         <button
           type="submit"
           disabled={formStatus === "loading"}
-          className="bg-[#10B981] hover:bg-[#059669] text-white font-semibold px-6 py-2 rounded-lg"
+          className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold px-6 py-2 rounded-lg"
         >
           {formStatus === "loading" ? "Saving..." : "Save Client"}
         </button>
