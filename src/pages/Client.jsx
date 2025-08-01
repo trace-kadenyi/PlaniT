@@ -126,12 +126,12 @@ export default function Client() {
                 <h2 className="text-2xl font-bold text-[#9B2C62]">
                   Event History
                 </h2>
-                <button
-                  onClick={() => navigate("/events/new")}
-                  className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg font-medium text-sm shadow-md transition-all duration-200"
+                <Link
+                  to={`/events/new?clientId=${client._id}`}
+                  className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg"
                 >
-                  + New Event
-                </button>
+                  + Add New Event for {client.name}
+                </Link>
               </div>
 
               {events.length === 0 ? (
