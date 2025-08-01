@@ -16,10 +16,6 @@ export default function EventFormFields({
   preSelectedClientId = null,
   mode = "create",
 }) {
-  const isClientArchived = preSelectedClientId
-    ? clients.find((c) => c._id === preSelectedClientId)?.isArchived
-    : false;
-
   return (
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Client Selection (only show if not pre-selected) */}
@@ -94,10 +90,7 @@ export default function EventFormFields({
           onChange={onFieldChange}
           maxLength={70}
           required
-          disabled={isClientArchived}
-          className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455] ${
-            isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-          }`}
+          className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]`}
         />
         <p className="text-xs text-right text-gray-500 mt-1">
           {formData.name.length}/70 characters
@@ -115,10 +108,7 @@ export default function EventFormFields({
           onChange={onFieldChange}
           rows={4}
           maxLength={300}
-          disabled={isClientArchived}
-          className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]${
-            isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-          }`}
+          className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]`}
         />
         <p className="text-xs text-right text-gray-500 mt-1">
           {formData.description.length}/300 characters
@@ -137,10 +127,7 @@ export default function EventFormFields({
             value={formData.date}
             onChange={onFieldChange}
             min={getLocalDateTimeString()}
-            disabled={isClientArchived}
-            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455] appearance-none ${
-              isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-            }`}
+            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455] appearance-none`}
           />
           {/* Custom calendar icon */}
           <div className="absolute right-4 top-5 transform -translate-y-1/2 pointer-events-none">
@@ -181,10 +168,7 @@ export default function EventFormFields({
             name="type"
             value={formData.type}
             onChange={onFieldChange}
-            disabled={isClientArchived}
-            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]${
-              isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-            }`}
+            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]`}
           />
         </div>
 
@@ -196,10 +180,7 @@ export default function EventFormFields({
             name="status"
             value={formData.status}
             onChange={onFieldChange}
-            disabled={isClientArchived}
-            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]${
-              isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-            }`}
+            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]`}
           >
             <option value="Planning">Planning</option>
             <option value="In Progress">In Progress</option>
@@ -222,10 +203,7 @@ export default function EventFormFields({
             placeholder="Venue"
             value={formData.location?.venue || ""}
             onChange={onFieldChange}
-            disabled={isClientArchived}
-            className={`border px-3 py-2 rounded-lg ${
-              isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-            }`}
+            className={`border px-3 py-2 rounded-lg `}
           />
           <input
             type="text"
@@ -233,10 +211,7 @@ export default function EventFormFields({
             placeholder="Address"
             value={formData.location?.address || ""}
             onChange={onFieldChange}
-            disabled={isClientArchived}
-            className={`border px-3 py-2 rounded-lg ${
-              isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-            }`}
+            className={`border px-3 py-2 rounded-lg `}
           />
           <input
             type="text"
@@ -244,10 +219,7 @@ export default function EventFormFields({
             placeholder="City"
             value={formData.location?.city || ""}
             onChange={onFieldChange}
-            disabled={isClientArchived}
-            className={`border px-3 py-2 rounded-lg ${
-              isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-            }`}
+            className={`border px-3 py-2 rounded-lg `}
           />
           <input
             type="text"
@@ -255,10 +227,7 @@ export default function EventFormFields({
             placeholder="Country"
             value={formData.location?.country || ""}
             onChange={onFieldChange}
-            disabled={isClientArchived}
-            className={`border px-3 py-2 rounded-lg ${
-              isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-            }`}
+            className={`border px-3 py-2 rounded-lg `}
           />
         </div>
       </fieldset>
@@ -292,12 +261,9 @@ export default function EventFormFields({
                 step="0.01"
                 value={formData.initialBudget || ""}
                 onChange={onFieldChange}
-                disabled={isClientArchived}
                 className={`block w-full rounded-md border ${
                   budgetError ? "border-red-500" : "border-gray-300"
-                } shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold ${
-                  isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-                }`}
+                } shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold`}
                 placeholder="0.00"
               />
             </div>
@@ -317,10 +283,7 @@ export default function EventFormFields({
                 rows={3}
                 value={formData.budgetNotes || ""}
                 onChange={onFieldChange}
-                disabled={isClientArchived}
-                className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 ${
-                  isClientArchived ? "bg-gray-100 cursor-not-allowed" : ""
-                }`}
+                className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2`}
                 placeholder="Any notes about the budget..."
               />
             </div>
