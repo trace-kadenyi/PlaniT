@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
+
 import {
   fetchClients,
   fetchClientWithEvents,
   archiveClient,
   restoreClient,
 } from "../redux/clientsSlice";
+import { StatusPill } from "../components/shared/UIFragments";
 
 export default function Client() {
   const { id } = useParams();
@@ -200,33 +202,23 @@ export default function Client() {
                       className="bg-white p-5 rounded-xl border border-[#F3E8FF] hover:border-[#F59E0B] shadow-sm hover:shadow-md transition-all duration-200"
                     >
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                        <div>
-                          <div className="font-bold text-[#9B2C62] text-lg mb-1">
+                        <div className="flex-1 min-w-0">
+                          {" "}
+                          {/* Prevents text overflow */}
+                          <h3 className="font-bold text-[#9B2C62] text-lg mb-1 truncate">
                             {event.name}
-                          </div>
-                          <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-600">
-                            <span className="flex items-center">
-                              <span className="w-2 h-2 rounded-full bg-[#F59E0B] mr-2"></span>
-                              <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
+                          </h3>
+                          <div className="flex flex-wrap items-center gap-3 text-sm">
+                            <div className="flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-[#F59E0B] flex-shrink-0" />
+                              <span className="bg-[#F59E0B]/10 text-[#B45309] px-2 py-1 rounded-full text-xs">
                                 {event.type}
                               </span>
-                            </span>
-                            <span className="flex items-center">
-                              <span className="w-2 h-2 rounded-full bg-[#9B2C62] mr-2"></span>
-                              <span
-                                className={`px-2 py-1 rounded text-xs ${
-                                  event.status === "Completed"
-                                    ? "bg-green-100 text-green-800"
-                                    : event.status === "Cancelled"
-                                    ? "bg-red-100 text-red-800"
-                                    : event.status === "In Progress"
-                                    ? "bg-[#F5EBFF] text-[#9B2C62] hover:bg-[#EEDDFF] transition-colors duration-150"
-                                    : "bg-[#EFF6FF] text-[#1E40AF]"
-                                }`}
-                              >
-                                {event.status}
-                              </span>
-                            </span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-[#9B2C62] flex-shrink-0" />
+                              <StatusPill status={event.status} />
+                            </div>
                           </div>
                         </div>
                         <div className="mt-3 md:mt-0">
