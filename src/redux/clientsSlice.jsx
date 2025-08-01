@@ -144,6 +144,13 @@ const clientsSlice = createSlice({
       state.deleteStatus = "idle";
       state.deleteError = null;
     },
+    resetArchiveStates: (state) => {
+      state.items = state.items.map((client) => ({
+        ...client,
+        isArchiving: false,
+        isRestoring: false,
+      }));
+    },
   },
 
   extraReducers: (builder) => {
@@ -237,45 +244,54 @@ const clientsSlice = createSlice({
       })
 
       // Archive client
+      // Replace the existing archive/restore cases with these:
       .addCase(archiveClient.pending, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isArchiving: true }
-            : client
-        );
+        const client = state.items.find((c) => c._id === action.meta.arg);
+        if (client) {
+          client.isArchiving = true;
+        }
       })
       .addCase(archiveClient.fulfilled, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.payload._id ? action.payload : client
+        const index = state.items.findIndex(
+          (c) => c._id === action.payload._id
         );
+        if (index !== -1) {
+          state.items[index] = {
+            ...action.payload,
+            isArchiving: false,
+          };
+        }
       })
       .addCase(archiveClient.rejected, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isArchiving: false }
-            : client
-        );
+        const client = state.items.find((c) => c._id === action.meta.arg);
+        if (client) {
+          client.isArchiving = false;
+        }
       })
 
-      // Restore client
+      // restore client
       .addCase(restoreClient.pending, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isRestoring: true }
-            : client
-        );
+        const client = state.items.find((c) => c._id === action.meta.arg);
+        if (client) {
+          client.isRestoring = true;
+        }
       })
       .addCase(restoreClient.fulfilled, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.payload._id ? action.payload : client
+        const index = state.items.findIndex(
+          (c) => c._id === action.payload._id
         );
+        if (index !== -1) {
+          state.items[index] = {
+            ...action.payload,
+            isRestoring: false,
+          };
+        }
       })
       .addCase(restoreClient.rejected, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isRestoring: false }
-            : client
-        );
+        const client = state.items.find((c) => c._id === action.meta.arg);
+        if (client) {
+          client.isRestoring = false;
+        }
       });
   },
 });
@@ -285,5 +301,6 @@ export const {
   clearClientError,
   resetClientUpdateState,
   resetClientDeleteState,
+  resetArchiveStates,
 } = clientsSlice.actions;
 export default clientsSlice.reducer;
