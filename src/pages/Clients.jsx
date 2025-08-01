@@ -1,43 +1,49 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   fetchClients,
   archiveClient,
   restoreClient,
+  resetArchiveStates,
 } from "../redux/clientsSlice";
 
 export default function Clients() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {
-    items: clients,
-    status,
-    error,
-  } = useSelector((state) => state.clients);
+  const [filterMode, setFilterMode] = useState("active"); // "active" | "archived" | "all"
 
-  // fetch clients
+  const { items: allClients, status, error } = useSelector(
+    (state) => state.clients
+  );
+
   useEffect(() => {
     dispatch(fetchClients());
   }, [dispatch]);
 
-  // archive toggle
+  useEffect(() => {
+    return () => {
+      dispatch(resetArchiveStates());
+    };
+  }, [dispatch]);
+
   const handleArchiveToggle = (clientId, isArchived) => {
-    if (isArchived) {
-      dispatch(restoreClient(clientId));
-    } else {
-      dispatch(archiveClient(clientId));
-    }
+    const action = isArchived ? restoreClient : archiveClient;
+    dispatch(action(clientId)).then(() => dispatch(fetchClients()));
   };
+
+  const filteredClients = allClients.filter((client) => {
+    if (filterMode === "active") return !client.isArchived;
+    if (filterMode === "archived") return client.isArchived;
+    return true; // all
+  });
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] px-4 py-6">
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-[#9B2C62]">
-            Client Directory
-          </h1>
+          <h1 className="text-2xl font-bold text-[#9B2C62]">Client Directory</h1>
           <button
             onClick={() => navigate("/clients/new")}
             className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200"
@@ -46,18 +52,51 @@ export default function Clients() {
           </button>
         </div>
 
+        <div className="flex gap-3 mb-6">
+          <button
+            onClick={() => setFilterMode("active")}
+            className={`px-3 py-1 rounded font-medium text-sm ${
+              filterMode === "active"
+                ? "bg-[#9B2C62] text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            Active
+          </button>
+          <button
+            onClick={() => setFilterMode("archived")}
+            className={`px-3 py-1 rounded font-medium text-sm ${
+              filterMode === "archived"
+                ? "bg-[#9B2C62] text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            Archived
+          </button>
+          <button
+            onClick={() => setFilterMode("all")}
+            className={`px-3 py-1 rounded font-medium text-sm ${
+              filterMode === "all"
+                ? "bg-[#9B2C62] text-white"
+                : "bg-gray-200 text-gray-700"
+            }`}
+          >
+            All
+          </button>
+        </div>
+
         {status === "loading" && (
           <p className="text-[#9B2C62]">Loading clients...</p>
         )}
         {error && <p className="text-red-600">{error}</p>}
 
-        {status === "succeeded" && clients.length === 0 && (
+        {status === "succeeded" && filteredClients.length === 0 && (
           <p className="text-gray-500">No clients found.</p>
         )}
 
-        {status === "succeeded" && clients.length > 0 && (
+        {status === "succeeded" && filteredClients.length > 0 && (
           <ul className="grid gap-4">
-            {clients.map((client) => (
+            {filteredClients.map((client) => (
               <li
                 key={client._id}
                 className={`p-4 bg-white border rounded-xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between hover:shadow-md transition ${
