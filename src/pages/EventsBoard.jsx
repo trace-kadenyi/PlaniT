@@ -13,12 +13,12 @@ import {
   mapEventToCard,
   getColumnsFromEvents,
   handleEventDragEnd,
-  LoadingDashboard,
   UpdateDashboardError,
   FetchDashboardError,
   getInitialEventColumns,
   filterEvents,
 } from "../components/taskManagerCollection/events/eventsDashboard/eventsDashboardHelpers";
+import { LoadingDashboard } from "../components/taskManagerCollection/utils/genDashboardHelpers";
 import { filterByDateRange } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/shared/FilterBox";
 import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/EventColumn";

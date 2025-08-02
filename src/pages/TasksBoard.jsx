@@ -7,11 +7,11 @@ import {
   mapTaskToCard,
   getColumnsFromTasks,
   handleDragEnd,
-  LoadingDashboard,
   UpdateDashboardError,
   FetchDashboardError,
   getInitialColumns,
 } from "../components/taskManagerCollection/tasks/tasksDashboard/tasksDashboardHelpers";
+import { LoadingDashboard } from "../components/taskManagerCollection/utils/genDashboardHelpers";
 import FilterBox from "../components/shared/FilterBox";
 import { tasksFilterConfig } from "../components/taskManagerCollection/config/tasksFilterConfig";
 import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
