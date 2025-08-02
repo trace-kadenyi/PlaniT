@@ -10,6 +10,7 @@ import {
   restoreClient,
 } from "../redux/clientsSlice";
 import { StatusPill, DatePill } from "../components/shared/UIFragments";
+import { LoadingPage } from "../components/shared/LoadingStates";
 
 export default function Client() {
   const { id } = useParams();
@@ -68,13 +69,12 @@ export default function Client() {
           </Link>
         </div>
 
+        {/* loading */}
         {status === "loading" && (
-          <div className="text-center py-12">
-            <p className="text-[#9B2C62] animate-pulse text-lg">
-              Loading client details...
-            </p>
-          </div>
+          <LoadingPage message="Loading client details..." />
         )}
+
+        {/* failed */}
         {status === "failed" && (
           <div className="bg-[#FEE2E2] p-4 rounded-lg border border-red-200 mb-6">
             <p className="text-red-600 font-medium">{error}</p>
