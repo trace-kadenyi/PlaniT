@@ -11,6 +11,7 @@ import {
 } from "../redux/clientsSlice";
 import { StatusPill, DatePill } from "../components/shared/UIFragments";
 import { LoadingPage } from "../components/shared/LoadingStates";
+import { ErrorState } from "../components/shared/ErrorStates";
 
 export default function Client() {
   const { id } = useParams();
@@ -76,8 +77,18 @@ export default function Client() {
 
         {/* failed */}
         {status === "failed" && (
-          <div className="bg-[#FEE2E2] p-4 rounded-lg border border-red-200 mb-6">
-            <p className="text-red-600 font-medium">{error}</p>
+          <div className="mb-6">
+            <ErrorState
+              message={error || "Failed to load client details."}
+              action={
+                <button
+                  onClick={() => dispatch(fetchClientWithEvents(id))}
+                  className="text-sm text-red-600 hover:underline font-medium"
+                >
+                  Retry
+                </button>
+              }
+            />
           </div>
         )}
 
