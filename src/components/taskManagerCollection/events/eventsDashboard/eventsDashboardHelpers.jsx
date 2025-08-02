@@ -215,18 +215,6 @@ export const filterByDateRange = (
   }
 };
 
-// date filters
-export const dateFilters = {
-  all: "All Dates",
-  today: "Today",
-  tomorrow: "Tomorrow",
-  thisWeek: "This Week",
-  nextWeek: "Next Week",
-  month: "This Month",
-  overdue: "Overdue",
-  custom: "Custom Range",
-};
-
 // filter events
 export const filterEvents = (
   events,
