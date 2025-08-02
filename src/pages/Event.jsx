@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
 import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
-import { fetchClientWithEvents } from "../redux/clientsSlice";
 import {
   formatDateTime,
   getStatusColor,
@@ -15,7 +14,7 @@ import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
 import {
-  EventLoadingState, 
+  EventLoadingState,
   TasksLoadingState,
 } from "../components/shared/LoadingStates";
 import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
@@ -37,31 +36,16 @@ export default function Event() {
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
   const expensesState = useSelector((state) => state.expenses);
-  const clientsState = useSelector((state) => state.clients)
 
-  // fetch data
-   useEffect(() => {
-    const loadData = async () => {
-      try {
-        await dispatch(fetchEventById(id));
-        await dispatch(fetchExpenses(id));
-        await dispatch(fetchTasks(id));
-        
-        // Fetch client if event has one
-        if (eventsState.selectedEvent?.client) {
-          await dispatch(fetchClientWithEvents(eventsState.selectedEvent.client));
-        }
-      } catch (err) {
-        console.error("Error loading data:", err);
-      }
-    };
-
+  // fetch tasks
+  useEffect(() => {
+    dispatch(fetchEventById(id));
+    dispatch(fetchExpenses(id));
     dispatch(clearTasks());
-    loadData();
+    dispatch(fetchTasks(id));
   }, [dispatch, id]);
 
   const event = eventsState.selectedEvent;
-   const client = clientsState.clientDetails.data;
 
   // handle event loading state
   if (
@@ -102,16 +86,15 @@ export default function Event() {
     DeleteConfirmationToast
   );
 
- 
   // handle delete expense
-// Add this with your other handler creations
-const handleExpenseDelete = createExpenseDeleteHandler(
-  dispatch,
-  deleteExpense,
-  toast,
-  toastWithProgress,
-  DeleteConfirmationToast
-);
+  // Add this with your other handler creations
+  const handleExpenseDelete = createExpenseDeleteHandler(
+    dispatch,
+    deleteExpense,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
       {/* event card */}
@@ -125,9 +108,39 @@ const handleExpenseDelete = createExpenseDeleteHandler(
 
         {/* event details */}
         <div className="space-y-2">
-          <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
-            {event.type}
-          </p>
+          <div className="flex flex-wrap items-center gap-5 mt-10 sm:mt-0">
+            <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
+              {event.type}
+            </p>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-gray-500">
+                Client:
+              </span>
+              <Link
+                to={`/clients/${event.client._id}`}
+                className="flex items-center bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] hover:bg-[#FFF5EB] transition-colors duration-200"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-[#9B2C62] mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                <span className="text-sm font-medium text-[#6B3B0F] hover:text-[#9B2C62] hover:underline transition-colors duration-200">
+                  {event.client.name}
+                </span>
+              </Link>
+            </div>
+          </div>
+
           {/* event name */}
           <h1 className="mt-3 text-2xl font-bold text-[#9B2C62]">
             {event.name}
