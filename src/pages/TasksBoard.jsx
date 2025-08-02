@@ -1,16 +1,19 @@
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTasks } from "../redux/tasksSlice";
+import { fetchAllTasks, clearUpdateError } from "../redux/tasksSlice";
 import { DragDropContext } from "@hello-pangea/dnd";
 
 import {
   mapTaskToCard,
   getColumnsFromTasks,
   handleDragEnd,
-  UpdateDashboardError,
   getInitialColumns,
 } from "../components/taskManagerCollection/tasks/tasksDashboard/tasksDashboardHelpers";
-import { LoadingDashboard, FetchDashboardError } from "../components/taskManagerCollection/utils/genDashboardHelpers";
+import {
+  LoadingDashboard,
+  FetchDashboardError,
+  UpdateDashboardError,
+} from "../components/taskManagerCollection/utils/genDashboardHelpers";
 import FilterBox from "../components/shared/FilterBox";
 import { tasksFilterConfig } from "../components/taskManagerCollection/config/tasksFilterConfig";
 import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
@@ -126,9 +129,18 @@ export default function TasksBoard() {
 
       {/* Error messages */}
       {updateError && (
-        <UpdateDashboardError updateError={updateError} dispatch={dispatch} />
+        <UpdateDashboardError
+          updateError={updateError}
+          dispatch={dispatch}
+          clearError={clearUpdateError}
+        />
       )}
-      {fetchError && <FetchDashboardError message={"Failed to load tasks"} fetchError={fetchError} />}
+      {fetchError && (
+        <FetchDashboardError
+          message={"Failed to load tasks"}
+          fetchError={fetchError}
+        />
+      )}
 
       {/* Main content */}
       {fetchStatus === "loading" ? (
