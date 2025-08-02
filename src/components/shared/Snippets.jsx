@@ -1,3 +1,4 @@
+// No budget UI
 export const NoBudget = () => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] my-6">
     <div className="flex items-center gap-3 mb-4">
