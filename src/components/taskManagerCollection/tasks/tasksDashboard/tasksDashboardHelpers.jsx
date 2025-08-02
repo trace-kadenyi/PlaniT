@@ -1,5 +1,5 @@
-import { updateTask, clearUpdateError } from "../../../redux/tasksSlice";
-import { taskToastProgress } from "../../../globalHooks/useToastWithProgress";
+import { updateTask, clearUpdateError } from "../../../../redux/tasksSlice";
+import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress";
 
 // map task to card func
 export const mapTaskToCard = (task) => ({
