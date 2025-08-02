@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
@@ -11,6 +11,7 @@ import {
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import EditDeleteEvent from "../components/shared/EditDeleteEvent";
+import { ClientInfo } from "../components/shared/UIFragments";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -80,9 +81,12 @@ export default function Events() {
                 onClick={() => navigate(`/events/${event._id}`)}
                 className="block text-left w-full space-y-2"
               >
-                <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
-                  {event.type}
-                </p>
+                <div className="flex flex-wrap items-center justify-between gap-5 mt-6">
+                  <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
+                    {event.type}
+                  </p>
+                  {event.client && <ClientInfo event={event} Link={Link} />}
+                </div>
                 <h2
                   className="mt-4 text-lg font-semibold text-[#9B2C62] tracking-tight line-clamp-1 hover:underline cursor-pointer"
                   onClick={() => navigate(`/events/${event._id}/edit`)}
