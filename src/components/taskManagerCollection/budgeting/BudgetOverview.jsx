@@ -50,7 +50,7 @@ export default function BudgetOverview({ budgetStatus }) {
   );
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] mb-6">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] my-6">
       {/* Mobile Header with Toggle */}
       <button
         className="w-full sm:hidden text-left"
