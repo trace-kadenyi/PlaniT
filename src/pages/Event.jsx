@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
 import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
+import { fetchClientWithEvents } from "../redux/clientsSlice";
 import {
   formatDateTime,
   getStatusColor,
@@ -36,16 +37,31 @@ export default function Event() {
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
   const expensesState = useSelector((state) => state.expenses);
+  const clientsState = useSelector((state) => state.clients)
 
-  // fetch tasks
-  useEffect(() => {
-    dispatch(fetchEventById(id));
-    dispatch(fetchExpenses(id));
+  // fetch data
+   useEffect(() => {
+    const loadData = async () => {
+      try {
+        await dispatch(fetchEventById(id));
+        await dispatch(fetchExpenses(id));
+        await dispatch(fetchTasks(id));
+        
+        // Fetch client if event has one
+        if (eventsState.selectedEvent?.client) {
+          await dispatch(fetchClientWithEvents(eventsState.selectedEvent.client));
+        }
+      } catch (err) {
+        console.error("Error loading data:", err);
+      }
+    };
+
     dispatch(clearTasks());
-    dispatch(fetchTasks(id));
+    loadData();
   }, [dispatch, id]);
 
   const event = eventsState.selectedEvent;
+   const client = clientsState.clientDetails.data;
 
   // handle event loading state
   if (
