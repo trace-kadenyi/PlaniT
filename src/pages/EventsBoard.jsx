@@ -2,11 +2,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext } from "@hello-pangea/dnd";
 
-import {
-  updateEvent,
-  clearUpdateError,
-  resetDashboard,
-} from "../redux/eventsSlice";
+import { updateEvent, resetDashboard } from "../redux/eventsSlice";
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 
 import {
@@ -146,11 +142,7 @@ export default function EventsBoard() {
 
       {/* Error messages */}
       {updateError && (
-        <UpdateDashboardError
-          updateError={updateError}
-          dispatch={dispatch}
-          clearError={clearUpdateError}
-        />
+        <UpdateDashboardError updateError={updateError} dispatch={dispatch} />
       )}
       {dashboardError && (
         <FetchDashboardError
