@@ -6,3 +6,10 @@ export const LoadingDashboard = () => (
     ))}
   </div>
 );
+
+// fetch dashboard error
+export const FetchDashboardError = ({ message, fetchError }) => (
+  <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
+    {message}: {fetchError}
+  </div>
+);
