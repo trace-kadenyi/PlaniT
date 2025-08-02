@@ -2,20 +2,23 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext } from "@hello-pangea/dnd";
 
-import { updateEvent, resetDashboard } from "../redux/eventsSlice";
+import {
+  updateEvent,
+  clearUpdateError,
+  resetDashboard,
+} from "../redux/eventsSlice";
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 
 import {
   mapEventToCard,
   getColumnsFromEvents,
   handleEventDragEnd,
-  UpdateDashboardError,
   getInitialEventColumns,
   filterEvents,
 } from "../components/taskManagerCollection/events/eventsDashboard/eventsDashboardHelpers";
 import {
   LoadingDashboard,
-  FetchDashboardError,
+  FetchDashboardError, UpdateDashboardError
 } from "../components/taskManagerCollection/utils/genDashboardHelpers";
 import { filterByDateRange } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/shared/FilterBox";
@@ -142,7 +145,11 @@ export default function EventsBoard() {
 
       {/* Error messages */}
       {updateError && (
-        <UpdateDashboardError updateError={updateError} dispatch={dispatch} />
+        <UpdateDashboardError
+          updateError={updateError}
+          dispatch={dispatch}
+          clearError={clearUpdateError}
+        />
       )}
       {dashboardError && (
         <FetchDashboardError
