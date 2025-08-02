@@ -9,7 +9,11 @@ import {
   archiveClient,
   restoreClient,
 } from "../redux/clientsSlice";
-import { StatusPill, DatePill } from "../components/shared/UIFragments";
+import {
+  StatusPill,
+  DatePill,
+  IsArchivedCli,
+} from "../components/shared/UIFragments";
 import { LoadingPage } from "../components/shared/LoadingStates";
 import { ErrorState } from "../components/shared/ErrorStates";
 
@@ -95,25 +99,8 @@ export default function Client() {
         {status === "succeeded" && client && (
           <>
             {/* Archive Warning Banner */}
-            {localIsArchived && (
-              <div className="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
-                <p className="text-yellow-700 flex items-center gap-2">
-                  <svg
-                    className="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  This client is archived. Their events remain visible but
-                  client cannot be assigned to new events.
-                </p>
-              </div>
-            )}
+            {localIsArchived && <IsArchivedCli />}
+            {/* client card */}
             <section className="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-[#9B2C62]">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                 <h1 className="text-3xl font-bold text-[#9B2C62] mb-2 md:mb-0">
