@@ -1,3 +1,4 @@
+import { clearUpdateError } from "../../../../redux/eventsSlice";
 import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress";
 
 // map event to card
@@ -256,13 +257,12 @@ export const filterEvents = (
   });
 };
 
-
 // update dashboard error
-export const UpdateDashboardError = ({ updateError, dispatch, clearError }) => (
+export const UpdateDashboardError = ({ updateError, dispatch }) => (
   <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
     <span>Update failed: {updateError}</span>
     <button
-      onClick={() => dispatch(clearError())}
+      onClick={() => dispatch(clearUpdateError())}
       className="text-[#9B2C62] font-medium"
     >
       Retry
