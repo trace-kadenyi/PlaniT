@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { Lock, AlertTriangle } from "lucide-react";
+
 import {
   formatLocalDateTimeForDisplay,
   getLocalDateTimeString,
@@ -17,9 +19,19 @@ export default function EventFormFields({
   preSelectedClientId = null,
   mode = "create",
 }) {
+  // archived clients
   const isClientArchived = preSelectedClientId
     ? clients.find((c) => c._id === preSelectedClientId)?.isArchived
     : false;
+
+  // Style classes for consistency
+  const disabledClasses =
+    "border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed";
+  const enabledClasses = "border-[#E3CBC1] focus:ring-[#BE3455]";
+  const fieldClasses = `w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-1`;
+
+  // Only disable fields in create mode for archived clients
+  const shouldDisable = mode === "create" && isClientArchived;
 
   return (
     <form onSubmit={onSubmit} className="space-y-5">
@@ -101,15 +113,25 @@ export default function EventFormFields({
           value={formData.name}
           onChange={onFieldChange}
           maxLength={70}
-          disabled={isClientArchived}
+          disabled={shouldDisable}
           required
-          className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455] ${
-            isClientArchived ? "cursor-not-allowed bg-gray-200 opacity-65" : ""
-          } `}
+          className={`${fieldClasses} ${
+            shouldDisable ? disabledClasses : enabledClasses
+          }`}
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
-          {formData.name.length}/70 characters
-        </p>
+        <div className="flex justify-between items-center mt-1">
+          <p className="text-xs text-gray-500">
+            {shouldDisable && (
+              <span className="flex items-center">
+                <Lock className="w-3 h-3 mr-1" />
+                Field locked
+              </span>
+            )}
+          </p>
+          <p className="text-xs text-gray-500">
+            {formData.name.length}/70 characters
+          </p>
+        </div>
       </div>
 
       {/* Description */}
@@ -123,7 +145,10 @@ export default function EventFormFields({
           onChange={onFieldChange}
           rows={4}
           maxLength={300}
-          className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]`}
+          disabled={shouldDisable}
+          className={`${fieldClasses} ${
+            shouldDisable ? disabledClasses : enabledClasses
+          }`}
         />
         <p className="text-xs text-right text-gray-500 mt-1">
           {formData.description.length}/300 characters
@@ -142,7 +167,10 @@ export default function EventFormFields({
             value={formData.date}
             onChange={onFieldChange}
             min={getLocalDateTimeString()}
-            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455] appearance-none`}
+            disabled={shouldDisable}
+            className={`${fieldClasses} ${
+              shouldDisable ? disabledClasses : enabledClasses
+            } appearance-none`}
           />
           {/* Custom calendar icon */}
           <div className="absolute right-4 top-5 transform -translate-y-1/2 pointer-events-none">
@@ -183,7 +211,10 @@ export default function EventFormFields({
             name="type"
             value={formData.type}
             onChange={onFieldChange}
-            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]`}
+            disabled={shouldDisable}
+            className={`${fieldClasses} ${
+              shouldDisable ? disabledClasses : enabledClasses
+            }`}
           />
         </div>
 
@@ -195,7 +226,10 @@ export default function EventFormFields({
             name="status"
             value={formData.status}
             onChange={onFieldChange}
-            className={`w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]`}
+            disabled={shouldDisable}
+            className={`${fieldClasses} ${
+              shouldDisable ? disabledClasses : enabledClasses
+            }`}
           >
             <option value="Planning">Planning</option>
             <option value="In Progress">In Progress</option>
@@ -212,38 +246,20 @@ export default function EventFormFields({
         </legend>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
-            type="text"
-            name="location.venue"
-            placeholder="Venue"
-            value={formData.location?.venue || ""}
-            onChange={onFieldChange}
-            className={`border px-3 py-2 rounded-lg `}
-          />
-          <input
-            type="text"
-            name="location.address"
-            placeholder="Address"
-            value={formData.location?.address || ""}
-            onChange={onFieldChange}
-            className={`border px-3 py-2 rounded-lg `}
-          />
-          <input
-            type="text"
-            name="location.city"
-            placeholder="City"
-            value={formData.location?.city || ""}
-            onChange={onFieldChange}
-            className={`border px-3 py-2 rounded-lg `}
-          />
-          <input
-            type="text"
-            name="location.country"
-            placeholder="Country"
-            value={formData.location?.country || ""}
-            onChange={onFieldChange}
-            className={`border px-3 py-2 rounded-lg `}
-          />
+          {["venue", "address", "city", "country"].map((field) => (
+            <input
+              key={field}
+              type="text"
+              name={`location.${field}`}
+              placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+              value={formData.location?.[field] || ""}
+              onChange={onFieldChange}
+              disabled={shouldDisable}
+              className={`${fieldClasses} ${
+                shouldDisable ? disabledClasses : enabledClasses
+              }`}
+            />
+          ))}
         </div>
       </fieldset>
 
@@ -276,14 +292,20 @@ export default function EventFormFields({
                 step="0.01"
                 value={formData.initialBudget || ""}
                 onChange={onFieldChange}
-                className={`block w-full rounded-md border ${
-                  budgetError ? "border-red-500" : "border-gray-300"
-                } shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold`}
+                disabled={shouldDisable}
+                className={`block w-full rounded-md border shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold ${
+                  budgetError
+                    ? "border-red-500"
+                    : shouldDisable
+                    ? disabledClasses
+                    : "border-gray-300"
+                }`}
                 placeholder="0.00"
               />
             </div>
           </div>
 
+          {/* budget notes */}
           <div className="sm:col-span-6">
             <label
               htmlFor="budgetNotes"
@@ -298,7 +320,10 @@ export default function EventFormFields({
                 rows={3}
                 value={formData.budgetNotes || ""}
                 onChange={onFieldChange}
-                className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2`}
+                disabled={shouldDisable}
+                className={`block w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 ${
+                  shouldDisable ? disabledClasses : "border-gray-300"
+                }`}
                 placeholder="Any notes about the budget..."
               />
             </div>
@@ -317,14 +342,25 @@ export default function EventFormFields({
       <div className="flex items-center gap-4">
         <button
           type="submit"
-          disabled={formStatus === "loading"}
-          className="bg-[#F59E0B] hover:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={formStatus === "loading" || shouldDisable}
+          className={`bg-[#F59E0B] text-white font-semibold px-6 py-2 rounded-lg transition-all ${
+            shouldDisable
+              ? "bg-gray-300 cursor-not-allowed"
+              : "hover:bg-[#d97706]"
+          } ${formStatus === "loading" ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          {formStatus === "loading"
-            ? "Saving..."
-            : mode === "create"
-            ? "Add Event"
-            : "Save Changes"}
+          {shouldDisable ? (
+            <span className="flex items-center justify-center gap-1">
+              <Lock className="w-4 h-4" />
+              Form Disabled
+            </span>
+          ) : formStatus === "loading" ? (
+            "Saving..."
+          ) : mode === "create" ? (
+            "Add Event"
+          ) : (
+            "Save Changes"
+          )}
         </button>
 
         {onCancel && (
