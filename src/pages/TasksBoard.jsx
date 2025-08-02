@@ -11,7 +11,7 @@ import {
   UpdateDashboardError,
   FetchDashboardError,
   getInitialColumns,
-} from "../components/taskManagerCollection/utils/tasksDashboardHelpers";
+} from "../components/taskManagerCollection/tasks/tasksDashboard/tasksDashboardHelpers";
 import FilterBox from "../components/shared/FilterBox";
 import { tasksFilterConfig } from "../components/taskManagerCollection/config/tasksFilterConfig";
 import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
