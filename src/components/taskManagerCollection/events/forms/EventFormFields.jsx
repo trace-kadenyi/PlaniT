@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Lock, AlertTriangle } from "lucide-react";
+import { Lock } from "lucide-react";
 
 import {
   formatLocalDateTimeForDisplay,
