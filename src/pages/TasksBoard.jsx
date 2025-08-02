@@ -8,10 +8,9 @@ import {
   getColumnsFromTasks,
   handleDragEnd,
   UpdateDashboardError,
-  FetchDashboardError,
   getInitialColumns,
 } from "../components/taskManagerCollection/tasks/tasksDashboard/tasksDashboardHelpers";
-import { LoadingDashboard } from "../components/taskManagerCollection/utils/genDashboardHelpers";
+import { LoadingDashboard, FetchDashboardError } from "../components/taskManagerCollection/utils/genDashboardHelpers";
 import FilterBox from "../components/shared/FilterBox";
 import { tasksFilterConfig } from "../components/taskManagerCollection/config/tasksFilterConfig";
 import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard/TaskColumn";
@@ -129,7 +128,7 @@ export default function TasksBoard() {
       {updateError && (
         <UpdateDashboardError updateError={updateError} dispatch={dispatch} />
       )}
-      {fetchError && <FetchDashboardError fetchError={fetchError} />}
+      {fetchError && <FetchDashboardError message={"Failed to load tasks"} fetchError={fetchError} />}
 
       {/* Main content */}
       {fetchStatus === "loading" ? (
