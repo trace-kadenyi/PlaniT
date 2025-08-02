@@ -5,7 +5,7 @@ import {
   formatLocalDateTimeForDisplay,
   getLocalDateTimeString,
 } from "../../utils/dateHelpers";
-import { NotPreselected } from "./eventFormHelpers";
+import { NotPreselected, PreselectedClients } from "./eventFormHelpers";
 
 export default function EventFormFields({
   formData,
@@ -38,44 +38,21 @@ export default function EventFormFields({
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Client Selection (only show if not pre-selected) */}
       {!preSelectedClientId && (
-        <NotPreselected formData={formData} onFieldChange={onFieldChange} clients={clients}  clientsLoading={clientsLoading} />
+        <NotPreselected
+          formData={formData}
+          onFieldChange={onFieldChange}
+          clients={clients}
+          clientsLoading={clientsLoading}
+        />
       )}
 
       {/* Show client name if pre-selected */}
       {preSelectedClientId && (
-        <div className="p-3 bg-[#F3E8FF] rounded-lg border border-[#E3CBC1]">
-          <div className="flex items-center gap-2 mb-1">
-            <p className="text-sm text-gray-600">Client:</p>
-            {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
-              <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">
-                Archived
-              </span>
-            )}
-          </div>
-          <p className="font-semibold text-[#9B2C62]">
-            {clients.length > 0
-              ? clients.find((c) => c._id === preSelectedClientId)?.name
-              : "Loading client..."}
-          </p>
-          <input
-            type="hidden"
-            name="client"
-            value={preSelectedClientId}
-            onChange={onFieldChange}
-          />
-          {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
-            <p className="mt-2 text-xs text-yellow-600">
-              Note: Archived clients cannot be assigned to new events.{" "}
-              <Link
-                to={`/clients/${preSelectedClientId}`}
-                className="text-[#9B2C62] font-semibold underline"
-              >
-                Restore this client
-              </Link>{" "}
-              if they have an upcoming event.
-            </p>
-          )}
-        </div>
+        <PreselectedClients
+          clients={clients}
+          onFieldChange={onFieldChange}
+          preSelectedClientId={preSelectedClientId}
+        />
       )}
       {/* Event Name */}
       <div>
