@@ -98,15 +98,25 @@ export default function Clients() {
           </button>
         </div>
 
+        {/* loading */}
         {status === "loading" && (
           <p className="text-[#9B2C62]">Loading clients...</p>
         )}
+        {/* error */}
         {error && <p className="text-red-600">{error}</p>}
 
-        {status === "succeeded" && filteredClients.length === 0 && (
-          <p className="text-gray-500">No clients found.</p>
-        )}
+        {/* no filtered clients */}
+        {status === "succeeded" &&
+          filteredClients.length === 0 &&
+          (filterMode === "all" ? (
+            <p className="text-gray-500">No clients found.</p>
+          ) : filterMode === "active" ? (
+            <p className="text-gray-500">No Active clients found.</p>
+          ) : (
+            <p className="text-gray-500">No Archived clients found.</p>
+          ))}
 
+        {/* filtered clients */}
         {status === "succeeded" && filteredClients.length > 0 && (
           <ul className="grid gap-4">
             {filteredClients.map((client) => (
