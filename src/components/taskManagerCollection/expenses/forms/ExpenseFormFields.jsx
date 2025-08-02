@@ -1,10 +1,7 @@
 import { useState } from "react";
 
 import { FormBudgetSummary } from "../../utils/budgetHelpers";
-import {
-  handleFileUpload,
-  handleRemoveReceipt,
-} from "../../utils/expenseHelpers";
+import { handleFileUpload, handleRemoveReceipt } from "../expenseHelpers";
 
 export default function ExpenseFormFields({
   form,
