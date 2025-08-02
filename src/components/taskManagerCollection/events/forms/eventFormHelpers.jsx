@@ -38,4 +38,45 @@ export const NotPreselected = ({
   );
 };
 
-
+// preselected clients
+export const PreselectedClients = ({
+  clients,
+  preSelectedClientId,
+  onFieldChange,
+}) => {
+  return (
+    <div className="p-3 bg-[#F3E8FF] rounded-lg border border-[#E3CBC1]">
+      <div className="flex items-center gap-2 mb-1">
+        <p className="text-sm text-gray-600">Client:</p>
+        {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
+          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">
+            Archived
+          </span>
+        )}
+      </div>
+      <p className="font-semibold text-[#9B2C62]">
+        {clients.length > 0
+          ? clients.find((c) => c._id === preSelectedClientId)?.name
+          : "Loading client..."}
+      </p>
+      <input
+        type="hidden"
+        name="client"
+        value={preSelectedClientId}
+        onChange={onFieldChange}
+      />
+      {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
+        <p className="mt-2 text-xs text-yellow-600">
+          Note: Archived clients cannot be assigned to new events.{" "}
+          <Link
+            to={`/clients/${preSelectedClientId}`}
+            className="text-[#9B2C62] font-semibold underline"
+          >
+            Restore this client
+          </Link>{" "}
+          if they have an upcoming event.
+        </p>
+      )}
+    </div>
+  );
+};
