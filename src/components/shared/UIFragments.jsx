@@ -54,3 +54,18 @@ export const DatePill = ({ date, status }) => {
     </time>
   );
 };
+
+// handle priority
+export const PriorityPill = ({ priority }) => (
+  <span
+    className={`px-2 py-1 rounded ${
+      priority === "high"
+        ? "bg-[#F59E0B]/20 text-[#F59E0B]"
+        : priority === "medium"
+        ? "bg-blue-100 text-blue-800"
+        : "bg-gray-200 text-gray-800"
+    }`}
+  >
+    {priority}
+  </span>
+);
