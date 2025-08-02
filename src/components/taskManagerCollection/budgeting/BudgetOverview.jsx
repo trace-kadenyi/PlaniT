@@ -1,19 +1,15 @@
-import ProgressBar from "../../ui/ProgressBar";
 import { useState } from "react";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+
+import ProgressBar from "../../ui/ProgressBar";
+import { NoBudget } from "../../shared/Snippets";
 
 export default function BudgetOverview({ budgetStatus }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // No budget
   if (!budgetStatus || budgetStatus.totalBudget === 0) {
-    return (
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] mb-6">
-        <h2 className="text-lg font-semibold text-[#9B2C62] mb-4">
-          Budget Overview
-        </h2>
-        <p className="text-gray-600">No budget set for this event</p>
-      </div>
-    );
+    return <NoBudget />;
   }
 
   const { totalBudget, totalExpenses, remainingBudget } = budgetStatus;
