@@ -1,4 +1,4 @@
-import { taskToastProgress } from "../../../globalHooks/useToastWithProgress";
+import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress";
 
 // map event to card
 export const mapEventToCard = (event) => ({
