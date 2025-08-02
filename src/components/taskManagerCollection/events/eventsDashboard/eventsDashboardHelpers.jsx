@@ -269,10 +269,3 @@ export const UpdateDashboardError = ({ updateError, dispatch, clearError }) => (
     </button>
   </div>
 );
-
-// fetch dashboard error
-export const FetchDashboardError = ({ fetchError }) => (
-  <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
-    Failed to load events: {fetchError}
-  </div>
-);
