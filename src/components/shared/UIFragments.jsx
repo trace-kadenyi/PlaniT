@@ -88,3 +88,36 @@ export const IsArchivedCli = () => {
     </div>
   );
 };
+
+// event client
+export const ClientInfo = ({
+  event, Link
+}) => {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-xs font-semibold text-gray-500">Client:</span>
+      <Link
+        to={`/clients/${event.client._id}`}
+        className="flex items-center bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] hover:bg-[#FFF5EB] transition-colors duration-200"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 text-[#9B2C62] mr-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
+        <span className="text-sm font-medium text-[#6B3B0F] hover:text-[#9B2C62] hover:underline transition-colors duration-200">
+          {event.client.name}
+        </span>
+      </Link>
+    </div>
+  );
+};
