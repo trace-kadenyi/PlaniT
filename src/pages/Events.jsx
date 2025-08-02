@@ -81,7 +81,7 @@ export default function Events() {
                 onClick={() => navigate(`/events/${event._id}`)}
                 className="block text-left w-full space-y-2"
               >
-                <div className="flex flex-wrap items-center justify-between gap-5 mt-6">
+                <div className="flex flex-wrap items-center justify-between gap-5 mt-4">
                   <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
                     {event.type}
                   </p>
