@@ -25,7 +25,7 @@ export default function Clients() {
   const [filterMode, setFilterMode] = useState("all"); // "active" | "archived" | "all"
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const clientsPerPage = 4;
+  const clientsPerPage = 10;
 
   const {
     items: allClients,
