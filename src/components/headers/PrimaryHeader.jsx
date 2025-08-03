@@ -19,17 +19,17 @@ export default function PrimaryHeader() {
 
         {/* Center: Desktop Navigation */}
         <nav className="hidden md:flex space-x-6 text-sm font-semibold">
-          <Link to="/tasks/board" className="hover:text-[#F59E0B] transition">
-            Tasks Board
-          </Link>
-          <Link to="/events/board" className="hover:text-[#F59E0B] transition">
-            Events Board
-          </Link>
           <Link to="/events" className="hover:text-[#F59E0B] transition">
             Events
           </Link>
           <Link to="/clients" className="hover:text-[#F59E0B] transition">
             Clients
+          </Link>
+          <Link to="/tasks/board" className="hover:text-[#F59E0B] transition">
+            Tasks Board
+          </Link>
+          <Link to="/events/board" className="hover:text-[#F59E0B] transition">
+            Events Board
           </Link>
         </nav>
 
