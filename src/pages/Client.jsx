@@ -136,6 +136,7 @@ export default function Client() {
                 </div>
               </div>
 
+              {/* email and phone number */}
               <div className="space-y-3">
                 <div className="flex items-start">
                   <span className="text-[#F59E0B] mr-2 mt-1">📧</span>
@@ -154,6 +155,15 @@ export default function Client() {
                   </p>
                 </div>
 
+                {/* company */}
+                <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
+                  <h3 className="font-semibold text-[#9B2C62] mb-1">Company</h3>
+                  <p className="text-gray-700">
+                    {client.company || "Individual"}
+                  </p>
+                </div>
+
+                {/* preferences */}
                 {client.preferences && (
                   <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
                     <h3 className="font-semibold text-[#9B2C62] mb-1">
@@ -163,6 +173,7 @@ export default function Client() {
                   </div>
                 )}
 
+                {/* notes */}
                 {client.notes && (
                   <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
                     <h3 className="font-semibold text-[#9B2C62] mb-1">Notes</h3>
