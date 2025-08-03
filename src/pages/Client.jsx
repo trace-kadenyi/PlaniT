@@ -10,7 +10,7 @@ import {
   restoreClient,
 } from "../redux/clientsSlice";
 import {
-  StatusPill,
+  EventStatusPill,
   DatePill,
   IsArchivedCli,
 } from "../components/shared/UIFragments";
@@ -244,7 +244,7 @@ export default function Client() {
                             </div>
                             <div className="flex items-center gap-1.5">
                               <span className="w-2 h-2 rounded-full bg-[#9B2C62] flex-shrink-0" />
-                              <StatusPill status={event.status} />
+                              <EventStatusPill status={event.status} />
                             </div>
                           </div>
                         </div>

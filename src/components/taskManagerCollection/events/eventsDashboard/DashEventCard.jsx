@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { formatDateTime } from "../../utils/formatting";
 import ProgressBar from "../../../ui/ProgressBar";
 import { truncateText } from "../../utils/formatting";
-import { StatusPill } from "../../../shared/UIFragments";
+import { EventStatusPill } from "../../../shared/UIFragments";
 
 export default function DashEventCard({ event }) {
   // Safely access budget data
@@ -83,7 +83,7 @@ export default function DashEventCard({ event }) {
       </div>
 
       <div className="mt-3 flex justify-end">
-        <StatusPill status={event.status} />
+        <EventStatusPill status={event.status} />
       </div>
     </div>
   );

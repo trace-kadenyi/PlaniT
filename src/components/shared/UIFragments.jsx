@@ -1,6 +1,6 @@
 import { formatDateTime } from "../taskManagerCollection/utils/formatting";
 // handle event status colours
-export const StatusPill = ({ status }) => (
+export const EventStatusPill = ({ status }) => (
   <span
     className={`px-2 py-1 rounded text-xs ${
       status === "Completed"
