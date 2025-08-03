@@ -110,12 +110,10 @@ export default function Event() {
         {/* event details */}
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-5 mt-10 sm:mt-0">
-            <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
+            <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-[#6B3B0F] font-medium tracking-wide">
               {event.type}
             </p>
-            {event.client && (
-              <ClientInfo event={event} Link={Link} />
-            )}
+            {event.client && <ClientInfo event={event} Link={Link} />}
           </div>
 
           {/* event name */}

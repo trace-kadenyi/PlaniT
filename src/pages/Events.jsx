@@ -1,21 +1,20 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
-import {
-  formatDateTime,
-  getStatusColor,
-} from "../components/taskManagerCollection/utils/formatting";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
-import EditDeleteEvent from "../components/shared/EditDeleteEvent";
-import { ClientInfo } from "../components/shared/UIFragments";
+import { LoadingPage } from "../components/shared/LoadingStates";
+import EventCard from "../components/taskManagerCollection/events/EventCard";
 
 export default function Events() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [expandedMonths, setExpandedMonths] = useState({});
+
   const { items: events, status, error } = useSelector((state) => state.events);
 
   // fetch events
@@ -51,80 +50,175 @@ export default function Events() {
       }
     );
   };
+
+  // Group events by month
+  const eventsByMonth = sortedEvents.reduce((acc, event) => {
+    const eventDate = new Date(event.date);
+    const monthYear = eventDate.toLocaleString("default", {
+      month: "long",
+      year: "numeric",
+    });
+
+    if (!acc[monthYear]) {
+      acc[monthYear] = [];
+    }
+
+    acc[monthYear].push(event);
+    return acc;
+  }, {});
+
+  // Initialize expanded months - open first month by default
+  useEffect(() => {
+    if (sortedEvents.length > 0 && Object.keys(expandedMonths).length === 0) {
+      const firstMonth = Object.keys(eventsByMonth)[0];
+      setExpandedMonths({ [firstMonth]: true });
+    }
+  }, [sortedEvents, eventsByMonth]);
+
+  const toggleMonth = (monthYear) => {
+    setExpandedMonths((prev) => ({
+      ...prev,
+      [monthYear]: !prev[monthYear],
+    }));
+  };
+
+  const currentMonthYear = new Date().toLocaleString("default", {
+    month: "long",
+    year: "numeric",
+  });
+
   return (
-    <main className="p-6 min-h-screen bg-white">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-[#9B2C62]">Events Manager</h1>
-        <button
-          onClick={() => navigate("/events/new")}
-          className="flex items-center gap-2 bg-[#9B2C62] text-white px-4 py-2 rounded-lg shadow hover:bg-[#801f4f] transition"
-        >
-          + Create New Event
-        </button>
-      </div>
-      {status === "loading" && (
-        <p className="text-gray-600">Loading events...</p>
-      )}
-      {status === "failed" && <p className="text-red-500">Error: {error}</p>}
-      {status === "succeeded" && events.length === 0 && (
-        <p className="text-gray-600">No events found. Start by creating one!</p>
-      )}
+    <main className="min-h-screen bg-gradient-to-b from-[#FFF8F2] to-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section with Decorative Elements */}
+        <div className="relative mb-10">
+          <div className="absolute -top-4 -left-4 w-20 h-20 bg-[#F59E0B]/10 rounded-full blur-lg"></div>
+          <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#9B2C62]/10 rounded-full blur-lg"></div>
 
-      {status === "succeeded" && events.length > 0 && (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sortedEvents.map((event, index) => (
-            <li
-              key={index}
-              className="relative p-6 rounded-xl bg-[#FFF8F2] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)] hover:scale-[1.01] hover:-translate-y-1 transition-all group"
+          <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 z-10">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62]">
+                Events Manager
+              </h1>
+              <p className="text-gray-600 mt-2 max-w-lg">
+                Organize and track all your upcoming events in one place
+              </p>
+            </div>
+            <button
+              onClick={() => navigate("/events/new")}
+              className="flex items-center gap-2 bg-[#9B2C62] text-white px-5 py-2.5 rounded-lg shadow-md hover:bg-[#801f4f] transition-all transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
             >
-              <button
-                onClick={() => navigate(`/events/${event._id}`)}
-                className="block text-left w-full space-y-2"
+              <span className="text-lg">+</span> Create New Event
+            </button>
+          </div>
+        </div>
+
+        {/* Status Messages */}
+        {status === "loading" && (
+          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9]">
+            <LoadingPage message="Loading events..." />
+          </div>
+        )}
+
+        {status === "failed" && (
+          <div className="bg-red-50/80 backdrop-blur-sm p-6 rounded-xl border border-red-100 shadow-sm">
+            <p className="text-red-600 font-medium">Error loading events:</p>
+            <p className="text-red-500 mt-1">{error}</p>
+          </div>
+        )}
+
+        {status === "succeeded" && events.length === 0 && (
+          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] text-center">
+            <div className="mx-auto max-w-md">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <div className="flex flex-wrap items-center justify-between gap-5 mt-4">
-                  <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
-                    {event.type}
-                  </p>
-                  {event.client && <ClientInfo event={event} Link={Link} />}
-                </div>
-                <h2
-                  className="mt-4 text-lg font-semibold text-[#9B2C62] tracking-tight line-clamp-1 hover:underline cursor-pointer"
-                  onClick={() => navigate(`/events/${event._id}/edit`)}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <h3 className="mt-4 text-lg font-medium text-[#9B2C62]">
+                No events found
+              </h3>
+              <p className="mt-2 text-gray-600">
+                Get started by creating your first event
+              </p>
+              <div className="mt-6">
+                <button
+                  onClick={() => navigate("/events/new")}
+                  className="inline-flex items-center px-4 py-2 bg-[#9B2C62] text-white rounded-lg shadow hover:bg-[#801f4f] transition"
                 >
-                  {event.name}
-                </h2>
-
-                <p className="text-xs text-gray-500 font-semibold">
-                  {formatDateTime(event.date)}
-                </p>
-
-                <p className="text-sm text-gray-700 line-clamp-2">
-                  {event.description || "No description provided."}
-                </p>
-
-                <div className="flex items-center justify-between mt-2">
-                  <p className="text-xs text-gray-500 font-medium">
-                    {event.location?.city}, {event.location?.country}
-                  </p>
-                  <span
-                    className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(
-                      event.status
-                    )}`}
-                  >
-                    {event.status}
+                  + New Event
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Events List */}
+        {status === "succeeded" && events.length > 0 && (
+          <div className="space-y-6">
+            {Object.entries(eventsByMonth).map(([monthYear, monthEvents]) => (
+              <section
+                key={monthYear}
+                className="bg-gradient-to-br from-[#FFF8F2]/30 to-white/70 rounded-xl shadow-sm border border-[#F3EDE9]/50 overflow-hidden"
+              >
+                {/* Month Header */}
+                <button
+                  onClick={() => toggleMonth(monthYear)}
+                  className={`flex items-center w-full p-4 hover:bg-[#FFF8F2] transition border-l-4 ${
+                    expandedMonths[monthYear]
+                      ? " border-l-[#F59E0B] bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5]"
+                      : "border-l-[#9B2C62]"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    {expandedMonths[monthYear] ? (
+                      <ChevronDown className="w-5 h-5 text-[#9B2C62]" />
+                    ) : (
+                      <ChevronRight className="w-5 h-5 text-[#9B2C62]" />
+                    )}
+                    <h2
+                      className={`text-xs font-semibold ${
+                        monthYear === currentMonthYear
+                          ? "text-[#F59E0B]"
+                          : "text-[#9B2C62]"
+                      }`}
+                    >
+                      {monthYear}
+                    </h2>
+                  </div>
+                  <span className="ml-auto bg-gray-100 text-[#9B2C62] px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                    {monthEvents.length} event
+                    {monthEvents.length !== 1 ? "s" : ""}
                   </span>
-                </div>
-              </button>
-              {/* delete/edit buttons */}
-              <EditDeleteEvent
-                navigate={navigate}
-                eventID={event._id}
-                handleDelete={handleDelete}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
+                </button>
+
+                {/* Events Grid */}
+                {expandedMonths[monthYear] && (
+                  <div className="p-4 pt-2">
+                    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {monthEvents.map((event, index) => (
+                        <EventCard
+                          key={index}
+                          event={event}
+                          navigate={navigate}
+                          handleDelete={handleDelete}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </section>
+            ))}
+          </div>
+        )}
+      </div>
     </main>
   );
 }
