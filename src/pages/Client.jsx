@@ -222,7 +222,7 @@ export default function Client() {
                       key={event._id}
                       className="bg-white p-5 rounded-xl border border-[#F3E8FF] hover:border-[#F59E0B] shadow-sm hover:shadow-md transition-all duration-200"
                     >
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                         <div className="flex-1 min-w-0">
                           {" "}
                           {/* Prevents text overflow */}
@@ -246,8 +246,27 @@ export default function Client() {
                           </div>
                         </div>
                         {/* handle date */}
-                        <div className="mt-3 md:mt-0">
-                          <DatePill date={event.date} status={event.status} />
+                        <div className="mt-3 md:mt-0 flex flex-col text-xs gap-3 sm:gap-1">
+                          <span className="flex items-center gap-3">
+                            {" "}
+                            <span className="font-semibold text-gray-500">
+                              {" "}
+                              Event date:{" "}
+                            </span>
+                            <DatePill date={event.date} status={event.status} />
+                          </span>
+
+                          <span className="flex items-center gap-3">
+                            {" "}
+                            <span className="font-semibold text-gray-500">
+                              {" "}
+                              Created on:{" "}
+                            </span>
+                            <DatePill
+                              date={event.createdAt}
+                              status={event.status}
+                            />
+                          </span>
                         </div>
                       </div>
                     </li>
