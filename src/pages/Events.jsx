@@ -1,18 +1,12 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
-import {
-  formatDateTime,
-  getStatusColor,
-} from "../components/taskManagerCollection/utils/formatting";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
-import EditDeleteEvent from "../components/shared/EditDeleteEvent";
-import { ClientInfo } from "../components/shared/UIFragments";
 import { LoadingPage } from "../components/shared/LoadingStates";
 import EventCard from "../components/taskManagerCollection/events/EventCard";
 
@@ -179,7 +173,12 @@ export default function Events() {
                   <div className="p-4 pt-2">
                     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                       {monthEvents.map((event, index) => (
-                        <EventCard key={index} event={event} navigate={navigate} handleDelete={handleDelete} />
+                        <EventCard
+                          key={index}
+                          event={event}
+                          navigate={navigate}
+                          handleDelete={handleDelete}
+                        />
                       ))}
                     </ul>
                   </div>

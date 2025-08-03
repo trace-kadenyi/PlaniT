@@ -1,3 +1,4 @@
+// format date time local
 export const formatForDateTimeLocal = (isoString) => {
   if (!isoString) return "";
   const date = new Date(isoString);
@@ -7,12 +8,14 @@ export const formatForDateTimeLocal = (isoString) => {
     .slice(0, 16);
 };
 
+// parse from date time local
 export const parseFromDateTimeLocal = (localString) => {
   if (!localString) return null;
   // Convert back to proper ISO format for backend
   return new Date(localString).toISOString();
 };
 
+// format local date time for display
 export const formatLocalDateTimeForDisplay = (date) => {
   return date.toLocaleString("en-US", {
     weekday: "short",
@@ -25,6 +28,7 @@ export const formatLocalDateTimeForDisplay = (date) => {
   });
 };
 
+// get localdatetime string
 export const getLocalDateTimeString = () => {
   const now = new Date();
   const timezoneOffset = now.getTimezoneOffset() * 60000;
