@@ -28,7 +28,7 @@ export default function Clients() {
   const [filterMode, setFilterMode] = useState("all"); // "active" | "archived" | "all"
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const clientsPerPage = 10;
+  const clientsPerPage = 4;
 
   const {
     items: allClients,
@@ -70,13 +70,13 @@ export default function Clients() {
         client.contact?.phone?.toLowerCase().includes(term) ||
         false
       );
-    })
-    .sort((a, b) => {
-      if (filterMode === "all") {
-        return a.isArchived === b.isArchived ? 0 : a.isArchived ? 1 : -1;
-      }
-      return 0;
     });
+  // .sort((a, b) => {
+  //   if (filterMode === "all") {
+  //     return a.isArchived === b.isArchived ? 0 : a.isArchived ? 1 : -1;
+  //   }
+  //   return 0;
+  // });
 
   // Pagination logic
   const indexOfLastClient = currentPage * clientsPerPage;
@@ -394,7 +394,7 @@ export default function Clients() {
                             className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                               currentPage === number
                                 ? "z-10 bg-[#9B2C62] border-[#9B2C62] text-white"
-                                : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                                : "bg-white border-gray-300 text-gray-500 hover:bg-gray-100"
                             }`}
                           >
                             {number}
