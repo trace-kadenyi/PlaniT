@@ -1,4 +1,5 @@
 import { Pencil, Trash2 } from "lucide-react";
+import { TaskStatusPill } from "../../shared/UIFragments";
 
 export default function TaskCard({
   tasks,
@@ -93,19 +94,7 @@ export default function TaskCard({
             </div>
             <div>
               <span className="font-semibold text-gray-500">Status:</span>{" "}
-              <span
-                className={`inline-block px-2 py-0.5 rounded-full font-medium ${
-                  task.status === "Completed"
-                    ? "bg-green-100 text-green-700"
-                    : task.status === "In Review"
-                    ? "bg-purple-100 text-purple-700"
-                    : task.status === "In Progress"
-                    ? "bg-blue-100 text-blue-700"
-                    : "bg-gray-100 text-gray-600"
-                }`}
-              >
-                {task.status}
-              </span>
+             <TaskStatusPill status={task.status} />
             </div>
             <div>
               <span className="font-semibold text-gray-500">Assigned To:</span>{" "}
