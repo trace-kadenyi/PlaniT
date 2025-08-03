@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
 import {
@@ -16,6 +17,8 @@ import { ClientInfo } from "../components/shared/UIFragments";
 export default function Events() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [expandedMonths, setExpandedMonths] = useState({});
+
   const { items: events, status, error } = useSelector((state) => state.events);
 
   // fetch events
@@ -68,6 +71,26 @@ export default function Events() {
     return acc;
   }, {});
 
+  // Initialize expanded months - open first month by default
+  useEffect(() => {
+    if (sortedEvents.length > 0 && Object.keys(expandedMonths).length === 0) {
+      const firstMonth = Object.keys(eventsByMonth)[0];
+      setExpandedMonths({ [firstMonth]: true });
+    }
+  }, [sortedEvents, eventsByMonth]);
+
+  const toggleMonth = (monthYear) => {
+    setExpandedMonths((prev) => ({
+      ...prev,
+      [monthYear]: !prev[monthYear],
+    }));
+  };
+
+  const currentMonthYear = new Date().toLocaleString("default", {
+    month: "long",
+    year: "numeric",
+  });
+
   return (
     <main className="p-6 min-h-screen bg-white">
       <div className="flex items-center justify-between mb-6">
@@ -88,67 +111,94 @@ export default function Events() {
       )}
 
       {status === "succeeded" && events.length > 0 && (
-        <div className="space-y-8">
+        <div className="space-y-6">
           {Object.entries(eventsByMonth).map(([monthYear, monthEvents]) => (
-            <section key={monthYear} className="space-y-4">
-              <h2 className="text-xs font-bold text-[#9B2C62] border-b border-[#F3EDE9] pb-2">
-                {monthYear}
-              </h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {monthEvents.map((event, index) => (
-                  <li
-                    key={index}
-                    className="relative p-6 rounded-xl bg-[#FFF8F2] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)] hover:scale-[1.01] hover:-translate-y-1 transition-all group"
-                  >
-                    <button
-                      onClick={() => navigate(`/events/${event._id}`)}
-                      className="block text-left w-full space-y-2"
-                    >
-                      <div className="flex flex-wrap items-center justify-between gap-5 mt-4">
-                        <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
-                          {event.type}
-                        </p>
-                        {event.client && (
-                          <ClientInfo event={event} Link={Link} />
-                        )}
-                      </div>
-                      <h2
-                        className="mt-4 text-lg font-semibold text-[#9B2C62] tracking-tight line-clamp-1 hover:underline cursor-pointer"
-                        onClick={() => navigate(`/events/${event._id}/edit`)}
+            <section key={monthYear} className="space-y-2">
+              <button
+                onClick={() => toggleMonth(monthYear)}
+                className="flex items-center gap-2 w-full text-left"
+              >
+                {expandedMonths[monthYear] ? (
+                  <ChevronDown className="w-4 h-4 text-[#9B2C62]" />
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-[#9B2C62]" />
+                )}
+                <h2
+                  className={`text-lg font-bold ${
+                    monthYear === currentMonthYear
+                      ? "text-[#F59E0B]"
+                      : "text-[#9B2C62]"
+                  }`}
+                >
+                  {monthYear}
+                </h2>
+                <span className="ml-auto text-sm text-gray-500">
+                  ({monthEvents.length} event
+                  {monthEvents.length !== 1 ? "s" : ""})
+                </span>
+              </button>
+
+              {expandedMonths[monthYear] && (
+                <div className="pl-6">
+                  <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
+                    {monthEvents.map((event, index) => (
+                      <li
+                        key={index}
+                        className="relative p-6 rounded-xl bg-[#FFF8F2] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] hover:shadow-[0_6px_25px_rgba(0,0,0,0.08)] hover:scale-[1.01] hover:-translate-y-1 transition-all group"
                       >
-                        {event.name}
-                      </h2>
-
-                      <p className="text-xs text-gray-500 font-semibold">
-                        {formatDateTime(event.date)}
-                      </p>
-
-                      <p className="text-sm text-gray-700 line-clamp-2">
-                        {event.description || "No description provided."}
-                      </p>
-
-                      <div className="flex items-center justify-between mt-2">
-                        <p className="text-xs text-gray-500 font-medium">
-                          {event.location?.city}, {event.location?.country}
-                        </p>
-                        <span
-                          className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(
-                            event.status
-                          )}`}
+                        <button
+                          onClick={() => navigate(`/events/${event._id}`)}
+                          className="block text-left w-full space-y-2"
                         >
-                          {event.status}
-                        </span>
-                      </div>
-                    </button>
-                    {/* delete/edit buttons */}
-                    <EditDeleteEvent
-                      navigate={navigate}
-                      eventID={event._id}
-                      handleDelete={handleDelete}
-                    />
-                  </li>
-                ))}
-              </ul>
+                          <div className="flex flex-wrap items-center justify-between gap-5 mt-4">
+                            <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
+                              {event.type}
+                            </p>
+                            {event.client && (
+                              <ClientInfo event={event} Link={Link} />
+                            )}
+                          </div>
+                          <h2
+                            className="mt-4 text-lg font-semibold text-[#9B2C62] tracking-tight line-clamp-1 hover:underline cursor-pointer"
+                            onClick={() =>
+                              navigate(`/events/${event._id}/edit`)
+                            }
+                          >
+                            {event.name}
+                          </h2>
+
+                          <p className="text-xs text-gray-500 font-semibold">
+                            {formatDateTime(event.date)}
+                          </p>
+
+                          <p className="text-sm text-gray-700 line-clamp-2">
+                            {event.description || "No description provided."}
+                          </p>
+
+                          <div className="flex items-center justify-between mt-2">
+                            <p className="text-xs text-gray-500 font-medium">
+                              {event.location?.city}, {event.location?.country}
+                            </p>
+                            <span
+                              className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(
+                                event.status
+                              )}`}
+                            >
+                              {event.status}
+                            </span>
+                          </div>
+                        </button>
+                        {/* delete/edit buttons */}
+                        <EditDeleteEvent
+                          navigate={navigate}
+                          eventID={event._id}
+                          handleDelete={handleDelete}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </section>
           ))}
         </div>
