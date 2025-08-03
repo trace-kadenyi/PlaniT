@@ -72,7 +72,7 @@ export const DatePill = ({ date, status }) => {
   );
 };
 
-// handle priority
+// handle events priorities
 export const EventsPriorityPill = ({ priority }) => (
   <span
     className={`px-2 py-1 rounded ${
@@ -87,7 +87,20 @@ export const EventsPriorityPill = ({ priority }) => (
   </span>
 );
 
-
+// handle tasks priorities
+export const TasksPriorityPill = ({ priority }) => (
+  <span
+    className={`inline-block px-2 py-0.5 rounded-full font-medium ${
+      priority === "High"
+        ? "bg-[#F59E0B]/20 text-[#C2410C]"
+        : priority === "Medium"
+        ? "bg-yellow-100 text-yellow-700"
+        : "bg-gray-200 text-gray-600"
+    }`}
+  >
+    {priority}
+  </span>
+);
 
 // client is archived
 export const IsArchivedCli = () => {
