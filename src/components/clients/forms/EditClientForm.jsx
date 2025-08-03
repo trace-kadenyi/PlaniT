@@ -7,6 +7,7 @@ import {
 } from "../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../globalHooks/useToastWithProgress";
 import ClientFormFields from "./ClientFormFields";
+import { LoadingPage } from "../../shared/LoadingStates";
 
 export default function EditClientForm() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ export default function EditClientForm() {
   const navigate = useNavigate();
 
   const {
-    clientDetails: { data: client },
+    clientDetails: { data: client, status, error },
     updateStatus,
     updateError,
   } = useSelector((state) => state.clients);
@@ -43,9 +44,16 @@ export default function EditClientForm() {
     }
   }, [client]);
 
+  // loading
+  if (status === "loading")
+    return <LoadingPage message="Loading client details..." />;
+
+  //  if no client
   if (!client) {
     return (
-      <div className="p-6 text-center text-gray-600">Client not found.</div>
+      <div className="p-6 text-center text-gray-600">
+        {error || "Client not found"}
+      </div>
     );
   }
 
