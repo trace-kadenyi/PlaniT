@@ -1,5 +1,5 @@
 import { Pencil, Trash2 } from "lucide-react";
-import { TaskStatusPill } from "../../shared/UIFragments";
+import { TasksPriorityPill, TaskStatusPill } from "../../shared/UIFragments";
 
 export default function TaskCard({
   tasks,
@@ -80,21 +80,11 @@ export default function TaskCard({
           <div className="grid grid-cols-2 text-xs text-gray-600 pt-2 gap-1">
             <div>
               <span className="font-semibold text-gray-500">Priority:</span>{" "}
-              <span
-                className={`inline-block px-2 py-0.5 rounded-full font-medium ${
-                  task.priority === "High"
-                    ? "bg-[#F59E0B]/20 text-[#C2410C]"
-                    : task.priority === "Medium"
-                    ? "bg-yellow-100 text-yellow-700"
-                    : "bg-gray-200 text-gray-600"
-                }`}
-              >
-                {task.priority}
-              </span>
+              <TasksPriorityPill priority={task.priority} />
             </div>
             <div>
               <span className="font-semibold text-gray-500">Status:</span>{" "}
-             <TaskStatusPill status={task.status} />
+              <TaskStatusPill status={task.status} />
             </div>
             <div>
               <span className="font-semibold text-gray-500">Assigned To:</span>{" "}
