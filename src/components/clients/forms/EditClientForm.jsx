@@ -26,6 +26,7 @@ export default function EditClientForm() {
       email: "",
       phone: "",
     },
+    company: "",
     preferences: "",
     notes: "",
   });
@@ -38,6 +39,7 @@ export default function EditClientForm() {
           email: client.contact?.email || "",
           phone: client.contact?.phone || "",
         },
+        company: client.company || "Individual",
         preferences: client.preferences || "",
         notes: client.notes || "",
       });
