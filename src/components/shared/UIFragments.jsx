@@ -73,7 +73,7 @@ export const DatePill = ({ date, status }) => {
 };
 
 // handle priority
-export const PriorityPill = ({ priority }) => (
+export const EventsPriorityPill = ({ priority }) => (
   <span
     className={`px-2 py-1 rounded ${
       priority === "high"
@@ -86,6 +86,8 @@ export const PriorityPill = ({ priority }) => (
     {priority}
   </span>
 );
+
+
 
 // client is archived
 export const IsArchivedCli = () => {
