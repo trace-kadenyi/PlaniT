@@ -51,6 +51,20 @@ export default function ClientFormFields({
         </div>
       </div>
 
+      {/* Company */}
+      <div>
+        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          Company
+        </label>
+        <input
+          type="text"
+          name="company"
+          value={formData.company}
+          onChange={onFieldChange}
+          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+        />
+      </div>
+
       {/* Preferences */}
       <div>
         <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
