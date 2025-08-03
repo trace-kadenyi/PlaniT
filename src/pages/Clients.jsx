@@ -127,7 +127,7 @@ export default function Clients() {
         </div>
 
         {/* Filter Controls */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
           <div className="flex items-center text-sm text-gray-600">
             <FiFilter className="mr-2" />
             <span>Filter by:</span>
