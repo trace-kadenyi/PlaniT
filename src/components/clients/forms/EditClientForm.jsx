@@ -66,7 +66,7 @@ export default function EditClientForm() {
         updateClient({ clientId: id, updatedClient: formData })
       ).unwrap();
       toastWithProgress("Client updated successfully");
-      navigate("/clients");
+      navigate(`/clients/${id}`);
     } catch (err) {
       toastWithProgress("Failed to update client");
     }
