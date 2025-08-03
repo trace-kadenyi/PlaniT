@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { filterByDateRange } from "../utils/handlers/dashboardDateHandlers";
-import { filterTasks } from "../utils/tasksDashboardHelpers";
+import { filterTasks } from "../tasks/tasksDashboard/tasksDashboardHelpers";
 
 // use task filters
 export function useTaskFilters(tasks, filters, customDateRange) {

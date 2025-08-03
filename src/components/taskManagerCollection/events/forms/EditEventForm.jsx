@@ -11,6 +11,7 @@ import {
   resetBudgetUpdateState,
   clearEventStatuses,
 } from "../../../../redux/eventsSlice";
+import { fetchClients } from "../../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 import { formatForDateTimeLocal } from "../../utils/dateHelpers";
@@ -20,6 +21,7 @@ export default function EditEventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [budgetError, setBudgetError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const {
     selectedEvent,
@@ -28,6 +30,10 @@ export default function EditEventForm() {
     updateBudgetStatus,
     updateBudgetError,
   } = useSelector((state) => state.events);
+  const { items: clients, status: clientsStatus } = useSelector(
+    (state) => state.clients
+  );
+
   // form data
   const [formData, setFormData] = useState({
     name: "",
@@ -35,6 +41,7 @@ export default function EditEventForm() {
     date: "",
     type: "",
     status: "Planning",
+    client: "",
     initialBudget: "",
     budgetNotes: "",
     location: {
@@ -46,21 +53,33 @@ export default function EditEventForm() {
   });
   // fetch event
   useEffect(() => {
-    dispatch(fetchEventById(id));
+    const loadData = async () => {
+      setIsLoading(true);
+      try {
+        await Promise.all([
+          dispatch(fetchEventById(id)),
+          dispatch(fetchClients()),
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
     dispatch(clearEventStatuses());
   }, [dispatch, id]);
-
   // populate form
   useEffect(() => {
     if (selectedEvent) {
       setFormData({
         ...selectedEvent,
+        client: selectedEvent.client?._id || selectedEvent.client || "",
         initialBudget: selectedEvent.budget?.totalBudget || "",
         budgetNotes: selectedEvent.budget?.notes || "",
         date: formatForDateTimeLocal(selectedEvent.date),
       });
     }
-  }, [selectedEvent]);
+  }, [selectedEvent, clients]);
 
   // handle input fields
   const handleChange = (e) => {
@@ -100,6 +119,7 @@ export default function EditEventForm() {
       const dataToSend = {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
+        client: formData.client,
       };
 
       const { initialBudget, budgetNotes, ...eventData } = dataToSend;
@@ -159,6 +179,17 @@ export default function EditEventForm() {
     }
   }, [updateStatus, updateBudgetStatus, dispatch]);
 
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-white p-6 flex items-center justify-center">
+        <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border-t-4 border-[#F59E0B] text-center">
+          <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-[#9B2C62] mx-auto mb-4"></div>
+          <p className="text-[#9B2C62] font-medium">Loading event details...</p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-white p-6">
       <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border-t-4 border-[#F59E0B]">
@@ -177,6 +208,9 @@ export default function EditEventForm() {
           formStatus={updateStatus}
           formError={updateError}
           budgetError={budgetError}
+          clients={clients}
+          clientsLoading={clientsStatus === "loading"}
+          preSelectedClientId={formData.client}
           mode="edit"
         />
       </div>

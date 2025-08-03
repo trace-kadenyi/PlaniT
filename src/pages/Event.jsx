@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -14,7 +14,7 @@ import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
 import {
-  EventLoadingState, 
+  EventLoadingState,
   TasksLoadingState,
 } from "../components/shared/LoadingStates";
 import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
@@ -24,6 +24,7 @@ import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
 import BudgetOverview from "../components/taskManagerCollection/budgeting/BudgetOverview";
+import { ClientInfo } from "../components/shared/UIFragments";
 
 export default function Event() {
   const { id } = useParams();
@@ -86,16 +87,15 @@ export default function Event() {
     DeleteConfirmationToast
   );
 
- 
   // handle delete expense
-// Add this with your other handler creations
-const handleExpenseDelete = createExpenseDeleteHandler(
-  dispatch,
-  deleteExpense,
-  toast,
-  toastWithProgress,
-  DeleteConfirmationToast
-);
+  // Add this with your other handler creations
+  const handleExpenseDelete = createExpenseDeleteHandler(
+    dispatch,
+    deleteExpense,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
       {/* event card */}
@@ -109,9 +109,15 @@ const handleExpenseDelete = createExpenseDeleteHandler(
 
         {/* event details */}
         <div className="space-y-2">
-          <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
-            {event.type}
-          </p>
+          <div className="flex flex-wrap items-center gap-5 mt-10 sm:mt-0">
+            <p className="inline-block text-[11px] px-2 py-0.5 rounded-md bg-gradient-to-r from-[#F8D476] to-[#F59E0B]/70 text-[#6B3B0F] font-medium tracking-wide">
+              {event.type}
+            </p>
+            {event.client && (
+              <ClientInfo event={event} Link={Link} />
+            )}
+          </div>
+
           {/* event name */}
           <h1 className="mt-3 text-2xl font-bold text-[#9B2C62]">
             {event.name}

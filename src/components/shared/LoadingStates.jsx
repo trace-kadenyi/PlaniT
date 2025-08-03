@@ -1,3 +1,5 @@
+import { Loader2 } from "lucide-react";
+
 // event loading state
 export const EventLoadingState = () => (
   <main className="min-h-screen flex items-center justify-center">
@@ -14,3 +16,16 @@ export const TasksLoadingState = () => (
     <div className="w-8 h-8 border-2 border-[#9B2C62]/30 border-t-[#9B2C62] rounded-full animate-spin"></div>
   </div>
 );
+
+// Loading page
+export  function LoadingPage({ message = "Loading..." }) {
+  return (
+    <div className="flex items-center gap-2 text-sm text-[#9B2C62] py-2 px-3 rounded-2xl bg-[#FDF2F8] border border-[#FAD1E8] shadow-sm w-fit animate-fadeIn">
+      <Loader2 className="animate-spin h-4 w-4 opacity-80" />
+      <span className="flex items-center gap-1">
+        {message}
+        <span className="animate-pulse text-[#F59E0B] text-base leading-none">•</span>
+      </span>
+    </div>
+  );
+}

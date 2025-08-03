@@ -13,12 +13,13 @@ import {
   mapEventToCard,
   getColumnsFromEvents,
   handleEventDragEnd,
-  LoadingDashboard,
-  UpdateDashboardError,
-  FetchDashboardError,
   getInitialEventColumns,
   filterEvents,
-} from "../components/taskManagerCollection/utils/eventsDashboardHelpers";
+} from "../components/taskManagerCollection/events/eventsDashboard/eventsDashboardHelpers";
+import {
+  LoadingDashboard,
+  FetchDashboardError, UpdateDashboardError
+} from "../components/taskManagerCollection/utils/genDashboardHelpers";
 import { filterByDateRange } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/shared/FilterBox";
 import EventColumn from "../components/taskManagerCollection/events/eventsDashboard/EventColumn";
@@ -150,7 +151,12 @@ export default function EventsBoard() {
           clearError={clearUpdateError}
         />
       )}
-      {dashboardError && <FetchDashboardError fetchError={dashboardError} />}
+      {dashboardError && (
+        <FetchDashboardError
+          message={"Failed to load events"}
+          fetchError={dashboardError}
+        />
+      )}
 
       {/* Main content - now using dashboardStatus */}
       {dashboardStatus === "loading" ? (

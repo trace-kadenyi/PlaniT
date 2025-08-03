@@ -7,8 +7,12 @@ import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
 import Event from "./pages/Event";
+import Clients from "./pages/Clients";
+import Client from "./pages/Client";
 import EditEventForm from "./components/taskManagerCollection/events/forms/EditEventForm";
 import CreateEventForm from "./components/taskManagerCollection/events/forms/CreateEventForm";
+import EditClientForm from "./components/clients/forms/EditClientForm";
+import CreateClientForm from "./components/clients/forms/CreateClientForm";
 import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
 
@@ -29,8 +33,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<Event />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/clients/:id" element={<Client />} />
+
           <Route path="/events/:id/edit" element={<EditEventForm />} />
-          <Route path="/events/create" element={<CreateEventForm />} />
+          <Route path="/events/new" element={<CreateEventForm />} />
+          <Route path="/clients/:id/edit" element={<EditClientForm />} />
+          <Route path="/clients/new" element={<CreateClientForm />} />
           <Route path="/tasks/board" element={<TasksBoard />} />
           <Route path="/events/board" element={<EventsBoard />} />
         </Routes>

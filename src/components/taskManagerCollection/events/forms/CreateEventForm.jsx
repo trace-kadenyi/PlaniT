@@ -1,16 +1,28 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
+import {
+  fetchClients,
+  fetchClientWithEvents,
+} from "../../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 
 export default function CreateEventForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const preSelectedClientId = queryParams.get("client");
 
   const { createStatus, createError } = useSelector((state) => state.events);
+  const {
+    items: clients,
+    status: clientsStatus,
+    clientDetails,
+  } = useSelector((state) => state.clients);
 
   // form data
   const [formData, setFormData] = useState({
@@ -19,6 +31,7 @@ export default function CreateEventForm() {
     date: "",
     type: "",
     status: "Planning",
+    client: preSelectedClientId || "",
     initialBudget: "",
     budgetNotes: "",
     location: {
@@ -28,6 +41,29 @@ export default function CreateEventForm() {
       country: "",
     },
   });
+
+  // Fetch data based on the route
+  useEffect(() => {
+    if (preSelectedClientId) {
+      dispatch(fetchClientWithEvents(preSelectedClientId));
+    } else if (clientsStatus === "idle") {
+      dispatch(fetchClients());
+    }
+  }, [dispatch, clientsStatus, preSelectedClientId]);
+
+  // Get the specific client when coming from client page
+  const getPreSelectedClient = () => {
+    if (preSelectedClientId) {
+      if (clientDetails.data?._id === preSelectedClientId) {
+        return clientDetails.data;
+      }
+      // Then check if it's in the general clients list
+      return clients.find((client) => client._id === preSelectedClientId);
+    }
+    return null;
+  };
+
+  const preSelectedClient = getPreSelectedClient();
 
   // handle input fields
   const handleChange = (e) => {
@@ -53,18 +89,26 @@ export default function CreateEventForm() {
   // submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate client is selected when not coming from client page
+    // if (!preSelectedClientId && !formData.client) {
+    //   toastWithProgress("Please select a client");
+    //   return;
+    // }
+
     try {
       const dataToSend = {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
-        initialBudget: Number(formData.initialBudget) || 0, // Ensure number type
+        initialBudget: Number(formData.initialBudget) || 0,
+        client: formData.client || null,
       };
 
       const res = await dispatch(createEvent(dataToSend)).unwrap();
 
       toastWithProgress("Event successfully created");
 
-      // Use the event ID from the response
+      // Redirect to the new event
       const newEventId = res.event?._id || res._id;
       if (newEventId) {
         navigate(`/events/${newEventId}`);
@@ -75,7 +119,6 @@ export default function CreateEventForm() {
   };
 
   useEffect(() => {
-    // 🧹 Clean up when component unmounts
     return () => {
       dispatch(resetCreateState());
     };
@@ -83,7 +126,7 @@ export default function CreateEventForm() {
 
   useEffect(() => {
     if (createStatus === "succeeded") {
-      dispatch(resetCreateState()); // 🎯 Reset after successful submission
+      dispatch(resetCreateState());
     }
   }, [createStatus, dispatch]);
 
@@ -101,9 +144,24 @@ export default function CreateEventForm() {
           formData={formData}
           onFieldChange={handleChange}
           onSubmit={handleSubmit}
-          onCancel={() => navigate(`/events`)}
+          onCancel={() =>
+            navigate(
+              preSelectedClientId
+                ? `/clients/${preSelectedClientId}`
+                : "/events"
+            )
+          }
           formStatus={createStatus}
           formError={createError}
+          clients={
+            preSelectedClient ? [preSelectedClient, ...clients] : clients
+          }
+          clientsLoading={
+            preSelectedClientId
+              ? clientDetails.status === "loading"
+              : clientsStatus === "loading"
+          }
+          preSelectedClientId={preSelectedClientId}
           mode="create"
         />
       </div>

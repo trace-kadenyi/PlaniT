@@ -1,5 +1,5 @@
-import { updateTask, clearUpdateError } from "../../../redux/tasksSlice";
-import { taskToastProgress } from "../../../globalHooks/useToastWithProgress";
+import { updateTask, clearUpdateError } from "../../../../redux/tasksSlice";
+import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress";
 
 // map task to card func
 export const mapTaskToCard = (task) => ({
@@ -191,39 +191,4 @@ export const filterTasks = (
 
     return matchesPriority && matchesAssignee && matchesDate && matchesSearch;
   });
-};
-
-// loading state
-export const LoadingDashboard = () => {
-  return (
-    <div className="flex space-x-4 animate-pulse justify-center">
-      {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="bg-gray-100 rounded-lg p-4 w-72 h-64"></div>
-      ))}
-    </div>
-  );
-};
-
-// update error render
-export const UpdateDashboardError = ({ updateError, dispatch }) => {
-  return (
-    <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
-      <span>Update failed: {updateError}</span>
-      <button
-        onClick={() => dispatch(clearUpdateError())}
-        className="text-[#9B2C62] font-medium"
-      >
-        Retry
-      </button>
-    </div>
-  );
-};
-
-// fetch error render
-export const FetchDashboardError = ({ fetchError }) => {
-  return (
-    <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
-      Failed to load tasks: {fetchError}
-    </div>
-  );
 };

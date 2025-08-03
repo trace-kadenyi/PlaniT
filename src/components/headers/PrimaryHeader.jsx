@@ -28,8 +28,8 @@ export default function PrimaryHeader() {
           <Link to="/events" className="hover:text-[#F59E0B] transition">
             Events
           </Link>
-          <Link to="/tasks" className="hover:text-[#F59E0B] transition">
-            Tasks
+          <Link to="/clients" className="hover:text-[#F59E0B] transition">
+            Clients
           </Link>
         </nav>
 

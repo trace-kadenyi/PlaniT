@@ -1,0 +1,326 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from "../app/api";
+
+// --- Async Thunks ---
+
+// Fetch all clients
+export const fetchClients = createAsyncThunk(
+  "clients/fetchClients",
+  async () => {
+    const res = await api.get("/api/clients");
+    return res.data;
+  }
+);
+
+// Create new client
+export const createClient = createAsyncThunk(
+  "clients/createClient",
+  async (newClient, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/api/clients", newClient);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to create client" }
+      );
+    }
+  }
+);
+
+// Update client
+export const updateClient = createAsyncThunk(
+  "clients/updateClient",
+  async ({ clientId, updatedClient }, { rejectWithValue }) => {
+    try {
+      const res = await api.put(`/api/clients/${clientId}`, updatedClient);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to update client" }
+      );
+    }
+  }
+);
+
+// Delete client
+export const deleteClient = createAsyncThunk(
+  "clients/deleteClient",
+  async (clientId, { rejectWithValue }) => {
+    try {
+      await api.delete(`/api/clients/${clientId}`);
+      return clientId;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to delete client" }
+      );
+    }
+  }
+);
+
+// fetch client with their events
+export const fetchClientWithEvents = createAsyncThunk(
+  "clients/fetchClientWithEvents",
+  async (clientId, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`/api/clients/${clientId}`);
+      return res.data; // contains both { client, events }
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to fetch client details" }
+      );
+    }
+  }
+);
+
+// fetch archived clients
+export const fetchArchivedClients = createAsyncThunk(
+  "clients/fetchArchivedClients",
+  async () => {
+    const res = await api.get("/api/clients?showArchived=true");
+    return res.data;
+  }
+);
+
+// archive client
+export const archiveClient = createAsyncThunk(
+  "clients/archiveClient",
+  async (clientId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/clients/${clientId}/archive`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to archive client" }
+      );
+    }
+  }
+);
+
+// restore client
+export const restoreClient = createAsyncThunk(
+  "clients/restoreClient",
+  async (clientId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/clients/${clientId}/restore`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to restore client" }
+      );
+    }
+  }
+);
+// --- Slice ---
+
+const clientsSlice = createSlice({
+  name: "clients",
+  initialState: {
+    items: [],
+    archivedItems: [],
+    status: "idle",
+    error: null,
+
+    createStatus: "idle",
+    createError: null,
+
+    updateStatus: "idle",
+    updateError: null,
+
+    deleteStatus: "idle",
+    deleteError: null,
+
+    clientDetails: {
+      data: null,
+      events: [],
+      status: "idle",
+      error: null,
+    },
+  },
+
+  reducers: {
+    resetClientCreateState: (state) => {
+      state.createStatus = "idle";
+      state.createError = null;
+    },
+    clearClientError: (state) => {
+      state.error = null;
+      state.status = "idle";
+    },
+    resetClientUpdateState: (state) => {
+      state.updateStatus = "idle";
+      state.updateError = null;
+    },
+    resetClientDeleteState: (state) => {
+      state.deleteStatus = "idle";
+      state.deleteError = null;
+    },
+    resetArchiveStates: (state) => {
+      state.items = state.items.map((client) => ({
+        ...client,
+        isArchiving: false,
+        isRestoring: false,
+      }));
+    },
+  },
+
+  extraReducers: (builder) => {
+    builder
+      // Fetch all
+      .addCase(fetchClients.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchClients.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+      })
+      .addCase(fetchClients.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+
+      // Create client
+      .addCase(createClient.pending, (state) => {
+        state.createStatus = "loading";
+        state.createError = null;
+      })
+      .addCase(createClient.fulfilled, (state, action) => {
+        state.createStatus = "succeeded";
+        state.items.unshift(action.payload);
+      })
+      .addCase(createClient.rejected, (state, action) => {
+        state.createStatus = "failed";
+        state.createError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to create client.";
+      })
+
+      // Update client
+      .addCase(updateClient.pending, (state) => {
+        state.updateStatus = "loading";
+        state.updateError = null;
+      })
+      .addCase(updateClient.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+        const index = state.items.findIndex(
+          (c) => c._id === action.payload._id
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+      })
+      .addCase(updateClient.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to update client.";
+      })
+
+      // Delete client
+      .addCase(deleteClient.pending, (state) => {
+        state.deleteStatus = "loading";
+        state.deleteError = null;
+      })
+      .addCase(deleteClient.fulfilled, (state, action) => {
+        state.deleteStatus = "succeeded";
+        state.items = state.items.filter((c) => c._id !== action.payload);
+      })
+      .addCase(deleteClient.rejected, (state, action) => {
+        state.deleteStatus = "failed";
+        state.deleteError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to delete client.";
+      })
+
+      // Fetch a single client with their events
+      .addCase(fetchClientWithEvents.pending, (state) => {
+        state.clientDetails.status = "loading";
+        state.clientDetails.error = null;
+      })
+      .addCase(fetchClientWithEvents.fulfilled, (state, action) => {
+        state.clientDetails.status = "succeeded";
+        state.clientDetails.data = action.payload.client;
+        state.clientDetails.events = action.payload.events;
+      })
+      .addCase(fetchClientWithEvents.rejected, (state, action) => {
+        state.clientDetails.status = "failed";
+        state.clientDetails.error =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to fetch client details.";
+      })
+
+      // Archive client
+      .addCase(archiveClient.pending, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isArchiving: true }
+            : client
+        );
+      })
+      .addCase(archiveClient.fulfilled, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.payload._id
+            ? { ...action.payload, isArchiving: false }
+            : client
+        );
+      })
+      .addCase(archiveClient.rejected, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isArchiving: false }
+            : client
+        );
+      })
+
+      // Restore client
+      .addCase(restoreClient.pending, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isRestoring: true }
+            : client
+        );
+      })
+      .addCase(restoreClient.fulfilled, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.payload._id
+            ? { ...action.payload, isRestoring: false }
+            : client
+        );
+      })
+      .addCase(restoreClient.rejected, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isRestoring: false }
+            : client
+        );
+      });
+
+    // show archived clients
+    builder
+      .addCase(fetchArchivedClients.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchArchivedClients.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.archivedItems = action.payload;
+      })
+      .addCase(fetchArchivedClients.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
+  },
+});
+
+export const {
+  resetClientCreateState,
+  clearClientError,
+  resetClientUpdateState,
+  resetClientDeleteState,
+  resetArchiveStates,
+} = clientsSlice.actions;
+export default clientsSlice.reducer;

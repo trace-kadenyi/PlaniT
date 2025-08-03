@@ -1,4 +1,4 @@
-import { taskToastProgress } from "../../../globalHooks/useToastWithProgress";
+import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress";
 
 // map event to card
 export const mapEventToCard = (event) => ({
@@ -29,7 +29,8 @@ export const getColumnsFromEvents = (events, mapEventToCardFn) => {
       id: "planning",
       title: "Planning",
       tasks: filteredEvents.planning.map(mapEventToCardFn),
-      color: "#F59E0B",
+      // color: "#F59E0B",
+      color: "#DBEAFE",
     },
     inProgress: {
       id: "inProgress",
@@ -214,18 +215,6 @@ export const filterByDateRange = (
   }
 };
 
-// date filters
-export const dateFilters = {
-  all: "All Dates",
-  today: "Today",
-  tomorrow: "Tomorrow",
-  thisWeek: "This Week",
-  nextWeek: "Next Week",
-  month: "This Month",
-  overdue: "Overdue",
-  custom: "Custom Range",
-};
-
 // filter events
 export const filterEvents = (
   events,
@@ -254,32 +243,3 @@ export const filterEvents = (
     return matchesType && matchesDate && matchesSearch;
   });
 };
-
-// loading dashboard
-export const LoadingDashboard = () => (
-  <div className="flex space-x-4 animate-pulse justify-center">
-    {[1, 2, 3, 4, 5].map((i) => (
-      <div key={i} className="bg-gray-100 rounded-lg p-4 w-80 h-64"></div>
-    ))}
-  </div>
-);
-
-// update dashboard error
-export const UpdateDashboardError = ({ updateError, dispatch, clearError }) => (
-  <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
-    <span>Update failed: {updateError}</span>
-    <button
-      onClick={() => dispatch(clearError())}
-      className="text-[#9B2C62] font-medium"
-    >
-      Retry
-    </button>
-  </div>
-);
-
-// fetch dashboard error
-export const FetchDashboardError = ({ fetchError }) => (
-  <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
-    Failed to load events: {fetchError}
-  </div>
-);

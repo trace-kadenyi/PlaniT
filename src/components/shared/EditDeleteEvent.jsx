@@ -3,7 +3,7 @@ import { Trash2, Pencil } from "lucide-react";
 // edit and delete buttons for the Events page cards
 export default function EditDeleteEvent({ navigate, eventID, handleDelete }) {
   return (
-    <div className="absolute top-5 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition">
+    <div className="mt-2 flex space-x-2 sm:opacity-0 sm:group-hover:opacity-100 transition">
       <button
         onClick={() => navigate(`/events/${eventID}/edit`)}
         className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
