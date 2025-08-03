@@ -72,28 +72,13 @@ export const DatePill = ({ date, status }) => {
   );
 };
 
-// handle events priorities
-export const EventsPriorityPill = ({ priority }) => (
-  <span
-    className={`px-2 py-1 rounded ${
-      priority === "high"
-        ? "bg-[#F59E0B]/20 text-[#F59E0B]"
-        : priority === "medium"
-        ? "bg-blue-100 text-blue-800"
-        : "bg-gray-200 text-gray-800"
-    }`}
-  >
-    {priority}
-  </span>
-);
-
 // handle tasks priorities
 export const TasksPriorityPill = ({ priority }) => (
   <span
     className={`inline-block px-2 py-0.5 rounded-full font-medium ${
-      priority === "High"
+      priority === "high"
         ? "bg-[#F59E0B]/20 text-[#C2410C]"
-        : priority === "Medium"
+        : priority === "medium"
         ? "bg-yellow-100 text-yellow-700"
         : "bg-gray-200 text-gray-600"
     }`}
