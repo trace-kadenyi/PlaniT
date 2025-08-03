@@ -16,6 +16,23 @@ export const EventStatusPill = ({ status }) => (
   </span>
 );
 
+// tasks status colours
+export const TaskStatusPill = ({ status }) => (
+  <span
+    className={`inline-block px-2 py-0.5 rounded-full font-medium ${
+      status === "Completed"
+        ? "bg-green-100 text-green-700"
+        : status === "In Review"
+        ? "bg-purple-100 text-purple-700"
+        : status === "In Progress"
+        ? "bg-[#EFF6FF] text-[#1E40AF]"
+        : "bg-gray-100 text-gray-600"
+    }`}
+  >
+    {status}
+  </span>
+);
+
 // handle date
 export const DatePill = ({ date, status }) => {
   const baseStyles =
