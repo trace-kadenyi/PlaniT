@@ -39,7 +39,7 @@ export default function EditClientForm() {
           email: client.contact?.email || "",
           phone: client.contact?.phone || "",
         },
-        company: client.company || "Individual",
+        company: client.company,
         preferences: client.preferences || "",
         notes: client.notes || "",
       });
