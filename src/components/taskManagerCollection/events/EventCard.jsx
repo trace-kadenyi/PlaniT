@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import EditDeleteEvent from "../../shared/EditDeleteEvent";
-import { ClientInfo } from "../../shared/UIFragments";
+import { ClientInfo, EventStatusPill } from "../../shared/UIFragments";
 import { formatDateTime, getStatusColor } from "../utils/formatting";
 
 export default function EventCard({ event, index, navigate, handleDelete }) {
@@ -80,13 +80,7 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
                 {event.location?.city}, {event.location?.country}
               </p>
             </div>
-            <span
-              className={`text-xs px-2.5 py-1 rounded-full font-medium ${getStatusColor(
-                event.status
-              )}`}
-            >
-              {event.status}
-            </span>
+            <EventStatusPill status={event.status} />
           </div>
         </button>
       </div>
