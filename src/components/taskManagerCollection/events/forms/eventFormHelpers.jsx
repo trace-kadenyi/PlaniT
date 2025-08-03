@@ -21,7 +21,6 @@ export const NotPreselected = ({
           name="client"
           value={formData.client}
           onChange={onFieldChange}
-          required
           className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#BE3455]"
         >
           <option value="">-- Select a client --</option>
