@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { truncateText } from "../../utils/formatting";
-import { PriorityPill } from "../../../shared/UIFragments";
+import { EventsPriorityPill } from "../../../shared/UIFragments";
 
 export default function DashTaskCard({ task }) {
   return (
@@ -37,7 +37,7 @@ export default function DashTaskCard({ task }) {
 
       <div className="mt-3 flex justify-between items-center text-xs">
         <span className="text-gray-500">{task.assignee || "Unassigned"}</span>
-        <PriorityPill priority={task.priority} />
+        <EventsPriorityPill priority={task.priority} />
       </div>
     </div>
   );
