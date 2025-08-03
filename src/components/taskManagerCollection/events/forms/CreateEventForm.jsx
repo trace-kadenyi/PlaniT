@@ -91,17 +91,17 @@ export default function CreateEventForm() {
     e.preventDefault();
 
     // Validate client is selected when not coming from client page
-    if (!preSelectedClientId && !formData.client) {
-      toastWithProgress("Please select a client");
-      return;
-    }
+    // if (!preSelectedClientId && !formData.client) {
+    //   toastWithProgress("Please select a client");
+    //   return;
+    // }
 
     try {
       const dataToSend = {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
         initialBudget: Number(formData.initialBudget) || 0,
-        client: formData.client,
+        client: formData.client || null,
       };
 
       const res = await dispatch(createEvent(dataToSend)).unwrap();
