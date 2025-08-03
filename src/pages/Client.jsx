@@ -107,12 +107,15 @@ export default function Client() {
                   {client.name}
                 </h1>
                 <div className="flex space-x-3">
-                  <Link
-                    to={`/clients/${id}/edit`}
-                    className="bg-[#F59E0B]/10 hover:bg-[#F59E0B]/20 text-[#D97706] px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200"
-                  >
-                    Edit Client
-                  </Link>
+                  {client && (
+                    <Link
+                      to={`/clients/${id}/edit`}
+                      className="bg-[#F59E0B]/10 hover:bg-[#F59E0B]/20 text-[#D97706] px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200"
+                    >
+                      Edit Client
+                    </Link>
+                  )}
+
                   <button
                     onClick={() => handleArchiveToggle(id, localIsArchived)}
                     disabled={client?.isArchiving || client?.isRestoring}
