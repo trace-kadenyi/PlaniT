@@ -8,8 +8,17 @@ import {
   resetArchiveStates,
 } from "../redux/clientsSlice";
 import {
-  FiUser, FiMail, FiPhone, FiArchive, FiRefreshCw, FiPlus, FiEye,
-  FiChevronLeft, FiChevronRight, FiFilter, FiSearch
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiArchive,
+  FiRefreshCw,
+  FiPlus,
+  FiEye,
+  FiChevronLeft,
+  FiChevronRight,
+  FiFilter,
+  FiSearch,
 } from "react-icons/fi";
 
 export default function Clients() {
@@ -51,13 +60,15 @@ export default function Clients() {
       if (filterMode === "archived") return client.isArchived;
       return true;
     })
-    .filter(client => {
+    .filter((client) => {
       if (!searchTerm) return true;
       const term = searchTerm.toLowerCase();
       return (
         client.name.toLowerCase().includes(term) ||
-        (client.contact?.email?.toLowerCase().includes(term) || false) ||
-        (client.contact?.phone?.toLowerCase().includes(term) || false)
+        client.contact?.email?.toLowerCase().includes(term) ||
+        false ||
+        client.contact?.phone?.toLowerCase().includes(term) ||
+        false
       );
     })
     .sort((a, b) => {
@@ -70,7 +81,10 @@ export default function Clients() {
   // Pagination logic
   const indexOfLastClient = currentPage * clientsPerPage;
   const indexOfFirstClient = indexOfLastClient - clientsPerPage;
-  const currentClients = filteredClients.slice(indexOfFirstClient, indexOfLastClient);
+  const currentClients = filteredClients.slice(
+    indexOfFirstClient,
+    indexOfLastClient
+  );
   const totalPages = Math.ceil(filteredClients.length / clientsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -81,12 +95,15 @@ export default function Clients() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-[#9B2C62]">Client Directory</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-[#9B2C62]">
+              Client Directory
+            </h1>
             <p className="text-[#F59E0B] mt-1">
-              {filteredClients.length} {filteredClients.length === 1 ? "client" : "clients"} found
+              {filteredClients.length}{" "}
+              {filteredClients.length === 1 ? "client" : "clients"} found
             </p>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-grow max-w-md">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -105,7 +122,7 @@ export default function Clients() {
             </div>
             <button
               onClick={() => navigate("/clients/new")}
-              className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
+              className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap max-w-[150px]"
             >
               <FiPlus /> Add Client
             </button>
@@ -131,7 +148,9 @@ export default function Clients() {
                   : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
               }`}
             >
-              {mode === "active" && <span className="w-2 h-2 rounded-full bg-green-500"></span>}
+              {mode === "active" && (
+                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+              )}
               {mode === "archived" && <span>🗃️</span>}
               {mode.charAt(0).toUpperCase() + mode.slice(1)}
             </button>
@@ -152,9 +171,11 @@ export default function Clients() {
 
         {status === "succeeded" && filteredClients.length === 0 && (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">No clients found</h3>
+            <h3 className="text-lg font-medium text-gray-700 mb-2">
+              No clients found
+            </h3>
             <p className="text-gray-500 mb-4">
-              {searchTerm 
+              {searchTerm
                 ? "No clients match your search criteria"
                 : filterMode === "active"
                 ? "You don't have any active clients"
@@ -178,30 +199,49 @@ export default function Clients() {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-[#9B2C62]">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                    >
                       Client
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                    >
                       Contact
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"
+                    >
                       Status
                     </th>
-                    <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider"
+                    >
                       Actions
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {currentClients.map((client) => (
-                    <tr key={client._id} className={client.isArchived ? "bg-gray-50" : "hover:bg-[#FFF7ED]"}>
+                    <tr
+                      key={client._id}
+                      className={
+                        client.isArchived ? "bg-gray-50" : "hover:bg-[#FFF7ED]"
+                      }
+                    >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 h-10 w-10 rounded-full bg-[#F59E0B] flex items-center justify-center text-white">
                             <FiUser />
                           </div>
                           <div className="ml-4">
-                            <div className="text-sm font-medium text-[#9B2C62]">{client.name}</div>
+                            <div className="text-sm font-medium text-[#9B2C62]">
+                              {client.name}
+                            </div>
                             <div className="text-sm text-gray-500">
                               {client.company || "Individual"}
                             </div>
@@ -219,12 +259,14 @@ export default function Clients() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          client.isArchived
-                            ? "bg-amber-100 text-amber-800"
-                            : "bg-green-100 text-green-800"
-                        }`}>
-                         {client.isArchived ? "🗃️ Archived" : "✅ Active"}
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            client.isArchived
+                              ? "bg-amber-100 text-amber-800"
+                              : "bg-green-100 text-green-800"
+                          }`}
+                        >
+                          {client.isArchived ? "🗃️ Archived" : "✅ Active"}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -233,24 +275,32 @@ export default function Clients() {
                             onClick={() => navigate(`/clients/${client._id}`)}
                             className="text-[#9B2C62] hover:text-[#7A1F4D] flex items-center gap-1 px-3 py-1 rounded transition-colors hover:bg-[#9B2C62] hover:text-white"
                           >
-                             View Details
+                            View Details
                           </button>
                           <button
-                            onClick={() => handleArchiveToggle(client._id, client.isArchived)}
+                            onClick={() =>
+                              handleArchiveToggle(client._id, client.isArchived)
+                            }
                             disabled={client.isArchiving || client.isRestoring}
                             className={`flex items-center gap-1 px-3 py-1 rounded transition-colors ${
                               client.isArchived
                                 ? "bg-[#FFBF00] hover:bg-[#E6AC00] text-[#571838]"
                                 : "bg-gray-100 hover:bg-gray-200 text-gray-700"
-                            } ${(client.isArchiving || client.isRestoring) ? "opacity-70 cursor-not-allowed" : ""}`}
+                            } ${
+                              client.isArchiving || client.isRestoring
+                                ? "opacity-70 cursor-not-allowed"
+                                : ""
+                            }`}
                           >
                             {client.isArchiving ? (
                               <>
-                                <FiRefreshCw className="animate-spin" /> Archiving...
+                                <FiRefreshCw className="animate-spin" />{" "}
+                                Archiving...
                               </>
                             ) : client.isRestoring ? (
                               <>
-                                <FiRefreshCw className="animate-spin" /> Restoring...
+                                <FiRefreshCw className="animate-spin" />{" "}
+                                Restoring...
                               </>
                             ) : client.isArchived ? (
                               <>
@@ -278,16 +328,22 @@ export default function Clients() {
                     onClick={() => paginate(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
                     className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                      currentPage === 1 ? "bg-gray-100 text-gray-400" : "bg-white text-gray-700 hover:bg-gray-50"
+                      currentPage === 1
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-white text-gray-700 hover:bg-gray-50"
                     }`}
                   >
                     Previous
                   </button>
                   <button
-                    onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                    onClick={() =>
+                      paginate(Math.min(totalPages, currentPage + 1))
+                    }
                     disabled={currentPage === totalPages}
                     className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
-                      currentPage === totalPages ? "bg-gray-100 text-gray-400" : "bg-white text-gray-700 hover:bg-gray-50"
+                      currentPage === totalPages
+                        ? "bg-gray-100 text-gray-400"
+                        : "bg-white text-gray-700 hover:bg-gray-50"
                     }`}
                   >
                     Next
@@ -296,46 +352,65 @@ export default function Clients() {
                 <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                   <div>
                     <p className="text-sm text-gray-700">
-                      Showing <span className="font-medium">{indexOfFirstClient + 1}</span> to{" "}
+                      Showing{" "}
+                      <span className="font-medium">
+                        {indexOfFirstClient + 1}
+                      </span>{" "}
+                      to{" "}
                       <span className="font-medium">
                         {Math.min(indexOfLastClient, filteredClients.length)}
                       </span>{" "}
-                      of <span className="font-medium">{filteredClients.length}</span> clients
+                      of{" "}
+                      <span className="font-medium">
+                        {filteredClients.length}
+                      </span>{" "}
+                      clients
                     </p>
                   </div>
                   <div>
-                    <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <nav
+                      className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                      aria-label="Pagination"
+                    >
                       <button
                         onClick={() => paginate(Math.max(1, currentPage - 1))}
                         disabled={currentPage === 1}
                         className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${
-                          currentPage === 1 ? "text-gray-300" : "text-gray-500 hover:bg-gray-50"
+                          currentPage === 1
+                            ? "text-gray-300"
+                            : "text-gray-500 hover:bg-gray-50"
                         }`}
                       >
                         <span className="sr-only">Previous</span>
                         <FiChevronLeft className="h-5 w-5" />
                       </button>
-                      
+
                       {/* Page numbers */}
-                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
-                        <button
-                          key={number}
-                          onClick={() => paginate(number)}
-                          className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                            currentPage === number
-                              ? "z-10 bg-[#9B2C62] border-[#9B2C62] text-white"
-                              : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
-                          }`}
-                        >
-                          {number}
-                        </button>
-                      ))}
-                      
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                        (number) => (
+                          <button
+                            key={number}
+                            onClick={() => paginate(number)}
+                            className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                              currentPage === number
+                                ? "z-10 bg-[#9B2C62] border-[#9B2C62] text-white"
+                                : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                            }`}
+                          >
+                            {number}
+                          </button>
+                        )
+                      )}
+
                       <button
-                        onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                        onClick={() =>
+                          paginate(Math.min(totalPages, currentPage + 1))
+                        }
                         disabled={currentPage === totalPages}
                         className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${
-                          currentPage === totalPages ? "text-gray-300" : "text-gray-500 hover:bg-gray-50"
+                          currentPage === totalPages
+                            ? "text-gray-300"
+                            : "text-gray-500 hover:bg-gray-50"
                         }`}
                       >
                         <span className="sr-only">Next</span>
