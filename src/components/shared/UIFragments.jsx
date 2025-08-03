@@ -76,9 +76,9 @@ export const DatePill = ({ date, status }) => {
 export const TasksPriorityPill = ({ priority }) => (
   <span
     className={`inline-block px-2 py-0.5 rounded-full font-medium ${
-      priority === "high"
+      priority.toLowerCase() === "high"
         ? "bg-[#F59E0B]/20 text-[#C2410C]"
-        : priority === "medium"
+        : priority.toLowerCase() === "medium"
         ? "bg-yellow-100 text-yellow-700"
         : "bg-gray-200 text-gray-600"
     }`}
