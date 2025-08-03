@@ -158,7 +158,7 @@ export default function Events() {
                       <ChevronRight className="w-5 h-5 text-[#9B2C62]" />
                     )}
                     <h2
-                      className={`text-lg font-semibold ${
+                      className={`text-xs font-semibold ${
                         monthYear === currentMonthYear
                           ? "text-[#F59E0B]"
                           : "text-[#9B2C62]"
