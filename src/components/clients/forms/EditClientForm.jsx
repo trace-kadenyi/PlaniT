@@ -13,11 +13,11 @@ export default function EditClientForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const client = useSelector((state) =>
-    state.clients.items.find((c) => c._id === id)
-  );
-
-  const { updateStatus, updateError } = useSelector((state) => state.clients);
+  const {
+    clientDetails: { data: client },
+    updateStatus,
+    updateError,
+  } = useSelector((state) => state.clients);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -42,6 +42,12 @@ export default function EditClientForm() {
       });
     }
   }, [client]);
+
+  if (!client) {
+    return (
+      <div className="p-6 text-center text-gray-600">Client not found.</div>
+    );
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -77,12 +83,6 @@ export default function EditClientForm() {
       dispatch(resetClientUpdateState());
     };
   }, [dispatch]);
-
-  if (!client) {
-    return (
-      <div className="p-6 text-center text-gray-600">Client not found.</div>
-    );
-  }
 
   return (
     <main className="min-h-screen bg-white p-6">
