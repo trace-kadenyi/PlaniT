@@ -33,16 +33,19 @@ export default function Clients() {
     error,
   } = useSelector((state) => state.clients);
 
+  // fetch clients
   useEffect(() => {
     dispatch(fetchClients());
   }, [dispatch]);
 
+  // reset archive states
   useEffect(() => {
     return () => {
       dispatch(resetArchiveStates());
     };
   }, [dispatch]);
 
+  // handle archive toggle
   const handleArchiveToggle = (clientId, isArchived) => {
     const action = isArchived ? restoreClient : archiveClient;
     dispatch(action(clientId)).then(() => {
@@ -51,6 +54,7 @@ export default function Clients() {
     });
   };
 
+  // filtered clients
   const filteredClients = allClients
     .filter((client) => {
       if (filterMode === "active") return !client.isArchived;
