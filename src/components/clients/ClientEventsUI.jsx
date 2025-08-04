@@ -1,4 +1,4 @@
-import { EventStatusPill, DatePill } from "../../components/shared/UIFragments";
+import { EventStatusPill, DatePill } from "../shared/UIFragments";
 export default function ClientEventsUI({ event, Link }) {
   return (
     <li

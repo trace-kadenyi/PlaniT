@@ -1,5 +1,6 @@
 import { Droppable, Draggable } from "@hello-pangea/dnd";
-import DashTaskCard from "./dashTaskCard";
+
+import DashTaskCard from "./DashTaskCard";
 
 export default function TaskColumn({ columns }) {
   return (

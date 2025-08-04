@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
+
 import { createEvent, resetCreateState } from "../../../../redux/eventsSlice";
 import {
   fetchClients,
