@@ -77,3 +77,10 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
   color: transparent;
   text-shadow: 0 0 0 #9b2c62;
 }
+
+@media (max-width: 640px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}

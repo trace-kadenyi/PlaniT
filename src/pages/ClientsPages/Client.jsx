@@ -8,14 +8,11 @@ import {
   fetchClientWithEvents,
   archiveClient,
   restoreClient,
-} from "../redux/clientsSlice";
-import {
-  EventStatusPill,
-  DatePill,
-  IsArchivedCli,
-} from "../components/shared/UIFragments";
-import { LoadingPage } from "../components/shared/LoadingStates";
-import { ErrorState } from "../components/shared/ErrorStates";
+} from "../../redux/clientsSlice";
+import { IsArchivedCli } from "../../components/shared/UIFragments";
+import { LoadingPage } from "../../components/shared/LoadingStates";
+import { ErrorState } from "../../components/shared/ErrorStates";
+import ClientEventsUI from "./ClientEventsUI";
 
 export default function Client() {
   const { id } = useParams();
@@ -136,6 +133,7 @@ export default function Client() {
                 </div>
               </div>
 
+              {/* email and phone number */}
               <div className="space-y-3">
                 <div className="flex items-start">
                   <span className="text-[#F59E0B] mr-2 mt-1">📧</span>
@@ -154,6 +152,15 @@ export default function Client() {
                   </p>
                 </div>
 
+                {/* company */}
+                <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
+                  <h3 className="font-semibold text-[#9B2C62] mb-1">Company</h3>
+                  <p className="text-gray-700">
+                    {client.company || "Individual"}
+                  </p>
+                </div>
+
+                {/* preferences */}
                 {client.preferences && (
                   <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
                     <h3 className="font-semibold text-[#9B2C62] mb-1">
@@ -163,6 +170,7 @@ export default function Client() {
                   </div>
                 )}
 
+                {/* notes */}
                 {client.notes && (
                   <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
                     <h3 className="font-semibold text-[#9B2C62] mb-1">Notes</h3>
@@ -221,58 +229,7 @@ export default function Client() {
                 // events list
                 <ul className="space-y-4">
                   {events.map((event) => (
-                    <li
-                      key={event._id}
-                      className="bg-white p-5 rounded-xl border border-[#F3E8FF] hover:border-[#F59E0B] shadow-sm hover:shadow-md transition-all duration-200"
-                    >
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                        <div className="flex-1 min-w-0">
-                          {" "}
-                          {/* Prevents text overflow */}
-                          <Link
-                            to={`/events/${event._id}`}
-                            className="font-bold text-[#9B2C62] text-lg mb-1 truncate hover:underline hover:italic hover:text-[#7B1D52] transition-colors"
-                          >
-                            {event.name}
-                          </Link>
-                          <div className="flex flex-wrap items-center gap-3 text-sm mt-2">
-                            <div className="flex items-center gap-1.5">
-                              <span className="w-2 h-2 rounded-full bg-[#F59E0B] flex-shrink-0" />
-                              <span className="bg-[#F59E0B]/10 text-[#B45309] px-2 py-1 rounded-full text-xs">
-                                {event.type}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                              <span className="w-2 h-2 rounded-full bg-[#9B2C62] flex-shrink-0" />
-                              <EventStatusPill status={event.status} />
-                            </div>
-                          </div>
-                        </div>
-                        {/* handle date */}
-                        <div className="mt-3 md:mt-0 flex flex-col text-xs gap-3 sm:gap-1">
-                          <span className="flex items-center gap-3">
-                            {" "}
-                            <span className="font-semibold text-gray-500">
-                              {" "}
-                              Event date:{" "}
-                            </span>
-                            <DatePill date={event.date} status={event.status} />
-                          </span>
-
-                          <span className="flex items-center gap-3">
-                            {" "}
-                            <span className="font-semibold text-gray-500">
-                              {" "}
-                              Created on:{" "}
-                            </span>
-                            <DatePill
-                              date={event.createdAt}
-                              status={event.status}
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </li>
+                    <ClientEventsUI key={event.id} event={event} Link={Link} />
                   ))}
                 </ul>
               )}

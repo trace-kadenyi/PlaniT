@@ -16,6 +16,7 @@ export default function CreateClientForm() {
       email: "",
       phone: "",
     },
+    company: "",
     preferences: "",
     notes: "",
   });
