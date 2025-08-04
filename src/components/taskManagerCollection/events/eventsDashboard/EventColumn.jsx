@@ -1,4 +1,5 @@
 import { Droppable, Draggable } from "@hello-pangea/dnd";
+
 import DashEventCard from "./DashEventCard";
 
 export default function EventColumn({ columns }) {
