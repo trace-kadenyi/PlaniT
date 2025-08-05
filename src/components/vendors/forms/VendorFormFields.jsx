@@ -12,7 +12,10 @@ export default function VendorFormFields({
     "decorations",
     "equipment",
     "staffing",
+    "entertainment",
+    "transportation",
     "marketing",
+    "photography/videography",
     "other",
   ];
 
