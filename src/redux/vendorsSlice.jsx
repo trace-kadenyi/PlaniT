@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../app/api";
 
 // Async Thunks
-// fetch vendors
 export const fetchVendors = createAsyncThunk(
   "vendors/fetchVendors",
   async ({ service, archived }, { rejectWithValue }) => {
@@ -19,7 +18,18 @@ export const fetchVendors = createAsyncThunk(
   }
 );
 
-// create vendor
+export const fetchVendorById = createAsyncThunk(
+  "vendors/fetchVendorById",
+  async (vendorId, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`/api/vendors/${vendorId}`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const createVendor = createAsyncThunk(
   "vendors/createVendor",
   async (vendorData, { rejectWithValue }) => {
@@ -32,7 +42,6 @@ export const createVendor = createAsyncThunk(
   }
 );
 
-// update vendor
 export const updateVendor = createAsyncThunk(
   "vendors/updateVendor",
   async ({ id, updatedData }, { rejectWithValue }) => {
@@ -45,7 +54,6 @@ export const updateVendor = createAsyncThunk(
   }
 );
 
-// toggle archive vendor
 export const toggleArchiveVendor = createAsyncThunk(
   "vendors/toggleArchive",
   async (vendorId, { rejectWithValue }) => {
@@ -58,7 +66,6 @@ export const toggleArchiveVendor = createAsyncThunk(
   }
 );
 
-// fetch vendor stats
 export const fetchVendorStats = createAsyncThunk(
   "vendors/fetchStats",
   async (_, { rejectWithValue }) => {
@@ -71,12 +78,16 @@ export const fetchVendorStats = createAsyncThunk(
   }
 );
 
-// vendors slice
 const vendorsSlice = createSlice({
   name: "vendors",
   initialState: {
     items: [],
     stats: [],
+    vendorDetails: {
+      data: null,
+      status: "idle",
+      error: null,
+    },
     status: "idle",
     error: null,
     createStatus: "idle",
@@ -96,6 +107,13 @@ const vendorsSlice = createSlice({
       state.updateError = null;
       state.archiveStatus = "idle";
       state.archiveError = null;
+      state.vendorDetails.status = "idle";
+      state.vendorDetails.error = null;
+    },
+    clearVendorDetails: (state) => {
+      state.vendorDetails.data = null;
+      state.vendorDetails.status = "idle";
+      state.vendorDetails.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -111,6 +129,21 @@ const vendorsSlice = createSlice({
       .addCase(fetchVendors.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload?.message || action.error.message;
+      });
+
+    // Fetch single vendor
+    builder
+      .addCase(fetchVendorById.pending, (state) => {
+        state.vendorDetails.status = "loading";
+      })
+      .addCase(fetchVendorById.fulfilled, (state, action) => {
+        state.vendorDetails.status = "succeeded";
+        state.vendorDetails.data = action.payload;
+      })
+      .addCase(fetchVendorById.rejected, (state, action) => {
+        state.vendorDetails.status = "failed";
+        state.vendorDetails.error =
+          action.payload?.message || action.error.message;
       });
 
     // Create vendor
@@ -140,6 +173,9 @@ const vendorsSlice = createSlice({
         if (index !== -1) {
           state.items[index] = action.payload;
         }
+        if (state.vendorDetails.data?._id === action.payload._id) {
+          state.vendorDetails.data = action.payload;
+        }
       })
       .addCase(updateVendor.rejected, (state, action) => {
         state.updateStatus = "failed";
@@ -158,6 +194,10 @@ const vendorsSlice = createSlice({
         );
         if (index !== -1) {
           state.items[index].isArchived = action.payload.vendor.isArchived;
+        }
+        if (state.vendorDetails.data?._id === action.payload.vendor._id) {
+          state.vendorDetails.data.isArchived =
+            action.payload.vendor.isArchived;
         }
       })
       .addCase(toggleArchiveVendor.rejected, (state, action) => {
@@ -181,5 +221,5 @@ const vendorsSlice = createSlice({
   },
 });
 
-export const { resetVendorStatuses } = vendorsSlice.actions;
+export const { resetVendorStatuses, clearVendorDetails } = vendorsSlice.actions;
 export default vendorsSlice.reducer;
