@@ -10,6 +10,7 @@ import Event from "./pages/Event";
 import Clients from "./pages/Clients";
 import Client from "./pages/Client";
 import Vendors from "./pages/Vendors";
+import Vendor from "./pages/Vendor";
 import EditEventForm from "./components/taskManagerCollection/events/forms/EditEventForm";
 import CreateEventForm from "./components/taskManagerCollection/events/forms/CreateEventForm";
 import EditClientForm from "./components/clients/forms/EditClientForm";
@@ -20,7 +21,6 @@ import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
 
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
-import Vendor from "./pages/Vendor";
 
 function App() {
   const isSmallScreen = useIsSmallScreen();
