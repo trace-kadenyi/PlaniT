@@ -96,13 +96,13 @@ export default function Clients() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-[#9B2C62]">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62]">
               Client Directory
             </h1>
-            <p className="text-[#F59E0B] mt-1">
+            {/* <p className="text-[#F59E0B] mt-1">
               {filteredClients.length}{" "}
               {filteredClients.length === 1 ? "client" : "clients"} found
-            </p>
+            </p> */}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
