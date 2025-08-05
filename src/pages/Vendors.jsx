@@ -363,7 +363,7 @@ export default function Vendors() {
                               className="text-[#3B82F6] hover:text-[#2563EB]"
                               title="View Details"
                             >
-                              <FiEye />
+                              View
                             </button>
                             <button
                               onClick={() =>
@@ -373,6 +373,7 @@ export default function Vendors() {
                               title="Edit"
                             >
                               <FiEdit2 />
+                              Edit
                             </button>
                             <button
                               onClick={() =>
@@ -389,9 +390,15 @@ export default function Vendors() {
                               title={vendor.isArchived ? "Restore" : "Archive"}
                             >
                               {vendor.isArchived ? (
-                                <FiRefreshCw />
+                                <>
+                                  <FiRefreshCw />
+                                  <span>Restore</span>
+                                </>
                               ) : (
-                                <FiTrash2 />
+                                <>
+                                  <FiTrash2 />
+                                  <span>Archive</span>
+                                </>
                               )}
                             </button>
                           </div>
