@@ -37,13 +37,12 @@ function App() {
           <Route path="/events/:id" element={<Event />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/clients/:id" element={<Client />} />
-
           <Route path="/events/:id/edit" element={<EditEventForm />} />
           <Route path="/events/new" element={<CreateEventForm />} />
           <Route path="/clients/:id/edit" element={<EditClientForm />} />
           <Route path="/clients/new" element={<CreateClientForm />} />
           <Route path="/vendors/:id/edit" element={<EditVendorForm />} />
-          <Route path="/vendor/new" element={<CreateVendorForm />} />
+          <Route path="/vendors/new" element={<CreateVendorForm />} />
           <Route path="/tasks/board" element={<TasksBoard />} />
           <Route path="/events/board" element={<EventsBoard />} />
         </Routes>
