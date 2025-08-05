@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import {
   fetchVendors,
   fetchVendorStats,
-  archiveVendor,
-  restoreVendor,
-  resetVendorStates,
-} from "../"
+  toggleArchiveVendor,
+  resetVendorStatuses,
+} from "../redux/vendorsSlice";
 import {
   FiPlus,
   FiArchive,
@@ -18,6 +17,7 @@ import {
   FiTrash2,
   FiRefreshCw,
 } from "react-icons/fi";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 
 export default function Vendors() {
   const dispatch = useDispatch();
@@ -26,10 +26,8 @@ export default function Vendors() {
   const [filterMode, setFilterMode] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const vendorsPerPage = 10;
-  const [filter, setFilter] = useState({
-    service: "",
-    archived: false,
-  });
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [vendorToArchive, setVendorToArchive] = useState(null);
 
   const {
     items: vendors,
@@ -37,27 +35,53 @@ export default function Vendors() {
     status,
     error,
     statsStatus,
+    archiveStatus,
   } = useSelector((state) => state.vendors);
 
   useEffect(() => {
-    dispatch(fetchVendors(filter));
+    const archived =
+      filterMode === "archived"
+        ? true
+        : filterMode === "active"
+        ? false
+        : undefined;
+
+    dispatch(
+      fetchVendors({
+        archived:
+          filterMode === "archived"
+            ? true
+            : filterMode === "active"
+            ? false
+            : undefined,
+      })
+    );
+  }, [dispatch, filterMode]);
+
+  useEffect(() => {
     dispatch(fetchVendorStats());
-  }, [dispatch, filter]);
+  }, [dispatch]);
 
   // Reset states when component unmounts
   useEffect(() => {
     return () => {
-      dispatch(resetVendorStates());
+      dispatch(resetVendorStatuses());
     };
   }, [dispatch]);
 
   // Handle archive toggle
-  const handleArchiveToggle = (vendorId, isArchived) => {
-    const action = isArchived ? restoreVendor : archiveVendor;
-    dispatch(action(vendorId)).then(() => {
-      dispatch(fetchVendors(filter));
-      setCurrentPage(1); // Reset to first page after status change
-    });
+  const handleArchiveToggle = (vendorId, isCurrentlyArchived) => {
+    dispatch(toggleArchiveVendor(vendorId))
+      .unwrap()
+      .then(() => {
+        toastWithProgress(
+          `Vendor ${isCurrentlyArchived ? "restored" : "archived"} successfully`
+        );
+        dispatch(fetchVendors());
+      })
+      .catch((error) => {
+        toastWithProgress(error.message || "Failed to update vendor status");
+      });
   };
 
   // Filter vendors
@@ -97,15 +121,18 @@ export default function Vendors() {
 
   return (
     <div className="min-h-screen bg-white p-6">
-    {/* Confirmation Dialog */}
+      {/* Confirmation Dialog */}
       {showConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <h3 className="text-lg font-medium mb-4">
-              {vendorToArchive?.isArchived ? "Restore Vendor" : "Archive Vendor"}
+              {vendorToArchive?.isArchived
+                ? "Restore Vendor"
+                : "Archive Vendor"}
             </h3>
             <p className="mb-6">
-              Are you sure you want to {vendorToArchive?.isArchived ? "restore" : "archive"} this vendor?
+              Are you sure you want to{" "}
+              {vendorToArchive?.isArchived ? "restore" : "archive"} this vendor?
             </p>
             <div className="flex justify-end gap-3">
               <button
@@ -116,27 +143,30 @@ export default function Vendors() {
               </button>
               <button
                 onClick={() => {
-                  handleArchiveToggle(vendorToArchive.id, vendorToArchive.isArchived);
+                  handleArchiveToggle(
+                    vendorToArchive.id,
+                    vendorToArchive.isArchived
+                  );
                   setShowConfirm(false);
                 }}
                 className={`px-4 py-2 rounded-lg text-white ${
-                  vendorToArchive?.isArchived 
-                    ? "bg-green-600 hover:bg-green-700" 
+                  vendorToArchive?.isArchived
+                    ? "bg-green-600 hover:bg-green-700"
                     : "bg-red-600 hover:bg-red-700"
                 }`}
-                disabled={archiveStatus === 'loading'}
+                disabled={archiveStatus === "loading"}
               >
-                {archiveStatus === 'loading' ? (
-                  "Processing..."
-                ) : (
-                  vendorToArchive?.isArchived ? "Restore" : "Archive"
-                )}
+                {archiveStatus === "loading"
+                  ? "Processing..."
+                  : vendorToArchive?.isArchived
+                  ? "Restore"
+                  : "Archive"}
               </button>
             </div>
           </div>
         </div>
       )}
-      
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -255,8 +285,8 @@ export default function Vendors() {
         {status === "succeeded" && filteredVendors.length > 0 && (
           <>
             <div className="bg-white rounded-lg shadow overflow-hidden border border-[#E3CBC1]">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-[#E3CBC1]">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-[#E3CBC1]">
                   <thead className="bg-[#F7F7FA]">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
@@ -274,11 +304,11 @@ export default function Vendors() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-[#E3CBC1]">
-                  {currentVendors.map((vendor) => (
-                    <tr
-                      key={vendor._id}
-                      className={vendor.isArchived ? "bg-gray-50" : ""}
-                    >
+                    {currentVendors.map((vendor) => (
+                      <tr
+                        key={vendor._id}
+                        className={vendor.isArchived ? "bg-gray-50" : ""}
+                      >
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div>
@@ -319,48 +349,49 @@ export default function Vendors() {
                           <div className="flex justify-end gap-2">
                             <button
                               onClick={() => navigate(`/vendors/${vendor._id}`)}
+                              className="text-[#3B82F6] hover:text-[#2563EB]"
+                              title="View Details"
+                            >
+                              <FiEye />
+                            </button>
+                            <button
+                              onClick={() =>
+                                navigate(`/vendors/${vendor._id}/edit`)
+                              }
                               className="text-[#F59E0B] hover:text-[#D97706]"
+                              title="Edit"
                             >
                               <FiEdit2 />
                             </button>
+                            <button
+                              onClick={() => {
+                                setVendorToArchive({
+                                  id: vendor._id,
+                                  isArchived: vendor.isArchived,
+                                });
+                                setShowConfirm(true);
+                              }}
+                              className={
+                                vendor.isArchived
+                                  ? "text-[#10B981] hover:text-[#059669]"
+                                  : "text-[#EF4444] hover:text-[#DC2626]"
+                              }
+                              title={vendor.isArchived ? "Restore" : "Archive"}
+                            >
+                              {vendor.isArchived ? (
+                                <FiRefreshCw />
+                              ) : (
+                                <FiTrash2 />
+                              )}
+                            </button>
                           </div>
                         </td>
-
-                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div className="flex justify-end gap-2">
-                          <button
-                            onClick={() => navigate(`/vendors/${vendor._id}`)}
-                            className="text-[#3B82F6] hover:text-[#2563EB]"
-                            title="View Details"
-                          >
-                            <FiEye />
-                          </button>
-                          <button
-                            onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
-                            className="text-[#F59E0B] hover:text-[#D97706]"
-                            title="Edit"
-                          >
-                            <FiEdit2 />
-                          </button>
-                          <button
-                            onClick={() => handleArchiveToggle(vendor._id, vendor.isArchived)}
-                            className={
-                              vendor.isArchived 
-                                ? "text-[#10B981] hover:text-[#059669]" 
-                                : "text-[#EF4444] hover:text-[#DC2626]"
-                            }
-                            title={vendor.isArchived ? "Restore" : "Archive"}
-                          >
-                            {vendor.isArchived ? <FiRefreshCw /> : <FiTrash2 />}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
 
             {/* Pagination */}
             {totalPages > 1 && (
