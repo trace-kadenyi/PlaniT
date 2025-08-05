@@ -325,7 +325,6 @@ export default function Vendors() {
                     {currentVendors.map((vendor) => (
                       <tr
                         key={vendor._id}
-                        onClick={() => navigate(`/vendors/${vendor._id}`)}
                         className={`hover:bg-gray-100 ${
                           vendor.isArchived ? "bg-gray-50" : ""
                         }`}
@@ -334,7 +333,10 @@ export default function Vendors() {
                           <div className="flex items-center">
                             <div>
                               <div
-                                className={`text-sm font-medium ${
+                                onClick={() =>
+                                  navigate(`/vendors/${vendor._id}`)
+                                }
+                                className={`text-sm font-medium hover:underline hover:italic cursor-default ${
                                   vendor.isArchived
                                     ? "text-gray-500"
                                     : "text-[#9B2C62]"

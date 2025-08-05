@@ -5,6 +5,8 @@ import {
   FiArchive,
   FiRefreshCw,
 } from "react-icons/fi";
+import { User, Mail, Phone, Archive, RefreshCcw } from "lucide-react";
+
 export default function ClientTable({
   currentClients,
   navigate,
@@ -44,16 +46,18 @@ export default function ClientTable({
         {currentClients.map((client) => (
           <tr
             key={client._id}
-            onClick={() => navigate(`/clients/${client._id}`)}
             className={client.isArchived ? "bg-gray-50" : "hover:bg-[#FFF7ED]"}
           >
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="flex items-center">
                 <div className="flex-shrink-0 h-10 w-10 rounded-full bg-[#F59E0B] flex items-center justify-center text-white">
-                  <FiUser />
+                  <User className="w-5 h-5" />
                 </div>
                 <div className="ml-4">
-                  <div className="text-sm font-medium text-[#9B2C62]">
+                  <div
+                    onClick={() => navigate(`/clients/${client._id}`)}
+                    className="text-sm font-medium text-[#9B2C62] hover:underline hover:italic cursor-default"
+                  >
                     {client.name}
                   </div>
                   <div className="text-sm text-gray-500">
@@ -64,11 +68,11 @@ export default function ClientTable({
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="text-sm text-gray-900 flex items-center gap-2">
-                <FiMail className="text-[#F59E0B]" />
+                <Mail className="w-4 h-4 text-[#F59E0B]" />
                 {client.contact?.email || "—"}
               </div>
               <div className="text-sm text-gray-500 flex items-center gap-2 mt-1">
-                <FiPhone className="text-[#F59E0B]" />
+                <Phone className="w-4 h-4 text-[#F59E0B]" />
                 {client.contact?.phone || "—"}
               </div>
             </td>
@@ -108,19 +112,21 @@ export default function ClientTable({
                 >
                   {client.isArchiving ? (
                     <>
-                      <FiRefreshCw className="animate-spin" /> Archiving...
+                      <RefreshCcw className="animate-spin w-4 h-4" />{" "}
+                      Archiving...
                     </>
                   ) : client.isRestoring ? (
                     <>
-                      <FiRefreshCw className="animate-spin" /> Restoring...
+                      <RefreshCcw className="animate-spin w-4 h-4" />{" "}
+                      Restoring...
                     </>
                   ) : client.isArchived ? (
                     <>
-                      <FiRefreshCw /> Restore
+                      <RefreshCcw className="w-4 h-4" /> Restore
                     </>
                   ) : (
                     <>
-                      <FiArchive /> Archive
+                      <Archive className="w-4 h-4" /> Archive
                     </>
                   )}
                 </button>
