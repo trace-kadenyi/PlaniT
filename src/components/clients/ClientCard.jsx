@@ -1,3 +1,5 @@
+import { Mail } from "lucide-react";
+
 export default function ClientCard({
   client,
   id,
@@ -44,7 +46,9 @@ export default function ClientCard({
       {/* email and phone number */}
       <div className="space-y-3">
         <div className="flex items-center items-center">
-          <span className="text-[#F59E0B] mr-2 mt-1">📧</span>
+          <span className>
+            <Mail className="w-5 h-5 font-bold mr-2 text-[#9B2C62]" />
+          </span>
           <p className="text-gray-700 break-all">
             {client.contact?.email || (
               <span className="text-gray-400">No email provided</span>
