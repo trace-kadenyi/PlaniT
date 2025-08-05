@@ -13,6 +13,8 @@ import EditEventForm from "./components/taskManagerCollection/events/forms/EditE
 import CreateEventForm from "./components/taskManagerCollection/events/forms/CreateEventForm";
 import EditClientForm from "./components/clients/forms/EditClientForm";
 import CreateClientForm from "./components/clients/forms/CreateClientForm";
+import EditVendorForm from "./components/vendors/forms/EditVendorForm";
+import CreateVendorForm from "./components/vendors/forms/CreateVendorForm";
 import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
 
@@ -40,6 +42,8 @@ function App() {
           <Route path="/events/new" element={<CreateEventForm />} />
           <Route path="/clients/:id/edit" element={<EditClientForm />} />
           <Route path="/clients/new" element={<CreateClientForm />} />
+          <Route path="/vendors/:id/edit" element={<EditVendorForm />} />
+          <Route path="/vendor/new" element={<CreateVendorForm />} />
           <Route path="/tasks/board" element={<TasksBoard />} />
           <Route path="/events/board" element={<EventsBoard />} />
         </Routes>
