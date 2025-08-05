@@ -9,6 +9,7 @@ import {
 import { toastWithProgress } from "../../../globalHooks/useToastWithProgress";
 import VendorFormFields from "./VendorFormFields";
 import { GenLoadingState } from "../../shared/LoadingStates";
+import { GenErrorState } from "../../shared/ErrorStates";
 
 export default function EditVendorForm() {
   const { id } = useParams();
@@ -70,9 +71,10 @@ export default function EditVendorForm() {
 
   if (!vendor) {
     return (
-      <div className="p-6 text-center text-gray-600">
-        {error || "Vendor not found"}
-      </div>
+      <GenErrorState
+        error={error}
+        message="We ran into an issue. Please try again later..."
+      />
     );
   }
 
