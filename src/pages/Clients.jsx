@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  FiPlus,
-  FiChevronLeft,
-  FiChevronRight,
-  FiFilter,
-  FiSearch,
-} from "react-icons/fi";
+import { Plus, ChevronLeft, ChevronRight, Filter, Search } from "lucide-react";
 
 import {
   fetchClients,
@@ -96,19 +90,19 @@ export default function Clients() {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-[#9B2C62]">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62]">
               Client Directory
             </h1>
-            <p className="text-[#F59E0B] mt-1">
+            {/* <p className="text-[#F59E0B] mt-1">
               {filteredClients.length}{" "}
               {filteredClients.length === 1 ? "client" : "clients"} found
-            </p>
+            </p> */}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-grow max-w-md">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiSearch className="text-gray-400" />
+                <Search className="text-gray-400 w-4 h-4" />
               </div>
               <input
                 type="text"
@@ -125,7 +119,7 @@ export default function Clients() {
               onClick={() => navigate("/clients/new")}
               className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap max-w-[150px]"
             >
-              <FiPlus /> Add Client
+              <Plus className="w-5 h-5" /> Add Client
             </button>
           </div>
         </div>
@@ -133,7 +127,7 @@ export default function Clients() {
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
           <div className="flex items-center text-sm text-gray-600">
-            <FiFilter className="mr-2" />
+            <Filter className="mr-2 w-4 h-4" />
             <span>Filter by:</span>
           </div>
           {["all", "active", "archived"].map((mode) => (
@@ -160,7 +154,7 @@ export default function Clients() {
 
         {/* Status Messages */}
         {status === "loading" && (
-          <div className="flex justify-center items-center py-12">
+          <div className="flex justify-center items-center min-h-[300px]">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62]"></div>
           </div>
         )}
@@ -214,8 +208,8 @@ export default function Clients() {
                 indexOfFirstClient={indexOfFirstClient}
                 indexOfLastClient={indexOfLastClient}
                 filteredClients={filteredClients}
-                FiChevronLeft={FiChevronLeft}
-                FiChevronRight={FiChevronRight}
+                ChevronLeft={ChevronLeft}
+                ChevronRight={ChevronRight}
               />
             )}
           </div>

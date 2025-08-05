@@ -44,11 +44,9 @@ export default function ExpenseFormFields({
     >
       {/* budget status */}
       {budgetStatus && <FormBudgetSummary budgetStatus={budgetStatus} />}
-
       <h2 className="text-xl font-bold text-[#9B2C62]">
         {mode === "create" ? "Add Expense" : "Edit Expense"}
       </h2>
-
       {/* Amount */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
@@ -65,7 +63,6 @@ export default function ExpenseFormFields({
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
         />
       </div>
-
       {/* Description */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
@@ -83,7 +80,6 @@ export default function ExpenseFormFields({
           {form.description?.length || 0}/150 characters
         </p>
       </div>
-
       {/* Category */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
@@ -105,21 +101,26 @@ export default function ExpenseFormFields({
           <option value="other">Other</option>
         </select>
       </div>
-
       {/* Vendor Name */}
+      // Replace the current vendorName field with:
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          Vendor Name
+          Vendor <span className="text-red-500">*</span>
         </label>
-        <input
-          type="text"
-          name="vendorName"
-          value={form.vendorName || ""}
+        <select
+          name="vendor"
+          value={form.vendor || ""}
           onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
-        />
+        >
+          <option value="">Select Vendor</option>
+          {vendors.map((vendor) => (
+            <option key={vendor._id} value={vendor._id}>
+              {vendor.name} ({vendor.services})
+            </option>
+          ))}
+        </select>
       </div>
-
       {/* Payment Status */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
@@ -135,7 +136,6 @@ export default function ExpenseFormFields({
           <option value="paid">Paid</option>
         </select>
       </div>
-
       {/* Payment Date (shown when status is paid) */}
       {form.paymentStatus === "paid" && (
         <div>
@@ -152,7 +152,6 @@ export default function ExpenseFormFields({
           />
         </div>
       )}
-
       {/* Due Date (shown when status is pending) */}
       {form.paymentStatus === "pending" && (
         <div>
@@ -168,7 +167,6 @@ export default function ExpenseFormFields({
           />
         </div>
       )}
-
       {/* Notes */}
       <div>
         <label className="block text-sm font-medium text-gray-700">Notes</label>
@@ -184,7 +182,6 @@ export default function ExpenseFormFields({
           {form.notes?.length || 0}/200 characters
         </p>
       </div>
-
       {/* Receipt URL */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
@@ -256,14 +253,12 @@ export default function ExpenseFormFields({
           </div>
         )}
       </div>
-
       {/* Error Message */}
       {expenseStatus === "failed" && (
         <div className="p-3 bg-red-50 rounded-md">
           <p className="text-red-500 text-sm mt-1">{expenseError}</p>
         </div>
       )}
-
       {/* Buttons */}
       <div className="flex justify-end gap-3 pt-4">
         {onClose && (

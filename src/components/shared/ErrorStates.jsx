@@ -36,3 +36,14 @@ export function ErrorState({
     </div>
   );
 }
+
+// gen error state
+export function GenErrorState({ error, message }) {
+  return (
+    <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
+      <p>
+        {error} || {message}
+      </p>
+    </div>
+  );
+}
