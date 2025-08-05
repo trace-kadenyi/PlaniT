@@ -5,8 +5,8 @@ export default function ClientPagination({
   indexOfFirstClient,
   indexOfLastClient,
   filteredClients,
-  FiChevronLeft,
-  FiChevronRight,
+  ChevronLeft,
+  ChevronRight,
 }) {
   return (
     <div className="px-6 py-3 flex items-center justify-between border-t border-gray-200">
@@ -61,7 +61,7 @@ export default function ClientPagination({
               }`}
             >
               <span className="sr-only">Previous</span>
-              <FiChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-5 w-5" />
             </button>
 
             {/* Page numbers */}
@@ -91,7 +91,7 @@ export default function ClientPagination({
               }`}
             >
               <span className="sr-only">Next</span>
-              <FiChevronRight className="h-5 w-5" />
+              <ChevronRight className="h-5 w-5" />
             </button>
           </nav>
         </div>
