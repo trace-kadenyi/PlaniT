@@ -44,6 +44,7 @@ export default function ClientTable({
         {currentClients.map((client) => (
           <tr
             key={client._id}
+            onClick={() => navigate(`/clients/${client._id}`)}
             className={client.isArchived ? "bg-gray-50" : "hover:bg-[#FFF7ED]"}
           >
             <td className="px-6 py-4 whitespace-nowrap">
