@@ -77,7 +77,16 @@ export default function Vendors() {
         toastWithProgress(
           `Vendor ${isCurrentlyArchived ? "restored" : "archived"} successfully`
         );
-        dispatch(fetchVendors());
+        dispatch(
+          fetchVendors({
+            archived:
+              filterMode === "archived"
+                ? true
+                : filterMode === "active"
+                ? false
+                : undefined,
+          })
+        );
       })
       .catch((error) => {
         toastWithProgress(error.message || "Failed to update vendor status");
@@ -364,13 +373,12 @@ export default function Vendors() {
                               <FiEdit2 />
                             </button>
                             <button
-                              onClick={() => {
-                                setVendorToArchive({
-                                  id: vendor._id,
-                                  isArchived: vendor.isArchived,
-                                });
-                                setShowConfirm(true);
-                              }}
+                              onClick={() =>
+                                handleArchiveToggle(
+                                  vendor._id,
+                                  vendor.isArchived
+                                )
+                              }
                               className={
                                 vendor.isArchived
                                   ? "text-[#10B981] hover:text-[#059669]"
