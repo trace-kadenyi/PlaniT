@@ -4,7 +4,7 @@ import api from "../app/api";
 // Async Thunks
 export const fetchVendors = createAsyncThunk(
   "vendors/fetchVendors",
-  async ({ service, archived }, { rejectWithValue }) => {
+  async ({ service, archived } = {}, { rejectWithValue }) => {
     try {
       const params = {};
       if (service) params.service = service;
@@ -13,7 +13,7 @@ export const fetchVendors = createAsyncThunk(
       const res = await api.get("/api/vendors", { params });
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      return rejectWithValue(err.response?.data || err.message);
     }
   }
 );
