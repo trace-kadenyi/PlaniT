@@ -10,6 +10,7 @@ import {
   Filter,
   RefreshCcw,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 import {
   fetchVendors,
@@ -20,6 +21,8 @@ import {
 
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenErrorState } from "../components/shared/ErrorStates";
+import { createVendorArchiveHandler } from "../globalHandlers/vendorArchiveHandler";
+import ArchiveConfirmationToast from "../globalUtils/archiveConfirmationToast";
 
 export default function Vendors() {
   const dispatch = useDispatch();
@@ -356,7 +359,7 @@ export default function Vendors() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-[#6B3B0F] capitalize">
+                          <div className="text-sm font-semibold text-[#6B3B0F] capitalize">
                             {vendor.services}
                           </div>
                         </td>
@@ -390,19 +393,24 @@ export default function Vendors() {
                               <span>edit</span>
                             </button>
                             <button
-                              onClick={() =>
-                                handleArchiveToggle(
-                                  vendor._id,
-                                  vendor.isArchived
-                                )
-                              }
+                              onClick={createVendorArchiveHandler(
+                                dispatch,
+                                vendor._id,
+                                vendor.isArchived,
+                                toggleArchiveVendor,
+                                fetchVendors,
+                                fetchVendorStats,
+                                filterMode,
+                                toast,
+                                toastWithProgress,
+                                ArchiveConfirmationToast
+                              )}
                               className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs 
-                                ${
-                                  vendor.isArchived
-                                    ? "text-green-500 hover:text-green-600  bg-green-100/50 text-green-600 hover:bg-green-200"
-                                    : "text-red-600 hover:text-red-700  bg-red-100/30  hover:bg-red-200"
-                                }
-                                  `}
+    ${
+      vendor.isArchived
+        ? "text-green-500 hover:text-green-600 bg-green-100/50 text-green-600 hover:bg-green-200"
+        : "text-red-600 hover:text-red-700 bg-red-100/30 hover:bg-red-200"
+    }`}
                               title={vendor.isArchived ? "Restore" : "Archive"}
                             >
                               {vendor.isArchived ? (
