@@ -1,3 +1,5 @@
+import { toast } from "react-hot-toast";
+
 export const createVendorArchiveHandler = (
   dispatch,
   id,
@@ -6,9 +8,9 @@ export const createVendorArchiveHandler = (
   fetchVendors,
   fetchVendorStats,
   filterMode,
-  toast,
   toastWithProgress,
-  ArchiveConfirmationToast
+  ArchiveConfirmationToast,
+  navigate = null // Optional navigate function
 ) => {
   return () => {
     const duration = 10000;
@@ -26,17 +28,22 @@ export const createVendorArchiveHandler = (
                 toastWithProgress(
                   `Vendor ${isArchived ? "restored" : "archived"} successfully`
                 );
-                dispatch(
-                  fetchVendors({
-                    archived:
-                      filterMode === "archived"
-                        ? true
-                        : filterMode === "active"
-                        ? false
-                        : undefined,
-                  })
-                );
-                dispatch(fetchVendorStats());
+                // Refresh data if these functions are provided
+                if (fetchVendors && fetchVendorStats && filterMode) {
+                  dispatch(
+                    fetchVendors({
+                      archived:
+                        filterMode === "archived"
+                          ? true
+                          : filterMode === "active"
+                          ? false
+                          : undefined,
+                    })
+                  );
+                  dispatch(fetchVendorStats());
+                }
+                // Navigate if provided
+                if (navigate) navigate("/vendors");
               })
               .catch((error) => {
                 toast.dismiss(t.id);
