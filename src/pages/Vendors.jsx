@@ -1,14 +1,31 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { fetchVendors, fetchVendorStats } from "../redux/vendorsSlice";
-import { LoadingPage } from "../components/shared/LoadingStates";
-import { FiPlus, FiArchive, FiEdit2, FiSearch } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import {
+  fetchVendors,
+  fetchVendorStats,
+  archiveVendor,
+  restoreVendor,
+  resetVendorStates,
+} from "../"
+import {
+  FiPlus,
+  FiArchive,
+  FiEdit2,
+  FiSearch,
+  FiFilter,
+  FiEye,
+  FiTrash2,
+  FiRefreshCw,
+} from "react-icons/fi";
 
 export default function Vendors() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterMode, setFilterMode] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const vendorsPerPage = 10;
   const [filter, setFilter] = useState({
     service: "",
     archived: false,
@@ -27,21 +44,109 @@ export default function Vendors() {
     dispatch(fetchVendorStats());
   }, [dispatch, filter]);
 
-  const filteredVendors = vendors.filter((vendor) =>
-    vendor.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Reset states when component unmounts
+  useEffect(() => {
+    return () => {
+      dispatch(resetVendorStates());
+    };
+  }, [dispatch]);
 
-  const serviceCounts = stats?.reduce((acc, stat) => {
-    acc[stat._id] = stat.count;
-    return acc;
-  }, {});
+  // Handle archive toggle
+  const handleArchiveToggle = (vendorId, isArchived) => {
+    const action = isArchived ? restoreVendor : archiveVendor;
+    dispatch(action(vendorId)).then(() => {
+      dispatch(fetchVendors(filter));
+      setCurrentPage(1); // Reset to first page after status change
+    });
+  };
+
+  // Filter vendors
+  const filteredVendors = vendors
+    .filter((vendor) => {
+      if (!vendor) return false;
+      if (filterMode === "active") return !vendor.isArchived;
+      if (filterMode === "archived") return vendor.isArchived;
+      return true;
+    })
+    .filter((vendor) => {
+      if (!vendor) return false;
+      if (!searchTerm) return true;
+      const term = searchTerm.toLowerCase();
+      return (
+        vendor.name?.toLowerCase().includes(term) ||
+        vendor.contact?.email?.toLowerCase().includes(term) ||
+        vendor.contact?.phone?.toLowerCase().includes(term) ||
+        vendor.services?.toLowerCase().includes(term)
+      );
+    });
+
+  // Pagination logic
+  const indexOfLastVendor = currentPage * vendorsPerPage;
+  const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
+  const currentVendors = filteredVendors.slice(
+    indexOfFirstVendor,
+    indexOfLastVendor
+  );
+  const totalPages = Math.ceil(filteredVendors.length / vendorsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterMode, searchTerm]);
 
   return (
     <div className="min-h-screen bg-white p-6">
+    {/* Confirmation Dialog */}
+      {showConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h3 className="text-lg font-medium mb-4">
+              {vendorToArchive?.isArchived ? "Restore Vendor" : "Archive Vendor"}
+            </h3>
+            <p className="mb-6">
+              Are you sure you want to {vendorToArchive?.isArchived ? "restore" : "archive"} this vendor?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-4 py-2 border border-gray-300 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  handleArchiveToggle(vendorToArchive.id, vendorToArchive.isArchived);
+                  setShowConfirm(false);
+                }}
+                className={`px-4 py-2 rounded-lg text-white ${
+                  vendorToArchive?.isArchived 
+                    ? "bg-green-600 hover:bg-green-700" 
+                    : "bg-red-600 hover:bg-red-700"
+                }`}
+                disabled={archiveStatus === 'loading'}
+              >
+                {archiveStatus === 'loading' ? (
+                  "Processing..."
+                ) : (
+                  vendorToArchive?.isArchived ? "Restore" : "Archive"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <h1 className="text-3xl font-bold text-[#9B2C62]">Vendors</h1>
+          <div>
+            <h1 className="text-3xl font-bold text-[#9B2C62]">Vendors</h1>
+            <p className="text-[#F59E0B] mt-1">
+              {filteredVendors.length}{" "}
+              {filteredVendors.length === 1 ? "vendor" : "vendors"} found
+            </p>
+          </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <div className="relative flex-grow">
               <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -62,42 +167,32 @@ export default function Vendors() {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="bg-[#F7F7FA] p-4 rounded-lg mb-6 flex flex-wrap gap-4">
-          <div>
-            <label className="block text-sm font-medium text-[#9B2C62] mb-1">
-              Service Type
-            </label>
-            <select
-              value={filter.service}
-              onChange={(e) => setFilter({ ...filter, service: e.target.value })}
-              className="border border-[#E3CBC1] px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+        {/* Filter Controls */}
+        <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
+          <div className="flex items-center text-sm text-[#9B2C62]">
+            <FiFilter className="mr-2" />
+            <span>Filter by:</span>
+          </div>
+          {["all", "active", "archived"].map((mode) => (
+            <button
+              key={mode}
+              onClick={() => setFilterMode(mode)}
+              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
+                filterMode === mode
+                  ? "bg-[#9B2C62] text-white shadow-md"
+                  : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA]"
+              }`}
             >
-              <option value="">All Services</option>
-              <option value="venue">Venue</option>
-              <option value="catering">Catering</option>
-              <option value="decorations">Decorations</option>
-              <option value="equipment">Equipment</option>
-              <option value="staffing">Staffing</option>
-              <option value="marketing">Marketing</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="showArchived"
-              checked={filter.archived}
-              onChange={(e) => setFilter({ ...filter, archived: e.target.checked })}
-              className="h-5 w-5 text-[#9B2C62] focus:ring-[#9B2C62] border-[#E3CBC1] rounded"
-            />
-            <label htmlFor="showArchived" className="text-sm text-[#9B2C62]">
-              Show Archived
-            </label>
-          </div>
+              {mode === "active" && (
+                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+              )}
+              {mode === "archived" && <FiArchive className="w-4 h-4" />}
+              {mode.charAt(0).toUpperCase() + mode.slice(1)}
+            </button>
+          ))}
         </div>
 
-         {/* Status Messages */}
+        {/* Status Messages */}
         {status === "loading" && (
           <div className="flex justify-center items-center min-h-[300px]">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62]"></div>
@@ -109,118 +204,202 @@ export default function Vendors() {
           </div>
         )}
 
-        {/* Stats */}
-        {statsStatus === "succeeded" && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2 mb-6">
-            {stats?.map((stat) => (
-              <div
-                key={stat._id}
-                className="bg-[#F7F7FA] p-3 rounded-lg text-center"
-              >
-                <div className="text-2xl font-bold text-[#9B2C62]">
-                  {stat.count}
+        {/* Stats - Only show when data is loaded */}
+        {status === "succeeded" &&
+          statsStatus === "succeeded" &&
+          stats.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2 mb-6">
+              {stats.map((stat) => (
+                <div
+                  key={stat._id}
+                  className="bg-[#F7F7FA] p-3 rounded-lg text-center"
+                >
+                  <div className="text-2xl font-bold text-[#9B2C62]">
+                    {stat.count}
+                  </div>
+                  <div className="text-sm capitalize text-[#6B3B0F]">
+                    {stat._id}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    ({stat.archived} archived)
+                  </div>
                 </div>
-                <div className="text-sm capitalize text-[#6B3B0F]">
-                  {stat._id}
-                </div>
-                <div className="text-xs text-gray-500">
-                  ({stat.archived} archived)
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          )}
+
+        {/* Vendors List */}
+        {status === "succeeded" && filteredVendors.length === 0 && (
+          <div className="bg-white rounded-lg shadow-sm p-8 text-center border border-[#E3CBC1]">
+            <h3 className="text-lg font-medium text-gray-700 mb-2">
+              No vendors found
+            </h3>
+            <p className="text-gray-500 mb-4">
+              {searchTerm
+                ? "No vendors match your search criteria"
+                : filterMode === "active"
+                ? "You don't have any active vendors"
+                : filterMode === "archived"
+                ? "Your archive is empty"
+                : "You don't have any vendors yet"}
+            </p>
+            <button
+              onClick={() => navigate("/vendors/new")}
+              className="bg-[#9B2C62] hover:bg-[#801f4f] text-white px-5 py-2 rounded-lg font-medium"
+            >
+              Add Your First Vendor
+            </button>
           </div>
         )}
 
-        {/* Vendors List */}
-        <div className="bg-white rounded-lg shadow overflow-hidden border border-[#E3CBC1]">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-[#E3CBC1]">
-              <thead className="bg-[#F7F7FA]">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
-                    Vendor
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
-                    Service
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
-                    Contact
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-[#E3CBC1]">
-                {filteredVendors.length > 0 ? (
-                  filteredVendors.map((vendor) => (
+        {status === "succeeded" && filteredVendors.length > 0 && (
+          <>
+            <div className="bg-white rounded-lg shadow overflow-hidden border border-[#E3CBC1]">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-[#E3CBC1]">
+                  <thead className="bg-[#F7F7FA]">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
+                        Vendor
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
+                        Service
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
+                        Contact
+                      </th>
+                      <th className="px-6 py-3 text-right text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-[#E3CBC1]">
+                  {currentVendors.map((vendor) => (
                     <tr
                       key={vendor._id}
                       className={vendor.isArchived ? "bg-gray-50" : ""}
                     >
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div>
-                            <div
-                              className={`text-sm font-medium ${
-                                vendor.isArchived
-                                  ? "text-gray-500"
-                                  : "text-[#9B2C62]"
-                              }`}
-                            >
-                              {vendor.name}
-                              {vendor.isArchived && (
-                                <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800">
-                                  Archived
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {vendor.address}
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div>
+                              <div
+                                className={`text-sm font-medium ${
+                                  vendor.isArchived
+                                    ? "text-gray-500"
+                                    : "text-[#9B2C62]"
+                                }`}
+                              >
+                                {vendor.name}
+                                {vendor.isArchived && (
+                                  <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800">
+                                    Archived
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {vendor.address}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-[#6B3B0F] capitalize">
-                          {vendor.services}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-[#6B3B0F]">
-                          {vendor.contact?.email}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {vendor.contact?.phone}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-[#6B3B0F] capitalize">
+                            {vendor.services}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-[#6B3B0F]">
+                            {vendor.contact?.email || "Not provided"}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {vendor.contact?.phone || "Not provided"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <div className="flex justify-end gap-2">
+                            <button
+                              onClick={() => navigate(`/vendors/${vendor._id}`)}
+                              className="text-[#F59E0B] hover:text-[#D97706]"
+                            >
+                              <FiEdit2 />
+                            </button>
+                          </div>
+                        </td>
+
+                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex justify-end gap-2">
                           <button
                             onClick={() => navigate(`/vendors/${vendor._id}`)}
+                            className="text-[#3B82F6] hover:text-[#2563EB]"
+                            title="View Details"
+                          >
+                            <FiEye />
+                          </button>
+                          <button
+                            onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
                             className="text-[#F59E0B] hover:text-[#D97706]"
+                            title="Edit"
                           >
                             <FiEdit2 />
+                          </button>
+                          <button
+                            onClick={() => handleArchiveToggle(vendor._id, vendor.isArchived)}
+                            className={
+                              vendor.isArchived 
+                                ? "text-[#10B981] hover:text-[#059669]" 
+                                : "text-[#EF4444] hover:text-[#DC2626]"
+                            }
+                            title={vendor.isArchived ? "Restore" : "Archive"}
+                          >
+                            {vendor.isArchived ? <FiRefreshCw /> : <FiTrash2 />}
                           </button>
                         </div>
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="4" className="px-6 py-4 text-center">
-                      <div className="text-gray-500">
-                        {vendors.length === 0
-                          ? "No vendors found"
-                          : "No matching vendors found"}
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-4">
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 border border-[#E3CBC1] rounded-lg text-[#9B2C62] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Previous
+                </button>
+                <div className="flex gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (number) => (
+                      <button
+                        key={number}
+                        onClick={() => paginate(number)}
+                        className={`w-10 h-10 rounded-lg ${
+                          currentPage === number
+                            ? "bg-[#9B2C62] text-white"
+                            : "border border-[#E3CBC1] text-[#9B2C62]"
+                        }`}
+                      >
+                        {number}
+                      </button>
+                    )
+                  )}
+                </div>
+                <button
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 border border-[#E3CBC1] rounded-lg text-[#9B2C62] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
