@@ -92,6 +92,86 @@ const vendorsSlice = createSlice({
       state.archiveError = null;
     },
   },
-  
+  extraReducers: (builder) => {
+    // Fetch vendors
+    builder
+      .addCase(fetchVendors.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchVendors.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+      })
+      .addCase(fetchVendors.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload?.message || action.error.message;
+      });
+
+    // Create vendor
+    builder
+      .addCase(createVendor.pending, (state) => {
+        state.createStatus = "loading";
+      })
+      .addCase(createVendor.fulfilled, (state, action) => {
+        state.createStatus = "succeeded";
+        state.items.unshift(action.payload);
+      })
+      .addCase(createVendor.rejected, (state, action) => {
+        state.createStatus = "failed";
+        state.createError = action.payload?.message || action.error.message;
+      });
+
+    // Update vendor
+    builder
+      .addCase(updateVendor.pending, (state) => {
+        state.updateStatus = "loading";
+      })
+      .addCase(updateVendor.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+        const index = state.items.findIndex(
+          (v) => v._id === action.payload._id
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+      })
+      .addCase(updateVendor.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError = action.payload?.message || action.error.message;
+      });
+
+    // Archive/unarchive vendor
+    builder
+      .addCase(toggleArchiveVendor.pending, (state) => {
+        state.archiveStatus = "loading";
+      })
+      .addCase(toggleArchiveVendor.fulfilled, (state, action) => {
+        state.archiveStatus = "succeeded";
+        const index = state.items.findIndex(
+          (v) => v._id === action.payload.vendor._id
+        );
+        if (index !== -1) {
+          state.items[index].isArchived = action.payload.vendor.isArchived;
+        }
+      })
+      .addCase(toggleArchiveVendor.rejected, (state, action) => {
+        state.archiveStatus = "failed";
+        state.archiveError = action.payload?.message || action.error.message;
+      });
+
+    // Fetch vendor stats
+    builder
+      .addCase(fetchVendorStats.pending, (state) => {
+        state.statsStatus = "loading";
+      })
+      .addCase(fetchVendorStats.fulfilled, (state, action) => {
+        state.statsStatus = "succeeded";
+        state.stats = action.payload;
+      })
+      .addCase(fetchVendorStats.rejected, (state, action) => {
+        state.statsStatus = "failed";
+        state.statsError = action.payload?.message || action.error.message;
+      });
+  },
 });
 
