@@ -7,7 +7,7 @@ export default function ClientCard({
   handleArchiveToggle,
   localIsArchived,
 }) {
-  return (
+  return ( 
     <section className="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-[#9B2C62]">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
         <h1 className="text-3xl font-bold text-[#9B2C62] mb-2 md:mb-0">
@@ -46,7 +46,7 @@ export default function ClientCard({
       {/* email and phone number */}
       <div className="space-y-3">
         <div className="flex items-center items-center">
-          <span className>
+          <span>
             <Mail className="w-5 h-5 font-bold mr-2 text-[#9B2C62]" />
           </span>
           <p className="text-gray-700 break-all">
