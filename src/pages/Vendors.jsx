@@ -7,6 +7,7 @@ import {
   toggleArchiveVendor,
   resetVendorStatuses,
 } from "../redux/vendorsSlice";
+import { Pencil, ExternalLink } from "lucide-react";
 import {
   FiPlus,
   FiArchive,
@@ -88,7 +89,11 @@ export default function Vendors() {
                 : undefined,
           })
         );
+
+        // ✅ Refresh stats
+        dispatch(fetchVendorStats());
       })
+
       .catch((error) => {
         toastWithProgress(error.message || "Failed to update vendor status");
       });
@@ -360,20 +365,22 @@ export default function Vendors() {
                           <div className="flex justify-end gap-2">
                             <button
                               onClick={() => navigate(`/vendors/${vendor._id}`)}
-                              className="text-[#3B82F6] hover:text-[#2563EB]"
+                              className="flex items-center space-x-1 font-semibold px-2 py-1 rounded-full transition text-xs text-[#9B2C62] hover:text-white bg-[#9B2C62]/10 hover:bg-[#9B2C62]"
                               title="View Details"
                             >
-                              View
+                              <ExternalLink className="w-3 h-3" />
+                              <span>View</span>
                             </button>
+
                             <button
                               onClick={() =>
                                 navigate(`/vendors/${vendor._id}/edit`)
                               }
-                              className="text-[#F59E0B] hover:text-[#D97706]"
+                              className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
                               title="Edit"
                             >
-                              <FiEdit2 />
-                              Edit
+                              <Pencil className="w-3 h-3" />
+                              <span>edit</span>
                             </button>
                             <button
                               onClick={() =>
@@ -382,11 +389,13 @@ export default function Vendors() {
                                   vendor.isArchived
                                 )
                               }
-                              className={
-                                vendor.isArchived
-                                  ? "text-[#10B981] hover:text-[#059669]"
-                                  : "text-[#EF4444] hover:text-[#DC2626]"
-                              }
+                              className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs 
+                                ${
+                                  vendor.isArchived
+                                    ? "text-green-500 hover:text-green-600  bg-green-100/50 text-green-600 hover:bg-green-200"
+                                    : "text-red-600 hover:text-red-700  bg-red-100/30  hover:bg-red-200"
+                                }
+                                  `}
                               title={vendor.isArchived ? "Restore" : "Archive"}
                             >
                               {vendor.isArchived ? (
@@ -395,6 +404,7 @@ export default function Vendors() {
                                   <span>Restore</span>
                                 </>
                               ) : (
+                                // text-[#10B981] hover:text-[#059669]
                                 <>
                                   <FiTrash2 />
                                   <span>Archive</span>
