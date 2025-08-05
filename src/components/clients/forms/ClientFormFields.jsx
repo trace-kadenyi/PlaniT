@@ -75,8 +75,12 @@ export default function ClientFormFields({
           name="preferences"
           value={formData.preferences}
           onChange={onFieldChange}
+          maxLength={150}
           className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
         />
+        <p className="text-xs text-gray-500">
+          {formData.preferences.length}/150 characters
+        </p>
       </div>
 
       {/* Notes */}
@@ -88,9 +92,13 @@ export default function ClientFormFields({
           name="notes"
           value={formData.notes}
           onChange={onFieldChange}
+          maxLength={200}
           rows={4}
           className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
         />
+        <p className="text-xs text-gray-500">
+          {formData.notes.length}/200 characters
+        </p>
       </div>
 
       {/* Error Message */}
