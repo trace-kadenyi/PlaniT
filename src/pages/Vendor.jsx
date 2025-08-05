@@ -13,6 +13,9 @@ import {
   MapPin,
   FileText,
 } from "lucide-react";
+import toast from "react-hot-toast";
+import ArchiveConfirmationToast from "../globalUtils/archiveConfirmationToast";
+
 import {
   fetchVendorById,
   toggleArchiveVendor,
@@ -20,6 +23,7 @@ import {
 } from "../redux/vendorsSlice";
 import { LoadingPage } from "../components/shared/LoadingStates";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import { createVendorArchiveHandler } from "../globalHandlers/vendorArchiveHandler";
 
 export default function Vendor() {
   const { id } = useParams();
@@ -50,6 +54,17 @@ export default function Vendor() {
     }
   };
 
+  const handleArchive = createVendorArchiveHandler(
+    dispatch,
+    vendor?._id,
+    vendor?.isArchived,
+    toggleArchiveVendor,
+    null, // Don't need to fetch vendors list in details page
+    null, // Don't need to fetch stats in details page
+    null, // No filter mode needed
+    toastWithProgress,
+    ArchiveConfirmationToast
+  );
   return (
     <main className="min-h-screen bg-white p-6">
       <div className="max-w-5xl mx-auto">
@@ -104,7 +119,7 @@ export default function Vendor() {
             <div className="flex sm:justify-end mb-8">
               <div className="flex gap-4">
                 <button
-                  onClick={handleArchiveToggle}
+                  onClick={handleArchive}
                   disabled={archiveStatus === "loading"}
                   className={`flex items-center px-4 py-2 rounded-lg transition-all duration-200 ${
                     vendor.isArchived

@@ -401,7 +401,6 @@ export default function Vendors() {
                                 fetchVendors,
                                 fetchVendorStats,
                                 filterMode,
-                                toast,
                                 toastWithProgress,
                                 ArchiveConfirmationToast
                               )}
