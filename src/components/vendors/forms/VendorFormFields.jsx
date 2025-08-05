@@ -120,8 +120,12 @@ export default function VendorFormFields({
           value={formData.notes}
           onChange={onFieldChange}
           rows={4}
+          maxLength={200}
           className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
         />
+        <p className="text-xs text-gray-500">
+          {formData.notes.length}/200 characters
+        </p>
       </div>
 
       {/* Archive Toggle (for edit form) */}
