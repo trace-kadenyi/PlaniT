@@ -25,6 +25,9 @@ export default function PrimaryHeader() {
           <Link to="/clients" className="hover:text-[#F59E0B] transition">
             Clients
           </Link>
+          <Link to="/vendors" className="hover:text-[#F59E0B] transition">
+            Vendors
+          </Link>
           <Link to="/tasks/board" className="hover:text-[#F59E0B] transition">
             Tasks Board
           </Link>
