@@ -8,7 +8,7 @@ import {
 } from "../../../redux/vendorsSlice";
 import { toastWithProgress } from "../../../globalHooks/useToastWithProgress";
 import VendorFormFields from "./VendorFormFields";
-import { LoadingPage } from "../../shared/LoadingStates";
+import { GenLoadingState } from "../../shared/LoadingStates";
 
 export default function EditVendorForm() {
   const { id } = useParams();
@@ -66,7 +66,7 @@ export default function EditVendorForm() {
 
   //
   if (status === "loading")
-    return <LoadingPage message="Loading vendor details..." />;
+    return <GenLoadingState message="Loading vendor details..." />;
 
   if (!vendor) {
     return (
