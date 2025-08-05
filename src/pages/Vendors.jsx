@@ -2,22 +2,22 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
+  Pencil,
+  ExternalLink,
+  Plus,
+  Archive,
+  Search,
+  Filter,
+  RefreshCcw,
+} from "lucide-react";
+
+import {
   fetchVendors,
   fetchVendorStats,
   toggleArchiveVendor,
   resetVendorStatuses,
 } from "../redux/vendorsSlice";
-import { Pencil, ExternalLink } from "lucide-react";
-import {
-  FiPlus,
-  FiArchive,
-  FiEdit2,
-  FiSearch,
-  FiFilter,
-  FiEye,
-  FiTrash2,
-  FiRefreshCw,
-} from "react-icons/fi";
+
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenErrorState } from "../components/shared/ErrorStates";
 
@@ -186,15 +186,17 @@ export default function Vendors() {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-[#9B2C62]">Vendors</h1>
-            <p className="text-[#F59E0B] mt-1">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62]">
+              Vendor Directory
+            </h1>
+            {/* <p className="text-[#F59E0B] mt-1">
               {filteredVendors.length}{" "}
               {filteredVendors.length === 1 ? "vendor" : "vendors"} found
-            </p>
+            </p> */}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <div className="relative flex-grow">
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search vendors..."
@@ -207,7 +209,7 @@ export default function Vendors() {
               onClick={() => navigate("/vendors/new")}
               className="bg-[#9B2C62] hover:bg-[#801f4f] text-white font-semibold px-4 py-2 rounded-lg flex items-center gap-2 justify-center"
             >
-              <FiPlus /> New Vendor
+              <Plus className="w-5 h-5" /> New Vendor
             </button>
           </div>
         </div>
@@ -215,7 +217,7 @@ export default function Vendors() {
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
           <div className="flex items-center text-sm text-[#9B2C62]">
-            <FiFilter className="mr-2" />
+            <Filter className="w-4 h-4 mr-2" />
             <span>Filter by:</span>
           </div>
           {["all", "active", "archived"].map((mode) => (
@@ -231,7 +233,7 @@ export default function Vendors() {
               {mode === "active" && (
                 <span className="w-2 h-2 rounded-full bg-green-500"></span>
               )}
-              {mode === "archived" && <FiArchive className="w-4 h-4" />}
+              {mode === "archived" && <Archive className="w-4 h-4" />}
               {mode.charAt(0).toUpperCase() + mode.slice(1)}
             </button>
           ))}
@@ -323,7 +325,10 @@ export default function Vendors() {
                     {currentVendors.map((vendor) => (
                       <tr
                         key={vendor._id}
-                        className={vendor.isArchived ? "bg-gray-50" : ""}
+                        onClick={() => navigate(`/vendors/${vendor._id}`)}
+                        className={`hover:bg-gray-100 ${
+                          vendor.isArchived ? "bg-gray-50" : ""
+                        }`}
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
@@ -400,13 +405,12 @@ export default function Vendors() {
                             >
                               {vendor.isArchived ? (
                                 <>
-                                  <FiRefreshCw />
+                                  <RefreshCcw className="w-3 h-3" />
                                   <span>Restore</span>
                                 </>
                               ) : (
-                                // text-[#10B981] hover:text-[#059669]
                                 <>
-                                  <FiTrash2 />
+                                  <Archive className="w-3 h-3" />
                                   <span>Archive</span>
                                 </>
                               )}
