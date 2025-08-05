@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   updateVendor,
-  resetVendorUpdateState,
+  resetVendorStatuses,
   fetchVendorById,
 } from "../../../redux/vendorsSlice";
 import { toastWithProgress } from "../../../globalHooks/useToastWithProgress";
@@ -34,10 +34,12 @@ export default function EditVendorForm() {
     isArchived: false,
   });
 
+  // fetch vendor
   useEffect(() => {
     dispatch(fetchVendorById(id));
   }, [dispatch, id]);
 
+  // form data
   useEffect(() => {
     if (vendor) {
       setFormData({
@@ -55,6 +57,14 @@ export default function EditVendorForm() {
     }
   }, [vendor]);
 
+  // reset vendor statuses
+  useEffect(() => {
+    return () => {
+      dispatch(resetVendorStatuses());
+    };
+  }, [dispatch]);
+
+  //
   if (status === "loading")
     return <LoadingPage message="Loading vendor details..." />;
 
@@ -66,6 +76,7 @@ export default function EditVendorForm() {
     );
   }
 
+  // handle change
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith("contact.")) {
@@ -82,24 +93,17 @@ export default function EditVendorForm() {
     }
   };
 
+  // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(
-        updateVendor({ vendorId: id, updatedData: formData })
-      ).unwrap();
+      await dispatch(updateVendor({ id, updatedData: formData })).unwrap();
       toastWithProgress("Vendor updated successfully");
       navigate(`/vendors/${id}`);
     } catch (err) {
       toastWithProgress("Failed to update vendor");
     }
   };
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetVendorUpdateState());
-    };
-  }, [dispatch]);
 
   return (
     <main className="min-h-screen bg-white p-6">
