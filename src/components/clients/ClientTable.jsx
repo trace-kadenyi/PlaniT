@@ -1,10 +1,3 @@
-import {
-  FiUser,
-  FiMail,
-  FiPhone,
-  FiArchive,
-  FiRefreshCw,
-} from "react-icons/fi";
 import { User, Mail, Phone, Archive, RefreshCcw } from "lucide-react";
 
 export default function ClientTable({
