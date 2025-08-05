@@ -36,18 +36,6 @@ export default function Vendors() {
     return acc;
   }, {});
 
-  if (status === "loading") {
-    return <LoadingPage message="Loading vendors..." />;
-  }
-
-  if (status === "failed") {
-    return (
-      <div className="p-6 text-center text-[#9B2C62]">
-        Error loading vendors: {error}
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-white p-6">
       <div className="max-w-7xl mx-auto">
@@ -108,6 +96,18 @@ export default function Vendors() {
             </label>
           </div>
         </div>
+
+         {/* Status Messages */}
+        {status === "loading" && (
+          <div className="flex justify-center items-center min-h-[300px]">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62]"></div>
+          </div>
+        )}
+        {error && (
+          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
+            <p>{error}</p>
+          </div>
+        )}
 
         {/* Stats */}
         {statsStatus === "succeeded" && (
