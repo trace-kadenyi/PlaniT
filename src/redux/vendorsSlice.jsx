@@ -66,5 +66,32 @@ export const fetchVendorStats = createAsyncThunk(
   }
 );
 
-
+const vendorsSlice = createSlice({
+  name: "vendors",
+  initialState: {
+    items: [],
+    stats: [],
+    status: "idle",
+    error: null,
+    createStatus: "idle",
+    createError: null,
+    updateStatus: "idle",
+    updateError: null,
+    archiveStatus: "idle",
+    archiveError: null,
+    statsStatus: "idle",
+    statsError: null,
+  },
+  reducers: {
+    resetVendorStatuses: (state) => {
+      state.createStatus = "idle";
+      state.createError = null;
+      state.updateStatus = "idle";
+      state.updateError = null;
+      state.archiveStatus = "idle";
+      state.archiveError = null;
+    },
+  },
+  
+});
 
