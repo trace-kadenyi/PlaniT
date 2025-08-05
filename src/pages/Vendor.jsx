@@ -2,18 +2,23 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import {
+  SquarePen,
+  RefreshCcw,
+  Archive,
+  Mail,
+  CircleUserRound,
+  MapPinHouse,
+  Phone,
+  Globe,
+  MapPin,
+  FileText,
+} from "lucide-react";
+import {
   fetchVendorById,
   toggleArchiveVendor,
   clearVendorDetails,
 } from "../redux/vendorsSlice";
 import { LoadingPage } from "../components/shared/LoadingStates";
-import {
-  FiArrowLeft,
-  FiRefreshCcw,
-  FiArchive,
-  FiEdit,
-  FiRefreshCw,
-} from "react-icons/fi";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 
 export default function Vendor() {
@@ -49,7 +54,7 @@ export default function Vendor() {
     <main className="min-h-screen bg-white p-6">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-6 sm:mb-4">
           <Link
             to="/vendors"
             className="inline-flex items-center text-[#9B2C62] hover:text-[#7B1D52] font-medium transition-colors duration-200"
@@ -91,63 +96,68 @@ export default function Vendor() {
             />
           </div>
         )}
+
         {/* Vendor details */}
         {status === "succeeded" && vendor && (
           <div>
             {/* Archive/edit btn */}
-            <div className="flex justify-end mb-6">
-              <div className="flex gap-3">
+            <div className="flex sm:justify-end mb-8">
+              <div className="flex gap-4">
                 <button
                   onClick={handleArchiveToggle}
                   disabled={archiveStatus === "loading"}
-                  className={`flex items-center px-3 py-1 rounded-md ${
+                  className={`flex items-center px-4 py-2 rounded-lg transition-all duration-200 ${
                     vendor.isArchived
-                      ? "bg-green-100 text-green-800 hover:bg-green-200"
-                      : "bg-amber-100 text-amber-800 hover:bg-amber-200"
+                      ? "bg-green-100 text-green-800 hover:bg-green-200 border border-green-300"
+                      : "bg-[#FFF3E6] text-[#CC6D00] hover:bg-[#FFE0B3] border border-[#FFB84D]"
+                  } ${
+                    archiveStatus === "loading"
+                      ? "opacity-70 cursor-not-allowed"
+                      : ""
                   }`}
                 >
                   {archiveStatus === "loading" ? (
-                    "Processing..."
+                    <RefreshCcw className="animate-spin mr-2" />
                   ) : vendor.isArchived ? (
-                    <>
-                      <FiRefreshCw className="mr-1" />
-                      <span>Restore</span>
-                    </>
+                    <RefreshCcw className="mr-2 w-5 h-5" />
                   ) : (
-                    <>
-                      <FiArchive className="mr-1" />
-                      <span>Archive</span>
-                    </>
+                    <Archive className="mr-2 w-4 h-4" />
                   )}
+                  <span>{vendor.isArchived ? "Restore" : "Archive"}</span>
                 </button>
                 <button
                   onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
-                  className="flex items-center bg-[#9B2C62] hover:bg-[#801f4f] text-white px-3 py-1 rounded-md"
+                  className="flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-sm"
                 >
-                  <FiEdit className="mr-1" /> Edit
+                  <SquarePen className="mr-2 w-4 h-4" />
+                  <span>Edit</span>
                 </button>
               </div>
             </div>
 
             {/* Vendor Card */}
-            <div className="bg-[#F7F7FA] rounded-xl shadow border-t-4 border-[#9B2C62] p-6 mb-6">
-              <div className="flex justify-between items-start mb-4">
-                <h2 className="text-2xl font-bold text-[#9B2C62]">
-                  {vendor.name}
-                </h2>
-                <span className="inline-block bg-[#F59E0B] text-white text-xs px-2 py-1 rounded-full uppercase font-semibold tracking-wide">
-                  {vendor.services}
-                </span>
+            <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 mb-8">
+              {/* Header with accent */}
+              <div className="bg-gradient-to-r from-[#9B2C62] to-[#7B1D52] p-6">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">
+                      {vendor.name}
+                    </h2>
+                  </div>
+                  <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-[#6B3B0F] font-medium tracking-wide uppercase font-medium font-semibold">
+                    {vendor.services} SERVICES{" "}
+                  </p>
+                </div>
               </div>
 
+              {/* Archived notice */}
               {vendor.isArchived && (
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <FiArchive className="h-5 w-5 text-yellow-400" />
-                    </div>
+                <div className="bg-[#FFF9E6] border-l-4 border-[#F59E0B] p-4">
+                  <div className="flex items-center">
+                    <Archive className="h-5 w-5 text-[#E67E00] mt-0.5 flex-shrink-0" />
                     <div className="ml-3">
-                      <p className="text-sm text-yellow-700">
+                      <p className="text-sm text-[#CC6D00]">
                         This vendor is archived and won't appear in default
                         listings.
                       </p>
@@ -156,69 +166,110 @@ export default function Vendor() {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Contact Info */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#9B2C62] mb-3">
-                    Contact Information
-                  </h3>
-                  <div className="space-y-2">
-                    <div>
-                      <p className="text-sm text-gray-500">Email</p>
-                      <p className="text-[#6B3B0F]">
-                        {vendor.contact?.email || "Not provided"}
-                      </p>
+              {/* Main content */}
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Contact Info */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#9B2C62] mb-4 pb-2 border-b border-[#F2D9E6] flex items-center">
+                      <CircleUserRound className="mr-2 text-[#9B2C62]" />
+                      Contact Information
+                    </h3>
+                    <div className="space-y-4">
+                      <div className="flex items-start">
+                        <Mail className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
+                        <div>
+                          <p className="text-xs text-gray-500 uppercase tracking-wider">
+                            Email
+                          </p>
+                          <p className="text-gray-800">
+                            {vendor.contact?.email || (
+                              <span className="text-gray-400">
+                                Not provided
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <Phone className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
+                        <div>
+                          <p className="text-xs text-gray-500 uppercase tracking-wider">
+                            Phone
+                          </p>
+                          <p className="text-gray-800">
+                            {vendor.contact?.phone || (
+                              <span className="text-gray-400">
+                                Not provided
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <Globe className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
+                        <div>
+                          <p className="text-xs text-gray-500 uppercase tracking-wider">
+                            Website
+                          </p>
+                          <p className="text-gray-800">
+                            {vendor.contact?.website ? (
+                              <a
+                                href={vendor.contact.website}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[#FF8F00] hover:underline hover:text-[#E67E00]"
+                              >
+                                {vendor.contact.website}
+                              </a>
+                            ) : (
+                              <span className="text-gray-400">
+                                Not provided
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Phone</p>
-                      <p className="text-[#6B3B0F]">
-                        {vendor.contact?.phone || "Not provided"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Website</p>
-                      <p className="text-[#6B3B0F]">
-                        {vendor.contact?.website ? (
-                          <a
-                            href={vendor.contact.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#F59E0B] hover:underline"
-                          >
-                            {vendor.contact.website}
-                          </a>
-                        ) : (
-                          "Not provided"
-                        )}
-                      </p>
+                  </div>
+
+                  {/* Address */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#9B2C62] mb-4 pb-2 border-b border-[#F2D9E6] flex items-center">
+                      <MapPinHouse className="mr-2 text-[#9B2C62]" />
+                      Address
+                    </h3>
+                    <div className="flex items-start">
+                      <MapPin className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
+                      <div>
+                        <p className="text-xs text-gray-500 uppercase tracking-wider">
+                          Location
+                        </p>
+                        <p className="text-gray-800">
+                          {vendor.address || (
+                            <span className="text-gray-400">Not provided</span>
+                          )}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Address */}
-                <div>
-                  <h3 className="text-lg font-semibold text-[#9B2C62] mb-3">
-                    Address
-                  </h3>
-                  <p className="text-[#6B3B0F]">
-                    {vendor.address || "Not provided"}
-                  </p>
-                </div>
+                {/* Notes */}
+                {vendor.notes && (
+                  <div className="mt-8">
+                    <h3 className="text-lg font-semibold text-[#9B2C62] mb-4 pb-2 border-b border-[#F2D9E6] flex items-center">
+                      <FileText className="mr-2 text-[#9B2C62]" />
+                      Notes
+                    </h3>
+                    <div className="bg-[#F9F0F5] p-4 rounded-lg border border-[#E6B3CD]">
+                      <p className="text-gray-700 whitespace-pre-line">
+                        {vendor.notes}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
-
-              {/* Notes */}
-              {vendor.notes && (
-                <div className="mt-6">
-                  <h3 className="text-lg font-semibold text-[#9B2C62] mb-2">
-                    Notes
-                  </h3>
-                  <div className="bg-white p-4 rounded-lg border border-[#E3CBC1]">
-                    <p className="text-[#6B3B0F] whitespace-pre-line">
-                      {vendor.notes}
-                    </p>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         )}
