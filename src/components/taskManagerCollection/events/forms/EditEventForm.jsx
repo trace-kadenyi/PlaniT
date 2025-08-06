@@ -199,6 +199,7 @@ export default function EditEventForm() {
     }
   }, [updateStatus, updateBudgetStatus, dispatch]);
 
+  // loading status
   if (isLoading) {
     return (
       <main className="min-h-screen bg-white p-6 flex items-center justify-center">
@@ -219,7 +220,7 @@ export default function EditEventForm() {
           </span>
           Edit Event
         </h1>
-
+{/* event form fields */}
         <EventFormFields
           formData={formData}
           onFieldChange={handleChange}
