@@ -119,7 +119,7 @@ export default function Clients() {
               onClick={() => navigate("/clients/new")}
               className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap max-w-[150px]"
             >
-              <Plus className="w-5 h-5" /> Add Client
+              <Plus className="w-5 h-5" /> New Client
             </button>
           </div>
         </div>
