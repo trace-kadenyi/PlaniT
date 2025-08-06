@@ -10,7 +10,6 @@ import {
   Filter,
   RefreshCcw,
 } from "lucide-react";
-import toast from "react-hot-toast";
 
 import {
   fetchVendors,
@@ -43,6 +42,7 @@ export default function Vendors() {
     archiveStatus,
   } = useSelector((state) => state.vendors);
 
+  // fetch vendors
   useEffect(() => {
     const archived =
       filterMode === "archived"
@@ -63,6 +63,7 @@ export default function Vendors() {
     );
   }, [dispatch, filterMode]);
 
+  // fetch vendor stats
   useEffect(() => {
     dispatch(fetchVendorStats());
   }, [dispatch]);
