@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   Pencil,
@@ -36,8 +36,6 @@ export default function Vendors() {
     filterMode,
     setFilterMode,
     currentPage,
-    setCurrentPage,
-    vendorsPerPage,
     filteredVendors,
     currentVendors,
     totalPages,
@@ -48,40 +46,6 @@ export default function Vendors() {
     statsStatus,
     archiveStatus,
   } = useFilteredVendors();
-  // const {
-  //   items: vendors,
-  //   stats,
-  //   status,
-  //   error,
-  //   statsStatus,
-  //   archiveStatus,
-  // } = useSelector((state) => state.vendors);
-
-  // // fetch vendors
-  // useEffect(() => {
-  //   const archived =
-  //     filterMode === "archived"
-  //       ? true
-  //       : filterMode === "active"
-  //       ? false
-  //       : undefined;
-
-  //   dispatch(
-  //     fetchVendors({
-  //       archived:
-  //         filterMode === "archived"
-  //           ? true
-  //           : filterMode === "active"
-  //           ? false
-  //           : undefined,
-  //     })
-  //   );
-  // }, [dispatch, filterMode]);
-
-  // // fetch vendor stats
-  // useEffect(() => {
-  //   dispatch(fetchVendorStats());
-  // }, [dispatch]);
 
   // Reset states when component unmounts
   useEffect(() => {
@@ -117,41 +81,6 @@ export default function Vendors() {
         toastWithProgress(error.message || "Failed to update vendor status");
       });
   };
-
-  // Filter vendors
-  // const filteredVendors = vendors
-  //   .filter((vendor) => {
-  //     if (!vendor) return false;
-  //     if (filterMode === "active") return !vendor.isArchived;
-  //     if (filterMode === "archived") return vendor.isArchived;
-  //     return true;
-  //   })
-  //   .filter((vendor) => {
-  //     if (!vendor) return false;
-  //     if (!searchTerm) return true;
-  //     const term = searchTerm.toLowerCase();
-  //     return (
-  //       vendor.name?.toLowerCase().includes(term) ||
-  //       vendor.contact?.email?.toLowerCase().includes(term) ||
-  //       vendor.contact?.phone?.toLowerCase().includes(term) ||
-  //       vendor.services?.toLowerCase().includes(term)
-  //     );
-  //   });
-
-  // // Pagination logic
-  // const indexOfLastVendor = currentPage * vendorsPerPage;
-  // const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
-  // const currentVendors = filteredVendors.slice(
-  //   indexOfFirstVendor,
-  //   indexOfLastVendor
-  // );
-  // const totalPages = Math.ceil(filteredVendors.length / vendorsPerPage);
-
-  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // useEffect(() => {
-  //   setCurrentPage(1);
-  // }, [filterMode, searchTerm]);
 
   return (
     <div className="min-h-screen bg-white p-6">
