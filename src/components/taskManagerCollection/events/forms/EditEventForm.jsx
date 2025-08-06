@@ -12,6 +12,8 @@ import {
   clearEventStatuses,
 } from "../../../../redux/eventsSlice";
 import { fetchClients } from "../../../../redux/clientsSlice";
+import { fetchVendors } from "../../../../redux/vendorsSlice";
+
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 import { formatForDateTimeLocal } from "../../utils/dateHelpers";
@@ -23,6 +25,7 @@ export default function EditEventForm() {
   const [budgetError, setBudgetError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // events
   const {
     selectedEvent,
     updateStatus,
@@ -30,8 +33,13 @@ export default function EditEventForm() {
     updateBudgetStatus,
     updateBudgetError,
   } = useSelector((state) => state.events);
+  // clients
   const { items: clients, status: clientsStatus } = useSelector(
     (state) => state.clients
+  );
+  // vendors
+  const { items: vendors, status: vendorsStatus } = useSelector(
+    (state) => state.vendors
   );
 
   // form data
@@ -42,6 +50,7 @@ export default function EditEventForm() {
     type: "",
     status: "Planning",
     client: "",
+    vendors: [],
     initialBudget: "",
     budgetNotes: "",
     location: {
@@ -59,6 +68,7 @@ export default function EditEventForm() {
         await Promise.all([
           dispatch(fetchEventById(id)),
           dispatch(fetchClients()),
+          dispatch(fetchVendors()),
         ]);
       } finally {
         setIsLoading(false);
@@ -74,12 +84,21 @@ export default function EditEventForm() {
       setFormData({
         ...selectedEvent,
         client: selectedEvent.client?._id || selectedEvent.client || "",
+        vendors: selectedEvent.vendors || [],
         initialBudget: selectedEvent.budget?.totalBudget || "",
         budgetNotes: selectedEvent.budget?.notes || "",
         date: formatForDateTimeLocal(selectedEvent.date),
       });
     }
   }, [selectedEvent, clients]);
+
+  // Handle vendor selection changes
+  const handleVendorChange = (selectedVendorIds) => {
+    setFormData((prev) => ({
+      ...prev,
+      vendors: selectedVendorIds,
+    }));
+  };
 
   // handle input fields
   const handleChange = (e) => {
@@ -120,6 +139,7 @@ export default function EditEventForm() {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
         client: formData.client,
+        vendors: formData.vendors,
       };
 
       const { initialBudget, budgetNotes, ...eventData } = dataToSend;
@@ -209,7 +229,9 @@ export default function EditEventForm() {
           formError={updateError}
           budgetError={budgetError}
           clients={clients}
+          vendors={vendors}
           clientsLoading={clientsStatus === "loading"}
+          vendorsLoading={vendorsStatus === "loading"}
           preSelectedClientId={formData.client}
           mode="edit"
         />
