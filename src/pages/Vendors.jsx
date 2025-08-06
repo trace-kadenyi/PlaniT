@@ -21,6 +21,7 @@ import { GenErrorState } from "../components/shared/ErrorStates";
 import { createVendorArchiveHandler } from "../globalHandlers/vendorArchiveHandler";
 import ArchiveConfirmationToast from "../globalUtils/archiveConfirmationToast";
 import { useFilteredVendors } from "../globalHooks/useFilteredVendors";
+import VendorPagination from "../components/vendors/VendorPagination";
 
 export default function Vendors() {
   const dispatch = useDispatch();
@@ -45,6 +46,8 @@ export default function Vendors() {
     error,
     statsStatus,
     archiveStatus,
+    indexOfFirstVendor,
+    indexOfLastVendor
   } = useFilteredVendors();
 
   // Reset states when component unmounts
@@ -91,10 +94,6 @@ export default function Vendors() {
             <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62]">
               Vendor Directory
             </h1>
-            {/* <p className="text-[#F59E0B] mt-1">
-              {filteredVendors.length}{" "}
-              {filteredVendors.length === 1 ? "vendor" : "vendors"} found
-            </p> */}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <div className="relative flex-grow">
@@ -202,6 +201,7 @@ export default function Vendors() {
           </div>
         )}
 
+        {/* vendor list */}
         {status === "succeeded" && filteredVendors.length > 0 && (
           <>
             <div className="bg-white rounded-lg shadow overflow-hidden border border-[#E3CBC1]">
@@ -333,41 +333,16 @@ export default function Vendors() {
             </div>
 
             {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-4">
-                <button
-                  onClick={() => paginate(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2 border border-[#E3CBC1] rounded-lg text-[#9B2C62] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Previous
-                </button>
-                <div className="flex gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                    (number) => (
-                      <button
-                        key={number}
-                        onClick={() => paginate(number)}
-                        className={`w-10 h-10 rounded-lg ${
-                          currentPage === number
-                            ? "bg-[#9B2C62] text-white"
-                            : "border border-[#E3CBC1] text-[#9B2C62]"
-                        }`}
-                      >
-                        {number}
-                      </button>
-                    )
-                  )}
-                </div>
-                <button
-                  onClick={() => paginate(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2 border border-[#E3CBC1] rounded-lg text-[#9B2C62] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Next
-                </button>
-              </div>
-            )}
+        {totalPages > 1 && (
+  <VendorPagination
+    paginate={paginate}
+    currentPage={currentPage}
+    totalPages={totalPages}
+    indexOfFirstVendor={indexOfFirstVendor}
+    indexOfLastVendor={indexOfLastVendor}
+    filteredVendors={filteredVendors}
+  />
+)}
           </>
         )}
       </div>
