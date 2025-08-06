@@ -26,8 +26,6 @@ import VendorPagination from "../components/vendors/VendorPagination";
 export default function Vendors() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [vendorToArchive, setVendorToArchive] = useState(null);
 
   const {
     fetchVendors,
@@ -47,7 +45,7 @@ export default function Vendors() {
     statsStatus,
     archiveStatus,
     indexOfFirstVendor,
-    indexOfLastVendor
+    indexOfLastVendor,
   } = useFilteredVendors();
 
   // Reset states when component unmounts
@@ -56,34 +54,6 @@ export default function Vendors() {
       dispatch(resetVendorStatuses());
     };
   }, [dispatch]);
-
-  // Handle archive toggle
-  const handleArchiveToggle = (vendorId, isCurrentlyArchived) => {
-    dispatch(toggleArchiveVendor(vendorId))
-      .unwrap()
-      .then(() => {
-        toastWithProgress(
-          `Vendor ${isCurrentlyArchived ? "restored" : "archived"} successfully`
-        );
-        dispatch(
-          fetchVendors({
-            archived:
-              filterMode === "archived"
-                ? true
-                : filterMode === "active"
-                ? false
-                : undefined,
-          })
-        );
-
-        // ✅ Refresh stats
-        dispatch(fetchVendorStats());
-      })
-
-      .catch((error) => {
-        toastWithProgress(error.message || "Failed to update vendor status");
-      });
-  };
 
   return (
     <div className="min-h-screen bg-white p-6">
@@ -303,12 +273,11 @@ export default function Vendors() {
                                 toastWithProgress,
                                 ArchiveConfirmationToast
                               )}
-                              className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs 
-    ${
-      vendor.isArchived
-        ? "text-green-500 hover:text-green-600 bg-green-100/50 text-green-600 hover:bg-green-200"
-        : "text-red-600 hover:text-red-700 bg-red-100/30 hover:bg-red-200"
-    }`}
+                              className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs ${
+                                vendor.isArchived
+                                  ? "text-green-500 hover:text-green-600 bg-green-100/50 text-green-600 hover:bg-green-200"
+                                  : "text-red-600 hover:text-red-700 bg-red-100/30 hover:bg-red-200"
+                              }`}
                               title={vendor.isArchived ? "Restore" : "Archive"}
                             >
                               {vendor.isArchived ? (
@@ -333,16 +302,16 @@ export default function Vendors() {
             </div>
 
             {/* Pagination */}
-        {totalPages > 1 && (
-  <VendorPagination
-    paginate={paginate}
-    currentPage={currentPage}
-    totalPages={totalPages}
-    indexOfFirstVendor={indexOfFirstVendor}
-    indexOfLastVendor={indexOfLastVendor}
-    filteredVendors={filteredVendors}
-  />
-)}
+            {totalPages > 1 && (
+              <VendorPagination
+                paginate={paginate}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                indexOfFirstVendor={indexOfFirstVendor}
+                indexOfLastVendor={indexOfLastVendor}
+                filteredVendors={filteredVendors}
+              />
+            )}
           </>
         )}
       </div>
