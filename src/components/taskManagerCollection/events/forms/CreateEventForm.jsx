@@ -20,6 +20,7 @@ export default function CreateEventForm() {
   const queryParams = new URLSearchParams(location.search);
   const preSelectedClientId = queryParams.get("client");
 
+  // events
   const { createStatus, createError } = useSelector((state) => state.events);
   // clients
   const {
@@ -136,7 +137,6 @@ export default function CreateEventForm() {
     };
   }, [dispatch]);
 
-  //
   useEffect(() => {
     if (createStatus === "succeeded") {
       dispatch(resetCreateState());
