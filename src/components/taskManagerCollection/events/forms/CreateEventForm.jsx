@@ -107,12 +107,6 @@ export default function CreateEventForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate client is selected when not coming from client page
-    // if (!preSelectedClientId && !formData.client) {
-    //   toastWithProgress("Please select a client");
-    //   return;
-    // }
-
     try {
       const dataToSend = {
         ...formData,
@@ -142,7 +136,7 @@ export default function CreateEventForm() {
     };
   }, [dispatch]);
 
-  // 
+  //
   useEffect(() => {
     if (createStatus === "succeeded") {
       dispatch(resetCreateState());
