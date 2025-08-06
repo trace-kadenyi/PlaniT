@@ -9,7 +9,7 @@ import {
   restoreClient,
   resetArchiveStates,
 } from "../redux/clientsSlice";
-import ClientTable from "../components/clients/ClientTable";
+import ClientsTable from "../components/clients/ClientsTable";
 import ClientPagination from "../components/clients/ClientPagination";
 
 export default function Clients() {
@@ -192,7 +192,7 @@ export default function Clients() {
         {status === "succeeded" && filteredClients.length > 0 && (
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
-              <ClientTable
+              <ClientsTable
                 currentClients={currentClients}
                 navigate={navigate}
                 handleArchiveToggle={handleArchiveToggle}
