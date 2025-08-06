@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  Pencil,
-  ExternalLink,
-  Plus,
-  Archive,
-  Search,
-  Filter,
-  RefreshCcw,
-} from "lucide-react";
+import { Plus, Archive, Search, Filter } from "lucide-react";
 
 import {
   toggleArchiveVendor,
@@ -138,7 +130,7 @@ export default function Vendors() {
                   <div className="text-2xl font-bold text-[#9B2C62]">
                     {stat.count}
                   </div>
-                  <div className="text-sm capitalize text-[#6B3B0F]">
+                  <div className="text-sm capitalize truncate text-[#6B3B0F]">
                     {stat._id}
                   </div>
                   <div className="text-xs text-gray-500">
@@ -149,7 +141,7 @@ export default function Vendors() {
             </div>
           )}
 
-        {/* Vendors List */}
+        {/* No vendors */}
         {status === "succeeded" && filteredVendors.length === 0 && (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center border border-[#E3CBC1]">
             <h3 className="text-lg font-medium text-gray-700 mb-2">
@@ -173,7 +165,7 @@ export default function Vendors() {
           </div>
         )}
 
-        {/* vendor list */}
+        {/* Vendors List */}
         {status === "succeeded" && filteredVendors.length > 0 && (
           <>
             <VendorsTable
