@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchVendors, fetchVendorStats } from "../redux/vendorsSlice";
 
-export function useFilteredVendors() {
+export function useFilteredVendors({
+  fetchVendors,
+  fetchVendorStats,
+  filterMode,
+  setFilterMode,
+}) {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterMode, setFilterMode] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const vendorsPerPage = 10;
 
@@ -77,12 +80,8 @@ export function useFilteredVendors() {
   }, [filterMode, searchTerm]);
 
   return {
-    fetchVendors,
-    fetchVendorStats,
     searchTerm,
     setSearchTerm,
-    filterMode,
-    setFilterMode,
     currentPage,
     setCurrentPage,
     vendorsPerPage,
