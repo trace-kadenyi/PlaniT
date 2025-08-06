@@ -135,12 +135,14 @@ export default function CreateEventForm() {
     }
   };
 
+  // reset create state
   useEffect(() => {
     return () => {
       dispatch(resetCreateState());
     };
   }, [dispatch]);
 
+  // 
   useEffect(() => {
     if (createStatus === "succeeded") {
       dispatch(resetCreateState());
@@ -157,6 +159,7 @@ export default function CreateEventForm() {
           Create Event
         </h1>
 
+        {/* event form fields */}
         <EventFormFields
           formData={formData}
           onFieldChange={handleChange}
