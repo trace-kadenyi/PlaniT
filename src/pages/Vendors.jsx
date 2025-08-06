@@ -84,52 +84,6 @@ export default function Vendors() {
 
   return (
     <div className="min-h-screen bg-white p-6">
-      {/* Confirmation Dialog */}
-      {showConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-medium mb-4">
-              {vendorToArchive?.isArchived
-                ? "Restore Vendor"
-                : "Archive Vendor"}
-            </h3>
-            <p className="mb-6">
-              Are you sure you want to{" "}
-              {vendorToArchive?.isArchived ? "restore" : "archive"} this vendor?
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  handleArchiveToggle(
-                    vendorToArchive.id,
-                    vendorToArchive.isArchived
-                  );
-                  setShowConfirm(false);
-                }}
-                className={`px-4 py-2 rounded-lg text-white ${
-                  vendorToArchive?.isArchived
-                    ? "bg-green-600 hover:bg-green-700"
-                    : "bg-red-600 hover:bg-red-700"
-                }`}
-                disabled={archiveStatus === "loading"}
-              >
-                {archiveStatus === "loading"
-                  ? "Processing..."
-                  : vendorToArchive?.isArchived
-                  ? "Restore"
-                  : "Archive"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
