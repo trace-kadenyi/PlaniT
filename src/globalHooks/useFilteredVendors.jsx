@@ -55,14 +55,20 @@ export function useFilteredVendors() {
       );
     });
 
-  // Pagination logic
-  const indexOfLastVendor = currentPage * vendorsPerPage;
-  const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
+  // Calculate pagination indices
+  const indexOfLastVendor = Math.min(
+    currentPage * vendorsPerPage,
+    filteredVendors.length
+  );
+  const indexOfFirstVendor = Math.max(0, indexOfLastVendor - vendorsPerPage);
   const currentVendors = filteredVendors.slice(
     indexOfFirstVendor,
     indexOfLastVendor
   );
-  const totalPages = Math.ceil(filteredVendors.length / vendorsPerPage);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredVendors.length / vendorsPerPage)
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -89,5 +95,7 @@ export function useFilteredVendors() {
     error,
     statsStatus,
     archiveStatus,
+    indexOfFirstVendor,
+    indexOfLastVendor,
   };
 }
