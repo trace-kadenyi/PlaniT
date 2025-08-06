@@ -8,6 +8,8 @@ import {
   fetchClients,
   fetchClientWithEvents,
 } from "../../../../redux/clientsSlice";
+import { fetchVendors } from "../../../../redux/vendorsSlice";
+
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 
@@ -19,11 +21,17 @@ export default function CreateEventForm() {
   const preSelectedClientId = queryParams.get("client");
 
   const { createStatus, createError } = useSelector((state) => state.events);
+  // clients
   const {
     items: clients,
     status: clientsStatus,
     clientDetails,
   } = useSelector((state) => state.clients);
+
+  // vendors
+  const { items: vendors, status: vendorsStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   // form data
   const [formData, setFormData] = useState({
@@ -33,6 +41,7 @@ export default function CreateEventForm() {
     type: "",
     status: "Planning",
     client: preSelectedClientId || "",
+    vendors: [],
     initialBudget: "",
     budgetNotes: "",
     location: {
@@ -43,7 +52,7 @@ export default function CreateEventForm() {
     },
   });
 
-  // Fetch data based on the route
+  // Fetch clients
   useEffect(() => {
     if (preSelectedClientId) {
       dispatch(fetchClientWithEvents(preSelectedClientId));
@@ -51,6 +60,13 @@ export default function CreateEventForm() {
       dispatch(fetchClients());
     }
   }, [dispatch, clientsStatus, preSelectedClientId]);
+
+  // fetch vendors
+  useEffect(() => {
+    if (vendorsStatus === "idle") {
+      dispatch(fetchVendors());
+    }
+  }, [dispatch, vendorsStatus]);
 
   // Get the specific client when coming from client page
   const getPreSelectedClient = () => {
@@ -103,8 +119,8 @@ export default function CreateEventForm() {
         date: formData.date ? new Date(formData.date).toISOString() : null,
         initialBudget: Number(formData.initialBudget) || 0,
         client: formData.client || null,
+        vendors: Array.isArray(formData.vendors) ? formData.vendors : [],
       };
-
       const res = await dispatch(createEvent(dataToSend)).unwrap();
 
       toastWithProgress("Event successfully created");
@@ -163,6 +179,8 @@ export default function CreateEventForm() {
               : clientsStatus === "loading"
           }
           preSelectedClientId={preSelectedClientId}
+          vendors={vendors}
+          vendorsLoading={vendorsStatus === "loading"}
           mode="create"
         />
       </div>
