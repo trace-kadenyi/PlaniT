@@ -1,68 +1,44 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  Pencil,
-  ExternalLink,
-  Plus,
-  Archive,
-  Search,
-  Filter,
-  RefreshCcw,
-} from "lucide-react";
+import { Plus, Archive, Search, Filter } from "lucide-react";
 
 import {
-  fetchVendors,
-  fetchVendorStats,
   toggleArchiveVendor,
   resetVendorStatuses,
+  fetchVendors,
+  fetchVendorStats,
 } from "../redux/vendorsSlice";
 
-import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenErrorState } from "../components/shared/ErrorStates";
+import { useFilteredVendors } from "../globalHooks/useFilteredVendors";
+import VendorPagination from "../components/vendors/VendorPagination";
+import VendorsTable from "../components/vendors/VendorsTable";
 
 export default function Vendors() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
   const [filterMode, setFilterMode] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const vendorsPerPage = 10;
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [vendorToArchive, setVendorToArchive] = useState(null);
 
   const {
-    items: vendors,
+    searchTerm,
+    setSearchTerm,
+    currentPage,
+    filteredVendors,
+    currentVendors,
+    totalPages,
+    paginate,
     stats,
     status,
     error,
     statsStatus,
-    archiveStatus,
-  } = useSelector((state) => state.vendors);
-
-  useEffect(() => {
-    const archived =
-      filterMode === "archived"
-        ? true
-        : filterMode === "active"
-        ? false
-        : undefined;
-
-    dispatch(
-      fetchVendors({
-        archived:
-          filterMode === "archived"
-            ? true
-            : filterMode === "active"
-            ? false
-            : undefined,
-      })
-    );
-  }, [dispatch, filterMode]);
-
-  useEffect(() => {
-    dispatch(fetchVendorStats());
-  }, [dispatch]);
+    indexOfFirstVendor,
+    indexOfLastVendor,
+  } = useFilteredVendors({
+    fetchVendors,
+    fetchVendorStats,
+    filterMode,
+  });
 
   // Reset states when component unmounts
   useEffect(() => {
@@ -71,117 +47,8 @@ export default function Vendors() {
     };
   }, [dispatch]);
 
-  // Handle archive toggle
-  const handleArchiveToggle = (vendorId, isCurrentlyArchived) => {
-    dispatch(toggleArchiveVendor(vendorId))
-      .unwrap()
-      .then(() => {
-        toastWithProgress(
-          `Vendor ${isCurrentlyArchived ? "restored" : "archived"} successfully`
-        );
-        dispatch(
-          fetchVendors({
-            archived:
-              filterMode === "archived"
-                ? true
-                : filterMode === "active"
-                ? false
-                : undefined,
-          })
-        );
-
-        // ✅ Refresh stats
-        dispatch(fetchVendorStats());
-      })
-
-      .catch((error) => {
-        toastWithProgress(error.message || "Failed to update vendor status");
-      });
-  };
-
-  // Filter vendors
-  const filteredVendors = vendors
-    .filter((vendor) => {
-      if (!vendor) return false;
-      if (filterMode === "active") return !vendor.isArchived;
-      if (filterMode === "archived") return vendor.isArchived;
-      return true;
-    })
-    .filter((vendor) => {
-      if (!vendor) return false;
-      if (!searchTerm) return true;
-      const term = searchTerm.toLowerCase();
-      return (
-        vendor.name?.toLowerCase().includes(term) ||
-        vendor.contact?.email?.toLowerCase().includes(term) ||
-        vendor.contact?.phone?.toLowerCase().includes(term) ||
-        vendor.services?.toLowerCase().includes(term)
-      );
-    });
-
-  // Pagination logic
-  const indexOfLastVendor = currentPage * vendorsPerPage;
-  const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
-  const currentVendors = filteredVendors.slice(
-    indexOfFirstVendor,
-    indexOfLastVendor
-  );
-  const totalPages = Math.ceil(filteredVendors.length / vendorsPerPage);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filterMode, searchTerm]);
-
   return (
     <div className="min-h-screen bg-white p-6">
-      {/* Confirmation Dialog */}
-      {showConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-medium mb-4">
-              {vendorToArchive?.isArchived
-                ? "Restore Vendor"
-                : "Archive Vendor"}
-            </h3>
-            <p className="mb-6">
-              Are you sure you want to{" "}
-              {vendorToArchive?.isArchived ? "restore" : "archive"} this vendor?
-            </p>
-            <div className="flex justify-end gap-3">
-              <button
-                onClick={() => setShowConfirm(false)}
-                className="px-4 py-2 border border-gray-300 rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  handleArchiveToggle(
-                    vendorToArchive.id,
-                    vendorToArchive.isArchived
-                  );
-                  setShowConfirm(false);
-                }}
-                className={`px-4 py-2 rounded-lg text-white ${
-                  vendorToArchive?.isArchived
-                    ? "bg-green-600 hover:bg-green-700"
-                    : "bg-red-600 hover:bg-red-700"
-                }`}
-                disabled={archiveStatus === "loading"}
-              >
-                {archiveStatus === "loading"
-                  ? "Processing..."
-                  : vendorToArchive?.isArchived
-                  ? "Restore"
-                  : "Archive"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -189,10 +56,6 @@ export default function Vendors() {
             <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62]">
               Vendor Directory
             </h1>
-            {/* <p className="text-[#F59E0B] mt-1">
-              {filteredVendors.length}{" "}
-              {filteredVendors.length === 1 ? "vendor" : "vendors"} found
-            </p> */}
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <div className="relative flex-grow">
@@ -265,7 +128,7 @@ export default function Vendors() {
                   <div className="text-2xl font-bold text-[#9B2C62]">
                     {stat.count}
                   </div>
-                  <div className="text-sm capitalize text-[#6B3B0F]">
+                  <div className="text-sm capitalize truncate text-[#6B3B0F]">
                     {stat._id}
                   </div>
                   <div className="text-xs text-gray-500">
@@ -276,7 +139,7 @@ export default function Vendors() {
             </div>
           )}
 
-        {/* Vendors List */}
+        {/* No vendors */}
         {status === "succeeded" && filteredVendors.length === 0 && (
           <div className="bg-white rounded-lg shadow-sm p-8 text-center border border-[#E3CBC1]">
             <h3 className="text-lg font-medium text-gray-700 mb-2">
@@ -300,167 +163,29 @@ export default function Vendors() {
           </div>
         )}
 
+        {/* Vendors List */}
         {status === "succeeded" && filteredVendors.length > 0 && (
           <>
-            <div className="bg-white rounded-lg shadow overflow-hidden border border-[#E3CBC1]">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-[#E3CBC1]">
-                  <thead className="bg-[#F7F7FA]">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
-                        Vendor
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
-                        Service
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
-                        Contact
-                      </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-[#E3CBC1]">
-                    {currentVendors.map((vendor) => (
-                      <tr
-                        key={vendor._id}
-                        className={`hover:bg-gray-100 ${
-                          vendor.isArchived ? "bg-gray-50" : ""
-                        }`}
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div>
-                              <div
-                                onClick={() =>
-                                  navigate(`/vendors/${vendor._id}`)
-                                }
-                                className={`text-sm font-medium hover:underline hover:italic cursor-default ${
-                                  vendor.isArchived
-                                    ? "text-gray-500"
-                                    : "text-[#9B2C62]"
-                                }`}
-                              >
-                                {vendor.name}
-                                {vendor.isArchived && (
-                                  <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800">
-                                    Archived
-                                  </span>
-                                )}
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                {vendor.address}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-[#6B3B0F] capitalize">
-                            {vendor.services}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-[#6B3B0F]">
-                            {vendor.contact?.email || "Not provided"}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {vendor.contact?.phone || "Not provided"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <div className="flex justify-end gap-2">
-                            <button
-                              onClick={() => navigate(`/vendors/${vendor._id}`)}
-                              className="flex items-center space-x-1 font-semibold px-2 py-1 rounded-full transition text-xs text-[#9B2C62] hover:text-white bg-[#9B2C62]/10 hover:bg-[#9B2C62]"
-                              title="View Details"
-                            >
-                              <ExternalLink className="w-3 h-3" />
-                              <span>View</span>
-                            </button>
-
-                            <button
-                              onClick={() =>
-                                navigate(`/vendors/${vendor._id}/edit`)
-                              }
-                              className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
-                              title="Edit"
-                            >
-                              <Pencil className="w-3 h-3" />
-                              <span>edit</span>
-                            </button>
-                            <button
-                              onClick={() =>
-                                handleArchiveToggle(
-                                  vendor._id,
-                                  vendor.isArchived
-                                )
-                              }
-                              className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs 
-                                ${
-                                  vendor.isArchived
-                                    ? "text-green-500 hover:text-green-600  bg-green-100/50 text-green-600 hover:bg-green-200"
-                                    : "text-red-600 hover:text-red-700  bg-red-100/30  hover:bg-red-200"
-                                }
-                                  `}
-                              title={vendor.isArchived ? "Restore" : "Archive"}
-                            >
-                              {vendor.isArchived ? (
-                                <>
-                                  <RefreshCcw className="w-3 h-3" />
-                                  <span>Restore</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Archive className="w-3 h-3" />
-                                  <span>Archive</span>
-                                </>
-                              )}
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <VendorsTable
+              currentVendors={currentVendors}
+              navigate={navigate}
+              dispatch={dispatch}
+              toggleArchiveVendor={toggleArchiveVendor}
+              fetchVendors={fetchVendors}
+              fetchVendorStats={fetchVendorStats}
+              filterMode={filterMode}
+            />
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-4">
-                <button
-                  onClick={() => paginate(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="px-4 py-2 border border-[#E3CBC1] rounded-lg text-[#9B2C62] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Previous
-                </button>
-                <div className="flex gap-1">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                    (number) => (
-                      <button
-                        key={number}
-                        onClick={() => paginate(number)}
-                        className={`w-10 h-10 rounded-lg ${
-                          currentPage === number
-                            ? "bg-[#9B2C62] text-white"
-                            : "border border-[#E3CBC1] text-[#9B2C62]"
-                        }`}
-                      >
-                        {number}
-                      </button>
-                    )
-                  )}
-                </div>
-                <button
-                  onClick={() => paginate(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="px-4 py-2 border border-[#E3CBC1] rounded-lg text-[#9B2C62] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Next
-                </button>
-              </div>
+              <VendorPagination
+                paginate={paginate}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                indexOfFirstVendor={indexOfFirstVendor}
+                indexOfLastVendor={indexOfLastVendor}
+                filteredVendors={filteredVendors}
+              />
             )}
           </>
         )}

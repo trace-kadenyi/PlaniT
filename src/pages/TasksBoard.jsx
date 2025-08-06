@@ -20,7 +20,7 @@ import TaskColumn from "../components/taskManagerCollection/tasks/tasksDashboard
 import {
   useTaskFilters,
   useAssignees,
-} from "../components/taskManagerCollection/hooks/useFilters";
+} from "../components/taskManagerCollection/hooks/useTaskFilters";
 
 export default function TasksBoard() {
   // Track whether columns have been initialized to prevent unnecessary recalculations

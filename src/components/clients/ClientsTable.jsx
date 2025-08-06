@@ -1,6 +1,6 @@
 import { User, Mail, Phone, Archive, RefreshCcw } from "lucide-react";
 
-export default function ClientTable({
+export default function ClientsTable({
   currentClients,
   navigate,
   handleArchiveToggle,
