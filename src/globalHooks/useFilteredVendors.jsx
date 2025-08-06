@@ -5,7 +5,6 @@ export function useFilteredVendors({
   fetchVendors,
   fetchVendorStats,
   filterMode,
-  setFilterMode,
 }) {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,7 +17,6 @@ export function useFilteredVendors({
     status,
     error,
     statsStatus,
-    archiveStatus,
   } = useSelector((state) => state.vendors);
 
   // fetch vendors
@@ -93,7 +91,6 @@ export function useFilteredVendors({
     status,
     error,
     statsStatus,
-    archiveStatus,
     indexOfFirstVendor,
     indexOfLastVendor,
   };

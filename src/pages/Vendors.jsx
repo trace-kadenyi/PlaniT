@@ -32,14 +32,12 @@ export default function Vendors() {
     status,
     error,
     statsStatus,
-    archiveStatus,
     indexOfFirstVendor,
     indexOfLastVendor,
   } = useFilteredVendors({
     fetchVendors,
     fetchVendorStats,
     filterMode,
-    setFilterMode,
   });
 
   // Reset states when component unmounts
