@@ -213,7 +213,8 @@ export default function EditEventForm() {
           </span>
           Edit Event
         </h1>
-{/* event form fields */}
+        
+        {/* event form fields */}
         <EventFormFields
           formData={formData}
           onFieldChange={handleChange}
