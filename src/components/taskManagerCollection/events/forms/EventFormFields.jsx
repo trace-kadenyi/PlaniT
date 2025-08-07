@@ -60,12 +60,12 @@ export default function EventFormFields({
       )}
 
       {/* Vendor Selection */}
-      {/* Vendor Selection */}
       <div className="space-y-2">
         <label className="block text-sm font-medium text-[#6B2D5C] mb-1.5">
           Select Vendors
         </label>
 
+        {/* loading state */}
         {vendorsLoading ? (
           <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
             <div className="flex items-center space-x-2">
@@ -74,6 +74,7 @@ export default function EventFormFields({
             </div>
           </div>
         ) : (
+          // search vendor
           <div className="relative">
             <Autocomplete
               multiple
