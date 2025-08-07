@@ -78,6 +78,7 @@ export default function EditEventForm() {
     loadData();
     dispatch(clearEventStatuses());
   }, [dispatch, id]);
+
   // populate form
   useEffect(() => {
     if (selectedEvent) {
@@ -91,14 +92,6 @@ export default function EditEventForm() {
       });
     }
   }, [selectedEvent, clients]);
-
-  // Handle vendor selection changes
-  const handleVendorChange = (selectedVendorIds) => {
-    setFormData((prev) => ({
-      ...prev,
-      vendors: selectedVendorIds,
-    }));
-  };
 
   // handle input fields
   const handleChange = (e) => {
