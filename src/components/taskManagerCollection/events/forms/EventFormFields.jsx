@@ -3,7 +3,6 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
 
-
 import {
   formatLocalDateTimeForDisplay,
   getLocalDateTimeString,
@@ -19,7 +18,7 @@ export default function EventFormFields({
   onSubmit,
   budgetError,
   clients = [],
-  vendors= [],
+  vendors = [],
   clientsLoading = false,
   vendorsLoading = false,
   preSelectedClientId = null,
@@ -61,91 +60,91 @@ export default function EventFormFields({
       )}
 
       {/* Vendor Selection */}
-{/* Vendor Selection */}
-<div className="space-y-2">
-  <label className="block text-sm font-medium text-[#6B2D5C] mb-1.5">
-    Select Vendors
-  </label>
+      {/* Vendor Selection */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-[#6B2D5C] mb-1.5">
+          Select Vendors
+        </label>
 
-  {vendorsLoading ? (
-    <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
-      <div className="flex items-center space-x-2">
-        <div className="h-4 w-4 bg-[#E3CBC1] rounded-full animate-pulse"></div>
-        <span className="text-[#9B2C62]/70">Loading vendors...</span>
-      </div>
-    </div>
-  ) : (
-    <div className="relative">
-      <Autocomplete
-        multiple
-        options={vendors}
-        getOptionLabel={(vendor) => vendor.name}
-        value={vendors.filter((v) => formData.vendors?.includes(v._id))}
-        onChange={(_, newValue) => {
-          onFieldChange({
-            target: {
-              name: "vendors",
-              value: newValue.map((v) => v._id),
-            },
-          });
-        }}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            variant="outlined"
-            placeholder="Search vendors..."
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "0.5rem",
-                padding: "8px",
-                backgroundColor: "white",
-                borderColor: "#E3CBC1",
-                "&:hover": {
-                  borderColor: "#D4A798",
-                },
-                "&.Mui-focused": {
-                  borderColor: "#BE3455",
-                  boxShadow: "0 0 0 2px rgba(190, 52, 85, 0.2)",
-                },
-              },
-            }}
-          />
+        {vendorsLoading ? (
+          <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
+            <div className="flex items-center space-x-2">
+              <div className="h-4 w-4 bg-[#E3CBC1] rounded-full animate-pulse"></div>
+              <span className="text-[#9B2C62]/70">Loading vendors...</span>
+            </div>
+          </div>
+        ) : (
+          <div className="relative">
+            <Autocomplete
+              multiple
+              options={vendors}
+              getOptionLabel={(vendor) => vendor.name}
+              value={vendors.filter((v) => formData.vendors?.includes(v._id))}
+              onChange={(_, newValue) => {
+                onFieldChange({
+                  target: {
+                    name: "vendors",
+                    value: newValue.map((v) => v._id),
+                  },
+                });
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Search vendors..."
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "0.5rem",
+                      padding: "8px",
+                      backgroundColor: "white",
+                      borderColor: "#E3CBC1",
+                      "&:hover": {
+                        borderColor: "#D4A798",
+                      },
+                      "&.Mui-focused": {
+                        borderColor: "#BE3455",
+                        boxShadow: "0 0 0 2px rgba(190, 52, 85, 0.2)",
+                      },
+                    },
+                  }}
+                />
+              )}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    {...getTagProps({ index })}
+                    key={option._id}
+                    label={option.name}
+                    onDelete={() => {
+                      const newVendors = [...formData.vendors].filter(
+                        (id) => id !== option._id
+                      );
+                      onFieldChange({
+                        target: {
+                          name: "vendors",
+                          value: newVendors,
+                        },
+                      });
+                    }}
+                    sx={{
+                      backgroundColor: "#F3E8FF",
+                      color: "#6B2D5C",
+                      marginRight: "4px",
+                      "& .MuiChip-deleteIcon": {
+                        color: "#9B2C62",
+                        "&:hover": {
+                          color: "#BE3455",
+                        },
+                      },
+                    }}
+                  />
+                ))
+              }
+            />
+          </div>
         )}
-    renderTags={(value, getTagProps) =>
-  value.map((option, index) => (
-    <Chip
-      {...getTagProps({ index })}
-      key={option._id}
-      label={option.name}
-      onDelete={() => {
-        const newVendors = [...formData.vendors].filter(
-          (id) => id !== option._id
-        );
-        onFieldChange({
-          target: {
-            name: "vendors",
-            value: newVendors,
-          },
-        });
-      }}
-      sx={{
-        backgroundColor: "#F3E8FF",
-        color: "#6B2D5C",
-        marginRight: "4px",
-        "& .MuiChip-deleteIcon": {
-          color: "#9B2C62",
-          "&:hover": {
-            color: "#BE3455",
-          },
-        },
-      }}
-    />
-  ))
-}
-      />
-    </div>
-  )}
-</div>
+      </div>
 
       {/* Event Name */}
       <div>
