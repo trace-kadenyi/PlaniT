@@ -14,14 +14,16 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
   const dispatch = useDispatch();
   const expenseStatus = useSelector((state) => state.expenses.updateStatus);
   const expenseError = useSelector((state) => state.expenses.updateError);
-   const { items: vendors, status: vendorsStatus } = useSelector((state) => state.vendors);
+  const { items: vendors, status: vendorsStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   // initialize form
   const [form, setForm] = useState({
     amount: "",
     description: "",
     category: "other",
-    vendor: "",
+    vendors: [],
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
@@ -29,7 +31,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
     receiptUrl: "",
   });
 
-   // Fetch vendors on mount
+  // Fetch vendors on mount
   useEffect(() => {
     dispatch(fetchVendors());
   }, [dispatch]);
@@ -51,7 +53,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
         amount: expense.amount?.toString() || "",
         description: expense.description || "",
         category: expense.category || "other",
-        vendor: expense.vendor?._id || expense.vendor || "",
+        vendors: expense.vendor ? [expense.vendor._id || expense.vendor] : [],
         paymentStatus: expense.paymentStatus || "pending",
         paymentDate: expense.paymentDate
           ? expense.paymentDate.split("T")[0]
@@ -77,6 +79,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
       const updatedExpense = {
         ...form,
         amount: parseFloat(form.amount),
+        vendor: form.vendors[0] || null,
       };
 
       const result = await dispatch(
