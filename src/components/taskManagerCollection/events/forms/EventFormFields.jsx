@@ -83,10 +83,11 @@ export default function EventFormFields({
           // search vendor
           <div className="relative">
             <Autocomplete
+              multiple
               options={vendors.filter((v) =>
                 mode === "create" ? !v.isArchived : true
               )}
-              getOptionLabel={(vendor) => vendor.name}
+              getOptionLabel={(vendor) => vendor?.name || ""} // Add null check
               value={
                 vendorsLoading
                   ? []
