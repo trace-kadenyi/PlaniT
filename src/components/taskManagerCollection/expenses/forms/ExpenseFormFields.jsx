@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
 
 import { FormBudgetSummary } from "../../utils/budgetHelpers";
 import { handleFileUpload, handleRemoveReceipt } from "../expenseHelpers";
