@@ -1,7 +1,4 @@
 import { Lock } from "lucide-react";
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
-import Chip from "@mui/material/Chip";
 
 import {
   formatLocalDateTimeForDisplay,
@@ -80,6 +77,7 @@ export default function EventFormFields({
             </div>
           </div>
         ) : (
+          // autocomplate
           <div className="relative">
             <AutocompleteWithChips
               label="Select Vendors"
