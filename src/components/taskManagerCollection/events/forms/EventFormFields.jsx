@@ -8,6 +8,7 @@ import {
   getLocalDateTimeString,
 } from "../../utils/dateHelpers";
 import { NotPreselected, PreselectedClients } from "./eventFormHelpers";
+import AutocompleteWithChips from "../../../shared/AutocompleteWithChips";
 
 export default function EventFormFields({
   formData,
@@ -80,97 +81,21 @@ export default function EventFormFields({
           </div>
         ) : (
           <div className="relative">
-            <Autocomplete
-              multiple
-              options={vendors.filter(
-                (v) => !v.isArchived && !formData.vendors?.includes(v._id) // Hide archived AND already selected
-              )}
-              getOptionLabel={(vendor) => vendor?.name || ""}
-              value={vendors.filter((v) => formData.vendors?.includes(v._id))}
-              onChange={(_, newValue) => {
+            <AutocompleteWithChips
+              label="Select Vendors"
+              options={vendors}
+              selectedValues={formData.vendors}
+              onChange={(newVendorIds) => {
                 onFieldChange({
                   target: {
                     name: "vendors",
-                    value: newValue.map((v) => v._id),
+                    value: newVendorIds,
                   },
                 });
               }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder={
-                    vendors.filter((v) => !v.isArchived).length === 0
-                      ? "No active vendors available"
-                      : "Search vendors..."
-                  }
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "0.5rem",
-                      padding: "8px",
-                      backgroundColor: "white",
-                      borderColor: "#E3CBC1",
-                      "&:hover": {
-                        borderColor: "#D4A798",
-                      },
-                      "&.Mui-focused": {
-                        borderColor: "#BE3455",
-                        boxShadow: "0 0 0 2px rgba(190, 52, 85, 0.2)",
-                      },
-                    },
-                  }}
-                />
-              )}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => {
-                  const isArchived = option.isArchived;
-                  return (
-                    <Chip
-                      {...getTagProps({ index })}
-                      key={option._id}
-                      label={
-                        <span className="flex items-center">
-                          {option.name}
-                          {isArchived && (
-                            <span className="ml-1 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
-                              Archived
-                            </span>
-                          )}
-                        </span>
-                      }
-                      onDelete={
-                        isArchived ? undefined : getTagProps({ index }).onDelete
-                      }
-                      sx={{
-                        backgroundColor: isArchived ? "#F3F4F6" : "#F3E8FF",
-                        color: isArchived ? "#6B7280" : "#6B2D5C",
-                        marginRight: "4px",
-                        "& .MuiChip-deleteIcon": {
-                          color: isArchived ? "#9CA3AF" : "#9B2C62",
-                          "&:hover": {
-                            color: isArchived ? "#9CA3AF" : "#BE3455",
-                          },
-                        },
-                      }}
-                    />
-                  );
-                })
-              }
+              loading={vendorsLoading}
+              filterFn={(vendor) => !vendor.isArchived}
             />
-            {/* Show warning if any vendors in formData are archived */}
-            {vendors.some(
-              (v) => v.isArchived && formData.vendors?.includes(v._id)
-            ) && (
-              <p className="mt-2 text-sm text-yellow-600">
-                Note: This event contains archived vendors. Archived vendors
-                cannot be added to new events.
-                {mode === "edit" && (
-                  <span className="block mt-1 text-xs">
-                    You can keep them for this event but consider replacing them
-                    with active vendors.
-                  </span>
-                )}
-              </p>
-            )}
           </div>
         )}
       </div>
