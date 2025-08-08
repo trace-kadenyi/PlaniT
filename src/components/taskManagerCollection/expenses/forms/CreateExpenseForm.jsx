@@ -19,13 +19,18 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
     amount: "",
     description: "",
     category: "other",
-    vendorName: "",
+    vendor: "",
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
     notes: "",
     receiptUrl: "",
   });
+
+  // Fetch vendors on mount
+  useEffect(() => {
+    dispatch(fetchVendors());
+  }, [dispatch]);
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -34,6 +39,7 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
       ...form,
       amount: parseFloat(form.amount),
       eventId,
+      vendor: form.vendor || null,
     };
 
     dispatch(createExpense(expenseData))
