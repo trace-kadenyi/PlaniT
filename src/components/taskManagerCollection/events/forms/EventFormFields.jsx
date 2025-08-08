@@ -71,7 +71,6 @@ export default function EventFormFields({
           Select Vendors
         </label>
 
-        {/* loading state */}
         {vendorsLoading ? (
           <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
             <div className="flex items-center space-x-2">
@@ -80,21 +79,12 @@ export default function EventFormFields({
             </div>
           </div>
         ) : (
-          // search vendor
           <div className="relative">
             <Autocomplete
               multiple
-              options={vendors.filter((v) =>
-                mode === "create" ? !v.isArchived : true
-              )}
-              getOptionLabel={(vendor) => vendor?.name || ""} // Add null check
-              value={
-                vendorsLoading
-                  ? []
-                  : vendors.filter((v) =>
-                      formData.vendors?.some((vendorId) => vendorId === v._id)
-                    )
-              }
+              options={vendors.filter((v) => !v.isArchived)}
+              getOptionLabel={(vendor) => vendor?.name || ""}
+              value={vendors.filter((v) => formData.vendors?.includes(v._id))}
               onChange={(_, newValue) => {
                 onFieldChange({
                   target: {
@@ -126,56 +116,45 @@ export default function EventFormFields({
                 />
               )}
               renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
-                    {...getTagProps({ index })}
-                    key={option._id}
-                    label={
-                      <span className="flex items-center">
-                        {option.name}
-                        {option.isArchived && (
-                          <span className="ml-1 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
-                            Archived
-                          </span>
-                        )}
-                      </span>
-                    }
-                    onDelete={
-                      option.isArchived
-                        ? undefined
-                        : () => {
-                            const newVendors = [...formData.vendors].filter(
-                              (id) => id !== option._id
-                            );
-                            onFieldChange({
-                              target: {
-                                name: "vendors",
-                                value: newVendors,
-                              },
-                            });
-                          }
-                    }
-                    sx={{
-                      backgroundColor: option.isArchived
-                        ? "#F3F4F6"
-                        : "#F3E8FF",
-                      color: option.isArchived ? "#6B7280" : "#6B2D5C",
-                      marginRight: "4px",
-                      "& .MuiChip-deleteIcon": {
-                        color: option.isArchived ? "#9CA3AF" : "#9B2C62",
-                        "&:hover": {
-                          color: option.isArchived ? "#9CA3AF" : "#BE3455",
+                value.map((option, index) => {
+                  const isArchived = option.isArchived;
+                  return (
+                    <Chip
+                      {...getTagProps({ index })}
+                      key={option._id}
+                      label={
+                        <span className="flex items-center">
+                          {option.name}
+                          {isArchived && (
+                            <span className="ml-1 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
+                              Archived
+                            </span>
+                          )}
+                        </span>
+                      }
+                      onDelete={
+                        isArchived ? undefined : getTagProps({ index }).onDelete
+                      }
+                      sx={{
+                        backgroundColor: isArchived ? "#F3F4F6" : "#F3E8FF",
+                        color: isArchived ? "#6B7280" : "#6B2D5C",
+                        marginRight: "4px",
+                        "& .MuiChip-deleteIcon": {
+                          color: isArchived ? "#9CA3AF" : "#9B2C62",
+                          "&:hover": {
+                            color: isArchived ? "#9CA3AF" : "#BE3455",
+                          },
                         },
-                      },
-                    }}
-                  />
-                ))
+                      }}
+                    />
+                  );
+                })
               }
             />
-            {formData.vendors?.some((vendorId) => {
-              const vendor = vendors.find((v) => v._id === vendorId);
-              return vendor?.isArchived;
-            }) && (
+            {/* Show warning if any vendors in formData are archived */}
+            {vendors.some(
+              (v) => v.isArchived && formData.vendors?.includes(v._id)
+            ) && (
               <p className="mt-2 text-sm text-yellow-600">
                 Note: This event contains archived vendors. Archived vendors
                 cannot be added to new events.
