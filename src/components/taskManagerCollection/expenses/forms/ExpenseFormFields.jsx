@@ -105,7 +105,7 @@ export default function ExpenseFormFields({
           <option value="other">Other</option>
         </select>
       </div>
-       {/* Vendor Selection - Single Select */}
+      {/* Vendor Selection - Single Select */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Vendor
@@ -126,7 +126,12 @@ export default function ExpenseFormFields({
           >
             <option value="">Select Vendor (Optional)</option>
             {vendors
-              .filter(vendor => !vendor.isArchived)
+              .filter(
+                (vendor) =>
+                  !vendor.isArchived &&
+                  (form.category === "other" ||
+                    vendor.services.includes(form.category))
+              )
               .map((vendor) => (
                 <option key={vendor._id} value={vendor._id}>
                   {vendor.name} ({vendor.services})
@@ -134,11 +139,13 @@ export default function ExpenseFormFields({
               ))}
           </select>
         )}
-        {form.vendor && vendors.find(v => v._id === form.vendor)?.isArchived && (
-          <p className="mt-1 text-xs text-yellow-600">
-            Note: This vendor is archived and cannot be selected for new expenses
-          </p>
-        )}
+        {form.vendor &&
+          vendors.find((v) => v._id === form.vendor)?.isArchived && (
+            <p className="mt-1 text-xs text-yellow-600">
+              Note: This vendor is archived and cannot be selected for new
+              expenses
+            </p>
+          )}
       </div>
 
       {/* Payment Status */}
