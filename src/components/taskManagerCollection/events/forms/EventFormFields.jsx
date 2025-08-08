@@ -98,8 +98,11 @@ export default function EventFormFields({
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  variant="outlined"
-                  placeholder="Search vendors..."
+                  placeholder={
+                    vendors.filter((v) => !v.isArchived).length === 0
+                      ? "No active vendors available"
+                      : "Search vendors..."
+                  }
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "0.5rem",
