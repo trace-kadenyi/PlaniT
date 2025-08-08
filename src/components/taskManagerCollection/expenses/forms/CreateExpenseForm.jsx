@@ -6,6 +6,8 @@ import {
   createExpense,
   resetExpenseStatuses,
 } from "../../../../redux/expensesSlice";
+import { fetchVendors } from "../../../../redux/vendorsSlice";
+
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
@@ -14,6 +16,9 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
   const { id: eventId } = useParams();
   const expenseStatus = useSelector((state) => state.expenses.createStatus);
   const expenseError = useSelector((state) => state.expenses.createError);
+  const { items: vendors, status: vendorsStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   const [form, setForm] = useState({
     amount: "",
