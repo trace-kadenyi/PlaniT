@@ -1,3 +1,4 @@
+// AutocompleteWithChips.jsx
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
@@ -12,7 +13,7 @@ export default function AutocompleteWithChips({
   placeholder = "Search...",
   noOptionsText = "No options available",
   disabled = false,
-  filterFn = (option) => true, // Default filter that includes all options
+  filterFn = (option) => true,
   getOptionLabel = (option) => option?.name || "",
   groupBy,
   renderOption,
@@ -38,13 +39,14 @@ export default function AutocompleteWithChips({
             multiple
             options={options.filter(
               (option) =>
-                filterFn(option) &&
-                !selectedValues?.includes(option._id) // Hide already selected
+                filterFn(option) && !selectedValues?.includes(option._id)
             )}
             getOptionLabel={getOptionLabel}
             groupBy={groupBy}
             renderOption={renderOption}
-            value={options.filter((option) => selectedValues?.includes(option._id))}
+            value={options.filter((option) =>
+              selectedValues?.includes(option._id)
+            )}
             onChange={(_, newValue) => {
               onChange(newValue.map((v) => v._id));
             }}
@@ -78,47 +80,46 @@ export default function AutocompleteWithChips({
             renderTags={(value, getTagProps) =>
               value.map((option, index) => {
                 const isArchived = option.isArchived;
+                const { key, ...tagProps } = getTagProps({ index });
+
                 return (
-                  <li key={option._id}>
-                    <Chip
-                      {...getTagProps({ index })}
-                      label={
-                        <span className="flex items-center">
-                          {getOptionLabel(option)}
-                          {isArchived && (
-                            <span className="ml-1 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
-                              Archived
-                            </span>
-                          )}
-                        </span>
-                      }
-                      onDelete={
-                        isArchived ? undefined : getTagProps({ index }).onDelete
-                      }
-                      sx={{
-                        backgroundColor: isArchived ? "#F3F4F6" : "#F3E8FF",
-                        color: isArchived ? "#6B7280" : "#6B2D5C",
-                        marginRight: "4px",
-                        "& .MuiChip-deleteIcon": {
-                          color: isArchived ? "#9CA3AF" : "#9B2C62",
-                          "&:hover": {
-                            color: isArchived ? "#9CA3AF" : "#BE3455",
-                          },
+                  <Chip
+                    key={key}
+                    {...tagProps}
+                    label={
+                      <span className="flex items-center">
+                        {getOptionLabel(option)}
+                        {isArchived && (
+                          <span className="ml-1 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
+                            Archived
+                          </span>
+                        )}
+                      </span>
+                    }
+                    onDelete={isArchived ? undefined : tagProps.onDelete}
+                    sx={{
+                      backgroundColor: isArchived ? "#F3F4F6" : "#F3E8FF",
+                      color: isArchived ? "#6B7280" : "#6B2D5C",
+                      marginRight: "4px",
+                      "& .MuiChip-deleteIcon": {
+                        color: isArchived ? "#9CA3AF" : "#9B2C62",
+                        "&:hover": {
+                          color: isArchived ? "#9CA3AF" : "#BE3455",
                         },
-                      }}
-                    />
-                  </li>
+                      },
+                    }}
+                  />
                 );
               })
             }
           />
-          {/* Show warning if any selected options are archived */}
           {options.some(
-            (option) => option.isArchived && selectedValues?.includes(option._id)
+            (option) =>
+              option.isArchived && selectedValues?.includes(option._id)
           ) && (
             <p className="mt-2 text-sm text-yellow-600">
-              Note: Contains archived items. Archived items cannot be added to new
-              records.
+              Note: Contains archived items. Archived items cannot be added to
+              new records.
             </p>
           )}
         </div>
