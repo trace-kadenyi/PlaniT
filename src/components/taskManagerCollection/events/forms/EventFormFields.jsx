@@ -80,7 +80,13 @@ export default function EventFormFields({
               multiple
               options={vendors}
               getOptionLabel={(vendor) => vendor.name}
-              value={vendors.filter((v) => formData.vendors?.includes(v._id))}
+              value={
+                vendorsLoading
+                  ? []
+                  : vendors.filter((v) =>
+                      formData.vendors?.some((vendorId) => vendorId === v._id)
+                    )
+              }
               onChange={(_, newValue) => {
                 onFieldChange({
                   target: {
