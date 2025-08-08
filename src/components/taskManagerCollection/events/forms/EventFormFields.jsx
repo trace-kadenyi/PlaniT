@@ -82,7 +82,9 @@ export default function EventFormFields({
           <div className="relative">
             <Autocomplete
               multiple
-              options={vendors.filter((v) => !v.isArchived)}
+              options={vendors.filter(
+                (v) => !v.isArchived && !formData.vendors?.includes(v._id) // Hide archived AND already selected
+              )}
               getOptionLabel={(vendor) => vendor?.name || ""}
               value={vendors.filter((v) => formData.vendors?.includes(v._id))}
               onChange={(_, newValue) => {
