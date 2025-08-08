@@ -29,6 +29,12 @@ export default function EventFormFields({
     ? clients.find((c) => c._id === preSelectedClientId)?.isArchived
     : false;
 
+  // archived vendors
+  const getVendorStatus = (vendorId) => {
+    const vendor = vendors.find((v) => v._id === vendorId);
+    return vendor?.isArchived ? "archived" : "active";
+  };
+
   // Style classes for consistency
   const disabledClasses =
     "border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed";
