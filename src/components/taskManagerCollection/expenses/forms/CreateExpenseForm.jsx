@@ -24,7 +24,7 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
     amount: "",
     description: "",
     category: "other",
-    vendor: "",
+    vendors: [],
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
@@ -44,9 +44,10 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
       ...form,
       amount: parseFloat(form.amount),
       eventId,
-      vendor: form.vendor || null,
+      vendor: form.vendors[0] || null,
     };
 
+    console.log(expenseData);
     dispatch(createExpense(expenseData))
       .then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
