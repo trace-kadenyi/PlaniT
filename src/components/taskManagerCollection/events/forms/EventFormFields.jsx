@@ -83,8 +83,9 @@ export default function EventFormFields({
           // search vendor
           <div className="relative">
             <Autocomplete
-              multiple
-              options={vendors}
+              options={vendors.filter((v) =>
+                mode === "create" ? !v.isArchived : true
+              )}
               getOptionLabel={(vendor) => vendor.name}
               value={
                 vendorsLoading
@@ -128,26 +129,41 @@ export default function EventFormFields({
                   <Chip
                     {...getTagProps({ index })}
                     key={option._id}
-                    label={option.name}
-                    onDelete={() => {
-                      const newVendors = [...formData.vendors].filter(
-                        (id) => id !== option._id
-                      );
-                      onFieldChange({
-                        target: {
-                          name: "vendors",
-                          value: newVendors,
-                        },
-                      });
-                    }}
+                    label={
+                      <span className="flex items-center">
+                        {option.name}
+                        {option.isArchived && (
+                          <span className="ml-1 text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
+                            Archived
+                          </span>
+                        )}
+                      </span>
+                    }
+                    onDelete={
+                      option.isArchived
+                        ? undefined
+                        : () => {
+                            const newVendors = [...formData.vendors].filter(
+                              (id) => id !== option._id
+                            );
+                            onFieldChange({
+                              target: {
+                                name: "vendors",
+                                value: newVendors,
+                              },
+                            });
+                          }
+                    }
                     sx={{
-                      backgroundColor: "#F3E8FF",
-                      color: "#6B2D5C",
+                      backgroundColor: option.isArchived
+                        ? "#F3F4F6"
+                        : "#F3E8FF",
+                      color: option.isArchived ? "#6B7280" : "#6B2D5C",
                       marginRight: "4px",
                       "& .MuiChip-deleteIcon": {
-                        color: "#9B2C62",
+                        color: option.isArchived ? "#9CA3AF" : "#9B2C62",
                         "&:hover": {
-                          color: "#BE3455",
+                          color: option.isArchived ? "#9CA3AF" : "#BE3455",
                         },
                       },
                     }}
