@@ -85,7 +85,7 @@ export default function EditEventForm() {
       setFormData({
         ...selectedEvent,
         client: selectedEvent.client?._id || selectedEvent.client || "",
-        vendors: selectedEvent.vendors || [],
+        vendors: selectedEvent.vendors?.map((v) => v._id) || [],
         initialBudget: selectedEvent.budget?.totalBudget || "",
         budgetNotes: selectedEvent.budget?.notes || "",
         date: formatForDateTimeLocal(selectedEvent.date),
@@ -213,7 +213,7 @@ export default function EditEventForm() {
           </span>
           Edit Event
         </h1>
-        
+
         {/* event form fields */}
         <EventFormFields
           formData={formData}
