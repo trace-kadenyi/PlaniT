@@ -171,6 +171,21 @@ export default function EventFormFields({
                 ))
               }
             />
+            {formData.vendors?.some((vendorId) => {
+              const vendor = vendors.find((v) => v._id === vendorId);
+              return vendor?.isArchived;
+            }) && (
+              <p className="mt-2 text-sm text-yellow-600">
+                Note: This event contains archived vendors. Archived vendors
+                cannot be added to new events.
+                {mode === "edit" && (
+                  <span className="block mt-1 text-xs">
+                    You can keep them for this event but consider replacing them
+                    with active vendors.
+                  </span>
+                )}
+              </p>
+            )}
           </div>
         )}
       </div>
