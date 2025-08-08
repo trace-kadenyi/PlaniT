@@ -1,4 +1,3 @@
-// AutocompleteWithChips.jsx
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
