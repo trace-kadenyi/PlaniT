@@ -24,7 +24,7 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
     amount: "",
     description: "",
     category: "other",
-    vendors: [],
+    vendor: null,
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
@@ -44,7 +44,6 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
       ...form,
       amount: parseFloat(form.amount),
       eventId,
-      vendor: form.vendors[0] || null,
     };
 
     console.log(expenseData);
