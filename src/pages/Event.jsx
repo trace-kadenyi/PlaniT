@@ -168,7 +168,7 @@ export default function Event() {
                   <Link
                     to={`/vendors/${vendor._id}`}
                     key={index}
-                    className="hover:italic"
+                    className="hover:italic cursor-default"
                   >
                     <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-3 py-2 text-sm">
                       <span className="font-medium text-[#6B3B0F]">
