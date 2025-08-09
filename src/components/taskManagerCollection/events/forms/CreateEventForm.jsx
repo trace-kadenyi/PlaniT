@@ -45,6 +45,7 @@ export default function CreateEventForm() {
     vendors: [],
     initialBudget: "",
     budgetNotes: "",
+    summary: "",
     location: {
       venue: "",
       address: "",

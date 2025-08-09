@@ -53,6 +53,7 @@ export default function EditEventForm() {
     vendors: [],
     initialBudget: "",
     budgetNotes: "",
+    summary: "",
     location: {
       venue: "",
       address: "",
