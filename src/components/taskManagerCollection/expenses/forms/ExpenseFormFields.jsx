@@ -116,14 +116,14 @@ export default function ExpenseFormFields({
       {/* Vendor Selection */}
       <div>
         <AutocompleteWithChips
-          label="Select Vendors"
+          label="Select Vendor"
           options={vendors}
-          selectedValues={form.vendors || []}
+          selectedValues={form.vendor ? [form.vendor] : []}
           onChange={(newVendorIds) => {
             onFieldChange({
               target: {
-                name: "vendors",
-                value: newVendorIds,
+                name: "vendor",
+                value: newVendorIds[0] || null,
               },
             });
           }}
@@ -134,6 +134,7 @@ export default function ExpenseFormFields({
               vendor.services.includes(form.category))
           }
           getOptionLabel={(vendor) => `${vendor.name} (${vendor.services})`}
+          singleSelect
         />
       </div>
 
