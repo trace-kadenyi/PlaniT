@@ -1,4 +1,4 @@
-export default function ExpenseTabs({ activeView, setActiveView }) {
+export default function ExpenseTab({ activeView, setActiveView }) {
   return (
     <div className="flex justify-between items-center mb-6">
       <h2 className="text-md sm:text-lg font-semibold text-[#6B3B0F]">

@@ -10,7 +10,7 @@ import {
 import EditExpenseForm from "../expenses/forms/EditExpenseForm";
 import CreateExpenseForm from "../expenses/forms/CreateExpenseForm";
 import EditDeleteExpense from "../../shared/EditDeleteExpense";
-import ExpenseTabs from "./ExpenseTabs";
+import ExpenseTab from "./ExpenseTab";
 
 export default function BudgetTab({
   expenses,
@@ -106,7 +106,7 @@ export default function BudgetTab({
       {expensesArray.length > 0 && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
           {/* tabs List View & By Category */}
-          <ExpenseTabs activeView={activeView} setActiveView={setActiveView} />
+          <ExpenseTab activeView={activeView} setActiveView={setActiveView} />
 
           {activeView === "list" ? (
             <ul className="space-y-4">
