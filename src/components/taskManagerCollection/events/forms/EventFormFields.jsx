@@ -65,9 +65,9 @@ export default function EventFormFields({
 
       {/* Vendor Selection */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-[#6B2D5C] mb-1.5">
+        {/* <label className="block text-sm font-medium text-[#6B2D5C] mb-1.5">
           Select Vendors
-        </label>
+        </label> */}
 
         {vendorsLoading ? (
           <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
@@ -325,6 +325,27 @@ export default function EventFormFields({
             </div>
           </div>
         </div>
+      </div>
+
+        {/* Event Notes/Summary */}
+      <div>
+        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          Event Summary
+        </label>
+        <textarea
+          name="summary"
+          value={formData.summary}
+          onChange={onFieldChange}
+          rows={4}
+          maxLength={200}
+          disabled={shouldDisable}
+          className={`${fieldClasses} ${
+            shouldDisable ? disabledClasses : enabledClasses
+          }`}
+        />
+        <p className="text-xs text-right text-gray-500 mt-1">
+          {formData.summary.length}/200 characters
+        </p>
       </div>
 
       {/* Error Message */}
