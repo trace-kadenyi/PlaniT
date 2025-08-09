@@ -22,15 +22,16 @@ function Vend({ expense }) {
     <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
       <Link
         to={`/vendors/${expense.vendor._id}`}
-        className="font-medium text-[#6B3C0F] hover:underline"
+        className="font-medium text-[#6B3C0F] hover:italic cursor-default"
       >
         {expense.vendor.name}
+
+        {expense.vendor.services && (
+          <span className="text-[#9B2C62]/80 ml-1">
+            - {expense.vendor.services}
+          </span>
+        )}
       </Link>
-      {expense.vendor.services && (
-        <span className="text-[#9B2C62]/80 ml-1">
-          - {expense.vendor.services}
-        </span>
-      )}
     </div>
   );
 }
