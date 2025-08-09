@@ -156,6 +156,35 @@ export default function Event() {
               </span>
             </div>
           </div>
+
+          {/* vendors section */}
+          {event.vendors && event.vendors.length > 0 && (
+            <div className="mt-4">
+              <h3 className="font-semibold text-gray-500 mb-2 text-sm">
+                Vendors:
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {event.vendors.map((vendor, index) => (
+                  <Link
+                    to={`/vendors/${vendor._id}`}
+                    key={index}
+                    className="hover:opacity-80 transition-opacity"
+                  >
+                    <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-3 py-2 text-sm">
+                      <span className="font-medium text-[#6B3B0F]">
+                        {vendor.name}
+                      </span>
+                      <span className="text-gray-600">
+                        {" "}
+                        - {vendor.services}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* budget overview bar */}
           {expensesState.budgetStatus && (
             <BudgetOverview budgetStatus={expensesState.budgetStatus} />
