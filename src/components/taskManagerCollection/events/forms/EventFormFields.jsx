@@ -63,41 +63,6 @@ export default function EventFormFields({
         />
       )}
 
-      {/* Vendor Selection */}
-      <div className="space-y-2">
-        {/* <label className="block text-sm font-medium text-[#6B2D5C] mb-1.5">
-          Select Vendors
-        </label> */}
-
-        {vendorsLoading ? (
-          <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
-            <div className="flex items-center space-x-2">
-              <div className="h-4 w-4 bg-[#E3CBC1] rounded-full animate-pulse"></div>
-              <span className="text-[#9B2C62]/70">Loading vendors...</span>
-            </div>
-          </div>
-        ) : (
-          // autocomplate
-          <div className="relative">
-            <AutocompleteWithChips
-              label="Select Vendors"
-              options={vendors}
-              selectedValues={formData.vendors}
-              onChange={(newVendorIds) => {
-                onFieldChange({
-                  target: {
-                    name: "vendors",
-                    value: newVendorIds,
-                  },
-                });
-              }}
-              loading={vendorsLoading}
-              filterFn={(vendor) => !vendor.isArchived}
-            />
-          </div>
-        )}
-      </div>
-
       {/* Event Name */}
       <div>
         <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
@@ -149,6 +114,37 @@ export default function EventFormFields({
         <p className="text-xs text-right text-gray-500 mt-1">
           {formData.description.length}/300 characters
         </p>
+      </div>
+
+      {/* Vendor Selection */}
+      <div className="space-y-2">
+        {vendorsLoading ? (
+          <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
+            <div className="flex items-center space-x-2">
+              <div className="h-4 w-4 bg-[#E3CBC1] rounded-full animate-pulse"></div>
+              <span className="text-[#9B2C62]/70">Loading vendors...</span>
+            </div>
+          </div>
+        ) : (
+          // autocomplate
+          <div className="relative">
+            <AutocompleteWithChips
+              label="Select Vendors"
+              options={vendors}
+              selectedValues={formData.vendors}
+              onChange={(newVendorIds) => {
+                onFieldChange({
+                  target: {
+                    name: "vendors",
+                    value: newVendorIds,
+                  },
+                });
+              }}
+              loading={vendorsLoading}
+              filterFn={(vendor) => !vendor.isArchived}
+            />
+          </div>
+        )}
       </div>
 
       {/* Date */}
@@ -327,7 +323,7 @@ export default function EventFormFields({
         </div>
       </div>
 
-        {/* Event Notes/Summary */}
+      {/* Event Notes/Summary */}
       <div>
         <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
           Event Summary
