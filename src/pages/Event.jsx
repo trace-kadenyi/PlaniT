@@ -190,6 +190,18 @@ export default function Event() {
             <BudgetOverview budgetStatus={expensesState.budgetStatus} />
           )}
         </div>
+
+        {/* Event Summary */}
+        {event.summary && (
+          <div className="mt-6 p-4 rounded-lg bg-[#FFF5EB]/70 border border-[#F8D476]/50">
+            <h4 className="text-xs font-bold text-[#9B2C62] uppercase tracking-wider mb-2 underline">
+              Event Summary
+            </h4>
+            <p className="text-[#9B2C62] text-gray-700 text-xs font-semibold leading-relaxed">
+              {event.summary}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Tabs Section */}
