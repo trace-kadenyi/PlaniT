@@ -18,6 +18,15 @@ function Cat({ expense }) {
 }
 
 function Vend({ expense }) {
+  // null check for vendor
+  if (!expense.vendor || typeof expense.vendor === "string") {
+    return (
+      <div className="bg-gray-100/30 border border-gray-300/50 rounded-lg px-2 py-0.5 text-sm">
+        <span className="text-gray-500">Vendor not specified</span>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
       <Link
