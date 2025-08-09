@@ -113,7 +113,7 @@ export const ClientInfo = ({ event, Link }) => {
       <span className="text-xs font-semibold text-gray-500">Client:</span>
       <Link
         to={`/clients/${event.client._id}`}
-        className="flex items-center bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] hover:bg-[#FFF5EB] transition-colors duration-200"
+        className="flex items-center bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] hover:bg-[#FFF5EB] transition-colors duration-200 cursor-default"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
