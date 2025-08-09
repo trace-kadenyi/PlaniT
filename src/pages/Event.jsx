@@ -168,13 +168,13 @@ export default function Event() {
                   <Link
                     to={`/vendors/${vendor._id}`}
                     key={index}
-                    className="hover:opacity-80 transition-opacity"
+                    className="hover:italic"
                   >
                     <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-3 py-2 text-sm">
                       <span className="font-medium text-[#6B3B0F]">
                         {vendor.name}
                       </span>
-                      <span className="text-gray-600">
+                      <span className="text-[#9B2C62]/80 ml-1">
                         {" "}
                         - {vendor.services}
                       </span>
