@@ -23,7 +23,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
     amount: "",
     description: "",
     category: "other",
-    vendors: [],
+    vendor: null,
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
@@ -53,7 +53,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
         amount: expense.amount?.toString() || "",
         description: expense.description || "",
         category: expense.category || "other",
-        vendors: expense.vendor ? [expense.vendor._id || expense.vendor] : [],
+        vendor: expense.vendor?._id || expense.vendor || null,
         paymentStatus: expense.paymentStatus || "pending",
         paymentDate: expense.paymentDate
           ? expense.paymentDate.split("T")[0]
@@ -79,7 +79,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
       const updatedExpense = {
         ...form,
         amount: parseFloat(form.amount),
-        vendor: form.vendors[0] || null,
+        vendor: form.vendor,
       };
 
       const result = await dispatch(
