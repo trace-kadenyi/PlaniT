@@ -6,6 +6,8 @@ import {
   createExpense,
   resetExpenseStatuses,
 } from "../../../../redux/expensesSlice";
+import { fetchVendors } from "../../../../redux/vendorsSlice";
+
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
@@ -14,18 +16,26 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
   const { id: eventId } = useParams();
   const expenseStatus = useSelector((state) => state.expenses.createStatus);
   const expenseError = useSelector((state) => state.expenses.createError);
+  const { items: vendors, status: vendorsStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   const [form, setForm] = useState({
     amount: "",
     description: "",
     category: "other",
-    vendorName: "",
+    vendors: [],
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
     notes: "",
     receiptUrl: "",
   });
+
+  // Fetch vendors on mount
+  useEffect(() => {
+    dispatch(fetchVendors());
+  }, [dispatch]);
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -34,8 +44,10 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
       ...form,
       amount: parseFloat(form.amount),
       eventId,
+      vendor: form.vendors[0] || null,
     };
 
+    console.log(expenseData);
     dispatch(createExpense(expenseData))
       .then((res) => {
         if (res.meta.requestStatus === "fulfilled") {

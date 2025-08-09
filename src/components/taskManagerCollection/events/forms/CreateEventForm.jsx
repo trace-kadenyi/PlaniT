@@ -8,6 +8,8 @@ import {
   fetchClients,
   fetchClientWithEvents,
 } from "../../../../redux/clientsSlice";
+import { fetchVendors } from "../../../../redux/vendorsSlice";
+
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
 
@@ -18,12 +20,19 @@ export default function CreateEventForm() {
   const queryParams = new URLSearchParams(location.search);
   const preSelectedClientId = queryParams.get("client");
 
+  // events
   const { createStatus, createError } = useSelector((state) => state.events);
+  // clients
   const {
     items: clients,
     status: clientsStatus,
     clientDetails,
   } = useSelector((state) => state.clients);
+
+  // vendors
+  const { items: vendors, status: vendorsStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   // form data
   const [formData, setFormData] = useState({
@@ -33,8 +42,10 @@ export default function CreateEventForm() {
     type: "",
     status: "Planning",
     client: preSelectedClientId || "",
+    vendors: [],
     initialBudget: "",
     budgetNotes: "",
+    summary: "",
     location: {
       venue: "",
       address: "",
@@ -43,7 +54,7 @@ export default function CreateEventForm() {
     },
   });
 
-  // Fetch data based on the route
+  // Fetch clients
   useEffect(() => {
     if (preSelectedClientId) {
       dispatch(fetchClientWithEvents(preSelectedClientId));
@@ -51,6 +62,13 @@ export default function CreateEventForm() {
       dispatch(fetchClients());
     }
   }, [dispatch, clientsStatus, preSelectedClientId]);
+
+  // fetch vendors
+  useEffect(() => {
+    if (vendorsStatus === "idle") {
+      dispatch(fetchVendors());
+    }
+  }, [dispatch, vendorsStatus]);
 
   // Get the specific client when coming from client page
   const getPreSelectedClient = () => {
@@ -91,20 +109,14 @@ export default function CreateEventForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate client is selected when not coming from client page
-    // if (!preSelectedClientId && !formData.client) {
-    //   toastWithProgress("Please select a client");
-    //   return;
-    // }
-
     try {
       const dataToSend = {
         ...formData,
         date: formData.date ? new Date(formData.date).toISOString() : null,
         initialBudget: Number(formData.initialBudget) || 0,
         client: formData.client || null,
+        vendors: Array.isArray(formData.vendors) ? formData.vendors : [],
       };
-
       const res = await dispatch(createEvent(dataToSend)).unwrap();
 
       toastWithProgress("Event successfully created");
@@ -119,6 +131,7 @@ export default function CreateEventForm() {
     }
   };
 
+  // reset create state
   useEffect(() => {
     return () => {
       dispatch(resetCreateState());
@@ -141,6 +154,7 @@ export default function CreateEventForm() {
           Create Event
         </h1>
 
+        {/* event form fields */}
         <EventFormFields
           formData={formData}
           onFieldChange={handleChange}
@@ -163,6 +177,8 @@ export default function CreateEventForm() {
               : clientsStatus === "loading"
           }
           preSelectedClientId={preSelectedClientId}
+          vendors={vendors}
+          vendorsLoading={vendorsStatus === "loading"}
           mode="create"
         />
       </div>

@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 import { FormBudgetSummary } from "../../utils/budgetHelpers";
 import { handleFileUpload, handleRemoveReceipt } from "../expenseHelpers";
+import AutocompleteWithChips from "../../../shared/AutocompleteWithChips";
 
 export default function ExpenseFormFields({
   form,
@@ -15,6 +17,10 @@ export default function ExpenseFormFields({
 }) {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  const { items: vendors, status: vendorsStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   // Handle date changes
   const handleDateChange = (e) => {
@@ -97,30 +103,40 @@ export default function ExpenseFormFields({
           <option value="decorations">Decorations</option>
           <option value="equipment">Equipment</option>
           <option value="staffing">Staffing</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="transportation">Transportation</option>
           <option value="marketing">Marketing</option>
+          <option value="photography/videography">
+            Photography/Videography
+          </option>
           <option value="other">Other</option>
         </select>
       </div>
-      {/* Vendor Name */}
-      // Replace the current vendorName field with:
+
+      {/* Vendor Selection */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Vendor <span className="text-red-500">*</span>
-        </label>
-        <select
-          name="vendor"
-          value={form.vendor || ""}
-          onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
-        >
-          <option value="">Select Vendor</option>
-          {vendors.map((vendor) => (
-            <option key={vendor._id} value={vendor._id}>
-              {vendor.name} ({vendor.services})
-            </option>
-          ))}
-        </select>
+        <AutocompleteWithChips
+          label="Select Vendors"
+          options={vendors}
+          selectedValues={form.vendors || []}
+          onChange={(newVendorIds) => {
+            onFieldChange({
+              target: {
+                name: "vendors",
+                value: newVendorIds,
+              },
+            });
+          }}
+          loading={vendorsStatus === "loading"}
+          filterFn={(vendor) =>
+            !vendor.isArchived &&
+            (form.category === "other" ||
+              vendor.services.includes(form.category))
+          }
+          getOptionLabel={(vendor) => `${vendor.name} (${vendor.services})`}
+        />
       </div>
+
       {/* Payment Status */}
       <div>
         <label className="block text-sm font-medium text-gray-700">

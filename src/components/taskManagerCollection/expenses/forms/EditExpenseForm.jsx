@@ -5,6 +5,8 @@ import {
   updateExpense,
   resetExpenseStatuses,
 } from "../../../../redux/expensesSlice";
+import { fetchVendors } from "../../../../redux/vendorsSlice";
+
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
@@ -12,19 +14,27 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
   const dispatch = useDispatch();
   const expenseStatus = useSelector((state) => state.expenses.updateStatus);
   const expenseError = useSelector((state) => state.expenses.updateError);
+  const { items: vendors, status: vendorsStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   // initialize form
   const [form, setForm] = useState({
     amount: "",
     description: "",
     category: "other",
-    vendorName: "",
+    vendors: [],
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
     notes: "",
     receiptUrl: "",
   });
+
+  // Fetch vendors on mount
+  useEffect(() => {
+    dispatch(fetchVendors());
+  }, [dispatch]);
 
   // Reset status when expense changes
   useEffect(() => {
@@ -43,7 +53,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
         amount: expense.amount?.toString() || "",
         description: expense.description || "",
         category: expense.category || "other",
-        vendorName: expense.vendorName || "",
+        vendors: expense.vendor ? [expense.vendor._id || expense.vendor] : [],
         paymentStatus: expense.paymentStatus || "pending",
         paymentDate: expense.paymentDate
           ? expense.paymentDate.split("T")[0]
@@ -69,6 +79,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
       const updatedExpense = {
         ...form,
         amount: parseFloat(form.amount),
+        vendor: form.vendors[0] || null,
       };
 
       const result = await dispatch(

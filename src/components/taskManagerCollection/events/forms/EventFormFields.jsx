@@ -5,6 +5,7 @@ import {
   getLocalDateTimeString,
 } from "../../utils/dateHelpers";
 import { NotPreselected, PreselectedClients } from "./eventFormHelpers";
+import AutocompleteWithChips from "../../../shared/AutocompleteWithChips";
 
 export default function EventFormFields({
   formData,
@@ -15,7 +16,9 @@ export default function EventFormFields({
   onSubmit,
   budgetError,
   clients = [],
+  vendors = [],
   clientsLoading = false,
+  vendorsLoading = false,
   preSelectedClientId = null,
   mode = "create",
 }) {
@@ -23,6 +26,12 @@ export default function EventFormFields({
   const isClientArchived = preSelectedClientId
     ? clients.find((c) => c._id === preSelectedClientId)?.isArchived
     : false;
+
+  // archived vendors
+  const getVendorStatus = (vendorId) => {
+    const vendor = vendors.find((v) => v._id === vendorId);
+    return vendor?.isArchived ? "archived" : "active";
+  };
 
   // Style classes for consistency
   const disabledClasses =
@@ -53,6 +62,7 @@ export default function EventFormFields({
           preSelectedClientId={preSelectedClientId}
         />
       )}
+
       {/* Event Name */}
       <div>
         <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
@@ -104,6 +114,37 @@ export default function EventFormFields({
         <p className="text-xs text-right text-gray-500 mt-1">
           {formData.description.length}/300 characters
         </p>
+      </div>
+
+      {/* Vendor Selection */}
+      <div className="space-y-2">
+        {vendorsLoading ? (
+          <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
+            <div className="flex items-center space-x-2">
+              <div className="h-4 w-4 bg-[#E3CBC1] rounded-full animate-pulse"></div>
+              <span className="text-[#9B2C62]/70">Loading vendors...</span>
+            </div>
+          </div>
+        ) : (
+          // autocomplate
+          <div className="relative">
+            <AutocompleteWithChips
+              label="Select Vendors"
+              options={vendors}
+              selectedValues={formData.vendors}
+              onChange={(newVendorIds) => {
+                onFieldChange({
+                  target: {
+                    name: "vendors",
+                    value: newVendorIds,
+                  },
+                });
+              }}
+              loading={vendorsLoading}
+              filterFn={(vendor) => !vendor.isArchived}
+            />
+          </div>
+        )}
       </div>
 
       {/* Date */}
@@ -280,6 +321,28 @@ export default function EventFormFields({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Event Notes/Summary */}
+      <div>
+        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          Event Summary (Optional)
+        </label>
+        <textarea
+          name="summary"
+          value={formData.summary}
+          placeholder={`Summarize the event in general, e.g:\n1. The event was very successful...\n2. The event was cancelled due to...\n3. The event will occur on a rainy day, therefore...`}
+          onChange={onFieldChange}
+          rows={4}
+          maxLength={200}
+          disabled={shouldDisable}
+          className={`${fieldClasses} ${
+            shouldDisable ? disabledClasses : enabledClasses
+          } text-xs tracking-wide`}
+        />
+        <p className="text-xs text-right text-gray-500 mt-1">
+          {formData.summary.length}/200 characters
+        </p>
       </div>
 
       {/* Error Message */}
