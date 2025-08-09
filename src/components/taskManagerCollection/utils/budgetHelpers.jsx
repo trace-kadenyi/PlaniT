@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 // get budget status
 export function getBudgetStatus(budget, expenses) {
   const totalExpenses = expenses.reduce(
@@ -70,9 +72,26 @@ export function ExpenseListView({ expense, children }) {
           <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
             {expense.category || "uncategorized"}
           </span>
-         
-         
-         
+          {/* {expense.vendorName && (
+            <span className="truncate">
+              <span className="text-gray-400">•</span> {expense.vendorName}
+            </span>
+          )} */}
+          {expense.vendor && (
+            <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
+              <Link
+                to={`/vendors/${expense.vendor._id}`}
+                className="font-medium text-[#6B3C0F] hover:underline"
+              >
+                {expense.vendor.name}
+              </Link>
+              {expense.vendor.services && (
+                <span className="text-[#9B2C62]/80 ml-1">
+                  - {expense.vendor.services}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col-reverse sm:flex-row justify-between gap-4">
@@ -87,10 +106,20 @@ export function ExpenseListView({ expense, children }) {
               <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
                 {expense.category || "uncategorized"}
               </span>
-              {expense.vendorName && (
-                <span className="truncate">
-                  <span className="text-gray-400">•</span> {expense.vendorName}
-                </span>
+              {expense.vendor && (
+                <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
+                  <Link
+                    to={`/vendors/${expense.vendor._id}`}
+                    className="font-medium text-[#6B3C0F] hover:underline"
+                  >
+                    {expense.vendor.name}
+                  </Link>
+                  {expense.vendor.services && (
+                    <span className="text-[#9B2C62]/80 ml-1">
+                      - {expense.vendor.services}
+                    </span>
+                  )}
+                </div>
               )}
             </div>
           </div>
