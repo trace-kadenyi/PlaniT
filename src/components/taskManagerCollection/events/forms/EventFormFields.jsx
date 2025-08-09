@@ -326,18 +326,19 @@ export default function EventFormFields({
       {/* Event Notes/Summary */}
       <div>
         <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
-          Event Summary
+          Event Summary (Optional)
         </label>
         <textarea
           name="summary"
           value={formData.summary}
+          placeholder={`Summarize the event in general, e.g:\n1. The event was very successful...\n2. The event was cancelled due to...\n3. The event will occur on a rainy day, therefore...`}
           onChange={onFieldChange}
           rows={4}
           maxLength={200}
           disabled={shouldDisable}
           className={`${fieldClasses} ${
             shouldDisable ? disabledClasses : enabledClasses
-          }`}
+          } text-xs tracking-wide`}
         />
         <p className="text-xs text-right text-gray-500 mt-1">
           {formData.summary.length}/200 characters
