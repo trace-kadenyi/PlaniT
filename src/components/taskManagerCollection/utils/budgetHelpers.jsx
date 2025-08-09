@@ -70,17 +70,9 @@ export function ExpenseListView({ expense, children }) {
           <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
             {expense.category || "uncategorized"}
           </span>
-          {/* {expense.vendorName && (
-            <span className="truncate">
-              <span className="text-gray-400">•</span> {expense.vendorName}
-            </span>
-          )} */}
-          {expense.vendor?.name && (
-            <span className="truncate">
-              <span className="text-gray-400">•</span> {expense.vendor.name}
-              {expense.vendor.services && ` (${expense.vendor.services})`}
-            </span>
-          )}
+         
+         
+         
         </div>
       </div>
       <div className="flex flex-col-reverse sm:flex-row justify-between gap-4">
