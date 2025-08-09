@@ -20,7 +20,7 @@ export default function AutocompleteWithChips({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium text-[#6B2D5C] mb-1.5">
+        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
           {label}
         </label>
       )}
