@@ -59,70 +59,70 @@ export function BudgetStatus({ budgetStatus }) {
   );
 }
 
+// shareables
+function Desc({ expense }) {
+  return (
+    <h3 className="font-medium text-[#6B3B0F] mb-2">
+      {expense.description || "No description provided"}
+    </h3>
+  );
+}
+
+function Cat({ expense }) {
+  return (
+    <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
+      {expense.category || "uncategorized"}
+    </span>
+  );
+}
+
+function Vend({ expense }) {
+  return (
+    <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
+      <Link
+        to={`/vendors/${expense.vendor._id}`}
+        className="font-medium text-[#6B3C0F] hover:underline"
+      >
+        {expense.vendor.name}
+      </Link>
+      {expense.vendor.services && (
+        <span className="text-[#9B2C62]/80 ml-1">
+          - {expense.vendor.services}
+        </span>
+      )}
+    </div>
+  );
+}
+
 // handle expense list view
 export function ExpenseListView({ expense, children }) {
   return (
     <>
+      {/* MOBILE VIEW */}
       <div className="sm:hidden">
-        <h3 className="font-medium text-[#6B3B0F] mb-2">
-          {expense.description || "No description provided"}
-        </h3>
-
+        {/* description */}
+        <Desc expense={expense} />
+        {/* category & vendor */}
         <div className="flex items-center text-sm text-[#9B2C62]/80 gap-1.5">
-          <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
-            {expense.category || "uncategorized"}
-          </span>
-          {/* {expense.vendorName && (
-            <span className="truncate">
-              <span className="text-gray-400">•</span> {expense.vendorName}
-            </span>
-          )} */}
-          {expense.vendor && (
-            <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
-              <Link
-                to={`/vendors/${expense.vendor._id}`}
-                className="font-medium text-[#6B3C0F] hover:underline"
-              >
-                {expense.vendor.name}
-              </Link>
-              {expense.vendor.services && (
-                <span className="text-[#9B2C62]/80 ml-1">
-                  - {expense.vendor.services}
-                </span>
-              )}
-            </div>
-          )}
+          {!expense.vendor && <Cat expense={expense} />}
+          {expense.vendor && <Vend expense={expense} />}
         </div>
       </div>
+
       <div className="flex flex-col-reverse sm:flex-row justify-between gap-4">
         {/* Left Section */}
         <div className="flex-1 space-y-2">
+          {/* DESKTOP VIEW */}
           <div className="hidden sm:block">
-            <h3 className="font-medium text-[#6B3B0F] mb-2">
-              {expense.description || "No description provided"}
-            </h3>
-
+            {/* description */}
+            <Desc expense={expense} />
+            {/* category & vendor */}
             <div className="flex items-center text-sm text-[#9B2C62]/80 gap-1.5">
-              <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
-                {expense.category || "uncategorized"}
-              </span>
-              {expense.vendor && (
-                <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
-                  <Link
-                    to={`/vendors/${expense.vendor._id}`}
-                    className="font-medium text-[#6B3C0F] hover:underline"
-                  >
-                    {expense.vendor.name}
-                  </Link>
-                  {expense.vendor.services && (
-                    <span className="text-[#9B2C62]/80 ml-1">
-                      - {expense.vendor.services}
-                    </span>
-                  )}
-                </div>
-              )}
+              {!expense.vendor && <Cat expense={expense} />}
+              {expense.vendor && <Vend expense={expense} />}
             </div>
           </div>
+          {/* SHARED VIEW */}
           {expense.notes ? (
             <p className="text-xs text-gray-600 mt-1 w-full md:pr-10">
               <span className="text-gray-500 font-semibold">Note:</span>{" "}
