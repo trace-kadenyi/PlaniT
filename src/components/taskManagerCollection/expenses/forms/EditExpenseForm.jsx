@@ -1,19 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 
 import {
   updateExpense,
   resetExpenseStatuses,
 } from "../../../../redux/expensesSlice";
 import { fetchVendors } from "../../../../redux/vendorsSlice";
-import { fetchEventById } from "../../../../redux/eventsSlice";
 
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
-export default function EditExpenseForm({ expense, onClose, budgetStatus }) { 
-  const { id: eventId } = useParams();
+export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
   const dispatch = useDispatch();
   const expenseStatus = useSelector((state) => state.expenses.updateStatus);
   const expenseError = useSelector((state) => state.expenses.updateError);
@@ -93,7 +90,6 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
       );
 
       if (updateExpense.fulfilled.match(result)) {
-        await dispatch(fetchEventById(eventId));
         toastWithProgress("Expense updated successfully");
         if (onClose) onClose();
       }
