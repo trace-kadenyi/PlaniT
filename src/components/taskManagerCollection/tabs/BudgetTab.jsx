@@ -83,6 +83,7 @@ export default function BudgetTab({
               budgetStatus={budgetStatus}
               onVendorAdded={onVendorAdded}
               onVendorRemoved={onVendorRemoved}
+              expenses={expensesArray}
             />
           ) : (
             <CreateExpenseForm
@@ -125,7 +126,11 @@ export default function BudgetTab({
                     <EditDeleteExpense
                       setShowCreateExpenseForm={setShowCreateExpenseForm}
                       handleExpenseDelete={(expenseId) =>
-                        handleExpenseDelete(expenseId, expense.vendor?._id)
+                        handleExpenseDelete(
+                          expenseId,
+                          expense.vendor?._id,
+                          expensesArray
+                        )
                       }
                       setExpenseToEdit={setExpenseToEdit}
                       expense={expense}
