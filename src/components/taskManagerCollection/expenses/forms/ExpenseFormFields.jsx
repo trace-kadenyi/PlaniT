@@ -46,7 +46,7 @@ export default function ExpenseFormFields({
   return (
     <form
       onSubmit={onSubmit}
-      className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
+      className="expense_form bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
     >
       {/* budget status */}
       {budgetStatus && <FormBudgetSummary budgetStatus={budgetStatus} />}
