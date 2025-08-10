@@ -178,6 +178,12 @@ export default function Event() {
                         {" "}
                         - {vendor.services}
                       </span>
+                      {vendor.isArchived && (
+                        <span className="text-gray-500 text-xs ml-1">
+                          {" "}
+                          (Archived)
+                        </span>
+                      )}
                     </div>
                   </Link>
                 ))}
