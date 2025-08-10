@@ -16,6 +16,8 @@ export default function BudgetTab({
   expenses,
   budgetStatus,
   handleExpenseDelete,
+  onVendorAdded,
+  onVendorRemoved,
 }) {
   const { id } = useParams();
   const [showCreateExpenseForm, setShowCreateExpenseForm] = useState(false);
@@ -79,6 +81,8 @@ export default function BudgetTab({
                 setShowCreateExpenseForm(false);
               }}
               budgetStatus={budgetStatus}
+              onVendorAdded={onVendorAdded}
+              onVendorRemoved={onVendorRemoved}
             />
           ) : (
             <CreateExpenseForm
@@ -86,6 +90,7 @@ export default function BudgetTab({
                 setShowCreateExpenseForm(false);
               }}
               budgetStatus={budgetStatus}
+              onVendorAdded={onVendorAdded}
             />
           )}
         </div>
