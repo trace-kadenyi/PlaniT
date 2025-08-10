@@ -46,7 +46,6 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
       eventId,
     };
 
-    console.log(expenseData);
     dispatch(createExpense(expenseData))
       .then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
