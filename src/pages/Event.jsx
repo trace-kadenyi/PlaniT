@@ -31,8 +31,9 @@ export default function Event() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //  initialize tab state
+  //  initialize
   const [activeTab, setActiveTab] = useState("tasks");
+  const [localVendors, setLocalVendors] = useState([]);
   // events, tasks and expenses selectors
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
@@ -47,6 +48,13 @@ export default function Event() {
   }, [dispatch, id]);
 
   const event = eventsState.selectedEvent;
+
+  // Initialize local vendors when event data loads
+  useEffect(() => {
+    if (event?.vendors) {
+      setLocalVendors(event.vendors);
+    }
+  }, [event?.vendors]);
 
   // handle event loading state
   if (
