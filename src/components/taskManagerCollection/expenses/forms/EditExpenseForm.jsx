@@ -10,7 +10,13 @@ import { fetchVendors } from "../../../../redux/vendorsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
-export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
+export default function EditExpenseForm({
+  expense,
+  onClose,
+  budgetStatus,
+  onVendorAdded,
+  onVendorRemoved,
+}) {
   const dispatch = useDispatch();
   const expenseStatus = useSelector((state) => state.expenses.updateStatus);
   const expenseError = useSelector((state) => state.expenses.updateError);
@@ -90,6 +96,23 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
       );
 
       if (updateExpense.fulfilled.match(result)) {
+        // Handle vendor changes
+        const oldVendorId = expense.vendor?._id || expense.vendor;
+        const newVendorId = form.vendor;
+        
+        // Add new vendor if changed
+        if (newVendorId && newVendorId !== oldVendorId && onVendorAdded) {
+          const selectedVendor = vendors.find(v => v._id === newVendorId);
+          if (selectedVendor) {
+            onVendorAdded(selectedVendor);
+          }
+        }
+        
+        // Remove old vendor if changed
+        if (oldVendorId && newVendorId !== oldVendorId && onVendorRemoved) {
+          onVendorRemoved(oldVendorId);
+        }
+
         toastWithProgress("Expense updated successfully");
         if (onClose) onClose();
       }
