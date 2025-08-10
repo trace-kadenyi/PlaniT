@@ -77,7 +77,9 @@ export default function AutocompleteWithChips({
                   "&.event-form .MuiOutlinedInput-root": {
                     backgroundColor: "white",
                   },
-                
+                  "&.expense-form .MuiOutlinedInput-root": {
+                    backgroundColor: "#FFF8F2",
+                  },
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "0.5rem",
                     padding: "8px",
