@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { Plus, XCircle } from "lucide-react";
 
 import { getExpensesByCategory, BudgetStatus } from "../utils/budgetHelpers";
@@ -16,6 +17,7 @@ export default function BudgetTab({
   budgetStatus,
   handleExpenseDelete,
 }) {
+  const { id } = useParams();
   const [showCreateExpenseForm, setShowCreateExpenseForm] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const [activeView, setActiveView] = useState("list");
@@ -121,6 +123,7 @@ export default function BudgetTab({
                       setExpenseToEdit={setExpenseToEdit}
                       expense={expense}
                       setScrollToForm={setScrollToForm}
+                      eventId={id}
                     />
                   </ExpenseListView>
                 </li>
