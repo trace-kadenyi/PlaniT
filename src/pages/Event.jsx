@@ -102,13 +102,15 @@ export default function Event() {
   );
 
   // handle delete expense
-  // Add this with your other handler creations
   const handleExpenseDelete = createExpenseDeleteHandler(
     dispatch,
     deleteExpense,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
+    (vendorId) => {
+      setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
+    }
   );
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
