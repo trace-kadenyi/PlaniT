@@ -49,10 +49,20 @@ export default function Event() {
 
   const event = eventsState.selectedEvent;
 
+  // Helper function to ensure unique vendors
+  const getUniqueVendors = (vendors) => {
+    return [...(vendors || [])].reduce((acc, vendor) => {
+      if (vendor?._id && !acc.some((v) => v._id === vendor._id)) {
+        acc.push(vendor);
+      }
+      return acc;
+    }, []);
+  };
+
   // Initialize local vendors when event data loads
   useEffect(() => {
     if (event?.vendors) {
-      setLocalVendors(event.vendors);
+      setLocalVendors(getUniqueVendors(event.vendors));
     }
   }, [event?.vendors]);
 
@@ -106,10 +116,25 @@ export default function Event() {
     toast,
     toastWithProgress,
     DeleteConfirmationToast,
-    (vendorId) => {
-      setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
+    (vendorId, expenses) => {
+      try {
+        // Add null check and default to empty array
+        const safeExpenses = expenses || [];
+
+        // Check if vendor is used by other expenses
+        const vendorUsageCount = safeExpenses.filter(
+          (e) => e.vendor?._id === vendorId || e.vendor === vendorId
+        ).length;
+
+        if (vendorUsageCount <= 1) {
+          setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
+        }
+      } catch (error) {
+        console.error("Error in vendor removal logic:", error);
+      }
     }
   );
+
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
       {/* event card */}
@@ -248,7 +273,10 @@ export default function Event() {
           handleExpenseDelete={handleExpenseDelete}
           setLocalVendors={setLocalVendors}
           onVendorAdded={(newVendor) => {
-            setLocalVendors((prev) => [...prev, newVendor]);
+            setLocalVendors((prev) => {
+              const vendorExists = prev.some((v) => v._id === newVendor._id);
+              return vendorExists ? prev : [...prev, newVendor];
+            });
           }}
           onVendorRemoved={(vendorId) => {
             setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
