@@ -82,6 +82,7 @@ export default function AutocompleteWithChips({
                     "&:hover": {
                       borderColor: "#D4A798",
                     },
+                    backgroundColor: "#FFF8F2",
                     "&.Mui-focused": {
                       borderColor: "#BE3455",
                       boxShadow: "0 0 0 2px rgba(190, 52, 85, 0.2)",
@@ -107,7 +108,7 @@ export default function AutocompleteWithChips({
                             Archived
                           </span>
                         )}
-                      </span>
+                      </span> 
                     }
                     onDelete={isArchived ? undefined : tagProps.onDelete}
                     sx={{
