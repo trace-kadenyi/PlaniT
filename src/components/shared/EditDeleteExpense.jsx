@@ -19,7 +19,7 @@ export default function EditDeleteExpense({
       </button>
       <button
         className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs"
-        onClick={() => handleExpenseDelete(expense._id)}
+        onClick={() => handleExpenseDelete(expense._id, expense.vendor?._id)}
       >
         Delete expense
       </button>
