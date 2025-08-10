@@ -16,6 +16,7 @@ export default function EditExpenseForm({
   budgetStatus,
   onVendorAdded,
   onVendorRemoved,
+  expenses,
 }) {
   const dispatch = useDispatch();
   const expenseStatus = useSelector((state) => state.expenses.updateStatus);
@@ -96,23 +97,30 @@ export default function EditExpenseForm({
       );
 
       if (updateExpense.fulfilled.match(result)) {
-        // Handle vendor changes
         const oldVendorId = expense.vendor?._id || expense.vendor;
         const newVendorId = form.vendor;
-        
+
         // Add new vendor if changed
         if (newVendorId && newVendorId !== oldVendorId && onVendorAdded) {
-          const selectedVendor = vendors.find(v => v._id === newVendorId);
+          const selectedVendor = vendors.find((v) => v._id === newVendorId);
           if (selectedVendor) {
             onVendorAdded(selectedVendor);
           }
         }
-        
-        // Remove old vendor if changed
-        if (oldVendorId && newVendorId !== oldVendorId && onVendorRemoved) {
-          onVendorRemoved(oldVendorId);
-        }
 
+        // Only remove old vendor if it's not used by other expenses
+        if (oldVendorId && newVendorId !== oldVendorId && onVendorRemoved) {
+          // Get all expenses that use this vendor
+          const vendorUsageCount = expenses.filter(
+            (e) =>
+              (e.vendor?._id === oldVendorId || e.vendor === oldVendorId) &&
+              e._id !== expense._id
+          ).length;
+
+          if (vendorUsageCount === 0) {
+            onVendorRemoved(oldVendorId);
+          }
+        }
         toastWithProgress("Expense updated successfully");
         if (onClose) onClose();
       }
