@@ -43,7 +43,7 @@ export default function EventFormFields({
   const shouldDisable = mode === "create" && isClientArchived;
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form onSubmit={onSubmit} className="event_form space-y-5">
       {/* Client Selection (only show if not pre-selected) */}
       {!preSelectedClientId && (
         <NotPreselected
