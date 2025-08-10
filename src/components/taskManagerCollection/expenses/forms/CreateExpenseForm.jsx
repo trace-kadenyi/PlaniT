@@ -7,7 +7,6 @@ import {
   resetExpenseStatuses,
 } from "../../../../redux/expensesSlice";
 import { fetchVendors } from "../../../../redux/vendorsSlice";
-import { fetchEventById } from "../../../../redux/eventsSlice";
 
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
@@ -39,7 +38,7 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
   }, [dispatch]);
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const expenseData = {
       ...form,
@@ -47,21 +46,18 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
       eventId,
     };
 
-    try {
-      // Create the expense and wait for it to complete
-      const expenseResult = await dispatch(createExpense(expenseData));
-
-      if (expenseResult.meta.requestStatus === "fulfilled") {
-        // Only refresh event data if expense was created successfully
-        await dispatch(fetchEventById(eventId));
-
-        toastWithProgress("Expense added successfully");
-        if (onClose) onClose();
-      }
-    } catch (err) {
-      toastWithProgress(`Error: ${err.message}`);
-    }
+    dispatch(createExpense(expenseData))
+      .then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          toastWithProgress("Expense added successfully");
+          if (onClose) onClose();
+        }
+      })
+      .catch((err) => {
+        toastWithProgress(`Error: ${err.message}`);
+      });
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
