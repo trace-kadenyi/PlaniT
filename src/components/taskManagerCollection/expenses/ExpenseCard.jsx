@@ -28,7 +28,11 @@ function Vend({ expense }) {
   }
 
   return (
-    <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
+    <div
+      className={`border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center ${
+        expense.vendor.isArchived ? "bg-[#F8D476]/10" : "bg-[#F8D476]/30"
+      }`}
+    >
       <Link
         to={`/vendors/${expense.vendor._id}`}
         className="font-medium text-[#6B3C0F] hover:italic cursor-default"

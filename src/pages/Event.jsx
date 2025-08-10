@@ -170,7 +170,13 @@ export default function Event() {
                     key={index}
                     className="hover:italic cursor-default"
                   >
-                    <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-3 py-2 text-sm">
+                    <div
+                      className={` border border-[#F59E0B]/50 rounded-lg px-3 py-2 text-sm ${
+                        vendor.isArchived
+                          ? "bg-[#F8D476]/10"
+                          : "bg-[#F8D476]/30"
+                      }`}
+                    >
                       <span className="font-medium text-[#6B3B0F]">
                         {vendor.name}
                       </span>
