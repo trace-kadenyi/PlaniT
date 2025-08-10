@@ -52,6 +52,7 @@ export default function Event() {
   if (
     eventsState.fetchOneStatus === "loading" ||
     tasksState.status === "loading" ||
+    expensesState.status === "loading" ||
     !event
   ) {
     return <EventLoadingState />;
@@ -158,7 +159,7 @@ export default function Event() {
           </div>
 
           {/* vendors section */}
-          {event.vendors && event.vendors.length > 0 && (
+          {/* {event.vendors && event.vendors.length > 0 && (
             <div className="mt-4">
               <h3 className="font-semibold text-gray-500 mb-2 text-sm underline">
                 Vendors
@@ -192,6 +193,46 @@ export default function Event() {
                   </Link>
                 ))}
               </div>
+            </div>
+          )} */}
+
+          {event.vendors && event.vendors.length > 0 ? (
+            <div className="mt-4">
+              <h3 className="font-semibold text-gray-500 mb-2 text-sm underline">
+                Vendors (from expenses)
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {event.vendors.map((vendor, index) => (
+                  <Link
+                    to={`/vendors/${vendor._id}`}
+                    key={index}
+                    className="cursor-default text-xs font-semibold hover:italic"
+                  >
+                    <div
+                      className={`border border-[#F59E0B]/50 rounded-lg px-3 py-2 ${
+                        vendor.isArchived
+                          ? "bg-[#F8D476]/10"
+                          : "bg-[#F8D476]/30"
+                      }`}
+                    >
+                      <span className="text-[#6B3B0F]">{vendor.name}</span>
+                      <span className="text-[#9B2C62]/80 ml-1">
+                        - {vendor.services}
+                      </span>
+                      {vendor.isArchived && (
+                        <span className="text-gray-400 text-xs ml-1">
+                          (archived)
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="mt-4 text-sm text-gray-500">
+              No vendors associated yet. Vendors will appear here when added
+              through expenses.
             </div>
           )}
 
