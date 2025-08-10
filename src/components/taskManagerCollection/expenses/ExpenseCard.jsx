@@ -40,6 +40,9 @@ function Vend({ expense }) {
             - {expense.vendor.services}
           </span>
         )}
+        {expense.vendor.isArchived && (
+          <span className="text-gray-500 text-xs ml-1"> (Archived)</span>
+        )}
       </Link>
     </div>
   );
