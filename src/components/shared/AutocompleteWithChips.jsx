@@ -74,15 +74,17 @@ export default function AutocompleteWithChips({
                     : placeholder
                 }
                 sx={{
+                  "&.event-form .MuiOutlinedInput-root": {
+                    backgroundColor: "white",
+                  },
+                
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "0.5rem",
                     padding: "8px",
-                    backgroundColor: "white",
                     borderColor: "#E3CBC1",
                     "&:hover": {
                       borderColor: "#D4A798",
                     },
-                    backgroundColor: "#FFF8F2",
                     "&.Mui-focused": {
                       borderColor: "#BE3455",
                       boxShadow: "0 0 0 2px rgba(190, 52, 85, 0.2)",
@@ -108,7 +110,7 @@ export default function AutocompleteWithChips({
                             Archived
                           </span>
                         )}
-                      </span> 
+                      </span>
                     }
                     onDelete={isArchived ? undefined : tagProps.onDelete}
                     sx={{
