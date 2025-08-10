@@ -57,9 +57,7 @@ export default function Event() {
   }, [event?.vendors]);
 
   // In your Event component, add this useEffect:
-  useEffect(() => {
-    console.log("Vendors updated:", localVendors);
-  }, [localVendors]);
+  useEffect(() => {}, [localVendors]);
 
   // handle event loading state
   if (
