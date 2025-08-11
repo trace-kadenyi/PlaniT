@@ -87,7 +87,7 @@ export default function Sidebar() {
               className="p-2 rounded-full bg-white border shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
-              <ChevronRight
+              <ChevronLeft
                 size={20}
                 className="text-[#9B2C62]"
                 aria-hidden="true"
