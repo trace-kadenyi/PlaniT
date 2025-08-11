@@ -24,15 +24,16 @@ import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
 import BudgetOverview from "../components/taskManagerCollection/budgeting/BudgetOverview";
-import { ClientInfo } from "../components/shared/UIFragments";
+import { ClientInfo, VendorInfo } from "../components/shared/UIFragments";
 
 export default function Event() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //  initialize tab state
+  //  initialize
   const [activeTab, setActiveTab] = useState("tasks");
+  const [localVendors, setLocalVendors] = useState([]);
   // events, tasks and expenses selectors
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
@@ -48,10 +49,31 @@ export default function Event() {
 
   const event = eventsState.selectedEvent;
 
+  // Helper function to ensure unique vendors
+  const getUniqueVendors = (vendors) => {
+    return [...(vendors || [])].reduce((acc, vendor) => {
+      if (vendor?._id && !acc.some((v) => v._id === vendor._id)) {
+        acc.push(vendor);
+      }
+      return acc;
+    }, []);
+  };
+
+  // Initialize local vendors when event data loads
+  useEffect(() => {
+    if (event?.vendors) {
+      setLocalVendors(getUniqueVendors(event.vendors));
+    }
+  }, [event?.vendors]);
+
+  // In your Event component, add this useEffect:
+  useEffect(() => {}, [localVendors]);
+
   // handle event loading state
   if (
     eventsState.fetchOneStatus === "loading" ||
     tasksState.status === "loading" ||
+    expensesState.status === "loading" ||
     !event
   ) {
     return <EventLoadingState />;
@@ -88,14 +110,31 @@ export default function Event() {
   );
 
   // handle delete expense
-  // Add this with your other handler creations
   const handleExpenseDelete = createExpenseDeleteHandler(
     dispatch,
     deleteExpense,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
+    (vendorId, expenses) => {
+      try {
+        // Add null check and default to empty array
+        const safeExpenses = expenses || [];
+
+        // Check if vendor is used by other expenses
+        const vendorUsageCount = safeExpenses.filter(
+          (e) => e.vendor?._id === vendorId || e.vendor === vendorId
+        ).length;
+
+        if (vendorUsageCount <= 1) {
+          setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
+        }
+      } catch (error) {
+        console.error("Error in vendor removal logic:", error);
+      }
+    }
   );
+
   return (
     <main className="p-6 min-h-screen bg-white max-w-4xl mx-auto">
       {/* event card */}
@@ -158,30 +197,12 @@ export default function Event() {
           </div>
 
           {/* vendors section */}
-          {event.vendors && event.vendors.length > 0 && (
-            <div className="mt-4">
-              <h3 className="font-semibold text-gray-500 mb-2 text-sm">
-                Vendors:
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {event.vendors.map((vendor, index) => (
-                  <Link
-                    to={`/vendors/${vendor._id}`}
-                    key={index}
-                    className="hover:italic cursor-default"
-                  >
-                    <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-3 py-2 text-sm">
-                      <span className="font-medium text-[#6B3B0F]">
-                        {vendor.name}
-                      </span>
-                      <span className="text-[#9B2C62]/80 ml-1">
-                        {" "}
-                        - {vendor.services}
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+          {localVendors.length > 0 ? (
+            <VendorInfo vendors={localVendors} Link={Link} />
+          ) : (
+            <div className="mt-4 text-xs text-gray-500 font-semibold">
+              No vendors associated yet. Vendors will appear here when added
+              through expenses.
             </div>
           )}
 
@@ -219,6 +240,16 @@ export default function Event() {
           expenses={expensesState.items}
           budgetStatus={expensesState.budgetStatus}
           handleExpenseDelete={handleExpenseDelete}
+          setLocalVendors={setLocalVendors}
+          onVendorAdded={(newVendor) => {
+            setLocalVendors((prev) => {
+              const vendorExists = prev.some((v) => v._id === newVendor._id);
+              return vendorExists ? prev : [...prev, newVendor];
+            });
+          }}
+          onVendorRemoved={(vendorId) => {
+            setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
+          }}
         />
       )}
     </main>

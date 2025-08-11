@@ -11,7 +11,7 @@ import { fetchVendors } from "../../../../redux/vendorsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
-export default function CreateExpenseForm({ onClose, budgetStatus }) {
+export default function CreateExpenseForm({ onClose, budgetStatus, onVendorAdded }) {
   const dispatch = useDispatch();
   const { id: eventId } = useParams();
   const expenseStatus = useSelector((state) => state.expenses.createStatus);
@@ -24,7 +24,7 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
     amount: "",
     description: "",
     category: "other",
-    vendors: [],
+    vendor: null,
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
@@ -44,13 +44,17 @@ export default function CreateExpenseForm({ onClose, budgetStatus }) {
       ...form,
       amount: parseFloat(form.amount),
       eventId,
-      vendor: form.vendors[0] || null,
     };
 
-    console.log(expenseData);
     dispatch(createExpense(expenseData))
       .then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
+           if (form.vendor && onVendorAdded) {
+            const selectedVendor = vendors.find(v => v._id === form.vendor);
+            if (selectedVendor) {
+              onVendorAdded(selectedVendor);
+            }
+          }
           toastWithProgress("Expense added successfully");
           if (onClose) onClose();
         }

@@ -19,7 +19,16 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
             <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-[#6B3B0F] font-medium tracking-wide">
               {event.type}
             </p>
-            {event.client && <ClientInfo event={event} Link={Link} />}
+            {event.client && (
+              <div className="flex items-center gap-2 text-xs bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] transition-colors duration-200 cursor-default">
+                <span className="text-xs font-semibold text-gray-500">
+                  Client:
+                </span>
+                <span className="font-medium text-[#6B3B0F] transition-colors duration-200">
+                  {event.client.name}
+                </span>
+              </div>
+            )}
           </div>
           <h2
             className="mt-2 text-lg font-semibold text-[#9B2C62] tracking-tight line-clamp-1 hover:underline cursor-pointer"
@@ -85,7 +94,7 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
           </div>
         </button>
       </div>
-      
+
       {/* delete/edit buttons */}
       <EditDeleteEvent
         navigate={navigate}

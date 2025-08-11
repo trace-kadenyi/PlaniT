@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/Button";
-import LogoWordmark from "../headers/LogoWordmark";
+import { LogoWordmark } from "../headers/LogoWordmark";
 import { Menu, X } from "lucide-react"; // or any other icon lib
 
 export default function PrimaryHeader() {
@@ -18,7 +18,7 @@ export default function PrimaryHeader() {
         </div>
 
         {/* Center: Desktop Navigation */}
-        <nav className="hidden md:flex space-x-6 text-sm font-semibold">
+        <nav className="hidden md:flex items-center space-x-6 text-sm font-semibold">
           <Link to="/events" className="hover:text-[#F59E0B] transition">
             Events
           </Link>

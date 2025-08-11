@@ -5,7 +5,7 @@ import Chip from "@mui/material/Chip";
 export default function AutocompleteWithChips({
   label,
   options,
-  selectedValues,
+  selectedValues = [],
   onChange,
   loading = false,
   loadingText = "Loading...",
@@ -13,10 +13,21 @@ export default function AutocompleteWithChips({
   noOptionsText = "No options available",
   disabled = false,
   filterFn = (option) => true,
-  getOptionLabel = (option) => option?.name || "",
+  getOptionLabel = (option) => {
+    if (!option) return "";
+    const name = option.name || "No name";
+    const services = option.services || "No service";
+    return `${name} (${services})`;
+  },
   groupBy,
   renderOption,
+  singleSelect = false,
 }) {
+  // Get the actual selected option objects
+  const selectedOptions = options.filter((option) =>
+    selectedValues.includes(option._id)
+  );
+
   return (
     <div className="space-y-2">
       {label && (
@@ -35,20 +46,23 @@ export default function AutocompleteWithChips({
       ) : (
         <div className="relative">
           <Autocomplete
-            multiple
+            multiple={!singleSelect}
             options={options.filter(
               (option) =>
-                filterFn(option) && !selectedValues?.includes(option._id)
+                filterFn(option) && !selectedValues.includes(option._id)
             )}
             getOptionLabel={getOptionLabel}
             groupBy={groupBy}
             renderOption={renderOption}
-            value={options.filter((option) =>
-              selectedValues?.includes(option._id)
-            )}
+            value={singleSelect ? selectedOptions[0] || null : selectedOptions}
             onChange={(_, newValue) => {
-              onChange(newValue.map((v) => v._id));
+              if (singleSelect) {
+                onChange(newValue ? [newValue._id] : []);
+              } else {
+                onChange(newValue.map((v) => v._id));
+              }
             }}
+            isOptionEqualToValue={(option, value) => option._id === value._id}
             disabled={disabled}
             noOptionsText={noOptionsText}
             renderInput={(params) => (
@@ -60,10 +74,15 @@ export default function AutocompleteWithChips({
                     : placeholder
                 }
                 sx={{
+                  "&.event-form .MuiOutlinedInput-root": {
+                    backgroundColor: "white",
+                  },
+                  "&.expense-form .MuiOutlinedInput-root": {
+                    backgroundColor: "#FFF8F2",
+                  },
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "0.5rem",
                     padding: "8px",
-                    backgroundColor: "white",
                     borderColor: "#E3CBC1",
                     "&:hover": {
                       borderColor: "#D4A798",
@@ -113,8 +132,7 @@ export default function AutocompleteWithChips({
             }
           />
           {options.some(
-            (option) =>
-              option.isArchived && selectedValues?.includes(option._id)
+            (option) => option.isArchived && selectedValues.includes(option._id)
           ) && (
             <p className="mt-2 text-sm text-yellow-600">
               Note: Contains archived items. Archived items cannot be added to

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { Plus, XCircle } from "lucide-react";
 
 import { getExpensesByCategory, BudgetStatus } from "../utils/budgetHelpers";
@@ -15,7 +16,10 @@ export default function BudgetTab({
   expenses,
   budgetStatus,
   handleExpenseDelete,
+  onVendorAdded,
+  onVendorRemoved,
 }) {
+  const { id } = useParams();
   const [showCreateExpenseForm, setShowCreateExpenseForm] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const [activeView, setActiveView] = useState("list");
@@ -77,6 +81,9 @@ export default function BudgetTab({
                 setShowCreateExpenseForm(false);
               }}
               budgetStatus={budgetStatus}
+              onVendorAdded={onVendorAdded}
+              onVendorRemoved={onVendorRemoved}
+              expenses={expensesArray}
             />
           ) : (
             <CreateExpenseForm
@@ -84,6 +91,7 @@ export default function BudgetTab({
                 setShowCreateExpenseForm(false);
               }}
               budgetStatus={budgetStatus}
+              onVendorAdded={onVendorAdded}
             />
           )}
         </div>
@@ -117,10 +125,17 @@ export default function BudgetTab({
                   <ExpenseListView expense={expense}>
                     <EditDeleteExpense
                       setShowCreateExpenseForm={setShowCreateExpenseForm}
-                      handleExpenseDelete={handleExpenseDelete}
+                      handleExpenseDelete={(expenseId) =>
+                        handleExpenseDelete(
+                          expenseId,
+                          expense.vendor?._id,
+                          expensesArray
+                        )
+                      }
                       setExpenseToEdit={setExpenseToEdit}
                       expense={expense}
                       setScrollToForm={setScrollToForm}
+                      eventId={id}
                     />
                   </ExpenseListView>
                 </li>

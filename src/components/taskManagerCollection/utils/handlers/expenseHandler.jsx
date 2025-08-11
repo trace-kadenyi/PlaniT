@@ -5,9 +5,10 @@ export const createExpenseDeleteHandler = (
   deleteExpense,
   toast,
   toastWithProgress,
-  DeleteConfirmationToast
+  DeleteConfirmationToast,
+  onVendorRemoved
 ) => {
-  return (expenseId) => {
+  return (expenseId, vendorId, expenses) => {
     const duration = 10000;
     toast(
       (t) => (
@@ -19,6 +20,10 @@ export const createExpenseDeleteHandler = (
             dispatch(deleteExpense(expenseId))
               .unwrap()
               .then(() => {
+                // Add null check before calling onVendorRemoved
+                if (vendorId && onVendorRemoved) {
+                  onVendorRemoved(vendorId, expenses || []);
+                }
                 toast.dismiss(t.id);
                 toastWithProgress("Expense deleted successfully");
               })

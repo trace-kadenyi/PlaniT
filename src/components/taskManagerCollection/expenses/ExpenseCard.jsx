@@ -18,8 +18,21 @@ function Cat({ expense }) {
 }
 
 function Vend({ expense }) {
+  // null check for vendor
+  if (!expense.vendor || typeof expense.vendor === "string") {
+    return (
+      <div className="bg-gray-100/30 border border-gray-300/50 rounded-lg px-2 py-0.5 text-sm">
+        <span className="text-gray-500">Vendor not specified</span>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-[#F8D476]/30 border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center">
+    <div
+      className={`border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center ${
+        expense.vendor.isArchived ? "bg-[#F8D476]/10" : "bg-[#F8D476]/30"
+      }`}
+    >
       <Link
         to={`/vendors/${expense.vendor._id}`}
         className="font-medium text-[#6B3C0F] hover:italic cursor-default"
@@ -30,6 +43,9 @@ function Vend({ expense }) {
           <span className="text-[#9B2C62]/80 ml-1">
             - {expense.vendor.services}
           </span>
+        )}
+        {expense.vendor.isArchived && (
+          <span className="text-gray-500 text-xs ml-1"> (Archived)</span>
         )}
       </Link>
     </div>

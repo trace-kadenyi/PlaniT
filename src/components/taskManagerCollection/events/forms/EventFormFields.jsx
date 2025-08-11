@@ -43,7 +43,7 @@ export default function EventFormFields({
   const shouldDisable = mode === "create" && isClientArchived;
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form onSubmit={onSubmit} className="event_form space-y-5">
       {/* Client Selection (only show if not pre-selected) */}
       {!preSelectedClientId && (
         <NotPreselected
@@ -117,7 +117,7 @@ export default function EventFormFields({
       </div>
 
       {/* Vendor Selection */}
-      <div className="space-y-2">
+      {/* <div className="space-y-2">
         {vendorsLoading ? (
           <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
             <div className="flex items-center space-x-2">
@@ -145,7 +145,7 @@ export default function EventFormFields({
             />
           </div>
         )}
-      </div>
+      </div> */}
 
       {/* Date */}
       <div className="relative">

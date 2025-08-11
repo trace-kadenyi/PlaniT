@@ -10,7 +10,14 @@ import { fetchVendors } from "../../../../redux/vendorsSlice";
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import ExpenseFormFields from "./ExpenseFormFields";
 
-export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
+export default function EditExpenseForm({
+  expense,
+  onClose,
+  budgetStatus,
+  onVendorAdded,
+  onVendorRemoved,
+  expenses,
+}) {
   const dispatch = useDispatch();
   const expenseStatus = useSelector((state) => state.expenses.updateStatus);
   const expenseError = useSelector((state) => state.expenses.updateError);
@@ -23,7 +30,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
     amount: "",
     description: "",
     category: "other",
-    vendors: [],
+    vendor: null,
     paymentStatus: "pending",
     paymentDate: "",
     dueDate: "",
@@ -53,7 +60,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
         amount: expense.amount?.toString() || "",
         description: expense.description || "",
         category: expense.category || "other",
-        vendors: expense.vendor ? [expense.vendor._id || expense.vendor] : [],
+        vendor: expense.vendor?._id || expense.vendor || null,
         paymentStatus: expense.paymentStatus || "pending",
         paymentDate: expense.paymentDate
           ? expense.paymentDate.split("T")[0]
@@ -79,7 +86,7 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
       const updatedExpense = {
         ...form,
         amount: parseFloat(form.amount),
-        vendor: form.vendors[0] || null,
+        vendor: form.vendor,
       };
 
       const result = await dispatch(
@@ -90,6 +97,30 @@ export default function EditExpenseForm({ expense, onClose, budgetStatus }) {
       );
 
       if (updateExpense.fulfilled.match(result)) {
+        const oldVendorId = expense.vendor?._id || expense.vendor;
+        const newVendorId = form.vendor;
+
+        // Add new vendor if changed
+        if (newVendorId && newVendorId !== oldVendorId && onVendorAdded) {
+          const selectedVendor = vendors.find((v) => v._id === newVendorId);
+          if (selectedVendor) {
+            onVendorAdded(selectedVendor);
+          }
+        }
+
+        // Only remove old vendor if it's not used by other expenses
+        if (oldVendorId && newVendorId !== oldVendorId && onVendorRemoved) {
+          // Get all expenses that use this vendor
+          const vendorUsageCount = expenses.filter(
+            (e) =>
+              (e.vendor?._id === oldVendorId || e.vendor === oldVendorId) &&
+              e._id !== expense._id
+          ).length;
+
+          if (vendorUsageCount === 0) {
+            onVendorRemoved(oldVendorId);
+          }
+        }
         toastWithProgress("Expense updated successfully");
         if (onClose) onClose();
       }

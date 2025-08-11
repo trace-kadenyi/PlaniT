@@ -1,34 +1,42 @@
-export default function LogoWordmark() {
+export function LogoWordmark() {
   return (
-    <div>
-      <svg
-        viewBox="0 0 300 100"
-        width="120"
-        height="40"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <text
-          x="10"
-          y="65"
-          fontFamily="'Montserrat', sans-serif"
-          fontWeight="700"
-          fontSize="64"
-          fill="#FFFFFF"
-        >
-          Plani
-        </text>
+    <svg
+      width="120"
+      height="40"
+      viewBox="0 0 200 80"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Define styles */}
+      <style>
+        {`
+            .plani { 
+              fill: #FFFFFF; 
+              font-family: 'Montserrat', sans-serif; 
+              font-weight: 700; 
+              font-size: 52px; 
+              letter-spacing: 0.1rem;
+            }
+            .t { 
+              fill: #F59E0B;
+            }
+            .dot { 
+              fill: #F59E0B; 
+            }
+          `}
+      </style>
 
-        <text
-          x="185"
-          y="65"
-          fontFamily="'Montserrat', sans-serif"
-          fontWeight="700"
-          fontSize="64"
-          fill="#F59E0B"
-        >
-          T
-        </text>
-      </svg>
-    </div>
+      {/* White "Plani" */}
+      <text x="10" y="50" className="plani">
+        Plani
+      </text>
+
+      {/* Saffron Gold "T" */}
+      <text x="155" y="50" className="plani t">
+        T
+      </text>
+
+      {/* Saffron Gold dot on "i" */}
+      <circle cx="146" cy="13" r="5" className="dot" />
+    </svg>
   );
 }
