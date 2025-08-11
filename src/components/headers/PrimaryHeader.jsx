@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/Button";
-import LogoWordmark from "../headers/LogoWordmark";
+import { LogoWordmark } from "../headers/LogoWordmark";
 import { Menu, X } from "lucide-react"; // or any other icon lib
 
 export default function PrimaryHeader() {
@@ -11,7 +11,7 @@ export default function PrimaryHeader() {
     <header className="w-full bg-[#9B2C62] shadow-sm text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Left: Logo */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 border border-green-500 my-auto">
           <Link to="/">
             <LogoWordmark />
           </Link>
