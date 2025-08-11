@@ -77,7 +77,6 @@ export default function Sidebar() {
           aria-label="Sidebar"
         >
           {/* Branding & Collapse */}
-          {/* Branding & Collapse */}
           <div
             className={`absolute -right-3 top-1/2 transform -translate-y-1/2 z-10 ${
               collapsed ? "rotate-180" : ""
