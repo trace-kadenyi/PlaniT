@@ -2,7 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import "./App.css";
-import PrimaryHeader from "./components/navigation/Header";
+import Header from "./components/navigation/Header";
+import Sidebar from "./components/navigation/Sidebar";
 import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
@@ -32,7 +33,8 @@ function App() {
         <Toaster position="top-right" />
       )}
       <Router>
-        <PrimaryHeader />
+        {/* <Header /> */}
+        <Sidebar />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/events" element={<Events />} />
