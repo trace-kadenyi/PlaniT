@@ -56,7 +56,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile Toggle Button */}
-     <button
+      <button
         aria-label="Toggle sidebar"
         className="fixed z-30 p-2 m-2 rounded-lg bg-[#9B2C62] text-white md:hidden"
         onClick={() => setMobileOpen(!mobileOpen)}
@@ -65,14 +65,38 @@ export default function Sidebar() {
       </button>
 
       {/* Sidebar Container */}
-      <div className={`fixed inset-y-0 left-0 z-20 md:relative md:block ${mobileOpen ? 'block' : 'hidden'}`}>
+      <div
+        className={`fixed inset-y-0 left-0 z-20 md:relative md:block ${
+          mobileOpen ? "block" : "hidden"
+        }`}
+      >
         <aside
           className={`h-full bg-white border-r shadow-sm flex flex-col transition-all duration-300 ease-in-out ${
-            collapsed ? 'w-16' : 'w-64'
+            collapsed ? "w-16" : "w-64"
           }`}
           aria-label="Sidebar"
-        >{/* Branding & Collapse */}
+        >
           {/* Branding & Collapse */}
+          {/* Branding & Collapse */}
+          <div
+            className={`absolute -right-3 top-1/2 transform -translate-y-1/2 z-10 ${
+              collapsed ? "rotate-180" : ""
+            }`}
+          >
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="p-2 rounded-full bg-white border shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              <ChevronRight
+                size={20}
+                className="text-[#9B2C62]"
+                aria-hidden="true"
+              />
+            </button>
+          </div>
+
+          {/* Branding (simplified) */}
           <div
             className={`flex items-center p-4 ${
               collapsed ? "justify-center" : "justify-between"
@@ -91,19 +115,6 @@ export default function Sidebar() {
                 </span>
               )}
             </Link>
-            <button
-              onClick={() => setCollapsed(!collapsed)}
-              className={`p-1 rounded-full hover:bg-[#9B2C62]/10 text-[#9B2C62] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9B2C62] ${
-                collapsed ? "absolute right-1 top-4" : ""
-              }`}
-              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              {collapsed ? (
-                <ChevronRight size={20} />
-              ) : (
-                <ChevronLeft size={20} />
-              )}
-            </button>
           </div>
 
           {/* Navigation */}
