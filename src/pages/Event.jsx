@@ -24,7 +24,7 @@ import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
 import BudgetOverview from "../components/taskManagerCollection/budgeting/BudgetOverview";
-import { ClientInfo } from "../components/shared/UIFragments";
+import { ClientInfo, VendorInfo } from "../components/shared/UIFragments";
 
 export default function Event() {
   const { id } = useParams();
@@ -198,41 +198,7 @@ export default function Event() {
 
           {/* vendors section */}
           {localVendors.length > 0 ? (
-            <div className="mt-4">
-              <h3 className="font-semibold text-gray-500 mb-2 text-sm underline">
-                Vendors
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {localVendors.map((vendor, index) => (
-                  <Link
-                    to={`/vendors/${vendor._id}`}
-                    key={index}
-                    className="cursor-default text-xs font-semibold transition-transform duration-300 hover:-translate-y-0.5"
-                  >
-                    <div
-                      className={`border-2 rounded-lg px-3 py-2 transition-all duration-300
-              ${
-                vendor.isArchived
-                  ? "bg-[#F8D476]/10 border-[#F59E0B]/30"
-                  : "bg-[#F8D476]/30 border-[#F59E0B]/50"
-              } hover:border-[#F59E0B] hover:shadow-lg hover:shadow-amber-100/50 hover:bg-[#F8D476]/40 group`}
-                    >
-                      <span className="text-[#6B3B0F] group-hover:text-amber-900 transition-colors">
-                        {vendor.name}
-                      </span>
-                      <span className="text-[#9B2C62]/80 ml-1 group-hover:text-[#9B2C62] transition-colors">
-                        - {vendor.services}
-                      </span>
-                      {vendor.isArchived && (
-                        <span className="text-gray-400 text-xs ml-1">
-                          (archived)
-                        </span>
-                      )}
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <VendorInfo vendors={localVendors} Link={Link} />
           ) : (
             <div className="mt-4 text-xs text-gray-500 font-semibold">
               No vendors associated yet. Vendors will appear here when added
