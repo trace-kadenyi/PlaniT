@@ -207,17 +207,20 @@ export default function Event() {
                   <Link
                     to={`/vendors/${vendor._id}`}
                     key={index}
-                    className="cursor-default text-xs font-semibold hover:italic"
+                    className="cursor-default text-xs font-semibold transition-transform duration-300 hover:-translate-y-0.5"
                   >
                     <div
-                      className={`border border-[#F59E0B]/50 rounded-lg px-3 py-2 ${
-                        vendor.isArchived
-                          ? "bg-[#F8D476]/10"
-                          : "bg-[#F8D476]/30"
-                      }`}
+                      className={`border-2 rounded-lg px-3 py-2 transition-all duration-300
+              ${
+                vendor.isArchived
+                  ? "bg-[#F8D476]/10 border-[#F59E0B]/30"
+                  : "bg-[#F8D476]/30 border-[#F59E0B]/50"
+              } hover:border-[#F59E0B] hover:shadow-lg hover:shadow-amber-100/50 hover:bg-[#F8D476]/40 group`}
                     >
-                      <span className="text-[#6B3B0F]">{vendor.name}</span>
-                      <span className="text-[#9B2C62]/80 ml-1">
+                      <span className="text-[#6B3B0F] group-hover:text-amber-900 transition-colors">
+                        {vendor.name}
+                      </span>
+                      <span className="text-[#9B2C62]/80 ml-1 group-hover:text-[#9B2C62] transition-colors">
                         - {vendor.services}
                       </span>
                       {vendor.isArchived && (
@@ -231,7 +234,7 @@ export default function Event() {
               </div>
             </div>
           ) : (
-            <div className="mt-4 text-sm text-gray-500">
+            <div className="mt-4 text-xs text-gray-500 font-semibold">
               No vendors associated yet. Vendors will appear here when added
               through expenses.
             </div>
