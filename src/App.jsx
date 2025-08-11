@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import "./App.css";
-import PrimaryHeader from "./components/headers/PrimaryHeader";
+import PrimaryHeader from "./components/navigation/PrimaryHeader";
 import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
