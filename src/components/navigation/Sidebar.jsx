@@ -73,13 +73,9 @@ export default function Sidebar() {
   ];
 
   const isActive = (path) => {
-    if (path === "/") return pathname === path;
-    return (
-      pathname === path ||
-      pathname.startsWith(`${path}/`) ||
-      (path === "/events" && pathname.startsWith("/tasks/board"))
-    ); // Special case for tasks board
-  };
+  if (path === "/") return pathname === path;
+  return pathname === path || pathname.startsWith(`${path}/`);
+};
 
   return (
     <>
