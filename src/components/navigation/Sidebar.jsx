@@ -149,15 +149,15 @@ export default function Sidebar() {
                 <Link
                   to={item.path}
                   className={`
-          flex items-center p-3 rounded-lg transition-colors
-          ${
-            isActive(item.path)
-              ? "bg-[#9B2C62] text-white"
-              : "hover:bg-[#FFB866]/20 text-gray-700"
-          }
-          ${collapsed ? "justify-center" : "gap-3"}
-          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
-        `}
+        flex items-center p-3 rounded-lg transition-colors
+        ${
+          isActive(item.path)
+            ? "bg-[#9B2C62] text-white"
+            : "hover:bg-[#FFB866]/20 text-gray-700"
+        }
+        ${collapsed ? "justify-center" : "gap-3"}
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+      `}
                   title={collapsed ? item.label : undefined}
                   aria-current={isActive(item.path) ? "page" : undefined}
                 >
@@ -173,7 +173,7 @@ export default function Sidebar() {
                   {!collapsed && <span>{item.label}</span>}
                 </Link>
 
-                {/* Always show children if not collapsed */}
+                {/* Expanded state children */}
                 {!collapsed && item.children && (
                   <div className="ml-8 mt-1 space-y-1">
                     {item.children.map((child) => (
@@ -204,6 +204,38 @@ export default function Sidebar() {
                         <span className="text-sm font-medium">
                           {child.label}
                         </span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                {/* Collapsed state children */}
+                {collapsed && item.children && (
+                  <div className="mt-1 space-y-1">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.path}
+                        to={child.path}
+                        className={`
+              flex items-center justify-center p-2 rounded-lg transition-colors
+              ${
+                isActive(child.path)
+                  ? "bg-[#FFF5EB] text-[#E07C24]"
+                  : "hover:bg-[#FFF5EB]/50 text-gray-600 hover:text-[#9B2C62]"
+              }
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+            `}
+                        title={child.label}
+                        aria-current={isActive(child.path) ? "page" : undefined}
+                      >
+                        <child.icon
+                          size={18}
+                          className={
+                            isActive(child.path)
+                              ? "text-[#E07C24]"
+                              : "text-[#9B2C62]/70 group-hover:text-[#FF9933]"
+                          }
+                          aria-hidden="true"
+                        />
                       </Link>
                     ))}
                   </div>
