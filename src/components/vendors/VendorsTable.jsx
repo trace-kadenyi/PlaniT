@@ -1,4 +1,10 @@
-import { ExternalLink, Pencil, RefreshCcw, Archive } from "lucide-react";
+import {
+  ExternalLink,
+  Pencil,
+  RefreshCcw,
+  Archive,
+  UserCog,
+} from "lucide-react";
 
 import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
 import ArchiveConfirmationToast from "../../globalUtils/archiveConfirmationToast";
@@ -42,7 +48,10 @@ export default function VendorsTable({
                 }`}
               >
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0 h-10 w-10 rounded-full bg-[#9B2C62] flex items-center justify-center text-white">
+                      <UserCog className="w-5 h-5" />
+                    </div>
                     <div>
                       <div
                         onClick={() => navigate(`/vendors/${vendor._id}`)}
