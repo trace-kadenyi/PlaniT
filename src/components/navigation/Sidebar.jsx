@@ -56,7 +56,15 @@ export default function Sidebar() {
 
   const navLinks = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/" },
-    { icon: Calendar, label: "Events Manager", path: "/events" },
+    {
+      icon: Calendar,
+      label: "Events Manager",
+      path: "/events",
+      children: [
+        { label: "Events Board", path: "/events/board" },
+        { label: "Tasks Board", path: "/tasks/board" },
+      ],
+    },
     { icon: Users, label: "Client Directory", path: "/clients" },
     { icon: ClipboardList, label: "Tasks", path: "/tasks" },
     { icon: Settings, label: "Settings", path: "/settings" },
@@ -135,34 +143,72 @@ export default function Sidebar() {
 
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1">
-            {navLinks.slice(0, 4).map(({ icon: Icon, label, path }) => (
-              <Link
-                key={path}
-                to={path}
-                className={`
-                  flex items-center p-3 rounded-lg transition-colors
-                  ${
-                    isActive(path)
-                      ? "bg-[#9B2C62] text-white"
-                      : "hover:bg-[#FFB866]/20 text-gray-700"
-                  }
-                  ${collapsed ? "justify-center" : "gap-3"}
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
-                `}
-                title={collapsed ? label : undefined}
-                aria-current={isActive(path) ? "page" : undefined}
-              >
-                <Icon
-                  size={20}
-                  className={
-                    isActive(path)
-                      ? "text-white"
-                      : "text-[#9B2C62] group-hover:text-[#FF9933]"
-                  }
-                  aria-hidden="true"
-                />
-                {!collapsed && <span>{label}</span>}
-              </Link>
+            {navLinks.slice(0, 4).map((item) => (
+              <div key={item.path}>
+                <Link
+                  to={item.path}
+                  className={`
+          flex items-center p-3 rounded-lg transition-colors
+          ${
+            isActive(item.path)
+              ? "bg-[#9B2C62] text-white"
+              : "hover:bg-[#FFB866]/20 text-gray-700"
+          }
+          ${collapsed ? "justify-center" : "gap-3"}
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+        `}
+                  title={collapsed ? item.label : undefined}
+                  aria-current={isActive(item.path) ? "page" : undefined}
+                >
+                  <item.icon
+                    size={20}
+                    className={
+                      isActive(item.path)
+                        ? "text-white"
+                        : "text-[#9B2C62] group-hover:text-[#FF9933]"
+                    }
+                    aria-hidden="true"
+                  />
+                  {!collapsed && (
+                    <div className="flex items-center justify-between w-full">
+                      <span>{item.label}</span>
+                      {item.children && (
+                        <ChevronRight
+                          size={16}
+                          className={`transition-transform ${
+                            isActive(item.path) ? "rotate-90" : ""
+                          }`}
+                        />
+                      )}
+                    </div>
+                  )}
+                </Link>
+
+                {/* Render children if expanded and not collapsed */}
+                {!collapsed && item.children && isActive(item.path) && (
+                  <div className="ml-8 mt-1 space-y-1">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.path}
+                        to={child.path}
+                        className={`
+                flex items-center p-2 rounded-lg transition-colors
+                ${
+                  isActive(child.path)
+                    ? "bg-[#FFB866]/30 text-[#E07C24]"
+                    : "hover:bg-[#FFB866]/10 text-gray-500 hover:text-[#FF9933]"
+                }
+                gap-2
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+              `}
+                        aria-current={isActive(child.path) ? "page" : undefined}
+                      >
+                        <span className="text-sm">{child.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
 
             {/* Create Event Button */}
