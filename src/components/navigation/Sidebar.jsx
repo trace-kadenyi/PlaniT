@@ -96,7 +96,7 @@ export default function Sidebar() {
         }`}
       >
         <aside
-          className={`h-full bg-white border-r border-[#9B2C62] shadow-sm flex flex-col transition-all duration-300 ease-in-out ${
+          className={`h-full bg-white border-r border-[#9B2C62] shadow-sm flex flex-col transition-all duration-500 ease-in-out ${
             collapsed ? "w-16" : "w-64"
           }`}
           aria-label="Sidebar"
