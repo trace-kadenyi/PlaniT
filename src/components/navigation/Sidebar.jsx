@@ -4,10 +4,8 @@ import {
   LayoutDashboard,
   Calendar,
   Users,
-  ClipboardList,
   Plus,
   ChevronLeft,
-  ChevronRight,
   Settings,
   FileText,
   HelpCircle,
@@ -17,6 +15,7 @@ import {
   LogOut,
   CalendarRange as CalendarBoard,
   ClipboardList as TasksBoard,
+  UserCog,
 } from "lucide-react";
 
 import LogoWordmark from "./LogoWordmark";
@@ -68,6 +67,7 @@ export default function Sidebar() {
       ],
     },
     { icon: Users, label: "Client Directory", path: "/clients" },
+    { icon: UserCog, label: "Vendor Directory", path: "/vendors" },
     { icon: Settings, label: "Settings", path: "/settings" },
     { icon: FileText, label: "Documents", path: "/documents" },
     { icon: HelpCircle, label: "Help", path: "/help" },
