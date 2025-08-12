@@ -17,6 +17,8 @@ import {
   LogOut,
 } from "lucide-react";
 
+import LogoWordmark from "./LogoWordmark";
+
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -109,23 +111,24 @@ export default function Sidebar() {
             </button>
           </div>
 
-          {/* Branding (simplified) */}
+          {/* Logo */}
           <div
-            className={`flex items-center p-4 ${
+            className={`flex items-center bg-[#9B2C62] p-4 ${
               collapsed ? "justify-center" : "justify-between"
             }`}
           >
-            <Link
-              to="/"
-              className="flex items-center gap-2 focus-visible:outline-none group"
-            >
-              <div className="w-8 h-8 rounded-full bg-[#9B2C62] flex items-center justify-center text-white font-bold group-hover:bg-[#FF9933] transition-colors">
-                P
-              </div>
-              {!collapsed && (
-                <span className="font-bold text-[#9B2C62] whitespace-nowrap group-hover:text-[#FF9933] transition-colors">
-                  Planit
-                </span>
+            <Link to="/" className="focus-visible:outline-none group">
+              {collapsed ? (
+                // Collapsed state - Only show P circle
+                <div className="w-8 h-8 rounded-full bg-[#FF9933] flex items-center justify-center text-white font-bold group-hover:bg-[#FF9933] transition-colors">
+                  P
+                </div>
+              ) : (
+                // Expanded state - Only show LogoWordmark
+                <div className="h-8 flex items-center">
+                  {" "}
+                  <LogoWordmark />
+                </div>
               )}
             </Link>
           </div>
