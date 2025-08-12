@@ -73,9 +73,9 @@ export default function Sidebar() {
   ];
 
   const isActive = (path) => {
-  if (path === "/") return pathname === path;
-  return pathname === path || pathname.startsWith(`${path}/`);
-};
+    if (path === "/") return pathname === path;
+    return pathname === path || pathname.startsWith(`${path}/`);
+  };
 
   return (
     <>
@@ -169,23 +169,11 @@ export default function Sidebar() {
                     }
                     aria-hidden="true"
                   />
-                  {!collapsed && (
-                    <div className="flex items-center justify-between w-full">
-                      <span>{item.label}</span>
-                      {item.children && (
-                        <ChevronRight
-                          size={16}
-                          className={`transition-transform ${
-                            isActive(item.path) ? "rotate-90" : ""
-                          }`}
-                        />
-                      )}
-                    </div>
-                  )}
+                  {!collapsed && <span>{item.label}</span>}
                 </Link>
 
-                {/* Render children if expanded and not collapsed */}
-                {!collapsed && item.children && isActive(item.path) && (
+                {/* Always show children if not collapsed */}
+                {!collapsed && item.children && (
                   <div className="ml-8 mt-1 space-y-1">
                     {item.children.map((child) => (
                       <Link
