@@ -135,27 +135,12 @@ export default function Sidebar() {
           </div>
 
           {/* Logo */}
-          {/* Logo Section - Updated */}
           <div
             className={`flex items-center bg-[#9B2C62] p-4 ${
-              collapsed ? "justify-center" : "justify-between"
-            } relative`}
+              collapsed ? "justify-center" : "justify-center"
+            }`}
           >
-            {/* Mobile Close Button */}
-            {mobileOpen && (
-              <button
-                className="md:hidden p-1 absolute left-2 text-white hover:text-[#FFB866] transition-colors"
-                onClick={() => setMobileOpen(false)}
-                aria-label="Close sidebar"
-              >
-                <X size={24} />
-              </button>
-            )}
-
-            <Link
-              to="/"
-              className="focus-visible:outline-none group mx-auto md:mx-0"
-            >
+            <Link to="/" className="focus-visible:outline-none group">
               {collapsed || isExpanding ? (
                 <div className="w-8 h-8 rounded-full bg-[#FF9933] flex items-center justify-center text-white font-bold group-hover:bg-[#FF9933] transition-colors">
                   P
@@ -167,25 +152,15 @@ export default function Sidebar() {
               )}
             </Link>
 
-            {/* Collapse Button - Desktop Only */}
-            {!mobileOpen && (
-              <div
-                className={`absolute -right-3 top-1/2 transform -translate-y-1/2 z-10 ${
-                  collapsed ? "rotate-180" : ""
-                } hidden md:block`}
+            {/* Mobile Close Button (Top-left) */}
+            {mobileOpen && (
+              <button
+                className="md:hidden p-1 absolute left-2 text-white hover:text-[#FFB866] transition-colors"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close sidebar"
               >
-                <button
-                  onClick={toggleSidebar}
-                  className="p-2 rounded-full bg-white border shadow-md hover:bg-[#FFF5EB] focus:outline-none focus:ring-2 focus:ring-[#9B2C62] hover:text-[#FF9933] transition-colors"
-                  aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                >
-                  <ChevronLeft
-                    size={20}
-                    className="text-[#9B2C62] hover:text-[#FF9933]"
-                    aria-hidden="true"
-                  />
-                </button>
-              </div>
+                <X size={24} />
+              </button>
             )}
           </div>
 
