@@ -168,7 +168,7 @@ export default function Sidebar() {
             {/* Create Event Button */}
             <div className={`pt-2 ${collapsed ? "px-1" : "px-2"}`}>
               <Link
-                to="/events/create"
+                to="/events/new"
                 className={`
               flex items-center p-3 rounded-lg transition-colors 
               bg-[#FF9933] text-white

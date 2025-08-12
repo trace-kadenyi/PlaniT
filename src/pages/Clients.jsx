@@ -85,12 +85,12 @@ export default function Clients() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <main className="min-h-screen bg-[#FFF7ED] px-4 py-6 md:px-8">
+    <main className="min-h-screen bg-[#FFF7ED] p-3 sm:p-10">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62]">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] mt-10 text-center sm:text-start sm:mt-2">
               Client Directory
             </h1>
             {/* <p className="text-[#F59E0B] mt-1">
