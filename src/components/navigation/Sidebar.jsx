@@ -15,6 +15,8 @@ import {
   X,
   User,
   LogOut,
+  CalendarRange as CalendarBoard,
+  ClipboardList as TasksBoard,
 } from "lucide-react";
 
 import LogoWordmark from "./LogoWordmark";
@@ -61,12 +63,11 @@ export default function Sidebar() {
       label: "Events Manager",
       path: "/events",
       children: [
-        { label: "Events Board", path: "/events/board" },
-        { label: "Tasks Board", path: "/tasks/board" },
+        { icon: CalendarBoard, label: "Events Board", path: "/events/board" },
+        { icon: TasksBoard, label: "Tasks Board", path: "/tasks/board" },
       ],
     },
     { icon: Users, label: "Client Directory", path: "/clients" },
-    { icon: ClipboardList, label: "Tasks", path: "/tasks" },
     { icon: Settings, label: "Settings", path: "/settings" },
     { icon: FileText, label: "Documents", path: "/documents" },
     { icon: HelpCircle, label: "Help", path: "/help" },
@@ -180,18 +181,29 @@ export default function Sidebar() {
                         key={child.path}
                         to={child.path}
                         className={`
-                flex items-center p-2 rounded-lg transition-colors
-                ${
-                  isActive(child.path)
-                    ? "bg-[#FFB866]/30 text-[#E07C24]"
-                    : "hover:bg-[#FFB866]/10 text-gray-500 hover:text-[#FF9933]"
-                }
-                gap-2
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
-              `}
+          flex items-center p-2 pl-3 rounded-lg transition-colors
+          ${
+            isActive(child.path)
+              ? "bg-[#FFF5EB] border-l-4 border-[#FF9933] text-[#E07C24]"
+              : "hover:bg-[#FFF5EB]/50 text-gray-600 hover:text-[#9B2C62]"
+          }
+          gap-3
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+        `}
                         aria-current={isActive(child.path) ? "page" : undefined}
                       >
-                        <span className="text-sm">{child.label}</span>
+                        <child.icon
+                          size={18}
+                          className={
+                            isActive(child.path)
+                              ? "text-[#E07C24]"
+                              : "text-[#9B2C62]/70 group-hover:text-[#FF9933]"
+                          }
+                          aria-hidden="true"
+                        />
+                        <span className="text-sm font-medium">
+                          {child.label}
+                        </span>
                       </Link>
                     ))}
                   </div>
