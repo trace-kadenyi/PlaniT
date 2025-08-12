@@ -23,6 +23,7 @@ import LogoWordmark from "./LogoWordmark";
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isExpanding, setIsExpanding] = useState(false);
   const { pathname } = useLocation();
 
   // Color definitions
@@ -78,6 +79,19 @@ export default function Sidebar() {
     return pathname === path || pathname.startsWith(`${path}/`);
   };
 
+  const toggleSidebar = () => {
+    if (!collapsed) {
+      // Immediately collapse
+      setCollapsed(true);
+    } else {
+      // Start expanding
+      setIsExpanding(true);
+      setCollapsed(false);
+      // Set timeout to match your transition duration (500ms in your case)
+      setTimeout(() => setIsExpanding(false), 500);
+    }
+  };
+
   return (
     <>
       {/* Mobile Toggle Button */}
@@ -108,7 +122,7 @@ export default function Sidebar() {
             }`}
           >
             <button
-              onClick={() => setCollapsed(!collapsed)}
+              onClick={toggleSidebar}
               className="p-2 rounded-full bg-white border shadow-md hover:bg-[#FFF5EB] focus:outline-none focus:ring-2 focus:ring-[#9B2C62] hover:text-[#FF9933] transition-colors"
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
@@ -127,16 +141,15 @@ export default function Sidebar() {
             }`}
           >
             <Link to="/" className="focus-visible:outline-none group">
-              {collapsed ? (
+              {collapsed || isExpanding ? (
                 // Collapsed state - Only show P circle
                 <div className="w-8 h-8 rounded-full bg-[#FF9933] flex items-center justify-center text-white font-bold group-hover:bg-[#FF9933] transition-colors">
                   P
                 </div>
               ) : (
-                // Expanded state - Only show LogoWordmark
+                // Expanded state - Only show LogoWordmark after expansion completes
                 <div className="h-8 flex items-center">
-                  {" "}
-                  <LogoWordmark />
+                  {!isExpanding && <LogoWordmark />}
                 </div>
               )}
             </Link>
