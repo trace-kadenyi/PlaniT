@@ -85,9 +85,9 @@ export default function Sidebar() {
         }`}
       >
         <aside
-          className={`h-full bg-transparent border-r shadow-sm flex flex-col transition-all duration-300 ease-in-out ${
-    collapsed ? "w-16" : "w-64"
-  }`}
+          className={`h-full bg-white border-r border-[#9B2C62] shadow-sm flex flex-col transition-all duration-300 ease-in-out ${
+            collapsed ? "w-16" : "w-64"
+          }`}
           aria-label="Sidebar"
         >
           {/* Branding & Collapse */}
@@ -98,7 +98,7 @@ export default function Sidebar() {
           >
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="p-2 rounded-full bg-white border shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] hover:text-[#FF9933] transition-colors"
+              className="p-2 rounded-full bg-white border shadow-md hover:bg-[#FFF5EB] focus:outline-none focus:ring-2 focus:ring-[#9B2C62] hover:text-[#FF9933] transition-colors"
               aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
               <ChevronLeft
@@ -163,10 +163,10 @@ export default function Sidebar() {
             ))}
 
             {/* Create Event Button */}
-           <div className={`pt-2 ${collapsed ? "px-1" : "px-2"}`}>
-          <Link
-            to="/events/create"
-            className={`
+            <div className={`pt-2 ${collapsed ? "px-1" : "px-2"}`}>
+              <Link
+                to="/events/create"
+                className={`
               flex items-center p-3 rounded-lg transition-colors 
               bg-[#FF9933] text-white
               hover:bg-[#E07C24] ${
@@ -174,12 +174,12 @@ export default function Sidebar() {
               }
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
             `}
-            title={collapsed ? "Create Event" : undefined}
-          >
-            <Plus size={20} aria-hidden="true" />
-            {!collapsed && <span>Create Event</span>}
-          </Link>
-        </div>
+                title={collapsed ? "Create Event" : undefined}
+              >
+                <Plus size={20} aria-hidden="true" />
+                {!collapsed && <span>Create Event</span>}
+              </Link>
+            </div>
 
             {/* Secondary Links */}
             <div className="mt-8">
