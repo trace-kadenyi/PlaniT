@@ -56,8 +56,8 @@ export default function Sidebar() {
 
   const navLinks = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/" },
-    { icon: Calendar, label: "Events", path: "/events" },
-    { icon: Users, label: "Clients", path: "/clients" },
+    { icon: Calendar, label: "Events Manager", path: "/events" },
+    { icon: Users, label: "Client Directory", path: "/clients" },
     { icon: ClipboardList, label: "Tasks", path: "/tasks" },
     { icon: Settings, label: "Settings", path: "/settings" },
     { icon: FileText, label: "Documents", path: "/documents" },
