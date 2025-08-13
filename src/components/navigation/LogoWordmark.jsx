@@ -1,4 +1,4 @@
-export function LogoWordmark() {
+export default function LogoWordmark() {
   return (
     <svg
       width="120"
@@ -14,7 +14,7 @@ export function LogoWordmark() {
               font-family: 'Montserrat', sans-serif; 
               font-weight: 700; 
               font-size: 52px; 
-              letter-spacing: 0.1rem;
+              letter-spacing: 0.15rem;
             }
             .t { 
               fill: #F59E0B;
@@ -31,12 +31,12 @@ export function LogoWordmark() {
       </text>
 
       {/* Saffron Gold "T" */}
-      <text x="155" y="50" className="plani t">
+      <text x="157" y="50" className="plani t">
         T
       </text>
 
       {/* Saffron Gold dot on "i" */}
-      <circle cx="146" cy="13" r="5" className="dot" />
+      <circle cx="149.2" cy="13" r="5" className="dot" />
     </svg>
   );
 }

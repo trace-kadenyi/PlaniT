@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/Button";
-import { LogoWordmark } from "../headers/LogoWordmark";
+import { LogoWordmark } from "../navigation/LogoWordmark";
 import { Menu, X } from "lucide-react"; // or any other icon lib
 
-export default function PrimaryHeader() {
+export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
