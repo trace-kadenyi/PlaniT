@@ -43,11 +43,13 @@ export default function Sidebar() {
     setMobileOpen(false);
   }, [pathname]);
 
+  // isactive
   const isActive = (path) => {
     if (path === "/") return pathname === path;
     return pathname === path || pathname.startsWith(`${path}/`);
   };
 
+  // toggle sidebar
   const toggleSidebar = () => {
     if (!collapsed) {
       // Immediately collapse
