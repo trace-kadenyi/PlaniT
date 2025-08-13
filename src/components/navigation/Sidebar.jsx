@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 
 import LogoWordmark from "./LogoWordmark";
+import { navLinks } from "../../data/navData";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -42,23 +43,23 @@ export default function Sidebar() {
     setMobileOpen(false);
   }, [pathname]);
 
-  const navLinks = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/" },
-    {
-      icon: Calendar,
-      label: "Events Manager",
-      path: "/events",
-      children: [
-        { icon: CalendarBoard, label: "Events Board", path: "/events/board" },
-        { icon: TasksBoard, label: "Tasks Board", path: "/tasks/board" },
-      ],
-    },
-    { icon: Users, label: "Client Directory", path: "/clients" },
-    { icon: UserCog, label: "Vendor Directory", path: "/vendors" },
-    { icon: Settings, label: "Settings", path: "/settings" },
-    { icon: FileText, label: "Documents", path: "/documents" },
-    { icon: HelpCircle, label: "Help", path: "/help" },
-  ];
+  // const navLinks = [
+  //   { icon: LayoutDashboard, label: "Dashboard", path: "/" },
+  //   {
+  //     icon: Calendar,
+  //     label: "Events Manager",
+  //     path: "/events",
+  //     children: [
+  //       { icon: CalendarBoard, label: "Events Board", path: "/events/board" },
+  //       { icon: TasksBoard, label: "Tasks Board", path: "/tasks/board" },
+  //     ],
+  //   },
+  //   { icon: Users, label: "Client Directory", path: "/clients" },
+  //   { icon: UserCog, label: "Vendor Directory", path: "/vendors" },
+  //   { icon: Settings, label: "Settings", path: "/settings" },
+  //   { icon: FileText, label: "Documents", path: "/documents" },
+  //   { icon: HelpCircle, label: "Help", path: "/help" },
+  // ];
 
   const isActive = (path) => {
     if (path === "/") return pathname === path;
