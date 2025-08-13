@@ -140,14 +140,29 @@ export default function Sidebar() {
               collapsed ? "justify-center" : "justify-center"
             }`}
           >
-            <Link to="/" className="focus-visible:outline-none group">
-              {collapsed || isExpanding ? (
-                <div className="w-8 h-8 rounded-full bg-[#FF9933] flex items-center justify-center text-white font-bold group-hover:bg-[#FF9933] transition-colors">
+            <Link to="/" className="focus-visible:outline-none group relative">
+              {/* Initial 'P' logo that fades out */}
+              {(collapsed || isExpanding) && (
+                <div
+                  className={`w-8 h-8 rounded-full bg-[#FF9933] flex items-center justify-center text-white font-bold group-hover:bg-[#FF9933] transition-all duration-300 ${
+                    collapsed && !isExpanding ? "opacity-100" : "opacity-0"
+                  }`}
+                >
                   P
                 </div>
-              ) : (
-                <div className="h-8 flex items-center">
-                  {!isExpanding && <LogoWordmark />}
+              )}
+
+              {/* Full wordmark that fades in */}
+              {(!collapsed || isExpanding) && (
+                <div
+                  className={`h-8 flex items-center transition-all duration-300 ${
+                    !collapsed && !isExpanding
+                      ? "opacity-100"
+                      : "opacity-0 absolute"
+                  }`}
+                  style={{ left: collapsed ? "-100%" : "0" }}
+                >
+                  <LogoWordmark />
                 </div>
               )}
             </Link>
@@ -163,7 +178,6 @@ export default function Sidebar() {
               </button>
             )}
           </div>
-
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1">
             {navLinks.slice(0, 4).map((item) => (
