@@ -16,6 +16,7 @@ import {
   UserCog,
 } from "lucide-react";
 
+// navlinks
 export const navLinks = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/" },
   {
