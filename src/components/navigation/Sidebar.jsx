@@ -1,22 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  LayoutDashboard,
-  Calendar,
-  Users,
-  Plus,
-  ChevronLeft,
-  Settings,
-  FileText,
-  HelpCircle,
-  Menu,
-  X,
-  User,
-  LogOut,
-  CalendarRange as CalendarBoard,
-  ClipboardList as TasksBoard,
-  UserCog,
-} from "lucide-react";
+import { Plus, ChevronLeft, Menu, X, User, LogOut } from "lucide-react";
 
 import LogoWordmark from "./LogoWordmark";
 import { navLinks } from "../../data/navData";
