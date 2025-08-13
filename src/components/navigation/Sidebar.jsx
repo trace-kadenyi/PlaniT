@@ -97,7 +97,7 @@ export default function Sidebar() {
       {/* Mobile Toggle Button */}
       <button
         aria-label="Toggle sidebar"
-        className="fixed z-30 p-2 m-2 rounded-lg bg-[#9B2C62] text-white md:hidden hover:bg-[#7A2450] transition-colors"
+        className="fixed z-300 p-2 m-2 rounded-lg bg-[#9B2C62] text-white md:hidden hover:bg-[#7A2450] transition-colors"
         onClick={() => setMobileOpen(!mobileOpen)}
       >
         {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -105,7 +105,7 @@ export default function Sidebar() {
 
       {/* Sidebar Container */}
       <div
-        className={`fixed inset-y-0 left-0 z-20 md:relative md:block ${
+        className={`fixed inset-y-0 left-0 z-200 md:relative md:block ${
           mobileOpen ? "block" : "hidden"
         }`}
       >
@@ -117,7 +117,7 @@ export default function Sidebar() {
         >
           {/* Branding & Collapse */}
           <div
-            className={`absolute -right-3 top-1/2 transform -translate-y-1/2 z-10 ${
+            className={`absolute -right-3 top-1/2 transform -translate-y-1/2 z-100 ${
               collapsed ? "rotate-180" : ""
             }`}
           >
@@ -374,7 +374,7 @@ export default function Sidebar() {
       {/* Mobile Overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-10 bg-black/50 md:hidden"
+          className="fixed inset-0 z-100 bg-black/50 md:hidden"
           onClick={() => setMobileOpen(false)}
           role="presentation"
         />
