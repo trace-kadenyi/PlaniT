@@ -40,9 +40,9 @@ export default function CreateClientForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createClient(formData)).unwrap();
+      const newClient = await dispatch(createClient(formData)).unwrap();
       toastWithProgress("Client created successfully");
-      navigate("/clients"); // Or wherever your client list is
+      navigate(`/clients/${newClient._id}`);
     } catch (err) {
       toastWithProgress("Failed to create client");
     }
