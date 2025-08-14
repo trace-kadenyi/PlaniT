@@ -88,7 +88,7 @@ export default function Events() {
   });
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FFF8F2] to-white">
+    <main className="min-h-screen bg-gradient-to-b from-[#FFF8F2] to-white p-3 sm:p-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Section with Decorative Elements */}
         <div className="relative mb-10">
@@ -97,7 +97,7 @@ export default function Events() {
 
           <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 z-10">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62]">
+              <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] text-start mt-4 sm:mt-0">
                 Events Manager
               </h1>
               <p className="text-gray-600 mt-2 max-w-lg">
