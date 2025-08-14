@@ -49,7 +49,7 @@ export default function CreateClientForm() {
   };
 
   return (
-    <main className="min-h-screen bg-white p-6">
+    <main className="min-h-screen bg-white p-6 pt-15">
       <div className="max-w-3xl mx-auto bg-[#F7F7FA] p-8 rounded-xl shadow border-t-4 border-[#9B2C62]">
         <h1 className="text-2xl font-bold mb-6 text-[#9B2C62]">
           Create New Client
