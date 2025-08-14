@@ -44,3 +44,17 @@ export const NoBudget = () => (
     </div>
   </div>
 );
+
+// Color definitions
+const colors = {
+  primary: {
+    main: "#9B2C62", // Deep mulberry
+    light: "#9B2C62/10",
+    dark: "#7A2450",
+  },
+  secondary: {
+    main: "#FF9933", // Saffron gold
+    light: "#FFB866", // Lighter pumpkin
+    dark: "#E07C24", // Darker pumpkin
+  },
+};

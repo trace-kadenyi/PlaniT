@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import "./App.css";
-// import Header from "./components/navigation/Header";
-// import Sidebar from "./components/navigation/Sidebar";
 import Layout from "./components/navigation/Layout";
 import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";

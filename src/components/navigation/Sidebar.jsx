@@ -1,44 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  LayoutDashboard,
-  Calendar,
-  Users,
-  Plus,
-  ChevronLeft,
-  Settings,
-  FileText,
-  HelpCircle,
-  Menu,
-  X,
-  User,
-  LogOut,
-  CalendarRange as CalendarBoard,
-  ClipboardList as TasksBoard,
-  UserCog,
-} from "lucide-react";
+import { Plus, ChevronLeft, Menu, X, User, LogOut } from "lucide-react";
 
-import LogoWordmark from "./LogoWordmark";
+import { navLinks } from "../../data/navData";
+import { BarLogo, UserProfile } from "../ui/Bar";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
   const { pathname } = useLocation();
-
-  // Color definitions
-  const colors = {
-    primary: {
-      main: "#9B2C62", // Deep mulberry
-      light: "#9B2C62/10",
-      dark: "#7A2450",
-    },
-    secondary: {
-      main: "#FF9933", // Saffron gold
-      light: "#FFB866", // Lighter pumpkin
-      dark: "#E07C24", // Darker pumpkin
-    },
-  };
 
   // Close mobile sidebar when route changes or on larger screens
   useEffect(() => {
@@ -56,29 +27,13 @@ export default function Sidebar() {
     setMobileOpen(false);
   }, [pathname]);
 
-  const navLinks = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/" },
-    {
-      icon: Calendar,
-      label: "Events Manager",
-      path: "/events",
-      children: [
-        { icon: CalendarBoard, label: "Events Board", path: "/events/board" },
-        { icon: TasksBoard, label: "Tasks Board", path: "/tasks/board" },
-      ],
-    },
-    { icon: Users, label: "Client Directory", path: "/clients" },
-    { icon: UserCog, label: "Vendor Directory", path: "/vendors" },
-    { icon: Settings, label: "Settings", path: "/settings" },
-    { icon: FileText, label: "Documents", path: "/documents" },
-    { icon: HelpCircle, label: "Help", path: "/help" },
-  ];
-
+  // isactive
   const isActive = (path) => {
     if (path === "/") return pathname === path;
     return pathname === path || pathname.startsWith(`${path}/`);
   };
 
+  // toggle sidebar
   const toggleSidebar = () => {
     if (!collapsed) {
       // Immediately collapse
@@ -97,7 +52,7 @@ export default function Sidebar() {
       {/* Mobile Toggle Button */}
       <button
         aria-label="Toggle sidebar"
-        className="fixed z-30 p-2 m-2 rounded-lg bg-[#9B2C62] text-white md:hidden hover:bg-[#7A2450] transition-colors"
+        className="fixed z-300 p-2 m-2 rounded-lg bg-[#9B2C62] text-white md:hidden hover:bg-[#7A2450] transition-colors"
         onClick={() => setMobileOpen(!mobileOpen)}
       >
         {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -105,7 +60,7 @@ export default function Sidebar() {
 
       {/* Sidebar Container */}
       <div
-        className={`fixed inset-y-0 left-0 z-20 md:relative md:block ${
+        className={`fixed inset-y-0 left-0 z-200 md:relative md:block ${
           mobileOpen ? "block" : "hidden"
         }`}
       >
@@ -117,7 +72,7 @@ export default function Sidebar() {
         >
           {/* Branding & Collapse */}
           <div
-            className={`absolute -right-3 top-1/2 transform -translate-y-1/2 z-10 ${
+            className={`absolute -right-3 top-1/2 transform -translate-y-1/2 z-100 ${
               collapsed ? "rotate-180" : ""
             }`}
           >
@@ -135,34 +90,14 @@ export default function Sidebar() {
           </div>
 
           {/* Logo */}
-          <div
-            className={`flex items-center bg-[#9B2C62] p-4 ${
-              collapsed ? "justify-center" : "justify-center"
-            }`}
-          >
-            <Link to="/" className="focus-visible:outline-none group">
-              {collapsed || isExpanding ? (
-                <div className="w-8 h-8 rounded-full bg-[#FF9933] flex items-center justify-center text-white font-bold group-hover:bg-[#FF9933] transition-colors">
-                  P
-                </div>
-              ) : (
-                <div className="h-8 flex items-center">
-                  {!isExpanding && <LogoWordmark />}
-                </div>
-              )}
-            </Link>
-
-            {/* Mobile Close Button (Top-left) */}
-            {mobileOpen && (
-              <button
-                className="md:hidden p-1 absolute left-2 text-white hover:text-[#FFB866] transition-colors"
-                onClick={() => setMobileOpen(false)}
-                aria-label="Close sidebar"
-              >
-                <X size={24} />
-              </button>
-            )}
-          </div>
+          <BarLogo
+            collapsed={collapsed}
+            Link={Link}
+            isExpanding={isExpanding}
+            mobileOpen={mobileOpen}
+            setMobileOpen={setMobileOpen}
+            X={X}
+          />
 
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1">
@@ -315,52 +250,19 @@ export default function Sidebar() {
           </nav>
 
           {/* User Profile */}
-          <div className={`p-3 border-t ${collapsed ? "px-2" : "px-4"}`}>
-            <div
-              className={`flex items-center ${
-                collapsed ? "justify-center" : "justify-between"
-              }`}
-            >
-              <Link
-                to="/profile"
-                className="flex items-center gap-2 focus-visible:outline-none group"
-                title={collapsed ? "Profile" : undefined}
-              >
-                <div className="w-8 h-8 rounded-full bg-[#FFB866]/30 flex items-center justify-center group-hover:bg-[#FF9933]/40 transition-colors">
-                  <User
-                    size={16}
-                    className="text-[#E07C24] group-hover:text-[#FF9933]"
-                    aria-hidden="true"
-                  />
-                </div>
-                {!collapsed && (
-                  <div>
-                    <p className="text-sm font-medium group-hover:text-[#FF9933] transition-colors">
-                      John Doe
-                    </p>
-                    <p className="text-xs text-gray-500 group-hover:text-[#FFB866] transition-colors">
-                      Admin
-                    </p>
-                  </div>
-                )}
-              </Link>
-              {!collapsed && (
-                <button
-                  className="p-1 rounded-full hover:bg-[#FFB866]/10 text-gray-500 hover:text-[#E07C24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866] transition-colors"
-                  aria-label="Logout"
-                >
-                  <LogOut size={18} aria-hidden="true" />
-                </button>
-              )}
-            </div>
-          </div>
+          <UserProfile
+            collapsed={collapsed}
+            User={User}
+            LogOut={LogOut}
+            Link={Link}
+          />
         </aside>
       </div>
 
       {/* Mobile Overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-10 bg-black/50 md:hidden"
+          className="fixed inset-0 z-100 bg-black/50 md:hidden"
           onClick={() => setMobileOpen(false)}
           role="presentation"
         />

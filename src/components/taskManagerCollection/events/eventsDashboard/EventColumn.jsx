@@ -4,14 +4,14 @@ import DashEventCard from "./DashEventCard";
 
 export default function EventColumn({ columns }) {
   return (
-    <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 overflow-x-auto pb-4 px-2 md:justify-center">
+    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 overflow-x-auto pb-4 px-2 lg:justify-center">
       {Object.values(columns).map((column) => (
         <Droppable droppableId={column.id} key={column.id}>
           {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              className="bg-white border border-gray-200 rounded-lg p-4 w-full md:w-72 flex-shrink-0 shadow-sm flex flex-col"
+              className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col"
               style={{
                 minHeight: "200px",
                 maxHeight: "calc(100vh - 16rem)",
