@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Plus, ChevronLeft, Menu, X, User, LogOut } from "lucide-react";
 
-import LogoWordmark from "./LogoWordmark";
 import { navLinks } from "../../data/navData";
 import { BarLogo, UserProfile } from "../ui/Bar";
 
