@@ -145,7 +145,7 @@ export default function CreateEventForm() {
   }, [createStatus, dispatch]);
 
   return (
-    <main className="min-h-screen bg-white p-6">
+    <main className="min-h-screen bg-white p-6 pt-15">
       <div className="max-w-3xl mx-auto bg-[#F7F7FA] p-8 rounded-xl shadow border-t-4 border-[#BE3455]">
         <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62]">
           <span className="hidden sm:block">
