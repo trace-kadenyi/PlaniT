@@ -206,7 +206,7 @@ export default function EditEventForm() {
   }
 
   return (
-    <main className="min-h-screen bg-white p-6">
+    <main className="min-h-screen bg-white p-6 pt-15">
       <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border-t-4 border-[#F59E0B]">
         <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62]">
           <span className="hidden sm:block">
