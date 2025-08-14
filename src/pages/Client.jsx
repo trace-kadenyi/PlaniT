@@ -35,7 +35,7 @@ export default function Client() {
       setLocalIsArchived(client.isArchived);
     }
   }, [client]);
-  
+
   // handle archive toggle
   const handleArchiveToggle = async (clientId, isArchived) => {
     setLocalIsArchived(!isArchived);
@@ -50,7 +50,7 @@ export default function Client() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] px-4 py-8">
+    <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] px-8 pt-15">
       <div className="max-w-5xl mx-auto">
         <div className="mb-6">
           <Link
