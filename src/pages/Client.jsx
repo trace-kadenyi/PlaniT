@@ -50,7 +50,7 @@ export default function Client() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] px-8 pt-15">
+    <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] px-8 py-15">
       <div className="max-w-5xl mx-auto">
         <div className="mb-6">
           <Link
