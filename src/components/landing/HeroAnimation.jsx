@@ -1,11 +1,15 @@
-import HeroIllustration from "../../assets/hero-planning.svg";
+import Lottie from "lottie-react";
+import planningLottie from "../../assets/animations/Meetings.json";
 
-export default function HeroImage() {
+export default function HeroAnimation() {
   return (
-    <img
-      src={HeroIllustration}
-      alt="Event planning illustration"
-      className="w-full max-w-xs mx-auto md:ml-0"
-    />
+    <div className="w-full max-w-[500px] mx-auto md:ml-0">
+      <Lottie
+        animationData={planningLottie}
+        loop
+        autoplay
+        style={{ width: "100%", height: "100%" }}
+      />
+    </div>
   );
 }
