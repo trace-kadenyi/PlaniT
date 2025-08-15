@@ -106,9 +106,11 @@ export default function TasksBoard() {
   }, []);
 
   return (
-    <div className="p-4 sm:p-10 bg-white min-h-screen">
+    <div className="p-4 sm:px-10 sm:pt-10 pb-15  bg-white min-h-screen">
       <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold text-[#9B2C62] mt-10 mb-2 sm:my-2">Tasks Board</h1>
+        <h1 className="text-2xl font-bold text-[#9B2C62] mt-10 mb-2 sm:my-2">
+          Tasks Board
+        </h1>
         <p className="text-gray-600 max-w-4xl mx-auto mb-4">
           Drag and drop tasks between columns to update their status - stay
           organized and track your workflow at a glance!
