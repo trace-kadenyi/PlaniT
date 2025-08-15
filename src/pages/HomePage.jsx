@@ -1,6 +1,6 @@
 import { easeOut, motion } from "framer-motion";
 
-import HeroImg from "../components/landing/HeroAnimation2";
+import HeroImg from "../components/landing/HeroAnimation"; 
 import { features, steps } from "../data/homeData";
 import {
   ScrollFadeFunc,
