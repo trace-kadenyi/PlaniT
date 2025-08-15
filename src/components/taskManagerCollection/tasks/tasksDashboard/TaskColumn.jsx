@@ -4,59 +4,65 @@ import DashTaskCard from "./DashTaskCard";
 
 export default function TaskColumn({ columns }) {
   return (
-    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 overflow-x-auto pb-4 px-2 lg:justify-center">
-      {Object.values(columns).map((column) => (
-        <Droppable droppableId={column.id} key={column.id}>
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col"
-              style={{
-                minHeight: "200px",
-                maxHeight: "calc(100vh - 16rem)",
-              }}
-            >
-              <h2 className="font-semibold text-[#9B2C62] mb-4 flex items-center">
-                <span
-                  className="inline-block w-3 h-3 rounded-full mr-2"
-                  style={{ backgroundColor: column.color }}
-                ></span>
-                {column.title} ({column.tasks.length})
-              </h2>
+    <div className="w-full overflow-x-auto pb-4">
+      <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full lg:w-max mx-auto px-4">
+        {Object.values(columns).map((column) => (
+          <Droppable droppableId={column.id} key={column.id}>
+            {(provided) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col"
+                style={{
+                  minHeight: "200px",
+                  maxHeight: "calc(100vh - 16rem)",
+                }}
+              >
+                <h2 className="font-semibold text-[#9B2C62] mb-4 flex items-center">
+                  <span
+                    className="inline-block w-3 h-3 rounded-full mr-2"
+                    style={{ backgroundColor: column.color }}
+                  ></span>
+                  {column.title} ({column.tasks.length})
+                </h2>
 
-              <div className="space-y-3 overflow-y-auto flex-1">
-                {column.tasks.map((task, index) => (
-                  <Draggable key={task.id} draggableId={task.id} index={index}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative"
-                      >
-                        {/* Drag handle (invisible overlay) */}
+                <div className="space-y-3 overflow-y-auto flex-1">
+                  {column.tasks.map((task, index) => (
+                    <Draggable
+                      key={task.id}
+                      draggableId={task.id}
+                      index={index}
+                    >
+                      {(provided) => (
                         <div
-                          {...provided.dragHandleProps}
-                          className="absolute inset-0 cursor-grab z-10"
-                          style={{ pointerEvents: "auto" }}
-                        />
-                        {/* Task card content */}
-                        <DashTaskCard task={task} />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {column.tasks.length === 0 && (
-                  <div className="text-gray-400 text-sm italic p-2 text-center">
-                    No tasks here yet
-                  </div>
-                )}
-                {provided.placeholder}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative"
+                        >
+                          {/* Drag handle (invisible overlay) */}
+                          <div
+                            {...provided.dragHandleProps}
+                            className="absolute inset-0 cursor-grab z-10"
+                            style={{ pointerEvents: "auto" }}
+                          />
+                          {/* Task card content */}
+                          <DashTaskCard task={task} />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {column.tasks.length === 0 && (
+                    <div className="text-gray-400 text-sm italic p-2 text-center">
+                      No tasks here yet
+                    </div>
+                  )}
+                  {provided.placeholder}
+                </div>
               </div>
-            </div>
-          )}
-        </Droppable>
-      ))}
+            )}
+          </Droppable>
+        ))}
+      </div>
     </div>
   );
 }
