@@ -18,7 +18,8 @@ import {
 } from "../components/taskManagerCollection/events/eventsDashboard/eventsDashboardHelpers";
 import {
   LoadingDashboard,
-  FetchDashboardError, UpdateDashboardError
+  FetchDashboardError,
+  UpdateDashboardError,
 } from "../components/taskManagerCollection/utils/genDashboardHelpers";
 import { filterByDateRange } from "../components/taskManagerCollection/utils/handlers/dashboardDateHandlers";
 import FilterBox from "../components/shared/FilterBox";
@@ -122,9 +123,11 @@ export default function EventsBoard() {
   );
 
   return (
-    <div className="p-4 sm:p-10 bg-white min-h-screen">
+    <div className="p-4 sm:px-10 sm:pt-10 pb-15 bg-white min-h-screen">
       <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold text-[#9B2C62] mt-10 mb-2 sm:my-2">Events Board</h1>
+        <h1 className="text-2xl font-bold text-[#9B2C62] mt-10 mb-2 sm:my-2">
+          Events Board
+        </h1>
         <p className="text-gray-600 max-w-4xl mx-auto mb-4">
           Track and manage all your events in one place - drag and drop to
           update status!
