@@ -92,11 +92,6 @@ export default function Clients() {
           <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] mt-12 text-center sm:text-start sm:mt-2">
             Client Directory
           </h1>
-          {/* <p className="text-[#F59E0B] mt-1">
-              {filteredClients.length}{" "}
-              {filteredClients.length === 1 ? "client" : "clients"} found
-            </p> */}
-
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
             <div className="relative flex-grow">
               <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
