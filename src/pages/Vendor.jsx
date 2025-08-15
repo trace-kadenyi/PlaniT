@@ -31,7 +31,7 @@ export default function Vendor() {
   }, [dispatch, id]);
 
   return (
-    <main className="min-h-screen bg-white px-8 pt-15">
+    <main className="min-h-screen bg-white px-8 py-15">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-6 sm:mb-4">
