@@ -9,6 +9,7 @@ import {
   restoreClient,
   resetArchiveStates,
 } from "../redux/clientsSlice";
+
 import ClientsTable from "../components/clients/ClientsTable";
 import ClientPagination from "../components/clients/ClientPagination";
 

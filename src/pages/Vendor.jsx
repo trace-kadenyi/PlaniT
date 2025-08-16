@@ -7,6 +7,7 @@ import {
   toggleArchiveVendor,
   clearVendorDetails,
 } from "../redux/vendorsSlice";
+
 import { LoadingPage } from "../components/shared/LoadingStates";
 import VendorCard from "../components/vendors/VendorCard";
 

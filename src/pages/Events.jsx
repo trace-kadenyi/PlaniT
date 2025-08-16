@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
+
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { LoadingPage } from "../components/shared/LoadingStates";

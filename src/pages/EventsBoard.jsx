@@ -7,8 +7,8 @@ import {
   clearUpdateError,
   resetDashboard,
 } from "../redux/eventsSlice";
-import { fetchEventsForDashboard } from "../redux/eventsSlice";
 
+import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import {
   mapEventToCard,
   getColumnsFromEvents,

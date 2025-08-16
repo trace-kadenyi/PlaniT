@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllTasks, clearUpdateError } from "../redux/tasksSlice";
 import { DragDropContext } from "@hello-pangea/dnd";
+
+import { fetchAllTasks, clearUpdateError } from "../redux/tasksSlice";
 
 import {
   mapTaskToCard,
