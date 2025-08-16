@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
-
 import EditDeleteEvent from "../../shared/EditDeleteEvent";
-import { ClientInfo, EventStatusPill } from "../../shared/UIFragments";
+import { EventStatusPill } from "../../shared/UIFragments";
 import { formatDateTime } from "../utils/formatting";
 
 export default function EventCard({ event, index, navigate, handleDelete }) {
