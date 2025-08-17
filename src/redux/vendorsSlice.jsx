@@ -3,6 +3,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../app/api";
 
 // Async Thunks
+
+// fetch vendors
 export const fetchVendors = createAsyncThunk(
   "vendors/fetchVendors",
   async ({ service, archived } = {}, { rejectWithValue }) => {
@@ -19,6 +21,7 @@ export const fetchVendors = createAsyncThunk(
   }
 );
 
+// fetch vendor by id
 export const fetchVendorById = createAsyncThunk(
   "vendors/fetchVendorById",
   async (vendorId, { rejectWithValue }) => {
@@ -31,6 +34,7 @@ export const fetchVendorById = createAsyncThunk(
   }
 );
 
+// create vendor
 export const createVendor = createAsyncThunk(
   "vendors/createVendor",
   async (vendorData, { rejectWithValue }) => {
@@ -43,6 +47,7 @@ export const createVendor = createAsyncThunk(
   }
 );
 
+// update vendor
 export const updateVendor = createAsyncThunk(
   "vendors/updateVendor",
   async ({ id, updatedData }, { rejectWithValue }) => {
@@ -55,6 +60,7 @@ export const updateVendor = createAsyncThunk(
   }
 );
 
+// toggle archive vendor
 export const toggleArchiveVendor = createAsyncThunk(
   "vendors/toggleArchive",
   async (vendorId, { rejectWithValue }) => {
@@ -67,6 +73,7 @@ export const toggleArchiveVendor = createAsyncThunk(
   }
 );
 
+// fetch vendor stats
 export const fetchVendorStats = createAsyncThunk(
   "vendors/fetchStats",
   async (_, { rejectWithValue }) => {
