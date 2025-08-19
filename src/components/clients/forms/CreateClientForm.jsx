@@ -21,6 +21,7 @@ export default function CreateClientForm() {
     notes: "",
   });
 
+  // handle change
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith("contact.")) {
@@ -37,6 +38,7 @@ export default function CreateClientForm() {
     }
   };
 
+  // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
