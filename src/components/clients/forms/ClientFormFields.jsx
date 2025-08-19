@@ -23,7 +23,7 @@ export default function ClientFormFields({
         />
       </div>
 
-      {/* Email & Phone */}
+      {/* Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
@@ -37,6 +37,8 @@ export default function ClientFormFields({
             className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
           />
         </div>
+
+        {/* Phone */}
         <div>
           <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
             Phone
