@@ -15,3 +15,21 @@ PlaniT is a comprehensive event planning management system built with the MERN s
 - **Backend API**: RESTful API built with Express and Node.js, connected to MongoDB.
 
 ---
+
+## Tech Stack
+
+- **Frontend**: React, Redux, Tailwind CSS
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **State Management**: Redux Toolkit
+- **Authentication & Authorization**: JWT (planned for future release)
+
+---
+
+## Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/planit.git
+   cd planit
+   ```
