@@ -4,12 +4,12 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import ProgressBar from "../../ui/ProgressBar";
 import { NoBudget } from "../../shared/Snippets";
 
-export default function BudgetOverview({ budgetStatus }) {
+export default function BudgetOverview({ budgetStatus, Link, eventID }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // No budget
   if (!budgetStatus || budgetStatus.totalBudget === 0) {
-    return <NoBudget />;
+    return <NoBudget Link={Link} eventID={eventID} />;
   }
 
   const { totalBudget, totalExpenses, remainingBudget } = budgetStatus;
