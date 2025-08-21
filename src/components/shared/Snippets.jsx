@@ -1,5 +1,5 @@
 // No budget UI
-export const NoBudget = () => (
+export const NoBudget = ({ Link }) => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] my-6">
     <div className="flex items-center gap-3 mb-4">
       <svg
@@ -19,28 +19,52 @@ export const NoBudget = () => (
       <h2 className="text-lg font-semibold text-[#9B2C62]">Budget Overview</h2>
     </div>
     <div className="flex items-center gap-3 bg-[#FFF5EB] p-4 rounded-lg border border-[#F3EDE9]">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5 text-[#6B3B0F]"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-        />
-      </svg>
-      <div>
-        <p className="text-[#6B3B0F] font-medium">
-          No budget set for this event
-        </p>
-        <p className="text-xs text-gray-500 mt-1">
-          Add expenses to automatically track budget utilization
-        </p>
+      <div className="flex items-start gap-3">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5 text-[#6B3B0F]"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          />
+        </svg>
+        <div>
+          <p className="text-[#6B3B0F] font-medium">
+            No budget set for this event
+          </p>
+          <p className="text-xs text-gray-500 mt-1">
+            Add expenses to automatically track budget utilization
+          </p>
+        </div>
       </div>
+      <Link
+        to="/budget/create" // Replace with your actual budget creation link
+        className="text-[#9B2C62] hover:text-[#7A2350] text-sm font-medium transition-colors duration-200 flex items-center gap-1.5 self-start mt-1"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+        <span className="border-b border-dashed border-[#9B2C62] hover:border-[#7A2350]">
+          Create budget
+        </span>
+      </Link>
     </div>
   </div>
 );
