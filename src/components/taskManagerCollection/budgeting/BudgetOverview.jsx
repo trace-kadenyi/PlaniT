@@ -18,7 +18,7 @@ export default function BudgetOverview({ budgetStatus }) {
 
   const renderHeader = (withChevron = false) => (
     <div className="space-y-2">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-0">
         <h2 className="text-lg font-semibold text-[#9B2C62]">
           Budget Overview
         </h2>
@@ -32,6 +32,9 @@ export default function BudgetOverview({ budgetStatus }) {
           </div>
         )}
       </div>
+      <p className="text-xs text-gray-500 mb-4">
+        Add expenses to automatically track budget utilization
+      </p>
       <div className="flex justify-between text-sm font-medium">
         <span className="text-[#6B3B0F]">Budget Utilization</span>
         <span className="text-[#9B2C62] font-bold">
