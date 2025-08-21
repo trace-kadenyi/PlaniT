@@ -33,7 +33,7 @@ export default function BudgetOverview({ budgetStatus }) {
         )}
       </div>
       <p className="text-xs text-gray-500 mb-4">
-        Add expenses to automatically track budget utilization
+        Add expenses below to track budget utilization
       </p>
       <div className="flex justify-between text-sm font-medium">
         <span className="text-[#6B3B0F]">Budget Utilization</span>
