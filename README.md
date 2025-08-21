@@ -33,3 +33,15 @@ PlaniT is a comprehensive event planning management system built with the MERN s
    git clone https://github.com/yourusername/planit.git
    cd planit
    ```
+
+2. **Install dependencies**
+   - Frontend
+     ```bash
+     cd client
+     npm install
+     ```
+   - Backend
+     ```bash
+     cd server
+     npm install
+     ```
