@@ -38,9 +38,6 @@ export const NoBudget = ({ Link }) => (
           <p className="text-[#6B3B0F] font-medium">
             No budget set for this event
           </p>
-          <p className="text-xs text-gray-500 mt-1">
-            Add expenses to automatically track budget utilization
-          </p>
         </div>
       </div>
       <Link
