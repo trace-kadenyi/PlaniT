@@ -1,5 +1,5 @@
 // No budget UI
-export const NoBudget = ({ Link }) => (
+export const NoBudget = ({ Link, eventID }) => (
   <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] my-6">
     <div className="flex items-center gap-3 mb-4">
       <svg
@@ -41,7 +41,7 @@ export const NoBudget = ({ Link }) => (
         </div>
       </div>
       <Link
-        to="/budget/create" // Replace with your actual budget creation link
+        to={`/events/${eventID}/edit`}
         className="text-[#9B2C62] hover:text-[#7A2350] text-sm font-medium transition-colors duration-200 flex items-center gap-1.5 self-start mt-1"
       >
         <svg
