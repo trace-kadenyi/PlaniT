@@ -117,11 +117,14 @@ export default function BudgetTab({
       {/* Loading/Empty States */}
       {isLoading && expensesArray.length === 0 && <p>Loading expenses...</p>}
 
-      {expensesArray.length === 0 && !isLoading && (
+{/* with budget/no expenses added  */}
+      {!hasNoBudget && expensesArray.length === 0 && !isLoading && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
           <p className="text-gray-600">No expenses added yet.</p>
         </div>
       )}
+
+    
 
       {/* Expense List */}
       {expensesArray.length > 0 && (
