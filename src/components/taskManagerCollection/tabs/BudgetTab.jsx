@@ -85,7 +85,7 @@ export default function BudgetTab({
       </div>
 
       {/* Expense Form */}
-      {showCreateExpenseForm && (
+      {!hasNoBudget && showCreateExpenseForm && (
         <div ref={formRef} className="mb-6 scroll-mt-4">
           {expenseToEdit ? (
             <EditExpenseForm
