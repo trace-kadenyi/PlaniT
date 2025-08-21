@@ -18,7 +18,7 @@ export const NoBudget = ({ Link }) => (
       </svg>
       <h2 className="text-lg font-semibold text-[#9B2C62]">Budget Overview</h2>
     </div>
-    <div className="flex items-center gap-3 bg-[#FFF5EB] p-4 rounded-lg border border-[#F3EDE9]">
+    <div className="flex flex-col gap-1 bg-[#FFF5EB] p-4 rounded-lg border border-[#F3EDE9]">
       <div className="flex items-start gap-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
