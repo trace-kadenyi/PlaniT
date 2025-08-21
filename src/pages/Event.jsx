@@ -137,7 +137,7 @@ export default function Event() {
   );
 
   return (
-    <main className="p-6 pt-15 min-h-screen bg-white max-w-4xl mx-auto">
+    <main className="p-6 py-15 min-h-screen bg-white max-w-4xl mx-auto">
       {/* event card */}
       <div className="relative p-6 rounded-xl bg-[#FFF5EB] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8">
         {/* edit/delete btns */}
