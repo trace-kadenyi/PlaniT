@@ -18,6 +18,7 @@ export default function BudgetTab({
   handleExpenseDelete,
   onVendorAdded,
   onVendorRemoved,
+  Link,
 }) {
   const { id } = useParams();
   const [showCreateExpenseForm, setShowCreateExpenseForm] = useState(false);
@@ -46,28 +47,41 @@ export default function BudgetTab({
   const expensesByCategory = getExpensesByCategory(expensesArray);
   const isLoading = expenses?.status === "loading";
 
+  // check if budget is 0 or not set
+  const hasNoBudget = !budgetStatus || budgetStatus.totalBudget === 0;
+
   return (
     <>
       <div className="flex sm:justify-between items-center mb-4 flex-col sm:flex-row gap-5 sm:gap-3">
         <h2 className="text-xl font-bold text-[#9B2C62]">Budget & Expenses</h2>
-        <button
-          onClick={() => {
-            if (showCreateExpenseForm) {
-              setExpenseToEdit(null);
-            } else {
-              setScrollToForm(true);
-            }
-            setShowCreateExpenseForm(!showCreateExpenseForm);
-          }}
-          className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer"
-        >
-          {showCreateExpenseForm ? (
-            <XCircle className="w-3 h-3" />
-          ) : (
+        {hasNoBudget ? (
+          <Link
+            to="/budget/create" // Replace with your actual budget creation link
+            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-pointer"
+          >
             <Plus className="w-3 h-3" />
-          )}
-          <span>{showCreateExpenseForm ? "Cancel" : "Add Expense"}</span>
-        </button>
+            <span>Create Budget</span>
+          </Link>
+        ) : (
+          <button
+            onClick={() => {
+              if (showCreateExpenseForm) {
+                setExpenseToEdit(null);
+              } else {
+                setScrollToForm(true);
+              }
+              setShowCreateExpenseForm(!showCreateExpenseForm);
+            }}
+            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer"
+          >
+            {showCreateExpenseForm ? (
+              <XCircle className="w-3 h-3" />
+            ) : (
+              <Plus className="w-3 h-3" />
+            )}
+            <span>{showCreateExpenseForm ? "Cancel" : "Add Expense"}</span>
+          </button>
+        )}
       </div>
 
       {/* Expense Form */}
