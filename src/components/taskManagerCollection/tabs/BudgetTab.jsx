@@ -56,8 +56,8 @@ export default function BudgetTab({
         <h2 className="text-xl font-bold text-[#9B2C62]">Budget & Expenses</h2>
         {hasNoBudget ? (
           <Link
-            to="/budget/create" // Replace with your actual budget creation link
-            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-pointer"
+            to={`/events/${id}/edit`}
+            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-default"
           >
             <Plus className="w-3 h-3" />
             <span>Create Budget</span>
