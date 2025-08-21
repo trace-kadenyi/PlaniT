@@ -48,7 +48,7 @@ export default function Vendors() {
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen bg-white p-3 sm:p-10">
+    <div className="min-h-screen bg-white p-3 sm:px-10 sm:py-15">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start md:items-center mb-8 gap-4">
