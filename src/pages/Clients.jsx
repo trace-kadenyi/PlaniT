@@ -86,7 +86,7 @@ export default function Clients() {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <main className="min-h-screen bg-[#FFF7ED] p-3 sm:p-10">
+    <main className="min-h-screen bg-[#FFF7ED] p-3 sm:p-10 sm:pb-15">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row justify-between items-start md:items-center mb-8 gap-4">
