@@ -58,7 +58,7 @@ export const NoBudget = ({ Link, eventID }) => (
             d="M12 4v16m8-8H4"
           />
         </svg>
-        <span className="border-b border-dashed border-[#9B2C62] hover:border-[#7A2350]">
+        <span className="border-b px-1 border-dashed border-[#9B2C62] hover:border-[#7A2350] hover:text-[#7A2350] hover:rounded-lg hover:bg-[#BE3455]/10">
           Add budget
         </span>
       </Link>
