@@ -42,7 +42,7 @@ export const NoBudget = ({ Link, eventID }) => (
       </div>
       <Link
         to={`/events/${eventID}/edit`}
-        className="text-[#9B2C62] hover:text-[#7A2350] text-sm font-medium transition-colors duration-200 flex items-center gap-1.5 self-start mt-1 cursor-default"
+        className="text-[#9B2C62] hover:text-[#7A2350] text-sm font-medium transition-colors duration-200 flex items-center gap-1.5 self-start mt-1 cursor-default ml-5"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ export const NoBudget = ({ Link, eventID }) => (
           />
         </svg>
         <span className="border-b border-dashed border-[#9B2C62] hover:border-[#7A2350]">
-          Create budget
+          Add budget
         </span>
       </Link>
     </div>
