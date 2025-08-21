@@ -117,15 +117,40 @@ export default function BudgetTab({
       {/* Loading/Empty States */}
       {isLoading && expensesArray.length === 0 && <p>Loading expenses...</p>}
 
-{/* with budget/no expenses added  */}
+      {/* with budget/no expenses added  */}
       {!hasNoBudget && expensesArray.length === 0 && !isLoading && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
           <p className="text-gray-600">No expenses added yet.</p>
         </div>
       )}
 
-    
-
+      {/* without budget/no expenses added  */}
+      {hasNoBudget && expensesArray.length === 0 && !isLoading && (
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] flex items-start gap-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-[#6B3B0F] mt-0.5 flex-shrink-0"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+            />
+          </svg>
+          <div>
+            <p className="text-[#6B3B0F] font-medium">
+              Budget required for expense tracking
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              Add a budget to enable expense management for this event
+            </p>
+          </div>
+        </div>
+      )}
       {/* Expense List */}
       {expensesArray.length > 0 && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
