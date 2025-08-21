@@ -209,7 +209,11 @@ export default function Event() {
 
           {/* budget overview bar */}
           {expensesState.budgetStatus && (
-            <BudgetOverview budgetStatus={expensesState.budgetStatus} />
+            <BudgetOverview
+              budgetStatus={expensesState.budgetStatus}
+              Link={Link}
+              eventID={id}
+            />
           )}
         </div>
 
