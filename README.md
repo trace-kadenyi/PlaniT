@@ -29,19 +29,43 @@ PlaniT is a comprehensive event planning management system built with the MERN s
 ## Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/planit.git
    cd planit
    ```
 
 2. **Install dependencies**
+
    - Frontend
      ```bash
      cd client
      npm install
      ```
    - Backend
+
      ```bash
      cd server
      npm install
+     ```
+
+     3. **Setup environment variables**
+
+   - Create a `.env` file in the `server` folder:
+     ```env
+     MONGO_URI=your_mongodb_connection_string
+     JWT_SECRET=your_jwt_secret
+     PORT=5000
+     ```
+
+3. **Run the application**
+   - Start backend:
+     ```bash
+     cd server
+     npm run dev
+     ```
+   - Start frontend:
+     ```bash
+     cd client
+     npm start
      ```
