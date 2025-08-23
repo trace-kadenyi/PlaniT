@@ -69,3 +69,18 @@ PlaniT is a comprehensive event planning management system built with the MERN s
      cd client
      npm start
      ```
+4. **Run the application**
+   - Start backend:
+     ```bash
+     cd server
+     npm start
+     ```
+   - Start frontend:
+     ```bash
+     cd client
+     npm run dev
+     ```
+
+5. Open your browser at `http://localhost:4000`.
+
+---
