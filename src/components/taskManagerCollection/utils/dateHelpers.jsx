@@ -9,11 +9,11 @@ export function formatForDateTimeLocal(isoString) {
 }
 
 // parse from date time local
-export const parseFromDateTimeLocal = (localString) => {
+export function parseFromDateTimeLocal(localString) {
   if (!localString) return null;
   // Convert back to proper ISO format for backend
   return new Date(localString).toISOString();
-};
+}
 
 // format local date time for display
 export const formatLocalDateTimeForDisplay = (date) => {
