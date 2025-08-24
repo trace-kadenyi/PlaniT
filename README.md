@@ -84,3 +84,20 @@ PlaniT is a comprehensive event planning management system built with the MERN s
 5. Open your browser at `http://localhost:4000`.
 
 ---
+
+## Folder Structure
+
+```
+planit/
+├── client/          # React frontend
+│   ├── src/
+│   └── public/
+├── server/          # Node.js backend
+│   ├── models/
+│   ├── routes/
+│   ├── controllers/
+│   └── server.js
+├── .gitignore
+├── package.json
+└── README.md
+```
