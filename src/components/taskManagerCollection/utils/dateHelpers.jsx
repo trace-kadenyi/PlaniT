@@ -29,9 +29,9 @@ export function formatLocalDateTimeForDisplay(date) {
 }
 
 // get localdatetime string
-export const getLocalDateTimeString = () => {
+export function getLocalDateTimeString() {
   const now = new Date();
   const timezoneOffset = now.getTimezoneOffset() * 60000;
   const localTime = new Date(now - timezoneOffset);
   return localTime.toISOString().slice(0, 16);
-};
+}
