@@ -7,10 +7,6 @@ import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
 import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
 
-import {
-  formatDateTime,
-  getStatusColor,
-} from "../components/taskManagerCollection/utils/formatting";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
@@ -24,8 +20,6 @@ import { createExpenseDeleteHandler } from "../components/taskManagerCollection/
 import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
-import BudgetOverview from "../components/taskManagerCollection/budgeting/BudgetOverview";
-import { ClientInfo, VendorInfo } from "../components/shared/UIFragments";
 import EventDetailsCard from "../components/taskManagerCollection/events/EventDetailsCard";
 
 export default function Event() {
