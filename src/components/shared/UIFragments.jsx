@@ -38,7 +38,7 @@ export function TaskStatusPill({ status }) {
 }
 
 // handle date
-export const DatePill = ({ date, status }) => {
+export function DatePill({ date, status }) {
   const baseStyles =
     "px-3 py-1 rounded-full text-xs font-medium inline-flex items-center";
 
@@ -74,7 +74,7 @@ export const DatePill = ({ date, status }) => {
       {formatDateTime(date)}
     </time>
   );
-};
+}
 
 // handle tasks priorities
 export const TasksPriorityPill = ({ priority }) => (
