@@ -13,11 +13,13 @@ export function EventLoadingState() {
 }
 
 // tasks loading state
-export const TasksLoadingState = () => (
-  <div className="flex justify-center py-8">
-    <div className="w-8 h-8 border-2 border-[#9B2C62]/30 border-t-[#9B2C62] rounded-full animate-spin"></div>
-  </div>
-);
+export function TasksLoadingState() {
+  return (
+    <div className="flex justify-center py-8">
+      <div className="w-8 h-8 border-2 border-[#9B2C62]/30 border-t-[#9B2C62] rounded-full animate-spin"></div>
+    </div>
+  );
+}
 
 // Loading page
 export function LoadingPage({ message = "Loading..." }) {
