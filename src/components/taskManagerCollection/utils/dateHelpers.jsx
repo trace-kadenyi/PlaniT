@@ -1,12 +1,12 @@
 // format date time local
-export const formatForDateTimeLocal = (isoString) => {
+export function formatForDateTimeLocal(isoString) {
   if (!isoString) return "";
   const date = new Date(isoString);
   // Adjust for timezone offset to display correctly
   return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
     .toISOString()
     .slice(0, 16);
-};
+}
 
 // parse from date time local
 export const parseFromDateTimeLocal = (localString) => {
