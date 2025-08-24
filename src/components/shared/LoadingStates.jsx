@@ -37,11 +37,13 @@ export function LoadingPage({ message = "Loading..." }) {
 }
 
 // general loading state
-export const GenLoadingState = ({ message }) => (
-  <main className="min-h-screen flex items-center justify-center">
-    <div className="flex flex-col items-center space-y-2">
-      <div className="w-10 h-10 border-4 border-[#F59E0B]/30 border-t-[#F59E0B] rounded-full animate-spin"></div>
-      <p className="text-sm text-gray-500">{message}</p>
-    </div>
-  </main>
-);
+export function GenLoadingState({ message }) {
+  return (
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center space-y-2">
+        <div className="w-10 h-10 border-4 border-[#F59E0B]/30 border-t-[#F59E0B] rounded-full animate-spin"></div>
+        <p className="text-sm text-gray-500">{message}</p>
+      </div>
+    </main>
+  );
+}
