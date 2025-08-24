@@ -16,7 +16,7 @@ export function parseFromDateTimeLocal(localString) {
 }
 
 // format local date time for display
-export const formatLocalDateTimeForDisplay = (date) => {
+export function formatLocalDateTimeForDisplay(date) {
   return date.toLocaleString("en-US", {
     weekday: "short",
     month: "short",
@@ -26,7 +26,7 @@ export const formatLocalDateTimeForDisplay = (date) => {
     minute: "2-digit",
     hour12: true,
   });
-};
+}
 
 // get localdatetime string
 export const getLocalDateTimeString = () => {
