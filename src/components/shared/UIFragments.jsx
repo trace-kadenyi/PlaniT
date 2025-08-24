@@ -113,7 +113,7 @@ export function IsArchivedCli() {
 }
 
 // event client
-export const ClientInfo = ({ event, Link }) => {
+export function ClientInfo({ event, Link }) {
   return (
     <div className="flex items-center gap-2">
       <span className="text-xs font-semibold text-gray-500">Client:</span>
@@ -141,7 +141,7 @@ export const ClientInfo = ({ event, Link }) => {
       </Link>
     </div>
   );
-};
+}
 
 // event vendors
 export const VendorInfo = ({ vendors, Link }) => {
