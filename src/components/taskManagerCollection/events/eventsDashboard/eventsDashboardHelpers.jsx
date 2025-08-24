@@ -16,7 +16,7 @@ export const mapEventToCard = (event) => ({
 });
 
 // get columns from events
-export const getColumnsFromEvents = (events, mapEventToCardFn) => {
+export function getColumnsFromEvents(events, mapEventToCardFn) {
   const filteredEvents = {
     planning: events.filter((event) => event.status === "Planning"),
     inProgress: events.filter((event) => event.status === "In Progress"),
@@ -51,7 +51,7 @@ export const getColumnsFromEvents = (events, mapEventToCardFn) => {
       color: "#EF4444",
     },
   };
-};
+}
 
 // handle event drag
 export const handleEventDragEnd = async (
