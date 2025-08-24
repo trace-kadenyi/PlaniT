@@ -144,7 +144,7 @@ export function ClientInfo({ event, Link }) {
 }
 
 // event vendors
-export const VendorInfo = ({ vendors, Link }) => {
+export function VendorInfo({ vendors, Link }) {
   return (
     <div className="mt-4">
       <h3 className="font-semibold text-gray-500 mb-2 text-sm underline">
@@ -180,4 +180,4 @@ export const VendorInfo = ({ vendors, Link }) => {
       </div>
     </div>
   );
-};
+}
