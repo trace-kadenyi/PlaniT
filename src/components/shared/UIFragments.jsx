@@ -1,40 +1,44 @@
 import { formatDateTime } from "../taskManagerCollection/utils/formatting";
 // handle event status colours
-export const EventStatusPill = ({ status }) => (
-  <span
-    className={`px-2 py-1 rounded text-xs ${
-      status === "Completed"
-        ? "bg-green-100 text-green-800"
-        : status === "Cancelled"
-        ? "bg-red-100 text-red-800"
-        : status === "In Progress"
-        ? "bg-[#F5EBFF] text-[#9B2C62]"
-        : "bg-[#EFF6FF] text-[#1E40AF]"
-    }`}
-  >
-    {status}
-  </span>
-);
+export function EventStatusPill({ status }) {
+  return (
+    <span
+      className={`px-2 py-1 rounded text-xs ${
+        status === "Completed"
+          ? "bg-green-100 text-green-800"
+          : status === "Cancelled"
+          ? "bg-red-100 text-red-800"
+          : status === "In Progress"
+          ? "bg-[#F5EBFF] text-[#9B2C62]"
+          : "bg-[#EFF6FF] text-[#1E40AF]"
+      }`}
+    >
+      {status}
+    </span>
+  );
+}
 
 // tasks status colours
-export const TaskStatusPill = ({ status }) => (
-  <span
-    className={`inline-block px-2 py-0.5 rounded-full font-medium ${
-      status === "Completed"
-        ? "bg-green-100 text-green-700"
-        : status === "In Review"
-        ? "bg-purple-100 text-purple-700"
-        : status === "In Progress"
-        ? "bg-[#EFF6FF] text-[#1E40AF]"
-        : "bg-gray-100 text-gray-600"
-    }`}
-  >
-    {status}
-  </span>
-);
+export function TaskStatusPill({ status }) {
+  return (
+    <span
+      className={`inline-block px-2 py-0.5 rounded-full font-medium ${
+        status === "Completed"
+          ? "bg-green-100 text-green-700"
+          : status === "In Review"
+          ? "bg-purple-100 text-purple-700"
+          : status === "In Progress"
+          ? "bg-[#EFF6FF] text-[#1E40AF]"
+          : "bg-gray-100 text-gray-600"
+      }`}
+    >
+      {status}
+    </span>
+  );
+}
 
 // handle date
-export const DatePill = ({ date, status }) => {
+export function DatePill({ date, status }) {
   const baseStyles =
     "px-3 py-1 rounded-full text-xs font-medium inline-flex items-center";
 
@@ -70,25 +74,27 @@ export const DatePill = ({ date, status }) => {
       {formatDateTime(date)}
     </time>
   );
-};
+}
 
 // handle tasks priorities
-export const TasksPriorityPill = ({ priority }) => (
-  <span
-    className={`inline-block px-2 py-0.5 rounded-full font-medium ${
-      priority.toLowerCase() === "high"
-        ? "bg-[#F59E0B]/20 text-[#C2410C]"
-        : priority.toLowerCase() === "medium"
-        ? "bg-yellow-100 text-yellow-700"
-        : "bg-gray-200 text-gray-600"
-    }`}
-  >
-    {priority}
-  </span>
-);
+export function TasksPriorityPill({ priority }) {
+  return (
+    <span
+      className={`inline-block px-2 py-0.5 rounded-full font-medium ${
+        priority.toLowerCase() === "high"
+          ? "bg-[#F59E0B]/20 text-[#C2410C]"
+          : priority.toLowerCase() === "medium"
+          ? "bg-yellow-100 text-yellow-700"
+          : "bg-gray-200 text-gray-600"
+      }`}
+    >
+      {priority}
+    </span>
+  );
+}
 
 // client is archived
-export const IsArchivedCli = () => {
+export function IsArchivedCli() {
   return (
     <div className="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
       <p className="text-yellow-700 flex items-center gap-2">
@@ -104,10 +110,10 @@ export const IsArchivedCli = () => {
       </p>
     </div>
   );
-};
+}
 
 // event client
-export const ClientInfo = ({ event, Link }) => {
+export function ClientInfo({ event, Link }) {
   return (
     <div className="flex items-center gap-2">
       <span className="text-xs font-semibold text-gray-500">Client:</span>
@@ -135,10 +141,10 @@ export const ClientInfo = ({ event, Link }) => {
       </Link>
     </div>
   );
-};
+}
 
 // event vendors
-export const VendorInfo = ({ vendors, Link }) => {
+export function VendorInfo({ vendors, Link }) {
   return (
     <div className="mt-4">
       <h3 className="font-semibold text-gray-500 mb-2 text-sm underline">
@@ -174,4 +180,4 @@ export const VendorInfo = ({ vendors, Link }) => {
       </div>
     </div>
   );
-};
+}
