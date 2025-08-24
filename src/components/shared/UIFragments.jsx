@@ -94,7 +94,7 @@ export function TasksPriorityPill({ priority }) {
 }
 
 // client is archived
-export const IsArchivedCli = () => {
+export function IsArchivedCli() {
   return (
     <div className="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
       <p className="text-yellow-700 flex items-center gap-2">
@@ -110,7 +110,7 @@ export const IsArchivedCli = () => {
       </p>
     </div>
   );
-};
+}
 
 // event client
 export const ClientInfo = ({ event, Link }) => {
