@@ -70,6 +70,7 @@ PlaniT is a comprehensive event planning management system built with the MERN s
      npm start
      ```
 4. **Run the application**
+
    - Start backend:
      ```bash
      cd server
@@ -101,3 +102,13 @@ planit/
 ├── package.json
 └── README.md
 ```
+
+## Usage
+
+- **Dashboard**: View all upcoming events and tasks.
+- **Events**: Add or edit events with details such as date, location, client, and status.
+- **Tasks**: Assign tasks to events, track progress, and mark completion.
+- **Clients**: Maintain client information and view associated events.
+- **Budgeting**: Monitor and manage event budgets efficiently.
+
+---
