@@ -8,6 +8,7 @@ import {
   CalendarRange as CalendarBoard,
   ClipboardList as TasksBoard,
   UserCog,
+  Sun,
 } from "lucide-react";
 
 // navlinks
@@ -24,7 +25,18 @@ export const navLinks = [
   },
   { icon: Users, label: "Client Directory", path: "/clients" },
   { icon: UserCog, label: "Vendor Directory", path: "/vendors" },
-  { icon: Settings, label: "Settings", path: "/settings" },
+  {
+    icon: Settings,
+    label: "Settings",
+    path: "/settings",
+    children: [
+      {
+        icon: Sun,
+        label: "Theme",
+        isThemeToggle: true,
+      },
+    ],
+  },
   { icon: FileText, label: "Documents", path: "/documents" },
   { icon: HelpCircle, label: "Help", path: "/help" },
 ];
