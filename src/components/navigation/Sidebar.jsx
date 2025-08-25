@@ -51,7 +51,11 @@ export default function Sidebar() {
     }
   }, [theme]);
 
-  
+  // Toggle theme
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
   // isactive
   const isActive = (path) => {
     if (path === "/") return pathname === path;
