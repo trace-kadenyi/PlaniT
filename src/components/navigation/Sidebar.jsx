@@ -248,56 +248,106 @@ export default function Sidebar() {
               </Link>
             </div>
 
-                {/* Theme Toggle */}
-            <div className={`mt-8 ${collapsed ? "px-1" : "px-2"}`}>
-              <button
-                onClick={toggleTheme}
-                className={`
-                  flex items-center p-3 rounded-lg transition-colors w-full
-                  hover:bg-[#FFB866]/10 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-[#FF9933] dark:hover:text-gray-200
-                  ${collapsed ? "justify-center" : "gap-3"}
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
-                `}
-                title={collapsed ? (theme === 'light' ? 'Dark mode' : 'Light mode') : undefined}
-                aria-label="Toggle theme"
-              >
-                {theme === 'light' ? (
-                  <Moon size={20} aria-hidden="true" />
-                ) : (
-                  <Sun size={20} aria-hidden="true" />
-                )}
-                {!collapsed && (
-                  <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
-                )}
-              </button>
-            </div>
-
             {/* Secondary Links */}
             <div className="mt-8">
-              {navLinks.slice(4).map(({ icon: Icon, label, path }) => (
-                <Link
-                  key={path}
-                  to={path}
-                  className={`
-                    flex items-center p-3 rounded-lg transition-colors
-                    ${
-                      isActive(path)
-                        ? "bg-[#FFB866]/30 text-[#E07C24]"
-                        : "hover:bg-[#FFB866]/10 text-gray-500 hover:text-[#FF9933]"
-                    }
-                    ${collapsed ? "justify-center" : "gap-3"}
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
-                  `}
-                  title={collapsed ? label : undefined}
-                  aria-current={isActive(path) ? "page" : undefined}
-                >
-                  <Icon
-                    size={20}
-                    className={isActive(path) ? "text-[#E07C24]" : ""}
-                    aria-hidden="true"
-                  />
-                  {!collapsed && <span>{label}</span>}
-                </Link>
+              {navLinks.slice(4).map((item) => (
+                <div key={item.path}>
+                  <Link
+                    to={item.path}
+                    className={`
+                      flex items-center p-3 rounded-lg transition-colors
+                      ${
+                        isActive(item.path)
+                          ? "bg-[#FFB866]/30 dark:bg-gray-800 text-[#E07C24] dark:text-[#FFB866]"
+                          : "hover:bg-[#FFB866]/10 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-[#FF9933] dark:hover:text-gray-200"
+                      }
+                      ${collapsed ? "justify-center" : "gap-3"}
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+                    `}
+                    title={collapsed ? item.label : undefined}
+                    aria-current={isActive(item.path) ? "page" : undefined}
+                  >
+                    <item.icon
+                      size={20}
+                      className={
+                        isActive(item.path)
+                          ? "text-[#E07C24] dark:text-[#FFB866]"
+                          : ""
+                      }
+                      aria-hidden="true"
+                    />
+                    {!collapsed && <span>{item.label}</span>}
+                  </Link>
+
+                  {/* Settings children (Theme toggle) */}
+                  {!collapsed && item.children && item.label === "Settings" && (
+                    <div className="ml-8 mt-1 space-y-1">
+                      {item.children.map((child) => (
+                        <div key={child.label}>
+                          {child.isThemeToggle ? (
+                            // Theme toggle button
+                            <button
+                              onClick={toggleTheme}
+                              className={`
+                                flex items-center p-2 pl-3 rounded-lg transition-colors w-full
+                                hover:bg-[#FFF5EB]/50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-gray-200
+                                gap-3
+                                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+                              `}
+                              aria-label="Toggle theme"
+                            >
+                              {theme === "light" ? (
+                                <Moon
+                                  size={18}
+                                  className="text-[#9B2C62]/70 dark:text-gray-500 group-hover:text-[#FF9933]"
+                                />
+                              ) : (
+                                <Sun
+                                  size={18}
+                                  className="text-[#9B2C62]/70 dark:text-gray-500 group-hover:text-[#FF9933]"
+                                />
+                              )}
+                              <span className="text-sm font-medium">
+                                {theme === "light" ? "Dark Mode" : "Light Mode"}
+                              </span>
+                            </button>
+                          ) : (
+                            // Regular settings child
+                            <Link
+                              to={child.path || "#"}
+                              className={`
+                                flex items-center p-2 pl-3 rounded-lg transition-colors
+                                ${
+                                  isActive(child.path)
+                                    ? "bg-[#FFF5EB] dark:bg-gray-800 border-l-4 border-[#FF9933] text-[#E07C24] dark:text-[#FFB866]"
+                                    : "hover:bg-[#FFF5EB]/50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-gray-200"
+                                }
+                                gap-3
+                                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+                              `}
+                              aria-current={
+                                isActive(child.path) ? "page" : undefined
+                              }
+                            >
+                              <child.icon
+                                size={18}
+                                className={
+                                  isActive(child.path)
+                                    ? "text-[#E07C24] dark:text-[#FFB866]"
+                                    : "text-[#9B2C62]/70 dark:text-gray-500 group-hover:text-[#FF9933]"
+                                }
+                                aria-hidden="true"
+                              />
+                              <span className="text-sm font-medium">
+                                {child.label}
+                              </span>
+                            </Link>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </nav>
