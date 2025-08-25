@@ -88,6 +88,30 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
   -ms-overflow-style: none;
 }
 
+/* Minimal scrollbar for WebKit browsers */
+.minimal-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(155, 44, 98, 0.2);
+  border-radius: 2px;
+}
+
+.minimal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(155, 44, 98, 0.4);
+}
+
+/* For Firefox */
+.minimal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(155, 44, 98, 0.2) transparent;
+}
+
 @media (max-width: 640px) {
   table {
     display: block;
