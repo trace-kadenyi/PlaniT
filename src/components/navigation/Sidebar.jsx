@@ -248,6 +248,30 @@ export default function Sidebar() {
               </Link>
             </div>
 
+                {/* Theme Toggle */}
+            <div className={`mt-8 ${collapsed ? "px-1" : "px-2"}`}>
+              <button
+                onClick={toggleTheme}
+                className={`
+                  flex items-center p-3 rounded-lg transition-colors w-full
+                  hover:bg-[#FFB866]/10 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-[#FF9933] dark:hover:text-gray-200
+                  ${collapsed ? "justify-center" : "gap-3"}
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+                `}
+                title={collapsed ? (theme === 'light' ? 'Dark mode' : 'Light mode') : undefined}
+                aria-label="Toggle theme"
+              >
+                {theme === 'light' ? (
+                  <Moon size={20} aria-hidden="true" />
+                ) : (
+                  <Sun size={20} aria-hidden="true" />
+                )}
+                {!collapsed && (
+                  <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+                )}
+              </button>
+            </div>
+
             {/* Secondary Links */}
             <div className="mt-8">
               {navLinks.slice(4).map(({ icon: Icon, label, path }) => (
