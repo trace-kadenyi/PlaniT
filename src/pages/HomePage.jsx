@@ -12,7 +12,7 @@ import {
 
 export default function HomePage() {
   return (
-    <main className="bg-white text-[#374151]">
+    <main className="bg-white dark:bg-black text-[#374151]">
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10">
         <motion.div
