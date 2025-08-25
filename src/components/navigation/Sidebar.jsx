@@ -249,17 +249,19 @@ export default function Sidebar() {
             </div>
 
             {/* Secondary Links */}
-            <div className="mt-8">
+
+            {/* Secondary Links */}
+            <div className="mt-8 border-t border-[#FFB866]/30 pt-4">
               {navLinks.slice(4).map((item) => (
                 <div key={item.path}>
                   <Link
                     to={item.path}
                     className={`
-                      flex items-center p-3 rounded-lg transition-colors
+                      flex items-center p-3 rounded-lg transition-all duration-300
                       ${
                         isActive(item.path)
-                          ? "bg-[#FFB866]/30 dark:bg-gray-800 text-[#E07C24] dark:text-[#FFB866]"
-                          : "hover:bg-[#FFB866]/10 dark:hover:bg-gray-700 text-gray-500 dark:text-gray-400 hover:text-[#FF9933] dark:hover:text-gray-200"
+                          ? "bg-gradient-to-r from-[#FFF5EB] to-[#FFE4CC] dark:from-gray-800 dark:to-gray-700 border-l-4 border-[#FF9933] text-[#E07C24] dark:text-[#FFB866] font-medium shadow-sm"
+                          : "text-gray-600 dark:text-gray-400 hover:bg-[#FFF5EB]/60 dark:hover:bg-gray-700/50 hover:text-[#9B2C62] dark:hover:text-gray-200 hover:translate-x-1"
                       }
                       ${collapsed ? "justify-center" : "gap-3"}
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
@@ -272,11 +274,13 @@ export default function Sidebar() {
                       className={
                         isActive(item.path)
                           ? "text-[#E07C24] dark:text-[#FFB866]"
-                          : ""
+                          : "text-[#9B2C62]/80 dark:text-gray-500 group-hover:text-[#FF9933]"
                       }
                       aria-hidden="true"
                     />
-                    {!collapsed && <span>{item.label}</span>}
+                    {!collapsed && (
+                      <span className="text-sm">{item.label}</span>
+                    )}
                   </Link>
 
                   {/* Settings children (Theme toggle) */}
@@ -289,8 +293,8 @@ export default function Sidebar() {
                             <button
                               onClick={toggleTheme}
                               className={`
-                                flex items-center p-2 pl-3 rounded-lg transition-colors w-full
-                                hover:bg-[#FFF5EB]/50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-gray-200
+                                flex items-center p-2 pl-3 rounded-lg transition-all duration-300 w-full
+                                hover:bg-[#FFF5EB]/70 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-gray-200 hover:translate-x-1
                                 gap-3
                                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
                               `}
@@ -316,11 +320,11 @@ export default function Sidebar() {
                             <Link
                               to={child.path || "#"}
                               className={`
-                                flex items-center p-2 pl-3 rounded-lg transition-colors
+                                flex items-center p-2 pl-3 rounded-lg transition-all duration-300
                                 ${
                                   isActive(child.path)
-                                    ? "bg-[#FFF5EB] dark:bg-gray-800 border-l-4 border-[#FF9933] text-[#E07C24] dark:text-[#FFB866]"
-                                    : "hover:bg-[#FFF5EB]/50 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-gray-200"
+                                    ? "bg-gradient-to-r from-[#FFF5EB] to-[#FFE4CC] dark:from-gray-800 dark:to-gray-700 border-l-4 border-[#FF9933] text-[#E07C24] dark:text-[#FFB866] font-medium shadow-sm"
+                                    : "hover:bg-[#FFF5EB]/50 dark:hover:bg-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-gray-200 hover:translate-x-1"
                                 }
                                 gap-3
                                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
