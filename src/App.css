@@ -73,6 +73,21 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
   text-shadow: 0 0 0 #9b2c62;
 }
 
+/* For WebKit browsers (Chrome, Safari, Edge) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* For Firefox */
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+/* For IE and Edge */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+}
+
 @media (max-width: 640px) {
   table {
     display: block;
