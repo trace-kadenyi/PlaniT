@@ -98,3 +98,114 @@ export function UserProfile({ collapsed, User, LogOut, Link }) {
     </div>
   );
 }
+
+// secondary links
+export function SecondaryLinks({
+  navLinks,
+  Link,
+  isActive,
+  collapsed,
+  toggleTheme,
+  Moon,
+  Sun,
+  theme,
+}) {
+  return (
+    <div className="mt-8 border-t border-[#9B2C62]/20 pt-4">
+      {navLinks.slice(4).map((item) => (
+        <div key={item.path}>
+          <Link
+            to={item.path}
+            className={`
+                      flex items-center p-3 rounded-lg transition-all duration-300
+                      ${
+                        isActive(item.path)
+                          ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
+                          : "text-gray-500 hover:bg-[#FF9933]/10 hover:text-[#E07C24]"
+                      }
+                      ${collapsed ? "justify-center" : "gap-3"}
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+                    `}
+            title={collapsed ? item.label : undefined}
+            aria-current={isActive(item.path) ? "page" : undefined}
+          >
+            <item.icon
+              size={20}
+              className={
+                isActive(item.path)
+                  ? "text-[#9B2C62]"
+                  : "text-[#9B2C62]/70 group-hover:text-[#E07C24]"
+              }
+              aria-hidden="true"
+            />
+            {!collapsed && <span className="text-sm">{item.label}</span>}
+          </Link>
+
+          {/* Settings children (Theme toggle) */}
+          {!collapsed && item.children && item.label === "Settings" && (
+            <div className="ml-8 mt-1 space-y-1">
+              {item.children.map((child) => (
+                <div key={child.label}>
+                  {child.isThemeToggle ? (
+                    // Theme toggle button
+                    <button
+                      onClick={toggleTheme}
+                      className={`
+                                flex items-center p-2 pl-3 rounded-lg transition-all duration-300 w-full
+                                ${
+                                  theme === "light"
+                                    ? "bg-[#FF9933]/20 text-[#E07C24] border-r-2 border-[#FF9933]"
+                                    : "bg-[#9B2C62]/20 text-[#9B2C62] border-r-2 border-[#9B2C62]"
+                                }
+                                hover:opacity-90
+                                gap-3
+                                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+                              `}
+                      aria-label="Toggle theme"
+                    >
+                      {theme === "light" ? (
+                        <Moon size={18} className="text-[#E07C24]" />
+                      ) : (
+                        <Sun size={18} className="text-[#9B2C62]" />
+                      )}
+                      <span className="text-sm font-medium">
+                        {theme === "light" ? "Dark Mode" : "Light Mode"}
+                      </span>
+                    </button>
+                  ) : (
+                    // Regular settings child
+                    <Link
+                      to={child.path || "#"}
+                      className={`
+                                flex items-center p-2 pl-3 rounded-lg transition-all duration-300
+                                ${
+                                  isActive(child.path)
+                                    ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
+                                    : "hover:bg-[#FF9933]/10 text-[#7A2450] hover:text-[#E07C24]"
+                                }
+                                gap-3
+                                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+                              `}
+                      aria-current={isActive(child.path) ? "page" : undefined}
+                    >
+                      <child.icon
+                        size={18}
+                        className={
+                          isActive(child.path)
+                            ? "text-[#9B2C62]"
+                            : "text-[#9B2C62]/70 group-hover:text-[#E07C24]"
+                        }
+                        aria-hidden="true"
+                      />
+                      <span className="text-sm font-medium">{child.label}</span>
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
