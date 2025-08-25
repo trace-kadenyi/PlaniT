@@ -94,7 +94,7 @@ export default function Sidebar() {
         }`}
       >
         <aside
-          className={`h-full bg-white border-r border-[#9B2C62] shadow-sm flex flex-col transition-all duration-500 ease-in-out ${
+          className={`h-full bg-white border-r border-[#9B2C62] shadow-sm flex flex-col transition-all duration-500 ease-in-out overflow-y-auto hide-scrollbar ${
             collapsed ? "w-16" : "w-64"
           }`}
           aria-label="Sidebar"
@@ -129,7 +129,7 @@ export default function Sidebar() {
           />
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1">
+          <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1 hide-scrollbar">
             {navLinks.slice(0, 4).map((item) => (
               <div key={item.path}>
                 <Link
