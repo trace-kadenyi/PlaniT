@@ -8,7 +8,7 @@ export default function ArchiveEditVendor({
   SquarePen,
 }) {
   return (
-    <div className="flex sm:justify-end mb-8">
+    <div className="flex sm:justify-end mb-4">
       <div className="flex gap-4">
         <button
           onClick={handleArchive}
