@@ -249,9 +249,7 @@ export default function Sidebar() {
             </div>
 
             {/* Secondary Links */}
-
-            {/* Secondary Links */}
-            <div className="mt-8 border-t border-[#FFB866]/30 pt-4">
+            <div className="mt-8 border-t border-[#9B2C62]/20 pt-4">
               {navLinks.slice(4).map((item) => (
                 <div key={item.path}>
                   <Link
@@ -260,11 +258,11 @@ export default function Sidebar() {
                       flex items-center p-3 rounded-lg transition-all duration-300
                       ${
                         isActive(item.path)
-                          ? "bg-gradient-to-r from-[#FFF5EB] to-[#FFE4CC] dark:from-gray-800 dark:to-gray-700 border-l-4 border-[#FF9933] text-[#E07C24] dark:text-[#FFB866] font-medium shadow-sm"
-                          : "text-gray-600 dark:text-gray-400 hover:bg-[#FFF5EB]/60 dark:hover:bg-gray-700/50 hover:text-[#9B2C62] dark:hover:text-gray-200 hover:translate-x-1"
+                          ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
+                          : "text-[#7A2450] hover:bg-[#FF9933]/10 hover:text-[#E07C24]"
                       }
                       ${collapsed ? "justify-center" : "gap-3"}
-                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
                     `}
                     title={collapsed ? item.label : undefined}
                     aria-current={isActive(item.path) ? "page" : undefined}
@@ -273,8 +271,8 @@ export default function Sidebar() {
                       size={20}
                       className={
                         isActive(item.path)
-                          ? "text-[#E07C24] dark:text-[#FFB866]"
-                          : "text-[#9B2C62]/80 dark:text-gray-500 group-hover:text-[#FF9933]"
+                          ? "text-[#9B2C62]"
+                          : "text-[#9B2C62]/70 group-hover:text-[#E07C24]"
                       }
                       aria-hidden="true"
                     />
@@ -294,22 +292,21 @@ export default function Sidebar() {
                               onClick={toggleTheme}
                               className={`
                                 flex items-center p-2 pl-3 rounded-lg transition-all duration-300 w-full
-                                hover:bg-[#FFF5EB]/70 dark:hover:bg-gray-700/60 text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-gray-200 hover:translate-x-1
+                                ${
+                                  theme === "light"
+                                    ? "bg-[#FF9933]/20 text-[#E07C24] border-r-2 border-[#FF9933]"
+                                    : "bg-[#9B2C62]/20 text-[#9B2C62] border-r-2 border-[#9B2C62]"
+                                }
+                                hover:opacity-90
                                 gap-3
-                                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+                                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
                               `}
                               aria-label="Toggle theme"
                             >
                               {theme === "light" ? (
-                                <Moon
-                                  size={18}
-                                  className="text-[#9B2C62]/70 dark:text-gray-500 group-hover:text-[#FF9933]"
-                                />
+                                <Moon size={18} className="text-[#E07C24]" />
                               ) : (
-                                <Sun
-                                  size={18}
-                                  className="text-[#9B2C62]/70 dark:text-gray-500 group-hover:text-[#FF9933]"
-                                />
+                                <Sun size={18} className="text-[#9B2C62]" />
                               )}
                               <span className="text-sm font-medium">
                                 {theme === "light" ? "Dark Mode" : "Light Mode"}
@@ -323,11 +320,11 @@ export default function Sidebar() {
                                 flex items-center p-2 pl-3 rounded-lg transition-all duration-300
                                 ${
                                   isActive(child.path)
-                                    ? "bg-gradient-to-r from-[#FFF5EB] to-[#FFE4CC] dark:from-gray-800 dark:to-gray-700 border-l-4 border-[#FF9933] text-[#E07C24] dark:text-[#FFB866] font-medium shadow-sm"
-                                    : "hover:bg-[#FFF5EB]/50 dark:hover:bg-gray-700/50 text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-gray-200 hover:translate-x-1"
+                                    ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
+                                    : "hover:bg-[#FF9933]/10 text-[#7A2450] hover:text-[#E07C24]"
                                 }
                                 gap-3
-                                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+                                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
                               `}
                               aria-current={
                                 isActive(child.path) ? "page" : undefined
@@ -337,8 +334,8 @@ export default function Sidebar() {
                                 size={18}
                                 className={
                                   isActive(child.path)
-                                    ? "text-[#E07C24] dark:text-[#FFB866]"
-                                    : "text-[#9B2C62]/70 dark:text-gray-500 group-hover:text-[#FF9933]"
+                                    ? "text-[#9B2C62]"
+                                    : "text-[#9B2C62]/70 group-hover:text-[#E07C24]"
                                 }
                                 aria-hidden="true"
                               />
