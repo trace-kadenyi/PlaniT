@@ -112,6 +112,7 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
   scrollbar-color: rgba(155, 44, 98, 0.2) transparent;
 }
 
+/* media screen */
 @media (max-width: 640px) {
   table {
     display: block;
