@@ -112,3 +112,13 @@ planit/
 - **Budgeting**: Monitor and manage event budgets efficiently.
 
 ---
+
+## Future Enhancements
+
+- User authentication and roles (admin, planner, guest)
+- Email notifications and reminders
+- Analytics and reporting dashboards
+- File uploads for event-related documents
+- Enhanced mobile responsiveness
+
+---
