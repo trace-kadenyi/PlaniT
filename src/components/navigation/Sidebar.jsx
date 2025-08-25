@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Plus, ChevronLeft, Menu, X, User, LogOut } from "lucide-react";
+import {
+  Plus,
+  ChevronLeft,
+  Menu,
+  X,
+  User,
+  LogOut,
+  Sun,
+  Moon,
+} from "lucide-react";
 
 import { navLinks } from "../../data/navData";
 import { BarLogo, UserProfile } from "../ui/Bar";
@@ -9,6 +18,8 @@ export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
   const { pathname } = useLocation();
 
   // Close mobile sidebar when route changes or on larger screens
@@ -27,6 +38,20 @@ export default function Sidebar() {
     setMobileOpen(false);
   }, [pathname]);
 
+  // Handle theme change
+  useEffect(() => {
+    // Update localStorage
+    localStorage.setItem("theme", theme);
+
+    // Update HTML class
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  
   // isactive
   const isActive = (path) => {
     if (path === "/") return pathname === path;
