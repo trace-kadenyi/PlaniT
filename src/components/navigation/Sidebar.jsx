@@ -259,7 +259,7 @@ export default function Sidebar() {
                       ${
                         isActive(item.path)
                           ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
-                          : "text-[#7A2450] hover:bg-[#FF9933]/10 hover:text-[#E07C24]"
+                          : "text-gray-500 hover:bg-[#FF9933]/10 hover:text-[#E07C24]"
                       }
                       ${collapsed ? "justify-center" : "gap-3"}
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
