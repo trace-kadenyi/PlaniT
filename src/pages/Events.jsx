@@ -122,17 +122,17 @@ export default function Events() {
         )}
 
         {status === "failed" && (
-          <div className="bg-red-50/80 backdrop-blur-sm p-6 rounded-xl border border-red-100 shadow-sm">
+          <div className="bg-red-50/80 backdrop-blur-sm p-6 rounded-xl border border-red-100 shadow-sm dark:bg-red-900/30 dark:border-red-800/50">
             <p className="text-red-600 font-medium">Error loading events:</p>
             <p className="text-red-500 mt-1">{error}</p>
           </div>
         )}
 
         {status === "succeeded" && events.length === 0 && (
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] text-center">
+          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] text-center dark:bg-gray-800/80 dark:border-gray-700">
             <div className="mx-auto max-w-md">
               <svg
-                className="mx-auto h-12 w-12 text-gray-400"
+                className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -144,10 +144,10 @@ export default function Events() {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <h3 className="mt-4 text-lg font-medium text-[#9B2C62]">
+              <h3 className="mt-4 text-lg font-medium text-[#9B2C62] dark:text-[#D97706]">
                 No events found
               </h3>
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2 text-gray-600 dark:text-gray-300">
                 Get started by creating your first event
               </p>
               <div className="mt-6">
@@ -161,6 +161,7 @@ export default function Events() {
             </div>
           </div>
         )}
+
         {/* Events List */}
         {status === "succeeded" && events.length > 0 && (
           <div className="space-y-6">
