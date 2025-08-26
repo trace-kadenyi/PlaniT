@@ -6,7 +6,7 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
   return (
     <li
       key={index}
-      className="relative rounded-lg bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5] shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-[#F3EDE9] hover:shadow-[0_4px_15px_rgba(0,0,0,0.08)] hover:scale-[1.02] transition-all duration-200 group"
+      className="relative rounded-lg bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5] shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-[#F3EDE9] hover:shadow-[0_4px_15px_rgba(0,0,0,0.08)] hover:scale-[1.02] transition-all duration-200 group dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
     >
       <div className="p-5">
         <button
@@ -18,18 +18,18 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
               {event.type}
             </p>
             {event.client && (
-              <div className="flex items-center gap-2 text-xs bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] transition-colors duration-200 cursor-default">
-                <span className="text-xs font-semibold text-gray-500">
+              <div className="flex items-center gap-2 text-xs bg-white/80 dark:bg-gray-700 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] transition-colors duration-200 cursor-default">
+                <span className="text-xs font-semibold text-gray-500 dark:text-gray-300">
                   Client:
                 </span>
-                <span className="font-medium text-[#6B3B0F] transition-colors duration-200">
+                <span className="font-medium text-[#6B3B0F] dark:text-gray-300 transition-colors duration-200">
                   {event.client.name}
                 </span>
               </div>
             )}
           </div>
           <h2
-            className="mt-2 text-lg font-semibold text-[#9B2C62] tracking-tight line-clamp-1 hover:underline cursor-pointer"
+            className="mt-2 text-lg font-semibold text-[#9B2C62] dark:text-[#F59E0B] tracking-tight line-clamp-1 hover:underline cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
               navigate(`/events/${event._id}`);
@@ -38,7 +38,7 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
             {event.name}
           </h2>
 
-          <div className="flex items-center gap-2 text-gray-500">
+          <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4"
@@ -58,12 +58,12 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
             </p>
           </div>
 
-          <p className="text-sm text-gray-600 line-clamp-2 mt-2">
+          <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mt-2">
             {event.description || "No description provided."}
           </p>
 
           <div className="flex items-center justify-between mt-4">
-            <div className="flex items-center gap-1 text-gray-500">
+            <div className="flex items-center gap-1 text-gray-500 dark:text-gray-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
