@@ -12,7 +12,7 @@ import {
 
 export default function HomePage() {
   return (
-    <main className="bg-white dark:bg-black text-[#374151] dark:text-gray-100">
+    <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100">
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10 h-screen sm:h-full">
         <motion.div
@@ -55,9 +55,9 @@ export default function HomePage() {
 
       {/* Core Features Section */}
       <ScrollFadeFunc>
-        <section className="bg-gray-50 py-16 px-6">
+        <section className="bg-gray-50 dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 py-16 px-6">
           <div className="max-w-6xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-10 text-[#9B2C62]">
+            <h3 className="text-2xl font-bold mb-10 text-[#9B2C62] dark:text-[#D97706]">
               Core MVP Features
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
@@ -68,12 +68,14 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1, duration: 0.5, ease: easeOut }}
                   viewport={{ once: true }}
-                  className="bg-white p-6 rounded shadow hover:shadow-md transition"
+                  className="bg-white dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 p-6 rounded-lg shadow hover:shadow-md transition border border-gray-100 dark:shadow-gray-900/50 dark:hover:shadow-amber-900/20 dark:border dark:border-gray-700"
                 >
-                  <h4 className="text-lg font-semibold mb-2 text-[#BE3455]">
+                  <h4 className="text-lg font-semibold mb-2 text-[#BE3455] dark:text-[#F59E0B]">
                     {feature.title}
                   </h4>
-                  <p className="text-sm text-gray-600">{feature.desc}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    {feature.desc}
+                  </p>
                 </motion.div>
               ))}
             </div>
@@ -83,7 +85,7 @@ export default function HomePage() {
 
       {/* Process or How it Works Section */}
       <ScrollFadeFunc>
-        <section className="py-20 px-6 bg-white">
+        <section className="py-20 px-6 bg-white dark:bg-black">
           <div className="max-w-6xl mx-auto text-center">
             <h3 className="text-2xl font-bold mb-12 text-[#9B2C62]">
               How PlaniT Works
