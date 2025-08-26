@@ -129,7 +129,7 @@ export default function Sidebar() {
           />
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1 hide-scrollbar">
+          <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1 hide-scrollbar dark:bg-gray-800">
             {navLinks.slice(0, 4).map((item) => (
               <div key={item.path}>
                 <Link
@@ -138,8 +138,8 @@ export default function Sidebar() {
         flex items-center p-3 rounded-lg transition-colors
         ${
           isActive(item.path)
-            ? "bg-[#9B2C62] text-white"
-            : "hover:bg-[#FFB866]/20 text-gray-700"
+            ? "bg-[#9B2C62] text-white dark:text-gray-200"
+            : "hover:bg-[#FFB866]/20 dark:hover:bg-[#9B2C62]/30 text-gray-700 dark:text-gray-300"
         }
         ${collapsed ? "justify-center" : "gap-3"}
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
@@ -151,8 +151,8 @@ export default function Sidebar() {
                     size={20}
                     className={
                       isActive(item.path)
-                        ? "text-white"
-                        : "text-[#9B2C62] group-hover:text-[#FF9933]"
+                        ? "text-white dark:text-gray-100"
+                        : "text-[#9B2C62] dark:text-[#D97706] group-hover:text-[#FF9933]"
                     }
                     aria-hidden="true"
                   />
@@ -170,8 +170,8 @@ export default function Sidebar() {
           flex items-center p-2 pl-3 rounded-lg transition-colors
           ${
             isActive(child.path)
-              ? "bg-[#FFF5EB] border-l-4 border-[#FF9933] text-[#E07C24]"
-              : "hover:bg-[#FFF5EB]/50 text-gray-600 hover:text-[#9B2C62]"
+              ? "bg-[#FFF5EB] dark:bg-[#D97706]/30 border-l-4 border-[#FF9933] text-[#E07C24]"
+              : "hover:bg-[#FFF5EB]/50 dark:hover:bg-[#F59E0B]/20  text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-[#F59E0B]"
           }
           gap-3
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
@@ -183,7 +183,7 @@ export default function Sidebar() {
                           className={
                             isActive(child.path)
                               ? "text-[#E07C24]"
-                              : "text-[#9B2C62]/70 group-hover:text-[#FF9933]"
+                              : "text-[#9B2C62] dark:text-[#D97706] group-hover:text-[#FF9933]"
                           }
                           aria-hidden="true"
                         />
@@ -205,8 +205,8 @@ export default function Sidebar() {
               flex items-center justify-center p-2 rounded-lg transition-colors
               ${
                 isActive(child.path)
-                  ? "bg-[#FFF5EB] text-[#E07C24]"
-                  : "hover:bg-[#FFF5EB]/50 text-gray-600 hover:text-[#9B2C62]"
+                  ? "bg-[#FFF5EB] dark:bg-[#D97706]/30 text-[#E07C24]"
+                  : "hover:bg-[#FFF5EB]/50 dark:hover:bg-[#F59E0B]/20 text-gray-600 hover:text-[#9B2C62] dark:hover:text-[#F59E0B]"
               }
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
             `}
@@ -217,8 +217,8 @@ export default function Sidebar() {
                           size={18}
                           className={
                             isActive(child.path)
-                              ? "text-[#E07C24]"
-                              : "text-[#9B2C62]/70 group-hover:text-[#FF9933]"
+                              ? "text-[#E07C24] dark:text-[#F59E0B]"
+                              : "text-[#9B2C62]/70 dark:text-[#F59E0B] group-hover:text-[#FF9933]"
                           }
                           aria-hidden="true"
                         />
