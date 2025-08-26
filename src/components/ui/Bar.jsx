@@ -119,7 +119,7 @@ export function SecondaryLinks({
           <Link
             to={item.path}
             className={`
-              flex items-center p-3 rounded-lg transition-all duration-300
+              flex items-center p-2 m-1 rounded-lg transition-all duration-300
               ${
                 isActive(item.path)
                   ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
