@@ -3,7 +3,7 @@ import { EaseOutFunc } from "../ui/FramerMotion";
 export default function Footer() {
   return (
     <EaseOutFunc>
-      <section className="bg-[#9B2C62] text-white py-16 px-6 text-center">
+      <section className="bg-[#9B2C62] text-white dark:text-gray-100 py-16 px-6 text-center">
         <div className="max-w-3xl mx-auto">
           <h3 className="text-3xl font-bold mb-4">Ready to plan smarter?</h3>
           <p className="mb-6 text-lg">
