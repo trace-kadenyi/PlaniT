@@ -22,7 +22,7 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
                 <span className="text-xs font-semibold text-gray-500 dark:text-gray-300">
                   Client:
                 </span>
-                <span className="font-medium text-[#6B3B0F] dark:text-gray-300 transition-colors duration-200">
+                <span className="font-medium text-[#6B3B0F] dark:text-gray-300 transition-colors duration-200 truncate">
                   {event.client.name}
                 </span>
               </div>
