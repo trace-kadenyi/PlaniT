@@ -168,14 +168,14 @@ export default function Events() {
             {Object.entries(eventsByMonth).map(([monthYear, monthEvents]) => (
               <section
                 key={monthYear}
-                className="bg-gradient-to-br from-[#FFF8F2]/30 to-white/70 rounded-xl shadow-sm border border-[#F3EDE9]/50 overflow-hidden"
+                className="bg-gradient-to-br from-[#FFF8F2]/30 to-white/70 rounded-xl shadow-sm border border-[#F3EDE9]/50 overflow-hidden dark:bg-gradient-to-br dark:from-gray-800/70 dark:to-gray-900/70 dark:border-gray-700/50"
               >
                 {/* Month Header */}
                 <button
                   onClick={() => toggleMonth(monthYear)}
-                  className={`flex items-center w-full p-4 hover:bg-[#FFF8F2] transition border-l-4 ${
+                  className={`flex items-center w-full p-4 hover:bg-[#FFF8F2] transition border-l-4 dark:hover:bg-gray-700/50 ${
                     expandedMonths[monthYear]
-                      ? " border-l-[#F59E0B] bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5]"
+                      ? " border-l-[#F59E0B] bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5] dark:border-l-[#F59E0B] dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-700"
                       : "border-l-[#9B2C62]"
                   }`}
                 >
@@ -189,13 +189,13 @@ export default function Events() {
                       className={`text-xs font-semibold ${
                         monthYear === currentMonthYear
                           ? "text-[#F59E0B]"
-                          : "text-[#9B2C62]"
+                          : "text-[#9B2C62] dark:text-[#D97706]"
                       }`}
                     >
                       {monthYear}
                     </h2>
                   </div>
-                  <span className="ml-auto bg-gray-100 text-[#9B2C62] px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                  <span className="ml-auto bg-gray-100 text-[#9B2C62] px-2.5 py-0.5 rounded-full text-xs font-semibold dark:font-normal dark:bg-gray-800 dark:text-[#F59E0B]">
                     {monthEvents.length} event
                     {monthEvents.length !== 1 ? "s" : ""}
                   </span>
