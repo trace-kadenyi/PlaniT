@@ -90,7 +90,7 @@ export default function HomePage() {
             <h3 className="text-2xl font-bold mb-12 text-[#9B2C62] dark:text-[#D97706]">
               How PlaniT Works
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
+            <div className="grid grid-cols-1 #E879Csm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
               {steps.map((step, index) => (
                 <StepCard
                   key={index}
