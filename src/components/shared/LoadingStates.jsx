@@ -24,11 +24,11 @@ export function TasksLoadingState() {
 // Loading page
 export function LoadingPage({ message = "Loading..." }) {
   return (
-    <div className="flex items-center gap-2 text-sm text-[#9B2C62] py-2 px-3 rounded-2xl bg-[#FDF2F8] border border-[#FAD1E8] shadow-sm w-fit animate-fadeIn">
+    <div className="flex items-center gap-2 text-sm text-[#9B2C62] py-2 px-3 rounded-2xl bg-[#FDF2F8] dark:bg-gray-900 dark:text-white border border-[#FAD1E8] shadow-sm w-fit animate-fadeIn">
       <Loader2 className="animate-spin h-4 w-4 opacity-80" />
       <span className="flex items-center gap-1">
         {message}
-        <span className="animate-pulse text-[#F59E0B] text-base leading-none">
+        <span className="animate-pulse text-[#F59E0B] dark:text-white text-base leading-none">
           •
         </span>
       </span>
