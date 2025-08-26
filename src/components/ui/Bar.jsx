@@ -57,7 +57,7 @@ export function BarLogo({
 // sidebar user profile
 export function UserProfile({ collapsed, User, LogOut, Link }) {
   return (
-    <div className={`p-3 border-t ${collapsed ? "px-2" : "px-4"}`}>
+    <div className={`p-3 border-t ${collapsed ? "px-2" : "px-4"} dark:bg-gray-800`}>
       <div
         className={`flex items-center ${
           collapsed ? "justify-center" : "justify-between"
