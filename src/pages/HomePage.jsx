@@ -1,6 +1,6 @@
 import { easeOut, motion } from "framer-motion";
 
-import HeroImg from "../components/landing/HeroAnimation"; 
+import HeroImg from "../components/landing/HeroAnimation";
 import { features, steps } from "../data/homeData";
 import {
   ScrollFadeFunc,
@@ -12,9 +12,9 @@ import {
 
 export default function HomePage() {
   return (
-    <main className="bg-white dark:bg-black text-[#374151]">
+    <main className="bg-white dark:bg-black text-[#374151] dark:text-gray-100">
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10">
+      <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10 h-screen sm:h-full">
         <motion.div
           variants={heroVariants}
           initial="hidden"
@@ -27,7 +27,10 @@ export default function HomePage() {
           >
             Simplify Your <br /> Event Planning
           </motion.h1>
-          <motion.p variants={fadeUp} className="text-gray-600 mb-6 max-w-md">
+          <motion.p
+            variants={fadeUp}
+            className="text-gray-600 dark:text-gray-300 mb-6 max-w-md"
+          >
             PlaniT helps event planners manage tasks, budgets, and resources
             efficiently, with elegance and ease.
           </motion.p>
