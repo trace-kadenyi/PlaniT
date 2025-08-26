@@ -89,19 +89,19 @@ export default function Events() {
   });
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FFF8F2] to-white p-3 sm:p-10">
+    <main className="min-h-screen dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Section with Decorative Elements */}
         <div className="relative mb-10">
-          <div className="absolute -top-4 -left-4 w-20 h-20 bg-[#F59E0B]/10 rounded-full blur-lg"></div>
-          <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#9B2C62]/10 rounded-full blur-lg"></div>
+          <div className="absolute -top-4 -left-4 w-20 h-20 bg-[#F59E0B]/10 rounded-full blur-lg dark:bg-[#F59E0B]/20"></div>
+          <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#9B2C62]/10 rounded-full blur-lg dark:bg-[#9B2C62]/20"></div>
 
           <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 z-10">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] text-start mt-4 sm:mt-0">
+              <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] text-start mt-4 sm:mt-0">
                 Events Manager
               </h1>
-              <p className="text-gray-600 mt-2 max-w-lg">
+              <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-lg">
                 Organize and track all your upcoming events in one place
               </p>
             </div>
@@ -116,7 +116,7 @@ export default function Events() {
 
         {/* Status Messages */}
         {status === "loading" && (
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9]">
+          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 dark:border-gray-700">
             <LoadingPage message="Loading events..." />
           </div>
         )}
