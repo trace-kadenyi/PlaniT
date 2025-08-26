@@ -60,7 +60,7 @@ export default function HomePage() {
             <h3 className="text-2xl font-bold mb-10 text-[#9B2C62] dark:text-[#D97706]">
               Core MVP Features
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
               {features.map((feature, i) => (
                 <motion.div
                   key={feature.title}
@@ -85,9 +85,9 @@ export default function HomePage() {
 
       {/* Process or How it Works Section */}
       <ScrollFadeFunc>
-        <section className="py-20 px-6 bg-white dark:bg-black">
+        <section className="py-20 px-6 bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-black">
           <div className="max-w-6xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-12 text-[#9B2C62]">
+            <h3 className="text-2xl font-bold mb-12 text-[#9B2C62] dark:text-[#D97706]">
               How PlaniT Works
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
