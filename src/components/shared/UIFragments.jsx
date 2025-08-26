@@ -5,12 +5,12 @@ export function EventStatusPill({ status }) {
     <span
       className={`px-2 py-1 rounded text-xs ${
         status === "Completed"
-          ? "bg-green-100 text-green-800"
+          ? "bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-100"
           : status === "Cancelled"
-          ? "bg-red-100 text-red-800"
+          ? "bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-100"
           : status === "In Progress"
-          ? "bg-[#F5EBFF] text-[#9B2C62]"
-          : "bg-[#EFF6FF] text-[#1E40AF]"
+          ? "bg-[#F5EBFF] text-[#9B2C62] dark:bg-purple-900/40 dark:text-purple-200"
+          : "bg-[#EFF6FF] text-[#1E40AF] dark:bg-blue-900/30 dark:text-blue-300"
       }`}
     >
       {status}
