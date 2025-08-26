@@ -57,7 +57,9 @@ export function BarLogo({
 // sidebar user profile
 export function UserProfile({ collapsed, User, LogOut, Link }) {
   return (
-    <div className={`p-3 border-t ${collapsed ? "px-2" : "px-4"} dark:bg-gray-800`}>
+    <div
+      className={`p-3 border-t ${collapsed ? "px-2" : "px-4"} dark:bg-gray-800`}
+    >
       <div
         className={`flex items-center ${
           collapsed ? "justify-center" : "justify-between"
@@ -121,7 +123,7 @@ export function SecondaryLinks({
               ${
                 isActive(item.path)
                   ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
-                  : "text-gray-500 hover:bg-[#FF9933]/10 hover:text-[#E07C24]"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-[#FF9933]/10 hover:text-[#E07C24] dark:hover:bg-[#9B2C62]/30"
               }
               ${collapsed ? "justify-center" : "gap-3"}
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
@@ -133,8 +135,8 @@ export function SecondaryLinks({
               size={20}
               className={
                 isActive(item.path)
-                  ? "text-[#9B2C62]"
-                  : "text-[#9B2C62]/70 group-hover:text-[#E07C24]"
+                  ? "text-[#9B2C62] dark:text-[#BE3455]"
+                  : "text-[#9B2C62]/70 dark:text-[#BE3455] group-hover:text-[#E07C24]"
               }
               aria-hidden="true"
             />
@@ -154,8 +156,8 @@ export function SecondaryLinks({
                         flex items-center p-2 pl-3 rounded-lg transition-all duration-300 w-full
                         ${
                           theme === "light"
-                            ? "bg-[#FF9933]/20 text-[#E07C24] border-r-2 border-[#FF9933]"
-                            : "bg-[#9B2C62]/20 text-[#9B2C62] border-r-2 border-[#9B2C62]"
+                            ? "bg-[#FF9933]/20 hover:bg-[#FF9933]/30 text-[#E07C24] border-r-2 border-[#FF9933]"
+                            : "bg-[#9B2C62]/20 hover:bg-[#9B2C62]/50 text-[#BE3455] hover:text-gray-400 border-r-2 border-[#9B2C62]"
                         }
                         hover:opacity-90
                         gap-3
@@ -166,7 +168,7 @@ export function SecondaryLinks({
                       {theme === "light" ? (
                         <Moon size={18} className="text-[#E07C24]" />
                       ) : (
-                        <Sun size={18} className="text-[#9B2C62]" />
+                        <Sun size={18} className="text-[#BE3455]" />
                       )}
                       <span className="text-sm font-medium">
                         {theme === "light" ? "Dark Mode" : "Light Mode"}
@@ -219,7 +221,7 @@ export function SecondaryLinks({
                         ${
                           theme === "light"
                             ? "bg-[#FF9933]/20 text-[#E07C24]"
-                            : "bg-[#9B2C62]/20 text-[#9B2C62]"
+                            : "bg-[#9B2C62]/20 hover:bg-[#9B2C62]/50"
                         }
                         hover:opacity-90
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
@@ -234,7 +236,7 @@ export function SecondaryLinks({
                       {theme === "light" ? (
                         <Moon size={18} className="text-[#E07C24]" />
                       ) : (
-                        <Sun size={18} className="text-[#9B2C62]" />
+                        <Sun size={18} className="text-[#BE3455]" />
                       )}
                     </button>
                   ) : (
