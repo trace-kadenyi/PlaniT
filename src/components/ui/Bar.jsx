@@ -79,10 +79,10 @@ export function UserProfile({ collapsed, User, LogOut, Link }) {
           </div>
           {!collapsed && (
             <div>
-              <p className="text-sm font-medium group-hover:text-[#FF9933] transition-colors">
+              <p className="text-sm dark:text-gray-200 font-medium group-hover:text-[#FF9933] transition-colors">
                 John Doe
               </p>
-              <p className="text-xs text-gray-500 group-hover:text-[#FFB866] transition-colors">
+              <p className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-[#FFB866] transition-colors">
                 Admin
               </p>
             </div>
@@ -90,7 +90,7 @@ export function UserProfile({ collapsed, User, LogOut, Link }) {
         </Link>
         {!collapsed && (
           <button
-            className="p-1 rounded-full hover:bg-[#FFB866]/10 text-gray-500 hover:text-[#E07C24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866] transition-colors"
+            className="p-1 rounded-full hover:bg-[#FFB866]/10 text-gray-500 dark:text-gray-400 hover:text-[#E07C24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866] transition-colors"
             aria-label="Logout"
           >
             <LogOut size={18} aria-hidden="true" />
