@@ -74,15 +74,17 @@ export const fadeUp = {
 
 // // step card
 export const StepCard = ({ Icon, stepNumber, title, text }) => (
-  <HoverFunc className="flex flex-col items-center text-center w-full max-w-sm p-6 bg-[#FFF8F2] rounded-2xl shadow transition-shadow duration-300 mx-auto border border-[#FDE9C2]">
+  <HoverFunc className="flex flex-col items-center text-center w-full max-w-sm p-6 bg-[#FFF8F2] dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow transition-shadow duration-300 mx-auto border border-[#FDE9C2] dark:border-[#D97706]">
     <div className="relative">
-      <Icon className="w-16 h-16 p-3 bg-white border-2 border-[#F59E0B] rounded-full shadow-md text-[#9B2C62]" />
-      <div className="absolute -top-2 -right-2 bg-[#F59E0B] text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+      <Icon className="w-16 h-16 p-3 bg-white dark:bg-gray-800 border-2 border-[#F59E0B] dark:border-[#D97706] rounded-full shadow-md text-[#9B2C62] dark:text-[#D97706]" />
+      <div className="absolute -top-2 -right-2 bg-[#F59E0B] dark:bg-[#D97706] text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
         {stepNumber}
       </div>
     </div>
-    <h4 className="mt-4 text-lg font-semibold text-[#9B2C62]">{title}</h4>
-    <p className="mt-2 text-sm text-[#4B5563]">{text}</p>
+    <h4 className="mt-4 text-lg font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+      {title}
+    </h4>
+    <p className="mt-2 text-sm text-[#4B5563] dark:text-gray-300">{text}</p>
   </HoverFunc>
 );
 
