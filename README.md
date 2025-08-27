@@ -139,5 +139,5 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ## Contact
 
-- **Author**: Trey Kadenyi  
+- **Author**: Tracey Kadenyi  
 - **Email**: treykadenyi@gmail.com  
