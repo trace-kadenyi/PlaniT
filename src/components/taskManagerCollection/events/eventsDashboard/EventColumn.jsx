@@ -26,7 +26,7 @@ export default function EventColumn({ columns }) {
                   {column.title} ({column.tasks.length})
                 </h2>
 
-                <div className="space-y-3 overflow-y-auto flex-1">
+                <div className="space-y-3 overflow-y-auto flex-1 minimal-scrollbar">
                   {column.tasks.map((event, index) => (
                     <Draggable
                       key={event.id}
