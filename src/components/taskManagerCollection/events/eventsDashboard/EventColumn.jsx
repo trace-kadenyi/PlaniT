@@ -12,7 +12,7 @@ export default function EventColumn({ columns }) {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col"
+                className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col dark:bg-gray-700/60 dark:border-gray-700"
                 style={{
                   minHeight: "200px",
                   maxHeight: "calc(100vh - 16rem)",
@@ -37,7 +37,7 @@ export default function EventColumn({ columns }) {
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative"
+                          className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
                         >
                           {/* Drag handle (invisible overlay) */}
                           <div
