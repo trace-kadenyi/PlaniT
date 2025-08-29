@@ -112,6 +112,31 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
   scrollbar-color: rgba(155, 44, 98, 0.2) transparent;
 }
 
+/* Custom scrollbar for webkit browsers (Chrome, Safari, Edge) */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgba(75, 85, 99, 0.3); /* gray-600 with opacity */
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(107, 114, 128, 0.6); /* gray-500 with opacity */
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.8); /* gray-400 with opacity */
+}
+
+/* Firefox */
+.dark {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(107, 114, 128, 0.6) rgba(75, 85, 99, 0.3);
+}
+
 /* media screen */
 @media (max-width: 640px) {
   table {
