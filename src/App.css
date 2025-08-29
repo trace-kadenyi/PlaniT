@@ -109,7 +109,7 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
 /* For Firefox */
 .minimal-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(155, 44, 98, 0.2) transparent;
+  /* scrollbar-color: rgba(155, 44, 98, 0.2) transparent; */
 }
 
 /* Custom scrollbar for webkit browsers (Chrome, Safari, Edge) */
