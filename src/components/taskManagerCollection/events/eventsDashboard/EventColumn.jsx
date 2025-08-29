@@ -12,7 +12,7 @@ export default function EventColumn({ columns }) {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col dark:bg-gray-700/60 dark:border-gray-700 dark:text-[#F59E0B]"
+                className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col dark:bg-gray-700/60 dark:border-gray-700"
                 style={{
                   minHeight: "200px",
                   maxHeight: "calc(100vh - 16rem)",
