@@ -175,7 +175,7 @@ export default function Events() {
                   onClick={() => toggleMonth(monthYear)}
                   className={`flex items-center w-full p-4 hover:bg-[#FFF8F2] transition border-l-4 dark:hover:bg-gray-700/50 ${
                     expandedMonths[monthYear]
-                      ? " border-l-[#F59E0B] bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5] dark:border-l-[#F59E0B] dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-700"
+                      ? "border-l-[#F59E0B] bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5] dark:border-l-[#F59E0B] dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-700"
                       : "border-l-[#9B2C62]"
                   }`}
                 >
