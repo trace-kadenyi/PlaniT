@@ -12,13 +12,13 @@ export default function EventColumn({ columns }) {
               <div
                 {...provided.droppableProps}
                 ref={provided.innerRef}
-                className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col dark:bg-gray-700/60 dark:border-gray-700"
+                className="bg-white border border-gray-200 rounded-lg p-4 w-full lg:w-72 flex-shrink-0 shadow-sm flex flex-col dark:bg-gray-700/60 dark:border-gray-700 dark:text-[#F59E0B]"
                 style={{
                   minHeight: "200px",
                   maxHeight: "calc(100vh - 16rem)",
                 }}
               >
-                <h2 className="font-semibold text-[#9B2C62] mb-4 flex items-center">
+                <h2 className="font-semibold text-[#9B2C62] mb-4 flex items-center dark:text-[#F59E0B]">
                   <span
                     className="inline-block w-3 h-3 rounded-full mr-2"
                     style={{ backgroundColor: column.color }}
