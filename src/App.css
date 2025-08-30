@@ -91,6 +91,7 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
 /* Minimal scrollbar for WebKit browsers */
 .minimal-scrollbar::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
 
 .minimal-scrollbar::-webkit-scrollbar-track {
@@ -115,6 +116,7 @@ input[type="datetime-local"]::-webkit-datetime-edit-text {
 /* Custom scrollbar for webkit browsers (Chrome, Safari, Edge) */
 .dark ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 .dark ::-webkit-scrollbar-track {
