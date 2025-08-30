@@ -82,10 +82,10 @@ export function TasksPriorityPill({ priority }) {
     <span
       className={`inline-block px-2 py-0.5 rounded-full font-medium ${
         priority.toLowerCase() === "high"
-          ? "bg-[#F59E0B]/20 text-[#C2410C]"
+          ? "bg-[#F59E0B]/20 text-[#C2410C] dark:bg-red-900/40 dark:text-red-200"
           : priority.toLowerCase() === "medium"
-          ? "bg-yellow-100 text-yellow-700"
-          : "bg-gray-200 text-gray-600"
+          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-200"
+          : "bg-gray-200 text-gray-600 dark:bg-gray-800/50 dark:text-gray-300"
       }`}
     >
       {priority}
