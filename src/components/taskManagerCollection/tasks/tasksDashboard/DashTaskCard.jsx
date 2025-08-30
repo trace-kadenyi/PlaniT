@@ -11,7 +11,7 @@ export default function DashTaskCard({ task }) {
           {truncateText(task.title, 25)}
         </h3>
         {task.priority === "high" && (
-          <span className="text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
+          <span className="text-xs bg-[#F59E0B] dark:bg-[#D97706] text-white px-2 py-1 rounded-full">
             {task.priority}
           </span>
         )}
