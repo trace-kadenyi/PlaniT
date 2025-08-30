@@ -7,7 +7,7 @@ export default function DashTaskCard({ task }) {
   return (
     <div className="relative z-20" style={{ pointerEvents: "none" }}>
       <div className="flex justify-between items-start">
-        <h3 className="font-medium text-gray-800">
+        <h3 className="font-medium text-gray-800 dark:text-gray-200">
           {truncateText(task.title, 25)}
         </h3>
         {task.priority === "high" && (
@@ -17,7 +17,7 @@ export default function DashTaskCard({ task }) {
         )}
       </div>
 
-      <div className="mt-2 flex items-center text-xs text-gray-600">
+      <div className="mt-2 flex items-center text-xs text-gray-600 dark:text-gray-400">
         {task.eventId ? (
           <Link
             to={`/events/${task.eventId}`}
@@ -36,7 +36,9 @@ export default function DashTaskCard({ task }) {
       </div>
 
       <div className="mt-3 flex justify-between items-center text-xs">
-        <span className="text-gray-500">{task.assignee || "Unassigned"}</span>
+        <span className="text-gray-500 dark:text-gray-400">
+          {task.assignee || "Unassigned"}
+        </span>
         <TasksPriorityPill priority={task.priority} />
       </div>
     </div>
