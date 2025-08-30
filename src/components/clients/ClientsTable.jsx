@@ -6,7 +6,7 @@ export default function ClientsTable({
   handleArchiveToggle,
 }) {
   return (
-    <table className="min-w-full divide-y divide-gray-200">
+    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
       <thead className="bg-[#9B2C62]">
         <tr>
           <th
@@ -35,11 +35,15 @@ export default function ClientsTable({
           </th>
         </tr>
       </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
+      <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-900 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border dark:border-gray-900/60 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
         {currentClients.map((client) => (
           <tr
             key={client._id}
-            className={client.isArchived ? "bg-gray-50" : "hover:bg-[#FFF7ED]"}
+            className={
+              client.isArchived
+                ? "bg-gray-50 dark:bg-gray-800"
+                : "hover:bg-[#FFF7ED] dark:hover:bg-gray-900"
+            }
           >
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="flex items-center">
@@ -49,22 +53,22 @@ export default function ClientsTable({
                 <div className="ml-4">
                   <div
                     onClick={() => navigate(`/clients/${client._id}`)}
-                    className="text-sm font-medium text-[#9B2C62] hover:underline hover:italic cursor-default"
+                    className="text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:underline hover:italic cursor-default"
                   >
                     {client.name}
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {client.company || "Individual"}
                   </div>
                 </div>
               </div>
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
-              <div className="text-sm text-gray-900 flex items-center gap-2">
+              <div className="text-sm text-gray-900 dark:text-gray-300 flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#F59E0B]" />
                 {client.contact?.email || "—"}
               </div>
-              <div className="text-sm text-gray-500 flex items-center gap-2 mt-1">
+              <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 mt-1">
                 <Phone className="w-4 h-4 text-[#F59E0B]" />
                 {client.contact?.phone || "—"}
               </div>
@@ -84,7 +88,7 @@ export default function ClientsTable({
               <div className="flex justify-end items-center gap-2">
                 <button
                   onClick={() => navigate(`/clients/${client._id}`)}
-                  className="text-[#9B2C62] hover:text-[#7A1F4D] flex items-center gap-1 px-3 py-1 rounded transition-colors hover:bg-[#9B2C62] hover:text-white"
+                  className="text-[#9B2C62] dark:text-[#F59E0B] hover:text-[#7A1F4D] flex items-center gap-1 px-3 py-1 rounded transition-colors hover:bg-[#9B2C62] dark:hover:bg-[#D97706] hover:text-white dark:hover:text-black"
                 >
                   View Details
                 </button>
@@ -96,7 +100,7 @@ export default function ClientsTable({
                   className={`flex items-center gap-1 px-3 py-1 rounded transition-colors ${
                     client.isArchived
                       ? "bg-[#FFBF00] hover:bg-[#E6AC00] text-[#571838]"
-                      : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                      : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
                   } ${
                     client.isArchiving || client.isRestoring
                       ? "opacity-70 cursor-not-allowed"
