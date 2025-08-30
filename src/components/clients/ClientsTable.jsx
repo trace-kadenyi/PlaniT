@@ -35,7 +35,7 @@ export default function ClientsTable({
           </th>
         </tr>
       </thead>
-      <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-900 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border dark:border-gray-900/60 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+      <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-900 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
         {currentClients.map((client) => (
           <tr
             key={client._id}
