@@ -9,15 +9,15 @@ export default function ClientPagination({
   ChevronRight,
 }) {
   return (
-    <div className="px-6 py-3 flex items-center justify-between border-t border-gray-200">
+    <div className="px-6 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-800">
       <div className="flex-1 flex justify-between sm:hidden">
         <button
           onClick={() => paginate(Math.max(1, currentPage - 1))}
           disabled={currentPage === 1}
           className={`relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
             currentPage === 1
-              ? "bg-gray-100 text-gray-400"
-              : "bg-white text-gray-700 hover:bg-gray-50"
+              ? "bg-gray-100 dark:bg-gray-500 text-gray-400"
+              : "bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
           }`}
         >
           Previous
@@ -27,8 +27,8 @@ export default function ClientPagination({
           disabled={currentPage === totalPages}
           className={`ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md ${
             currentPage === totalPages
-              ? "bg-gray-100 text-gray-400"
-              : "bg-white text-gray-700 hover:bg-gray-50"
+              ? "bg-gray-100 dark:bg-gray-500 text-gray-400"
+              : "bg-white text-gray-700 hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800"
           }`}
         >
           Next
