@@ -235,8 +235,8 @@ export default function Sidebar() {
                 to="/events/new"
                 className={`
               flex items-center p-3 rounded-lg transition-colors 
-              bg-[#FF9933] text-white
-              hover:bg-[#E07C24] ${
+              bg-[#FF9933] dark:bg-[#E07C24] text-white
+              hover:bg-[#E07C24] dark:hover:bg-[#FF9933] ${
                 collapsed ? "justify-center" : "gap-3 justify-center"
               }
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
