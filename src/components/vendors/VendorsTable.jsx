@@ -20,21 +20,21 @@ export default function VendorsTable({
   filterMode,
 }) {
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden border border-[#E3CBC1]">
+    <div className="bg-white rounded-lg shadow overflow-hidden border border-[#E3CBC1] dark:border-gray-900">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-[#E3CBC1]">
-          <thead className="bg-[#F7F7FA]">
+        <table className="min-w-full divide-y divide-[#E3CBC1] dark:divide-gray-600">
+          <thead className="bg-[#F7F7FA] dark:bg-[#9B2C62]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] dark:text-gray-200 uppercase tracking-wider">
                 Vendor
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] dark:text-gray-200 uppercase tracking-wider">
                 Service
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-medium text-[#9B2C62] dark:text-gray-200 uppercase tracking-wider">
                 Contact
               </th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-[#9B2C62] uppercase tracking-wider">
+              <th className="px-6 py-3 text-right text-xs font-medium text-[#9B2C62] dark:text-gray-200 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
