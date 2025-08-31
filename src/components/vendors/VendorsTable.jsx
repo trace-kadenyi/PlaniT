@@ -39,12 +39,12 @@ export default function VendorsTable({
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-[#E3CBC1]">
+          <tbody className="bg-white divide-y divide-[#E3CBC1] dark:divide-gray-900 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
             {currentVendors.map((vendor) => (
               <tr
                 key={vendor._id}
-                className={`hover:bg-gray-100 ${
-                  vendor.isArchived ? "bg-gray-50" : ""
+                className={`hover:bg-gray-100 dark:hover:bg-gray-800 ${
+                  vendor.isArchived ? "bg-gray-50 dark:bg-gray-800" : "hover:bg-[#FFF7ED] dark:hover:bg-gray-900"
                 }`}
               >
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -56,12 +56,12 @@ export default function VendorsTable({
                       <div
                         onClick={() => navigate(`/vendors/${vendor._id}`)}
                         className={`text-sm font-medium hover:underline hover:italic cursor-default ${
-                          vendor.isArchived ? "text-gray-500" : "text-[#9B2C62]"
+                          vendor.isArchived ? "text-gray-500" : "text-[#9B2C62] dark:text-[#D97706]"
                         }`}
                       >
                         {vendor.name}
                         {vendor.isArchived && (
-                          <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800">
+                          <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 dark:bg-gray-500 text-gray-800 dark:text-gray-900">
                             Archived
                           </span>
                         )}
@@ -73,15 +73,15 @@ export default function VendorsTable({
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-semibold text-[#6B3B0F] capitalize">
+                  <div className="text-sm font-semibold text-[#6B3B0F] dark:text-[#D97706] capitalize">
                     {vendor.services}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-[#6B3B0F]">
+                  <div className="text-sm text-[#6B3B0F] dark:text-[#F59E0B]">
                     {vendor.contact?.email || "Not provided"}
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {vendor.contact?.phone || "Not provided"}
                   </div>
                 </td>
@@ -89,7 +89,7 @@ export default function VendorsTable({
                   <div className="flex justify-end gap-2">
                     <button
                       onClick={() => navigate(`/vendors/${vendor._id}`)}
-                      className="flex items-center space-x-1 font-semibold px-2 py-1 rounded-full transition text-xs text-[#9B2C62] hover:text-white bg-[#9B2C62]/10 hover:bg-[#9B2C62]"
+                      className="flex items-center space-x-1 font-semibold px-2 py-1 rounded-full transition text-xs text-[#9B2C62] dark:text-[#D97706] hover:text-white hover:dark:text-black bg-[#9B2C62]/10 hover:bg-[#9B2C62] hover:dark:bg-[#D97706]"
                       title="View Details"
                     >
                       <ExternalLink className="w-3 h-3" />
