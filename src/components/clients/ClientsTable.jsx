@@ -6,6 +6,7 @@ export default function ClientsTable({
   handleArchiveToggle,
 }) {
   return (
+    <div className="minimal-scrollbar overflow-x-auto border border-gray-200 dark:border-gray-800 rounded-lg">
     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
       <thead className="bg-[#9B2C62]">
         <tr>
@@ -133,5 +134,6 @@ export default function ClientsTable({
         ))}
       </tbody>
     </table>
+    </div>
   );
 }
