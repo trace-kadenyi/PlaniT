@@ -179,11 +179,11 @@ export default function Clients() {
 
         {/* Clients */}
         {status === "succeeded" && filteredClients.length === 0 && (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-md dark:shadow-gray-900/30 p-8 text-center">
+            <h3 className="text-lg font-medium text-gray-700 dark:text-gray-200 mb-2">
               No clients found
             </h3>
-            <p className="text-gray-500 mb-4">
+            <p className="text-gray-500 dark:text-gray-400 mb-4">
               {searchTerm
                 ? "No clients match your search criteria"
                 : filterMode === "active"
@@ -194,7 +194,7 @@ export default function Clients() {
             </p>
             <button
               onClick={() => navigate("/clients/new")}
-              className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-5 py-2 rounded-lg font-medium"
+              className="bg-[#F59E0B] hover:bg-[#D97706] dark:bg-amber-600 dark:hover:bg-[#F59E0B] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200"
             >
               Add Your First Client
             </button>
