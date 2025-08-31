@@ -48,11 +48,11 @@ export default function Vendors() {
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen bg-white p-3 sm:p-10 sm:pb-15">
+    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] mt-12 text-center sm:text-start sm:mt-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 text-center sm:text-start sm:mt-2">
             Vendor Directory
           </h1>
 
@@ -64,12 +64,12 @@ export default function Vendors() {
                 placeholder="Search vendors..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-[#E3CBC1] rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+                className="pl-10 pr-4 py-2 border border-[#E3CBC1] rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-none dark:bg-gray-700/60 dark:text-white"
               />
             </div>
             <button
               onClick={() => navigate("/vendors/new")}
-              className="bg-[#9B2C62] hover:bg-[#801f4f] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
+              className="bg-[#9B2C62] dark:bg-[#D97706] hover:bg-[#801f4f] hover:dark:bg-[#F59E0B] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
             >
               <Plus className="w-5 h-5" /> New Vendor
             </button>
@@ -78,7 +78,7 @@ export default function Vendors() {
 
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
-          <div className="flex items-center text-sm text-[#9B2C62]">
+          <div className="flex items-center text-sm text-[#9B2C62] dark:text-gray-400">
             <Filter className="w-4 h-4 mr-2" />
             <span>Filter by:</span>
           </div>
@@ -89,7 +89,7 @@ export default function Vendors() {
               className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
                 filterMode === mode
                   ? "bg-[#9B2C62] text-white shadow-md"
-                  : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA]"
+                  : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA] dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
               }`}
             >
               {mode === "active" && (
