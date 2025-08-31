@@ -122,15 +122,15 @@ export default function Vendors() {
               {stats.map((stat) => (
                 <div
                   key={stat._id}
-                  className="bg-[#F7F7FA] p-3 rounded-lg text-center"
+                  className="bg-[#F7F7FA] p-3 rounded-lg text-center dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
                 >
                   <div className="text-2xl font-bold text-[#9B2C62]">
                     {stat.count}
                   </div>
-                  <div className="text-sm capitalize truncate text-[#6B3B0F]">
+                  <div className="text-sm capitalize truncate text-[#6B3B0F] dark:text-[#D97706]">
                     {stat._id}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
                     ({stat.archived} archived)
                   </div>
                 </div>
