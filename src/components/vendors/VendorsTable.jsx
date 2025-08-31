@@ -44,7 +44,9 @@ export default function VendorsTable({
               <tr
                 key={vendor._id}
                 className={`hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                  vendor.isArchived ? "bg-gray-50 dark:bg-gray-800" : "hover:bg-[#FFF7ED] dark:hover:bg-gray-900"
+                  vendor.isArchived
+                    ? "bg-gray-50 dark:bg-gray-800"
+                    : "hover:bg-[#FFF7ED] dark:hover:bg-gray-900"
                 }`}
               >
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -56,7 +58,9 @@ export default function VendorsTable({
                       <div
                         onClick={() => navigate(`/vendors/${vendor._id}`)}
                         className={`text-sm font-medium hover:underline hover:italic cursor-default ${
-                          vendor.isArchived ? "text-gray-500" : "text-[#9B2C62] dark:text-[#D97706]"
+                          vendor.isArchived
+                            ? "text-gray-500"
+                            : "text-[#9B2C62] dark:text-[#D97706]"
                         }`}
                       >
                         {vendor.name}
@@ -98,7 +102,7 @@ export default function VendorsTable({
 
                     <button
                       onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
-                      className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
+                      className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/30 text-[#BE3455] dark:text-[#F59E0B] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
                       title="Edit"
                     >
                       <Pencil className="w-3 h-3" />
@@ -118,8 +122,8 @@ export default function VendorsTable({
                       )}
                       className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs ${
                         vendor.isArchived
-                          ? "text-green-500 hover:text-green-600 bg-green-100/50 text-green-600 hover:bg-green-200"
-                          : "text-red-600 hover:text-red-700 bg-red-100/30 hover:bg-red-200"
+                          ? "text-green-500 dark:text-green-900 hover:text-green-600 bg-green-100/50 dark:bg-green-900 text-green-600 dark:text-white hover:bg-green-200 dark:hover:bg-green-200 dark:hover:text-gray-900"
+                          : "text-red-600 hover:text-red-700 bg-red-100/30 hover:bg-red-200 dark:bg-red-100/30 dark:hover:bg-red-200 dark:text-white dark:hover:text-black"
                       }`}
                       title={vendor.isArchived ? "Restore" : "Archive"}
                     >
