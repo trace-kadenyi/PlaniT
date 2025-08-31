@@ -69,7 +69,11 @@ export default function VendorsTable({
                         </span>
                       )}
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div
+                      className={`text-sm text-gray-500  ${
+                        vendor.isArchived ? "" : "dark:text-gray-400"
+                      }`}
+                    >
                       {vendor.address}
                     </div>
                   </div>
@@ -81,7 +85,7 @@ export default function VendorsTable({
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-[#6B3B0F] dark:text-[#F59E0B]">
+                <div className="text-sm text-[#6B3B0F] dark:text-gray-300">
                   {vendor.contact?.email || "Not provided"}
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
