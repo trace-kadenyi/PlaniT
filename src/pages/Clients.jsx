@@ -148,7 +148,7 @@ export default function Clients() {
         {/* Status Messages */}
         {status === "loading" && (
           <div className="flex justify-center items-center min-h-[300px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62]"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
           </div>
         )}
         {error && (
