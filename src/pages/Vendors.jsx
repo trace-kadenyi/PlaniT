@@ -69,7 +69,7 @@ export default function Vendors() {
             </div>
             <button
               onClick={() => navigate("/vendors/new")}
-              className="bg-[#9B2C62] dark:bg-[#D97706] hover:bg-[#801f4f] hover:dark:bg-[#F59E0B] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
+              className="bg-[#9B2C62] hover:bg-[#801f4f] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
             >
               <Plus className="w-5 h-5" /> New Vendor
             </button>
