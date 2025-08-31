@@ -73,7 +73,7 @@ export default function ClientPagination({
                   className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
                     currentPage === number
                       ? "z-10 bg-[#9B2C62] border-[#9B2C62] text-white"
-                      : "bg-white border-gray-300 text-gray-500 hover:bg-gray-100 dark:bg-gray-400/60 dark:text-white dark:border-gray-800 dark:hover:bg-gray-500"
+                      : "bg-white border-gray-300 text-gray-500 hover:bg-gray-100 dark:bg-gray-600/60 dark:text-white dark:border-gray-800 dark:hover:bg-gray-500/10"
                   }`}
                 >
                   {number}
