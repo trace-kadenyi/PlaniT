@@ -26,7 +26,7 @@ export const NotPreselected = ({
             name="client"
             value={formData.client}
             onChange={onFieldChange}
-            className="w-full px-4 py-3 pr-10 rounded-lg border border-[#E3CBC1] bg-white text-[#6B2D5C] focus:outline-none focus:ring-2 focus:ring-[#BE3455]/50 focus:border-[#BE3455] transition-all duration-200 appearance-none shadow-sm hover:border-[#D4A798] dark:bg-transparent dark:text-gray-200"
+            className="w-full px-4 py-3 pr-10 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white text-[#6B2D5C] focus:outline-none focus:ring-2 focus:ring-[#BE3455]/50 focus:border-[#BE3455] dark:focus:border-[#D4A798]/40 transition-all duration-200 appearance-none shadow-sm hover:border-[#D4A798] dark:hover:border-[#D4A798]/40 dark:bg-transparent dark:text-gray-200"
           >
             <option value="" disabled className="text-gray-400">
               -- Select a client --
