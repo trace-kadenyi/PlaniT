@@ -5,10 +5,10 @@ export function ErrorState({
   action,
 }) {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
+    <div className="bg-white dark:bg-red-200 rounded-xl shadow-lg p-6 border-l-4 border-red-500">
       <div className="flex items-start gap-4">
         <div className="flex-shrink-0">
-          <div className="bg-red-100 p-2 rounded-full">
+          <div className="bg-red-100 dark:bg-red-100/70 p-2 rounded-full">
             <AlertTriangle className="w-6 h-6 text-red-600" />
           </div>
         </div>
