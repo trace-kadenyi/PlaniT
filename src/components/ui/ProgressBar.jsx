@@ -8,7 +8,7 @@ export default function ProgressBar({ value, className = "" }) {
 
   return (
     <div
-      className={`w-full bg-[#F3EDE9] dark:bg-gray-400 rounded-full h-2 ${className}`}
+      className={`w-full bg-gray-200 dark:bg-gray-400 rounded-full h-2 ${className}`}
     >
       <div
         className={`h-2 rounded-full transition-all duration-300 ${progressColor}`}
