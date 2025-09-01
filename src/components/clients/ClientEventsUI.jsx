@@ -12,7 +12,7 @@ export default function ClientEventsUI({ event, Link }) {
           {/* Prevents text overflow */}
           <Link
             to={`/events/${event._id}`}
-            className="font-bold text-[#9B2C62] text-lg mb-1 truncate hover:underline hover:italic hover:text-[#7B1D52] transition-colors"
+            className="font-bold text-[#9B2C62] text-lg mb-1 hover:underline hover:italic hover:text-[#7B1D52] transition-colors"
           >
             {event.name}
           </Link>
