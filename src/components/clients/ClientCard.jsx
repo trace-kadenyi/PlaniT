@@ -8,7 +8,7 @@ export default function ClientCard({
   localIsArchived,
 }) {
   return (
-    <section className="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-[#9B2C62] dark:border-gray-800 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+    <section className="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-[#9B2C62] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-[#D97706] dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2">
         <h1 className="text-3xl font-bold text-[#D97706] dark:text-[#F59E0B] mb-2 md:mb-0">
           {client.name}
