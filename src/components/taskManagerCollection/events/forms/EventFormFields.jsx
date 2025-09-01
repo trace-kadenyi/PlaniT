@@ -35,8 +35,8 @@ export default function EventFormFields({
 
   // Style classes for consistency
   const disabledClasses =
-    "border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed";
-  const enabledClasses = "border-[#E3CBC1] focus:ring-[#BE3455]";
+    "border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed dark:bg-gray-800/60 dark:text-gray-400 dark:border-gray-800";
+  const enabledClasses = "border-[#E3CBC1] dark:border-gray-800 dark:text-gray-400 focus:ring-[#BE3455]";
   const fieldClasses = `w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-1`;
 
   // Only disable fields in create mode for archived clients
@@ -65,7 +65,7 @@ export default function EventFormFields({
 
       {/* Event Name */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Event Name
         </label>
         <input
@@ -81,7 +81,7 @@ export default function EventFormFields({
           }`}
         />
         <div className="flex justify-between items-center mt-1">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {shouldDisable && (
               <span className="flex items-center">
                 <Lock className="w-3 h-3 mr-1" />
@@ -89,7 +89,7 @@ export default function EventFormFields({
               </span>
             )}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {formData.name.length}/70 characters
           </p>
         </div>
@@ -97,7 +97,7 @@ export default function EventFormFields({
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Description
         </label>
         <textarea
@@ -111,14 +111,14 @@ export default function EventFormFields({
             shouldDisable ? disabledClasses : enabledClasses
           }`}
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {formData.description.length}/300 characters
         </p>
       </div>
 
       {/* Date */}
       <div className="relative">
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Date
         </label>
         <div className="relative">
@@ -137,7 +137,7 @@ export default function EventFormFields({
           <div className="absolute right-4 top-5 transform -translate-y-1/2 pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-[#9B2C62]"
+              className="h-5 w-5 text-[#9B2C62] dark:text-[#D97706]"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -150,7 +150,7 @@ export default function EventFormFields({
           </div>
         </div>
         {/* Helper text */}
-        <div className="text-xs text-gray-500 mt-1 space-y-1">
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 space-y-1">
           <p>• Select a future date and time</p>
           <p>
             • Current local time:{" "}
@@ -164,7 +164,7 @@ export default function EventFormFields({
       {/* Type & Status */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
             Type
           </label>
           <input
@@ -180,7 +180,7 @@ export default function EventFormFields({
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
             Status
           </label>
           <select
@@ -201,8 +201,8 @@ export default function EventFormFields({
       </div>
 
       {/* Location */}
-      <fieldset className="border rounded-lg p-4">
-        <legend className="text-sm font-semibold text-[#9B2C62]">
+      <fieldset className="border dark:border-gray-800 rounded-lg p-4">
+        <legend className="text-sm font-semibold text-[#9B2C62] dark:text-[#D97706]">
           Location
         </legend>
 
