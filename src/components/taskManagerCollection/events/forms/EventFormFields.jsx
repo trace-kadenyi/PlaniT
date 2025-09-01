@@ -226,7 +226,7 @@ export default function EventFormFields({
       </fieldset>
 
       {/* Add Budget Section */}
-      <div className="mt-6 border-t border-gray-200 pt-6">
+      <div className="mt-6 border-t border-gray-200 dark:border-gray-900 pt-6">
         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-300">
           Budget Information
         </h2>
@@ -255,7 +255,7 @@ export default function EventFormFields({
                 value={formData.initialBudget || ""}
                 onChange={onFieldChange}
                 disabled={shouldDisable}
-                className={`block w-full rounded-md border focus:outline-none dark:border-gray-700 shadow-sm  sm:text-md p-4 font-semibold dark:border-gray-800 dark:focus:border-[#D97706] dark:text-gray-200 ${
+                className={`block w-full rounded-md border focus:outline-none dark:border-gray-700 shadow-sm  sm:text-md p-4 font-semibold dark:border-gray-800 dark:focus:border-[#D97706] dark:text-gray-300 ${
                   budgetError
                     ? "border-red-500"
                     : shouldDisable
@@ -283,7 +283,7 @@ export default function EventFormFields({
                 value={formData.budgetNotes || ""}
                 onChange={onFieldChange}
                 disabled={shouldDisable}
-                className={`block w-full rounded-md shadow-sm focus:border-[#9B2C62] focus:outline-none sm:text-sm px-4 py-2 border dark:border-gray-800 dark:focus:border-[#D97706] dark:text-gray-200 ${
+                className={`block w-full rounded-md shadow-sm focus:border-[#9B2C62] focus:outline-none sm:text-sm px-4 py-2 border dark:border-gray-800 dark:focus:border-[#D97706] dark:text-gray-300 ${
                   shouldDisable ? disabledClasses : "border-gray-300"
                 }`}
                 placeholder="Any notes about the budget..."
@@ -310,7 +310,7 @@ export default function EventFormFields({
             shouldDisable ? disabledClasses : enabledClasses
           } text-xs dark:text-white tracking-wide`}
         />
-        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-300 mt-1">
           {formData.summary.length}/200 characters
         </p>
       </div>
@@ -327,7 +327,7 @@ export default function EventFormFields({
         <button
           type="submit"
           disabled={formStatus === "loading" || shouldDisable}
-          className={`bg-[#F59E0B] text-white font-semibold px-6 py-2 rounded-lg transition-all ${
+          className={`bg-[#F59E0B] dark:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all dark:hover:bg-[#F59E0B] ${
             shouldDisable
               ? "bg-gray-300 cursor-not-allowed"
               : "hover:bg-[#d97706]"
