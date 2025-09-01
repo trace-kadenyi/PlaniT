@@ -23,8 +23,9 @@ export default function VendorFormFields({
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Name */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
-          Vendor Name <span className="text-red-500">*</span>
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
+          Vendor Name{" "}
+          <span className="text-[#9B2C62] dark:text-[#D97706]">*</span>
         </label>
         <input
           type="text"
@@ -32,21 +33,22 @@ export default function VendorFormFields({
           value={formData.name}
           onChange={onFieldChange}
           required
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
         />
       </div>
 
       {/* Service Type */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
-          Service Type <span className="text-red-500">*</span>
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
+          Service Type{" "}
+          <span className="text-[#9B2C62] dark:text-[#D97706]">*</span>
         </label>
         <select
           name="services"
           value={formData.services}
           onChange={onFieldChange}
           required
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg dark:bg-black"
         >
           <option value="">Select a service type</option>
           {serviceOptions.map((service) => (
@@ -60,7 +62,7 @@ export default function VendorFormFields({
       {/* Contact Info */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
             Email
           </label>
           <input
@@ -68,11 +70,11 @@ export default function VendorFormFields({
             name="contact.email"
             value={formData.contact.email}
             onChange={onFieldChange}
-            className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+            className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
             Phone
           </label>
           <input
@@ -80,14 +82,14 @@ export default function VendorFormFields({
             name="contact.phone"
             value={formData.contact.phone}
             onChange={onFieldChange}
-            className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+            className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
           />
         </div>
       </div>
 
       {/* Website */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Website
         </label>
         <input
@@ -95,13 +97,13 @@ export default function VendorFormFields({
           name="contact.website"
           value={formData.contact.website}
           onChange={onFieldChange}
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
         />
       </div>
 
       {/* Address */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Address
         </label>
         <input
@@ -109,13 +111,13 @@ export default function VendorFormFields({
           name="address"
           value={formData.address}
           onChange={onFieldChange}
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
         />
       </div>
 
       {/* Notes */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Notes
         </label>
         <textarea
@@ -124,9 +126,9 @@ export default function VendorFormFields({
           onChange={onFieldChange}
           rows={4}
           maxLength={200}
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
         />
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           {formData.notes.length}/200 characters
         </p>
       </div>
