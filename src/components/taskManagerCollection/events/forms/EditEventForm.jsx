@@ -196,18 +196,20 @@ export default function EditEventForm() {
   // loading status
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-white p-6 flex items-center justify-center">
-        <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border-t-4 border-[#F59E0B] text-center">
-          <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-[#9B2C62] mx-auto mb-4"></div>
-          <p className="text-[#9B2C62] font-medium">Loading event details...</p>
+      <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-6 flex items-center justify-center">
+        <div className="max-w-3xl mx-auto bg-[#FFF8F2] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-[#D97706] dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] p-8 rounded-xl shadow border-t-4 border-[#F59E0B] text-center">
+          <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-[#9B2C62] dark:border-[#F59E0B] mx-auto mb-4"></div>
+          <p className="text-[#9B2C62] dark:text-[#F59E0B] font-medium">
+            Loading event details...
+          </p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-white p-6 py-15">
-      <div className="max-w-3xl mx-auto bg-[#FFF8F2] p-8 rounded-xl shadow border-t-4 border-[#F59E0B]">
+    <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-6 py-15">
+      <div className="max-w-3xl mx-auto bg-[#FFF8F2] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-[#D97706] dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] p-8 rounded-xl shadow border-t-4 border-[#F59E0B]">
         <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62]">
           <span className="hidden sm:block">
             <Pencil />
