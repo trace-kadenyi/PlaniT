@@ -65,7 +65,7 @@ export default function ClientCard({
         </div>
 
         {/* company */}
-        <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
+        <div className="mt-4 pt-4 border-t border-[#F3E8FF] dark:border-[#F3E8FF]/40">
           <h3 className="font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-1">
             Company
           </h3>
@@ -76,7 +76,7 @@ export default function ClientCard({
 
         {/* preferences */}
         {client.preferences && (
-          <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
+          <div className="mt-4 pt-4 border-t border-[#F3E8FF] dark:border-[#F3E8FF]/40">
             <h3 className="font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-1">
               Preferences
             </h3>
@@ -88,7 +88,7 @@ export default function ClientCard({
 
         {/* notes */}
         {client.notes && (
-          <div className="mt-4 pt-4 border-t border-[#F3E8FF]">
+          <div className="mt-4 pt-4 border-t border-[#F3E8FF] dark:border-[#F3E8FF]/40">
             <h3 className="font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-1">
               Notes
             </h3>
