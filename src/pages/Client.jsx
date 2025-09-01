@@ -115,7 +115,7 @@ export default function Client() {
             {/* client event history section */}
             <section>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
+                <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706]">
                   Event History
                 </h2>
                 <Link
