@@ -43,10 +43,14 @@ export function DatePill({ date, status }) {
     "px-3 py-1 rounded-full text-xs font-medium inline-flex items-center";
 
   const statusStyles = {
-    Completed: "bg-green-50 text-green-700 border border-green-100",
-    Cancelled: "bg-red-50 text-red-700 border border-red-100",
-    "In Progress": "bg-[#F5EBFF] text-[#9B2C62] border border-[#EEDDFF]",
-    Planning: "bg-[#EFF6FF] text-[#1E40AF] border border-[#DBEAFE]",
+    Completed:
+      "bg-green-50 text-green-700 border border-green-100 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800/50",
+    Cancelled:
+      "bg-red-50 text-red-700 border border-red-100 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800/50",
+    "In Progress":
+      "bg-[#F5EBFF] text-[#9B2C62] border border-[#EEDDFF] dark:bg-[#4A1D96]/30 dark:text-[#F9A8D4] dark:border-[#5B21B6]/50",
+    Planning:
+      "bg-[#EFF6FF] text-[#1E40AF] border border-[#DBEAFE] dark:bg-[#1E3A8A]/30 dark:text-[#93C5FD] dark:border-[#1D4ED8]/50",
   };
 
   return (
