@@ -10,7 +10,7 @@ export default function ClientFormFields({
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Name */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Client Name
         </label>
         <input
@@ -26,7 +26,7 @@ export default function ClientFormFields({
       {/* Email */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
             Email
           </label>
           <input
@@ -40,7 +40,7 @@ export default function ClientFormFields({
 
         {/* Phone */}
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
             Phone
           </label>
           <input
@@ -55,7 +55,7 @@ export default function ClientFormFields({
 
       {/* Company */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Company
         </label>
         <input
@@ -69,7 +69,7 @@ export default function ClientFormFields({
 
       {/* Preferences */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Preferences
         </label>
         <input
@@ -80,14 +80,14 @@ export default function ClientFormFields({
           maxLength={150}
           className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
         />
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           {formData.preferences.length}/150 characters
         </p>
       </div>
 
       {/* Notes */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Notes
         </label>
         <textarea
@@ -98,14 +98,16 @@ export default function ClientFormFields({
           rows={4}
           className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
         />
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           {formData.notes.length}/200 characters
         </p>
       </div>
 
       {/* Error Message */}
       {formStatus === "failed" && (
-        <div className="p-3 bg-red-50 rounded-md text-red-600">{formError}</div>
+        <div className="p-3 bg-red-50 dark:bg-red-200 rounded-md text-red-600">
+          {formError}
+        </div>
       )}
 
       {/* Submit Buttons */}
@@ -113,7 +115,7 @@ export default function ClientFormFields({
         <button
           type="submit"
           disabled={formStatus === "loading"}
-          className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold px-6 py-2 rounded-lg"
+          className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold px-6 py-2 rounded-lg dark:bg-[#D97706] dark:hover:bg-[#F59E0B]"
         >
           {formStatus === "loading" ? "Saving..." : "Save Client"}
         </button>
