@@ -51,12 +51,12 @@ export default function Client() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] px-8 py-15">
+    <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black px-8 py-15">
       <div className="max-w-5xl mx-auto">
         <div className="mb-6">
           <Link
             to="/clients"
-            className="inline-flex items-center text-[#9B2C62] hover:text-[#7B1D52] font-medium transition-colors duration-200"
+            className="inline-flex items-center text-[#9B2C62] hover:text-[#7B1D52] font-medium transition-colors duration-200 dark:text-[#F59E0B] dark:hover:dark:text-[#D97706]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
