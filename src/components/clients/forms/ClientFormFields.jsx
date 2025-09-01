@@ -19,7 +19,7 @@ export default function ClientFormFields({
           value={formData.name}
           onChange={onFieldChange}
           required
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
         />
       </div>
 
@@ -34,7 +34,7 @@ export default function ClientFormFields({
             name="contact.email"
             value={formData.contact.email}
             onChange={onFieldChange}
-            className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+            className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
           />
         </div>
 
@@ -48,7 +48,7 @@ export default function ClientFormFields({
             name="contact.phone"
             value={formData.contact.phone}
             onChange={onFieldChange}
-            className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+            className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
           />
         </div>
       </div>
@@ -63,7 +63,7 @@ export default function ClientFormFields({
           name="company"
           value={formData.company}
           onChange={onFieldChange}
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
         />
       </div>
 
@@ -78,7 +78,7 @@ export default function ClientFormFields({
           value={formData.preferences}
           onChange={onFieldChange}
           maxLength={150}
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
         />
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           {formData.preferences.length}/150 characters
@@ -96,7 +96,7 @@ export default function ClientFormFields({
           onChange={onFieldChange}
           maxLength={200}
           rows={4}
-          className="w-full border border-[#E3CBC1] px-4 py-2 rounded-lg"
+          className="w-full border border-[#E3CBC1] dark:border-[#D97706]/40 dark:focus:outline-none dark:text-gray-300 px-4 py-2 rounded-lg"
         />
         <p className="text-xs text-gray-500 dark:text-gray-400">
           {formData.notes.length}/200 characters
