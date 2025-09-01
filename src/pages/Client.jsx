@@ -115,12 +115,12 @@ export default function Client() {
             {/* client event history section */}
             <section>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-[#9B2C62]">
+                <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
                   Event History
                 </h2>
                 <Link
                   to={`/events/new?client=${client._id}`}
-                  className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg"
+                  className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg dark:bg-[#D97706] hover:dark:bg-[#F59E0B]"
                 >
                   + Add New Event
                 </Link>
@@ -128,7 +128,7 @@ export default function Client() {
 
               {/* no events handling */}
               {events.length === 0 ? (
-                <div className="bg-white p-8 rounded-xl border-2 border-dashed border-[#F3E8FF] text-center hover:border-[#9B2C62]/30 transition-colors">
+                <div className="bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-8 rounded-xl border-2 border-dashed border-[#F3E8FF] dark:border-[#9B2C62]/30 text-center hover:border-[#9B2C62]/30 transition-colors">
                   <svg
                     className="mx-auto h-12 w-12 text-gray-400"
                     fill="none"
@@ -142,10 +142,10 @@ export default function Client() {
                       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                     />
                   </svg>
-                  <h3 className="mt-2 text-sm font-medium text-gray-700">
+                  <h3 className="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     No events scheduled
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500 mb-4">
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 mb-4">
                     Get started by scheduling your first event
                   </p>
                   <Link
