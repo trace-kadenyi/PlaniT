@@ -38,7 +38,7 @@ export default function EventFormFields({
     "border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed dark:bg-gray-800/60 dark:text-gray-400 dark:border-gray-800";
   const enabledClasses =
     "border-[#E3CBC1] dark:border-gray-800 dark:text-gray-400 focus:ring-[#BE3455]";
-  const fieldClasses = `w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-1`;
+  const fieldClasses = `w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-1 dark:focus:ring-[#D97706]`;
 
   // Only disable fields in create mode for archived clients
   const shouldDisable = mode === "create" && isClientArchived;
@@ -310,7 +310,7 @@ export default function EventFormFields({
             shouldDisable ? disabledClasses : enabledClasses
           } text-xs dark:text-white tracking-wide`}
         />
-        <p className="text-xs text-right text-gray-500 dark:text-gray-300 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {formData.summary.length}/200 characters
         </p>
       </div>
