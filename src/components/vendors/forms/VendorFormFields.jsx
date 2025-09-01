@@ -151,7 +151,10 @@ export default function VendorFormFields({
             }
             className="mr-2"
           />
-          <label htmlFor="isArchived" className="text-sm text-[#9B2C62]">
+          <label
+            htmlFor="isArchived"
+            className="text-sm text-[#9B2C62] dark:text-[#F59E0B]"
+          >
             Archived Vendor
           </label>
         </div>
@@ -159,7 +162,9 @@ export default function VendorFormFields({
 
       {/* Error Message */}
       {formStatus === "failed" && (
-        <div className="p-3 bg-red-50 rounded-md text-red-600">{formError}</div>
+        <div className="p-3 bg-red-50 dark:bg-red-200 rounded-md text-red-600">
+          {formError}
+        </div>
       )}
 
       {/* Submit Buttons */}
