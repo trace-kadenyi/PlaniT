@@ -100,8 +100,8 @@ export function TasksPriorityPill({ priority }) {
 // client is archived
 export function IsArchivedCli() {
   return (
-    <div className="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
-      <p className="text-yellow-700 flex items-center gap-2">
+    <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-50/10 border-l-4 border-yellow-400 rounded-lg">
+      <p className="text-yellow-700 dark:text-[#F59E0B] flex items-center gap-2">
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path
             fillRule="evenodd"
