@@ -145,9 +145,9 @@ export default function CreateEventForm() {
   }, [createStatus, dispatch]);
 
   return (
-    <main className="min-h-screen bg-white p-6 py-15">
-      <div className="max-w-3xl mx-auto bg-[#F7F7FA] p-8 rounded-xl shadow border-t-4 border-[#BE3455]">
-        <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62]">
+    <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-6 py-15">
+      <div className="max-w-3xl mx-auto bg-[#F7F7FA] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-[#D97706] dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] p-8 rounded-xl shadow border-t-4 border-[#BE3455]">
+        <h1 className="sm:flex items-center gap-2 text-2xl sm:text-3xl font-bold mb-6 text-[#9B2C62] dark:text-[#F59E0B]">
           <span className="hidden sm:block">
             <Plus className="w-7 h-7" />
           </span>
