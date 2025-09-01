@@ -39,7 +39,7 @@ export default function Vendor() {
         <div className="mb-6 sm:mb-4">
           <Link
             to="/vendors"
-            className="inline-flex items-center text-[#9B2C62] dark:text-[#F59E0B] hover:text-[#7B1D52] font-medium transition-colors duration-200"
+            className="inline-flex items-center text-[#9B2C62] dark:text-[#F59E0B] hover:text-[#7B1D52] dark:hover:dark:text-[#D97706] font-medium transition-colors duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
