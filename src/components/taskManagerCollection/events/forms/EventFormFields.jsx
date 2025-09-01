@@ -36,7 +36,8 @@ export default function EventFormFields({
   // Style classes for consistency
   const disabledClasses =
     "border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed dark:bg-gray-800/60 dark:text-gray-400 dark:border-gray-800";
-  const enabledClasses = "border-[#E3CBC1] dark:border-gray-800 dark:text-gray-400 focus:ring-[#BE3455]";
+  const enabledClasses =
+    "border-[#E3CBC1] dark:border-gray-800 dark:text-gray-400 focus:ring-[#BE3455]";
   const fieldClasses = `w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-1`;
 
   // Only disable fields in create mode for archived clients
@@ -226,12 +227,12 @@ export default function EventFormFields({
 
       {/* Add Budget Section */}
       <div className="mt-6 border-t border-gray-200 pt-6">
-        <h2 className="text-lg font-medium text-gray-900">
+        <h2 className="text-lg font-medium text-gray-900 dark:text-gray-300">
           Budget Information
         </h2>
 
         {budgetError && (
-          <div className="mb-4 p-3 bg-red-50 font-semibold text-red-600 rounded-md">
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-200 font-semibold text-red-600 rounded-md">
             {budgetError}
           </div>
         )}
@@ -240,7 +241,7 @@ export default function EventFormFields({
           <div className="sm:col-span-3">
             <label
               htmlFor="initialBudget"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
             >
               Initial Budget ($)
             </label>
@@ -254,7 +255,7 @@ export default function EventFormFields({
                 value={formData.initialBudget || ""}
                 onChange={onFieldChange}
                 disabled={shouldDisable}
-                className={`block w-full rounded-md border shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold ${
+                className={`block w-full rounded-md border focus:outline-none dark:border-gray-700 shadow-sm  sm:text-md p-4 font-semibold dark:border-gray-800 dark:focus:border-[#D97706] dark:text-gray-200 ${
                   budgetError
                     ? "border-red-500"
                     : shouldDisable
@@ -270,7 +271,7 @@ export default function EventFormFields({
           <div className="sm:col-span-6">
             <label
               htmlFor="budgetNotes"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
             >
               Budget Notes (Optional)
             </label>
@@ -282,7 +283,7 @@ export default function EventFormFields({
                 value={formData.budgetNotes || ""}
                 onChange={onFieldChange}
                 disabled={shouldDisable}
-                className={`block w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 ${
+                className={`block w-full rounded-md shadow-sm focus:border-[#9B2C62] focus:outline-none sm:text-sm px-4 py-2 border dark:border-gray-800 dark:focus:border-[#D97706] dark:text-gray-200 ${
                   shouldDisable ? disabledClasses : "border-gray-300"
                 }`}
                 placeholder="Any notes about the budget..."
@@ -294,7 +295,7 @@ export default function EventFormFields({
 
       {/* Event Notes/Summary */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Event Summary (Optional)
         </label>
         <textarea
@@ -307,9 +308,9 @@ export default function EventFormFields({
           disabled={shouldDisable}
           className={`${fieldClasses} ${
             shouldDisable ? disabledClasses : enabledClasses
-          } text-xs tracking-wide`}
+          } text-xs dark:text-white tracking-wide`}
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {formData.summary.length}/200 characters
         </p>
       </div>
