@@ -19,7 +19,7 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
   const renderHeader = (withChevron = false) => (
     <div className="space-y-2">
       <div className="flex justify-between items-center mb-0">
-        <h2 className="text-lg font-semibold text-[#9B2C62]">
+        <h2 className="text-lg font-semibold text-[#9B2C62] dark:text-[#D97706]">
           Budget Overview
         </h2>
         {withChevron && (
@@ -32,12 +32,14 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
           </div>
         )}
       </div>
-      <p className="text-xs text-gray-500 mb-4">
+      <p className="text-xs text-gray-500 dark:text-gray-300 mb-4">
         Add expenses below to track budget utilization
       </p>
       <div className="flex justify-between text-sm font-medium">
-        <span className="text-[#6B3B0F]">Budget Utilization</span>
-        <span className="text-[#9B2C62] font-bold">
+        <span className="text-[#6B3B0F] dark:text-[#D97706]/90">
+          Budget Utilization
+        </span>
+        <span className="text-[#9B2C62] dark:text-[#D97706] font-bold">
           {percentageUsed.toFixed(1)}%
         </span>
       </div>
@@ -49,7 +51,7 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
   );
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] my-6">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 my-6">
       {/* Mobile Header with Toggle */}
       <button
         className="w-full sm:hidden text-left"
