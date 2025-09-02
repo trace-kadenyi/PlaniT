@@ -66,15 +66,19 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
       {/* Content Section */}
       <div className={isExpanded ? "block" : "hidden sm:block"}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center mt-4">
-          <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9]">
-            <p className="text-sm text-[#6B3B0F] font-medium">Total Budget</p>
-            <p className="text-xl font-bold text-[#9B2C62]">
+          <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9] dark:bg-gray-800 dark:border-gray-800">
+            <p className="text-sm text-[#6B3B0F] dark:text-gray-300 font-medium">
+              Total Budget
+            </p>
+            <p className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
               ${totalBudget.toLocaleString()}
             </p>
           </div>
-          <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9]">
-            <p className="text-sm text-[#6B3B0F] font-medium">Expenses</p>
-            <p className="text-xl font-bold text-[#9B2C62]">
+          <div className="bg-[#FFF5EB] dark:bg-gray-800 dark:border-gray-800 p-3 rounded-lg border border-[#F3EDE9]">
+            <p className="text-sm text-[#6B3B0F] dark:text-gray-300 font-medium">
+              Expenses
+            </p>
+            <p className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
               ${totalExpenses.toLocaleString()}
             </p>
           </div>
@@ -83,11 +87,13 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
               className={`p-3 rounded-lg border ${
                 isBudgetWarning
                   ? `bg-red-100 border-[#9B2C62]`
-                  : "bg-[#FFF5EB] border-[#F3EDE9]"
+                  : "bg-[#FFF5EB] border-[#F3EDE9] dark:bg-gray-800 dark:border-gray-800"
               }`}
             >
-              <p className="text-sm font-medium text-[#6B3B0F]">Remaining</p>
-              <p className="text-xl font-bold text-[#9B2C62]">
+              <p className="text-sm font-medium text-[#6B3B0F] dark:text-gray-300">
+                Remaining
+              </p>
+              <p className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
                 ${remainingBudget.toLocaleString()}
               </p>
             </div>
