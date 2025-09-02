@@ -37,7 +37,7 @@ export const NotPreselected = ({
                 <option
                   key={client._id}
                   value={client._id}
-                  className="text-[#6B2D5C] hover:bg-[#F9F3F0]"
+                  className="text-[#6B2D5C] hover:bg-[#F9F3F0] dark:bg-black dark:text-gray-200"
                 >
                   {client.name}
                 </option>
