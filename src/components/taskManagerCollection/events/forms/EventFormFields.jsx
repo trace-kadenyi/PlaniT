@@ -189,7 +189,7 @@ export default function EventFormFields({
             value={formData.status}
             onChange={onFieldChange}
             disabled={shouldDisable}
-            className={`${fieldClasses} ${
+            className={`dark:bg-black ${fieldClasses} ${
               shouldDisable ? disabledClasses : enabledClasses
             }`}
           >
