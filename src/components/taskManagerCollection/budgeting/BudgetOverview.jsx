@@ -86,7 +86,7 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
             <div
               className={`p-3 rounded-lg border ${
                 isBudgetWarning
-                  ? `bg-red-100 border-[#9B2C62]`
+                  ? `bg-red-100 dark:bg-[#9B2C62]/20 border-[#9B2C62] dark:border-[#9B2C62]/10`
                   : "bg-[#FFF5EB] border-[#F3EDE9] dark:bg-gray-800 dark:border-gray-800"
               }`}
             >
@@ -107,9 +107,9 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
         </div>
 
         {isBudgetWarning && (
-          <div className="mt-4 p-3 bg-[#FFF5EB] rounded-lg text-[#6B3B0F] text-sm border border-[#9B2C62] flex items-center">
+          <div className="mt-4 p-3 bg-[#FFF5EB] rounded-lg text-[#6B3B0F] text-sm border border-[#9B2C62] flex items-center dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:text-[#F59E0B] dark:border-[#F59E0B]/30">
             <svg
-              className="w-5 h-5 mr-2 text-[#9B2C62] animate-bounce"
+              className="w-5 h-5 mr-2 text-[#9B2C62] dark:text-[#F59E0B] animate-bounce"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
