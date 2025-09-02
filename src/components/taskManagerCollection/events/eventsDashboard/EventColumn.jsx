@@ -4,7 +4,7 @@ import DashEventCard from "./DashEventCard";
 
 export default function EventColumn({ columns }) {
   return (
-    <div className="w-full overflow-x-auto pb-4">
+    <div className="minimal-scrollbar w-full overflow-x-auto pb-4">
       <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 w-full lg:w-max mx-auto px-4">
         {Object.values(columns).map((column) => (
           <Droppable droppableId={column.id} key={column.id}>
