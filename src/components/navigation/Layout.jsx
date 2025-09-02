@@ -7,7 +7,7 @@ export default function Layout() {
     <div className="flex h-screen">
       <Sidebar />
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="hide-scrollbar flex-1 overflow-y-auto">
         <div>
           <Outlet />
         </div>
