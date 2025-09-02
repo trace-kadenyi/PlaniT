@@ -157,7 +157,7 @@ export function ClientInfo({ event, Link }) {
 export function VendorInfo({ vendors, Link }) {
   return (
     <div className="mt-4">
-      <h3 className="font-semibold text-gray-500 mb-2 text-sm underline">
+      <h3 className="font-semibold text-gray-500 dark:text-gray-300 mb-2 text-sm underline">
         Vendors
       </h3>
       <div className="flex flex-wrap gap-2">
@@ -171,18 +171,20 @@ export function VendorInfo({ vendors, Link }) {
               className={`border-2 rounded-lg px-3 py-2 transition-all duration-300
               ${
                 vendor.isArchived
-                  ? "bg-[#F8D476]/10 border-[#F59E0B]/30"
-                  : "bg-[#F8D476]/30 border-[#F59E0B]/50"
-              } hover:border-[#F59E0B] hover:shadow-lg hover:shadow-amber-100/50 hover:bg-[#F8D476]/40 group`}
+                  ? "bg-[#F8D476]/10 border-[#F59E0B]/30 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/70"
+                  : "bg-[#F8D476]/30 border-[#F59E0B]/50 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/50"
+              } hover:border-[#F59E0B] hover:shadow-lg hover:shadow-amber-100/50 hover:bg-[#F8D476]/40 group dark:hover:shadow-gray-900 dark:hover:bg-[#F8D476]/10`}
             >
-              <span className="text-[#6B3B0F] group-hover:text-amber-900 transition-colors">
+              <span className="text-[#6B3B0F] group-hover:text-amber-900 dark:text-amber-600 dark:group-hover:text-amber-600 transition-colors">
                 {vendor.name}
               </span>
-              <span className="text-[#9B2C62]/80 ml-1 group-hover:text-[#9B2C62] transition-colors">
+              <span className="text-[#9B2C62]/80 dark:text-amber-400 ml-1 transition-colors">
                 - {vendor.services}
               </span>
               {vendor.isArchived && (
-                <span className="text-gray-400 text-xs ml-1">(archived)</span>
+                <span className="text-gray-400 dark:text-gray-300/80 text-xs ml-1">
+                  (archived)
+                </span>
               )}
             </div>
           </Link>
