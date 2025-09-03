@@ -177,7 +177,7 @@ export default function VendorCard({
                 Notes
               </h3>
               <div className="bg-[#F9F0F5] dark:bg-[#F9F0F5]/10 p-4 rounded-lg border border-[#E6B3CD] dark:border-[#E6B3CD]/20">
-                <p className="text-gray-700 dark:text-gray-400 whitespace-pre-line">
+                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
                   {vendor.notes}
                 </p>
               </div>
