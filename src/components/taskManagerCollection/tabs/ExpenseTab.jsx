@@ -1,7 +1,7 @@
 export default function ExpenseTab({ activeView, setActiveView }) {
   return (
     <div className="flex justify-between items-center mb-6">
-      <h2 className="text-md sm:text-lg font-semibold text-[#6B3B0F]">
+      <h2 className="text-md sm:text-lg font-semibold text-[#6B3B0F] dark:text-amber-400">
         {activeView === "list" ? "Expenses Summary" : "Expenses by Category"}
       </h2>
       <div className="flex space-x-2">
@@ -9,8 +9,8 @@ export default function ExpenseTab({ activeView, setActiveView }) {
           onClick={() => setActiveView("list")}
           className={`px-3 py-1 text-sm rounded-md transition-colors ${
             activeView === "list"
-              ? "bg-[#9B2C62] text-white"
-              : "bg-[#FFF5EB] text-[#6B3B0F] hover:bg-[#F3EDE9]"
+              ? "bg-[#9B2C62] text-white dark:bg-[#D97706]"
+              : "bg-[#FFF5EB] text-[#6B3B0F] hover:bg-[#F3EDE9] dark:bg-[#FFF5EB]/40 dark:text-black dark:hover:bg-[#F59E0B]/90"
           }`}
         >
           List View
@@ -19,8 +19,8 @@ export default function ExpenseTab({ activeView, setActiveView }) {
           onClick={() => setActiveView("categories")}
           className={`px-3 py-1 text-sm rounded-md transition-colors ${
             activeView === "categories"
-              ? "bg-[#9B2C62] text-white"
-              : "bg-[#FFF5EB] text-[#6B3B0F] hover:bg-[#F3EDE9]"
+              ? "bg-[#9B2C62] text-white dark:bg-[#D97706] dark:hover:bg-[#F59E0B]/90"
+              : "bg-[#FFF5EB] text-[#6B3B0F] hover:bg-[#F3EDE9] dark:bg-[#FFF5EB]/40 dark:text-black dark:hover:bg-[#F59E0B]/90"
           }`}
         >
           By Category
