@@ -11,7 +11,7 @@ function Desc({ expense }) {
 
 function Cat({ expense }) {
   return (
-    <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
+    <span className="capitalize bg-[#F3EDE9] dark:bg-[#F8D476]/20 dark:text-[#F59E0B]/90 px-2 py-0.5 rounded-full">
       {expense.category || "uncategorized"}
     </span>
   );
@@ -30,22 +30,27 @@ function Vend({ expense }) {
   return (
     <div
       className={`border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center ${
-        expense.vendor.isArchived ? "bg-[#F8D476]/10" : "bg-[#F8D476]/30"
+        expense.vendor.isArchived
+          ? "bg-[#F8D476]/10"
+          : "bg-[#F8D476]/30 dark:bg-[#F8D476]/20"
       }`}
     >
       <Link
         to={`/vendors/${expense.vendor._id}`}
-        className="font-medium text-[#6B3C0F] hover:italic cursor-default"
+        className="font-medium text-[#6B3C0F] hover:italic cursor-default dark:text-[#D97706]"
       >
         {expense.vendor.name}
 
         {expense.vendor.services && (
-          <span className="text-[#9B2C62]/80 ml-1">
+          <span className="text-[#9B2C62]/80 dark:text-[#F59E0B]/90 ml-1">
             - {expense.vendor.services}
           </span>
         )}
         {expense.vendor.isArchived && (
-          <span className="text-gray-500 text-xs ml-1"> (Archived)</span>
+          <span className="text-gray-500 dark:text-gray-400 text-xs ml-1">
+            {" "}
+            (Archived)
+          </span>
         )}
       </Link>
     </div>
@@ -82,8 +87,10 @@ export function ExpenseListView({ expense, children }) {
           </div>
           {/* SHARED VIEW */}
           {expense.notes ? (
-            <p className="text-xs text-gray-600 mt-1 w-full md:pr-10">
-              <span className="text-gray-500 font-semibold">Note:</span>{" "}
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 w-full md:pr-10">
+              <span className="text-gray-500 dark:text-gray-400 font-semibold">
+                Note:
+              </span>{" "}
               {expense.notes}
             </p>
           ) : (
@@ -96,7 +103,7 @@ export function ExpenseListView({ expense, children }) {
               href={expense.receiptUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-[#9B2C62] hover:underline mt-1 inline-block"
+              className="text-sm text-[#9B2C62] dark:text-[#F59E0B] hover:underline mt-1 inline-block"
             >
               View receipt ↗
             </a>
