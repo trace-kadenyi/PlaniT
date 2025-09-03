@@ -66,11 +66,13 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
 
       {/* Task Loading/Empty States */}
       {tasks.status === "loading" && tasks.items.length === 0 && (
-        <p>Loading tasks...</p>
+        <p className="text-gray-600 dark:text-gray-400">Loading tasks...</p>
       )}
 
       {tasks.items.length === 0 && (
-        <p className="text-gray-600">No tasks for this event.</p>
+        <p className="text-gray-600 dark:text-gray-400">
+          No tasks for this event.
+        </p>
       )}
 
       {/* Task Cards */}
