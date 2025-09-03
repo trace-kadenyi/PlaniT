@@ -24,12 +24,12 @@ export function TaskStatusPill({ status }) {
     <span
       className={`inline-block px-2 py-0.5 rounded-full font-medium ${
         status === "Completed"
-          ? "bg-green-100 text-green-700"
+          ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
           : status === "In Review"
-          ? "bg-purple-100 text-purple-700"
+          ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
           : status === "In Progress"
-          ? "bg-[#EFF6FF] text-[#1E40AF]"
-          : "bg-gray-100 text-gray-600"
+          ? "bg-[#EFF6FF] text-[#1E40AF] dark:bg-blue-900/30 dark:text-blue-300"
+          : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
       }`}
     >
       {status}
