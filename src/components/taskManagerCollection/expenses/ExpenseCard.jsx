@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 // shareables
 function Desc({ expense }) {
   return (
-    <h3 className="font-medium text-[#6B3B0F] mb-2">
+    <h3 className="font-medium text-[#6B3B0F] dark:text-gray-300 mb-2">
       {expense.description || "No description provided"}
     </h3>
   );
@@ -22,7 +22,9 @@ function Vend({ expense }) {
   if (!expense.vendor || typeof expense.vendor === "string") {
     return (
       <div className="bg-gray-100/30 border border-gray-300/50 rounded-lg px-2 py-0.5 text-sm">
-        <span className="text-gray-500">Vendor not specified</span>
+        <span className="text-gray-500 dark:text-gray-400">
+          Vendor not specified
+        </span>
       </div>
     );
   }
@@ -114,21 +116,21 @@ export function ExpenseListView({ expense, children }) {
 
         {/* Right Section */}
         <div className="flex flex-col items-start sm:items-end gap-1 min-w-[140px] sm:min-w-[120px] mt-4 sm:mt-0">
-          <p className="text-lg font-bold text-[#6B3B0F]">
+          <p className="text-lg font-bold text-[#6B3B0F] dark:text-gray-300">
             ${expense.amount?.toFixed(2) || "0.00"}
           </p>
           <div className="my-2 sm:my-1 flex items-center sm:flex-col items-end gap-2">
             <span
               className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                 expense.paymentStatus === "paid"
-                  ? "bg-green-100 text-green-800"
-                  : "bg-amber-100 text-amber-800"
+                  ? "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100"
+                  : "bg-amber-100 text-amber-800 dark:bg-amber-800 dark:text-amber-100"
               }`}
             >
               {expense.paymentStatus || "pending"}
             </span>
 
-            <p className="text-xs text-gray-500 text-left sm:text-right">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-left sm:text-right">
               {expense.paymentStatus === "paid" ? (
                 expense.paymentDate ? (
                   <>
