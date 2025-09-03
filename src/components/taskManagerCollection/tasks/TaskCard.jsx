@@ -22,14 +22,14 @@ export default function TaskCard({
       {sortedTasks.map((task) => (
         <li
           key={task._id}
-          className="relative bg-[#FFF9F5] border border-[#F3EDE9] rounded-xl shadow-md p-4 space-y-2"
+          className="relative bg-[#FFF9F5] border border-[#F3EDE9] rounded-xl shadow-md p-4 space-y-2 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
         >
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="mb-2 text-md font-semibold text-[#9B2C62]">
+              <h3 className="mb-2 text-md font-semibold text-[#9B2C62] dark:text-[#F59E0B]/90">
                 {task.title}
               </h3>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 {task.description || "No description."}
               </p>
             </div>
@@ -38,7 +38,7 @@ export default function TaskCard({
               <button
                 className="p-1.5 rounded-md transition-all duration-200 
               text-[#9B2C62] hover:text-white hover:bg-[#9B2C62]
-              group relative"
+              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]"
                 title="Edit Task"
                 onClick={() => {
                   setTaskToEdit(task);
@@ -62,7 +62,7 @@ export default function TaskCard({
               <button
                 className="p-1.5 rounded-md transition-all duration-200 
               text-[#BE3455] hover:text-white hover:bg-[#BE3455]
-              group relative"
+              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]"
                 title="Delete Task"
                 onClick={() => handleTaskDelete(task._id)}
               >
@@ -78,17 +78,23 @@ export default function TaskCard({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 text-xs text-gray-600 pt-2 gap-1">
+          <div className="grid grid-cols-2 text-xs text-gray-600 dark:text-gray-300 pt-2 gap-1">
             <div>
-              <span className="font-semibold text-gray-500">Priority:</span>{" "}
+              <span className="font-semibold text-gray-500 dark:text-gray-400">
+                Priority:
+              </span>{" "}
               <TasksPriorityPill priority={task.priority} />
             </div>
             <div>
-              <span className="font-semibold text-gray-500">Status:</span>{" "}
+              <span className="font-semibold text-gray-500 dark:text-gray-400">
+                Status:
+              </span>{" "}
               <TaskStatusPill status={task.status} />
             </div>
             <div>
-              <span className="font-semibold text-gray-500">Assigned To:</span>{" "}
+              <span className="font-semibold text-gray-500 dark:text-gray-400">
+                Assigned To:
+              </span>{" "}
               <span
                 className="max-w-[120px] truncate inline-block align-bottom"
                 title={task.assignedTo || "Unassigned"} // Show full name on hover
@@ -97,7 +103,9 @@ export default function TaskCard({
               </span>
             </div>
             <div>
-              <span className="font-semibold text-gray-500">Deadline:</span>{" "}
+              <span className="font-semibold text-gray-500 dark:text-gray-400">
+                Deadline:
+              </span>{" "}
               {task.deadline
                 ? new Date(task.deadline).toLocaleDateString(undefined, {
                     year: "numeric",
@@ -108,7 +116,7 @@ export default function TaskCard({
             </div>
           </div>
 
-          <div className="text-[10px] text-gray-400 pt-2">
+          <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
             Created: {new Date(task.createdAt).toLocaleString()}
             <br />
             Updated: {new Date(task.updatedAt).toLocaleString()}
