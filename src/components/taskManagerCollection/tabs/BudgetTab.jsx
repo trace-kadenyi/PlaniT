@@ -128,10 +128,10 @@ export default function BudgetTab({
 
       {/* without budget/no expenses added  */}
       {hasNoBudget && expensesArray.length === 0 && !isLoading && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] flex items-start gap-3">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 p-6 rounded-xl shadow-sm border border-[#F3EDE9] flex items-start gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-[#6B3B0F] mt-0.5 flex-shrink-0"
+            className="h-5 w-5 text-[#6B3B0F] dark:text-[#F59E0B] mt-0.5 flex-shrink-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -144,10 +144,10 @@ export default function BudgetTab({
             />
           </svg>
           <div>
-            <p className="text-[#6B3B0F] font-medium">
+            <p className="text-[#6B3B0F] dark:text-[#F59E0B] font-medium">
               Budget required for expense tracking
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               Add a budget to enable expense management for this event
             </p>
           </div>
