@@ -22,7 +22,9 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
   return (
     <>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold text-[#9B2C62]">Tasks</h2>
+        <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
+          Tasks
+        </h2>
         <button
           onClick={() => {
             if (showCreateTaskForm) {
@@ -32,7 +34,7 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
             }
             setShowCreateTaskForm(!showCreateTaskForm);
           }}
-          className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer"
+          className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
         >
           {showCreateTaskForm ? (
             <XCircle className="w-3 h-3" />
