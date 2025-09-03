@@ -10,7 +10,7 @@ export default function ExpenseTab({ activeView, setActiveView }) {
           className={`px-3 py-1 text-sm rounded-md transition-colors ${
             activeView === "list"
               ? "bg-[#9B2C62] text-white dark:bg-[#D97706]"
-              : "bg-[#FFF5EB] text-[#6B3B0F] hover:bg-[#F3EDE9] dark:bg-[#FFF5EB]/40 dark:text-black dark:hover:bg-[#F59E0B]/90"
+              : "bg-[#FFF5EB] text-[#6B3B0F] hover:bg-[#F3EDE9] dark:bg-[#D97706]/50 dark:text-gray-300 dark:hover:bg-[#F59E0B]/90"
           }`}
         >
           List View
@@ -20,7 +20,7 @@ export default function ExpenseTab({ activeView, setActiveView }) {
           className={`px-3 py-1 text-sm rounded-md transition-colors ${
             activeView === "categories"
               ? "bg-[#9B2C62] text-white dark:bg-[#D97706] dark:hover:bg-[#F59E0B]/90"
-              : "bg-[#FFF5EB] text-[#6B3B0F] hover:bg-[#F3EDE9] dark:bg-[#FFF5EB]/40 dark:text-black dark:hover:bg-[#F59E0B]/90"
+              : "bg-[#FFF5EB] text-[#6B3B0F] hover:bg-[#F3EDE9] dark:bg-[#D97706]/50 dark:text-gray-300 dark:hover:bg-[#F59E0B]/90"
           }`}
         >
           By Category
