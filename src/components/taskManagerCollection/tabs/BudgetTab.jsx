@@ -155,7 +155,7 @@ export default function BudgetTab({
       )}
       {/* Expense List */}
       {expensesArray.length > 0 && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900">
           {/* tabs List View & By Category */}
           <ExpenseTab activeView={activeView} setActiveView={setActiveView} />
 
@@ -164,7 +164,7 @@ export default function BudgetTab({
               {expensesArray.map((expense) => (
                 <li
                   key={expense._id}
-                  className="border border-[#F3EDE9] bg-white p-4 rounded-lg hover:shadow-md transition group"
+                  className="border border-[#F3EDE9] bg-white p-4 rounded-lg hover:shadow-md transition group dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
                 >
                   <ExpenseListView expense={expense}>
                     <EditDeleteExpense
