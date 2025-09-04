@@ -40,7 +40,7 @@ export default function TaskFormFields({
       {/* Title */}
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Title <span className="text-red-500">*</span>
+          Title <span className="text-red-500 dark:text-[#D97706]">*</span>
         </label>
         <input
           type="text"
@@ -92,7 +92,7 @@ export default function TaskFormFields({
       {/* Enhanced Deadline Field */}
       <div className="relative">
         <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
-          Deadline <span className="text-red-500">*</span>
+          Deadline <span className="text-red-500 dark:text-[#D97706]">*</span>
         </label>
         <input
           type="date"
