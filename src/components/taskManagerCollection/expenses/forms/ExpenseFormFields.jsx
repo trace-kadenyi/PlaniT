@@ -291,7 +291,7 @@ export default function ExpenseFormFields({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-600 transition"
           >
             Cancel
           </button>
@@ -299,7 +299,7 @@ export default function ExpenseFormFields({
         <button
           type="submit"
           disabled={expenseStatus === "loading"}
-          className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition"
+          className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] dark:bg-[#D97706] dark:hover:bg-[#F59E0B] transition"
         >
           {expenseStatus === "loading"
             ? mode === "create"
