@@ -220,6 +220,7 @@ export function FormBudgetSummary({ budgetStatus }) {
         <span className="font-medium">Remaining Budget:</span>
         <span
           className={`font-bold ${
+            budgetStatus.remainingBudget === 0 ||
             budgetStatus.remainingBudget < 0
               ? "text-red-600"
               : "text-[#9B2C62] dark:text-[#F59E0B]"
