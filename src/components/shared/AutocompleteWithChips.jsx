@@ -93,6 +93,11 @@ export default function AutocompleteWithChips({
                       borderColor: "#BE3455",
                       boxShadow: "0 0 0 2px rgba(190, 52, 85, 0.2)",
                     },
+                    "@media (prefers-color-scheme: dark)": {
+                      "& .MuiInputBase-input": {
+                        color: "#E5E7EB",
+                      },
+                    },
                   },
                 }}
               />
