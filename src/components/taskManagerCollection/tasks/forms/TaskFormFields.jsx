@@ -31,7 +31,7 @@ export default function TaskFormFields({
   return (
     <form
       onSubmit={onSubmit}
-      className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:border-l-[#F59E0B]"
+      className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900"
     >
       <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B] ">
         {mode === "create" ? "Create Task" : "Edit Task"}
@@ -141,7 +141,7 @@ export default function TaskFormFields({
             name="priority"
             value={form.priority}
             onChange={onFieldChange}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:text-gray-300 dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-black"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:text-gray-300 dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-gray-900"
           >
             <option>Low</option>
             <option>Medium</option>
@@ -156,7 +156,7 @@ export default function TaskFormFields({
             name="status"
             value={form.status}
             onChange={onFieldChange}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:text-gray-300 dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-black"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:text-gray-300 dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-gray-900"
           >
             <option>To Do</option>
             <option>In Progress</option>
