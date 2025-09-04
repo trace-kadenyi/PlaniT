@@ -206,7 +206,7 @@ export default function ExpenseFormFields({
       {/* Receipt URL */}
       {form.paymentStatus === "paid" && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
             Receipt Upload{" "}
             {form.receiptUrl && (
               <span className="inline-block ml-1 text-[#9B2C62] font-bold">
