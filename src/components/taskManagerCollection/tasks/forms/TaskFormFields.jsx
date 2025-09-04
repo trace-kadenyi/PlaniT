@@ -31,15 +31,15 @@ export default function TaskFormFields({
   return (
     <form
       onSubmit={onSubmit}
-      className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
+      className="bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:border-l-[#F59E0B]"
     >
-      <h2 className="text-xl font-bold text-[#9B2C62]">
+      <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B] ">
         {mode === "create" ? "Create Task" : "Edit Task"}
       </h2>
 
       {/* Title */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Title <span className="text-red-500">*</span>
         </label>
         <input
@@ -49,16 +49,16 @@ export default function TaskFormFields({
           maxLength={50}
           value={form.title}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {form.title.length}/50 characters
         </p>
       </div>
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Description
         </label>
         <textarea
@@ -67,16 +67,16 @@ export default function TaskFormFields({
           maxLength={150}
           value={form.description}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {form.description.length}/150 characters
         </p>
       </div>
 
       {/* Assigned To */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Assigned To
         </label>
         <input
@@ -84,14 +84,14 @@ export default function TaskFormFields({
           name="assignedTo"
           value={form.assignedTo}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
         />
       </div>
 
       {/* Deadline */}
       {/* Enhanced Deadline Field */}
       <div className="relative">
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Deadline <span className="text-red-500">*</span>
         </label>
         <input
@@ -101,12 +101,12 @@ export default function TaskFormFields({
           onChange={handleDateChange}
           min={today}
           max={maxDate}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:text-gray-300 dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
         />
         <div className="absolute right-3 top-12 transform -translate-y-1/2 pointer-events-none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-[#9B2C62]"
+            className="h-5 w-5 text-[#9B2C62] dark:text-[#D97706]"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -118,7 +118,7 @@ export default function TaskFormFields({
           </svg>
         </div>
         {maxDate && (
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
             Must be before the event date:{" "}
             <span className="font-semibold">
               {new Date(maxDate).toLocaleDateString()}
@@ -134,14 +134,14 @@ export default function TaskFormFields({
       {/* Priority & Status */}
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Priority
           </label>
           <select
             name="priority"
             value={form.priority}
             onChange={onFieldChange}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:text-gray-300 dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-black"
           >
             <option>Low</option>
             <option>Medium</option>
@@ -149,14 +149,14 @@ export default function TaskFormFields({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Status
           </label>
           <select
             name="status"
             value={form.status}
             onChange={onFieldChange}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:text-gray-300 dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-black"
           >
             <option>To Do</option>
             <option>In Progress</option>
@@ -168,8 +168,10 @@ export default function TaskFormFields({
 
       {/* Error Message */}
       {taskStatus === "failed" && (
-        <div className="p-3 bg-red-50 rounded-md">
-          <p className="text-red-500 text-sm mt-1">{taskError}</p>
+        <div className="p-3 bg-red-50 dark:bg-red-200 rounded-md">
+          <p className="text-red-500 dark:text-red-600 text-sm mt-1">
+            {taskError}
+          </p>
         </div>
       )}
 
@@ -179,7 +181,7 @@ export default function TaskFormFields({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-600 transition"
           >
             Cancel
           </button>
@@ -187,7 +189,7 @@ export default function TaskFormFields({
         <button
           type="submit"
           disabled={taskStatus === "loading"}
-          className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition"
+          className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition dark:bg-[#D97706] dark:hover:bg-[#F59E0B]"
         >
           {taskStatus === "loading"
             ? mode === "create"
