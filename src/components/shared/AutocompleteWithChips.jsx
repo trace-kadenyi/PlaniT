@@ -70,7 +70,7 @@ export default function AutocompleteWithChips({
             renderInput={(params) => (
               <TextField
                 {...params}
-                className="bg-white dark:bg-gray-800 rounded-lg text-black dark:text-white"
+                className="bg-[#FFF8F2] rounded-lg text-black dark:text-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900"
                 placeholder={
                   options.filter(filterFn).length === 0
                     ? noOptionsText
