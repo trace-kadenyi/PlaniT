@@ -5,7 +5,6 @@ import {
   getLocalDateTimeString,
 } from "../../utils/dateHelpers";
 import { NotPreselected, PreselectedClients } from "./eventFormHelpers";
-import AutocompleteWithChips from "../../../shared/AutocompleteWithChips";
 
 export default function EventFormFields({
   formData,
