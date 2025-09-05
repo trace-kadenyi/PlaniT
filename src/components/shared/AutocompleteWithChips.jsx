@@ -70,6 +70,7 @@ export default function AutocompleteWithChips({
             renderInput={(params) => (
               <TextField
                 {...params}
+                className="bg-white dark:bg-gray-800 rounded-lg text-black dark:text-white"
                 placeholder={
                   options.filter(filterFn).length === 0
                     ? noOptionsText
@@ -82,6 +83,13 @@ export default function AutocompleteWithChips({
                   "&.expense-form .MuiOutlinedInput-root": {
                     backgroundColor: "#FFF8F2",
                   },
+                  "& .MuiInputBase-input": {
+                    color: "black", // light mode
+                    ".dark &": {
+                      // tailwind dark scope
+                      color: "white",
+                    },
+                  },
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "0.5rem",
                     padding: "8px",
@@ -92,11 +100,6 @@ export default function AutocompleteWithChips({
                     "&.Mui-focused": {
                       borderColor: "#BE3455",
                       boxShadow: "0 0 0 2px rgba(190, 52, 85, 0.2)",
-                    },
-                    "@media (prefers-color-scheme: dark)": {
-                      "& .MuiInputBase-input": {
-                        color: "#E5E7EB",
-                      },
                     },
                   },
                 }}
