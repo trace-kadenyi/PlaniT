@@ -158,7 +158,7 @@ export default function ExpenseFormFields({
       {/* Payment Date (shown when status is paid) */}
       {form.paymentStatus === "paid" && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Payment Date <span className="text-red-500">*</span>
           </label>
           <input
