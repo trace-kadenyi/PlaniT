@@ -12,14 +12,14 @@ export const LoadingDashboard = () => (
 
 // fetch dashboard error
 export const FetchDashboardError = ({ message, fetchError }) => (
-  <div className="p-3 bg-red-50 text-red-600 rounded mb-4">
+  <div className="p-3 bg-red-50 dark:bg-red-200 text-red-600 rounded mb-4">
     {message}: {fetchError}
   </div>
 );
 
 // update dashboard error
 export const UpdateDashboardError = ({ updateError, dispatch, clearError }) => (
-  <div className="p-3 bg-red-50 text-red-600 rounded mb-4 flex justify-between">
+  <div className="p-3 bg-red-50 dark:bg-red-200 text-red-600 rounded mb-4 flex justify-between">
     <span>Update failed: {updateError}</span>
     <button
       onClick={() => dispatch(clearError())}
