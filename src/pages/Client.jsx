@@ -87,7 +87,7 @@ export default function Client() {
               action={
                 <button
                   onClick={() => dispatch(fetchClientWithEvents(id))}
-                  className="text-sm text-red-600 hover:underline font-medium"
+                  className="text-sm text-red-600 dark:text-red-700 hover:underline font-medium"
                 >
                   Retry
                 </button>

@@ -8,7 +8,7 @@ export function ErrorState({
     <div className="bg-white dark:bg-red-300 rounded-xl shadow-lg p-6 border-l-4 border-red-500">
       <div className="flex items-start gap-4">
         <div className="flex-shrink-0">
-          <div className="bg-red-100 dark:bg-red-100/70 p-2 rounded-full">
+          <div className="bg-red-100 dark:bg-red-200 p-2 rounded-full">
             <AlertTriangle className="w-6 h-6 text-red-600" />
           </div>
         </div>
@@ -16,7 +16,7 @@ export function ErrorState({
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
             We encountered a problem
           </h3>
-          <p className="text-gray-600 mb-4">{message}</p>
+          <p className="text-gray-600 dark:text-gray-700 mb-4">{message}</p>
           {action && (
             <div className="mt-4">
               {typeof action === "string" ? (
