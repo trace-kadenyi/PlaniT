@@ -5,7 +5,7 @@ export function EventLoadingState() {
   return (
     <main className="min-h-screen flex items-center justify-center dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black">
       <div className="flex flex-col items-center space-y-2">
-        <div className="w-10 h-10 border-4 border-[#F59E0B]/30 border-t-[#F59E0B] rounded-full animate-spin"></div>
+        <div className="w-10 h-10 border-4 border-[#9B2C62]/30 border-t-[#9B2C62] dark:border-[#F59E0B]/30 dark:border-t-[#F59E0B] rounded-full animate-spin"></div>
         <p className="text-sm text-gray-500">Loading event details...</p>
       </div>
     </main>
