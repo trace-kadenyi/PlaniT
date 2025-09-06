@@ -122,7 +122,7 @@ export default function Events() {
         )}
 
         {status === "failed" && (
-          <div className="bg-red-50/80 backdrop-blur-sm p-6 rounded-xl border border-red-100 shadow-sm dark:bg-red-900/30 dark:border-red-800/50">
+          <div className="bg-red-50/80 backdrop-blur-sm p-6 rounded-xl border border-red-100 shadow-sm dark:bg-red-800/30 dark:border-red-900/50">
             <p className="text-red-600 font-medium">Error loading events:</p>
             <p className="text-red-500 mt-1">{error}</p>
           </div>
