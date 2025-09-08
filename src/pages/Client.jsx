@@ -54,6 +54,20 @@ export default function Client() {
     }
   };
 
+   // handle delete client
+  const handleDelete = async (clientId) => {
+    if (window.confirm("Are you sure you want to delete this client? This action cannot be undone.")) {
+      try {
+        await dispatch(deleteClient(clientId)).unwrap();
+        // Redirect to clients list after successful deletion
+        navigate("/clients");
+      } catch (error) {
+        console.error("Failed to delete client:", error);
+        // Error is handled by the slice, you could show a toast notification here
+      }
+    }
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black px-8 py-15">
       <div className="max-w-5xl mx-auto">
