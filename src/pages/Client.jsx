@@ -8,7 +8,7 @@ import {
   fetchClientWithEvents,
   archiveClient,
   restoreClient,
-  deleteClient
+  deleteClient,
 } from "../redux/clientsSlice";
 
 import { IsArchivedCli } from "../components/shared/UIFragments";
@@ -20,7 +20,7 @@ import ClientCard from "../components/clients/ClientCard";
 export default function Client() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [localIsArchived, setLocalIsArchived] = useState(false);
 
   const {
@@ -54,9 +54,13 @@ export default function Client() {
     }
   };
 
-   // handle delete client
+  // handle delete client
   const handleDelete = async (clientId) => {
-    if (window.confirm("Are you sure you want to delete this client? This action cannot be undone.")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this client? This action cannot be undone."
+      )
+    ) {
       try {
         await dispatch(deleteClient(clientId)).unwrap();
         // Redirect to clients list after successful deletion
@@ -92,13 +96,13 @@ export default function Client() {
           </Link>
         </div>
 
- {/* Delete Error Banner */}
+        {/* Delete Error Banner */}
         {deleteStatus === "failed" && (
           <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
             <p className="font-medium">Delete failed: {deleteError}</p>
           </div>
         )}
-        
+
         {/* loading */}
         {status === "loading" && (
           <LoadingPage message="Loading client details..." />
@@ -134,6 +138,7 @@ export default function Client() {
                 Link={Link}
                 handleArchiveToggle={handleArchiveToggle}
                 localIsArchived={localIsArchived}
+                handleDelete={handleDelete}
               />
             </>
 
