@@ -52,7 +52,7 @@ export default function VendorCard({
       <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 mb-8 dark:border-gray-800 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
         {/* Header with accent */}
         <div className="bg-gradient-to-r from-[#9B2C62] to-[#7B1D52] p-6">
-          <div className="flex justify-between items-start">
+          <div className="flex justify-between flex-wrap items-center gap-3">
             <div>
               <h2 className="text-2xl font-bold text-white dark:text-gray-100">
                 {vendor.name}
