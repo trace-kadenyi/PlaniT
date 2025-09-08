@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { PlusIcon } from "lucide-react";
 
 import {
@@ -8,6 +8,7 @@ import {
   fetchClientWithEvents,
   archiveClient,
   restoreClient,
+  deleteClient
 } from "../redux/clientsSlice";
 
 import { IsArchivedCli } from "../components/shared/UIFragments";
@@ -19,10 +20,13 @@ import ClientCard from "../components/clients/ClientCard";
 export default function Client() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [localIsArchived, setLocalIsArchived] = useState(false);
 
   const {
     clientDetails: { data: client, events, status, error },
+    deleteStatus,
+    deleteError,
   } = useSelector((state) => state.clients);
 
   // fetch client
@@ -43,7 +47,7 @@ export default function Client() {
     const action = isArchived ? restoreClient : archiveClient;
 
     try {
-      await dispatch(action(clientId)); // Updates Redux
+      await dispatch(action(clientId));
       await dispatch(fetchClients());
     } catch (error) {
       setLocalIsArchived(isArchived);
