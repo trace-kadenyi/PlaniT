@@ -1,4 +1,4 @@
-import { Mail, Trash2 } from "lucide-react";
+import { Mail } from "lucide-react";
 
 export default function ClientCard({
   client,
@@ -48,9 +48,8 @@ export default function ClientCard({
           <button
             onClick={() => handleDelete(id)}
             disabled={client?.isDeleting}
-            className="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded text-sm font-medium flex items-center gap-1 transition-colors duration-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+            className="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded text-sm font-medium flex items-center gap-1 transition-colors duration-200 dark:bg-red-900/60 dark:hover:bg-red-900/50 dark:text-white"
           >
-            <Trash2 size={14} />
             {client?.isDeleting ? "Deleting..." : "Delete"}
           </button>
         </div>
