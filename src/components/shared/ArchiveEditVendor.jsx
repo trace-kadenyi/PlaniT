@@ -9,7 +9,7 @@ export default function ArchiveEditVendor({
 }) {
   return (
     <div className="flex sm:justify-end mb-4">
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
         <button
           onClick={handleArchive}
           disabled={archiveStatus === "loading"}
