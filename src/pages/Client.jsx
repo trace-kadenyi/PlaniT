@@ -92,6 +92,13 @@ export default function Client() {
           </Link>
         </div>
 
+ {/* Delete Error Banner */}
+        {deleteStatus === "failed" && (
+          <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <p className="font-medium">Delete failed: {deleteError}</p>
+          </div>
+        )}
+        
         {/* loading */}
         {status === "loading" && (
           <LoadingPage message="Loading client details..." />
