@@ -57,7 +57,9 @@ export function BarLogo({
 // sidebar user profile
 export function UserProfile({ collapsed, User, LogOut, Link }) {
   return (
-    <div className={`p-3 border-t ${collapsed ? "px-2" : "px-4"}`}>
+    <div
+      className={`p-3 border-t ${collapsed ? "px-2" : "px-4"} dark:bg-gray-800`}
+    >
       <div
         className={`flex items-center ${
           collapsed ? "justify-center" : "justify-between"
@@ -77,10 +79,10 @@ export function UserProfile({ collapsed, User, LogOut, Link }) {
           </div>
           {!collapsed && (
             <div>
-              <p className="text-sm font-medium group-hover:text-[#FF9933] transition-colors">
+              <p className="text-sm dark:text-gray-200 font-medium group-hover:text-[#FF9933] transition-colors">
                 John Doe
               </p>
-              <p className="text-xs text-gray-500 group-hover:text-[#FFB866] transition-colors">
+              <p className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-[#FFB866] transition-colors">
                 Admin
               </p>
             </div>
@@ -88,13 +90,188 @@ export function UserProfile({ collapsed, User, LogOut, Link }) {
         </Link>
         {!collapsed && (
           <button
-            className="p-1 rounded-full hover:bg-[#FFB866]/10 text-gray-500 hover:text-[#E07C24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866] transition-colors"
+            className="p-1 rounded-full hover:bg-[#FFB866]/10 text-gray-500 dark:text-gray-400 hover:text-[#E07C24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866] transition-colors"
             aria-label="Logout"
           >
             <LogOut size={18} aria-hidden="true" />
           </button>
         )}
       </div>
+    </div>
+  );
+}
+
+// secondary links
+export function SecondaryLinks({
+  navLinks,
+  Link,
+  isActive,
+  collapsed,
+  toggleTheme,
+  Moon,
+  Sun,
+  theme,
+}) {
+  return (
+    <div className="mt-8 border-t border-[#9B2C62]/20 pt-4">
+      {navLinks.slice(4).map((item) => (
+        <div key={item.path}>
+          <Link
+            to={item.path}
+            className={`
+              flex items-center p-2 m-1 rounded-lg transition-all duration-300
+              ${
+                isActive(item.path)
+                  ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-[#FF9933]/10 hover:text-[#E07C24] dark:hover:bg-[#9B2C62]/30"
+              }
+              ${collapsed ? "justify-center" : "gap-3"}
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+            `}
+            title={collapsed ? item.label : undefined}
+            aria-current={isActive(item.path) ? "page" : undefined}
+          >
+            <item.icon
+              size={20}
+              className={
+                isActive(item.path)
+                  ? "text-[#9B2C62] dark:text-[#BE3455]"
+                  : "text-[#9B2C62]/70 dark:text-[#BE3455] group-hover:text-[#E07C24]"
+              }
+              aria-hidden="true"
+            />
+            {!collapsed && <span className="text-sm">{item.label}</span>}
+          </Link>
+
+          {/* Settings children (Theme toggle) - Expanded state */}
+          {!collapsed && item.children && item.label === "Settings" && (
+            <div className="ml-8 mt-1 space-y-1">
+              {item.children.map((child) => (
+                <div key={child.label}>
+                  {child.isThemeToggle ? (
+                    // Theme toggle button
+                    <button
+                      onClick={toggleTheme}
+                      className={`
+                        flex items-center p-2 pl-3 rounded-lg transition-all duration-300 w-full
+                        ${
+                          theme === "light"
+                            ? "bg-[#FF9933]/20 hover:bg-[#FF9933]/30 text-[#E07C24] border-r-2 border-[#FF9933]"
+                            : "bg-[#9B2C62]/20 hover:bg-[#9B2C62]/50 text-[#BE3455] hover:text-gray-400 border-r-2 border-[#9B2C62]"
+                        }
+                        hover:opacity-90
+                        gap-3
+                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+                      `}
+                      aria-label="Toggle theme"
+                    >
+                      {theme === "light" ? (
+                        <Moon size={18} className="text-[#E07C24]" />
+                      ) : (
+                        <Sun size={18} className="text-[#BE3455]" />
+                      )}
+                      <span className="text-sm font-medium">
+                        {theme === "light" ? "Dark Mode" : "Light Mode"}
+                      </span>
+                    </button>
+                  ) : (
+                    // Regular settings child
+                    <Link
+                      to={child.path || "#"}
+                      className={`
+                        flex items-center p-2 pl-3 rounded-lg transition-all duration-300
+                        ${
+                          isActive(child.path)
+                            ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
+                            : "hover:bg-[#FF9933]/10 text-[#7A2450] hover:text-[#E07C24]"
+                        }
+                        gap-3
+                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+                      `}
+                      aria-current={isActive(child.path) ? "page" : undefined}
+                    >
+                      <child.icon
+                        size={18}
+                        className={
+                          isActive(child.path)
+                            ? "text-[#9B2C62]"
+                            : "text-[#9B2C62]/70 group-hover:text-[#E07C24]"
+                        }
+                        aria-hidden="true"
+                      />
+                      <span className="text-sm font-medium">{child.label}</span>
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Settings children (Theme toggle) - Collapsed state */}
+          {collapsed && item.children && item.label === "Settings" && (
+            <div className="mt-1 space-y-1">
+              {item.children.map((child) => (
+                <div key={child.label}>
+                  {child.isThemeToggle ? (
+                    // Theme toggle button (collapsed)
+                    <button
+                      onClick={toggleTheme}
+                      className={`
+                        flex items-center justify-center p-2 rounded-lg transition-all duration-300 w-full
+                        ${
+                          theme === "light"
+                            ? "bg-[#FF9933]/20 text-[#E07C24]"
+                            : "bg-[#9B2C62]/20 hover:bg-[#9B2C62]/50"
+                        }
+                        hover:opacity-90
+                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+                      `}
+                      title={
+                        theme === "light"
+                          ? "Switch to dark mode"
+                          : "Switch to light mode"
+                      }
+                      aria-label="Toggle theme"
+                    >
+                      {theme === "light" ? (
+                        <Moon size={18} className="text-[#E07C24]" />
+                      ) : (
+                        <Sun size={18} className="text-[#BE3455]" />
+                      )}
+                    </button>
+                  ) : (
+                    // Regular settings child (collapsed)
+                    <Link
+                      to={child.path || "#"}
+                      className={`
+                        flex items-center justify-center p-2 rounded-lg transition-all duration-300
+                        ${
+                          isActive(child.path)
+                            ? "bg-[#9B2C62]/10 text-[#9B2C62]"
+                            : "hover:bg-[#FF9933]/10 text-[#7A2450] hover:text-[#E07C24]"
+                        }
+                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
+                      `}
+                      title={child.label}
+                      aria-current={isActive(child.path) ? "page" : undefined}
+                    >
+                      <child.icon
+                        size={18}
+                        className={
+                          isActive(child.path)
+                            ? "text-[#9B2C62]"
+                            : "text-[#9B2C62]/70 group-hover:text-[#E07C24]"
+                        }
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

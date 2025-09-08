@@ -36,7 +36,7 @@ export default function DeleteConfirmationToast({
   }, [duration]);
 
   return (
-    <div className="relative p-4 rounded-lg bg-white border border-gray-200 shadow-lg max-w-[300px]">
+    <div className="relative p-4 rounded-lg bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black border-gray-200 shadow-lg max-w-[300px]">
       <div className="flex items-start gap-3 mb-4">
         <div className="flex-shrink-0 mt-0.5">
           <Trash2
@@ -45,7 +45,7 @@ export default function DeleteConfirmationToast({
             }`}
           />
         </div>
-        <p className="text-sm text-gray-800">
+        <p className="text-sm text-gray-800 dark:text-gray-300">
           {messages[type].warning}{" "}
           <span className="font-semibold text-red-600">
             It cannot be undone.
@@ -55,7 +55,7 @@ export default function DeleteConfirmationToast({
       <div className="flex justify-end gap-3">
         <button
           onClick={onCancel}
-          className="px-4 py-1.5 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+          className="px-4 py-1.5 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition cursor-pointer"
         >
           Cancel
         </button>

@@ -10,6 +10,7 @@ import {
 
 import { LoadingPage } from "../components/shared/LoadingStates";
 import VendorCard from "../components/vendors/VendorCard";
+import { ErrorState } from "../components/shared/ErrorStates";
 
 export default function Vendor() {
   const { id } = useParams();
@@ -32,13 +33,13 @@ export default function Vendor() {
   }, [dispatch, id]);
 
   return (
-    <main className="min-h-screen bg-white px-8 py-15">
+    <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black px-8 py-15">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-6 sm:mb-4">
           <Link
             to="/vendors"
-            className="inline-flex items-center text-[#9B2C62] hover:text-[#7B1D52] font-medium transition-colors duration-200"
+            className="inline-flex items-center text-[#9B2C62] dark:text-[#F59E0B] hover:text-[#7B1D52] dark:hover:dark:text-[#D97706] font-medium transition-colors duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

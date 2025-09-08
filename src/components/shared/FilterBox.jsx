@@ -6,7 +6,7 @@ export default function FilterBox({
   filterConfig,
 }) {
   return (
-    <div className="bg-[#FFF9F5] border border-gray-200 rounded-lg p-4 max-w-5xl mx-auto shadow-xs">
+    <div className="bg-[#FFF9F5] dark:bg-transparent border border-gray-200 dark:border-gray-500 rounded-lg p-4 max-w-5xl mx-auto shadow-xs dark:hover:bg-gray-700/50">
       {/* Search Bar */}
       <div className="relative mb-4">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -26,7 +26,7 @@ export default function FilterBox({
         <input
           type="text"
           placeholder={filterConfig.searchPlaceholder}
-          className="block w-full pl-10 pr-3 py-2 rounded-md border-gray-300 shadow-sm focus:border-[#9B2C62] focus:ring focus:ring-[#9B2C62] focus:ring-opacity-50 bg-white"
+          className="block w-full pl-10 pr-3 py-2 rounded-md border-gray-300 shadow-sm focus:outline-none focus:border-[#9B2C62] focus:ring focus:ring-[#9B2C62] focus:ring-opacity-50 bg-white dark:bg-gray-700/60 dark:text-white"
           value={filters.search}
           onChange={(e) => setFilters({ ...filters, search: e.target.value })}
         />
@@ -50,7 +50,7 @@ export default function FilterBox({
               <div className="relative">
                 <select
                   id={`${filter.id}-filter`}
-                  className="filter-dropdown block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 focus:border-[#9B2C62] focus:ring-1 focus:ring-[#9B2C62]"
+                  className="filter-dropdown block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 dark:bg-gray-700/60 dark:text-white focus:border-[#9B2C62] focus:ring-1 focus:ring-[#9B2C62] dark:border-none"
                   value={filters[filter.id]}
                   onChange={(e) =>
                     setFilters({ ...filters, [filter.id]: e.target.value })
@@ -85,7 +85,7 @@ export default function FilterBox({
           <div className="relative">
             <select
               id="date-filter"
-              className="filter-dropdown block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 focus:border-[#9B2C62] focus:ring-1 focus:ring-[#9B2C62]"
+              className="filter-dropdown block w-full pl-3 pr-10 py-2 text-sm border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 dark:bg-gray-700/60 dark:text-white focus:border-[#9B2C62] focus:ring-1 focus:ring-[#9B2C62] dark:border-none"
               value={filters.dateRange}
               onChange={(e) =>
                 setFilters({ ...filters, dateRange: e.target.value })

@@ -9,7 +9,7 @@ export const NotPreselected = ({
 }) => {
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+      <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
         Select Client
       </label>
 
@@ -26,7 +26,7 @@ export const NotPreselected = ({
             name="client"
             value={formData.client}
             onChange={onFieldChange}
-            className="w-full px-4 py-3 pr-10 rounded-lg border border-[#E3CBC1] bg-white text-[#6B2D5C] focus:outline-none focus:ring-2 focus:ring-[#BE3455]/50 focus:border-[#BE3455] transition-all duration-200 appearance-none shadow-sm hover:border-[#D4A798]"
+            className="w-full px-4 py-3 pr-10 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white text-[#6B2D5C] focus:outline-none focus:ring-2 focus:ring-[#BE3455]/50 focus:border-[#BE3455] dark:focus:border-[#D4A798]/40 transition-all duration-200 appearance-none shadow-sm hover:border-[#D4A798] dark:hover:border-[#D4A798]/40 dark:bg-transparent dark:text-gray-200 dark:focus:ring-[#BE3455]/10"
           >
             <option value="" disabled className="text-gray-400">
               -- Select a client --
@@ -37,7 +37,7 @@ export const NotPreselected = ({
                 <option
                   key={client._id}
                   value={client._id}
-                  className="text-[#6B2D5C] hover:bg-[#F9F3F0]"
+                  className="text-[#6B2D5C] hover:bg-[#F9F3F0] dark:bg-black dark:text-gray-200"
                 >
                   {client.name}
                 </option>
@@ -70,16 +70,16 @@ export const PreselectedClients = ({
   onFieldChange,
 }) => {
   return (
-    <div className="p-3 bg-[#F3E8FF] rounded-lg border border-[#E3CBC1]">
+    <div className="p-3 bg-[#F3E8FF] rounded-lg border border-[#E3CBC1] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-[#D97706] dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
       <div className="flex items-center gap-2 mb-1">
-        <p className="text-sm text-gray-600">Client:</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">Client:</p>
         {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
-          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded">
+          <span className="text-xs bg-yellow-100 dark:bg-yellow-100/60 text-yellow-800 dark:text-black px-2 py-0.5 rounded">
             Archived
           </span>
         )}
       </div>
-      <p className="font-semibold text-[#9B2C62]">
+      <p className="font-semibold text-sm text-[#9B2C62] dark:text-[#D97706]">
         {clients.length > 0
           ? clients.find((c) => c._id === preSelectedClientId)?.name
           : "Loading client..."}
@@ -91,7 +91,7 @@ export const PreselectedClients = ({
         onChange={onFieldChange}
       />
       {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
-        <p className="mt-2 text-xs text-yellow-600">
+        <p className="mt-2 text-xs text-yellow-600 dark:text-yellow-300">
           Note: Archived clients cannot be assigned to new events.{" "}
           <Link
             to={`/clients/${preSelectedClientId}`}

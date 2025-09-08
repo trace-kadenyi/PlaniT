@@ -31,23 +31,29 @@ export function getExpensesByCategory(expenses) {
 // handle budget status
 export function BudgetStatus({ budgetStatus }) {
   return (
-    <div className="bg-white p-4 rounded-xl shadow-sm border border-[#F3EDE9] mb-6">
+    <div className="bg-white p-4 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 mb-6">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-        <div className="bg-[#FFF5EB] p-3 rounded-lg">
-          <p className="text-sm text-[#6B3B0F]">Total Budget</p>
-          <p className="text-xl font-bold text-[#9B2C62]">
+        <div className="bg-[#FFF5EB] p-3 rounded-lg dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+          <p className="text-sm text-[#6B3B0F] dark:text-[#D97706]/90">
+            Total Budget
+          </p>
+          <p className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
             ${budgetStatus.totalBudget?.toFixed(2) || "0.00"}
           </p>
         </div>
-        <div className="bg-[#FFF5EB] p-3 rounded-lg">
-          <p className="text-sm text-[#6B3B0F]">Total Expenses</p>
-          <p className="text-xl font-bold text-[#9B2C62]">
+        <div className="bg-[#FFF5EB] p-3 rounded-lg dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+          <p className="text-sm text-[#6B3B0F] dark:text-[#D97706]/90">
+            Total Expenses
+          </p>
+          <p className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
             ${budgetStatus.totalExpenses?.toFixed(2) || "0.00"}
           </p>
         </div>
-        <div className="bg-[#FFF5EB] p-3 rounded-lg">
-          <p className="text-sm text-[#6B3B0F]">Remaining</p>
-          <p className="text-xl font-bold text-[#9B2C62]">
+        <div className="bg-[#FFF5EB] p-3 rounded-lg dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+          <p className="text-sm text-[#6B3B0F] dark:text-[#D97706]">
+            Remaining
+          </p>
+          <p className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B]/90">
             $
             {(budgetStatus.totalBudget - budgetStatus.totalExpenses)?.toFixed(
               2
@@ -209,18 +215,21 @@ export function ExpenseByCategoryView({ category, amount, budgetStatus }) {
 // handle budget status in forms
 export function FormBudgetSummary({ budgetStatus }) {
   return (
-    <div className="bg-[#F3EDE9] p-3 rounded-md mb-4">
-      <div className="flex justify-between items-center">
+    <div className="bg-[#F3EDE9] p-3 rounded-md mb-4 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:border-l-[#F59E0B]">
+      <div className="flex justify-between items-center dark:text-gray-300">
         <span className="font-medium">Remaining Budget:</span>
         <span
           className={`font-bold ${
-            budgetStatus.remainingBudget < 0 ? "text-red-600" : "text-[#9B2C62]"
+            budgetStatus.remainingBudget === 0 ||
+            budgetStatus.remainingBudget < 0
+              ? "text-red-600"
+              : "text-[#9B2C62] dark:text-[#F59E0B]"
           }`}
         >
           ${budgetStatus.remainingBudget.toFixed(2)}
         </span>
       </div>
-      <div className="text-xs text-gray-600 mt-1">
+      <div className="text-xs text-gray-600 dark:text-gray-300 mt-1">
         <span className="font-semibold">Total:</span> $
         {budgetStatus.totalBudget.toFixed(2)} •{" "}
         <span className="font-semibold">Spent:</span> $

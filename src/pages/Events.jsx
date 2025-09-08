@@ -89,19 +89,19 @@ export default function Events() {
   });
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FFF8F2] to-white p-3 sm:p-10">
+    <main className="min-h-screen dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Section with Decorative Elements */}
         <div className="relative mb-10">
-          <div className="absolute -top-4 -left-4 w-20 h-20 bg-[#F59E0B]/10 rounded-full blur-lg"></div>
-          <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#9B2C62]/10 rounded-full blur-lg"></div>
+          <div className="absolute -top-4 -left-4 w-20 h-20 bg-[#F59E0B]/10 rounded-full blur-lg dark:bg-[#F59E0B]/20"></div>
+          <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#9B2C62]/10 rounded-full blur-lg dark:bg-[#9B2C62]/20"></div>
 
           <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 z-10">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] text-start mt-4 sm:mt-0">
+              <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] text-start mt-4 sm:mt-0">
                 Events Manager
               </h1>
-              <p className="text-gray-600 mt-2 max-w-lg">
+              <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-lg">
                 Organize and track all your upcoming events in one place
               </p>
             </div>
@@ -116,23 +116,23 @@ export default function Events() {
 
         {/* Status Messages */}
         {status === "loading" && (
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9]">
+          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 dark:border-gray-700">
             <LoadingPage message="Loading events..." />
           </div>
         )}
 
         {status === "failed" && (
-          <div className="bg-red-50/80 backdrop-blur-sm p-6 rounded-xl border border-red-100 shadow-sm">
+          <div className="bg-red-50/80 backdrop-blur-sm p-6 rounded-xl border border-red-100 shadow-sm dark:bg-red-800/30 dark:border-red-900/50">
             <p className="text-red-600 font-medium">Error loading events:</p>
             <p className="text-red-500 mt-1">{error}</p>
           </div>
         )}
 
         {status === "succeeded" && events.length === 0 && (
-          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] text-center">
+          <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] text-center dark:bg-gray-800/80 dark:border-gray-700">
             <div className="mx-auto max-w-md">
               <svg
-                className="mx-auto h-12 w-12 text-gray-400"
+                className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -144,10 +144,10 @@ export default function Events() {
                   d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <h3 className="mt-4 text-lg font-medium text-[#9B2C62]">
+              <h3 className="mt-4 text-lg font-medium text-[#9B2C62] dark:text-[#D97706]">
                 No events found
               </h3>
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2 text-gray-600 dark:text-gray-300">
                 Get started by creating your first event
               </p>
               <div className="mt-6">
@@ -161,20 +161,21 @@ export default function Events() {
             </div>
           </div>
         )}
+
         {/* Events List */}
         {status === "succeeded" && events.length > 0 && (
           <div className="space-y-6">
             {Object.entries(eventsByMonth).map(([monthYear, monthEvents]) => (
               <section
                 key={monthYear}
-                className="bg-gradient-to-br from-[#FFF8F2]/30 to-white/70 rounded-xl shadow-sm border border-[#F3EDE9]/50 overflow-hidden"
+                className="bg-gradient-to-br from-[#FFF8F2]/30 to-white/70 rounded-xl shadow-sm border border-[#F3EDE9]/50 overflow-hidden dark:bg-gradient-to-br dark:from-gray-800/70 dark:to-gray-900/70 dark:border-gray-700/50"
               >
                 {/* Month Header */}
                 <button
                   onClick={() => toggleMonth(monthYear)}
-                  className={`flex items-center w-full p-4 hover:bg-[#FFF8F2] transition border-l-4 ${
+                  className={`flex items-center w-full p-4 hover:bg-[#FFF8F2] transition border-l-4 dark:hover:bg-gray-700/50 ${
                     expandedMonths[monthYear]
-                      ? " border-l-[#F59E0B] bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5]"
+                      ? "border-l-[#F59E0B] bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5] dark:border-l-[#F59E0B] dark:bg-gradient-to-br dark:from-gray-800 dark:to-gray-700"
                       : "border-l-[#9B2C62]"
                   }`}
                 >
@@ -188,13 +189,13 @@ export default function Events() {
                       className={`text-xs font-semibold ${
                         monthYear === currentMonthYear
                           ? "text-[#F59E0B]"
-                          : "text-[#9B2C62]"
+                          : "text-[#9B2C62] dark:text-[#D97706]"
                       }`}
                     >
                       {monthYear}
                     </h2>
                   </div>
-                  <span className="ml-auto bg-gray-100 text-[#9B2C62] px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                  <span className="ml-auto bg-gray-100 text-[#9B2C62] px-2.5 py-0.5 rounded-full text-xs font-semibold dark:font-normal dark:bg-gray-800 dark:text-[#F59E0B]">
                     {monthEvents.length} event
                     {monthEvents.length !== 1 ? "s" : ""}
                   </span>
@@ -203,7 +204,7 @@ export default function Events() {
                 {/* Events Grid */}
                 {expandedMonths[monthYear] && (
                   <div className="p-4 pt-2">
-                    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
                       {monthEvents.map((event, index) => (
                         <EventCard
                           key={index}

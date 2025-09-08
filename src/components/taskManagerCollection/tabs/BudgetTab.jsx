@@ -53,11 +53,13 @@ export default function BudgetTab({
   return (
     <>
       <div className="flex sm:justify-between items-center mb-4 flex-col sm:flex-row gap-5 sm:gap-3">
-        <h2 className="text-xl font-bold text-[#9B2C62]">Budget & Expenses</h2>
+        <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
+          Budget & Expenses
+        </h2>
         {hasNoBudget ? (
           <Link
             to={`/events/${id}/edit`}
-            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-default"
+            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-default dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
           >
             <Plus className="w-3 h-3" />
             <span>Add Budget</span>
@@ -72,7 +74,7 @@ export default function BudgetTab({
               }
               setShowCreateExpenseForm(!showCreateExpenseForm);
             }}
-            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer"
+            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
           >
             {showCreateExpenseForm ? (
               <XCircle className="w-3 h-3" />
@@ -126,10 +128,10 @@ export default function BudgetTab({
 
       {/* without budget/no expenses added  */}
       {hasNoBudget && expensesArray.length === 0 && !isLoading && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] flex items-start gap-3">
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 p-6 rounded-xl shadow-sm border border-[#F3EDE9] flex items-start gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-[#6B3B0F] mt-0.5 flex-shrink-0"
+            className="h-5 w-5 text-[#6B3B0F] dark:text-[#F59E0B] mt-0.5 flex-shrink-0"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -142,10 +144,10 @@ export default function BudgetTab({
             />
           </svg>
           <div>
-            <p className="text-[#6B3B0F] font-medium">
+            <p className="text-[#6B3B0F] dark:text-[#F59E0B] font-medium">
               Budget required for expense tracking
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               Add a budget to enable expense management for this event
             </p>
           </div>
@@ -153,7 +155,7 @@ export default function BudgetTab({
       )}
       {/* Expense List */}
       {expensesArray.length > 0 && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900">
           {/* tabs List View & By Category */}
           <ExpenseTab activeView={activeView} setActiveView={setActiveView} />
 
@@ -162,7 +164,7 @@ export default function BudgetTab({
               {expensesArray.map((expense) => (
                 <li
                   key={expense._id}
-                  className="border border-[#F3EDE9] bg-white p-4 rounded-lg hover:shadow-md transition group"
+                  className="border border-[#F3EDE9] bg-white p-4 rounded-lg hover:shadow-md transition group dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
                 >
                   <ExpenseListView expense={expense}>
                     <EditDeleteExpense

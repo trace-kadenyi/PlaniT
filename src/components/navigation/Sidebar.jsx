@@ -1,14 +1,25 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Plus, ChevronLeft, Menu, X, User, LogOut } from "lucide-react";
+import {
+  Plus,
+  ChevronLeft,
+  Menu,
+  X,
+  User,
+  LogOut,
+  Sun,
+  Moon,
+} from "lucide-react";
 
 import { navLinks } from "../../data/navData";
-import { BarLogo, UserProfile } from "../ui/Bar";
+import { BarLogo, UserProfile, SecondaryLinks } from "../ui/Bar";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
   const { pathname } = useLocation();
 
   // Close mobile sidebar when route changes or on larger screens
@@ -26,6 +37,24 @@ export default function Sidebar() {
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
+
+  // Handle theme change
+  useEffect(() => {
+    // Update localStorage
+    localStorage.setItem("theme", theme);
+
+    // Update HTML class
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  // Toggle theme
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
 
   // isactive
   const isActive = (path) => {
@@ -65,7 +94,7 @@ export default function Sidebar() {
         }`}
       >
         <aside
-          className={`h-full bg-white border-r border-[#9B2C62] shadow-sm flex flex-col transition-all duration-500 ease-in-out ${
+          className={`h-full bg-white border-r border-[#9B2C62] shadow-sm flex flex-col transition-all duration-500 ease-in-out overflow-y-auto hide-scrollbar ${
             collapsed ? "w-16" : "w-64"
           }`}
           aria-label="Sidebar"
@@ -100,7 +129,7 @@ export default function Sidebar() {
           />
 
           {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1">
+          <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1 hide-scrollbar dark:bg-gray-800">
             {navLinks.slice(0, 4).map((item) => (
               <div key={item.path}>
                 <Link
@@ -109,8 +138,8 @@ export default function Sidebar() {
         flex items-center p-3 rounded-lg transition-colors
         ${
           isActive(item.path)
-            ? "bg-[#9B2C62] text-white"
-            : "hover:bg-[#FFB866]/20 text-gray-700"
+            ? "bg-[#9B2C62] text-white dark:text-gray-200"
+            : "hover:bg-[#FFB866]/20 dark:hover:bg-[#9B2C62]/30 text-gray-700 dark:text-gray-300"
         }
         ${collapsed ? "justify-center" : "gap-3"}
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]
@@ -122,8 +151,8 @@ export default function Sidebar() {
                     size={20}
                     className={
                       isActive(item.path)
-                        ? "text-white"
-                        : "text-[#9B2C62] group-hover:text-[#FF9933]"
+                        ? "text-white dark:text-gray-100"
+                        : "text-[#9B2C62] dark:text-[#D97706] group-hover:text-[#FF9933]"
                     }
                     aria-hidden="true"
                   />
@@ -141,8 +170,8 @@ export default function Sidebar() {
           flex items-center p-2 pl-3 rounded-lg transition-colors
           ${
             isActive(child.path)
-              ? "bg-[#FFF5EB] border-l-4 border-[#FF9933] text-[#E07C24]"
-              : "hover:bg-[#FFF5EB]/50 text-gray-600 hover:text-[#9B2C62]"
+              ? "bg-[#FFF5EB] dark:bg-[#D97706]/30 border-l-4 border-[#FF9933] text-[#E07C24]"
+              : "hover:bg-[#FFF5EB]/50 dark:hover:bg-[#F59E0B]/20  text-gray-600 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-[#F59E0B]"
           }
           gap-3
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
@@ -154,7 +183,7 @@ export default function Sidebar() {
                           className={
                             isActive(child.path)
                               ? "text-[#E07C24]"
-                              : "text-[#9B2C62]/70 group-hover:text-[#FF9933]"
+                              : "text-[#9B2C62] dark:text-[#D97706] group-hover:text-[#FF9933]"
                           }
                           aria-hidden="true"
                         />
@@ -176,8 +205,8 @@ export default function Sidebar() {
               flex items-center justify-center p-2 rounded-lg transition-colors
               ${
                 isActive(child.path)
-                  ? "bg-[#FFF5EB] text-[#E07C24]"
-                  : "hover:bg-[#FFF5EB]/50 text-gray-600 hover:text-[#9B2C62]"
+                  ? "bg-[#FFF5EB] dark:bg-[#D97706]/30 text-[#E07C24]"
+                  : "hover:bg-[#FFF5EB]/50 dark:hover:bg-[#F59E0B]/20 text-gray-600 hover:text-[#9B2C62] dark:hover:text-[#F59E0B]"
               }
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
             `}
@@ -188,8 +217,8 @@ export default function Sidebar() {
                           size={18}
                           className={
                             isActive(child.path)
-                              ? "text-[#E07C24]"
-                              : "text-[#9B2C62]/70 group-hover:text-[#FF9933]"
+                              ? "text-[#E07C24] dark:text-[#F59E0B]"
+                              : "text-[#9B2C62]/70 dark:text-[#F59E0B] group-hover:text-[#FF9933]"
                           }
                           aria-hidden="true"
                         />
@@ -206,8 +235,8 @@ export default function Sidebar() {
                 to="/events/new"
                 className={`
               flex items-center p-3 rounded-lg transition-colors 
-              bg-[#FF9933] text-white
-              hover:bg-[#E07C24] ${
+              bg-[#FF9933] dark:bg-[#E07C24] text-white
+              hover:bg-[#E07C24] dark:hover:bg-[#FF9933] ${
                 collapsed ? "justify-center" : "gap-3 justify-center"
               }
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
@@ -220,33 +249,16 @@ export default function Sidebar() {
             </div>
 
             {/* Secondary Links */}
-            <div className="mt-8">
-              {navLinks.slice(4).map(({ icon: Icon, label, path }) => (
-                <Link
-                  key={path}
-                  to={path}
-                  className={`
-                    flex items-center p-3 rounded-lg transition-colors
-                    ${
-                      isActive(path)
-                        ? "bg-[#FFB866]/30 text-[#E07C24]"
-                        : "hover:bg-[#FFB866]/10 text-gray-500 hover:text-[#FF9933]"
-                    }
-                    ${collapsed ? "justify-center" : "gap-3"}
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
-                  `}
-                  title={collapsed ? label : undefined}
-                  aria-current={isActive(path) ? "page" : undefined}
-                >
-                  <Icon
-                    size={20}
-                    className={isActive(path) ? "text-[#E07C24]" : ""}
-                    aria-hidden="true"
-                  />
-                  {!collapsed && <span>{label}</span>}
-                </Link>
-              ))}
-            </div>
+            <SecondaryLinks
+              navLinks={navLinks}
+              Link={Link}
+              isActive={isActive}
+              collapsed={collapsed}
+              toggleTheme={toggleTheme}
+              Moon={Moon}
+              Sun={Sun}
+              theme={theme}
+            />
           </nav>
 
           {/* User Profile */}

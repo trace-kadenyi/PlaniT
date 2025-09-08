@@ -31,7 +31,7 @@ PlaniT is a comprehensive event planning management system built with the MERN s
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/planit.git
+   git clone https://github.com/trace-kadenyi/planit.git
    cd planit
    ```
 
@@ -112,3 +112,32 @@ planit/
 - **Budgeting**: Monitor and manage event budgets efficiently.
 
 ---
+
+## Future Enhancements
+
+- User authentication and roles (admin, planner, guest)
+- Email notifications and reminders
+- Analytics and reporting dashboards
+- File uploads for event-related documents
+- Enhanced mobile responsiveness
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/NewFeature`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/NewFeature`)
+5. Open a pull request
+
+---
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
+## Contact
+
+- **Author**: Tracey Kadenyi  
+- **Email**: treykadenyi@gmail.com  

@@ -5,12 +5,12 @@ export function EventStatusPill({ status }) {
     <span
       className={`px-2 py-1 rounded text-xs ${
         status === "Completed"
-          ? "bg-green-100 text-green-800"
+          ? "bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-100"
           : status === "Cancelled"
-          ? "bg-red-100 text-red-800"
+          ? "bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-100"
           : status === "In Progress"
-          ? "bg-[#F5EBFF] text-[#9B2C62]"
-          : "bg-[#EFF6FF] text-[#1E40AF]"
+          ? "bg-[#F5EBFF] text-[#9B2C62] dark:bg-purple-900/40 dark:text-purple-200"
+          : "bg-[#EFF6FF] text-[#1E40AF] dark:bg-blue-900/30 dark:text-blue-300"
       }`}
     >
       {status}
@@ -24,12 +24,12 @@ export function TaskStatusPill({ status }) {
     <span
       className={`inline-block px-2 py-0.5 rounded-full font-medium ${
         status === "Completed"
-          ? "bg-green-100 text-green-700"
+          ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
           : status === "In Review"
-          ? "bg-purple-100 text-purple-700"
+          ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
           : status === "In Progress"
-          ? "bg-[#EFF6FF] text-[#1E40AF]"
-          : "bg-gray-100 text-gray-600"
+          ? "bg-[#EFF6FF] text-[#1E40AF] dark:bg-blue-900/30 dark:text-blue-300"
+          : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
       }`}
     >
       {status}
@@ -43,10 +43,14 @@ export function DatePill({ date, status }) {
     "px-3 py-1 rounded-full text-xs font-medium inline-flex items-center";
 
   const statusStyles = {
-    Completed: "bg-green-50 text-green-700 border border-green-100",
-    Cancelled: "bg-red-50 text-red-700 border border-red-100",
-    "In Progress": "bg-[#F5EBFF] text-[#9B2C62] border border-[#EEDDFF]",
-    Planning: "bg-[#EFF6FF] text-[#1E40AF] border border-[#DBEAFE]",
+    Completed:
+      "bg-green-50 text-green-700 border border-green-100 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800/50",
+    Cancelled:
+      "bg-red-50 text-red-700 border border-red-100 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800/50",
+    "In Progress":
+      "bg-[#F5EBFF] text-[#9B2C62] border border-[#EEDDFF] dark:bg-[#4A1D96]/30 dark:text-[#F9A8D4] dark:border-[#5B21B6]/50",
+    Planning:
+      "bg-[#EFF6FF] text-[#1E40AF] border border-[#DBEAFE] dark:bg-[#1E3A8A]/30 dark:text-[#93C5FD] dark:border-[#1D4ED8]/50",
   };
 
   return (
@@ -78,14 +82,17 @@ export function DatePill({ date, status }) {
 
 // handle tasks priorities
 export function TasksPriorityPill({ priority }) {
+  // if (priority.toLowerCase() === "high") {
+  //   return null;
+  // }
   return (
     <span
       className={`inline-block px-2 py-0.5 rounded-full font-medium ${
         priority.toLowerCase() === "high"
-          ? "bg-[#F59E0B]/20 text-[#C2410C]"
+          ? "bg-[#F59E0B]/20 text-[#C2410C] dark:bg-red-900 dark:text-red-200"
           : priority.toLowerCase() === "medium"
-          ? "bg-yellow-100 text-yellow-700"
-          : "bg-gray-200 text-gray-600"
+          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-200"
+          : "bg-gray-200 text-gray-600 dark:bg-gray-800/50 dark:text-gray-300"
       }`}
     >
       {priority}
@@ -96,8 +103,8 @@ export function TasksPriorityPill({ priority }) {
 // client is archived
 export function IsArchivedCli() {
   return (
-    <div className="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
-      <p className="text-yellow-700 flex items-center gap-2">
+    <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-50/10 border-l-4 border-yellow-400 rounded-lg">
+      <p className="text-yellow-700 dark:text-[#F59E0B] flex items-center gap-2">
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path
             fillRule="evenodd"
@@ -116,14 +123,16 @@ export function IsArchivedCli() {
 export function ClientInfo({ event, Link }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs font-semibold text-gray-500">Client:</span>
+      <span className="text-xs font-semibold text-gray-500 dark:text-gray-300">
+        Client:
+      </span>
       <Link
         to={`/clients/${event.client._id}`}
-        className="flex items-center bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] hover:bg-[#FFF5EB] transition-colors duration-200 cursor-default"
+        className="flex items-center bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] hover:bg-[#FFF5EB] transition-colors duration-200 cursor-default dark:bg-gray-900/10 dark:hover:bg-gray-900 dark:border-[#F59E0B]/40"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 text-[#9B2C62] mr-1"
+          className="h-4 w-4 text-[#9B2C62] dark:text-[#F59E0B] mr-1"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -135,7 +144,7 @@ export function ClientInfo({ event, Link }) {
             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
           />
         </svg>
-        <span className="text-sm font-medium text-[#6B3B0F] hover:text-[#9B2C62] hover:underline transition-colors duration-200">
+        <span className="text-sm font-medium text-[#6B3B0F] hover:text-[#9B2C62] hover:underline transition-colors duration-200 dark:text-[#F59E0B] dark:hover:text-[#F59E0B]">
           {event.client.name}
         </span>
       </Link>
@@ -147,7 +156,7 @@ export function ClientInfo({ event, Link }) {
 export function VendorInfo({ vendors, Link }) {
   return (
     <div className="mt-4">
-      <h3 className="font-semibold text-gray-500 mb-2 text-sm underline">
+      <h3 className="font-semibold text-gray-500 dark:text-gray-300 mb-2 text-sm underline">
         Vendors
       </h3>
       <div className="flex flex-wrap gap-2">
@@ -161,18 +170,20 @@ export function VendorInfo({ vendors, Link }) {
               className={`border-2 rounded-lg px-3 py-2 transition-all duration-300
               ${
                 vendor.isArchived
-                  ? "bg-[#F8D476]/10 border-[#F59E0B]/30"
-                  : "bg-[#F8D476]/30 border-[#F59E0B]/50"
-              } hover:border-[#F59E0B] hover:shadow-lg hover:shadow-amber-100/50 hover:bg-[#F8D476]/40 group`}
+                  ? "bg-[#F8D476]/10 border-[#F59E0B]/30 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/70"
+                  : "bg-[#F8D476]/30 border-[#F59E0B]/50 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/50"
+              } hover:border-[#F59E0B] hover:shadow-lg hover:shadow-amber-100/50 hover:bg-[#F8D476]/40 group dark:hover:shadow-gray-900 dark:hover:bg-[#F8D476]/10`}
             >
-              <span className="text-[#6B3B0F] group-hover:text-amber-900 transition-colors">
+              <span className="text-[#6B3B0F] group-hover:text-amber-900 dark:text-amber-600 dark:group-hover:text-amber-600 transition-colors">
                 {vendor.name}
               </span>
-              <span className="text-[#9B2C62]/80 ml-1 group-hover:text-[#9B2C62] transition-colors">
+              <span className="text-[#9B2C62]/80 dark:text-amber-400 ml-1 transition-colors">
                 - {vendor.services}
               </span>
               {vendor.isArchived && (
-                <span className="text-gray-400 text-xs ml-1">(archived)</span>
+                <span className="text-gray-400 dark:text-gray-300/80 text-xs ml-1">
+                  (archived)
+                </span>
               )}
             </div>
           </Link>

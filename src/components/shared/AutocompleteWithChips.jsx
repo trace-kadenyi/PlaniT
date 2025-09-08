@@ -31,16 +31,18 @@ export default function AutocompleteWithChips({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           {label}
         </label>
       )}
 
       {loading ? (
-        <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] border border-[#E3CBC1] animate-pulse">
+        <div className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#F9F3F0] to-[#F5E9E4] dark:from-gray-700 dark:to-gray-800 border border-[#E3CBC1] dark:border-gray-600 animate-pulse">
           <div className="flex items-center space-x-2">
-            <div className="h-4 w-4 bg-[#E3CBC1] rounded-full animate-pulse"></div>
-            <span className="text-[#9B2C62]/70">{loadingText}</span>
+            <div className="h-4 w-4 bg-[#E3CBC1] dark:bg-[#F59E0B]/30 rounded-full animate-pulse"></div>
+            <span className="text-[#9B2C62]/70 dark:text-[#F59E0B]/70">
+              {loadingText}
+            </span>
           </div>
         </div>
       ) : (
@@ -68,6 +70,7 @@ export default function AutocompleteWithChips({
             renderInput={(params) => (
               <TextField
                 {...params}
+                className="bg-[#FFF8F2] rounded-lg text-black dark:text-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900"
                 placeholder={
                   options.filter(filterFn).length === 0
                     ? noOptionsText
@@ -79,6 +82,13 @@ export default function AutocompleteWithChips({
                   },
                   "&.expense-form .MuiOutlinedInput-root": {
                     backgroundColor: "#FFF8F2",
+                  },
+                  "& .MuiInputBase-input": {
+                    color: "black", // light mode
+                    ".dark &": {
+                      // tailwind dark scope
+                      color: "white",
+                    },
                   },
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "0.5rem",

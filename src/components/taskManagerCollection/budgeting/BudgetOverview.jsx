@@ -19,7 +19,7 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
   const renderHeader = (withChevron = false) => (
     <div className="space-y-2">
       <div className="flex justify-between items-center mb-0">
-        <h2 className="text-lg font-semibold text-[#9B2C62]">
+        <h2 className="text-lg font-semibold text-[#9B2C62] dark:text-[#D97706]">
           Budget Overview
         </h2>
         {withChevron && (
@@ -32,12 +32,14 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
           </div>
         )}
       </div>
-      <p className="text-xs text-gray-500 mb-4">
+      <p className="text-xs text-gray-500 dark:text-gray-300 mb-4">
         Add expenses below to track budget utilization
       </p>
       <div className="flex justify-between text-sm font-medium">
-        <span className="text-[#6B3B0F]">Budget Utilization</span>
-        <span className="text-[#9B2C62] font-bold">
+        <span className="text-[#6B3B0F] dark:text-[#D97706]/90">
+          Budget Utilization
+        </span>
+        <span className="text-[#9B2C62] dark:text-[#D97706] font-bold">
           {percentageUsed.toFixed(1)}%
         </span>
       </div>
@@ -49,7 +51,7 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
   );
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] my-6">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 my-6">
       {/* Mobile Header with Toggle */}
       <button
         className="w-full sm:hidden text-left"
@@ -64,15 +66,19 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
       {/* Content Section */}
       <div className={isExpanded ? "block" : "hidden sm:block"}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center mt-4">
-          <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9]">
-            <p className="text-sm text-[#6B3B0F] font-medium">Total Budget</p>
-            <p className="text-xl font-bold text-[#9B2C62]">
+          <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9] dark:bg-gray-800 dark:border-gray-800">
+            <p className="text-sm text-[#6B3B0F] dark:text-gray-300 font-medium">
+              Total Budget
+            </p>
+            <p className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
               ${totalBudget.toLocaleString()}
             </p>
           </div>
-          <div className="bg-[#FFF5EB] p-3 rounded-lg border border-[#F3EDE9]">
-            <p className="text-sm text-[#6B3B0F] font-medium">Expenses</p>
-            <p className="text-xl font-bold text-[#9B2C62]">
+          <div className="bg-[#FFF5EB] dark:bg-gray-800 dark:border-gray-800 p-3 rounded-lg border border-[#F3EDE9]">
+            <p className="text-sm text-[#6B3B0F] dark:text-gray-300 font-medium">
+              Expenses
+            </p>
+            <p className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
               ${totalExpenses.toLocaleString()}
             </p>
           </div>
@@ -80,12 +86,14 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
             <div
               className={`p-3 rounded-lg border ${
                 isBudgetWarning
-                  ? `bg-red-100 border-[#9B2C62]`
-                  : "bg-[#FFF5EB] border-[#F3EDE9]"
+                  ? `bg-red-100 dark:bg-[#9B2C62]/20 border-[#9B2C62] dark:border-[#9B2C62]/10`
+                  : "bg-[#FFF5EB] border-[#F3EDE9] dark:bg-gray-800 dark:border-gray-800"
               }`}
             >
-              <p className="text-sm font-medium text-[#6B3B0F]">Remaining</p>
-              <p className="text-xl font-bold text-[#9B2C62]">
+              <p className="text-sm font-medium text-[#6B3B0F] dark:text-gray-300">
+                Remaining
+              </p>
+              <p className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
                 ${remainingBudget.toLocaleString()}
               </p>
             </div>
@@ -99,9 +107,9 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
         </div>
 
         {isBudgetWarning && (
-          <div className="mt-4 p-3 bg-[#FFF5EB] rounded-lg text-[#6B3B0F] text-sm border border-[#9B2C62] flex items-center">
+          <div className="mt-4 p-3 bg-[#FFF5EB] rounded-lg text-[#6B3B0F] text-sm border border-[#9B2C62] flex items-center dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:text-[#F59E0B] dark:border-[#F59E0B]/30">
             <svg
-              className="w-5 h-5 mr-2 text-[#9B2C62] animate-bounce"
+              className="w-5 h-5 mr-2 text-[#9B2C62] dark:text-[#F59E0B] animate-bounce"
               fill="currentColor"
               viewBox="0 0 20 20"
             >

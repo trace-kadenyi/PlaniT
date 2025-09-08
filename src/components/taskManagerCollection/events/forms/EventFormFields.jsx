@@ -5,7 +5,6 @@ import {
   getLocalDateTimeString,
 } from "../../utils/dateHelpers";
 import { NotPreselected, PreselectedClients } from "./eventFormHelpers";
-import AutocompleteWithChips from "../../../shared/AutocompleteWithChips";
 
 export default function EventFormFields({
   formData,
@@ -35,9 +34,10 @@ export default function EventFormFields({
 
   // Style classes for consistency
   const disabledClasses =
-    "border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed";
-  const enabledClasses = "border-[#E3CBC1] focus:ring-[#BE3455]";
-  const fieldClasses = `w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-1`;
+    "border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed dark:bg-gray-800/60 dark:text-gray-400 dark:border-gray-800";
+  const enabledClasses =
+    "border-[#E3CBC1] dark:border-gray-800 dark:text-gray-400 focus:ring-[#BE3455]";
+  const fieldClasses = `w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-1 dark:focus:ring-[#D97706]`;
 
   // Only disable fields in create mode for archived clients
   const shouldDisable = mode === "create" && isClientArchived;
@@ -65,7 +65,7 @@ export default function EventFormFields({
 
       {/* Event Name */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Event Name
         </label>
         <input
@@ -81,7 +81,7 @@ export default function EventFormFields({
           }`}
         />
         <div className="flex justify-between items-center mt-1">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {shouldDisable && (
               <span className="flex items-center">
                 <Lock className="w-3 h-3 mr-1" />
@@ -89,7 +89,7 @@ export default function EventFormFields({
               </span>
             )}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {formData.name.length}/70 characters
           </p>
         </div>
@@ -97,7 +97,7 @@ export default function EventFormFields({
 
       {/* Description */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Description
         </label>
         <textarea
@@ -111,14 +111,14 @@ export default function EventFormFields({
             shouldDisable ? disabledClasses : enabledClasses
           }`}
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {formData.description.length}/300 characters
         </p>
       </div>
 
       {/* Date */}
       <div className="relative">
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Date
         </label>
         <div className="relative">
@@ -137,7 +137,7 @@ export default function EventFormFields({
           <div className="absolute right-4 top-5 transform -translate-y-1/2 pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-[#9B2C62]"
+              className="h-5 w-5 text-[#9B2C62] dark:text-[#D97706]"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -150,7 +150,7 @@ export default function EventFormFields({
           </div>
         </div>
         {/* Helper text */}
-        <div className="text-xs text-gray-500 mt-1 space-y-1">
+        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 space-y-1">
           <p>• Select a future date and time</p>
           <p>
             • Current local time:{" "}
@@ -164,7 +164,7 @@ export default function EventFormFields({
       {/* Type & Status */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
             Type
           </label>
           <input
@@ -180,7 +180,7 @@ export default function EventFormFields({
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+          <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
             Status
           </label>
           <select
@@ -188,7 +188,7 @@ export default function EventFormFields({
             value={formData.status}
             onChange={onFieldChange}
             disabled={shouldDisable}
-            className={`${fieldClasses} ${
+            className={`dark:bg-black ${fieldClasses} ${
               shouldDisable ? disabledClasses : enabledClasses
             }`}
           >
@@ -201,8 +201,8 @@ export default function EventFormFields({
       </div>
 
       {/* Location */}
-      <fieldset className="border rounded-lg p-4">
-        <legend className="text-sm font-semibold text-[#9B2C62]">
+      <fieldset className="border dark:border-gray-800 rounded-lg p-4">
+        <legend className="text-sm font-semibold text-[#9B2C62] dark:text-[#D97706]">
           Location
         </legend>
 
@@ -225,13 +225,13 @@ export default function EventFormFields({
       </fieldset>
 
       {/* Add Budget Section */}
-      <div className="mt-6 border-t border-gray-200 pt-6">
-        <h2 className="text-lg font-medium text-gray-900">
+      <div className="mt-6 border-t border-gray-200 dark:border-gray-900 pt-6">
+        <h2 className="text-lg font-medium text-gray-900 dark:text-gray-300">
           Budget Information
         </h2>
 
         {budgetError && (
-          <div className="mb-4 p-3 bg-red-50 font-semibold text-red-600 rounded-md">
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-200 font-semibold text-red-600 rounded-md">
             {budgetError}
           </div>
         )}
@@ -240,7 +240,7 @@ export default function EventFormFields({
           <div className="sm:col-span-3">
             <label
               htmlFor="initialBudget"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
             >
               Initial Budget ($)
             </label>
@@ -254,7 +254,7 @@ export default function EventFormFields({
                 value={formData.initialBudget || ""}
                 onChange={onFieldChange}
                 disabled={shouldDisable}
-                className={`block w-full rounded-md border shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-md p-4 font-semibold ${
+                className={`block w-full rounded-md border focus:outline-none dark:border-gray-700 shadow-sm  sm:text-md p-4 font-semibold dark:border-gray-800 dark:focus:border-[#D97706] dark:text-gray-300 ${
                   budgetError
                     ? "border-red-500"
                     : shouldDisable
@@ -270,7 +270,7 @@ export default function EventFormFields({
           <div className="sm:col-span-6">
             <label
               htmlFor="budgetNotes"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-400"
             >
               Budget Notes (Optional)
             </label>
@@ -282,7 +282,7 @@ export default function EventFormFields({
                 value={formData.budgetNotes || ""}
                 onChange={onFieldChange}
                 disabled={shouldDisable}
-                className={`block w-full rounded-md  shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 ${
+                className={`block w-full rounded-md shadow-sm focus:border-[#9B2C62] focus:outline-none sm:text-sm px-4 py-2 border dark:border-gray-800 dark:focus:border-[#D97706] dark:text-gray-300 ${
                   shouldDisable ? disabledClasses : "border-gray-300"
                 }`}
                 placeholder="Any notes about the budget..."
@@ -294,7 +294,7 @@ export default function EventFormFields({
 
       {/* Event Notes/Summary */}
       <div>
-        <label className="block text-sm font-semibold text-[#9B2C62] mb-1">
+        <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
           Event Summary (Optional)
         </label>
         <textarea
@@ -307,9 +307,9 @@ export default function EventFormFields({
           disabled={shouldDisable}
           className={`${fieldClasses} ${
             shouldDisable ? disabledClasses : enabledClasses
-          } text-xs tracking-wide`}
+          } text-xs dark:text-white tracking-wide`}
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {formData.summary.length}/200 characters
         </p>
       </div>
@@ -326,7 +326,7 @@ export default function EventFormFields({
         <button
           type="submit"
           disabled={formStatus === "loading" || shouldDisable}
-          className={`bg-[#F59E0B] text-white font-semibold px-6 py-2 rounded-lg transition-all ${
+          className={`bg-[#F59E0B] dark:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all dark:hover:bg-[#F59E0B] ${
             shouldDisable
               ? "bg-gray-300 cursor-not-allowed"
               : "hover:bg-[#d97706]"

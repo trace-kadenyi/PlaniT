@@ -118,8 +118,14 @@ export const handleDragEnd = async (
       <span>
         Status of <span className="font-bold">{taskTitle}</span> successfully
         updated from{" "}
-        <span className="font-semibold text-[#9B2C62]">{formerStatus}</span> to{" "}
-        <span className="font-semibold text-[#9B2C62]">{newStatus}</span>.
+        <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+          {formerStatus}
+        </span>{" "}
+        to{" "}
+        <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+          {newStatus}
+        </span>
+        .
       </span>
     );
   } catch (err) {

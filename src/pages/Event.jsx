@@ -132,66 +132,68 @@ export default function Event() {
   );
 
   return (
-    <main className="p-6 py-15 min-h-screen bg-white max-w-4xl mx-auto">
-      {/* event card */}
-      <div className="relative p-6 rounded-xl bg-[#FFF5EB] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8">
-        {/* edit/delete btns */}
-        <EventDetailsBtns
-          navigate={navigate}
-          eventID={event._id}
-          handleDelete={handleDelete}
-        />
+    <main className="dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black">
+      <div className="p-6 py-15 min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black max-w-4xl mx-auto">
+        {/* event card */}
+        <div className="relative p-6 rounded-xl bg-[#FFF5EB] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:border-l-[#F59E0B]">
+          {/* edit/delete btns */}
+          <EventDetailsBtns
+            navigate={navigate}
+            eventID={event._id}
+            handleDelete={handleDelete}
+          />
 
-        {/* event details */}
-        <EventDetailsCard
-          event={event}
-          Link={Link}
-          localVendors={localVendors}
-          expensesState={expensesState}
-          id={id}
-        />
+          {/* event details */}
+          <EventDetailsCard
+            event={event}
+            Link={Link}
+            localVendors={localVendors}
+            expensesState={expensesState}
+            id={id}
+          />
 
-        {/* Event Summary */}
-        {event.summary && (
-          <div className="mt-6 p-4 rounded-lg bg-[#FFF5EB]/70 border border-[#F8D476]/50">
-            <h4 className="text-xs font-bold text-[#9B2C62] uppercase tracking-wider mb-2 underline">
-              Event Summary
-            </h4>
-            <p className="text-[#9B2C62] text-gray-700 text-xs font-semibold leading-relaxed">
-              {event.summary}
-            </p>
-          </div>
+          {/* Event Summary */}
+          {event.summary && (
+            <div className="mt-6 p-4 rounded-lg bg-[#FFF5EB]/70 border border-[#F8D476]/50 dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900">
+              <h4 className="text-xs font-bold text-[#9B2C62] dark:text-[#D97706] uppercase tracking-wider mb-2 underline">
+                Event Summary
+              </h4>
+              <p className="text-gray-700 dark:text-gray-300 text-xs font-semibold leading-relaxed">
+                {event.summary}
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Tabs Section */}
+        {/* btns */}
+        <TabsBtns activeTab={activeTab} setActiveTab={setActiveTab} />
+
+        {/* tasks tab */}
+        {activeTab === "tasks" && (
+          <TasksTab tasks={tasksState} handleTaskDelete={handleTaskDelete} />
+        )}
+
+        {/* budget tab */}
+        {activeTab === "budget" && (
+          <BudgetTab
+            expenses={expensesState.items}
+            budgetStatus={expensesState.budgetStatus}
+            handleExpenseDelete={handleExpenseDelete}
+            setLocalVendors={setLocalVendors}
+            Link={Link}
+            onVendorAdded={(newVendor) => {
+              setLocalVendors((prev) => {
+                const vendorExists = prev.some((v) => v._id === newVendor._id);
+                return vendorExists ? prev : [...prev, newVendor];
+              });
+            }}
+            onVendorRemoved={(vendorId) => {
+              setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
+            }}
+          />
         )}
       </div>
-
-      {/* Tabs Section */}
-      {/* btns */}
-      <TabsBtns activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      {/* tasks tab */}
-      {activeTab === "tasks" && (
-        <TasksTab tasks={tasksState} handleTaskDelete={handleTaskDelete} />
-      )}
-
-      {/* budget tab */}
-      {activeTab === "budget" && (
-        <BudgetTab
-          expenses={expensesState.items}
-          budgetStatus={expensesState.budgetStatus}
-          handleExpenseDelete={handleExpenseDelete}
-          setLocalVendors={setLocalVendors}
-          Link={Link}
-          onVendorAdded={(newVendor) => {
-            setLocalVendors((prev) => {
-              const vendorExists = prev.some((v) => v._id === newVendor._id);
-              return vendorExists ? prev : [...prev, newVendor];
-            });
-          }}
-          onVendorRemoved={(vendorId) => {
-            setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
-          }}
-        />
-      )}
     </main>
   );
 }

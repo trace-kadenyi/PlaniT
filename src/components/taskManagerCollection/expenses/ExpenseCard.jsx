@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 // shareables
 function Desc({ expense }) {
   return (
-    <h3 className="font-medium text-[#6B3B0F] mb-2">
+    <h3 className="font-medium text-[#6B3B0F] dark:text-gray-300 mb-2">
       {expense.description || "No description provided"}
     </h3>
   );
@@ -11,7 +11,7 @@ function Desc({ expense }) {
 
 function Cat({ expense }) {
   return (
-    <span className="capitalize bg-[#F3EDE9] px-2 py-0.5 rounded-full">
+    <span className="capitalize bg-[#F3EDE9] dark:bg-[#F8D476]/20 dark:text-[#F59E0B]/90 px-2 py-0.5 rounded-full">
       {expense.category || "uncategorized"}
     </span>
   );
@@ -22,7 +22,9 @@ function Vend({ expense }) {
   if (!expense.vendor || typeof expense.vendor === "string") {
     return (
       <div className="bg-gray-100/30 border border-gray-300/50 rounded-lg px-2 py-0.5 text-sm">
-        <span className="text-gray-500">Vendor not specified</span>
+        <span className="text-gray-500 dark:text-gray-400">
+          Vendor not specified
+        </span>
       </div>
     );
   }
@@ -30,22 +32,27 @@ function Vend({ expense }) {
   return (
     <div
       className={`border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center ${
-        expense.vendor.isArchived ? "bg-[#F8D476]/10" : "bg-[#F8D476]/30"
+        expense.vendor.isArchived
+          ? "bg-[#F8D476]/10"
+          : "bg-[#F8D476]/30 dark:bg-[#F8D476]/20"
       }`}
     >
       <Link
         to={`/vendors/${expense.vendor._id}`}
-        className="font-medium text-[#6B3C0F] hover:italic cursor-default"
+        className="font-medium text-[#6B3C0F] hover:italic cursor-default dark:text-[#D97706]"
       >
         {expense.vendor.name}
 
         {expense.vendor.services && (
-          <span className="text-[#9B2C62]/80 ml-1">
+          <span className="text-[#9B2C62]/80 dark:text-[#F59E0B]/90 ml-1">
             - {expense.vendor.services}
           </span>
         )}
         {expense.vendor.isArchived && (
-          <span className="text-gray-500 text-xs ml-1"> (Archived)</span>
+          <span className="text-gray-500 dark:text-gray-400 text-xs ml-1">
+            {" "}
+            (Archived)
+          </span>
         )}
       </Link>
     </div>
@@ -82,8 +89,10 @@ export function ExpenseListView({ expense, children }) {
           </div>
           {/* SHARED VIEW */}
           {expense.notes ? (
-            <p className="text-xs text-gray-600 mt-1 w-full md:pr-10">
-              <span className="text-gray-500 font-semibold">Note:</span>{" "}
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 w-full md:pr-10">
+              <span className="text-gray-500 dark:text-gray-400 font-semibold">
+                Note:
+              </span>{" "}
               {expense.notes}
             </p>
           ) : (
@@ -96,7 +105,7 @@ export function ExpenseListView({ expense, children }) {
               href={expense.receiptUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-[#9B2C62] hover:underline mt-1 inline-block"
+              className="text-sm text-[#9B2C62] dark:text-[#F59E0B] hover:underline mt-1 inline-block"
             >
               View receipt ↗
             </a>
@@ -107,21 +116,21 @@ export function ExpenseListView({ expense, children }) {
 
         {/* Right Section */}
         <div className="flex flex-col items-start sm:items-end gap-1 min-w-[140px] sm:min-w-[120px] mt-4 sm:mt-0">
-          <p className="text-lg font-bold text-[#6B3B0F]">
+          <p className="text-lg font-bold text-[#6B3B0F] dark:text-gray-300">
             ${expense.amount?.toFixed(2) || "0.00"}
           </p>
           <div className="my-2 sm:my-1 flex items-center sm:flex-col items-end gap-2">
             <span
               className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                 expense.paymentStatus === "paid"
-                  ? "bg-green-100 text-green-800"
-                  : "bg-amber-100 text-amber-800"
+                  ? "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100"
+                  : "bg-amber-100 text-amber-800 dark:bg-amber-800 dark:text-amber-100"
               }`}
             >
               {expense.paymentStatus || "pending"}
             </span>
 
-            <p className="text-xs text-gray-500 text-left sm:text-right">
+            <p className="text-xs text-gray-500 dark:text-gray-400 text-left sm:text-right">
               {expense.paymentStatus === "paid" ? (
                 expense.paymentDate ? (
                   <>
@@ -147,12 +156,16 @@ export function ExpenseListView({ expense, children }) {
 // handle by category view
 export function ExpenseByCategoryView({ category, amount, budgetStatus }) {
   return (
-    <div className="border-b border-[#F3EDE9] pb-4 last:border-b-0">
+    <div className="border-b border-[#F3EDE9] dark:border-gray-700 pb-4 last:border-b-0">
       <div className="flex justify-between items-center">
-        <h3 className="font-medium text-[#6B3B0F] capitalize">{category}</h3>
+        <h3 className="font-medium text-[#6B3B0F] dark:text-gray-300 capitalize">
+          {category}
+        </h3>
         <div className="text-right">
-          <p className="font-bold text-[#6B3B0F]">${amount.toFixed(2)}</p>
-          <p className="text-xs text-[#9B2C62]/70">
+          <p className="font-bold text-[#6B3B0F] dark:text-gray-300">
+            ${amount.toFixed(2)}
+          </p>
+          <p className="text-xs text-[#9B2C62]/70 dark:text-[#F59E0B]">
             {budgetStatus?.totalExpenses > 0
               ? ((amount / budgetStatus.totalExpenses) * 100).toFixed(1)
               : "0"}

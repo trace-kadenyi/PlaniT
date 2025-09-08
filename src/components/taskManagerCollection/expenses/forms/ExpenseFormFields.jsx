@@ -46,17 +46,18 @@ export default function ExpenseFormFields({
   return (
     <form
       onSubmit={onSubmit}
-      className="expense_form bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9]"
+      className="expense_form bg-[#FFF8F2] p-6 rounded-lg shadow-md space-y-4 border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900"
     >
       {/* budget status */}
       {budgetStatus && <FormBudgetSummary budgetStatus={budgetStatus} />}
-      <h2 className="text-xl font-bold text-[#9B2C62]">
+      <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
         {mode === "create" ? "Add Expense" : "Edit Expense"}
       </h2>
       {/* Amount */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Amount ($) <span className="text-red-500">*</span>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Amount ($){" "}
+          <span className="text-red-500  dark:text-[#D97706]">*</span>
         </label>
         <input
           type="number"
@@ -66,13 +67,14 @@ export default function ExpenseFormFields({
           step="0.01"
           value={form.amount || ""}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
         />
       </div>
       {/* Description */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Description <span className="text-red-500">*</span>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Description{" "}
+          <span className="text-red-500 dark:text-[#D97706]">*</span>
         </label>
         <textarea
           name="description"
@@ -80,23 +82,23 @@ export default function ExpenseFormFields({
           maxLength={150}
           value={form.description || ""}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {form.description?.length || 0}/150 characters
         </p>
       </div>
       {/* Category */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Category <span className="text-red-500">*</span>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Category <span className="text-red-500 dark:text-[#D97706]">*</span>
         </label>
         <select
           name="category"
           required
           value={form.category || "other"}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-gray-900"
         >
           <option value="venue">Venue</option>
           <option value="catering">Catering</option>
@@ -140,14 +142,14 @@ export default function ExpenseFormFields({
 
       {/* Payment Status */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Payment Status
         </label>
         <select
           name="paymentStatus"
           value={form.paymentStatus || "pending"}
           onChange={handlePaymentStatusChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-gray-900"
         >
           <option value="pending">Pending</option>
           <option value="paid">Paid</option>
@@ -156,7 +158,7 @@ export default function ExpenseFormFields({
       {/* Payment Date (shown when status is paid) */}
       {form.paymentStatus === "paid" && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Payment Date <span className="text-red-500">*</span>
           </label>
           <input
@@ -165,14 +167,14 @@ export default function ExpenseFormFields({
             // required={form.paymentStatus === "paid"}
             value={form.paymentDate || ""}
             onChange={handleDateChange}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
           />
         </div>
       )}
       {/* Due Date (shown when status is pending) */}
       {form.paymentStatus === "pending" && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Due Date
           </label>
           <input
@@ -180,29 +182,31 @@ export default function ExpenseFormFields({
             name="dueDate"
             value={form.dueDate || ""}
             onChange={handleDateChange}
-            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+            className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
           />
         </div>
       )}
       {/* Notes */}
       <div>
-        <label className="block text-sm font-medium text-gray-700">Notes</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Notes
+        </label>
         <textarea
           name="notes"
           rows={2}
           maxLength={200}
           value={form.notes || ""}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-2 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+          className="mt-1 w-full border border-gray-2 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
         />
-        <p className="text-xs text-right text-gray-500 mt-1">
+        <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
           {form.notes?.length || 0}/200 characters
         </p>
       </div>
       {/* Receipt URL */}
       {form.paymentStatus === "paid" && (
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">
             Receipt Upload{" "}
             {form.receiptUrl && (
               <span className="inline-block ml-1 text-[#9B2C62] font-bold">
@@ -274,17 +278,20 @@ export default function ExpenseFormFields({
       )}
       {/* Error Message */}
       {expenseStatus === "failed" && (
-        <div className="p-3 bg-red-50 rounded-md">
-          <p className="text-red-500 text-sm mt-1">{expenseError}</p>
+        <div className="p-3 bg-red-50 dark:bg-red-200 rounded-md">
+          <p className="text-red-500 dark:text-red-700 text-sm mt-1">
+            {expenseError}
+          </p>
         </div>
       )}
+
       {/* Buttons */}
       <div className="flex justify-end gap-3 pt-4">
         {onClose && (
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-600 transition"
           >
             Cancel
           </button>
@@ -292,7 +299,7 @@ export default function ExpenseFormFields({
         <button
           type="submit"
           disabled={expenseStatus === "loading"}
-          className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition"
+          className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] dark:bg-[#D97706] dark:hover:bg-[#F59E0B] transition"
         >
           {expenseStatus === "loading"
             ? mode === "create"

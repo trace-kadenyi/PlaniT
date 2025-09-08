@@ -35,19 +35,19 @@ export default function ArchiveConfirmationToast({
   }, [duration]);
 
   return (
-    <div className="relative p-4 rounded-lg bg-white border border-gray-200 shadow-lg max-w-[300px]">
+    <div className="relative p-4 rounded-lg bg-white border border-gray-200 shadow-lg max-w-[300px] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:border-gray-600"> 
       <div className="flex items-start gap-3 mb-4">
         <div className="flex-shrink-0 mt-0.5">
           {messages[action].icon}
         </div>
-        <p className="text-sm text-gray-800">
+        <p className="text-sm text-gray-800 dark:text-gray-300">
           {messages[action].warning}
         </p>
       </div>
       <div className="flex justify-end gap-3">
         <button
           onClick={onCancel}
-          className="px-4 py-1.5 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+          className="px-4 py-1.5 text-sm border border-gray-300 text-gray-700 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
         >
           Cancel
         </button>
@@ -56,7 +56,7 @@ export default function ArchiveConfirmationToast({
           className={`px-4 py-1.5 text-sm text-white rounded-lg transition cursor-pointer ${
             action === "archive" 
               ? "bg-[#9B2C62] hover:bg-[#801f4f]" 
-              : "bg-green-600 hover:bg-green-700"
+              : "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
           }`}
         >
           {messages[action].confirm}

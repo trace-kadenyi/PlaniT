@@ -48,11 +48,11 @@ export default function Vendors() {
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen bg-white p-3 sm:p-10 sm:pb-15">
+    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] mt-12 text-center sm:text-start sm:mt-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 text-center sm:text-start sm:mt-2">
             Vendor Directory
           </h1>
 
@@ -64,7 +64,7 @@ export default function Vendors() {
                 placeholder="Search vendors..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-[#E3CBC1] rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#9B2C62]"
+                className="pl-10 pr-4 py-2 border border-[#E3CBC1] rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-none dark:bg-gray-700/60 dark:text-white"
               />
             </div>
             <button
@@ -78,7 +78,7 @@ export default function Vendors() {
 
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
-          <div className="flex items-center text-sm text-[#9B2C62]">
+          <div className="flex items-center text-sm text-[#9B2C62] dark:text-gray-400">
             <Filter className="w-4 h-4 mr-2" />
             <span>Filter by:</span>
           </div>
@@ -89,7 +89,7 @@ export default function Vendors() {
               className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
                 filterMode === mode
                   ? "bg-[#9B2C62] text-white shadow-md"
-                  : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA]"
+                  : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA] dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
               }`}
             >
               {mode === "active" && (
@@ -122,15 +122,15 @@ export default function Vendors() {
               {stats.map((stat) => (
                 <div
                   key={stat._id}
-                  className="bg-[#F7F7FA] p-3 rounded-lg text-center"
+                  className="bg-[#F7F7FA] p-3 rounded-lg text-center dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
                 >
-                  <div className="text-2xl font-bold text-[#9B2C62]">
+                  <div className="text-xl font-bold text-[#9B2C62] dark:text-gray-400">
                     {stat.count}
                   </div>
-                  <div className="text-sm capitalize truncate text-[#6B3B0F]">
+                  <div className="text-sm  truncate text-[#6B3B0F] dark:text-[#D97706]">
                     {stat._id}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
                     ({stat.archived} archived)
                   </div>
                 </div>
@@ -140,11 +140,11 @@ export default function Vendors() {
 
         {/* No vendors */}
         {status === "succeeded" && filteredVendors.length === 0 && (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center border border-[#E3CBC1]">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 text-center border border-[#E3CBC1] dark:border-gray-700 dark:shadow-md dark:shadow-gray-900/30">
+            <h3 className="text-lg font-medium text-gray-700 dark:text-gray-200 mb-2">
               No vendors found
             </h3>
-            <p className="text-gray-500 mb-4">
+            <p className="text-gray-500 dark:text-gray-400 mb-4">
               {searchTerm
                 ? "No vendors match your search criteria"
                 : filterMode === "active"

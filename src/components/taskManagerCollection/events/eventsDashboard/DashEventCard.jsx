@@ -22,18 +22,18 @@ export default function DashEventCard({ event }) {
       <div className="flex justify-between items-start gap-1">
         <Link
           to={`/events/${event.id}`}
-          className="font-medium text-gray-800 mt-7 hover:underline"
+          className="font-medium text-gray-800 dark:text-gray-200 mt-7 hover:underline"
           style={{ pointerEvents: "auto" }}
           onClick={(e) => e.stopPropagation()}
         >
           {truncateText(event.name, 26)}
         </Link>
-        <span className="absolute right-0 text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
+        <span className="absolute right-0 text-xs bg-[#F59E0B] text-white dark:text-black px-2 py-1 rounded-full">
           {event.type}
         </span>
       </div>
 
-      <div className="mt-2 text-xs text-gray-600 space-y-1">
+      <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 space-y-1">
         <div className="flex items-center">
           <span className="font-medium mr-1">Date:</span>
           <span className="font-semibold">{formatDateTime(event.date)}</span>
@@ -49,8 +49,10 @@ export default function DashEventCard({ event }) {
         {hasBudget ? (
           <>
             <div className="flex justify-between items-center text-xs">
-              <span className="text-gray-700 font-medium">Budget:</span>
-              <span className="font-medium">
+              <span className="text-gray-700 dark:text-gray-400 font-medium">
+                Budget:
+              </span>
+              <span className={`font-semibold dark:text-gray-300`}>
                 ${totalExpenses.toLocaleString()} / $
                 {totalBudget.toLocaleString()}
               </span>
@@ -63,14 +65,18 @@ export default function DashEventCard({ event }) {
             <div className="flex justify-between text-xs">
               <span
                 className={`${
-                  isBudgetWarning ? "text-[#9B2C62]" : "text-gray-600"
+                  isBudgetWarning
+                    ? "text-[#9B2C62]"
+                    : "text-gray-600 dark:text-gray-300"
                 }`}
               >
                 {percentageUsed.toFixed(1)}% used
               </span>
               <span
                 className={`font-semibold ${
-                  isBudgetWarning ? "text-[#9B2C62]" : "text-gray-700"
+                  isBudgetWarning
+                    ? "text-[#9B2C62]"
+                    : "text-gray-700 dark:text-gray-400"
                 }`}
               >
                 ${remainingBudget.toLocaleString()} remaining
@@ -78,7 +84,9 @@ export default function DashEventCard({ event }) {
             </div>
           </>
         ) : (
-          <div className="text-xs text-gray-500">No budget set</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">
+            No budget set
+          </div>
         )}
       </div>
 
