@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { PlusIcon } from "lucide-react";
+import toast from "react-hot-toast";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 
 import {
   fetchClients,
@@ -16,6 +19,7 @@ import { LoadingPage } from "../components/shared/LoadingStates";
 import { ErrorState } from "../components/shared/ErrorStates";
 import ClientEventsUI from "../components/clients/ClientEventsUI";
 import ClientCard from "../components/clients/ClientCard";
+import { createClientDeleteHandler } from "../components/taskManagerCollection/utils/handlers/clientHandler";
 
 export default function Client() {
   const { id } = useParams();
@@ -55,22 +59,15 @@ export default function Client() {
   };
 
   // handle delete client
-  const handleDelete = async (clientId) => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete this client? This action cannot be undone."
-      )
-    ) {
-      try {
-        await dispatch(deleteClient(clientId)).unwrap();
-        // Redirect to clients list after successful deletion
-        navigate("/clients");
-      } catch (error) {
-        console.error("Failed to delete client:", error);
-        // Error is handled by the slice, you could show a toast notification here
-      }
-    }
-  };
+  const handleDelete = createClientDeleteHandler(
+    dispatch,
+    id,
+    navigate,
+    deleteClient,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black px-4 sm:px-8 py-15">
