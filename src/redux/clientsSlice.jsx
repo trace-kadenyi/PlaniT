@@ -219,10 +219,13 @@ const clientsSlice = createSlice({
           "Failed to update client.";
       })
 
-      // Delete client
-      .addCase(deleteClient.pending, (state) => {
-        state.deleteStatus = "loading";
-        state.deleteError = null;
+      // Delete client - add isDeleting state management
+      .addCase(deleteClient.pending, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isDeleting: true }
+            : client
+        );
       })
       .addCase(deleteClient.fulfilled, (state, action) => {
         state.deleteStatus = "succeeded";
@@ -234,6 +237,13 @@ const clientsSlice = createSlice({
           action.payload?.message ||
           action.error.message ||
           "Failed to delete client.";
+
+        // Reset isDeleting state on failure
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isDeleting: false }
+            : client
+        );
       })
 
       // Fetch a single client with their events
