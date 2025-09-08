@@ -23,6 +23,10 @@ export default function DeleteConfirmationToast({
       warning: "This will permanently delete the expense.",
       confirm: "Yes, Delete Expense",
     },
+    client: {
+      warning: "This will permanently delete the client.",
+      confirm: "Yes, Delete Client",
+    },
   };
 
   useEffect(() => {
