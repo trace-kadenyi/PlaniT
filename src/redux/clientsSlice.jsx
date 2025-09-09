@@ -219,7 +219,7 @@ const clientsSlice = createSlice({
           "Failed to update client.";
       })
 
-      // Delete client - add isDeleting state management
+      // Delete client
       .addCase(deleteClient.pending, (state, action) => {
         state.items = state.items.map((client) =>
           client._id === action.meta.arg
