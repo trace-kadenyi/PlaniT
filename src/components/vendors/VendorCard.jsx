@@ -10,11 +10,15 @@ import {
   MapPin,
   FileText,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
 import { toastWithProgress } from "../../globalHooks/useToastWithProgress";
 import ArchiveConfirmationToast from "../../globalUtils/archiveConfirmationToast";
 import ArchiveEditVendor from "../shared/ArchiveEditVendor";
+import { createVendorDeleteHandler } from "../taskManagerCollection/utils/handlers/vendorHandler";
+import { deleteVendor } from "../../redux/vendorsSlice";
+import DeleteConfirmationToast from "../taskManagerCollection/utils/deleteConfirmationToast";
 
 export default function VendorCard({
   dispatch,
@@ -35,6 +39,16 @@ export default function VendorCard({
     ArchiveConfirmationToast
   );
 
+  const handleDelete = createVendorDeleteHandler(
+    dispatch,
+    vendor?._id,
+    navigate,
+    deleteVendor,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
+
   return (
     <div>
       {/* Archive/edit btn */}
@@ -46,6 +60,7 @@ export default function VendorCard({
         Archive={Archive}
         navigate={navigate}
         SquarePen={SquarePen}
+        handleDelete={handleDelete}
       />
 
       {/* Vendor Card */}
