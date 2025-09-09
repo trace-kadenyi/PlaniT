@@ -32,6 +32,7 @@ export default function ArchiveEditDeleteVendor({
           )}
           <span>{vendor.isArchived ? "Restore" : "Archive"}</span>
         </button>
+
         {/* edit vendor */}
         <button
           onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
@@ -40,6 +41,7 @@ export default function ArchiveEditDeleteVendor({
           <SquarePen className="mr-2 w-4 h-4" />
           <span>Edit</span>
         </button>
+
         {/* delete vendor */}
         <button
           onClick={() => handleDelete(vendor._id)}
