@@ -43,9 +43,9 @@ export default function CreateVendorForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await dispatch(createVendor(formData)).unwrap();
+      const newVendor = await dispatch(createVendor(formData)).unwrap();
       toastWithProgress("Vendor created successfully");
-      navigate("/vendors");
+      navigate(`/vendors/${newVendor._id}`);
     } catch (err) {
       toastWithProgress("Failed to create vendor");
     }
