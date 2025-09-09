@@ -6,6 +6,7 @@ export default function ClientCard({
   Link,
   handleArchiveToggle,
   localIsArchived,
+  handleDelete,
 }) {
   return (
     <section className="bg-white rounded-xl shadow-lg p-6 mb-8 border-l-4 border-[#9B2C62] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-[#D97706] dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
@@ -14,6 +15,7 @@ export default function ClientCard({
           {client.name}
         </h1>
         <div className="flex space-x-3">
+          {/* edit client */}
           {client && (
             <Link
               to={`/clients/${id}/edit`}
@@ -23,6 +25,7 @@ export default function ClientCard({
             </Link>
           )}
 
+          {/* archive/restore toggle */}
           <button
             onClick={() => handleArchiveToggle(id, localIsArchived)}
             disabled={client?.isArchiving || client?.isRestoring}
@@ -39,6 +42,15 @@ export default function ClientCard({
               : localIsArchived
               ? "Restore"
               : "Archive"}
+          </button>
+
+          {/* delete client */}
+          <button
+            onClick={() => handleDelete(id)}
+            disabled={client?.isDeleting}
+            className="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded text-sm font-medium flex items-center gap-1 transition-colors duration-200 dark:bg-red-900/60 dark:hover:bg-red-900/50 dark:text-white"
+          >
+            {client?.isDeleting ? "Deleting..." : "Delete"}
           </button>
         </div>
       </div>

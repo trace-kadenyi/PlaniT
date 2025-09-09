@@ -6,10 +6,12 @@ export default function ArchiveEditVendor({
   Archive,
   navigate,
   SquarePen,
+  handleDelete,
 }) {
   return (
     <div className="flex sm:justify-end mb-4">
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-wrap">
+        {/* toggle archive vendor */}
         <button
           onClick={handleArchive}
           disabled={archiveStatus === "loading"}
@@ -30,12 +32,21 @@ export default function ArchiveEditVendor({
           )}
           <span>{vendor.isArchived ? "Restore" : "Archive"}</span>
         </button>
+        {/* edit vendor */}
         <button
           onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
           className="flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-sm"
         >
           <SquarePen className="mr-2 w-4 h-4" />
           <span>Edit</span>
+        </button>
+        {/* delete vendor */}
+        <button
+          onClick={() => handleDelete(vendor._id)}
+          disabled={vendor?.isDeleting}
+          className="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded text-sm font-medium flex items-center gap-1 transition-colors duration-200 dark:bg-red-900/60 dark:hover:bg-red-900/50 dark:text-white"
+        >
+          {vendor?.isDeleting ? "Deleting..." : "Delete"}
         </button>
       </div>
     </div>

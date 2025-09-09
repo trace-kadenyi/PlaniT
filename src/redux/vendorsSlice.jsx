@@ -86,6 +86,21 @@ export const fetchVendorStats = createAsyncThunk(
   }
 );
 
+// delete vendor
+export const deleteVendor = createAsyncThunk(
+  "vendors/deleteVendor",
+  async (vendorId, { rejectWithValue }) => {
+    try {
+      await api.delete(`/api/vendors/${vendorId}`);
+      return vendorId;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to delete vendor" }
+      );
+    }
+  }
+);
+
 const vendorsSlice = createSlice({
   name: "vendors",
   initialState: {
@@ -106,6 +121,8 @@ const vendorsSlice = createSlice({
     archiveError: null,
     statsStatus: "idle",
     statsError: null,
+    deleteStatus: "idle",
+    deleteError: null,
   },
   reducers: {
     resetVendorStatuses: (state) => {
@@ -115,7 +132,9 @@ const vendorsSlice = createSlice({
       state.updateError = null;
       state.archiveStatus = "idle";
       state.archiveError = null;
-      state.vendorDetails.status = "idle";
+      (state.deleteStatus = "idle"),
+        (state.deleteError = null),
+        (state.vendorDetails.status = "idle");
       state.vendorDetails.error = null;
     },
     clearVendorDetails: (state) => {
@@ -225,6 +244,47 @@ const vendorsSlice = createSlice({
       .addCase(fetchVendorStats.rejected, (state, action) => {
         state.statsStatus = "failed";
         state.statsError = action.payload?.message || action.error.message;
+      });
+
+    builder
+      .addCase(deleteVendor.pending, (state, action) => {
+        state.deleteStatus = "loading";
+        state.deleteError = null;
+        // Set isDeleting state for the specific vendor
+        state.items = state.items.map((vendor) =>
+          vendor._id === action.meta.arg
+            ? { ...vendor, isDeleting: true }
+            : vendor
+        );
+        if (state.vendorDetails.data?._id === action.meta.arg) {
+          state.vendorDetails.data.isDeleting = true;
+        }
+      })
+      .addCase(deleteVendor.fulfilled, (state, action) => {
+        state.deleteStatus = "succeeded";
+        // Remove the vendor from items
+        state.items = state.items.filter((v) => v._id !== action.payload);
+        // Clear vendor details if it was the deleted vendor
+        if (state.vendorDetails.data?._id === action.payload) {
+          state.vendorDetails.data = null;
+          state.vendorDetails.status = "idle";
+        }
+      })
+      .addCase(deleteVendor.rejected, (state, action) => {
+        state.deleteStatus = "failed";
+        state.deleteError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to delete vendor.";
+        // Reset isDeleting state on failure
+        state.items = state.items.map((vendor) =>
+          vendor._id === action.meta.arg
+            ? { ...vendor, isDeleting: false }
+            : vendor
+        );
+        if (state.vendorDetails.data?._id === action.meta.arg) {
+          state.vendorDetails.data.isDeleting = false;
+        }
       });
   },
 });

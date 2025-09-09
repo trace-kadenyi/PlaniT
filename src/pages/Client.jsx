@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { PlusIcon } from "lucide-react";
+import toast from "react-hot-toast";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 
 import {
   fetchClients,
   fetchClientWithEvents,
   archiveClient,
   restoreClient,
+  deleteClient,
 } from "../redux/clientsSlice";
 
 import { IsArchivedCli } from "../components/shared/UIFragments";
@@ -15,14 +19,18 @@ import { LoadingPage } from "../components/shared/LoadingStates";
 import { ErrorState } from "../components/shared/ErrorStates";
 import ClientEventsUI from "../components/clients/ClientEventsUI";
 import ClientCard from "../components/clients/ClientCard";
+import { createClientDeleteHandler } from "../components/taskManagerCollection/utils/handlers/clientHandler";
 
 export default function Client() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [localIsArchived, setLocalIsArchived] = useState(false);
 
   const {
     clientDetails: { data: client, events, status, error },
+    deleteStatus,
+    deleteError,
   } = useSelector((state) => state.clients);
 
   // fetch client
@@ -43,15 +51,26 @@ export default function Client() {
     const action = isArchived ? restoreClient : archiveClient;
 
     try {
-      await dispatch(action(clientId)); // Updates Redux
+      await dispatch(action(clientId));
       await dispatch(fetchClients());
     } catch (error) {
       setLocalIsArchived(isArchived);
     }
   };
 
+  // handle delete client
+  const handleDelete = createClientDeleteHandler(
+    dispatch,
+    id,
+    navigate,
+    deleteClient,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black px-8 py-15">
+    <main className="min-h-screen bg-gradient-to-b from-[#FEF3E6] to-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black px-4 sm:px-8 py-15">
       <div className="max-w-5xl mx-auto">
         <div className="mb-6">
           <Link
@@ -73,6 +92,13 @@ export default function Client() {
             Back to Clients
           </Link>
         </div>
+
+        {/* Delete Error Banner */}
+        {deleteStatus === "failed" && (
+          <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <p className="font-medium">Delete failed: {deleteError}</p>
+          </div>
+        )}
 
         {/* loading */}
         {status === "loading" && (
@@ -109,6 +135,7 @@ export default function Client() {
                 Link={Link}
                 handleArchiveToggle={handleArchiveToggle}
                 localIsArchived={localIsArchived}
+                handleDelete={handleDelete}
               />
             </>
 
