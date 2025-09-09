@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
 import { toastWithProgress } from "../../globalHooks/useToastWithProgress";
 import ArchiveConfirmationToast from "../../globalUtils/archiveConfirmationToast";
-import ArchiveEditVendor from "../shared/ArchiveEditVendor";
+import ArchiveEditDeleteVendor from "../shared/ArchiveEditDeleteVendor";
 import { createVendorDeleteHandler } from "../taskManagerCollection/utils/handlers/vendorHandler";
 import { deleteVendor } from "../../redux/vendorsSlice";
 import DeleteConfirmationToast from "../taskManagerCollection/utils/deleteConfirmationToast";
@@ -52,7 +52,7 @@ export default function VendorCard({
   return (
     <div>
       {/* Archive/edit btn */}
-      <ArchiveEditVendor
+      <ArchiveEditDeleteVendor
         handleArchive={handleArchive}
         archiveStatus={archiveStatus}
         vendor={vendor}
