@@ -1,4 +1,4 @@
-import { Mail, Trash2, Edit3 } from "lucide-react";
+import { Mail, Trash2, Edit3, RefreshCcw, Archive } from "lucide-react";
 
 export default function ClientCard({
   client,
@@ -33,12 +33,21 @@ export default function ClientCard({
             <button
               onClick={() => handleArchiveToggle(id, localIsArchived)}
               disabled={client?.isArchiving || client?.isRestoring}
-              className={`px-3 py-1 rounded text-sm font-medium ${
+              className={`flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex-1 sm:flex-none justify-center ${
                 localIsArchived
                   ? "bg-[#FFBF00] hover:bg-[#E6AC00] text-[#571838] dark:bg-[#E6AC00]/90 dark:text-black dark:hover:bg-[#FFBF00]/60"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
               }`}
             >
+              {client?.isArchiving ? (
+                <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
+              ) : client?.isRestoring ? (
+                <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
+              ) : localIsArchived ? (
+                <RefreshCcw className="w-4 h-4 mr-2" />
+              ) : (
+                <Archive className="w-4 h-4 mr-2" />
+              )}
               {client?.isArchiving
                 ? "Archiving..."
                 : client?.isRestoring
@@ -47,6 +56,7 @@ export default function ClientCard({
                 ? "Restore"
                 : "Archive"}
             </button>
+          </div>
 
             {/* delete client */}
             <button
@@ -60,7 +70,7 @@ export default function ClientCard({
                 <Trash2 className="w-4 h-4" />
               )}
             </button>
-          </div>
+         
         </div>
       </div>
 
