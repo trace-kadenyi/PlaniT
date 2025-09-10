@@ -8,7 +8,7 @@ import {
 } from "../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../globalHooks/useToastWithProgress";
 import ClientFormFields from "./ClientFormFields";
-import { LoadingPage } from "../../shared/LoadingStates";
+import { GenLoadingState, LoadingPage } from "../../shared/LoadingStates";
 
 export default function EditClientForm() {
   const { id } = useParams();
@@ -61,7 +61,7 @@ export default function EditClientForm() {
 
   // loading
   if (status === "loading")
-    return <LoadingPage message="Loading client details..." />;
+    return <GenLoadingState message="Loading client details..." />;
 
   //  if no client
   if (!client) {
