@@ -34,7 +34,7 @@ export default function ArchiveEditDeleteVendor({
           }`}
         >
           {archiveStatus === "loading" ? (
-            <RefreshCcw className="animate-spin mr-2" />
+            <RefreshCcw className="animate-spin mr-2 w-4 h-4" />
           ) : vendor.isArchived ? (
             <RefreshCcw className="mr-2 w-4 h-4" />
           ) : (
