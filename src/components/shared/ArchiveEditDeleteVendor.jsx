@@ -25,7 +25,7 @@ export default function ArchiveEditDeleteVendor({
         <button
           onClick={handleArchive}
           disabled={archiveStatus === "loading"}
-          className={`flex items-center px-4 py-2 rounded-lg transition-all duration-200 ${
+          className={`flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex-1 sm:flex-none justify-center ${
             vendor.isArchived
               ? "bg-green-100 text-green-800 hover:bg-green-200 border border-green-300 dark:bg-green-200/80 dark:text-black dark:hover:bg-green-200/60 dark:border-green-300/20"
               : "bg-[#FFF3E6] text-[#CC6D00] hover:bg-[#FFE0B3] border border-[#FFB84D] dark:bg-[#FFE0B3]/70 dark:text-black dark:hover:bg-[#FFE0B3]/60 dark:border-[#FFB84D]/60"
@@ -36,7 +36,7 @@ export default function ArchiveEditDeleteVendor({
           {archiveStatus === "loading" ? (
             <RefreshCcw className="animate-spin mr-2" />
           ) : vendor.isArchived ? (
-            <RefreshCcw className="mr-2 w-5 h-5" />
+            <RefreshCcw className="mr-2 w-4 h-4" />
           ) : (
             <Archive className="mr-2 w-4 h-4" />
           )}
