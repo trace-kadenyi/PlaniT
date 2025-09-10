@@ -14,7 +14,10 @@ export default function ClientCard({
         <h1 className="text-3xl font-bold text-[#D97706] dark:text-[#F59E0B] mb-2 md:mb-0">
           {client.name}
         </h1>
-        <div className="flex space-x-3">
+
+        <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          {/* Primary Actions Row */}
+          <div className="flex gap-2">
           {/* edit client */}
           {client && (
             <Link
@@ -56,6 +59,7 @@ export default function ClientCard({
               <Trash2 className="w-4 h-4" />
             )}
           </button>
+        </div>
         </div>
       </div>
 
