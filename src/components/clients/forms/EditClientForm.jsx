@@ -8,7 +8,7 @@ import {
 } from "../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../globalHooks/useToastWithProgress";
 import ClientFormFields from "./ClientFormFields";
-import { GenLoadingState, LoadingPage } from "../../shared/LoadingStates";
+import { GenLoadingState } from "../../shared/LoadingStates";
 
 export default function EditClientForm() {
   const { id } = useParams();
