@@ -15,12 +15,12 @@ export default function ArchiveEditDeleteVendor({
         {/* edit vendor */}
         <button
           onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
-          className="flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-sm"
+          className="flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-[#D97706] dark:hover:bg-[#F59E0B] flex-1 sm:flex-none justify-center"
         >
           <SquarePen className="mr-2 w-4 h-4" />
           <span>Edit</span>
         </button>
-        
+
         {/* toggle archive vendor */}
         <button
           onClick={handleArchive}
