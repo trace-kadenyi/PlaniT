@@ -8,7 +8,7 @@ import {
   Phone,
   Globe,
   MapPin,
-  FileText,
+  FileText, Trash2
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -60,6 +60,7 @@ export default function VendorCard({
         Archive={Archive}
         navigate={navigate}
         SquarePen={SquarePen}
+        Trash2={Trash2}
         handleDelete={handleDelete}
       />
 
