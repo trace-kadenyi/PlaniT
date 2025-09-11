@@ -5,31 +5,32 @@ import {
   BarChart4,
 } from "lucide-react";
 
+
 // features sect data
 export const features = [
   {
-    title: "Event Dashboard",
-    desc: "Overview of events with statuses and quick stats.",
-  },
-  {
     title: "Task Management",
-    desc: "Create tasks, assign them, and track progress.",
+    desc: "Create, assign, and track tasks with deadlines and priorities.",
   },
   {
-    title: "Vendor & Resource Management",
-    desc: "Manage caterers, decorators, venues and track payments.",
-  },
-  {
-    title: "Budgeting Tools",
-    desc: "Set budgets, categorize expenses, and see what’s left.",
+    title: "Event Dashboard",
+    desc: "Get a clear overview of each event with statuses and progress stats.",
   },
   {
     title: "Client Details",
-    desc: "Store client preferences, notes, and event history.",
+    desc: "Store client preferences, notes, and view their event history.",
   },
   {
-    title: "Calendar & Scheduling",
-    desc: "Visualize timelines and sync deadlines to Google Calendar.",
+    title: "Budgeting Tools",
+    desc: "Add expenses, categorize costs, and track remaining budgets.",
+  },
+  {
+    title: "Vendor & Resource Management (Coming Soon)",
+    desc: "Manage caterers, venues, and suppliers in one place.",
+  },
+  {
+    title: "Calendar & Scheduling (Coming Soon)",
+    desc: "View deadlines and sync events to Google Calendar.",
   },
 ];
 
