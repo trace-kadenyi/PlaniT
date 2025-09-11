@@ -58,7 +58,7 @@ export default function BudgetTab({
         </h2>
         {hasNoBudget ? (
           <Link
-            to={`/events/${id}/edit`}
+            to={`/events/${id}/edit/#budget_info_id`}
             className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-default dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
           >
             <Plus className="w-3 h-3" />
