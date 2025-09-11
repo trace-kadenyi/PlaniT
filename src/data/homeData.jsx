@@ -5,7 +5,7 @@ import {
   BarChart4,
 } from "lucide-react";
 
-// features
+// features sect data
 export const features = [
   {
     title: "Event Dashboard",
@@ -33,7 +33,7 @@ export const features = [
   },
 ];
 
-// process
+// process sect data
 export const steps = [
   {
     Icon: CalendarClockIcon,
