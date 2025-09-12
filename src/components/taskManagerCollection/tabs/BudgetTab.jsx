@@ -26,6 +26,7 @@ export default function BudgetTab({
   const [activeView, setActiveView] = useState("list");
   const [scrollToForm, setScrollToForm] = useState(false);
 
+  // form ref
   const formRef = useRef(null);
 
   // scroll to form start
