@@ -26,6 +26,7 @@ export default function BudgetTab({
   const [activeView, setActiveView] = useState("list");
   const [scrollToForm, setScrollToForm] = useState(false);
 
+  // form ref
   const formRef = useRef(null);
 
   // scroll to form start
@@ -58,7 +59,7 @@ export default function BudgetTab({
         </h2>
         {hasNoBudget ? (
           <Link
-            to={`/events/${id}/edit`}
+            to={`/events/${id}/edit/#budget_info_id`}
             className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-default dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
           >
             <Plus className="w-3 h-3" />
@@ -121,8 +122,10 @@ export default function BudgetTab({
 
       {/* with budget/no expenses added  */}
       {!hasNoBudget && expensesArray.length === 0 && !isLoading && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9]">
-          <p className="text-gray-600">No expenses added yet.</p>
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:border-l-[#F59E0B]">
+          <p className="text-gray-600 dark:text-gray-400">
+            No expenses added yet.
+          </p>
         </div>
       )}
 

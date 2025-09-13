@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { Lock } from "lucide-react";
 
 import {
@@ -21,6 +23,22 @@ export default function EventFormFields({
   preSelectedClientId = null,
   mode = "create",
 }) {
+  const location = useLocation();
+  const budgetSectionRef = useRef(null);
+
+  // Scroll to budget section when hash matches
+  useEffect(() => {
+    if (location.hash === "#budget_info_id" && budgetSectionRef.current) {
+      budgetSectionRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      // Optional: Remove the hash from URL after scrolling
+      // window.history.replaceState(null, null, " ");
+    }
+  }, [location.hash]);
+
   // archived clients
   const isClientArchived = preSelectedClientId
     ? clients.find((c) => c._id === preSelectedClientId)?.isArchived
@@ -225,7 +243,11 @@ export default function EventFormFields({
       </fieldset>
 
       {/* Add Budget Section */}
-      <div className="mt-6 border-t border-gray-200 dark:border-gray-900 pt-6">
+      <div
+        id="budget_info_id"
+        ref={budgetSectionRef}
+        className="mt-6 border-t border-gray-200 dark:border-gray-900 pt-6"
+      >
         <h2 className="text-lg font-medium text-gray-900 dark:text-gray-300">
           Budget Information
         </h2>

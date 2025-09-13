@@ -11,7 +11,7 @@ import {
   Sun,
 } from "lucide-react";
 
-// navlinks
+// navlinks data
 export const navLinks = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/" },
   {

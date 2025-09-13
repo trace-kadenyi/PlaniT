@@ -49,7 +49,7 @@ export default function DeleteConfirmationToast({
         <div className="flex-shrink-0 mt-0.5">
           <Trash2
             className={`w-5 h-5 ${
-              type === "event" ? "text-red-600" : "text-[#BE3455]"
+              type === "event" ? "text-red-600" : "text-red-600"
             }`}
           />
         </div>
@@ -71,8 +71,8 @@ export default function DeleteConfirmationToast({
           onClick={onConfirm}
           className={`px-4 py-1.5 text-sm text-white rounded-lg transition cursor-pointer ${
             type === "event"
-              ? "bg-red-500 hover:bg-red-600"
-              : "bg-[#BE3455] hover:bg-[#9B2C62]"
+              ? "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500"
+              : "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500"
           }`}
         >
           {messages[type].confirm}
@@ -82,7 +82,7 @@ export default function DeleteConfirmationToast({
       <div className="absolute bottom-0 left-0 h-1 bg-gray-200 w-full rounded-b-md overflow-hidden">
         <div
           className={`h-full transition-all duration-100 ${
-            type === "event" ? "bg-orange-400" : "bg-[#F59E0B]"
+            type === "event" ? "bg-orange-400" : "bg-orange-400"
           }`}
           style={{ width: `${progress}%` }}
         ></div>

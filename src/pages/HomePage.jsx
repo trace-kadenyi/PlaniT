@@ -1,4 +1,5 @@
 import { easeOut, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 import HeroImg from "../components/landing/HeroAnimation";
 import { features, steps } from "../data/homeData";
@@ -35,9 +36,12 @@ export default function HomePage() {
             efficiently, with elegance and ease.
           </motion.p>
           <motion.div variants={fadeUp} className="flex gap-4">
-            <button className="bg-[#F59E0B] text-black font-semibold px-6 py-2 rounded hover:bg-[#d97706] transition">
+            <Link
+              to="/events/new"
+              className="bg-[#F59E0B] text-black font-semibold px-6 py-2 rounded hover:bg-[#d97706] transition"
+            >
               Get Started
-            </button>
+            </Link>
             <button className="border border-[#F59E0B] text-[#F59E0B] px-6 py-2 rounded font-semibold hover:bg-[#fef3c7] transition">
               View Demo
             </button>

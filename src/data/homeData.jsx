@@ -1,58 +1,61 @@
 import {
-  CalendarClockIcon,
   ClipboardList,
-  Users,
+  LayoutDashboard,
+  User,
+  Wallet,
+  Building2,
+  CalendarClockIcon,
   BarChart4,
 } from "lucide-react";
 
-// features
+// features sect data
 export const features = [
   {
-    title: "Event Dashboard",
-    desc: "Overview of events with statuses and quick stats.",
-  },
-  {
     title: "Task Management",
-    desc: "Create tasks, assign them, and track progress.",
+    desc: "Create, assign, and track tasks with deadlines and priorities.",
   },
   {
-    title: "Vendor & Resource Management",
-    desc: "Manage caterers, decorators, venues and track payments.",
-  },
-  {
-    title: "Budgeting Tools",
-    desc: "Set budgets, categorize expenses, and see what’s left.",
+    title: "Event Dashboard",
+    desc: "Get a clear overview of each event with statuses and progress stats.",
   },
   {
     title: "Client Details",
-    desc: "Store client preferences, notes, and event history.",
+    desc: "Store client preferences, notes, and view their event history.",
   },
   {
-    title: "Calendar & Scheduling",
-    desc: "Visualize timelines and sync deadlines to Google Calendar.",
+    title: "Budgeting Tools",
+    desc: "Add expenses, categorize costs, and track remaining budgets.",
+  },
+  {
+    title: "Vendor & Resource Management (Coming Soon)",
+    desc: "Manage caterers, venues, and suppliers in one place.",
+  },
+  {
+    title: "Calendar & Scheduling (Coming Soon)",
+    desc: "View deadlines and sync events to Google Calendar.",
   },
 ];
 
-// process
+// process sect data
 export const steps = [
   {
-    Icon: CalendarClockIcon,
-    title: "1. Set Up Your Event",
-    text: "Start by creating your event and setting a budget.",
+    Icon: User,
+    title: "1. Create a Client",
+    text: "Add client details so you always know who the event is for.",
+  },
+  {
+    Icon: LayoutDashboard,
+    title: "2. Add an Event",
+    text: "Set event dates, status, and link it to your client.",
   },
   {
     Icon: ClipboardList,
-    title: "2. Plan and Assign Tasks",
-    text: "Break down the event into manageable tasks and assign them.",
-  },
-  {
-    Icon: Users,
-    title: "3. Manage Vendors & Resources",
-    text: "Store vendor info and track bookings in one place.",
+    title: "3. Plan Tasks",
+    text: "Break down the event into actionable tasks and assign them.",
   },
   {
     Icon: BarChart4,
-    title: "4. Track Progress & Budget",
-    text: "Stay on top of your tasks, finances, and calendar deadlines.",
+    title: "4. Track Progress",
+    text: "Monitor task completion, budgets, and overall event status.",
   },
 ];

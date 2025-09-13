@@ -1,5 +1,6 @@
 import { AlertTriangle } from "lucide-react";
 
+// error state func
 export function ErrorState({
   message = "Oops! Something went wrong.",
   action,

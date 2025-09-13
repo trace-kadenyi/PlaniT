@@ -246,6 +246,7 @@ const vendorsSlice = createSlice({
         state.statsError = action.payload?.message || action.error.message;
       });
 
+    // delete vendor
     builder
       .addCase(deleteVendor.pending, (state, action) => {
         state.deleteStatus = "loading";

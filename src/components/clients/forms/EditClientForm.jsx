@@ -4,10 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   updateClient,
   resetClientUpdateState,
+  fetchClientWithEvents,
 } from "../../../redux/clientsSlice";
 import { toastWithProgress } from "../../../globalHooks/useToastWithProgress";
 import ClientFormFields from "./ClientFormFields";
-import { LoadingPage } from "../../shared/LoadingStates";
+import { GenLoadingState } from "../../shared/LoadingStates";
 
 export default function EditClientForm() {
   const { id } = useParams();
@@ -31,6 +32,11 @@ export default function EditClientForm() {
     notes: "",
   });
 
+  // FETCH CLIENT WHEN COMPONENT MOUNTS
+  useEffect(() => {
+    dispatch(fetchClientWithEvents(id));
+  }, [dispatch, id]);
+
   useEffect(() => {
     if (client) {
       setFormData({
@@ -46,9 +52,16 @@ export default function EditClientForm() {
     }
   }, [client]);
 
+  // reset client update state
+  useEffect(() => {
+    return () => {
+      dispatch(resetClientUpdateState());
+    };
+  }, [dispatch]);
+
   // loading
   if (status === "loading")
-    return <LoadingPage message="Loading client details..." />;
+    return <GenLoadingState message="Loading client details..." />;
 
   //  if no client
   if (!client) {
@@ -89,12 +102,6 @@ export default function EditClientForm() {
       toastWithProgress("Failed to update client");
     }
   };
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetClientUpdateState());
-    };
-  }, [dispatch]);
 
   return (
     <main className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-6 py-15">
