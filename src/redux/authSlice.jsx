@@ -196,7 +196,25 @@ const authSlice = createSlice({
         state.signupError = action.payload?.message || action.error.message;
       });
 
-   
+    // Refresh Token
+    builder
+      .addCase(refreshToken.pending, (state) => {
+        state.refreshTokenStatus = "loading";
+        state.refreshTokenError = null;
+      })
+      .addCase(refreshToken.fulfilled, (state, action) => {
+        state.refreshTokenStatus = "succeeded";
+        state.accessToken = action.payload.accessToken;
+        state.tokenTimestamp = Date.now();
+      })
+      .addCase(refreshToken.rejected, (state, action) => {
+        state.refreshTokenStatus = "failed";
+        state.refreshTokenError = action.payload?.message || action.error.message;
+        state.isAuthenticated = false;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.tokenTimestamp = null;
+      });
 
    
 
