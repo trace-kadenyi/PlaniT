@@ -216,7 +216,19 @@ const authSlice = createSlice({
         state.tokenTimestamp = null;
       });
 
-   
+    // Forgot Password
+    builder
+      .addCase(forgotPassword.pending, (state) => {
+        state.forgotPasswordStatus = "loading";
+        state.forgotPasswordError = null;
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.forgotPasswordStatus = "succeeded";
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.forgotPasswordStatus = "failed";
+        state.forgotPasswordError = action.payload?.message || action.error.message;
+      });
 
   
   },
