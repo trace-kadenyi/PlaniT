@@ -156,6 +156,34 @@ const authSlice = createSlice({
     },
   },
 
- 
+  extraReducers: (builder) => {
+    // Login
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loginStatus = "loading";
+        state.loginError = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loginStatus = "succeeded";
+        state.user = action.payload.data.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.tokenTimestamp = Date.now();
+        state.isAuthenticated = true;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loginStatus = "failed";
+        state.loginError = action.payload?.message || action.error.message;
+        state.isAuthenticated = false;
+      });
+
+  
+      
+   
+
+   
+
+  
+  },
 });
 
