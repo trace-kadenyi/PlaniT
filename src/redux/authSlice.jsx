@@ -17,6 +17,18 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// Signup user
+export const signupUser = createAsyncThunk(
+  "auth/signup", 
+  async (userData, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/api/auth/signup", userData);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
 
 
 
