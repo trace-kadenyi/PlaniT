@@ -230,7 +230,19 @@ const authSlice = createSlice({
         state.forgotPasswordError = action.payload?.message || action.error.message;
       });
 
-  
+    // Reset Password
+    builder
+      .addCase(resetPassword.pending, (state) => {
+        state.resetPasswordStatus = "loading";
+        state.resetPasswordError = null;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.resetPasswordStatus = "succeeded";
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.resetPasswordStatus = "failed";
+        state.resetPasswordError = action.payload?.message || action.error.message;
+      });
   },
 });
 
