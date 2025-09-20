@@ -116,7 +116,7 @@ export default function Vendors() {
         )}
 
         {/* Stats - Show loading placeholders or actual stats */}
-        {(statsStatus === "loading" || status === "loading") && (
+        {statsStatus === "loading" && status !== "loading" && (
           <VendorStatsLoading />
         )}
 
