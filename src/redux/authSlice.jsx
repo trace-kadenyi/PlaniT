@@ -70,4 +70,36 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+// --- Slice ---
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState: {
+    user: null,
+    accessToken: null, // Stored in memory only
+    refreshToken: null, // Stored in memory only
+    tokenTimestamp: null, // Track when token was received
+    
+    // Status for each operation
+    loginStatus: "idle",
+    loginError: null,
+    
+    signupStatus: "idle", 
+    signupError: null,
+    
+    refreshTokenStatus: "idle",
+    refreshTokenError: null,
+    
+    forgotPasswordStatus: "idle",
+    forgotPasswordError: null,
+    
+    resetPasswordStatus: "idle",
+    resetPasswordError: null,
+    
+    isAuthenticated: false,
+  },
+
+  
+ 
+});
 
