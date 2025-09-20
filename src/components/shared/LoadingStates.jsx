@@ -50,11 +50,11 @@ export function GenLoadingState({ message }) {
 
 // components/vendors/VendorStatsLoading.jsx
 export const VendorStatsLoading = () => (
-  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2 mb-6">
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2 mb-6">
     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
       <div
         key={i}
-        className="bg-[#F7F7FA] p-3 rounded-lg text-center dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 animate-pulse h-20"
+        className="bg-[#F7F7FA] p-3 rounded-lg text-center dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 animate-pulse h-22"
       ></div>
     ))}
   </div>
