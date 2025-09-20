@@ -54,12 +54,8 @@ export const VendorStatsLoading = () => (
     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
       <div
         key={i}
-        className="bg-[#F7F7FA] p-3 rounded-lg text-center dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 animate-pulse"
-      >
-        <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded-md mb-2 mx-auto w-3/4"></div>
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-md mb-1 mx-auto w-2/3"></div>
-        <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-md mx-auto w-1/2"></div>
-      </div>
+        className="bg-[#F7F7FA] p-3 rounded-lg text-center dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 animate-pulse h-20"
+      ></div>
     ))}
   </div>
 );
