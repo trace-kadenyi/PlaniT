@@ -246,3 +246,14 @@ const authSlice = createSlice({
   },
 });
 
+export const {
+  clearAuthErrors,
+  resetLoginState,
+  resetSignupState,
+  resetForgotPasswordState,
+  resetResetPasswordState,
+  logout,
+  setTokens,
+  initializeAuth,
+} = authSlice.actions;
+
