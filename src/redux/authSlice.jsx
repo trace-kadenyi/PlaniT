@@ -177,8 +177,25 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       });
 
-  
-      
+    // Signup
+    builder
+      .addCase(signupUser.pending, (state) => {
+        state.signupStatus = "loading";
+        state.signupError = null;
+      })
+      .addCase(signupUser.fulfilled, (state, action) => {
+        state.signupStatus = "succeeded";
+        state.user = action.payload.data.user;
+        state.accessToken = action.payload.accessToken;
+        state.refreshToken = action.payload.refreshToken;
+        state.tokenTimestamp = Date.now();
+        state.isAuthenticated = true;
+      })
+      .addCase(signupUser.rejected, (state, action) => {
+        state.signupStatus = "failed";
+        state.signupError = action.payload?.message || action.error.message;
+      });
+
    
 
    
