@@ -124,7 +124,7 @@ export default function Vendors() {
         {status === "succeeded" &&
           statsStatus === "succeeded" &&
           stats.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2 mb-6">
               {stats.map((stat) => (
                 <div
                   key={stat._id}
