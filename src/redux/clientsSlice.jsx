@@ -273,42 +273,32 @@ const clientsSlice = createSlice({
         );
       })
       .addCase(archiveClient.fulfilled, (state, action) => {
+        const clientId = action.meta.arg; // Use the ID from the action meta
         state.items = state.items.map((client) =>
-          client._id === action.payload._id
-            ? { ...action.payload, isArchiving: false }
+          client._id === clientId
+            ? {
+                ...client,
+                isArchived: true, // Explicitly set the archived status
+                isArchiving: false,
+                isRestoring: false,
+              }
             : client
         );
       })
       .addCase(archiveClient.rejected, (state, action) => {
+        const clientId = action.meta.arg;
         state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isArchiving: false }
+          client._id === clientId
+            ? {
+                ...client,
+                isArchiving: false,
+                isRestoring: false,
+              }
             : client
         );
       })
 
-      // Restore client
-      .addCase(restoreClient.pending, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isRestoring: true }
-            : client
-        );
-      })
-      .addCase(restoreClient.fulfilled, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.payload._id
-            ? { ...action.payload, isRestoring: false }
-            : client
-        );
-      })
-      .addCase(restoreClient.rejected, (state, action) => {
-        state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isRestoring: false }
-            : client
-        );
-      });
+ 
 
     // show archived clients
     builder
