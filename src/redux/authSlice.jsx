@@ -19,7 +19,7 @@ export const loginUser = createAsyncThunk(
 
 // Signup user
 export const signupUser = createAsyncThunk(
-  "auth/signup", 
+  "auth/signup",
   async (userData, { rejectWithValue }) => {
     try {
       const res = await api.post("/api/auth/signup", userData);
@@ -62,7 +62,9 @@ export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async ({ token, password }, { rejectWithValue }) => {
     try {
-      const res = await api.patch(`/api/auth/reset-password/${token}`, { password });
+      const res = await api.patch(`/api/auth/reset-password/${token}`, {
+        password,
+      });
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -79,23 +81,23 @@ const authSlice = createSlice({
     accessToken: null, // Stored in memory only
     refreshToken: null, // Stored in memory only
     tokenTimestamp: null, // Track when token was received
-    
+
     // Status for each operation
     loginStatus: "idle",
     loginError: null,
-    
-    signupStatus: "idle", 
+
+    signupStatus: "idle",
     signupError: null,
-    
+
     refreshTokenStatus: "idle",
     refreshTokenError: null,
-    
+
     forgotPasswordStatus: "idle",
     forgotPasswordError: null,
-    
+
     resetPasswordStatus: "idle",
     resetPasswordError: null,
-    
+
     isAuthenticated: false,
   },
 
@@ -108,28 +110,28 @@ const authSlice = createSlice({
       state.forgotPasswordError = null;
       state.resetPasswordError = null;
     },
-    
+
     // Reset specific statuses
     resetLoginState: (state) => {
       state.loginStatus = "idle";
       state.loginError = null;
     },
-    
+
     resetSignupState: (state) => {
       state.signupStatus = "idle";
       state.signupError = null;
     },
-    
+
     resetForgotPasswordState: (state) => {
       state.forgotPasswordStatus = "idle";
       state.forgotPasswordError = null;
     },
-    
+
     resetResetPasswordState: (state) => {
       state.resetPasswordStatus = "idle";
       state.resetPasswordError = null;
     },
-    
+
     // Logout user - clear everything from memory
     logout: (state) => {
       state.user = null;
@@ -138,14 +140,14 @@ const authSlice = createSlice({
       state.tokenTimestamp = null;
       state.isAuthenticated = false;
     },
-    
+
     // Initialize auth state (call this on app load)
     initializeAuth: (state) => {
       // With in-memory storage, we start fresh each time
       // You could implement a session persistence strategy here if needed
       state.isAuthenticated = !!state.accessToken;
     },
-    
+
     // Set tokens manually
     setTokens: (state, action) => {
       const { accessToken, refreshToken } = action.payload;
@@ -209,7 +211,8 @@ const authSlice = createSlice({
       })
       .addCase(refreshToken.rejected, (state, action) => {
         state.refreshTokenStatus = "failed";
-        state.refreshTokenError = action.payload?.message || action.error.message;
+        state.refreshTokenError =
+          action.payload?.message || action.error.message;
         state.isAuthenticated = false;
         state.accessToken = null;
         state.refreshToken = null;
@@ -227,7 +230,8 @@ const authSlice = createSlice({
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.forgotPasswordStatus = "failed";
-        state.forgotPasswordError = action.payload?.message || action.error.message;
+        state.forgotPasswordError =
+          action.payload?.message || action.error.message;
       });
 
     // Reset Password
@@ -241,7 +245,8 @@ const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.resetPasswordStatus = "failed";
-        state.resetPasswordError = action.payload?.message || action.error.message;
+        state.resetPasswordError =
+          action.payload?.message || action.error.message;
       });
   },
 });
@@ -261,6 +266,7 @@ export const {
 export const selectCurrentUser = (state) => state.auth.user;
 export const selectAccessToken = (state) => state.auth.accessToken;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
-export const selectAuthLoading = (state) => state.auth.loginStatus === "loading";
+export const selectAuthLoading = (state) =>
+  state.auth.loginStatus === "loading";
 
 export default authSlice.reducer;
