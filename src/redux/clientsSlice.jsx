@@ -298,7 +298,39 @@ const clientsSlice = createSlice({
         );
       })
 
- 
+      // Restore client
+      .addCase(restoreClient.pending, (state, action) => {
+        state.items = state.items.map((client) =>
+          client._id === action.meta.arg
+            ? { ...client, isRestoring: true }
+            : client
+        );
+      })
+      .addCase(restoreClient.fulfilled, (state, action) => {
+        const clientId = action.meta.arg; // Use the ID from the action meta
+        state.items = state.items.map((client) =>
+          client._id === clientId
+            ? {
+                ...client,
+                isArchived: false, // Explicitly set the archived status
+                isArchiving: false,
+                isRestoring: false,
+              }
+            : client
+        );
+      })
+      .addCase(restoreClient.rejected, (state, action) => {
+        const clientId = action.meta.arg;
+        state.items = state.items.map((client) =>
+          client._id === clientId
+            ? {
+                ...client,
+                isRestoring: false,
+                isArchiving: false,
+              }
+            : client
+        );
+      });
 
     // show archived clients
     builder
