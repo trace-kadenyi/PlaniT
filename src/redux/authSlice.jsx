@@ -30,6 +30,19 @@ export const signupUser = createAsyncThunk(
   }
 );
 
+// Refresh token
+export const refreshToken = createAsyncThunk(
+  "auth/refreshToken",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const { refreshToken } = getState().auth;
+      const res = await api.post("/api/auth/refresh-token", { refreshToken });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
 
 
 
