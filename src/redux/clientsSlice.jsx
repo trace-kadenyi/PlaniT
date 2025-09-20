@@ -307,12 +307,12 @@ const clientsSlice = createSlice({
         );
       })
       .addCase(restoreClient.fulfilled, (state, action) => {
-        const clientId = action.meta.arg; // Use the ID from the action meta
+        const clientId = action.meta.arg;
         state.items = state.items.map((client) =>
           client._id === clientId
             ? {
                 ...client,
-                isArchived: false, // Explicitly set the archived status
+                isArchived: false,
                 isArchiving: false,
                 isRestoring: false,
               }
