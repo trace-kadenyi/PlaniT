@@ -44,6 +44,18 @@ export const refreshToken = createAsyncThunk(
   }
 );
 
+// Forgot password
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/api/auth/forgot-password", { email });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
 
 
 
