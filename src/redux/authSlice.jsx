@@ -257,3 +257,10 @@ export const {
   initializeAuth,
 } = authSlice.actions;
 
+// Selectors
+export const selectCurrentUser = (state) => state.auth.user;
+export const selectAccessToken = (state) => state.auth.accessToken;
+export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectAuthLoading = (state) => state.auth.loginStatus === "loading";
+
+export default authSlice.reducer;
