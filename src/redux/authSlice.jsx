@@ -99,7 +99,63 @@ const authSlice = createSlice({
     isAuthenticated: false,
   },
 
-  
+  reducers: {
+    // Clear auth errors
+    clearAuthErrors: (state) => {
+      state.loginError = null;
+      state.signupError = null;
+      state.refreshTokenError = null;
+      state.forgotPasswordError = null;
+      state.resetPasswordError = null;
+    },
+    
+    // Reset specific statuses
+    resetLoginState: (state) => {
+      state.loginStatus = "idle";
+      state.loginError = null;
+    },
+    
+    resetSignupState: (state) => {
+      state.signupStatus = "idle";
+      state.signupError = null;
+    },
+    
+    resetForgotPasswordState: (state) => {
+      state.forgotPasswordStatus = "idle";
+      state.forgotPasswordError = null;
+    },
+    
+    resetResetPasswordState: (state) => {
+      state.resetPasswordStatus = "idle";
+      state.resetPasswordError = null;
+    },
+    
+    // Logout user - clear everything from memory
+    logout: (state) => {
+      state.user = null;
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.tokenTimestamp = null;
+      state.isAuthenticated = false;
+    },
+    
+    // Initialize auth state (call this on app load)
+    initializeAuth: (state) => {
+      // With in-memory storage, we start fresh each time
+      // You could implement a session persistence strategy here if needed
+      state.isAuthenticated = !!state.accessToken;
+    },
+    
+    // Set tokens manually
+    setTokens: (state, action) => {
+      const { accessToken, refreshToken } = action.payload;
+      state.accessToken = accessToken;
+      state.refreshToken = refreshToken;
+      state.tokenTimestamp = Date.now();
+      state.isAuthenticated = !!accessToken;
+    },
+  },
+
  
 });
 
