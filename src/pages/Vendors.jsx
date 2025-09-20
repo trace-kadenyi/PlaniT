@@ -14,6 +14,7 @@ import { GenErrorState } from "../components/shared/ErrorStates";
 import { useFilteredVendors } from "../globalHooks/useFilteredVendors";
 import VendorPagination from "../components/vendors/VendorPagination";
 import VendorsTable from "../components/vendors/VendorsTable";
+import { VendorStatsLoading } from "../components/shared/LoadingStates";
 
 export default function Vendors() {
   const dispatch = useDispatch();
@@ -112,6 +113,11 @@ export default function Vendors() {
             error={error}
             message="We ran into an issue accessing your vendors. Please try again later..."
           />
+        )}
+
+        {/* Stats - Show loading placeholders or actual stats */}
+        {(statsStatus === "loading" || status === "loading") && (
+          <VendorStatsLoading />
         )}
 
         {/* Stats - Only show when data is loaded */}
