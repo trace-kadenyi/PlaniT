@@ -48,7 +48,7 @@ export function GenLoadingState({ message }) {
   );
 }
 
-// components/vendors/VendorStatsLoading.jsx
+// Load vendor status
 export const VendorStatsLoading = () => (
   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2 mb-6">
     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
