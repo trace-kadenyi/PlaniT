@@ -11,9 +11,11 @@ export default function ArchiveConfirmationToast({
   const [progress, setProgress] = useState(100);
   const action = isArchived ? "restore" : "archive";
 
+  // toast messages
   const messages = {
     archive: {
-      warning: "This will archive the vendor. Archived vendors won't appear in regular listings.",
+      warning:
+        "This will archive the vendor. Archived vendors won't appear in regular listings.",
       confirm: "Yes, Archive Vendor",
       icon: <Archive className="w-5 h-5 text-[#9B2C62]" />,
     },
@@ -35,11 +37,9 @@ export default function ArchiveConfirmationToast({
   }, [duration]);
 
   return (
-    <div className="relative p-4 rounded-lg bg-white border border-gray-200 shadow-lg max-w-[300px] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:border-gray-600"> 
+    <div className="relative p-4 rounded-lg bg-white border border-gray-200 shadow-lg max-w-[300px] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:border-gray-600">
       <div className="flex items-start gap-3 mb-4">
-        <div className="flex-shrink-0 mt-0.5">
-          {messages[action].icon}
-        </div>
+        <div className="flex-shrink-0 mt-0.5">{messages[action].icon}</div>
         <p className="text-sm text-gray-800 dark:text-gray-300">
           {messages[action].warning}
         </p>
@@ -54,8 +54,8 @@ export default function ArchiveConfirmationToast({
         <button
           onClick={onConfirm}
           className={`px-4 py-1.5 text-sm text-white rounded-lg transition cursor-pointer ${
-            action === "archive" 
-              ? "bg-[#9B2C62] hover:bg-[#801f4f]" 
+            action === "archive"
+              ? "bg-[#9B2C62] hover:bg-[#801f4f]"
               : "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
           }`}
         >
