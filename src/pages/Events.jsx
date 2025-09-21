@@ -47,6 +47,7 @@ export default function Events() {
       ),
       {
         duration,
+        position: "top-center",
       }
     );
   };
