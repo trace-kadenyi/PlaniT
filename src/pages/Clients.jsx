@@ -43,10 +43,7 @@ export default function Clients() {
   // handle archive toggle
   const handleArchiveToggle = (clientId, isArchived) => {
     const action = isArchived ? restoreClient : archiveClient;
-    dispatch(action(clientId)).then(() => {
-      dispatch(fetchClients());
-      setCurrentPage(1); // Reset to first page after status change
-    });
+    dispatch(action(clientId));
   };
 
   // filtered clients

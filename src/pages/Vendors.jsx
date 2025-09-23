@@ -14,6 +14,7 @@ import { GenErrorState } from "../components/shared/ErrorStates";
 import { useFilteredVendors } from "../globalHooks/useFilteredVendors";
 import VendorPagination from "../components/vendors/VendorPagination";
 import VendorsTable from "../components/vendors/VendorsTable";
+import { VendorStatsLoading } from "../components/shared/LoadingStates";
 
 export default function Vendors() {
   const dispatch = useDispatch();
@@ -114,11 +115,16 @@ export default function Vendors() {
           />
         )}
 
+        {/* Stats - Show loading placeholders */}
+        {statsStatus === "loading" && status !== "loading" && (
+          <VendorStatsLoading />
+        )}
+
         {/* Stats - Only show when data is loaded */}
         {status === "succeeded" &&
           statsStatus === "succeeded" &&
           stats.length > 0 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-2 mb-6">
               {stats.map((stat) => (
                 <div
                   key={stat._id}

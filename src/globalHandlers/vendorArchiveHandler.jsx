@@ -30,16 +30,16 @@ export const createVendorArchiveHandler = (
                 );
                 // Refresh data if these functions are provided
                 if (fetchVendors && fetchVendorStats && filterMode) {
-                  dispatch(
-                    fetchVendors({
-                      archived:
-                        filterMode === "archived"
-                          ? true
-                          : filterMode === "active"
-                          ? false
-                          : undefined,
-                    })
-                  );
+                  // dispatch(
+                  //   fetchVendors({
+                  //     archived:
+                  //       filterMode === "archived"
+                  //         ? true
+                  //         : filterMode === "active"
+                  //         ? false
+                  //         : undefined,
+                  //   })
+                  // );
                   dispatch(fetchVendorStats());
                 }
                 // Navigate if provided

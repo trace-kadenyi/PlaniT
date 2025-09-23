@@ -273,16 +273,27 @@ const clientsSlice = createSlice({
         );
       })
       .addCase(archiveClient.fulfilled, (state, action) => {
+        const clientId = action.meta.arg;
         state.items = state.items.map((client) =>
-          client._id === action.payload._id
-            ? { ...action.payload, isArchiving: false }
+          client._id === clientId
+            ? {
+                ...client,
+                isArchived: true,
+                isArchiving: false,
+                isRestoring: false,
+              }
             : client
         );
       })
       .addCase(archiveClient.rejected, (state, action) => {
+        const clientId = action.meta.arg;
         state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isArchiving: false }
+          client._id === clientId
+            ? {
+                ...client,
+                isArchiving: false,
+                isRestoring: false,
+              }
             : client
         );
       })
@@ -296,16 +307,27 @@ const clientsSlice = createSlice({
         );
       })
       .addCase(restoreClient.fulfilled, (state, action) => {
+        const clientId = action.meta.arg;
         state.items = state.items.map((client) =>
-          client._id === action.payload._id
-            ? { ...action.payload, isRestoring: false }
+          client._id === clientId
+            ? {
+                ...client,
+                isArchived: false,
+                isArchiving: false,
+                isRestoring: false,
+              }
             : client
         );
       })
       .addCase(restoreClient.rejected, (state, action) => {
+        const clientId = action.meta.arg;
         state.items = state.items.map((client) =>
-          client._id === action.meta.arg
-            ? { ...client, isRestoring: false }
+          client._id === clientId
+            ? {
+                ...client,
+                isRestoring: false,
+                isArchiving: false,
+              }
             : client
         );
       });
