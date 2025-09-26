@@ -5,10 +5,10 @@ const api = axios.create({
   baseURL: "http://localhost:4000", // backend base URL
 });
 
-// Store reference - we'll import it dynamically to avoid circular dependencies
+// Store reference - import it dynamically to avoid circular dependencies
 let store;
 
-// Function to set the store reference (call this in your store setup)
+// Function to set the store reference (call this in the store setup)
 export const setStore = (storeInstance) => {
   store = storeInstance;
 };
