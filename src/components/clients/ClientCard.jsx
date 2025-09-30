@@ -58,7 +58,7 @@ export default function ClientCard({
             </button>
           </div>
 
-          {/* Delete Button - Destructive Action (separated) */}
+          {/* Delete Button */}
           <button
             onClick={() => handleDelete(id)}
             disabled={client?.isDeleting}
