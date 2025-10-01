@@ -28,6 +28,13 @@ import EventsBoard from "./pages/EventsBoard";
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
 
 function App() {
+  const dispatch = useDispatch();
+
+  //  initialize auth
+  useEffect(() => {
+    dispatch(initializeAuth());
+  }, [dispatch]);
+
   const isSmallScreen = useIsSmallScreen();
   return (
     <>
