@@ -1,31 +1,39 @@
-// components/Login.jsx
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, resetLoginState, clearAuthErrors } from '../redux/authSlice';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginUser,
+  resetLoginState,
+  clearAuthErrors,
+} from "../redux/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const { loginStatus, loginError, isAuthenticated } = useSelector(state => state.auth);
 
+  const { loginStatus, loginError, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
+
+  // if auth, navigate to dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   }, [isAuthenticated, navigate]);
 
+  // Clear errors when component unmounts
+
   useEffect(() => {
-    // Clear errors when component unmounts
     return () => {
       dispatch(clearAuthErrors());
     };
   }, [dispatch]);
 
+  //   handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
@@ -34,7 +42,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <h2>Login to PlaniT</h2>
-      
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email:</label>
@@ -45,7 +53,7 @@ const Login = () => {
             required
           />
         </div>
-        
+
         <div className="form-group">
           <label>Password:</label>
           <input
@@ -56,17 +64,10 @@ const Login = () => {
           />
         </div>
 
-        {loginError && (
-          <div className="error-message">
-            {loginError}
-          </div>
-        )}
+        {loginError && <div className="error-message">{loginError}</div>}
 
-        <button 
-          type="submit" 
-          disabled={loginStatus === 'loading'}
-        >
-          {loginStatus === 'loading' ? 'Logging in...' : 'Login'}
+        <button type="submit" disabled={loginStatus === "loading"}>
+          {loginStatus === "loading" ? "Logging in..." : "Login"}
         </button>
       </form>
 
