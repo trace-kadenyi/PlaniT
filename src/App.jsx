@@ -9,7 +9,6 @@ import Layout from "./components/navigation/Layout";
 import Login from "./components/user/Login";
 import Signup from "./components/user/Signup";
 import ProtectedRoute from "./components/user/ProtectedRoute";
-import Dashboard from "./components/user/Dashboard";
 import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
