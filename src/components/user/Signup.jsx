@@ -4,7 +4,7 @@ import {
   signupUser,
   resetSignupState,
   clearAuthErrors,
-} from "../redux/authSlice";
+} from "../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
@@ -26,7 +26,7 @@ const Signup = () => {
   //   if auth, navigate to dash
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/dashboard");
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
