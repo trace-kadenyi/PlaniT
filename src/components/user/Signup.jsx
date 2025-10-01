@@ -46,7 +46,76 @@ const Signup = () => {
     <div className="signup-container">
       <h2>Create Your PlaniT Account</h2>
       
-    
+      <form onSubmit={handleSubmit}>
+        <div className="form-row">
+          <div className="form-group">
+            <label>First Name:</label>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label>Last Name:</label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            minLength="6"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Role:</label>
+          <select name="role" value={formData.role} onChange={handleChange}>
+            <option value="planner">Event Planner</option>
+            <option value="viewer">Viewer</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        {signupError && (
+          <div className="error-message">
+            {signupError}
+          </div>
+        )}
+
+        <button 
+          type="submit" 
+          disabled={signupStatus === 'loading'}
+        >
+          {signupStatus === 'loading' ? 'Creating Account...' : 'Sign Up'}
+        </button>
+      </form>
 
       
     </div>
