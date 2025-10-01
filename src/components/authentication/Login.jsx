@@ -33,8 +33,42 @@ const Login = () => {
 
   return (
     <div className="login-container">
+      <h2>Login to PlaniT</h2>
       
-      
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        {loginError && (
+          <div className="error-message">
+            {loginError}
+          </div>
+        )}
+
+        <button 
+          type="submit" 
+          disabled={loginStatus === 'loading'}
+        >
+          {loginStatus === 'loading' ? 'Logging in...' : 'Login'}
+        </button>
+      </form>
 
     
     </div>
