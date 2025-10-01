@@ -50,8 +50,17 @@ function App() {
            {/* Public routes (no layout, no sidebar) */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          
-          <Route element={<Layout />}>
+
+           {/* Protected routes with Layout (includes sidebar) */}
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            {/* All nested routes are automatically protected by the parent ProtectedRoute */}
             <Route path="/" element={<HomePage />} />
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<Event />} />
