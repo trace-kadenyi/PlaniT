@@ -4,7 +4,7 @@ import {
   loginUser,
   resetLoginState,
   clearAuthErrors,
-} from "../redux/authSlice";
+} from "../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -21,7 +21,7 @@ const Login = () => {
   // if auth, navigate to dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/dashboard");
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
