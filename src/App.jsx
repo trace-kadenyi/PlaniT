@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -8,6 +9,7 @@ import Layout from "./components/navigation/Layout";
 import Login from "./components/user/Login";
 import Signup from "./components/user/Signup";
 import ProtectedRoute from "./components/user/ProtectedRoute";
+import Dashboard from "./components/user/Dashboard";
 import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
@@ -45,6 +47,10 @@ function App() {
       )}
       <Router>
         <Routes>
+           {/* Public routes (no layout, no sidebar) */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/events" element={<Events />} />
