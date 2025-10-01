@@ -26,7 +26,10 @@ const Login = () => {
     };
   }, [dispatch]);
 
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginUser({ email, password }));
+  };
 
   return (
     <div className="login-container">
