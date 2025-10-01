@@ -47,13 +47,13 @@ function App() {
       )}
       <Router>
         <Routes>
-           {/* Public routes (no layout, no sidebar) */}
+          {/* Public routes (no layout, no sidebar) */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-           {/* Protected routes with Layout (includes sidebar) */}
-          <Route 
-            path="/" 
+          {/* Protected routes with Layout (includes sidebar) */}
+          <Route
+            path="/"
             element={
               <ProtectedRoute>
                 <Layout />
@@ -77,6 +77,9 @@ function App() {
             <Route path="/tasks/board" element={<TasksBoard />} />
             <Route path="/events/board" element={<EventsBoard />} />
           </Route>
+
+          {/* Catch all route - redirect to home */}
+          <Route path="*" element={<HomePage />} />
         </Routes>
         <Footer />
       </Router>
