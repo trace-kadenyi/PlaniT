@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Plus,
   ChevronLeft,
@@ -25,10 +26,9 @@ export default function Sidebar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
-  // GET USER FROM REDUX STORE
-  const { user } = useSelector(state => state.auth);
 
+  // GET USER FROM REDUX STORE
+  const { user } = useSelector((state) => state.auth);
 
   // Close mobile sidebar when route changes or on larger screens
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function Sidebar() {
   // Handle logout
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/login');
+    navigate("/login");
   };
 
   // isactive
@@ -281,6 +281,8 @@ export default function Sidebar() {
             User={User}
             LogOut={LogOut}
             Link={Link}
+            user={user}
+            onLogout={handleLogout}
           />
         </aside>
       </div>
