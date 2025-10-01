@@ -55,7 +55,7 @@ export function BarLogo({
 }
 
 // sidebar user profile
-export function UserProfile({ collapsed, User, LogOut, Link }) {
+export function UserProfile({ collapsed, User, LogOut, onLogout, user, Link }) {
   return (
     <div
       className={`p-3 border-t ${collapsed ? "px-2" : "px-4"} dark:bg-gray-800`}
@@ -80,16 +80,17 @@ export function UserProfile({ collapsed, User, LogOut, Link }) {
           {!collapsed && (
             <div>
               <p className="text-sm dark:text-gray-200 font-medium group-hover:text-[#FF9933] transition-colors">
-                John Doe
+                {user?.firstName} {user?.lastName}
               </p>
               <p className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-[#FFB866] transition-colors">
-                Admin
+                {user?.role || "undefined role"}
               </p>
             </div>
           )}
         </Link>
         {!collapsed && (
           <button
+            onClick={onLogout}
             className="p-1 rounded-full hover:bg-[#FFB866]/10 text-gray-500 dark:text-gray-400 hover:text-[#E07C24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866] transition-colors"
             aria-label="Logout"
           >
