@@ -19,7 +19,13 @@ const Login = () => {
     }
   }, [isAuthenticated, navigate]);
 
- 
+  useEffect(() => {
+    // Clear errors when component unmounts
+    return () => {
+      dispatch(clearAuthErrors());
+    };
+  }, [dispatch]);
+
   
 
   return (
