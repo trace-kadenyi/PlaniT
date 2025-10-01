@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Plus,
   ChevronLeft,
@@ -11,6 +12,7 @@ import {
   Moon,
 } from "lucide-react";
 
+import { logout } from "../../redux/authSlice";
 import { navLinks } from "../../data/navData";
 import { BarLogo, UserProfile, SecondaryLinks } from "../ui/Bar";
 
@@ -21,6 +23,12 @@ export default function Sidebar() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  // GET USER FROM REDUX STORE
+  const { user } = useSelector(state => state.auth);
+
 
   // Close mobile sidebar when route changes or on larger screens
   useEffect(() => {
@@ -54,6 +62,12 @@ export default function Sidebar() {
   // Toggle theme
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
   };
 
   // isactive
