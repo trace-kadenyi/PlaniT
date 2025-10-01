@@ -24,7 +24,12 @@ const Signup = () => {
     }
   }, [isAuthenticated, navigate]);
 
- 
+  useEffect(() => {
+    return () => {
+      dispatch(clearAuthErrors());
+    };
+  }, [dispatch]);
+
   
 
 
