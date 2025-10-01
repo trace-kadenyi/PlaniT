@@ -1,8 +1,13 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { initializeAuth } from "./redux/authSlice";
 
 import "./App.css";
 import Layout from "./components/navigation/Layout";
+import Login from "./components/user/Login";
+import Signup from "./components/user/Signup";
+import ProtectedRoute from "./components/user/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
