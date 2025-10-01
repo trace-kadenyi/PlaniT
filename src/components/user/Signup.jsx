@@ -37,6 +37,10 @@ const Signup = () => {
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(signupUser(formData));
+  };
 
   return (
     <div className="signup-container">
