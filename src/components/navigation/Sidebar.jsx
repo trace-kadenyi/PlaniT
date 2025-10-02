@@ -85,7 +85,7 @@ export default function Sidebar() {
       // Start expanding
       setIsExpanding(true);
       setCollapsed(false);
-      // Set timeout to match your transition duration (500ms in your case)
+      // Set timeout to match the transition duration (500ms in this case)
       setTimeout(() => setIsExpanding(false), 500);
     }
   };
