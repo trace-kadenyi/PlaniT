@@ -32,11 +32,10 @@ export const signupUser = createAsyncThunk(
 
 // Refresh token
 export const refreshToken = createAsyncThunk(
-  "auth/refreshToken",
-  async (_, { rejectWithValue, getState }) => {
+  "auth/refreshToken", 
+  async (_, { rejectWithValue }) => {
     try {
-      const { refreshToken } = getState().auth;
-      const res = await api.post("/api/auth/refresh-token", { refreshToken });
+      const res = await api.post("/api/auth/refresh-token"); // No body needed
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -82,6 +81,7 @@ const authSlice = createSlice({
     refreshToken: null, // Stored in memory only
     tokenTimestamp: null, // Track when token was received
     trustedDevice: localStorage.getItem("trustedDevice") === "true",
+    isInitializing: true,
 
     // Status for each operation
     loginStatus: "idle",
@@ -98,7 +98,6 @@ const authSlice = createSlice({
 
     resetPasswordStatus: "idle",
     resetPasswordError: null,
-    isInitializing: true,
     isAuthenticated: false,
   },
 
@@ -144,15 +143,14 @@ const authSlice = createSlice({
 
     // Initialize auth state (call this on app load)
     initializeAuth: (state) => {
-      state.isInitializing = true; // Start initializing
-      if (state.trustedDevice && state.refreshToken) {
-        // We'll verify the token in AuthInitializer
-        state.isAuthenticated = false; // Will be set after refresh
-      } else {
-        state.isAuthenticated = !!state.accessToken;
-        state.isInitializing = false; // Done initializing if no refresh needed
-      }
-    },
+  state.isInitializing = true;
+  
+  // Immediate check: if no trusted device, we're done
+  if (!state.trustedDevice) {
+    state.isInitializing = false;
+  }
+  // If trusted device but no refresh token in memory, AuthInitializer will handle it
+},
     // Set tokens manually
     setTokens: (state, action) => {
       const { accessToken, refreshToken } = action.payload;
@@ -165,6 +163,9 @@ const authSlice = createSlice({
     setTrustedDevice: (state, action) => {
       state.trustedDevice = action.payload;
       localStorage.setItem("trustedDevice", action.payload.toString());
+    },
+    initializationComplete: (state) => {
+      state.isInitializing = false;
     },
   },
 
@@ -179,7 +180,7 @@ const authSlice = createSlice({
         state.loginStatus = "succeeded";
         state.user = action.payload.data.user;
         state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        // state.refreshToken = action.payload.refreshToken;
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
       })
@@ -199,7 +200,7 @@ const authSlice = createSlice({
         state.signupStatus = "succeeded";
         state.user = action.payload.data.user;
         state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        // state.refreshToken = action.payload.refreshToken;
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
       })
@@ -275,6 +276,7 @@ export const {
   setTokens,
   initializeAuth,
   setTrustedDevice,
+  initializationComplete,
 } = authSlice.actions;
 
 // Selectors
