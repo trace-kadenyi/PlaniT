@@ -1,50 +1,38 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { refreshToken, initializeAuth } from "../../redux/authSlice"; // Import initializeAuth
+import { refreshToken, initializationComplete } from "../../redux/authSlice";
 
 const AuthInitializer = () => {
   const dispatch = useDispatch();
-  const {
-    trustedDevice,
-    refreshToken: storedRefreshToken,
-    isAuthenticated,
-    isInitializing,
-  } = useSelector((state) => state.auth);
+  const { trustedDevice, isAuthenticated, isInitializing } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
-    // Initialize auth state on component mount
-    dispatch(initializeAuth());
-  }, [dispatch]);
+    // Debug: Check if cookies are present
+    console.log("Cookies present:", document.cookie);
 
-  useEffect(() => {
     const initializeAuth = async () => {
-      // If we're initializing, have a trusted device and refresh token, but no active session
-      if (
-        isInitializing &&
-        trustedDevice &&
-        storedRefreshToken &&
-        !isAuthenticated
-      ) {
+      if (!isInitializing) return;
+
+      console.log("AuthInitializer - Checking trusted device:", trustedDevice);
+
+      if (trustedDevice && !isAuthenticated) {
         try {
-          await dispatch(refreshToken()).unwrap();
-          // Success - user is now authenticated
+          console.log("Attempting token refresh with HTTP-only cookie...");
+          const result = await dispatch(refreshToken()).unwrap();
+          console.log("Token refresh successful", result);
         } catch (error) {
-          // Refresh failed - clear trusted device
-          console.log("Token refresh failed, clearing trusted device");
-          localStorage.removeItem("trustedDevice");
+          console.log("Token refresh failed:", error);
+          dispatch(initializationComplete());
         }
+      } else {
+        dispatch(initializationComplete());
       }
     };
 
     initializeAuth();
-  }, [
-    dispatch,
-    trustedDevice,
-    storedRefreshToken,
-    isAuthenticated,
-    isInitializing,
-  ]);
+  }, [dispatch, trustedDevice, isAuthenticated, isInitializing]);
 
   return null;
 };
