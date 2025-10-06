@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:4000", // backend base URL
+  withCredentials: true,
 });
 
 // Store reference - import it dynamically to avoid circular dependencies
@@ -31,16 +32,16 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    
+
     // If 401 error and haven't retried yet
     if (error.response?.status === 401 && !originalRequest._retry && store) {
       originalRequest._retry = true;
-      
+
       try {
         // Try to refresh the token
         await store.dispatch(refreshToken());
         const newToken = store.getState()?.auth?.accessToken;
-        
+
         if (newToken) {
           // Retry the original request with new token
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
@@ -57,7 +58,7 @@ api.interceptors.response.use(
         }
       }
     }
-    
+
     return Promise.reject(error);
   }
 );
