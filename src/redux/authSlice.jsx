@@ -144,7 +144,7 @@ const authSlice = createSlice({
     // Initialize auth state (call this on app load)
     initializeAuth: (state) => {
       // With in-memory storage, we start fresh each time
-      // You could implement a session persistence strategy here if needed
+      // I could implement a session persistence strategy here if needed
       state.isAuthenticated = !!state.accessToken;
     },
 
