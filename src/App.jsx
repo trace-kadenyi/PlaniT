@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { initializeAuth } from "./redux/authSlice";
 
 import "./App.css";
+import AuthInitializer from "./components/user/AuthInitializer";
 import Layout from "./components/navigation/Layout";
 import Login from "./components/user/Login";
 import Signup from "./components/user/Signup";
@@ -25,7 +26,6 @@ import EditVendorForm from "./components/vendors/forms/EditVendorForm";
 import CreateVendorForm from "./components/vendors/forms/CreateVendorForm";
 import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
-
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
 
 function App() {
@@ -39,6 +39,8 @@ function App() {
   const isSmallScreen = useIsSmallScreen();
   return (
     <>
+      <AuthInitializer />
+
       {isSmallScreen ? (
         <Toaster position="top-center" />
       ) : (
