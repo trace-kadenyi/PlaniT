@@ -157,6 +157,11 @@ const authSlice = createSlice({
       state.tokenTimestamp = Date.now();
       state.isAuthenticated = !!accessToken;
     },
+    // set trusted device
+    setTrustedDevice: (state, action) => {
+      state.trustedDevice = action.payload;
+      localStorage.setItem("trustedDevice", action.payload.toString());
+    },
   },
 
   extraReducers: (builder) => {
