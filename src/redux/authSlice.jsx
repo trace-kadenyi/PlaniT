@@ -144,9 +144,13 @@ const authSlice = createSlice({
 
     // Initialize auth state (call this on app load)
     initializeAuth: (state) => {
-      // With in-memory storage, we start fresh each time
-      // I could implement a session persistence strategy here if needed
-      state.isAuthenticated = !!state.accessToken;
+      if (state.trustedDevice && state.refreshToken) {
+        // We have a trusted device and refresh token,
+        // so we consider the user as "authenticating" until we verify
+        state.isAuthenticated = false; // Will be set to true after refresh succeeds
+      } else {
+        state.isAuthenticated = !!state.accessToken;
+      }
     },
 
     // Set tokens manually
