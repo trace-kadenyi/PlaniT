@@ -233,6 +233,7 @@ const authSlice = createSlice({
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.refreshTokenStatus = "succeeded";
         state.accessToken = action.payload.accessToken;
+        state.user = action.payload.data.user;
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
         state.isInitializing = false;
