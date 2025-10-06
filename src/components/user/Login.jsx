@@ -4,12 +4,14 @@ import {
   loginUser,
   resetLoginState,
   clearAuthErrors,
+  setTrustedDevice,
 } from "../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [trustDevice, setTrustDevice] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
