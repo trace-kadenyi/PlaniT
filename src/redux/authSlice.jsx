@@ -144,15 +144,15 @@ const authSlice = createSlice({
 
     // Initialize auth state (call this on app load)
     initializeAuth: (state) => {
-  state.isInitializing = true; // Start initializing
-  if (state.trustedDevice && state.refreshToken) {
-    // We'll verify the token in AuthInitializer
-    state.isAuthenticated = false; // Will be set after refresh
-  } else {
-    state.isAuthenticated = !!state.accessToken;
-    state.isInitializing = false; // Done initializing if no refresh needed
-  }
-},
+      state.isInitializing = true; // Start initializing
+      if (state.trustedDevice && state.refreshToken) {
+        // We'll verify the token in AuthInitializer
+        state.isAuthenticated = false; // Will be set after refresh
+      } else {
+        state.isAuthenticated = !!state.accessToken;
+        state.isInitializing = false; // Done initializing if no refresh needed
+      }
+    },
     // Set tokens manually
     setTokens: (state, action) => {
       const { accessToken, refreshToken } = action.payload;
@@ -218,7 +218,8 @@ const authSlice = createSlice({
         state.refreshTokenStatus = "succeeded";
         state.accessToken = action.payload.accessToken;
         state.tokenTimestamp = Date.now();
-        state.isAuthenticated = true; // Set authenticated after successful refresh
+        state.isAuthenticated = true;
+        state.isInitializing = false;
       })
       .addCase(refreshToken.rejected, (state, action) => {
         state.refreshTokenStatus = "failed";
@@ -228,6 +229,7 @@ const authSlice = createSlice({
         state.accessToken = null;
         state.refreshToken = null;
         state.tokenTimestamp = null;
+        state.isInitializing = false;
       });
 
     // Forgot Password
