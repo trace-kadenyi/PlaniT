@@ -139,6 +139,9 @@ const authSlice = createSlice({
       state.refreshToken = null;
       state.tokenTimestamp = null;
       state.isAuthenticated = false;
+      state.trustedDevice = false;
+
+    
     },
 
     // Initialize auth state (call this on app load)
