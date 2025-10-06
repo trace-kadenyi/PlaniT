@@ -218,7 +218,7 @@ const authSlice = createSlice({
         state.refreshTokenStatus = "succeeded";
         state.accessToken = action.payload.accessToken;
         state.tokenTimestamp = Date.now();
-        state.isAuthenticated = true; // SET AUTHENTICATED AFTER SUCCESSFUL REFRESH
+        state.isAuthenticated = true; // Set authenticated after successful refresh
       })
       .addCase(refreshToken.rejected, (state, action) => {
         state.refreshTokenStatus = "failed";
@@ -272,6 +272,7 @@ export const {
   logout,
   setTokens,
   initializeAuth,
+  setTrustedDevice,
 } = authSlice.actions;
 
 // Selectors
