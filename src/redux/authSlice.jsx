@@ -81,6 +81,7 @@ const authSlice = createSlice({
     accessToken: null, // Stored in memory only
     refreshToken: null, // Stored in memory only
     tokenTimestamp: null, // Track when token was received
+    trustedDevice: localStorage.getItem("trustedDevice") === "true",
 
     // Status for each operation
     loginStatus: "idle",
