@@ -73,6 +73,22 @@ const Login = () => {
           />
         </div>
 
+        {/* ADD TRUST DEVICE CHECKBOX */}
+        <div className="form-group">
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={trustDevice}
+              onChange={(e) => setTrustDevice(e.target.checked)}
+              className="rounded border-gray-300 text-[#9B2C62] focus:ring-[#9B2C62]"
+            />
+            <span className="text-sm text-gray-600">Trust this device</span>
+          </label>
+          <p className="text-xs text-gray-500 mt-1">
+            Stay logged in for 7 days on this device
+          </p>
+        </div>
+
         {loginError && <div className="error-message">{loginError}</div>}
 
         <button type="submit" disabled={loginStatus === "loading"}>
