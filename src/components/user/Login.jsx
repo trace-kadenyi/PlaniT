@@ -38,7 +38,14 @@ const Login = () => {
   //   handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ email, password }))
+      .unwrap()
+      .then(() => {
+        // AFTER SUCCESSFUL LOGIN, SET TRUSTED DEVICE IF CHECKED
+        if (trustDevice) {
+          dispatch(setTrustedDevice(true));
+        }
+      });
   };
 
   return (
