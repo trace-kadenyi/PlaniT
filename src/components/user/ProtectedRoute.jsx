@@ -1,12 +1,11 @@
-// components/ProtectedRoute.jsx
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loginStatus } = useSelector((state) => state.auth);
+  const { isAuthenticated, isInitializing } = useSelector((state) => state.auth);
 
-  // Show loading or wait if we're trying to refresh tokens
-  if (loginStatus === "loading") {
+  // Show loading while we're initializing auth (checking for refresh token)
+  if (isInitializing) {
     return <div>Loading...</div>; // Or a proper loading component
   }
 
