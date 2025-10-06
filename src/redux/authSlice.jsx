@@ -32,7 +32,7 @@ export const signupUser = createAsyncThunk(
 
 // Refresh token
 export const refreshToken = createAsyncThunk(
-  "auth/refreshToken", 
+  "auth/refreshToken",
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.post("/api/auth/refresh-token"); // No body needed
@@ -134,26 +134,42 @@ const authSlice = createSlice({
 
     // Logout user - clear everything from memory
     logout: (state) => {
+      // Clear Redux state
       state.user = null;
       state.accessToken = null;
       state.refreshToken = null;
       state.tokenTimestamp = null;
       state.isAuthenticated = false;
       state.trustedDevice = false;
+      state.isInitializing = false;
 
-    
+      // Reset all statuses
+      state.loginStatus = "idle";
+      state.signupStatus = "idle";
+      state.refreshTokenStatus = "idle";
+      state.forgotPasswordStatus = "idle";
+      state.resetPasswordStatus = "idle";
+
+      // Clear all errors
+      state.loginError = null;
+      state.signupError = null;
+      state.refreshTokenError = null;
+      state.forgotPasswordError = null;
+      state.resetPasswordError = null;
+
+      // Clear localStorage
+      localStorage.removeItem("trustedDevice");
     },
-
     // Initialize auth state (call this on app load)
     initializeAuth: (state) => {
-  state.isInitializing = true;
-  
-  // Immediate check: if no trusted device, we're done
-  if (!state.trustedDevice) {
-    state.isInitializing = false;
-  }
-  // If trusted device but no refresh token in memory, AuthInitializer will handle it
-},
+      state.isInitializing = true;
+
+      // Immediate check: if no trusted device, we're done
+      if (!state.trustedDevice) {
+        state.isInitializing = false;
+      }
+      // If trusted device but no refresh token in memory, AuthInitializer will handle it
+    },
     // Set tokens manually
     setTokens: (state, action) => {
       const { accessToken, refreshToken } = action.payload;
