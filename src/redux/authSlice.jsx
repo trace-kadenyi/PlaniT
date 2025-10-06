@@ -154,23 +154,6 @@ const authSlice = createSlice({
       state.tokenTimestamp = null;
       state.isAuthenticated = false;
       state.trustedDevice = false;
-      state.isInitializing = false;
-
-      // Reset all statuses
-      state.loginStatus = "idle";
-      state.signupStatus = "idle";
-      state.refreshTokenStatus = "idle";
-      state.forgotPasswordStatus = "idle";
-      state.resetPasswordStatus = "idle";
-
-      // Clear all errors
-      state.loginError = null;
-      state.signupError = null;
-      state.refreshTokenError = null;
-      state.forgotPasswordError = null;
-      state.resetPasswordError = null;
-
-      // Clear localStorage
       localStorage.removeItem("trustedDevice");
     },
     // Initialize auth state (call this on app load)
@@ -293,6 +276,49 @@ const authSlice = createSlice({
         state.resetPasswordStatus = "failed";
         state.resetPasswordError =
           action.payload?.message || action.error.message;
+      });
+
+    // Logout
+    builder
+      .addCase(logoutUser.pending, (state) => {
+        // Optional: You can show loading state during logout
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        // Clear all state on successful logout
+        state.user = null;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.tokenTimestamp = null;
+        state.isAuthenticated = false;
+        state.trustedDevice = false;
+        state.isInitializing = false;
+
+        // Clear localStorage
+        localStorage.removeItem("trustedDevice");
+
+        // Reset all statuses
+        state.loginStatus = "idle";
+        state.signupStatus = "idle";
+        state.refreshTokenStatus = "idle";
+        state.forgotPasswordStatus = "idle";
+        state.resetPasswordStatus = "idle";
+
+        // Clear all errors
+        state.loginError = null;
+        state.signupError = null;
+        state.refreshTokenError = null;
+        state.forgotPasswordError = null;
+        state.resetPasswordError = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        // Even if the API call fails, clear local state
+        state.user = null;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.tokenTimestamp = null;
+        state.isAuthenticated = false;
+        state.trustedDevice = false;
+        localStorage.removeItem("trustedDevice");
       });
   },
 });
