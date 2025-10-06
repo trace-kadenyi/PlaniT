@@ -52,6 +52,7 @@ const Login = () => {
     <div className="login-container">
       <h2>Login to PlaniT</h2>
 
+      {/* email */}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email:</label>
@@ -63,6 +64,7 @@ const Login = () => {
           />
         </div>
 
+        {/* pass */}
         <div className="form-group">
           <label>Password:</label>
           <input
