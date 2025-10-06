@@ -98,7 +98,7 @@ const authSlice = createSlice({
 
     resetPasswordStatus: "idle",
     resetPasswordError: null,
-
+    isInitializing: true,
     isAuthenticated: false,
   },
 
@@ -144,15 +144,15 @@ const authSlice = createSlice({
 
     // Initialize auth state (call this on app load)
     initializeAuth: (state) => {
-      if (state.trustedDevice && state.refreshToken) {
-        // We have a trusted device and refresh token,
-        // so we consider the user as "authenticating" until we verify
-        state.isAuthenticated = false; // Will be set to true after refresh succeeds
-      } else {
-        state.isAuthenticated = !!state.accessToken;
-      }
-    },
-
+  state.isInitializing = true; // Start initializing
+  if (state.trustedDevice && state.refreshToken) {
+    // We'll verify the token in AuthInitializer
+    state.isAuthenticated = false; // Will be set after refresh
+  } else {
+    state.isAuthenticated = !!state.accessToken;
+    state.isInitializing = false; // Done initializing if no refresh needed
+  }
+},
     // Set tokens manually
     setTokens: (state, action) => {
       const { accessToken, refreshToken } = action.payload;
