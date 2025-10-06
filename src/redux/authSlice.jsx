@@ -283,5 +283,6 @@ export const selectAccessToken = (state) => state.auth.accessToken;
 export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
 export const selectAuthLoading = (state) =>
   state.auth.loginStatus === "loading";
+export const selectIsInitializing = (state) => state.auth.isInitializing;
 
 export default authSlice.reducer;
