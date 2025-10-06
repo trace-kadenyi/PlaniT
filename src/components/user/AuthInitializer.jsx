@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { refreshToken } from "../../redux/authSlice";
+import { refreshToken, initializeAuth } from "../../redux/authSlice"; // Import initializeAuth
 
 const AuthInitializer = () => {
   const dispatch = useDispatch();
@@ -9,12 +9,23 @@ const AuthInitializer = () => {
     trustedDevice,
     refreshToken: storedRefreshToken,
     isAuthenticated,
+    isInitializing,
   } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    // Initialize auth state on component mount
+    dispatch(initializeAuth());
+  }, [dispatch]);
+
+  useEffect(() => {
     const initializeAuth = async () => {
-      // If we have a trusted device and refresh token, but no active session
-      if (trustedDevice && storedRefreshToken && !isAuthenticated) {
+      // If we're initializing, have a trusted device and refresh token, but no active session
+      if (
+        isInitializing &&
+        trustedDevice &&
+        storedRefreshToken &&
+        !isAuthenticated
+      ) {
         try {
           await dispatch(refreshToken()).unwrap();
           // Success - user is now authenticated
@@ -27,9 +38,15 @@ const AuthInitializer = () => {
     };
 
     initializeAuth();
-  }, [dispatch, trustedDevice, storedRefreshToken, isAuthenticated]);
+  }, [
+    dispatch,
+    trustedDevice,
+    storedRefreshToken,
+    isAuthenticated,
+    isInitializing,
+  ]);
 
-  return null; // This component doesn't render anything
+  return null;
 };
 
 export default AuthInitializer;
