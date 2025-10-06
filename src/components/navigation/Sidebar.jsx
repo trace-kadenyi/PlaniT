@@ -13,7 +13,7 @@ import {
   Moon,
 } from "lucide-react";
 
-import { logout } from "../../redux/authSlice";
+import { logout, logoutUser } from "../../redux/authSlice";
 import { navLinks } from "../../data/navData";
 import { BarLogo, UserProfile, SecondaryLinks } from "../ui/Bar";
 
@@ -66,8 +66,16 @@ export default function Sidebar() {
 
   // Handle logout
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log("Logout error:", error);
+        // Still redirect to login even if API call fails
+        navigate("/login");
+      });
   };
 
   // isactive
