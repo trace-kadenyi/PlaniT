@@ -71,6 +71,19 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+// Logout user
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/api/auth/logout");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 // --- Slice ---
 
 const authSlice = createSlice({
