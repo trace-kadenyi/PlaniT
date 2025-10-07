@@ -195,7 +195,6 @@ const authSlice = createSlice({
         state.loginStatus = "succeeded";
         state.user = action.payload.data.user;
         state.accessToken = action.payload.accessToken;
-        // state.refreshToken = action.payload.refreshToken;
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
       })
@@ -215,7 +214,6 @@ const authSlice = createSlice({
         state.signupStatus = "succeeded";
         state.user = action.payload.data.user;
         state.accessToken = action.payload.accessToken;
-        // state.refreshToken = action.payload.refreshToken;
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
       })
