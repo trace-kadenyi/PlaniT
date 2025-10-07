@@ -280,7 +280,7 @@ const authSlice = createSlice({
     // Logout
     builder
       .addCase(logoutUser.pending, (state) => {
-        // Optional: You can show loading state during logout
+        // Optional: to show loading state during logout
       })
       .addCase(logoutUser.fulfilled, (state) => {
         // Clear all state on successful logout
