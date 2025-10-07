@@ -10,18 +10,18 @@ const AuthInitializer = () => {
 
   useEffect(() => {
     // Debug: Check if cookies are present
-    console.log("Cookies present:", document.cookie);
+    // console.log("Cookies present:", document.cookie);
 
     const initializeAuth = async () => {
       if (!isInitializing) return;
 
-      console.log("AuthInitializer - Checking trusted device:", trustedDevice);
+      // console.log("AuthInitializer - Checking trusted device:", trustedDevice);
 
       if (trustedDevice && !isAuthenticated) {
         try {
-          console.log("Attempting token refresh with HTTP-only cookie...");
+          // console.log("Attempting token refresh with HTTP-only cookie...");
           const result = await dispatch(refreshToken()).unwrap();
-          console.log("Token refresh successful", result);
+          // console.log("Token refresh successful", result);
         } catch (error) {
           console.log("Token refresh failed:", error);
           dispatch(initializationComplete());
