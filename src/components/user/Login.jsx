@@ -75,7 +75,7 @@ const Login = () => {
           />
         </div>
 
-        {/* ADD TRUST DEVICE CHECKBOX */}
+        {/* TRUST DEVICE CHECKBOX */}
         <div className="form-group">
           <label className="flex items-center space-x-2">
             <input
