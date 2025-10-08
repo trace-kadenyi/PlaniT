@@ -4,9 +4,9 @@ import { Navigate } from "react-router-dom";
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isInitializing } = useSelector((state) => state.auth);
 
-  // Show loading while we're initializing auth (checking for refresh token)
+  // Show loading while initializing auth (checking for refresh token)
   if (isInitializing) {
-    return <div>Loading...</div>; // Or a proper loading component
+    return <div>Loading...</div>;
   }
 
   return isAuthenticated ? children : <Navigate to="/login" replace />;
