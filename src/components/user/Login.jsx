@@ -15,10 +15,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [trustDevice, setTrustDevice] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
 
   const { loginStatus, loginError, isAuthenticated } = useSelector(
     (state) => state.auth
@@ -32,12 +32,21 @@ const Login = () => {
   }, [isAuthenticated, navigate]);
 
   // Clear errors when component unmounts
-
   useEffect(() => {
     return () => {
       dispatch(clearAuthErrors());
     };
   }, [dispatch]);
+
+  // Generate random demo credentials
+  const generateDemoCredentials = () => {
+    const randomId = Math.random().toString(36).substring(2, 10);
+    const demoEmail = `demo-${randomId}@planiT.app`;
+    const demoPassword = "demo123"; // Simple, easy to remember
+
+    setEmail(demoEmail);
+    setPassword(demoPassword);
+  };
 
   //   handle submit
   const handleSubmit = (e) => {
