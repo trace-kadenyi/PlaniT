@@ -203,7 +203,7 @@ const Signup = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900"
                 >
-                  <option value="planner">Event Planner</option>
+                  <option value="planner">Planner</option>
                   <option value="viewer">Viewer</option>
                   <option value="admin">Admin</option>
                 </select>
