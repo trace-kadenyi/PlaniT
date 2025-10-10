@@ -55,12 +55,16 @@ const Signup = () => {
   };
 
   // Auto-fill dmeo credentials
-  const fillDemoCredentials = () => {
+  const generateDemoCredentials = () => {
+    const randomId = Math.random().toString(36).substring(2, 10);
+    const demoEmail = `demo-${randomId}@planiT.app`;
+    const demoPassword = "demo123";
+
     setFormData({
       firstName: "Demo",
       lastName: "User",
-      email: "demo@planiT.app",
-      password: "demo123",
+      email: demoEmail,
+      password: demoPassword,
       role: "planner",
     });
   };
@@ -82,12 +86,13 @@ const Signup = () => {
           <div className="p-8 bg-white">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Demo Button */}
+
               <button
                 type="button"
-                onClick={fillDemoCredentials}
+                onClick={generateDemoCredentials}
                 className="w-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
               >
-                Fill Demo Credentials
+                Generate Demo Credentials
               </button>
 
               {/* Name Row */}
