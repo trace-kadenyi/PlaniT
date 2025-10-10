@@ -8,6 +8,8 @@ import {
   clearAuthErrors,
 } from "../../redux/authSlice";
 
+import LogoWordmark from "../navigation/LogoWordmark";
+
 const Signup = () => {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -37,6 +39,7 @@ const Signup = () => {
       dispatch(clearAuthErrors());
     };
   }, [dispatch]);
+
   // handle change
   const handleChange = (e) => {
     setFormData({
@@ -48,6 +51,17 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(signupUser(formData));
+  };
+
+  // Auto-fill dmeo credentials
+  const fillDemoCredentials = () => {
+    setFormData({
+      firstName: "Demo",
+      lastName: "User",
+      email: "demo@planiT.app",
+      password: "demo123",
+      role: "planner",
+    });
   };
 
   return (
