@@ -213,10 +213,10 @@ const Login = () => {
             </form>
 
             {/* Demo Note */}
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="mt-6 p-4 bg-[#F59E0B]/10 rounded-lg border border-[#F59E0B]/20">
               <div className="flex items-start space-x-2">
                 <svg
-                  className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0"
+                  className="w-4 h-4 text-[#D97706] mt-0.5 flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -229,10 +229,10 @@ const Login = () => {
                   />
                 </svg>
                 <div>
-                  <p className="text-sm text-blue-800 font-medium">
+                  <p className="text-sm text-[#D97706] font-medium">
                     Portfolio Demo
                   </p>
-                  <p className="text-xs text-blue-700 mt-1">
+                  <p className="text-xs text-[#B45309] mt-1">
                     Use the demo button above to quickly test the application.
                     No real email required!
                   </p>
