@@ -57,9 +57,9 @@ const Login = () => {
         {/* Login Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
           {/* Header Section - Deep Mulberry */}
-          <div className="bg-gradient-to-br from-[#9B2C62] to-[#7A2250] p-8 flex items-center justify-center flex-col">
+          <div className="bg-gradient-to-br from-[#9B2C62] to-[#7A2250] p-8 text-center">
             <LogoWordmark />
-            <p className="text-white/90 mt-3 text-sm font-light">
+            <p className="text-white/90 mt-3 text-lg font-light">
               Sign in to your account
             </p>
           </div>
@@ -67,7 +67,7 @@ const Login = () => {
           {/* Form Section - White Background */}
           <div className="p-8 bg-white">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Email */}
+              {/* Email with Demo Button */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
                   Email
@@ -78,25 +78,22 @@ const Login = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
-                    placeholder="Enter your email"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 pr-20"
+                    placeholder="demo@planiT.app"
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                    <svg
-                      className="w-5 h-5 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                    <button
+                      type="button"
+                      onClick={() => setEmail("demo@planiT.app")}
+                      className="text-xs bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white px-3 py-1.5 rounded-lg hover:shadow-md transition-all duration-200 font-medium"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                      />
-                    </svg>
+                      Demo
+                    </button>
                   </div>
                 </div>
+                <p className="text-xs text-gray-500">
+                  Click "Demo" to auto-fill test credentials
+                </p>
               </div>
 
               {/* Password */}
@@ -214,6 +211,34 @@ const Login = () => {
                 )}
               </button>
             </form>
+
+            {/* Demo Note */}
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="flex items-start space-x-2">
+                <svg
+                  className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <div>
+                  <p className="text-sm text-blue-800 font-medium">
+                    Portfolio Demo
+                  </p>
+                  <p className="text-xs text-blue-700 mt-1">
+                    Use the demo button above to quickly test the application.
+                    No real email required!
+                  </p>
+                </div>
+              </div>
+            </div>
 
             {/* Sign up link */}
             <div className="mt-6 text-center">
