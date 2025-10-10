@@ -75,9 +75,9 @@ const Signup = () => {
         {/* Signup Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
           {/* Header Section - Deep Mulberry */}
-          <div className="bg-gradient-to-br from-[#9B2C62] to-[#7A2250] p-8 text-center">
+          <div className="bg-gradient-to-br from-[#9B2C62] to-[#7A2250] p-8 flex items-center flex-col justify-center">
             <LogoWordmark />
-            <p className="text-white/90 mt-3 text-lg font-light">
+            <p className="text-white/90 mt-3 text-sm font-light">
               Create Your PlaniT Account
             </p>
           </div>
