@@ -39,14 +39,14 @@ const Login = () => {
   }, [dispatch]);
 
   // Generate random demo credentials
-  const generateDemoCredentials = () => {
-    const randomId = Math.random().toString(36).substring(2, 10);
-    const demoEmail = `demo-${randomId}@planiT.app`;
-    const demoPassword = "demo123"; // Simple, easy to remember
+  // const generateDemoCredentials = () => {
+  //   const randomId = Math.random().toString(36).substring(2, 10);
+  //   const demoEmail = `demo-${randomId}@planiT.app`;
+  //   const demoPassword = "demo123"; // Simple, easy to remember
 
-    setEmail(demoEmail);
-    setPassword(demoPassword);
-  };
+  //   setEmail(demoEmail);
+  //   setPassword(demoPassword);
+  // };
 
   //   handle submit
   const handleSubmit = (e) => {
@@ -77,7 +77,16 @@ const Login = () => {
           {/* Form Section - White Background */}
           <div className="p-8 bg-white">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Email with Demo Button */}
+              {/* Demo Button - Standalone */}
+              {/* <button
+                type="button"
+                onClick={generateDemoCredentials}
+                className="w-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 mb-2"
+              >
+                Generate Demo Credentials
+              </button> */}
+
+              {/* Email */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
                   Email
@@ -88,22 +97,10 @@ const Login = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 pr-20"
-                    placeholder="demo@planiT.app"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
+                    placeholder="Enter your email"
                   />
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                    <button
-                      type="button"
-                      onClick={() => setEmail("demo@planiT.app")}
-                      className="text-xs bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white px-3 py-1.5 rounded-lg hover:shadow-md transition-all duration-200 font-medium"
-                    >
-                      Demo
-                    </button>
-                  </div>
                 </div>
-                <p className="text-xs text-gray-500">
-                  Click "Demo" to auto-fill test credentials
-                </p>
               </div>
 
               {/* Password */}
@@ -268,11 +265,12 @@ const Login = () => {
                 </svg>
                 <div>
                   <p className="text-sm text-[#D97706] font-medium">
-                    Portfolio Demo
+                    Quick Testing
                   </p>
                   <p className="text-xs text-[#B45309] mt-1">
-                    Use the demo button above to quickly test the application.
-                    No real email required!
+                    Click "Generate Demo Credentials" to get instant test
+                    credentials. Each demo account is unique and saves your
+                    data!
                   </p>
                 </div>
               </div>
