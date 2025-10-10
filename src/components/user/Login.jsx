@@ -38,16 +38,6 @@ const Login = () => {
     };
   }, [dispatch]);
 
-  // Generate random demo credentials
-  // const generateDemoCredentials = () => {
-  //   const randomId = Math.random().toString(36).substring(2, 10);
-  //   const demoEmail = `demo-${randomId}@planiT.app`;
-  //   const demoPassword = "demo123"; // Simple, easy to remember
-
-  //   setEmail(demoEmail);
-  //   setPassword(demoPassword);
-  // };
-
   //   handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,15 +67,6 @@ const Login = () => {
           {/* Form Section - White Background */}
           <div className="p-8 bg-white">
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Demo Button - Standalone */}
-              {/* <button
-                type="button"
-                onClick={generateDemoCredentials}
-                className="w-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 mb-2"
-              >
-                Generate Demo Credentials
-              </button> */}
-
               {/* Email */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
