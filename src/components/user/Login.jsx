@@ -265,12 +265,17 @@ const Login = () => {
                 </svg>
                 <div>
                   <p className="text-sm text-[#D97706] font-medium">
-                    Quick Testing
+                    Demo Account Information
                   </p>
                   <p className="text-xs text-[#B45309] mt-1">
-                    Click "Generate Demo Credentials" to get instant test
-                    credentials. Each demo account is unique and saves your
-                    data!
+                    If you're testing the application, your credentials follow
+                    this format:
+                    <br />• Email:{" "}
+                    <span className="font-mono">demo-xxxxxx@planiT.app</span>
+                    <br />• Password:{" "}
+                    <span className="font-semibold">demo123</span>
+                    <br />
+                    Each demo account is unique and your data will be preserved.
                   </p>
                 </div>
               </div>
