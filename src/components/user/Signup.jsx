@@ -90,7 +90,7 @@ const Signup = () => {
               <button
                 type="button"
                 onClick={generateDemoCredentials}
-                className="w-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                className="w-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white py-2 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 text-sm"
               >
                 Generate Demo Credentials
               </button>
