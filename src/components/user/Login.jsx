@@ -55,31 +55,35 @@ const Login = () => {
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         {/* Login Card */}
-        <div className="bg-gradient-to-br from-[#9B2C62] to-[#7A2250] rounded-2xl shadow-2xl overflow-hidden">
-          {/* Header Section */}
-          <div className="bg-gradient-to-br from-[#9B2C62] to-[#7A2250] flex flex-col p-6 text-center mx-auto items-center justify-center">
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+          {/* Header Section - Deep Mulberry */}
+          <div className="bg-gradient-to-br from-[#9B2C62] to-[#7A2250] p-8 flex items-center justify-center flex-col">
             <LogoWordmark />
-            <p className="text-white mt-2">Sign in to your account</p>
+            <p className="text-white/90 mt-3 text-sm font-light">
+              Sign in to your account
+            </p>
           </div>
 
-          {/* Form Section */}
-          <div className="p-8">
+          {/* Form Section - White Background */}
+          <div className="p-8 bg-white">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white">Email</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Email
+                </label>
                 <div className="relative">
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F59E0B] focus:border-transparent transition-all duration-200 text-white placeholder-white/60"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
                     placeholder="Enter your email"
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                     <svg
-                      className="w-5 h-5 text-white/60"
+                      className="w-5 h-5 text-gray-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -97,7 +101,7 @@ const Login = () => {
 
               {/* Password */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-white">
+                <label className="text-sm font-medium text-gray-700">
                   Password
                 </label>
                 <div className="relative">
@@ -106,12 +110,12 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F59E0B] focus:border-transparent transition-all duration-200 text-white placeholder-white/60"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
                     placeholder="Enter your password"
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                     <svg
-                      className="w-5 h-5 text-white/60"
+                      className="w-5 h-5 text-gray-400"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -140,8 +144,8 @@ const Login = () => {
                     <div
                       className={`w-5 h-5 border-2 rounded transition-all duration-200 ${
                         trustDevice
-                          ? "bg-[#F59E0B] border-[#F59E0B]"
-                          : "bg-white/10 border-white/30"
+                          ? "bg-[#9B2C62] border-[#9B2C62]"
+                          : "bg-white border-gray-300"
                       }`}
                     >
                       {trustDevice && (
@@ -161,21 +165,21 @@ const Login = () => {
                       )}
                     </div>
                   </div>
-                  <span className="text-sm text-white font-medium">
+                  <span className="text-sm text-gray-700 font-medium">
                     Trust this device
                   </span>
                 </label>
-                <p className="text-xs text-white/70 ml-8">
+                <p className="text-xs text-gray-500 ml-8">
                   Stay logged in for 7 days on this device
                 </p>
               </div>
 
               {/* Error Message */}
               {loginError && (
-                <div className="bg-red-400/20 backdrop-blur-sm border border-red-300/30 rounded-xl p-4">
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4">
                   <div className="flex items-center space-x-2">
                     <svg
-                      className="w-5 h-5 text-red-200"
+                      className="w-5 h-5 text-red-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -187,7 +191,7 @@ const Login = () => {
                         d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    <span className="text-red-100 text-sm font-medium">
+                    <span className="text-red-700 text-sm font-medium">
                       {loginError}
                     </span>
                   </div>
@@ -213,11 +217,11 @@ const Login = () => {
 
             {/* Sign up link */}
             <div className="mt-6 text-center">
-              <p className="text-white/80">
+              <p className="text-gray-600">
                 Don't have an account?{" "}
                 <a
                   href="/signup"
-                  className="text-white font-semibold hover:text-[#F59E0B] transition-colors duration-200 underline"
+                  className="text-[#9B2C62] font-semibold hover:text-[#7A2250] transition-colors duration-200"
                 >
                   Sign up here
                 </a>
