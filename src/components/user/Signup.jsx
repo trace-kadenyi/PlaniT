@@ -163,7 +163,7 @@ const Signup = () => {
                 </div>
               </div>
 
-              {/* Password */}
+              {/* Pass */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
                   Password
