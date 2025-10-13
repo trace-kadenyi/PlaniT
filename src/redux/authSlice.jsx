@@ -249,16 +249,15 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.isInitializing = false;
       })
-      .addCase(refreshToken.rejected, (state, action) => {
-        state.refreshTokenStatus = "failed";
-        state.refreshTokenError =
-          action.payload?.message || action.error.message;
-        state.isAuthenticated = false;
-        state.accessToken = null;
-        state.refreshToken = null;
-        state.tokenTimestamp = null;
-        state.isInitializing = false;
-      });
+    .addCase(refreshToken.rejected, (state, action) => {
+  state.refreshTokenStatus = "failed";
+  state.refreshTokenError = action.payload || action.error.message;
+  state.isAuthenticated = false;
+  state.accessToken = null;
+  state.refreshToken = null;
+  state.tokenTimestamp = null;
+  state.isInitializing = false;
+});
 
     // Forgot Password
     builder
