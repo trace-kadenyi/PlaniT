@@ -29,7 +29,11 @@ export const signupUser = createAsyncThunk(
       const res = await api.post("/api/auth/signup", userData);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+          const errorData = err.response?.data;
+      if (err.response?.status === 429) {
+        return rejectWithValue(errorData?.message || "Too many signup attempts. Please wait 15 minutes before trying again.");
+      }
+      return rejectWithValue(errorData?.message || err.message);
     }
   }
 );
