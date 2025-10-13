@@ -12,9 +12,12 @@ export const loginUser = createAsyncThunk(
       const res = await api.post("/api/auth/login", credentials);
       return res.data;
     } catch (err) {
-          const errorData = err.response?.data;
+      const errorData = err.response?.data;
       if (err.response?.status === 429) {
-        return rejectWithValue(errorData?.message || "Too many login attempts. Please wait 15 minutes before trying again.");
+        return rejectWithValue(
+          errorData?.message ||
+            "Too many login attempts. Please wait 15 minutes before trying again."
+        );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
@@ -29,9 +32,12 @@ export const signupUser = createAsyncThunk(
       const res = await api.post("/api/auth/signup", userData);
       return res.data;
     } catch (err) {
-          const errorData = err.response?.data;
+      const errorData = err.response?.data;
       if (err.response?.status === 429) {
-        return rejectWithValue(errorData?.message || "Too many signup attempts. Please wait 15 minutes before trying again.");
+        return rejectWithValue(
+          errorData?.message ||
+            "Too many signup attempts. Please wait 15 minutes before trying again."
+        );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
@@ -208,10 +214,9 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginStatus = "failed";
-        state.loginError = action.payload?.message || action.error.message;
+        state.loginError = action.payload || action.error.message;
         state.isAuthenticated = false;
       });
-
     // Signup
     builder
       .addCase(signupUser.pending, (state) => {
