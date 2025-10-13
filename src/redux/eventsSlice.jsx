@@ -219,7 +219,7 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchEventById.rejected, (state, action) => {
         state.fetchOneStatus = "failed";
-        state.fetchOneError = action.error.message;
+         state.fetchOneError = action.payload || action.error.message;
       });
 
     // Create
