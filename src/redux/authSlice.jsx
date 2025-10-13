@@ -230,10 +230,10 @@ const authSlice = createSlice({
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
       })
-     .addCase(signupUser.rejected, (state, action) => {
-  state.signupStatus = "failed";
-  state.signupError = action.payload || action.error.message;
-});
+      .addCase(signupUser.rejected, (state, action) => {
+        state.signupStatus = "failed";
+        state.signupError = action.payload || action.error.message;
+      });
 
     // Refresh Token
     builder
@@ -249,15 +249,15 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.isInitializing = false;
       })
-    .addCase(refreshToken.rejected, (state, action) => {
-  state.refreshTokenStatus = "failed";
-  state.refreshTokenError = action.payload || action.error.message;
-  state.isAuthenticated = false;
-  state.accessToken = null;
-  state.refreshToken = null;
-  state.tokenTimestamp = null;
-  state.isInitializing = false;
-});
+      .addCase(refreshToken.rejected, (state, action) => {
+        state.refreshTokenStatus = "failed";
+        state.refreshTokenError = action.payload || action.error.message;
+        state.isAuthenticated = false;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.tokenTimestamp = null;
+        state.isInitializing = false;
+      });
 
     // Forgot Password
     builder
@@ -268,10 +268,10 @@ const authSlice = createSlice({
       .addCase(forgotPassword.fulfilled, (state) => {
         state.forgotPasswordStatus = "succeeded";
       })
-     .addCase(forgotPassword.rejected, (state, action) => {
-  state.forgotPasswordStatus = "failed";
-  state.forgotPasswordError = action.payload || action.error.message;
-});
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.forgotPasswordStatus = "failed";
+        state.forgotPasswordError = action.payload || action.error.message;
+      });
 
     // Reset Password
     builder
@@ -284,10 +284,8 @@ const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.resetPasswordStatus = "failed";
-        state.resetPasswordError =
-          action.payload?.message || action.error.message;
+        state.resetPasswordError = action.payload || action.error.message;
       });
-
     // Logout
     builder
       .addCase(logoutUser.pending, (state) => {
