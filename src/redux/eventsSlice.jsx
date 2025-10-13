@@ -5,10 +5,21 @@ import api from "../app/api";
 // --- Async Thunks ---
 
 // fetch all events
-export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
-  const res = await api.get("/api/events");
-  return res.data;
-});
+export const fetchEvents = createAsyncThunk(
+  'events/fetchEvents',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get('/api/events');
+      return response.data;
+    } catch (err) {
+      const errorData = err.response?.data;
+      if (err.response?.status === 429) {
+        return rejectWithValue(errorData?.message || "Too many requests. Please wait 15 minutes before trying again.");
+      }
+      return rejectWithValue(errorData?.message || err.message);
+    }
+  }
+);
 
 // fetch event by id
 export const fetchEventById = createAsyncThunk(
@@ -193,7 +204,7 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchEvents.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
+        state.error = action.payload || action.error.message; 
       });
 
     // Fetch one
