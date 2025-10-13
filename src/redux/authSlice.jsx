@@ -230,10 +230,10 @@ const authSlice = createSlice({
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
       })
-      .addCase(signupUser.rejected, (state, action) => {
-        state.signupStatus = "failed";
-        state.signupError = action.payload?.message || action.error.message;
-      });
+     .addCase(signupUser.rejected, (state, action) => {
+  state.signupStatus = "failed";
+  state.signupError = action.payload || action.error.message;
+});
 
     // Refresh Token
     builder
