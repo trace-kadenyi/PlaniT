@@ -6,15 +6,18 @@ import api from "../app/api";
 
 // fetch all events
 export const fetchEvents = createAsyncThunk(
-  'events/fetchEvents',
+  "events/fetchEvents",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get('/api/events');
+      const response = await api.get("/api/events");
       return response.data;
     } catch (err) {
       const errorData = err.response?.data;
       if (err.response?.status === 429) {
-        return rejectWithValue(errorData?.message || "Too many requests. Please wait 15 minutes before trying again.");
+        return rejectWithValue(
+          errorData?.message ||
+            "Too many requests. Please wait 15 minutes before trying again."
+        );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
@@ -24,9 +27,21 @@ export const fetchEvents = createAsyncThunk(
 // fetch event by id
 export const fetchEventById = createAsyncThunk(
   "events/fetchEventById",
-  async (eventId) => {
-    const res = await api.get(`/api/events/${eventId}`);
-    return res.data;
+  async (eventId, { rejectWithValue }) => {
+    // Add rejectWithValue
+    try {
+      const res = await api.get(`/api/events/${eventId}`);
+      return res.data;
+    } catch (err) {
+      const errorData = err.response?.data;
+      if (err.response?.status === 429) {
+        return rejectWithValue(
+          errorData?.message ||
+            "Too many requests. Please wait 15 minutes before trying again."
+        );
+      }
+      return rejectWithValue(errorData?.message || err.message);
+    }
   }
 );
 
@@ -204,7 +219,7 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchEvents.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.payload || action.error.message; 
+        state.error = action.payload || action.error.message;
       });
 
     // Fetch one
@@ -219,7 +234,7 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchEventById.rejected, (state, action) => {
         state.fetchOneStatus = "failed";
-         state.fetchOneError = action.payload || action.error.message;
+        state.fetchOneError = action.payload || action.error.message;
       });
 
     // Create
