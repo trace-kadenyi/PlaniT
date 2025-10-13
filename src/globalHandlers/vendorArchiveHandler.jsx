@@ -4,6 +4,7 @@ export const createVendorArchiveHandler = (
   dispatch,
   id,
   isArchived,
+  vendor,
   toggleArchiveVendor,
   fetchVendors,
   fetchVendorStats,
@@ -14,6 +15,7 @@ export const createVendorArchiveHandler = (
 ) => {
   return () => {
     const duration = 10000;
+    const vendorName = vendor?.name || "Vendor";
     toast(
       (t) => (
         <ArchiveConfirmationToast
@@ -26,7 +28,10 @@ export const createVendorArchiveHandler = (
               .then(() => {
                 toast.dismiss(t.id);
                 toastWithProgress(
-                  `Vendor ${isArchived ? "restored" : "archived"} successfully`
+                  <span>
+                    <strong className="font-bold">{vendorName}</strong>
+                    {isArchived ? " restored" : " archived"} successfully
+                  </span>
                 );
                 // Refresh data if these functions are provided
                 if (fetchVendors && fetchVendorStats && filterMode) {
