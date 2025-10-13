@@ -116,6 +116,7 @@ export default function VendorsTable({
                       dispatch,
                       vendor._id,
                       vendor.isArchived,
+                      vendor,
                       toggleArchiveVendor,
                       fetchVendors,
                       fetchVendorStats,
