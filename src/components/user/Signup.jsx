@@ -71,7 +71,7 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      <div className="max-w-md w-full">
+      <div className="max-w-lg w-full lg:max-w-none lg:w-2/5 py-8">
         {/* Signup Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
           {/* Header Section - Deep Mulberry */}
