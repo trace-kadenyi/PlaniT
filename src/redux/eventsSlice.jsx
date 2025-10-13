@@ -108,7 +108,8 @@ export const updateBudget = createAsyncThunk(
 // fetch events with budget for dashboard
 export const fetchEventsForDashboard = createAsyncThunk(
   "events/fetchEventsForDashboard",
-  async (_, { rejectWithValue }) => { // Add rejectWithValue
+  async (_, { rejectWithValue }) => {
+    // Add rejectWithValue
     try {
       const [eventsRes, budgetStatusRes] = await Promise.all([
         api.get("/api/events"),
@@ -131,7 +132,10 @@ export const fetchEventsForDashboard = createAsyncThunk(
     } catch (err) {
       const errorData = err.response?.data;
       if (err.response?.status === 429) {
-        return rejectWithValue(errorData?.message || "Too many requests. Please wait 15 minutes before trying again.");
+        return rejectWithValue(
+          errorData?.message ||
+            "Too many requests. Please wait 15 minutes before trying again."
+        );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
@@ -325,7 +329,7 @@ const eventsSlice = createSlice({
       })
       .addCase(deleteEvent.rejected, (state, action) => {
         state.deleteStatus = "failed";
-        state.deleteError = action.error.message;
+        state.deleteError = action.payload || action.error.message;
       });
     // update budget
     builder
@@ -373,7 +377,7 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchEventsForDashboard.rejected, (state, action) => {
         state.dashboardStatus = "failed";
-        state.dashboardError = action.error.message;
+        state.dashboardError = action.payload || action.error.message;
       });
   },
 });
