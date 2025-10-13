@@ -74,9 +74,21 @@ export const updateEvent = createAsyncThunk(
 // delete event
 export const deleteEvent = createAsyncThunk(
   "events/deleteEvent",
-  async (eventId) => {
-    await api.delete(`/api/events/${eventId}`);
-    return eventId;
+  async (eventId, { rejectWithValue }) => {
+    // Add rejectWithValue
+    try {
+      await api.delete(`/api/events/${eventId}`);
+      return eventId;
+    } catch (err) {
+      const errorData = err.response?.data;
+      if (err.response?.status === 429) {
+        return rejectWithValue(
+          errorData?.message ||
+            "Too many requests. Please wait 15 minutes before trying again."
+        );
+      }
+      return rejectWithValue(errorData?.message || err.message);
+    }
   }
 );
 
