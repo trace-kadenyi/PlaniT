@@ -12,7 +12,11 @@ export const loginUser = createAsyncThunk(
       const res = await api.post("/api/auth/login", credentials);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+          const errorData = err.response?.data;
+      if (err.response?.status === 429) {
+        return rejectWithValue(errorData?.message || "Too many login attempts. Please wait 15 minutes before trying again.");
+      }
+      return rejectWithValue(errorData?.message || err.message);
     }
   }
 );
