@@ -268,11 +268,10 @@ const authSlice = createSlice({
       .addCase(forgotPassword.fulfilled, (state) => {
         state.forgotPasswordStatus = "succeeded";
       })
-      .addCase(forgotPassword.rejected, (state, action) => {
-        state.forgotPasswordStatus = "failed";
-        state.forgotPasswordError =
-          action.payload?.message || action.error.message;
-      });
+     .addCase(forgotPassword.rejected, (state, action) => {
+  state.forgotPasswordStatus = "failed";
+  state.forgotPasswordError = action.payload || action.error.message;
+});
 
     // Reset Password
     builder
