@@ -135,42 +135,49 @@ export default function Clients() {
           </div>
         </div>
 
-        <button
-          onClick={handleDeleteAll}
-          disabled={deleteAllStatus === "loading"}
-          className={`bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
-            deleteAllStatus === "loading" ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-        >
-          {deleteAllStatus === "loading" ? "Deleting..." : "Delete All Clients"}
-        </button>
-
-        {/* Filter Controls */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-            <Filter className="mr-2 w-4 h-4" />
-            <span>Filter by:</span>
+        <div className="flex justify-between flex-wrap mb-6 gap-2">
+          {/* Filter Controls */}
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+              <Filter className="mr-2 w-4 h-4" />
+              <span>Filter by:</span>
+            </div>
+            {["all", "active", "archived"].map((mode) => (
+              <button
+                key={mode}
+                onClick={() => {
+                  setFilterMode(mode);
+                  setCurrentPage(1);
+                }}
+                className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors ${
+                  filterMode === mode
+                    ? "bg-[#9B2C62] text-white shadow-md"
+                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
+                }`}
+              >
+                {mode === "active" && (
+                  <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                )}
+                {mode === "archived" && <span>🗃️</span>}
+                {mode.charAt(0).toUpperCase() + mode.slice(1)}
+              </button>
+            ))}
           </div>
-          {["all", "active", "archived"].map((mode) => (
+          <div className="w-max mx-auto sm:mx-0">
             <button
-              key={mode}
-              onClick={() => {
-                setFilterMode(mode);
-                setCurrentPage(1);
-              }}
-              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors ${
-                filterMode === mode
-                  ? "bg-[#9B2C62] text-white shadow-md"
-                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
+              onClick={handleDeleteAll}
+              disabled={deleteAllStatus === "loading"}
+              className={`bg-[#9B2C62] hover:bg-[#801f4f] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
+                deleteAllStatus === "loading"
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
             >
-              {mode === "active" && (
-                <span className="w-2 h-2 rounded-full bg-green-500"></span>
-              )}
-              {mode === "archived" && <span>🗃️</span>}
-              {mode.charAt(0).toUpperCase() + mode.slice(1)}
+              {deleteAllStatus === "loading"
+                ? "Deleting..."
+                : "Delete All Clients"}
             </button>
-          ))}
+          </div>
         </div>
 
         {/* Status Messages */}
