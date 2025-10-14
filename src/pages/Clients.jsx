@@ -2,16 +2,21 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus, ChevronLeft, ChevronRight, Filter, Search } from "lucide-react";
+import toast from "react-hot-toast";
 
 import {
   fetchClients,
   archiveClient,
   restoreClient,
   resetArchiveStates,
+  deleteAllClients,
 } from "../redux/clientsSlice";
 
 import ClientsTable from "../components/clients/ClientsTable";
 import ClientPagination from "../components/clients/ClientPagination";
+import { createAllClientsDeleteHandler } from "../components/taskManagerCollection/utils/handlers/createAllClientsDeleteHandler";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 
 export default function Clients() {
   const dispatch = useDispatch();
@@ -82,6 +87,17 @@ export default function Clients() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // handle delete all clients
+  const handleDeleteAll = createAllClientsDeleteHandler(
+  dispatch,
+  navigate,
+  deleteAllClients,
+  toast,
+  toastWithProgress,
+  DeleteConfirmationToast
+);
+
+
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
       <div className="max-w-7xl mx-auto">
@@ -113,6 +129,8 @@ export default function Clients() {
             </button>
           </div>
         </div>
+
+        
 
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
