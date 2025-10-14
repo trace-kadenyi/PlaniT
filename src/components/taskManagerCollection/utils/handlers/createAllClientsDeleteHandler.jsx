@@ -14,7 +14,7 @@ export const createAllClientsDeleteHandler = (
         <DeleteConfirmationToast
           t={t}
           duration={duration}
-          type="all clients"
+          type="clients"
           onConfirm={async () => {
             const resultAction = await dispatch(deleteAllClients());
             toast.dismiss(t.id);
