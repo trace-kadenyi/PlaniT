@@ -394,5 +394,6 @@ export const {
   resetClientUpdateState,
   resetClientDeleteState,
   resetArchiveStates,
+  resetDeleteAllClientsState,
 } = clientsSlice.actions;
 export default clientsSlice.reducer;
