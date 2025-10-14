@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 import {
   loginUser,
-  resetLoginState,
   clearAuthErrors,
   setTrustedDevice,
 } from "../../redux/authSlice";
