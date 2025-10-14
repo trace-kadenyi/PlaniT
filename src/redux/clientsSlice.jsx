@@ -173,6 +173,10 @@ const clientsSlice = createSlice({
       state.deleteStatus = "idle";
       state.deleteError = null;
     },
+    resetDeleteAllClientsState: (state) => {
+      state.deleteAllStatus = "idle";
+      state.deleteAllError = null;
+    },
     resetArchiveStates: (state) => {
       state.items = state.items.map((client) => ({
         ...client,
