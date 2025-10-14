@@ -10,6 +10,7 @@ import {
   restoreClient,
   resetArchiveStates,
   deleteAllClients,
+  resetDeleteAllClientsState,
 } from "../redux/clientsSlice";
 
 import ClientsTable from "../components/clients/ClientsTable";
@@ -31,6 +32,7 @@ export default function Clients() {
     items: allClients,
     status,
     error,
+    deleteAllStatus,
   } = useSelector((state) => state.clients);
 
   // fetch clients
@@ -43,6 +45,10 @@ export default function Clients() {
     return () => {
       dispatch(resetArchiveStates());
     };
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => dispatch(resetDeleteAllClientsState());
   }, [dispatch]);
 
   // handle archive toggle
@@ -89,14 +95,13 @@ export default function Clients() {
 
   // handle delete all clients
   const handleDeleteAll = createAllClientsDeleteHandler(
-  dispatch,
-  navigate,
-  deleteAllClients,
-  toast,
-  toastWithProgress,
-  DeleteConfirmationToast
-);
-
+    dispatch,
+    navigate,
+    deleteAllClients,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
@@ -130,16 +135,15 @@ export default function Clients() {
           </div>
         </div>
 
-        
-<button
-  onClick={handleDeleteAll}
-  disabled={deleteAllStatus === "loading"}
-  className={`bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
-    deleteAllStatus === "loading" ? "opacity-50 cursor-not-allowed" : ""
-  }`}
->
-  {deleteAllStatus === "loading" ? "Deleting..." : "Delete All Clients"}
-</button>
+        <button
+          onClick={handleDeleteAll}
+          disabled={deleteAllStatus === "loading"}
+          className={`bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
+            deleteAllStatus === "loading" ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          {deleteAllStatus === "loading" ? "Deleting..." : "Delete All Clients"}
+        </button>
 
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
