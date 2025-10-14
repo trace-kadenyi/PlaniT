@@ -145,6 +145,9 @@ const clientsSlice = createSlice({
     deleteStatus: "idle",
     deleteError: null,
 
+    deleteAllStatus: "idle",
+    deleteAllError: null,
+
     clientDetails: {
       data: null,
       events: [],
