@@ -264,6 +264,23 @@ const clientsSlice = createSlice({
         );
       })
 
+      // Delete all clients
+      .addCase(deleteAllClients.pending, (state) => {
+        state.deleteAllStatus = "loading";
+        state.deleteAllError = null;
+      })
+      .addCase(deleteAllClients.fulfilled, (state, action) => {
+        state.deleteAllStatus = "succeeded";
+        state.items = []; // clear all clients from state
+      })
+      .addCase(deleteAllClients.rejected, (state, action) => {
+        state.deleteAllStatus = "failed";
+        state.deleteAllError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to delete all clients.";
+      })
+
       // Fetch a single client with their events
       .addCase(fetchClientWithEvents.pending, (state) => {
         state.clientDetails.status = "loading";
