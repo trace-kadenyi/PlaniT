@@ -64,7 +64,7 @@ export const deleteAllClients = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.delete("/api/clients");
-      return res.data; // will contain { message, deletedCount }
+      return res.data; // contains { message, deletedCount }
     } catch (err) {
       return rejectWithValue(
         err.response?.data || { message: "Failed to delete all clients" }
