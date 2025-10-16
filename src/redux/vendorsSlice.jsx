@@ -159,6 +159,10 @@ const vendorsSlice = createSlice({
       state.vendorDetails.status = "idle";
       state.vendorDetails.error = null;
     },
+    resetDeleteAllVendorsState: (state) => {
+      state.deleteAllStatus = "idle";
+      state.deleteAllError = null;
+    },
   },
   extraReducers: (builder) => {
     // Fetch vendors
