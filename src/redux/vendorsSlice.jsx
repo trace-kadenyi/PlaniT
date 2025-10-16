@@ -308,6 +308,23 @@ const vendorsSlice = createSlice({
           state.vendorDetails.data.isDeleting = false;
         }
       });
+    // Delete all vendors
+    builder
+      .addCase(deleteAllVendors.pending, (state) => {
+        state.deleteAllStatus = "loading";
+        state.deleteAllError = null;
+      })
+      .addCase(deleteAllVendors.fulfilled, (state, action) => {
+        state.deleteAllStatus = "succeeded";
+        state.items = []; // clear all vendors from state
+      })
+      .addCase(deleteAllVendors.rejected, (state, action) => {
+        state.deleteAllStatus = "failed";
+        state.deleteAllError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to delete all vendors.";
+      });
   },
 });
 
