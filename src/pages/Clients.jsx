@@ -15,7 +15,7 @@ import {
 
 import ClientsTable from "../components/clients/ClientsTable";
 import ClientPagination from "../components/clients/ClientPagination";
-import { createAllClientsDeleteHandler } from "../components/taskManagerCollection/utils/handlers/createAllClientsDeleteHandler";
+import { createAllClientsDeleteHandler } from "../globalHandlers/createAllClientsDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 
