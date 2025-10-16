@@ -323,7 +323,7 @@ const vendorsSlice = createSlice({
       .addCase(deleteAllVendors.fulfilled, (state, action) => {
         state.deleteAllStatus = "succeeded";
         state.items = []; // clear all vendors from state
-        state.stats = [];
+        state.stats = []; // clear stats array
       })
       .addCase(deleteAllVendors.rejected, (state, action) => {
         state.deleteAllStatus = "failed";
