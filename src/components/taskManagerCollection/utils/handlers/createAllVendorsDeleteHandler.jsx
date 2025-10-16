@@ -1,4 +1,4 @@
-export const createAllClientsDeleteHandler = (
+export const createAllVendorsDeleteHandler = (
   dispatch,
   navigate,
   deleteAllVendors,
