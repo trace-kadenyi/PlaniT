@@ -107,7 +107,7 @@ export const deleteAllVendors = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.delete("/api/vendors");
-      return res.data; // contains { message, deletedCount }
+      return res.data;
     } catch (err) {
       return rejectWithValue(
         err.response?.data || { message: "Failed to delete all vendors" }
