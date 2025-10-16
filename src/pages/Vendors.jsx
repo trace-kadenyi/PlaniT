@@ -60,6 +60,7 @@ export default function Vendors() {
     return () => dispatch(resetDeleteAllVendorsState());
   }, [dispatch]);
 
+  // handle delete all vendors
   const handleDeleteAll = createAllVendorsDeleteHandler(
     dispatch,
     navigate,
