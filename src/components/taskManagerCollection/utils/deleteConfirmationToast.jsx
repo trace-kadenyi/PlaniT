@@ -35,6 +35,10 @@ export default function DeleteConfirmationToast({
       warning: "This will permanently delete the vendor.",
       confirm: "Yes, Delete Vendor",
     },
+    vendors: {
+      warning: "This will permanently all the vendors.",
+      confirm: "Yes, Delete Vendors",
+    },
   };
 
   useEffect(() => {
