@@ -149,9 +149,11 @@ const vendorsSlice = createSlice({
       state.updateError = null;
       state.archiveStatus = "idle";
       state.archiveError = null;
-      (state.deleteStatus = "idle"),
-        (state.deleteError = null),
-        (state.vendorDetails.status = "idle");
+      state.deleteStatus = "idle";
+      state.deleteError = null;
+      state.deleteAllStatus = "idle";
+      state.deleteAllError = null;
+      state.vendorDetails.status = "idle";
       state.vendorDetails.error = null;
     },
     clearVendorDetails: (state) => {
@@ -317,6 +319,7 @@ const vendorsSlice = createSlice({
       .addCase(deleteAllVendors.fulfilled, (state, action) => {
         state.deleteAllStatus = "succeeded";
         state.items = []; // clear all vendors from state
+        state.stats = [];
       })
       .addCase(deleteAllVendors.rejected, (state, action) => {
         state.deleteAllStatus = "failed";
