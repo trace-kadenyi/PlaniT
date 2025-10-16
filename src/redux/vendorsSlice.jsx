@@ -155,6 +155,7 @@ const vendorsSlice = createSlice({
       state.deleteError = null;
       state.deleteAllStatus = "idle";
       state.deleteAllError = null;
+      state.statsStatus = "idle";
       state.vendorDetails.status = "idle";
       state.vendorDetails.error = null;
     },
