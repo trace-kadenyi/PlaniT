@@ -66,7 +66,8 @@ export default function Vendors() {
     deleteAllVendors,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
+    resetVendorStatuses
   );
 
   return (
