@@ -328,5 +328,9 @@ const vendorsSlice = createSlice({
   },
 });
 
-export const { resetVendorStatuses, clearVendorDetails } = vendorsSlice.actions;
+export const {
+  resetVendorStatuses,
+  clearVendorDetails,
+  resetDeleteAllVendorsState,
+} = vendorsSlice.actions;
 export default vendorsSlice.reducer;
