@@ -4,7 +4,8 @@ export const createAllVendorsDeleteHandler = (
   deleteAllVendors,
   toast,
   toastWithProgress,
-  DeleteConfirmationToast
+  DeleteConfirmationToast,
+  resetVendorStatuses
 ) => {
   return () => {
     const duration = 10000;
@@ -28,6 +29,8 @@ export const createAllVendorsDeleteHandler = (
                     deletedCount > 1 ? "s" : ""
                   } deleted successfully`
                 );
+                // reset vendor status after successful deletion
+                dispatch(resetVendorStatuses());
               } else {
                 toastWithProgress("No vendors to delete");
               }
