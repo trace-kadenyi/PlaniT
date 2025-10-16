@@ -99,32 +99,32 @@ export default function Vendors() {
         </div>
 
         <div className="flex justify-between flex-wrap mb-6 gap-2">
-        {/* Filter Controls */}
-        <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
-          <div className="flex items-center text-sm text-[#9B2C62] dark:text-gray-400">
-            <Filter className="w-4 h-4 mr-2" />
-            <span>Filter by:</span>
+          {/* Filter Controls */}
+          <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
+            <div className="flex items-center text-sm text-[#9B2C62] dark:text-gray-400">
+              <Filter className="w-4 h-4 mr-2" />
+              <span>Filter by:</span>
+            </div>
+            {["all", "active", "archived"].map((mode) => (
+              <button
+                key={mode}
+                onClick={() => setFilterMode(mode)}
+                className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
+                  filterMode === mode
+                    ? "bg-[#9B2C62] text-white shadow-md"
+                    : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA] dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
+                }`}
+              >
+                {mode === "active" && (
+                  <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                )}
+                {mode === "archived" && <Archive className="w-4 h-4" />}
+                {mode.charAt(0).toUpperCase() + mode.slice(1)}
+              </button>
+            ))}
           </div>
-          {["all", "active", "archived"].map((mode) => (
-            <button
-              key={mode}
-              onClick={() => setFilterMode(mode)}
-              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
-                filterMode === mode
-                  ? "bg-[#9B2C62] text-white shadow-md"
-                  : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA] dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
-              }`}
-            >
-              {mode === "active" && (
-                <span className="w-2 h-2 rounded-full bg-green-500"></span>
-              )}
-              {mode === "archived" && <Archive className="w-4 h-4" />}
-              {mode.charAt(0).toUpperCase() + mode.slice(1)}
-            </button>
-          ))}
-        </div>
 
-         {filteredVendors.length > 0 && (
+          {filteredVendors.length > 0 && (
             <div className="w-max mx-auto sm:mx-0">
               <button
                 onClick={handleDeleteAll}
