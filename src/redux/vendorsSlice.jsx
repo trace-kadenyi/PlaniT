@@ -143,6 +143,7 @@ const vendorsSlice = createSlice({
   },
   reducers: {
     resetVendorStatuses: (state) => {
+      state.status = "idle";
       state.createStatus = "idle";
       state.createError = null;
       state.updateStatus = "idle";
