@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus, Archive, Search, Filter } from "lucide-react";
+import toast from "react-hot-toast";
 
 import {
   toggleArchiveVendor,
   resetVendorStatuses,
   fetchVendors,
   fetchVendorStats,
+  deleteAllVendors,
+  resetDeleteAllVendorsState,
 } from "../redux/vendorsSlice";
 
 import { GenErrorState } from "../components/shared/ErrorStates";
@@ -15,11 +18,16 @@ import { useFilteredVendors } from "../globalHooks/useFilteredVendors";
 import VendorPagination from "../components/vendors/VendorPagination";
 import VendorsTable from "../components/vendors/VendorsTable";
 import { VendorStatsLoading } from "../components/shared/LoadingStates";
+import { createAllVendorsDeleteHandler } from "../components/taskManagerCollection/utils/handlers/createAllVendorsDeleteHandler";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 
 export default function Vendors() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterMode, setFilterMode] = useState("all");
+
+  const { deleteAllStatus } = useSelector((state) => state.vendors);
 
   const {
     searchTerm,
@@ -47,6 +55,19 @@ export default function Vendors() {
       dispatch(resetVendorStatuses());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    return () => dispatch(resetDeleteAllVendorsState());
+  }, [dispatch]);
+
+  const handleDeleteAll = createAllVendorsDeleteHandler(
+    dispatch,
+    navigate,
+    deleteAllVendors,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
 
   return (
     <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
@@ -77,6 +98,7 @@ export default function Vendors() {
           </div>
         </div>
 
+        <div className="flex justify-between flex-wrap mb-6 gap-2">
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
           <div className="flex items-center text-sm text-[#9B2C62] dark:text-gray-400">
@@ -100,6 +122,25 @@ export default function Vendors() {
               {mode.charAt(0).toUpperCase() + mode.slice(1)}
             </button>
           ))}
+        </div>
+
+         {filteredVendors.length > 0 && (
+            <div className="w-max mx-auto sm:mx-0">
+              <button
+                onClick={handleDeleteAll}
+                disabled={deleteAllStatus === "loading"}
+                className={`bg-[#9B2C62] hover:bg-[#801f4f] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
+                  deleteAllStatus === "loading"
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+              >
+                {deleteAllStatus === "loading"
+                  ? "Deleting..."
+                  : "Delete All vendors"}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Status Messages */}
