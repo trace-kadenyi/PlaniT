@@ -101,7 +101,7 @@ export default function Vendors() {
 
         <div className="flex justify-between flex-wrap mb-6 gap-2">
           {/* Filter Controls */}
-          <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
             <div className="flex items-center text-sm text-[#9B2C62] dark:text-gray-400">
               <Filter className="w-4 h-4 mr-2" />
               <span>Filter by:</span>
