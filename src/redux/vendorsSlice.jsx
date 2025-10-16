@@ -101,6 +101,21 @@ export const deleteVendor = createAsyncThunk(
   }
 );
 
+// Delete all vendors
+export const deleteAllVendors = createAsyncThunk(
+  "vendors/deleteAllVendors",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.delete("/api/vendors");
+      return res.data; // contains { message, deletedCount }
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to delete all vendors" }
+      );
+    }
+  }
+);
+
 const vendorsSlice = createSlice({
   name: "vendors",
   initialState: {
