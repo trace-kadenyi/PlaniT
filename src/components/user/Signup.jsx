@@ -59,6 +59,7 @@ const Signup = () => {
     const randomId = Math.random().toString(36).substring(2, 10);
     const demoEmail = `demo-${randomId}@planiT.app`;
     const demoPassword = "demo123";
+    const randomOrgId = Math.random().toString(36).substring(2, 6);
 
     setFormData({
       firstName: "Demo",
@@ -66,6 +67,7 @@ const Signup = () => {
       email: demoEmail,
       password: demoPassword,
       organizationName: "Demo Events Co.",
+      organizationName: `Demo ${randomOrgId.toUpperCase()} Events`,
     });
   };
 
