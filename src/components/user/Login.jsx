@@ -253,7 +253,9 @@ const Login = () => {
                     <br />• Email:{" "}
                     <span className="font-mono">demo-xxxxxx@planiT.app</span>
                     <br />• Password:{" "}
-                    <span className="font-semibold">demo123</span>
+                    <span className="font-semibold">
+                      PlaniT-Demo-{new Date().getFullYear()}!
+                    </span>
                     <br />
                     Each demo account is unique and your data will be preserved.
                   </p>
