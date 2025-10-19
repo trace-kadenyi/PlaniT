@@ -245,7 +245,7 @@ const Signup = () => {
                   placeholder="Your company or team name"
                 />
                 <p className="text-xs text-gray-500">
-                  Leave blank for personal workspace
+                  Leave blank for automatic personal workspace
                   {defaultWorkspaceName && (
                     <span className="font-medium">
                       {" "}
