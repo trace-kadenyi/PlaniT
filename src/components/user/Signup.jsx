@@ -195,13 +195,22 @@ const Signup = () => {
                     type="text"
                     name="lastName"
                     value={formData.lastName}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
-                    placeholder="Last name"
-                  />
-                </div>
-              </div>
-
+                    onChange={(e) => {
+        handleChange(e);
+        if (fieldErrors.lastName) {
+          setFieldErrors({...fieldErrors, lastName: ""});
+        }
+      }}
+      className={`w-full px-4 py-3 bg-white border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 ${
+        fieldErrors.lastName ? 'border-red-300' : 'border-gray-200'
+      }`}
+      placeholder="Last name"
+    />
+    {fieldErrors.lastName && (
+      <p className="text-xs text-red-600">{fieldErrors.lastName}</p>
+    )}
+  </div>
+</div>
               {/* Email */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
