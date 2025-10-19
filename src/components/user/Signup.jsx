@@ -22,6 +22,13 @@ const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordErrors, setPasswordErrors] = useState({
+  length: false,
+  uppercase: false,
+  lowercase: false,
+  number: false,
+  special: false,
+});
 
   const { signupStatus, signupError, isAuthenticated } = useSelector(
     (state) => state.auth
@@ -75,6 +82,20 @@ const Signup = () => {
   const defaultWorkspaceName = formData.firstName
     ? `${formData.firstName}'s Event Planning`
     : "";
+
+// Password validation function
+const validatePassword = (password) => {
+  const errors = {
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    lowercase: /[a-z]/.test(password),
+    number: /\d/.test(password),
+    special: /[@$!%*?&]/.test(password),
+  };
+  setPasswordErrors(errors);
+  return Object.values(errors).every(Boolean);
+};
+    
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
