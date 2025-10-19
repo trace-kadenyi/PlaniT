@@ -69,6 +69,11 @@ const Signup = () => {
     });
   };
 
+  // default workspace name
+  const defaultWorkspaceName = formData.firstName
+    ? `${formData.firstName}'s Event Planning`
+    : "";
+
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="max-w-lg w-full lg:max-w-none lg:w-2/5 py-8">
@@ -223,6 +228,31 @@ const Signup = () => {
                   </div>
                 </div>
                 <p className="text-xs text-gray-500">Minimum 6 characters</p>
+              </div>
+
+              {/* Organization Name */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Company/Organization Name{" "}
+                  <span className="text-gray-400 text-xs">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  name="organizationName"
+                  value={formData.organizationName}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
+                  placeholder="Your company or team name"
+                />
+                <p className="text-xs text-gray-500">
+                  Leave blank for personal workspace
+                  {defaultWorkspaceName && (
+                    <span className="font-medium">
+                      {" "}
+                      - {defaultWorkspaceName}
+                    </span>
+                  )}
+                </p>
               </div>
 
               {/* Role */}
