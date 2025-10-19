@@ -16,7 +16,7 @@ const Signup = () => {
     lastName: "",
     email: "",
     password: "",
-    role: "planner",
+    organizationName: "",
   });
 
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ const Signup = () => {
       lastName: "User",
       email: demoEmail,
       password: demoPassword,
-      role: "planner",
+      organizationName: "Demo Events Co.",
     });
   };
 
