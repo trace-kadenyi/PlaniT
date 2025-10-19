@@ -336,6 +336,11 @@ const Signup = () => {
                     Use the demo button to pre-fill all fields. Perfect for
                     testing the application features!
                   </p>
+                  <p className="text-xs text-[#B45309] mt-1">
+                    <strong>Note:</strong> Demo uses simple passwords for
+                    testing convenience. Production accounts enforce strong
+                    password policies.
+                  </p>
                 </div>
               </div>
             </div>
