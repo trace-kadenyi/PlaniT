@@ -30,6 +30,12 @@ const Signup = () => {
     number: false,
     special: false,
   });
+  const [fieldErrors, setFieldErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
 
   const { signupStatus, signupError, isAuthenticated } = useSelector(
     (state) => state.auth
@@ -78,6 +84,19 @@ const Signup = () => {
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const errors = {};
+    if (!formData.firstName.trim()) errors.firstName = "First name is required";
+    if (!formData.lastName.trim()) errors.lastName = "Last name is required";
+    if (!formData.email.trim()) errors.email = "Email is required";
+    if (!formData.password) errors.password = "Password is required";
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+
+    setFieldErrors({}); // Clear errors
     dispatch(signupUser(formData));
   };
 
@@ -147,11 +166,24 @@ const Signup = () => {
                     type="text"
                     name="firstName"
                     value={formData.firstName}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
+                    onChange={(e) => {
+                      handleChange(e);
+                      if (fieldErrors.firstName) {
+                        setFieldErrors({ ...fieldErrors, firstName: "" });
+                      }
+                    }}
+                    className={`w-full px-4 py-3 bg-white border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 ${
+                      fieldErrors.firstName
+                        ? "border-red-300"
+                        : "border-gray-200"
+                    }`}
                     placeholder="First name"
                   />
+                  {fieldErrors.firstName && (
+                    <p className="text-xs text-red-600">
+                      {fieldErrors.firstName}
+                    </p>
+                  )}
                 </div>
 
                 {/* Last Name */}
@@ -164,7 +196,6 @@ const Signup = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    required
                     className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
                     placeholder="Last name"
                   />
@@ -182,7 +213,6 @@ const Signup = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
                     className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400"
                     placeholder="Enter your email"
                   />
@@ -215,7 +245,6 @@ const Signup = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    required
                     minLength="8"
                     className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 pr-12"
                     placeholder="Create a strong password"
