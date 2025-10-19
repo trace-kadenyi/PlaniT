@@ -58,7 +58,7 @@ const Signup = () => {
   const generateDemoCredentials = () => {
     const randomId = Math.random().toString(36).substring(2, 10);
     const demoEmail = `demo-${randomId}@planiT.app`;
-    const demoPassword = "demo123";
+    const demoPassword = `PlaniT-Demo-${new Date().getFullYear()}!`;
     const randomOrgId = Math.random().toString(36).substring(2, 6);
 
     setFormData({
