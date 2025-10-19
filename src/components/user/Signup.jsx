@@ -30,6 +30,26 @@ const Signup = () => {
     special: false,
   });
 
+  // Add these icon components
+  const CheckIcon = () => (
+    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+      <path
+        fillRule="evenodd"
+        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+
+  const XIcon = () => (
+    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+      <path
+        fillRule="evenodd"
+        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
   const { signupStatus, signupError, isAuthenticated } = useSelector(
     (state) => state.auth
   );
@@ -207,9 +227,9 @@ const Signup = () => {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    minLength="6"
+                    minLength="8"
                     className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 pr-12"
-                    placeholder="Enter your password"
+                    placeholder="Create a strong password"
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                     <button
@@ -255,9 +275,66 @@ const Signup = () => {
                     </button>
                   </div>
                 </div>
-                <p className="text-xs text-gray-500">Minimum 6 characters</p>
+                {/* Password Requirements */}
+                {/* Password Requirements */}
+                <div className="space-y-1">
+                  <p className="text-xs text-gray-500">
+                    Password must contain:
+                  </p>
+                  <div className="grid grid-cols-2 gap-1 text-xs">
+                    <div
+                      className={`flex items-center space-x-1 ${
+                        passwordErrors.length
+                          ? "text-green-600"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      <span>• 8+ characters</span>
+                      {passwordErrors.length ? <CheckIcon /> : <XIcon />}
+                    </div>
+                    <div
+                      className={`flex items-center space-x-1 ${
+                        passwordErrors.uppercase
+                          ? "text-green-600"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      <span>• Uppercase letter</span>
+                      {passwordErrors.uppercase ? <CheckIcon /> : <XIcon />}
+                    </div>
+                    <div
+                      className={`flex items-center space-x-1 ${
+                        passwordErrors.lowercase
+                          ? "text-green-600"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      <span>• Lowercase letter</span>
+                      {passwordErrors.lowercase ? <CheckIcon /> : <XIcon />}
+                    </div>
+                    <div
+                      className={`flex items-center space-x-1 ${
+                        passwordErrors.number
+                          ? "text-green-600"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      <span>• Number</span>
+                      {passwordErrors.number ? <CheckIcon /> : <XIcon />}
+                    </div>
+                    <div
+                      className={`flex items-center space-x-1 ${
+                        passwordErrors.special
+                          ? "text-green-600"
+                          : "text-gray-400"
+                      }`}
+                    >
+                      <span>• Special character</span>
+                      {passwordErrors.special ? <CheckIcon /> : <XIcon />}
+                    </div>
+                  </div>
+                </div>
               </div>
-
               {/* Organization Name */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
