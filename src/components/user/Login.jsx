@@ -15,13 +15,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [trustDevice, setTrustDevice] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordErrors, setPasswordErrors] = useState({
-    length: false,
-    uppercase: false,
-    lowercase: false,
-    number: false,
-    special: false,
-  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,19 +48,6 @@ const Login = () => {
           dispatch(setTrustedDevice(true));
         }
       });
-  };
-
-  // Password validation function
-  const validatePassword = (password) => {
-    const errors = {
-      length: password.length >= 8,
-      uppercase: /[A-Z]/.test(password),
-      lowercase: /[a-z]/.test(password),
-      number: /\d/.test(password),
-      special: /[@$!%*?&]/.test(password),
-    };
-    setPasswordErrors(errors);
-    return Object.values(errors).every(Boolean);
   };
 
   return (
