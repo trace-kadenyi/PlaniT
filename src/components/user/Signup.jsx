@@ -112,7 +112,6 @@ const Signup = () => {
       lastName: "User",
       email: demoEmail,
       password: demoPassword,
-      organizationName: "Demo Events Co.",
       organizationName: `Demo ${randomOrgId.toUpperCase()} Events`,
     });
   };
