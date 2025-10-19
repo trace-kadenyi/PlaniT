@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { refreshToken, initializationComplete } from "../../redux/authSlice";
+import {
+  refreshToken,
+  initializationComplete,
+  setTrustedDevice,
+} from "../../redux/authSlice";
 
 const AuthInitializer = () => {
   const dispatch = useDispatch();
@@ -24,6 +28,7 @@ const AuthInitializer = () => {
           // console.log("Token refresh successful", result);
         } catch (error) {
           console.log("Token refresh failed:", error);
+          dispatch(setTrustedDevice(false));
           dispatch(initializationComplete());
         }
       } else {
