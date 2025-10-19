@@ -33,12 +33,22 @@ export const signupUser = createAsyncThunk(
       return res.data;
     } catch (err) {
       const errorData = err.response?.data;
+
+      // Handle validation errors specifically
+      if (err.response?.status === 400 && errorData?.validationErrors) {
+        return rejectWithValue(
+          errorData.message || "Please check your input fields"
+        );
+      }
+
       if (err.response?.status === 429) {
         return rejectWithValue(
           errorData?.message ||
             "Too many signup attempts. Please wait 15 minutes before trying again."
         );
       }
+
+      // Return the backend error message
       return rejectWithValue(errorData?.message || err.message);
     }
   }
