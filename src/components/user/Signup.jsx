@@ -86,7 +86,6 @@ const Signup = () => {
           <div className="p-8 bg-white">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Demo Button */}
-
               <button
                 type="button"
                 onClick={generateDemoCredentials}
@@ -227,7 +226,7 @@ const Signup = () => {
               </div>
 
               {/* Role */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-700">
                   Role
                 </label>
@@ -241,7 +240,7 @@ const Signup = () => {
                   <option value="viewer">Viewer</option>
                   <option value="admin">Admin</option>
                 </select>
-              </div>
+              </div> */}
 
               {/* Error Message */}
               {signupError && (
