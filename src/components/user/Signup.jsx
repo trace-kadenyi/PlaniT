@@ -114,6 +114,15 @@ const Signup = () => {
       password: demoPassword,
       organizationName: `Demo ${randomOrgId.toUpperCase()} Events`,
     });
+
+    // Manually set password as valid for demo
+    setPasswordErrors({
+      length: true,
+      uppercase: true,
+      lowercase: true,
+      number: true,
+      special: true,
+    });
   };
 
   // default workspace name
