@@ -14,7 +14,7 @@ export default function CreateTaskForm({ onClose }) {
   const taskStatus = useSelector((state) => state.tasks.createStatus);
   const taskError = useSelector((state) => state.tasks.createError);
   const event = useSelector((state) => state.events.selectedEvent);
-  const organizationUsers = useSelector((state) => state.organization.users); // Get from organization slice
+  const organizationUsers = useSelector((state) => state.organization.users);
   const organizationStatus = useSelector((state) => state.organization.status);
 
   const [form, setForm] = useState({
@@ -66,7 +66,6 @@ export default function CreateTaskForm({ onClose }) {
         }
       })
       .catch((err) => {
-        // Error will be automatically handled by the slice
         toastWithProgress(`Error: ${err.message}`);
       });
   };
