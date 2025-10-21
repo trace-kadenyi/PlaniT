@@ -140,7 +140,7 @@ const tasksSlice = createSlice({
         state.error = action.payload || "Failed to fetch all tasks";
       })
 
-      // Add task - Modified to match eventsSlice pattern
+      // Add task
       .addCase(addTask.pending, (state) => {
         state.createStatus = "loading";
         state.createError = null;
@@ -154,7 +154,7 @@ const tasksSlice = createSlice({
         state.createError = action.payload;
       })
 
-      // Update task - Modified to match eventsSlice pattern
+      // Update task
       .addCase(updateTask.pending, (state) => {
         state.updateStatus = "loading";
         state.updateError = null;
