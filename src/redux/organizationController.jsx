@@ -145,3 +145,5 @@ const organizationSlice = createSlice({
   },
 });
 
+export const { resetOrganizationStatus, clearOrganizationUsers } = organizationSlice.actions;
+export default organizationSlice.reducer;
