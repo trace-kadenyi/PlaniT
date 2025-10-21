@@ -83,6 +83,65 @@ const organizationSlice = createSlice({
       state.users = [];
     },
   },
- 
+  extraReducers: (builder) => {
+    builder
+      // Fetch users
+      .addCase(fetchOrganizationUsers.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchOrganizationUsers.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.users = action.payload;
+      })
+      .addCase(fetchOrganizationUsers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      // Add user
+      .addCase(addOrganizationUser.pending, (state) => {
+        state.addUserStatus = "loading";
+        state.addUserError = null;
+      })
+      .addCase(addOrganizationUser.fulfilled, (state, action) => {
+        state.addUserStatus = "succeeded";
+        state.users.push(action.payload.user);
+      })
+      .addCase(addOrganizationUser.rejected, (state, action) => {
+        state.addUserStatus = "failed";
+        state.addUserError = action.payload;
+      })
+      // Remove user
+      .addCase(removeOrganizationUser.pending, (state) => {
+        state.removeUserStatus = "loading";
+        state.removeUserError = null;
+      })
+      .addCase(removeOrganizationUser.fulfilled, (state, action) => {
+        state.removeUserStatus = "succeeded";
+        state.users = state.users.filter((user) => user._id !== action.payload);
+      })
+      .addCase(removeOrganizationUser.rejected, (state, action) => {
+        state.removeUserStatus = "failed";
+        state.removeUserError = action.payload;
+      })
+      // Update user role
+      .addCase(updateUserRole.pending, (state) => {
+        state.updateRoleStatus = "loading";
+        state.updateRoleError = null;
+      })
+      .addCase(updateUserRole.fulfilled, (state, action) => {
+        state.updateRoleStatus = "succeeded";
+        const index = state.users.findIndex(
+          (user) => user._id === action.payload.user.id
+        );
+        if (index !== -1) {
+          state.users[index].organizationRole = action.payload.user.organizationRole;
+        }
+      })
+      .addCase(updateUserRole.rejected, (state, action) => {
+        state.updateRoleStatus = "failed";
+        state.updateRoleError = action.payload;
+      });
+  },
 });
 
