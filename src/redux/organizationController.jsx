@@ -68,7 +68,21 @@ const organizationSlice = createSlice({
     updateRoleStatus: "idle",
     updateRoleError: null,
   },
- 
+  reducers: {
+    resetOrganizationStatus: (state) => {
+      state.status = "idle";
+      state.error = null;
+      state.addUserStatus = "idle";
+      state.addUserError = null;
+      state.removeUserStatus = "idle";
+      state.removeUserError = null;
+      state.updateRoleStatus = "idle";
+      state.updateRoleError = null;
+    },
+    clearOrganizationUsers: (state) => {
+      state.users = [];
+    },
+  },
  
 });
 
