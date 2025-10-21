@@ -135,7 +135,8 @@ const organizationSlice = createSlice({
           (user) => user._id === action.payload.user.id
         );
         if (index !== -1) {
-          state.users[index].organizationRole = action.payload.user.organizationRole;
+          state.users[index].organizationRole =
+            action.payload.user.organizationRole;
         }
       })
       .addCase(updateUserRole.rejected, (state, action) => {
@@ -145,5 +146,6 @@ const organizationSlice = createSlice({
   },
 });
 
-export const { resetOrganizationStatus, clearOrganizationUsers } = organizationSlice.actions;
+export const { resetOrganizationStatus, clearOrganizationUsers } =
+  organizationSlice.actions;
 export default organizationSlice.reducer;
