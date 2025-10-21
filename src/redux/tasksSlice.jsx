@@ -158,11 +158,9 @@ const tasksSlice = createSlice({
       .addCase(updateTask.pending, (state) => {
         state.updateStatus = "loading";
         state.updateError = null;
-        state.status = "loading";
       })
       .addCase(updateTask.fulfilled, (state, action) => {
         state.updateStatus = "succeeded";
-        state.status = "succeeded";
         const index = state.items.findIndex(
           (t) => t._id === action.payload._id
         );
@@ -177,9 +175,7 @@ const tasksSlice = createSlice({
       })
       .addCase(updateTask.rejected, (state, action) => {
         state.updateStatus = "failed";
-        state.status = "failed";
         state.updateError = action.payload;
-        state.error = action.payload;
       })
 
       // Delete task - Modified to match eventsSlice pattern
