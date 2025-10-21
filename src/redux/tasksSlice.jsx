@@ -178,7 +178,7 @@ const tasksSlice = createSlice({
         state.updateError = action.payload;
       })
 
-      // Delete task - Modified to match eventsSlice pattern
+      // Delete task
       .addCase(deleteTask.pending, (state) => {
         state.deleteStatus = "loading";
         state.deleteError = null;
