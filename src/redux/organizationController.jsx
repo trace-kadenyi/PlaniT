@@ -55,5 +55,20 @@ export const updateUserRole = createAsyncThunk(
   }
 );
 
-
+const organizationSlice = createSlice({
+  name: "organization",
+  initialState: {
+    users: [],
+    status: "idle",
+    error: null,
+    addUserStatus: "idle",
+    addUserError: null,
+    removeUserStatus: "idle",
+    removeUserError: null,
+    updateRoleStatus: "idle",
+    updateRoleError: null,
+  },
+ 
+ 
+});
 
