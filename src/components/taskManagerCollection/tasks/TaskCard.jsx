@@ -86,6 +86,7 @@ export default function TaskCard({
               </span>{" "}
               <TasksPriorityPill priority={task.priority} />
             </div>
+
             {/* status */}
             <div>
               <span className="font-semibold text-gray-500 dark:text-gray-400">
@@ -93,6 +94,7 @@ export default function TaskCard({
               </span>{" "}
               <TaskStatusPill status={task.status} />
             </div>
+
             {/* assigned to */}
             <div>
               <span className="font-semibold text-gray-500 dark:text-gray-400">
@@ -115,6 +117,7 @@ export default function TaskCard({
                   : "Unassigned"}
               </span>
             </div>
+
             {/* deadline */}
             <div>
               <span className="font-semibold text-gray-500 dark:text-gray-400">
@@ -130,6 +133,7 @@ export default function TaskCard({
             </div>
           </div>
 
+          {/* created/updated dates */}
           <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
             Created: {new Date(task.createdAt).toLocaleString()}
             <br />
