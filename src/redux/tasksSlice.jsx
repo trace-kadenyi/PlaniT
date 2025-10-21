@@ -71,9 +71,9 @@ const tasksSlice = createSlice({
   initialState: {
     items: [],
     eventId: null,
-    status: "idle", // For fetch operations
+    status: "idle", // For all operations
     error: null,
-    // Add separate statuses for different operations like eventsSlice
+    // separate statuses for different operations
     createStatus: "idle",
     createError: null,
     updateStatus: "idle",
@@ -144,18 +144,14 @@ const tasksSlice = createSlice({
       .addCase(addTask.pending, (state) => {
         state.createStatus = "loading";
         state.createError = null;
-        state.status = "loading";
       })
       .addCase(addTask.fulfilled, (state, action) => {
         state.createStatus = "succeeded";
-        state.status = "succeeded";
         state.items.push(action.payload);
       })
       .addCase(addTask.rejected, (state, action) => {
         state.createStatus = "failed";
-        state.status = "failed";
         state.createError = action.payload;
-        state.error = action.payload;
       })
 
       // Update task - Modified to match eventsSlice pattern
