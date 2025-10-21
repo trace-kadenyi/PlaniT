@@ -77,18 +77,6 @@ export default function TaskFormFields({
       </div>
 
       {/* Assigned To */}
-      {/* <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Assigned To
-        </label>
-        <input
-          type="text"
-          name="assignedTo"
-          value={form.assignedTo}
-          onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
-        />
-      </div> */}
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Assigned To
@@ -113,7 +101,6 @@ export default function TaskFormFields({
         </select>
       </div>
 
-      {/* Deadline */}
       {/* Enhanced Deadline Field */}
       <div className="relative">
         <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
