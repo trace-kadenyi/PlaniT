@@ -144,14 +144,18 @@ const tasksSlice = createSlice({
       .addCase(addTask.pending, (state) => {
         state.createStatus = "loading";
         state.createError = null;
+        state.status = "loading";
       })
       .addCase(addTask.fulfilled, (state, action) => {
         state.createStatus = "succeeded";
+        state.status = "succeeded";
         state.items.push(action.payload);
       })
       .addCase(addTask.rejected, (state, action) => {
+        state.createStatus = "failed";
         state.status = "failed";
-        state.error = action.payload; // This now contains the proper error message
+        state.createError = action.payload;
+        state.error = action.payload;
       })
 
       // Update task - Modified to match eventsSlice pattern
