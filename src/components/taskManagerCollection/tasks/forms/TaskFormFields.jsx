@@ -22,12 +22,12 @@ export default function TaskFormFields({
 
     // Basic client-side validation
     if (maxDate && selectedDate > maxDate) {
-      // You can show a toast or inline error here if needed
+      // can show a toast or inline error here if needed
       console.warn("Selected date is after event date");
       return;
     }
 
-    onFieldChange(e); // Proceed with normal change
+    onFieldChange(e);
   };
 
   return (
