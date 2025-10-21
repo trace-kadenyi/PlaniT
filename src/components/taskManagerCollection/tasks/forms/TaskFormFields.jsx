@@ -6,6 +6,8 @@ export default function TaskFormFields({
   onClose,
   onSubmit,
   eventDate,
+  organizationUsers = [],
+  organizationStatus,
   mode = "create",
 }) {
   // Calculate min/max dates
@@ -75,7 +77,7 @@ export default function TaskFormFields({
       </div>
 
       {/* Assigned To */}
-      <div>
+      {/* <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Assigned To
         </label>
@@ -86,6 +88,29 @@ export default function TaskFormFields({
           onChange={onFieldChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
         />
+      </div> */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Assigned To
+        </label>
+        <select
+          name="assignedTo"
+          value={form.assignedTo || ""}
+          onChange={onFieldChange}
+          disabled={organizationStatus === "loading"}
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-gray-900"
+        >
+          <option value="">Unassigned</option>
+          {organizationStatus === "loading" ? (
+            <option disabled>Loading users...</option>
+          ) : (
+            organizationUsers.map((user) => (
+              <option key={user._id} value={user._id}>
+                {user.firstName} {user.lastName} ({user.email})
+              </option>
+            ))
+          )}
+        </select>
       </div>
 
       {/* Deadline */}
