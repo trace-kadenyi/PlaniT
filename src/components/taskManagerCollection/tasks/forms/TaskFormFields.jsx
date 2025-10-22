@@ -143,7 +143,7 @@ export default function TaskFormFields({
         )}
       </div>
 
-      {/* Priority & Status */}
+      {/* Priority */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -160,6 +160,8 @@ export default function TaskFormFields({
             <option>High</option>
           </select>
         </div>
+
+        {/* Status */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Status
