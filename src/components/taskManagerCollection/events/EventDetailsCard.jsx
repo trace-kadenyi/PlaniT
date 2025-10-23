@@ -69,6 +69,15 @@ export default function EventDetailsCard({
             {event.status}
           </span>
         </div>
+        {/* created by */}
+        <div>
+          <span className="font-semibold text-gray-500 dark:text-gray-400">
+            Created by:
+          </span>{" "}
+          <span className="text-xs px-2 py-1 rounded-full font-medium">
+            {event.createdBy.firstName} {event.createdBy.lastName}
+          </span>
+        </div>
       </div>
 
       {/* vendors section */}
