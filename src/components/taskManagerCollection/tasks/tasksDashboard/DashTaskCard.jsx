@@ -50,10 +50,9 @@ export default function DashTaskCard({ task }) {
 
       <div className="mt-3 flex justify-between items-center text-xs">
         <span className="text-gray-500 dark:text-gray-400">
-          {task.assignedTo ? 
-            `${task.assignedTo.firstName} ${task.assignedTo.lastName}` : 
-            "Unassigned"
-          }
+          {task.assignee
+            ? `${task.assignee.firstName} ${task.assignee.lastName}`
+            : "Unassigned"}
         </span>
         <TasksPriorityPill priority={task.priority} />
       </div>
