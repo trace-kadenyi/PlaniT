@@ -4,6 +4,19 @@ import { truncateText } from "../../utils/formatting";
 import { TasksPriorityPill } from "../../../shared/UIFragments";
 
 export default function DashTaskCard({ task }) {
+  // Handle assignedTo whether it's an object or string
+  const getAssignedToDisplay = () => {
+    if (!task.assignedTo) return "Unassigned";
+
+    // If assignedTo is a populated user object
+    if (typeof task.assignedTo === "object" && task.assignedTo.firstName) {
+      return `${task.assignedTo.firstName} ${task.assignedTo.lastName}`;
+    }
+
+    // If assignedTo is just an ID string (fallback)
+    return "Assigned";
+  };
+
   return (
     <div className="relative z-20" style={{ pointerEvents: "none" }}>
       <div className="flex justify-between items-start">
@@ -37,7 +50,7 @@ export default function DashTaskCard({ task }) {
 
       <div className="mt-3 flex justify-between items-center text-xs">
         <span className="text-gray-500 dark:text-gray-400">
-          {task.assignee || "Unassigned"}
+          {task.assignedTo || "Unassigned"}
         </span>
         <TasksPriorityPill priority={task.priority} />
       </div>
