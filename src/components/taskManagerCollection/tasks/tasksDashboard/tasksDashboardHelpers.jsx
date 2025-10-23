@@ -177,11 +177,13 @@ export const filterTasks = (
       filters.priority === "all" ||
       task.priority.toLowerCase() === filters.priority;
     // assignee filter
-    const matchesAssignee =
+     const matchesAssignee =
       filters.assignee === "all" ||
       (filters.assignee === "Unassigned"
-        ? !task.assignedTo || task.assignedTo.trim() === ""
-        : task.assignedTo === filters.assignee);
+        ? !task.assignedTo
+        : task.assignedTo && typeof task.assignedTo === 'object' 
+          ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}` === filters.assignee
+          : task.assignedTo === filters.assignee);
     // date filter
     const matchesDate = filterByDateRange(
       task,
