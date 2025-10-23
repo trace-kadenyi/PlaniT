@@ -29,13 +29,19 @@ export function useAssignees(tasks) {
 
     tasks.forEach((task) => {
       if (task.assignedTo) {
-        uniqueAssignees.add(task.assignedTo);
+        // Extract just the name from the assignedTo object
+        if (typeof task.assignedTo === "object" && task.assignedTo.firstName) {
+          const assigneeName = `${task.assignedTo.firstName} ${task.assignedTo.lastName}`;
+          uniqueAssignees.add(assigneeName);
+        } else {
+          // Fallback if it's just an ID string
+          uniqueAssignees.add(task.assignedTo);
+        }
       } else {
-        hasUnassignedTasks = true; // Flag if any task is unassigned
+        hasUnassignedTasks = true;
       }
     });
 
-    // Include "Unassigned" only if there are unassigned tasks
     const assignees = ["all", ...Array.from(uniqueAssignees)];
     if (hasUnassignedTasks) assignees.push("Unassigned");
 
