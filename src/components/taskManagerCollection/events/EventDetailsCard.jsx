@@ -85,7 +85,7 @@ export default function EventDetailsCard({
         <VendorInfo vendors={localVendors} Link={Link} />
       ) : (
         <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 font-semibold">
-          No vendors associated yet. Vendors will appear here when added through
+          No associated vendors yet. Vendors will appear here when added through
           expenses.
         </div>
       )}
