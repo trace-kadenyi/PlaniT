@@ -112,6 +112,15 @@ export function ExpenseListView({ expense, children }) {
           ) : (
             <p className="text-sm text-gray-400 italic mt-1">No receipt</p>
           )}
+          {/* created by */}
+          <div>
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 w-full md:pr-10">
+              <span className="text-gray-500 dark:text-gray-400 font-semibold">
+                Created By:
+              </span>{" "}
+              {expense.createdBy.firstName} {expense.createdBy.lastName}
+            </p>
+          </div>
         </div>
 
         {/* Right Section */}
