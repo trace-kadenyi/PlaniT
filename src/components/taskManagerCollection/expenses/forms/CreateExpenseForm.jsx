@@ -19,6 +19,7 @@ export default function CreateExpenseForm({ onClose, budgetStatus, onVendorAdded
   const { items: vendors, status: vendorsStatus } = useSelector(
     (state) => state.vendors
   );
+   const currentUser = useSelector((state) => state.auth.user);
 
   const [form, setForm] = useState({
     amount: "",
@@ -40,10 +41,17 @@ export default function CreateExpenseForm({ onClose, budgetStatus, onVendorAdded
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+
+     if (!currentUser) {
+      toastWithProgress("Error: User not authenticated");
+      return;
+    }
+
     const expenseData = {
       ...form,
       amount: parseFloat(form.amount),
       eventId,
+      createdBy: currentUser._id
     };
 
     dispatch(createExpense(expenseData))
