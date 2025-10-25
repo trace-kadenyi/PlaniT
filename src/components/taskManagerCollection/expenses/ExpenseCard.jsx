@@ -122,7 +122,7 @@ export function ExpenseListView({ expense, children }) {
           ) : (
             <p className="text-sm text-gray-400 italic mt-1">No receipt</p>
           )}
-          {/* Created by  */}
+          {/* Created by & Updated by */}
           <div className="space-y-1">
             <p className="text-xs text-gray-600 dark:text-gray-400">
               <span className="text-gray-500 dark:text-gray-400 font-semibold">
@@ -131,7 +131,20 @@ export function ExpenseListView({ expense, children }) {
               {getUserDisplayName(expense.createdBy)}
             </p>
 
-          
+            {/* Conditionally show updated by - only if it exists */}
+            {expense.updatedBy && expense.updatedBy._id && (
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                <span className="text-gray-500 dark:text-gray-400 font-semibold">
+                  Last Updated By:
+                </span>{" "}
+                {getUserDisplayName(expense.updatedBy)}
+                {expense.updatedAt && (
+                  <span className="text-gray-400 ml-1">
+                    on {new Date(expense.updatedAt).toLocaleDateString()}
+                  </span>
+                )}
+              </p>
+            )}
           </div>
         </div>
 
