@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // shareables
 function Desc({ expense }) {
@@ -61,6 +62,15 @@ function Vend({ expense }) {
 
 // handle expense list view
 export function ExpenseListView({ expense, children }) {
+  const currentUser = useSelector((state) => state.auth.user);
+
+  // Helper function to get user display name
+  const getUserDisplayName = (user) => {
+    if (!user) return "Unknown User";
+    if (user.firstName && user.lastName)
+      return `${user.firstName} ${user.lastName}`;
+    return "Unknown User";
+  };
   return (
     <>
       {/* MOBILE VIEW */}
@@ -112,14 +122,16 @@ export function ExpenseListView({ expense, children }) {
           ) : (
             <p className="text-sm text-gray-400 italic mt-1">No receipt</p>
           )}
-          {/* created by */}
-          <div>
-            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 w-full md:pr-10">
+          {/* Created by  */}
+          <div className="space-y-1">
+            <p className="text-xs text-gray-600 dark:text-gray-400">
               <span className="text-gray-500 dark:text-gray-400 font-semibold">
                 Created By:
               </span>{" "}
-              {expense.createdBy.firstName} {expense.createdBy.lastName}
+              {getUserDisplayName(expense.createdBy)}
             </p>
+
+          
           </div>
         </div>
 
