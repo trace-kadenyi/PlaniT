@@ -62,7 +62,6 @@ function Vend({ expense }) {
 
 // handle expense list view
 export function ExpenseListView({ expense, children }) {
-  const currentUser = useSelector((state) => state.auth.user);
 
   // Helper function to get user display name
   const getUserDisplayName = (user) => {
@@ -71,6 +70,7 @@ export function ExpenseListView({ expense, children }) {
       return `${user.firstName} ${user.lastName}`;
     return "Unknown User";
   };
+
   return (
     <>
       {/* MOBILE VIEW */}
