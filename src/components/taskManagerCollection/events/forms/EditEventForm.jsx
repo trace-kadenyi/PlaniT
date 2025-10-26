@@ -226,7 +226,13 @@ export default function EditEventForm() {
           formStatus={updateStatus}
           formError={updateError}
           budgetError={budgetError}
-          clients={clients}
+          clients={
+            // Ensure the current event's client is included
+            selectedEvent?.client &&
+            !clients.find((c) => c._id === selectedEvent.client._id)
+              ? [selectedEvent.client, ...clients]
+              : clients
+          }
           vendors={vendors}
           clientsLoading={clientsStatus === "loading"}
           vendorsLoading={vendorsStatus === "loading"}
