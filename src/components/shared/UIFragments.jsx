@@ -121,33 +121,66 @@ export function IsArchivedCli() {
 
 // event client
 export function ClientInfo({ event, Link }) {
+  const client = event.client;
+  const isDeleted = client?.isDeleted;
+  const clientName = client?.name || "Client Deleted";
+  const clientId = client?._id;
+
+  const ClientContent = () => (
+    <div
+      className={`flex items-center rounded-lg px-3 py-1 shadow-sm border transition-colors duration-200 ${
+        isDeleted || !client
+          ? "bg-gray-100 border-gray-300 text-gray-500 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 cursor-not-allowed"
+          : "bg-white/80 border-[#F3EDE9] hover:bg-[#FFF5EB] dark:bg-gray-900/10 dark:hover:bg-gray-900 dark:border-[#F59E0B]/40 cursor-default"
+      }`}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className={`h-4 w-4 mr-1 ${
+          isDeleted || !client
+            ? "text-gray-400 dark:text-gray-500"
+            : "text-[#9B2C62] dark:text-[#F59E0B]"
+        }`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+        />
+      </svg>
+      <span
+        className={`text-sm font-medium transition-colors duration-200 ${
+          isDeleted || !client
+            ? "text-gray-500 dark:text-gray-400 line-through"
+            : "text-[#6B3B0F] hover:text-[#9B2C62] hover:underline dark:text-[#F59E0B] dark:hover:text-[#F59E0B]"
+        }`}
+      >
+        {clientName}
+      </span>
+      {(isDeleted || !client) && (
+        <span className="ml-1 text-xs text-gray-400 dark:text-gray-500">
+          (Deleted)
+        </span>
+      )}
+    </div>
+  );
+
   return (
     <div className="flex items-center gap-2">
       <span className="text-xs font-semibold text-gray-500 dark:text-gray-300">
         Client:
       </span>
-      <Link
-        to={`/clients/${event.client._id}`}
-        className="flex items-center bg-white/80 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] hover:bg-[#FFF5EB] transition-colors duration-200 cursor-default dark:bg-gray-900/10 dark:hover:bg-gray-900 dark:border-[#F59E0B]/40"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 text-[#9B2C62] dark:text-[#F59E0B] mr-1"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-          />
-        </svg>
-        <span className="text-sm font-medium text-[#6B3B0F] hover:text-[#9B2C62] hover:underline transition-colors duration-200 dark:text-[#F59E0B] dark:hover:text-[#F59E0B]">
-          {event.client.name}
-        </span>
-      </Link>
+      {isDeleted || !clientId ? (
+        <ClientContent />
+      ) : (
+        <Link to={`/clients/${clientId}`}>
+          <ClientContent />
+        </Link>
+      )}
     </div>
   );
 }
