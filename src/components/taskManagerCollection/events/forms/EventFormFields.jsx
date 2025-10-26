@@ -78,6 +78,7 @@ export default function EventFormFields({
           clients={clients}
           onFieldChange={onFieldChange}
           preSelectedClientId={preSelectedClientId}
+          mode={mode}
         />
       )}
 
