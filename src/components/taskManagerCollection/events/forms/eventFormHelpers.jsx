@@ -68,29 +68,50 @@ export const PreselectedClients = ({
   clients,
   preSelectedClientId,
   onFieldChange,
+  mode = "create",
 }) => {
+  const client = clients.find((c) => c._id === preSelectedClientId);
   return (
     <div className="p-3 bg-[#F3E8FF] rounded-lg border border-[#E3CBC1] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-[#D97706] dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
       <div className="flex items-center gap-2 mb-1">
         <p className="text-sm text-gray-600 dark:text-gray-400">Client:</p>
-        {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
+        {!client?.isArchived && !client?.isDeleted && (
+          <span className="text-xs bg-[#9B2C62]  text-gray-300 px-2 py-0.5 rounded dark:bg-[#D97706]/60">
+            Active
+          </span>
+        )}
+        {client?.isArchived && (
           <span className="text-xs bg-yellow-100 dark:bg-yellow-100/60 text-yellow-800 dark:text-black px-2 py-0.5 rounded">
             Archived
           </span>
         )}
+        {client?.isDeleted && (
+          <span className="text-xs bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded">
+            Deleted
+          </span>
+        )}
       </div>
-      <p className="font-semibold text-sm text-[#9B2C62] dark:text-[#D97706]">
-        {clients.length > 0
-          ? clients.find((c) => c._id === preSelectedClientId)?.name
-          : "Loading client..."}
-      </p>
+      {/* Client Name with Conditional Link */}
+      {!client?.isArchived && !client?.isDeleted ? (
+        <Link
+          to={`/clients/${preSelectedClientId}`}
+          className="font-semibold text-sm text-[#9B2C62] dark:text-[#D97706] hover:underline"
+        >
+          {client ? client.name : "Loading client..."}
+        </Link>
+      ) : (
+        <p className="font-semibold text-sm text-[#9B2C62] dark:text-[#D97706]">
+          {client ? client.name : "Loading client..."}
+        </p>
+      )}
       <input
         type="hidden"
         name="client"
         value={preSelectedClientId}
         onChange={onFieldChange}
       />
-      {clients.find((c) => c._id === preSelectedClientId)?.isArchived && (
+      {/* Show warning for archived clients in create mode */}
+      {client?.isArchived && (
         <p className="mt-2 text-xs text-yellow-600 dark:text-yellow-300">
           Note: Archived clients cannot be assigned to new events.{" "}
           <Link
@@ -100,6 +121,14 @@ export const PreselectedClients = ({
             Restore this client
           </Link>{" "}
           if they have an upcoming event.
+        </p>
+      )}
+
+      {/* Show info for deleted clients */}
+      {client?.isDeleted && (
+        <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+          This client has been deleted but remains associated with this event
+          for historical purposes.
         </p>
       )}
     </div>
