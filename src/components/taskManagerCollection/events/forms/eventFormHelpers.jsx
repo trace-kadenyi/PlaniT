@@ -127,8 +127,8 @@ export const PreselectedClients = ({
       {/* Show info for deleted clients */}
       {client?.isDeleted && (
         <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
-          This client has been deleted but remains associated with this event
-          for historical purposes.
+          This client has been deleted permanently but remains associated with
+          this event for historical purposes.
         </p>
       )}
     </div>
