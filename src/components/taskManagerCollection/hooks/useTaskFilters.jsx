@@ -42,7 +42,7 @@ export function useAssignees(tasks) {
       }
     });
 
-    const assignees = ["all", ...Array.from(uniqueAssignees)];
+    const assignees = Array.from(uniqueAssignees);
     if (hasUnassignedTasks) assignees.push("Unassigned");
 
     return assignees;
