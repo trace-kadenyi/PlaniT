@@ -29,7 +29,7 @@ export function useAssignees(tasks) {
 
     tasks.forEach((task) => {
       if (task.assignedTo) {
-        // Extract just the name from the assignedTo object
+        // Extract only the name from the assignedTo object
         if (typeof task.assignedTo === "object" && task.assignedTo.firstName) {
           const assigneeName = `${task.assignedTo.firstName} ${task.assignedTo.lastName}`;
           uniqueAssignees.add(assigneeName);
