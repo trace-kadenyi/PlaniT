@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import { formatDateTimeTasks } from "../utils/formatting";
+
 // SHAREABLE functions
 // description
 function Desc({ expense }) {
@@ -124,8 +126,27 @@ export function ExpenseListView({ expense, children }) {
           ) : (
             <p className="text-sm text-gray-400 italic mt-1">No receipt</p>
           )}
+
+          {/* created on/by details */}
+          <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
+           <span className="font-semibold">Created: </span>
+            <span>{formatDateTimeTasks(expense.createdAt)}</span>{" "}
+            {expense.createdBy && (
+              <span>by {getUserDisplayName(expense.createdBy)}</span>
+            )}
+            {/* Conditionally show updated by - only if it exists */}
+            {expense.updatedBy && expense.updatedBy._id && (
+              <div>
+                <span className="font-semibold">Last Updated: </span>
+                <span>
+                  {formatDateTimeTasks(expense.updatedAt)} by{" "}
+                  {getUserDisplayName(expense.updatedBy)}
+                </span>
+              </div>
+            )}
+          </div>
           {/* Created by & Updated by */}
-          <div className="space-y-1">
+          {/* <div className="space-y-1">
             <p className="text-xs text-gray-600 dark:text-gray-400">
               <span className="text-gray-500 dark:text-gray-400 font-semibold">
                 Created By:
@@ -133,7 +154,6 @@ export function ExpenseListView({ expense, children }) {
               {getUserDisplayName(expense.createdBy)}
             </p>
 
-            {/* Conditionally show updated by - only if it exists */}
             {expense.updatedBy && expense.updatedBy._id && (
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 <span className="text-gray-500 dark:text-gray-400 font-semibold">
@@ -147,7 +167,7 @@ export function ExpenseListView({ expense, children }) {
                 )}
               </p>
             )}
-          </div>
+          </div> */}
         </div>
 
         {/* Right Section */}
