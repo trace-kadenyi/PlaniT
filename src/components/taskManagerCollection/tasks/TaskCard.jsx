@@ -1,6 +1,7 @@
 import { Pencil, Trash2 } from "lucide-react";
 
 import { TasksPriorityPill, TaskStatusPill } from "../../shared/UIFragments";
+import { formatDateTimeTasks } from "../utils/formatting";
 
 export default function TaskCard({
   tasks,
@@ -135,7 +136,7 @@ export default function TaskCard({
 
           {/* created/updated dates */}
           <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
-            <span> Created: {new Date(task.createdAt).toLocaleString()}</span>{" "}
+            <span> Created: {formatDateTimeTasks(task.createdAt)}</span>{" "}
             {task.createdBy && (
               <span>
                 by {task.createdBy.firstName} {task.createdBy.lastName}
@@ -143,9 +144,7 @@ export default function TaskCard({
             )}
             {task.updatedBy && (
               <div>
-                <span>
-                  Updated: {new Date(task.updatedAt).toLocaleString()}
-                </span>{" "}
+                <span>Updated: {formatDateTimeTasks(task.updatedAt)}</span>{" "}
                 <span>
                   by {task.updatedBy.firstName} {task.updatedBy.lastName}
                 </span>
