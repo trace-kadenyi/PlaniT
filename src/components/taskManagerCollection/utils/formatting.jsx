@@ -22,6 +22,15 @@ export const formatDateTimeTasks = (date) => {
   });
 };
 
+// format date/time - deadline (without hour/minute)
+export const formatDateTimeDeadline = (date) => {
+  return new Date(date).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
 // get status color
 export const getStatusColor = (status) => {
   switch (status?.toLowerCase()) {
