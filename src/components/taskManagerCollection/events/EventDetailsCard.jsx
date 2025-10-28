@@ -74,10 +74,25 @@ export default function EventDetailsCard({
           <span className="font-semibold text-gray-500 dark:text-gray-400">
             Created by:
           </span>{" "}
-          <span className="text-xs px-2 py-1 rounded-full font-medium">
+          <span className="text-xs">
             {event.createdBy.firstName} {event.createdBy.lastName}
           </span>
         </div>
+
+        {/* updated by */}
+        {event.updatedBy && (
+          <div className="text-xs">
+            <span className="font-semibold text-gray-500 dark:text-gray-400">
+              Last Updated By:
+            </span>{" "}
+            <span>
+              {event.updatedBy.firstName} {event.updatedBy.lastName}
+            </span>{" "}
+            {event.updatedAt && (
+              <span>on {new Date(event.updatedAt).toLocaleDateString()}</span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* vendors section */}
