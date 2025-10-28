@@ -1,5 +1,9 @@
 import { ClientInfo, VendorInfo } from "../../shared/UIFragments";
-import { formatDateTime, getStatusColor } from "../utils/formatting";
+import {
+  formatDateTime,
+  getStatusColor,
+  formatDateTimeShort,
+} from "../utils/formatting";
 import BudgetOverview from "../budgeting/BudgetOverview";
 
 export default function EventDetailsCard({
@@ -12,12 +16,13 @@ export default function EventDetailsCard({
   return (
     <div className="space-y-2 mt-8">
       <div className="flex flex-wrap items-center gap-5 mt-10 sm:mt-0">
+        {/* event type */}
         <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-[#6B3B0F] font-medium tracking-wide">
           {event.type}
         </p>
+        {/* client info */}
         {event.client && <ClientInfo event={event} Link={Link} />}
       </div>
-
       {/* event name */}
       <h1 className="mt-3 text-2xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
         {event.name}
@@ -69,28 +74,28 @@ export default function EventDetailsCard({
             {event.status}
           </span>
         </div>
-        {/* created by */}
-        <div>
-          <span className="font-semibold text-gray-500 dark:text-gray-400">
-            Created by:
-          </span>{" "}
-          <span className="text-xs">
-            {event.createdBy.firstName} {event.createdBy.lastName}
-          </span>
-        </div>
+      </div>
 
-        {/* updated by */}
+      {/* created/updated dates section */}
+      <div className="text-[10px] pt-2 text-gray-600 dark:text-gray-400/90">
+        <span className="font-semibold text-gray-500 dark:text-gray-400/90">
+          Created:{" "}
+        </span>
+        <span>{formatDateTimeShort(event.createdAt)}</span>{" "}
+        {event.createdBy && (
+          <span className="">
+            by {event.createdBy.firstName} {event.createdBy.lastName}
+          </span>
+        )}
         {event.updatedBy && (
-          <div className="text-xs">
-            <span className="font-semibold text-gray-500 dark:text-gray-400">
-              Last Updated By:
-            </span>{" "}
+          <div>
+            <span className="font-semibold text-gray-500 dark:text-gray-400/90">
+              Last updated:{" "}
+            </span>
+            <span>{formatDateTimeShort(event.updatedAt)}</span>{" "}
             <span>
-              {event.updatedBy.firstName} {event.updatedBy.lastName}
-            </span>{" "}
-            {event.updatedAt && (
-              <span>on {new Date(event.updatedAt).toLocaleDateString()}</span>
-            )}
+              by {event.updatedBy.firstName} {event.updatedBy.lastName}
+            </span>
           </div>
         )}
       </div>
