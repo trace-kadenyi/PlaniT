@@ -5,6 +5,7 @@ import {
   formatDateTimeShort,
 } from "../utils/formatting";
 import BudgetOverview from "../budgeting/BudgetOverview";
+import { getUserDisplayName } from "../../shared/Snippets";
 
 export default function EventDetailsCard({
   event,
@@ -83,9 +84,7 @@ export default function EventDetailsCard({
         </span>
         <span>{formatDateTimeShort(event.createdAt)}</span>{" "}
         {event.createdBy && (
-          <span className="">
-            by {event.createdBy.firstName} {event.createdBy.lastName}
-          </span>
+          <span className="">by {getUserDisplayName(event.createdBy)}</span>
         )}
         {event.updatedBy && (
           <div>
@@ -93,9 +92,7 @@ export default function EventDetailsCard({
               Last updated:{" "}
             </span>
             <span>{formatDateTimeShort(event.updatedAt)}</span>{" "}
-            <span>
-              by {event.updatedBy.firstName} {event.updatedBy.lastName}
-            </span>
+            <span>by {getUserDisplayName(event.updatedBy)}</span>
           </div>
         )}
       </div>
