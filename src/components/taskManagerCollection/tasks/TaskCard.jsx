@@ -135,9 +135,22 @@ export default function TaskCard({
 
           {/* created/updated dates */}
           <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
-            Created: {new Date(task.createdAt).toLocaleString()}
-            <br />
-            Updated: {new Date(task.updatedAt).toLocaleString()}
+            <span> Created: {new Date(task.createdAt).toLocaleString()}</span>{" "}
+            {task.createdBy && (
+              <span>
+                by {task.createdBy.firstName} {task.createdBy.lastName}
+              </span>
+            )}
+            {task.updatedBy && (
+              <div>
+                <span>
+                  Updated: {new Date(task.updatedAt).toLocaleString()}
+                </span>{" "}
+                <span>
+                  by {task.updatedBy.firstName} {task.updatedBy.lastName}
+                </span>
+              </div>
+            )}
           </div>
         </li>
       ))}
