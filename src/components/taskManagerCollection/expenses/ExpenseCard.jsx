@@ -121,22 +121,6 @@ export function ExpenseListView({ expense, children }) {
           )}
 
           {/* created on/by details */}
-          {/* <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
-            <span className="font-semibold">Created: </span>
-            <span>{formatDateTimeShort(expense.createdAt)}</span>{" "}
-            {expense.createdBy && (
-              <span>by {getUserDisplayName(expense.createdBy)}</span>
-            )}
-            {expense.updatedBy && expense.updatedBy._id && (
-              <div>
-                <span className="font-semibold">Last Updated: </span>
-                <span>
-                  {formatDateTimeShort(expense.updatedAt)} by{" "}
-                  {getUserDisplayName(expense.updatedBy)}
-                </span>
-              </div>
-            )}
-          </div> */}
           <CreatedUpdatedData
             item={expense}
             formatDateTimeShort={formatDateTimeShort}
