@@ -83,3 +83,35 @@ export function NoBudget({ Link, eventID }) {
 //     dark: "#E07C24", // Darker pumpkin
 //   },
 // };
+
+// Helper function to get user display name
+const getUserDisplayName = (user) => {
+  if (!user) return "Unknown User";
+  if (user.firstName && user.lastName)
+    return `${user.firstName} ${user.lastName}`;
+  return "Unknown User";
+};
+
+// created and updated on/by Snippet
+export const CreatedUpdatedData = ({ item, formatDateTimeShort }) => {
+  return (
+    <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
+      {/* created data */}
+      <div>
+        <span className="font-semibold">Created: </span>
+        <span>{formatDateTimeShort(item.createdAt)}</span>{" "}
+        {item.createdBy && <span>by {getUserDisplayName(item.createdBy)}</span>}
+      </div>
+      {/* Conditionally show updated by - only if it exists */}
+      {item.updatedBy && item.updatedBy._id && (
+        <div>
+          <span className="font-semibold">Last Updated: </span>
+          <span>
+            {formatDateTimeShort(item.updatedAt)} by{" "}
+            {getUserDisplayName(item.updatedBy)}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
