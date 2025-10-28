@@ -12,7 +12,7 @@ export const formatDateTime = (dateStr) => {
 };
 
 // format date time for tasks - minus weekday
-export const formatDateTimeTasks = (date) => {
+export const formatDateTimeShort = (date) => {
   return new Date(date).toLocaleString(undefined, {
     year: "numeric",
     month: "short",
@@ -23,7 +23,7 @@ export const formatDateTimeTasks = (date) => {
 };
 
 // format date/time - deadline (without hour/minute)
-export const formatDateTimeDeadline = (date) => {
+export const formatDateOnly = (date) => {
   return new Date(date).toLocaleString(undefined, {
     year: "numeric",
     month: "short",
