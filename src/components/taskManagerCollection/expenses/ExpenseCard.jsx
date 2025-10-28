@@ -66,14 +66,6 @@ function Vend({ expense }) {
   );
 }
 
-// Helper function to get user display name
-function getUserDisplayName(user) {
-  if (!user) return "Unknown User";
-  if (user.firstName && user.lastName)
-    return `${user.firstName} ${user.lastName}`;
-  return "Unknown User";
-}
-
 // handle expense list view
 export function ExpenseListView({ expense, children }) {
   return (
