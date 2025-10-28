@@ -129,7 +129,7 @@ export function ExpenseListView({ expense, children }) {
 
           {/* created on/by details */}
           <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
-           <span className="font-semibold">Created: </span>
+            <span className="font-semibold">Created: </span>
             <span>{formatDateTimeTasks(expense.createdAt)}</span>{" "}
             {expense.createdBy && (
               <span>by {getUserDisplayName(expense.createdBy)}</span>
@@ -145,29 +145,6 @@ export function ExpenseListView({ expense, children }) {
               </div>
             )}
           </div>
-          {/* Created by & Updated by */}
-          {/* <div className="space-y-1">
-            <p className="text-xs text-gray-600 dark:text-gray-400">
-              <span className="text-gray-500 dark:text-gray-400 font-semibold">
-                Created By:
-              </span>{" "}
-              {getUserDisplayName(expense.createdBy)}
-            </p>
-
-            {expense.updatedBy && expense.updatedBy._id && (
-              <p className="text-xs text-gray-600 dark:text-gray-400">
-                <span className="text-gray-500 dark:text-gray-400 font-semibold">
-                  Last Updated By:
-                </span>{" "}
-                {getUserDisplayName(expense.updatedBy)}
-                {expense.updatedAt && (
-                  <span className="text-gray-400 ml-1">
-                    on {new Date(expense.updatedAt).toLocaleDateString()}
-                  </span>
-                )}
-              </p>
-            )}
-          </div> */}
         </div>
 
         {/* Right Section */}
