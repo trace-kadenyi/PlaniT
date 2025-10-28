@@ -2,6 +2,7 @@ import { Pencil, Trash2 } from "lucide-react";
 
 import { TasksPriorityPill, TaskStatusPill } from "../../shared/UIFragments";
 import { formatDateTimeShort, formatDateOnly } from "../utils/formatting";
+import { CreatedUpdatedData } from "../../shared/Snippets";
 
 export default function TaskCard({
   tasks,
@@ -129,7 +130,7 @@ export default function TaskCard({
           </div>
 
           {/* created/updated dates */}
-          <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
+          {/* <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
             <span className="font-semibold"> Created: </span>
             <span>{formatDateTimeShort(task.createdAt)}</span>{" "}
             {task.createdBy && (
@@ -146,7 +147,11 @@ export default function TaskCard({
                 </span>
               </div>
             )}
-          </div>
+          </div> */}
+          <CreatedUpdatedData
+            item={task}
+            formatDateTimeShort={formatDateTimeShort}
+          />
         </li>
       ))}
     </ul>
