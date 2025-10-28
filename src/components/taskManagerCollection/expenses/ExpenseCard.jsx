@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { formatDateTimeShort } from "../utils/formatting";
+import { CreatedUpdatedData } from "../../shared/Snippets";
 
 // SHAREABLE functions
 // description
@@ -128,13 +129,12 @@ export function ExpenseListView({ expense, children }) {
           )}
 
           {/* created on/by details */}
-          <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
+          {/* <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
             <span className="font-semibold">Created: </span>
             <span>{formatDateTimeShort(expense.createdAt)}</span>{" "}
             {expense.createdBy && (
               <span>by {getUserDisplayName(expense.createdBy)}</span>
             )}
-            {/* Conditionally show updated by - only if it exists */}
             {expense.updatedBy && expense.updatedBy._id && (
               <div>
                 <span className="font-semibold">Last Updated: </span>
@@ -144,7 +144,11 @@ export function ExpenseListView({ expense, children }) {
                 </span>
               </div>
             )}
-          </div>
+          </div> */}
+          <CreatedUpdatedData
+            item={expense}
+            formatDateTimeShort={formatDateTimeShort}
+          />
         </div>
 
         {/* Right Section */}
