@@ -1,7 +1,10 @@
 import { Pencil, Trash2 } from "lucide-react";
 
 import { TasksPriorityPill, TaskStatusPill } from "../../shared/UIFragments";
-import { formatDateTimeTasks } from "../utils/formatting";
+import {
+  formatDateTimeTasks,
+  formatDateTimeDeadline,
+} from "../utils/formatting";
 
 export default function TaskCard({
   tasks,
@@ -124,13 +127,7 @@ export default function TaskCard({
               <span className="font-semibold text-gray-500 dark:text-gray-400">
                 Deadline:
               </span>{" "}
-              {task.deadline
-                ? new Date(task.deadline).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })
-                : "—"}
+              {task.deadline ? formatDateTimeDeadline(task.deadline) : "—"}
             </div>
           </div>
 
