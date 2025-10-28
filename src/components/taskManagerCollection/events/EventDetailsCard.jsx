@@ -5,7 +5,7 @@ import {
   formatDateTimeShort,
 } from "../utils/formatting";
 import BudgetOverview from "../budgeting/BudgetOverview";
-import { getUserDisplayName } from "../../shared/Snippets";
+import { CreatedUpdatedData, getUserDisplayName } from "../../shared/Snippets";
 
 export default function EventDetailsCard({
   event,
@@ -78,24 +78,10 @@ export default function EventDetailsCard({
       </div>
 
       {/* created/updated dates section */}
-      <div className="text-[10px] pt-2 text-gray-600 dark:text-gray-400/90">
-        <span className="font-semibold text-gray-500 dark:text-gray-400/90">
-          Created:{" "}
-        </span>
-        <span>{formatDateTimeShort(event.createdAt)}</span>{" "}
-        {event.createdBy && (
-          <span className="">by {getUserDisplayName(event.createdBy)}</span>
-        )}
-        {event.updatedBy && (
-          <div>
-            <span className="font-semibold text-gray-500 dark:text-gray-400/90">
-              Last updated:{" "}
-            </span>
-            <span>{formatDateTimeShort(event.updatedAt)}</span>{" "}
-            <span>by {getUserDisplayName(event.updatedBy)}</span>
-          </div>
-        )}
-      </div>
+      <CreatedUpdatedData
+        item={event}
+        formatDateTimeShort={formatDateTimeShort}
+      />
 
       {/* vendors section */}
       {localVendors.length > 0 ? (
