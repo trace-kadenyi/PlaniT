@@ -85,7 +85,7 @@ export function NoBudget({ Link, eventID }) {
 // };
 
 // Helper function to get user display name
-const getUserDisplayName = (user) => {
+export const getUserDisplayName = (user) => {
   if (!user) return "Unknown User";
   if (user.firstName && user.lastName)
     return `${user.firstName} ${user.lastName}`;
@@ -95,7 +95,7 @@ const getUserDisplayName = (user) => {
 // created and updated on/by Snippet
 export const CreatedUpdatedData = ({ item, formatDateTimeShort }) => {
   return (
-    <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
+    <div className="text-[10px] text-gray-400 dark:text-gray-400/60 pt-2">
       {/* created data */}
       <div>
         <span className="font-semibold">Created: </span>
