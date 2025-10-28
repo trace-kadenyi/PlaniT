@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { formatDateTimeTasks } from "../utils/formatting";
+import { formatDateTimeShort } from "../utils/formatting";
 
 // SHAREABLE functions
 // description
@@ -130,7 +130,7 @@ export function ExpenseListView({ expense, children }) {
           {/* created on/by details */}
           <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
             <span className="font-semibold">Created: </span>
-            <span>{formatDateTimeTasks(expense.createdAt)}</span>{" "}
+            <span>{formatDateTimeShort(expense.createdAt)}</span>{" "}
             {expense.createdBy && (
               <span>by {getUserDisplayName(expense.createdBy)}</span>
             )}
@@ -139,7 +139,7 @@ export function ExpenseListView({ expense, children }) {
               <div>
                 <span className="font-semibold">Last Updated: </span>
                 <span>
-                  {formatDateTimeTasks(expense.updatedAt)} by{" "}
+                  {formatDateTimeShort(expense.updatedAt)} by{" "}
                   {getUserDisplayName(expense.updatedBy)}
                 </span>
               </div>
