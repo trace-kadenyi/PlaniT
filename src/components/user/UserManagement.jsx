@@ -95,7 +95,25 @@ const UserManagement = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Team Management</h1>
+          <p className="text-gray-600 mt-2">
+            Manage your organization members and their permissions
+          </p>
+        </div>
+        <button
+          onClick={() => setShowAddForm(true)}
+          className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
+        >
+          Add Team Member
+        </button>
+      </div>
+
      
+
+      
     </div>
   );
 };
