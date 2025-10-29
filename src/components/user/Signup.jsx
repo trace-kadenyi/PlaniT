@@ -9,7 +9,6 @@ import {
 } from "../../redux/authSlice";
 
 import LogoWordmark from "../navigation/LogoWordmark";
-import { CheckIcon, XIcon } from "../ui/UserUiFragments";
 import Password from "../shared/Password";
 
 const Signup = () => {
@@ -23,7 +22,6 @@ const Signup = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const [passwordErrors, setPasswordErrors] = useState({
     length: false,
     uppercase: false,
@@ -55,19 +53,6 @@ const Signup = () => {
       dispatch(clearAuthErrors());
     };
   }, [dispatch]);
-
-  // Password validation function
-  const validatePassword = (password) => {
-    const errors = {
-      length: password.length >= 8,
-      uppercase: /[A-Z]/.test(password),
-      lowercase: /[a-z]/.test(password),
-      number: /\d/.test(password),
-      special: /[@$!%*?&]/.test(password),
-    };
-    setPasswordErrors(errors);
-    return Object.values(errors).every(Boolean);
-  };
 
   // handle change
   const handleChange = (e) => {
@@ -286,23 +271,6 @@ const Signup = () => {
                   )}
                 </p>
               </div>
-
-              {/* Role */}
-              {/* <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Role
-                </label>
-                <select
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900"
-                >
-                  <option value="planner">Planner</option>
-                  <option value="viewer">Viewer</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </div> */}
 
               {/* Error Message */}
               {signupError && (
