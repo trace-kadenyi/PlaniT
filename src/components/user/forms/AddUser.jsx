@@ -11,7 +11,6 @@ const AddUser = ({
   generateRandomPassword,
   addUserStatus,
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
   const [passwordErrors, setPasswordErrors] = useState({
     length: false,
     uppercase: false,
@@ -25,6 +24,9 @@ const AddUser = ({
     email: "",
     password: "",
   });
+
+  const [triggerPasswordValidation, setTriggerPasswordValidation] =
+    useState(false);
 
   // Password validation function (same as Signup)
   const validatePassword = (password) => {
@@ -81,19 +83,12 @@ const AddUser = ({
     handleAddUser(e);
   };
 
-  // Enhanced password generation with validation
+  // Enhanced password generation with validation trigger
   const handleGeneratePassword = () => {
     generateRandomPassword();
-    // Manually set password as valid (since demo passwords meet requirements)
-    setPasswordErrors({
-      length: true,
-      uppercase: true,
-      lowercase: true,
-      number: true,
-      special: true,
-    });
+    // Trigger validation to update the password requirements display
+    setTriggerPasswordValidation((prev) => !prev);
   };
-
   return (
     <section>
       {showAddForm && (
@@ -214,13 +209,36 @@ const AddUser = ({
                 </select>
               </div>
 
-              {/* Password */}
-              <Password
-                password={formData.password}
-                onPasswordChange={(value) =>
-                  setFormData({ ...formData, password: value })
-                }
-              />
+              {/* Password Section with Generate Button */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-sm font-medium text-gray-700">
+                    Password *
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleGeneratePassword}
+                    className="text-xs text-[#9B2C62] hover:text-[#7A2250] font-medium"
+                  >
+                    Generate Secure Password
+                  </button>
+                </div>
+
+                <Password
+                  password={formData.password}
+                  onPasswordChange={(value) =>
+                    setFormData({ ...formData, password: value })
+                  }
+                  triggerValidation={triggerPasswordValidation}
+                  mode="addUser"
+                />
+
+                {fieldErrors.password && (
+                  <p className="text-xs text-red-600 mt-1">
+                    {fieldErrors.password}
+                  </p>
+                )}
+              </div>
 
               {/* Submit Buttons */}
               <div className="flex justify-end space-x-3 pt-4">
