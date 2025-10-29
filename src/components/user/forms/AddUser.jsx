@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
-import Password from "../../shared/Password";
+import Password, { generateRandomPassword } from "../../shared/Password";
 
 const AddUser = ({
   showAddForm,
@@ -9,7 +9,6 @@ const AddUser = ({
   handleAddUser,
   setFormData,
   formData,
-  generateRandomPassword,
   addUserStatus,
 }) => {
   const [passwordErrors, setPasswordErrors] = useState({
@@ -76,7 +75,9 @@ const AddUser = ({
 
   // Enhanced password generation with validation trigger
   const handleGeneratePassword = () => {
-    generateRandomPassword();
+    const newPassword = generateRandomPassword(); // Call the function
+    setFormData({ ...formData, password: newPassword });
+
     // Trigger validation to update the password requirements display
     setTriggerPasswordValidation((prev) => !prev);
   };
