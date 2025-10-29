@@ -85,7 +85,13 @@ const UserManagement = () => {
     setFormData({ ...formData, password });
   };
 
- 
+  if (status === "loading") {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#9B2C62]"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6">
