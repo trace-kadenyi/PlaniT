@@ -56,7 +56,17 @@ const UserManagement = () => {
     }
   };
 
- 
+  const handleRemoveUser = async (userId) => {
+    if (window.confirm("Are you sure you want to remove this user from the organization?")) {
+      try {
+        await dispatch(removeOrganizationUser(userId)).unwrap();
+        dispatch(fetchOrganizationUsers());
+      } catch (error) {
+        console.error("Failed to remove user:", error);
+      }
+    }
+  };
+
   
   
  
