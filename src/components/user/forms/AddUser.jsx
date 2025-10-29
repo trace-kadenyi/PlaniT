@@ -1,3 +1,7 @@
+import React, {useState} from "react";
+import { CheckIcon, XIcon } from "lucide-react";
+
+
 const AddUser = ({
   showAddForm,
   setShowAddForm,
@@ -7,6 +11,17 @@ const AddUser = ({
   generateRandomPassword,
   addUserStatus,
 }) => {
+    const [showPassword, setShowPassword] = useState(false)
+    const [passwordErrors, setPasswordErrors] = useState({
+        length: false,
+        uppercase: false,
+        lowercase: false,
+        number: false,
+        special: false
+    })
+
+   
+    
   return (
     <section>
       {showAddForm && (
