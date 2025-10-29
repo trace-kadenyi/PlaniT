@@ -21,7 +21,7 @@ const UserManagement = () => {
     firstName: "",
     lastName: "",
     email: "",
-    organizationRole: "planner",
+    role: "planner",
     password: "",
   });
 
@@ -45,7 +45,7 @@ const UserManagement = () => {
         firstName: "",
         lastName: "",
         email: "",
-        organizationRole: "planner",
+        role: "planner",
         password: "",
       });
       // Refresh the user list
@@ -73,9 +73,7 @@ const UserManagement = () => {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      await dispatch(
-        updateUserRole({ userId, organizationRole: newRole })
-      ).unwrap();
+      await dispatch(updateUserRole({ userId, role: newRole })).unwrap();
       dispatch(fetchOrganizationUsers());
     } catch (error) {
       console.error("Failed to update role:", error);
@@ -147,7 +145,7 @@ const UserManagement = () => {
                         You
                       </span>
                     )}
-                    {user.organizationRole === "owner" && (
+                    {user.role === "owner" && (
                       <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
                         Owner
                       </span>
@@ -159,19 +157,18 @@ const UserManagement = () => {
 
               <div className="flex items-center space-x-4">
                 <select
-                  value={user.organizationRole}
+                  value={user.role}
                   onChange={(e) => handleRoleChange(user._id, e.target.value)}
                   disabled={
                     user._id === currentUser?._id ||
-                    (user.organizationRole === "owner" &&
-                      currentUser?.organizationRole !== "owner")
+                    (user.role === "owner" && currentUser?.role !== "owner")
                   }
                   className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] disabled:opacity-50"
                 >
                   <option value="viewer">Viewer</option>
                   <option value="planner">Planner</option>
                   <option value="admin">Admin</option>
-                  {currentUser?.organizationRole === "owner" && (
+                  {currentUser?.role === "owner" && (
                     <option value="owner">Owner</option>
                   )}
                 </select>
@@ -179,12 +176,11 @@ const UserManagement = () => {
                 <button
                   onClick={() => handleRemoveUser(user._id)}
                   disabled={
-                    user._id === currentUser?._id ||
-                    user.organizationRole === "owner"
+                    user._id === currentUser?._id || user.role === "owner"
                   }
                   className="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed p-2"
                   title={
-                    user.organizationRole === "owner"
+                    user.role === "owner"
                       ? "Cannot remove organization owner"
                       : user._id === currentUser?._id
                       ? "Cannot remove yourself"
