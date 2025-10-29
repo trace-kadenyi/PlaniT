@@ -20,8 +20,25 @@ const AddUser = ({
         special: false
     })
 
-   
-    
+    const [fieldErrors, setFieldErrors] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: ""
+    })
+
+    // Password validation function (same as Signup)
+  const validatePassword = (password) => {
+    const errors = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      number: /\d/.test(password),
+      special: /[@$!%*?&]/.test(password),
+    };
+    setPasswordErrors(errors);
+    return Object.values(errors).every(Boolean);
+  };
   return (
     <section>
       {showAddForm && (
