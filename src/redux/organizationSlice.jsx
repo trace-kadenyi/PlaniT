@@ -43,10 +43,10 @@ export const removeOrganizationUser = createAsyncThunk(
 // Update user role
 export const updateUserRole = createAsyncThunk(
   "organization/updateUserRole",
-  async ({ userId, organizationRole }, { rejectWithValue }) => {
+  async ({ userId, role }, { rejectWithValue }) => {
     try {
       const res = await api.patch(`/api/organization/users/${userId}/role`, {
-        organizationRole,
+        role,
       });
       return res.data;
     } catch (err) {
@@ -135,8 +135,7 @@ const organizationSlice = createSlice({
           (user) => user._id === action.payload.user.id
         );
         if (index !== -1) {
-          state.users[index].organizationRole =
-            action.payload.user.organizationRole;
+          state.users[index].role = action.payload.user.role;
         }
       })
       .addCase(updateUserRole.rejected, (state, action) => {
