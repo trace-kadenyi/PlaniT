@@ -82,16 +82,6 @@ const UserManagement = () => {
     }
   };
 
-  const generateRandomPassword = () => {
-    const chars =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
-    let password = "";
-    for (let i = 0; i < 12; i++) {
-      password += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    setFormData({ ...formData, password });
-  };
-
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center h-64">
@@ -125,7 +115,6 @@ const UserManagement = () => {
         handleAddUser={handleAddUser}
         formData={formData}
         setFormData={setFormData}
-        generateRandomPassword={generateRandomPassword}
         addUserStatus={addUserStatus}
       />
 
