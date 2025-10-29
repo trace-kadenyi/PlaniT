@@ -10,7 +10,7 @@ import {
   User,
   LogOut,
   Sun,
-  Moon,
+  Moon, UsersIcon
 } from "lucide-react";
 
 import { logout, logoutUser } from "../../redux/authSlice";
@@ -281,6 +281,14 @@ export default function Sidebar() {
               Sun={Sun}
               theme={theme}
             />
+
+            {/* user management */}
+            <div>
+              <Link to="/team" className="flex items-center space-x-2 text-gray-700 hover:text-[#9B2C62]">
+  <UsersIcon className="w-5 h-5" />
+  <span>Team</span>
+</Link>
+            </div>
           </nav>
 
           {/* User Profile */}
