@@ -172,3 +172,35 @@ export const validatePassword = (password) => {
     errors,
   };
 };
+
+// generate random password
+export const generateRandomPassword = () => {
+  // Define character sets
+  const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const lowercase = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = "0123456789";
+  const special = "!@#$%^&*";
+  const allChars = uppercase + lowercase + numbers + special;
+
+  // Start with one guaranteed character from each required set
+  const guaranteedChars = [
+    uppercase[Math.floor(Math.random() * uppercase.length)],
+    lowercase[Math.floor(Math.random() * lowercase.length)],
+    numbers[Math.floor(Math.random() * numbers.length)],
+    special[Math.floor(Math.random() * special.length)],
+  ];
+
+  // Generate remaining random characters
+  const randomChars = [];
+  for (let i = 0; i < 8; i++) {
+    randomChars.push(allChars[Math.floor(Math.random() * allChars.length)]);
+  }
+
+  // Combine and shuffle
+  const allPasswordChars = [...guaranteedChars, ...randomChars];
+  const shuffledPassword = allPasswordChars
+    .sort(() => Math.random() - 0.5)
+    .join("");
+
+  return shuffledPassword;
+};
