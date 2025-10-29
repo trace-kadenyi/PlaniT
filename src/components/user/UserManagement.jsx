@@ -67,7 +67,15 @@ const UserManagement = () => {
     }
   };
 
-  
+  const handleRoleChange = async (userId, newRole) => {
+    try {
+      await dispatch(updateUserRole({ userId, organizationRole: newRole })).unwrap();
+      dispatch(fetchOrganizationUsers());
+    } catch (error) {
+      console.error("Failed to update role:", error);
+    }
+  };
+
   
  
 
