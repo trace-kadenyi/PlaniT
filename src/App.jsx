@@ -27,6 +27,7 @@ import CreateVendorForm from "./components/vendors/forms/CreateVendorForm";
 import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
+import UserManagement from "./components/user/UserManagement";
 
 function App() {
   const dispatch = useDispatch();
@@ -77,6 +78,7 @@ function App() {
             <Route path="/vendors/new" element={<CreateVendorForm />} />
             <Route path="/tasks/board" element={<TasksBoard />} />
             <Route path="/events/board" element={<EventsBoard />} />
+            <Route path="/team" element={<UserManagement />} />
           </Route>
 
           {/* Catch all route - redirect to home */}
