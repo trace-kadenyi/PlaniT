@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { CheckIcon, XIcon } from "../../ui/UserUiFragments";
+import { useSelector } from "react-redux";
+
 import Password from "../../shared/Password";
 
 const AddUser = ({
@@ -28,18 +29,7 @@ const AddUser = ({
   const [triggerPasswordValidation, setTriggerPasswordValidation] =
     useState(false);
 
-  // Password validation function (same as Signup)
-  const validatePassword = (password) => {
-    const errors = {
-      length: password.length >= 8,
-      uppercase: /[A-Z]/.test(password),
-      lowercase: /[a-z]/.test(password),
-      number: /\d/.test(password),
-      special: /[@$!%*?&]/.test(password),
-    };
-    setPasswordErrors(errors);
-    return Object.values(errors).every(Boolean);
-  };
+  const { addUserError } = useSelector((state) => state.organization);
 
   // Handle input changes with validation
   const handleInputChange = (e) => {
@@ -60,7 +50,7 @@ const AddUser = ({
   };
 
   // Enhanced handle submit with validation
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = {};
@@ -69,18 +59,19 @@ const AddUser = ({
     if (!formData.email.trim()) errors.email = "Email is required";
     if (!formData.password) errors.password = "Password is required";
 
-    // Validate password requirements
-    if (formData.password && !validatePassword(formData.password)) {
-      errors.password = "Password does not meet requirements";
-    }
-
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       return;
     }
 
     setFieldErrors({}); // Clear errors
-    handleAddUser(e);
+    try {
+      await handleAddUser(e);
+      // If successful, the modal will close automatically
+    } catch (error) {
+      // The error is already handled by the Redux slice, but we can check for specific password errors
+      console.log("Add user error:", error);
+    }
   };
 
   // Enhanced password generation with validation trigger
@@ -119,6 +110,29 @@ const AddUser = ({
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* error message */}
+              {addUserError && (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                  <div className="flex items-center space-x-2">
+                    <svg
+                      className="w-5 h-5 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span className="text-red-700 text-sm font-medium">
+                      {addUserError}
+                    </span>
+                  </div>
+                </div>
+              )}
               {/* Name Row */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
