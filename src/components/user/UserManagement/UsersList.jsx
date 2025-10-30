@@ -104,7 +104,34 @@ const UserListItem = ({ user, currentUser, editable, onRoleChange, onRemoveUser 
   </div>
 );
 
+const RoleSelector = ({ user, currentUser, editable, onRoleChange }) => {
+  if (!editable) {
+    return (
+      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200">
+        {user.role}
+      </span>
+    );
+  }
 
+  return (
+    <select
+      value={user.role}
+      onChange={(e) => onRoleChange(user._id, e.target.value)}
+      disabled={
+        user._id === currentUser?._id ||
+        (user.role === "owner" && currentUser?.role !== "owner")
+      }
+      className="min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:border-gray-400"
+    >
+      <option value="viewer">Viewer</option>
+      <option value="planner">Planner</option>
+      <option value="admin">Admin</option>
+      {currentUser?.role === "owner" && (
+        <option value="owner">Owner</option>
+      )}
+    </select>
+  );
+};
 
 
 
