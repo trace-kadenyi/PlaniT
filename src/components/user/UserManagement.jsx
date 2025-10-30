@@ -161,23 +161,28 @@ const UserManagement = () => {
 
               <div className="flex items-center space-x-4">
                 <div>
-                  {}
-                  <select
-                    value={user.role}
-                    onChange={(e) => handleRoleChange(user._id, e.target.value)}
-                    disabled={
-                      user._id === currentUser?._id ||
-                      (ownerOrAdmin && !ownerOrAdmin)
-                    }
-                    className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] disabled:opacity-50"
-                  >
-                    <option value="viewer">Viewer</option>
-                    <option value="planner">Planner</option>
-                    <option value="admin">Admin</option>
-                    {currentUser?.role === "owner" && (
-                      <option value="owner">Owner</option>
-                    )}
-                  </select>
+                  {ownerOrAdmin ? (
+                    <select
+                      value={user.role}
+                      onChange={(e) =>
+                        handleRoleChange(user._id, e.target.value)
+                      }
+                      disabled={
+                        user._id === currentUser?._id ||
+                        (ownerOrAdmin && !ownerOrAdmin)
+                      }
+                      className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] disabled:opacity-50"
+                    >
+                      <option value="viewer">Viewer</option>
+                      <option value="planner">Planner</option>
+                      <option value="admin">Admin</option>
+                      {currentUser?.role === "owner" && (
+                        <option value="owner">Owner</option>
+                      )}
+                    </select>
+                  ) : (
+                    <p className="capitalize">{user.role}</p>
+                  )}
                 </div>
 
                 {/* remove user - restricted to admin and/or owner */}
