@@ -7,8 +7,8 @@ const UserList = ({
   onRoleChange,
   onRemoveUser,
 }) => {
-  const ownerOrAdmin =
-    currentUser?.role === "admin" || currentUser?.role === "owner";
+  const superAdminOrAdmin =
+    currentUser?.role === "admin" || currentUser?.role === "super_admin";
 
   if (users.length === 0) {
     return (
@@ -53,7 +53,7 @@ const UserList = ({
             user={user}
             currentUser={currentUser}
             editable={editable}
-            ownerOrAdmin={ownerOrAdmin}
+            superAdminOrAdmin={superAdminOrAdmin}
             onRoleChange={onRoleChange}
             onRemoveUser={onRemoveUser}
           />
@@ -67,7 +67,7 @@ const UserListItem = ({
   user,
   currentUser,
   editable,
-  ownerOrAdmin,
+  superAdminOrAdmin,
   onRoleChange,
   onRemoveUser,
 }) => (
@@ -87,9 +87,9 @@ const UserListItem = ({
               You
             </span>
           )}
-          {user.role === "owner" && (
+          {user.role === "super_admin" && (
             <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
-              Owner
+              Super Admin
             </span>
           )}
           {user.role === "admin" && user._id !== currentUser?._id && (
@@ -135,8 +135,8 @@ const RoleSelector = ({ user, currentUser, editable, onRoleChange }) => {
     // Can't edit your own role
     if (user._id === currentUser?._id) return false;
 
-    // Owners can edit anyone (except themselves, handled above)
-    if (currentUser?.role === "owner") return true;
+    // Super Admins can edit anyone (except themselves, handled above)
+    if (currentUser?.role === "super_admin") return true;
 
     // Admins can only edit viewers and planners
     if (currentUser?.role === "admin") {
@@ -156,7 +156,9 @@ const RoleSelector = ({ user, currentUser, editable, onRoleChange }) => {
       <option value="viewer">Viewer</option>
       <option value="planner">Planner</option>
       <option value="admin">Admin</option>
-      {currentUser?.role === "owner" && <option value="owner">Owner</option>}
+      {currentUser?.role === "super_admin" && (
+        <option value="super_admin">Super Admin</option>
+      )}
     </select>
   );
 };
@@ -167,8 +169,8 @@ const RemoveUserButton = ({ user, currentUser, onRemoveUser }) => {
     // Can't remove yourself
     if (user._id === currentUser?._id) return false;
 
-    // Owners can remove anyone (except themselves, handled above)
-    if (currentUser?.role === "owner") return true;
+    // Super admins can remove anyone (except themselves, handled above)
+    if (currentUser?.role === "super_admin") return true;
 
     // Admins can only remove viewers and planners
     if (currentUser?.role === "admin") {
@@ -180,7 +182,8 @@ const RemoveUserButton = ({ user, currentUser, onRemoveUser }) => {
 
   const getRemoveButtonTitle = () => {
     if (user._id === currentUser?._id) return "Cannot remove yourself";
-    if (user.role === "owner") return "Cannot remove organization owner";
+    if (user.role === "super_admin")
+      return "Cannot remove organization super admin";
     if (user.role === "admin") return "Cannot remove other admins";
     if (!canRemoveUser()) return "No permission to remove users";
     return "Remove user";
