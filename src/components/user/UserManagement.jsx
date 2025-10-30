@@ -93,20 +93,41 @@ const UserManagement = () => {
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Team Management</h1>
-          <p className="text-gray-600 mt-2">
-            Manage your organization members and their permissions
-          </p>
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              {ownerOrAdmin ? "Team Management" : "Team Directory"}
+            </h1>
+            <p className="text-gray-600 mt-2 max-w-2xl">
+              {ownerOrAdmin
+                ? "Manage your organization members and their permissions"
+                : "View your team members and their roles within the organization"}
+            </p>
+          </div>
+          {ownerOrAdmin && (
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
+            >
+              Add Team Member
+            </button>
+          )}
         </div>
+
+        {/* Admin-only guidance section */}
         {ownerOrAdmin && (
-          <button
-            onClick={() => setShowAddForm(true)}
-            className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
-          >
-            Add Team Member
-          </button>
+          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h3 className="text-sm font-semibold text-blue-900 mb-1">
+              Team Management Guide
+            </h3>
+            <p className="text-sm text-blue-700">
+              As an {currentUser.role === "owner" ? "owner" : "admin"}, you can
+              add new members, adjust roles, and manage team permissions. Owners
+              have full organization control.
+            </p>
+          </div>
         )}
       </div>
 
