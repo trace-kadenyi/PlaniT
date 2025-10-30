@@ -170,7 +170,6 @@ const AddUser = ({
                   <input
                     type="text"
                     name="firstName"
-                    required
                     value={formData.firstName}
                     onChange={handleInputChange}
                     className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:border-gray-700 ${
@@ -193,7 +192,6 @@ const AddUser = ({
                   <input
                     type="text"
                     name="lastName"
-                    required
                     value={formData.lastName}
                     onChange={handleInputChange}
                     className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:border-gray-700 ${
@@ -219,7 +217,6 @@ const AddUser = ({
                 <input
                   type="email"
                   name="email"
-                  required
                   value={formData.email}
                   onChange={handleInputChange}
                   className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:border-gray-700 ${
