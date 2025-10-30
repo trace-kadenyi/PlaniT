@@ -15,6 +15,8 @@ const UserManagement = () => {
   const { users, status, addUserStatus, removeUserStatus, updateRoleStatus } =
     useSelector((state) => state.organization);
   const currentUser = useSelector((state) => state.auth.user);
+  const ownerOrAdmin =
+    currentUser.role === "admin" || currentUser.role === "owner";
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -98,15 +100,14 @@ const UserManagement = () => {
             Manage your organization members and their permissions
           </p>
         </div>
-        {currentUser.role === "owner" ||
-          (currentUser.role === "admin" && (
-            <button
-              onClick={() => setShowAddForm(true)}
-              className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
-            >
-              Add Team Member
-            </button>
-          ))}
+        {ownerOrAdmin && (
+          <button
+            onClick={() => setShowAddForm(true)}
+            className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
+          >
+            Add Team Member
+          </button>
+        )}
       </div>
 
       {/* Add User Modal */}
@@ -159,51 +160,45 @@ const UserManagement = () => {
               </div>
 
               <div className="flex items-center space-x-4">
-                <select
-                  value={user.role}
-                  onChange={(e) => handleRoleChange(user._id, e.target.value)}
-                  disabled={
-                    user._id === currentUser?._id ||
-                    (user.role === "owner" && currentUser?.role !== "owner")
-                  }
-                  className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] disabled:opacity-50"
-                >
-                  <option value="viewer">Viewer</option>
-                  <option value="planner">Planner</option>
-                  <option value="admin">Admin</option>
-                  {currentUser?.role === "owner" && (
-                    <option value="owner">Owner</option>
-                  )}
-                </select>
-
-                <button
-                  onClick={() => handleRemoveUser(user._id)}
-                  disabled={
-                    user._id === currentUser?._id || user.role === "owner"
-                  }
-                  className="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed p-2"
-                  title={
-                    user.role === "owner"
-                      ? "Cannot remove organization owner"
-                      : user._id === currentUser?._id
-                      ? "Cannot remove yourself"
-                      : "Remove user"
-                  }
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                <div>
+                  {}
+                  <select
+                    value={user.role}
+                    onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                    disabled={
+                      user._id === currentUser?._id ||
+                      (ownerOrAdmin && !ownerOrAdmin)
+                    }
+                    className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] disabled:opacity-50"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                </button>
+                    <option value="viewer">Viewer</option>
+                    <option value="planner">Planner</option>
+                    <option value="admin">Admin</option>
+                    {currentUser?.role === "owner" && (
+                      <option value="owner">Owner</option>
+                    )}
+                  </select>
+                </div>
+
+                {/* remove user - restricted to admin and/or owner */}
+                {ownerOrAdmin && (
+                  <button
+                    onClick={() => handleRemoveUser(user._id)}
+                    disabled={
+                      user._id === currentUser?._id || user.role === "owner"
+                    }
+                    className="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed p-2"
+                    title={
+                      user.role === "owner"
+                        ? "Cannot remove organization owner"
+                        : user._id === currentUser?._id
+                        ? "Cannot remove yourself"
+                        : "Remove user"
+                    }
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             </div>
           ))}
