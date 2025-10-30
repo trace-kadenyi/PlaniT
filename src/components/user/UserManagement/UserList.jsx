@@ -111,7 +111,7 @@ const UserListItem = ({
                 You
               </span>
             )}
-            {user.role === "super_admin" && (
+            {/* {user.role === "super_admin" && (
               <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
                 Super Admin
               </span>
@@ -120,7 +120,7 @@ const UserListItem = ({
               <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
                 Admin
               </span>
-            )}
+            )} */}
           </h3>
           <p className="text-gray-600 text-sm">{user.email}</p>
         </div>
