@@ -98,12 +98,15 @@ const UserManagement = () => {
             Manage your organization members and their permissions
           </p>
         </div>
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
-        >
-          Add Team Member
-        </button>
+        {currentUser.role === "owner" ||
+          (currentUser.role === "admin" && (
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
+            >
+              Add Team Member
+            </button>
+          ))}
       </div>
 
       {/* Add User Modal */}
