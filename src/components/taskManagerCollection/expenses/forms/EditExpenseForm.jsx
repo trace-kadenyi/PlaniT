@@ -25,6 +25,9 @@ export default function EditExpenseForm({
     (state) => state.vendors
   );
 
+  // Get current user from auth state
+  const currentUser = useSelector((state) => state.auth.user);
+
   // initialize form
   const [form, setForm] = useState({
     amount: "",
@@ -87,6 +90,7 @@ export default function EditExpenseForm({
         ...form,
         amount: parseFloat(form.amount),
         vendor: form.vendor,
+        createdBy: currentUser._id,
       };
 
       const result = await dispatch(

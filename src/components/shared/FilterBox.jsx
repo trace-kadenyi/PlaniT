@@ -34,7 +34,6 @@ export default function FilterBox({
 
       {/* Filter Controls */}
       <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center items-center">
-        {/* Dynamic Filters */}
         {filterConfig.filters.map((filter) => {
           // Get the options - either static or from a function
           const options =

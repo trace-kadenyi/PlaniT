@@ -11,6 +11,26 @@ export const formatDateTime = (dateStr) => {
   });
 };
 
+// format date time for tasks - minus weekday
+export const formatDateTimeShort = (date) => {
+  return new Date(date).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+// format date/time - deadline (without hour/minute)
+export const formatDateOnly = (date) => {
+  return new Date(date).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
 // get status color
 export const getStatusColor = (status) => {
   switch (status?.toLowerCase()) {

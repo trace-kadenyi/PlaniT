@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-// shareables
+import { formatDateTimeShort } from "../utils/formatting";
+import { CreatedUpdatedData } from "../../shared/Snippets";
+
+// SHAREABLE functions
+// description
 function Desc({ expense }) {
   return (
     <h3 className="font-medium text-[#6B3B0F] dark:text-gray-300 mb-2">
@@ -9,6 +14,7 @@ function Desc({ expense }) {
   );
 }
 
+// category
 function Cat({ expense }) {
   return (
     <span className="capitalize bg-[#F3EDE9] dark:bg-[#F8D476]/20 dark:text-[#F59E0B]/90 px-2 py-0.5 rounded-full">
@@ -17,6 +23,7 @@ function Cat({ expense }) {
   );
 }
 
+// vendor
 function Vend({ expense }) {
   // null check for vendor
   if (!expense.vendor || typeof expense.vendor === "string") {
@@ -112,6 +119,12 @@ export function ExpenseListView({ expense, children }) {
           ) : (
             <p className="text-sm text-gray-400 italic mt-1">No receipt</p>
           )}
+
+          {/* created on/by details */}
+          <CreatedUpdatedData
+            item={expense}
+            formatDateTimeShort={formatDateTimeShort}
+          />
         </div>
 
         {/* Right Section */}

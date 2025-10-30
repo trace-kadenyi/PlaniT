@@ -8,7 +8,8 @@ import {
   Phone,
   Globe,
   MapPin,
-  FileText, Trash2
+  FileText,
+  Trash2,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -31,6 +32,7 @@ export default function VendorCard({
     dispatch,
     vendor?._id,
     vendor?.isArchived,
+    vendor,
     toggleArchiveVendor,
     null, // Don't need to fetch vendors list in details page
     null, // Don't need to fetch stats in details page

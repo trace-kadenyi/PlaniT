@@ -71,9 +71,9 @@ const tasksSlice = createSlice({
   initialState: {
     items: [],
     eventId: null,
-    status: "idle", // For fetch operations
+    status: "idle", // For all operations
     error: null,
-    // Add separate statuses for different operations like eventsSlice
+    // separate statuses for different operations
     createStatus: "idle",
     createError: null,
     updateStatus: "idle",
@@ -140,7 +140,7 @@ const tasksSlice = createSlice({
         state.error = action.payload || "Failed to fetch all tasks";
       })
 
-      // Add task - Modified to match eventsSlice pattern
+      // Add task
       .addCase(addTask.pending, (state) => {
         state.createStatus = "loading";
         state.createError = null;
@@ -150,11 +150,11 @@ const tasksSlice = createSlice({
         state.items.push(action.payload);
       })
       .addCase(addTask.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload; // This now contains the proper error message
+        state.createStatus = "failed";
+        state.createError = action.payload;
       })
 
-      // Update task - Modified to match eventsSlice pattern
+      // Update task
       .addCase(updateTask.pending, (state) => {
         state.updateStatus = "loading";
         state.updateError = null;
@@ -174,11 +174,11 @@ const tasksSlice = createSlice({
         }
       })
       .addCase(updateTask.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload; // Make sure this is set
+        state.updateStatus = "failed";
+        state.updateError = action.payload;
       })
 
-      // Delete task - Modified to match eventsSlice pattern
+      // Delete task
       .addCase(deleteTask.pending, (state) => {
         state.deleteStatus = "loading";
         state.deleteError = null;

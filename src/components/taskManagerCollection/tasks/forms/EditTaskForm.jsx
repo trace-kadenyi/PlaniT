@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { updateTask, resetTaskStatus } from "../../../../redux/tasksSlice";
+import { fetchOrganizationUsers } from "../../../../redux/organizationSlice";
+
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import TaskFormFields from "./TaskFormFields";
 
 export default function EditTaskForm({ task, onClose }) {
   const dispatch = useDispatch();
-  const taskStatus = useSelector((state) => state.tasks.status);
-  const taskError = useSelector((state) => state.tasks.error);
+  const taskStatus = useSelector((state) => state.tasks.updateStatus);
+  const taskError = useSelector((state) => state.tasks.updateError);
   const event = useSelector((state) => state.events.selectedEvent);
+  const organizationUsers = useSelector((state) => state.organization.users);
+  const organizationStatus = useSelector((state) => state.organization.status);
 
   // initialize form
   const [form, setForm] = useState({
@@ -20,6 +24,11 @@ export default function EditTaskForm({ task, onClose }) {
     priority: "Medium",
     status: "To Do",
   });
+
+  // Fetch organization users when component mounts
+  useEffect(() => {
+    dispatch(fetchOrganizationUsers());
+  }, [dispatch]);
 
   // Reset status when task changes (when opening a different task)
   useEffect(() => {
@@ -37,7 +46,7 @@ export default function EditTaskForm({ task, onClose }) {
       setForm({
         title: task.title || "",
         description: task.description || "",
-        assignedTo: task.assignedTo || "",
+        assignedTo: task.assignedTo?._id || task.assignedTo || "",
         deadline: task.deadline ? task.deadline.split("T")[0] : "",
         priority: task.priority || "Medium",
         status: task.status || "To Do",
@@ -66,10 +75,15 @@ export default function EditTaskForm({ task, onClose }) {
       }
     }
     try {
+      const submitData = {
+        ...form,
+        assignedTo: form.assignedTo || null,
+      };
+
       const result = await dispatch(
         updateTask({
           taskId: task._id,
-          updatedData: form,
+          updatedData: submitData,
         })
       );
 
@@ -98,6 +112,8 @@ export default function EditTaskForm({ task, onClose }) {
       taskStatus={taskStatus}
       taskError={taskError}
       eventDate={event?.date}
+      organizationUsers={organizationUsers}
+      organizationStatus={organizationStatus}
       mode="edit"
     />
   );

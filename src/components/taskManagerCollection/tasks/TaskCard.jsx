@@ -1,6 +1,8 @@
 import { Pencil, Trash2 } from "lucide-react";
 
 import { TasksPriorityPill, TaskStatusPill } from "../../shared/UIFragments";
+import { formatDateTimeShort, formatDateOnly } from "../utils/formatting";
+import { CreatedUpdatedData } from "../../shared/Snippets";
 
 export default function TaskCard({
   tasks,
@@ -79,48 +81,59 @@ export default function TaskCard({
           </div>
 
           <div className="grid grid-cols-2 text-xs text-gray-600 dark:text-gray-300 pt-2 gap-1">
+            {/* priority */}
             <div>
               <span className="font-semibold text-gray-500 dark:text-gray-400">
                 Priority:
               </span>{" "}
               <TasksPriorityPill priority={task.priority} />
             </div>
+
+            {/* status */}
             <div>
               <span className="font-semibold text-gray-500 dark:text-gray-400">
                 Status:
               </span>{" "}
               <TaskStatusPill status={task.status} />
             </div>
+
+            {/* assigned to */}
             <div>
               <span className="font-semibold text-gray-500 dark:text-gray-400">
                 Assigned To:
               </span>{" "}
               <span
                 className="max-w-[120px] truncate inline-block align-bottom"
-                title={task.assignedTo || "Unassigned"} // Show full name on hover
+                title={
+                  task.assignedTo
+                    ? typeof task.assignedTo === "object"
+                      ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}`
+                      : "User ID: " + task.assignedTo
+                    : "Unassigned"
+                } // Show full name on hover
               >
-                {task.assignedTo || "Unassigned"}
+                {task.assignedTo
+                  ? typeof task.assignedTo === "object"
+                    ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}`
+                    : "User ID: " + task.assignedTo
+                  : "Unassigned"}
               </span>
             </div>
+
+            {/* deadline */}
             <div>
               <span className="font-semibold text-gray-500 dark:text-gray-400">
                 Deadline:
               </span>{" "}
-              {task.deadline
-                ? new Date(task.deadline).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })
-                : "—"}
+              {task.deadline ? formatDateOnly(task.deadline) : "—"}
             </div>
           </div>
 
-          <div className="text-[10px] text-gray-400 dark:text-gray-400/80 pt-2">
-            Created: {new Date(task.createdAt).toLocaleString()}
-            <br />
-            Updated: {new Date(task.updatedAt).toLocaleString()}
-          </div>
+          {/* created/updated dates */}
+          <CreatedUpdatedData
+            item={task}
+            formatDateTimeShort={formatDateTimeShort}
+          />
         </li>
       ))}
     </ul>

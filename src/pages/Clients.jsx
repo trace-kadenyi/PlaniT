@@ -2,16 +2,22 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus, ChevronLeft, ChevronRight, Filter, Search } from "lucide-react";
+import toast from "react-hot-toast";
 
 import {
   fetchClients,
   archiveClient,
   restoreClient,
   resetArchiveStates,
+  deleteAllClients,
+  resetDeleteAllClientsState,
 } from "../redux/clientsSlice";
 
 import ClientsTable from "../components/clients/ClientsTable";
 import ClientPagination from "../components/clients/ClientPagination";
+import { createAllClientsDeleteHandler } from "../globalHandlers/createAllClientsDeleteHandler";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 
 export default function Clients() {
   const dispatch = useDispatch();
@@ -26,6 +32,7 @@ export default function Clients() {
     items: allClients,
     status,
     error,
+    deleteAllStatus,
   } = useSelector((state) => state.clients);
 
   // fetch clients
@@ -38,6 +45,10 @@ export default function Clients() {
     return () => {
       dispatch(resetArchiveStates());
     };
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => dispatch(resetDeleteAllClientsState());
   }, [dispatch]);
 
   // handle archive toggle
@@ -82,6 +93,16 @@ export default function Clients() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // handle delete all clients
+  const handleDeleteAll = createAllClientsDeleteHandler(
+    dispatch,
+    navigate,
+    deleteAllClients,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast
+  );
+
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
       <div className="max-w-7xl mx-auto">
@@ -114,32 +135,52 @@ export default function Clients() {
           </div>
         </div>
 
-        {/* Filter Controls */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-            <Filter className="mr-2 w-4 h-4" />
-            <span>Filter by:</span>
+        <div className="flex justify-between flex-wrap mb-6 gap-2">
+          {/* Filter Controls */}
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+              <Filter className="mr-2 w-4 h-4" />
+              <span>Filter by:</span>
+            </div>
+            {["all", "active", "archived"].map((mode) => (
+              <button
+                key={mode}
+                onClick={() => {
+                  setFilterMode(mode);
+                  setCurrentPage(1);
+                }}
+                className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors ${
+                  filterMode === mode
+                    ? "bg-[#9B2C62] text-white shadow-md"
+                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
+                }`}
+              >
+                {mode === "active" && (
+                  <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                )}
+                {mode === "archived" && <span>🗃️</span>}
+                {mode.charAt(0).toUpperCase() + mode.slice(1)}
+              </button>
+            ))}
           </div>
-          {["all", "active", "archived"].map((mode) => (
-            <button
-              key={mode}
-              onClick={() => {
-                setFilterMode(mode);
-                setCurrentPage(1);
-              }}
-              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors ${
-                filterMode === mode
-                  ? "bg-[#9B2C62] text-white shadow-md"
-                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
-              }`}
-            >
-              {mode === "active" && (
-                <span className="w-2 h-2 rounded-full bg-green-500"></span>
-              )}
-              {mode === "archived" && <span>🗃️</span>}
-              {mode.charAt(0).toUpperCase() + mode.slice(1)}
-            </button>
-          ))}
+          {/* delete all clients btn */}
+          {filteredClients.length > 0 && (
+            <div className="w-max mx-auto sm:mx-0">
+              <button
+                onClick={handleDeleteAll}
+                disabled={deleteAllStatus === "loading"}
+                className={`bg-[#9B2C62] hover:bg-[#801f4f] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
+                  deleteAllStatus === "loading"
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+              >
+                {deleteAllStatus === "loading"
+                  ? "Deleting..."
+                  : "Delete All Clients"}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Status Messages */}

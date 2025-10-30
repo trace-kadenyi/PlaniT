@@ -27,9 +27,17 @@ export default function DeleteConfirmationToast({
       warning: "This will permanently delete the client.",
       confirm: "Yes, Delete Client",
     },
+    clients: {
+      warning: "This will permanently delete all the clients.",
+      confirm: "Yes, Delete Clients",
+    },
     vendor: {
       warning: "This will permanently delete the vendor.",
       confirm: "Yes, Delete Vendor",
+    },
+    vendors: {
+      warning: "This will permanently all the vendors.",
+      confirm: "Yes, Delete Vendors",
     },
   };
 

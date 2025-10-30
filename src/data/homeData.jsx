@@ -1,12 +1,4 @@
-import {
-  ClipboardList,
-  LayoutDashboard,
-  User,
-  Wallet,
-  Building2,
-  CalendarClockIcon,
-  BarChart4,
-} from "lucide-react";
+import { ClipboardList, LayoutDashboard, User, BarChart4 } from "lucide-react";
 
 // features sect data
 export const features = [

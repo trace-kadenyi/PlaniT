@@ -180,7 +180,10 @@ export const filterTasks = (
     const matchesAssignee =
       filters.assignee === "all" ||
       (filters.assignee === "Unassigned"
-        ? !task.assignedTo || task.assignedTo.trim() === ""
+        ? !task.assignedTo
+        : task.assignedTo && typeof task.assignedTo === "object"
+        ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}` ===
+          filters.assignee
         : task.assignedTo === filters.assignee);
     // date filter
     const matchesDate = filterByDateRange(

@@ -18,12 +18,29 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
               {event.type}
             </p>
             {event.client && (
-              <div className="flex items-center flex-wrap gap-2 text-xs bg-white/80 dark:bg-gray-700 rounded-lg px-3 py-1 shadow-sm border border-[#F3EDE9] transition-colors duration-200 cursor-default">
+              <div
+                className={`flex items-center flex-wrap gap-2 text-xs rounded-lg px-3 py-1 shadow-sm border transition-colors duration-200 cursor-default ${
+                  event.client.isDeleted
+                    ? "bg-gray-100 border-gray-300 text-gray-500 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
+                    : "bg-white/80 border-[#F3EDE9] dark:bg-gray-700"
+                }`}
+              >
                 <span className="text-xs font-semibold text-gray-500 dark:text-gray-300">
                   Client:
                 </span>
-                <span className="font-medium text-[#6B3B0F] dark:text-gray-300 transition-colors duration-200">
+                <span
+                  className={`font-medium transition-colors duration-200 ${
+                    event.client.isDeleted
+                      ? "text-gray-500 dark:text-gray-400 line-through"
+                      : "text-[#6B3B0F] dark:text-gray-300"
+                  }`}
+                >
                   {event.client.name}
+                  {event.client.isDeleted && (
+                    <span className="ml-1 text-gray-400 dark:text-gray-500 text-xs">
+                      (Deleted)
+                    </span>
+                  )}
                 </span>
               </div>
             )}

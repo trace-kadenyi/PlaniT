@@ -6,6 +6,8 @@ export default function TaskFormFields({
   onClose,
   onSubmit,
   eventDate,
+  organizationUsers = [],
+  organizationStatus,
   mode = "create",
 }) {
   // Calculate min/max dates
@@ -20,12 +22,12 @@ export default function TaskFormFields({
 
     // Basic client-side validation
     if (maxDate && selectedDate > maxDate) {
-      // You can show a toast or inline error here if needed
+      // can show a toast or inline error here if needed
       console.warn("Selected date is after event date");
       return;
     }
 
-    onFieldChange(e); // Proceed with normal change
+    onFieldChange(e);
   };
 
   return (
@@ -79,16 +81,26 @@ export default function TaskFormFields({
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           Assigned To
         </label>
-        <input
-          type="text"
+        <select
           name="assignedTo"
-          value={form.assignedTo}
+          value={form.assignedTo || ""}
           onChange={onFieldChange}
-          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
-        />
+          disabled={organizationStatus === "loading"}
+          className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-gray-900"
+        >
+          <option value="">Unassigned</option>
+          {organizationStatus === "loading" ? (
+            <option disabled>Loading users...</option>
+          ) : (
+            organizationUsers.map((user) => (
+              <option key={user._id} value={user._id}>
+                {user.firstName} {user.lastName} ({user.email})
+              </option>
+            ))
+          )}
+        </select>
       </div>
 
-      {/* Deadline */}
       {/* Enhanced Deadline Field */}
       <div className="relative">
         <label className="block text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-1">
@@ -131,7 +143,7 @@ export default function TaskFormFields({
         )}
       </div>
 
-      {/* Priority & Status */}
+      {/* Priority */}
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -148,6 +160,8 @@ export default function TaskFormFields({
             <option>High</option>
           </select>
         </div>
+
+        {/* Status */}
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Status

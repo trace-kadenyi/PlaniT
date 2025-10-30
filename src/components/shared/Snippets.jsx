@@ -71,15 +71,47 @@ export function NoBudget({ Link, eventID }) {
 }
 
 // Color definitions
-const colors = {
-  primary: {
-    main: "#9B2C62", // Deep mulberry
-    light: "#9B2C62/10",
-    dark: "#7A2450",
-  },
-  secondary: {
-    main: "#FF9933", // Saffron gold
-    light: "#FFB866", // Lighter pumpkin
-    dark: "#E07C24", // Darker pumpkin
-  },
+// const colors = {
+//   primary: {
+//     main: "#9B2C62", // Deep mulberry
+//     light: "#9B2C62/10",
+//     dark: "#7A2450",
+//   },
+//   secondary: {
+//     main: "#FF9933", // Saffron gold
+//     light: "#FFB866", // Lighter pumpkin
+//     dark: "#E07C24", // Darker pumpkin
+//   },
+// };
+
+// Helper function to get user display name
+export const getUserDisplayName = (user) => {
+  if (!user) return "Unknown User";
+  if (user.firstName && user.lastName)
+    return `${user.firstName} ${user.lastName}`;
+  return "Unknown User";
+};
+
+// created and updated on/by Snippet
+export const CreatedUpdatedData = ({ item, formatDateTimeShort }) => {
+  return (
+    <div className="text-[10px] text-gray-400 dark:text-gray-400/60 pt-2">
+      {/* created data */}
+      <div>
+        <span className="font-semibold">Created: </span>
+        <span>{formatDateTimeShort(item.createdAt)}</span>{" "}
+        {item.createdBy && <span>by {getUserDisplayName(item.createdBy)}</span>}
+      </div>
+      {/* Conditionally show updated by - only if it exists */}
+      {item.updatedBy && item.updatedBy._id && (
+        <div>
+          <span className="font-semibold">Last Updated: </span>
+          <span>
+            {formatDateTimeShort(item.updatedAt)} by{" "}
+            {getUserDisplayName(item.updatedBy)}
+          </span>
+        </div>
+      )}
+    </div>
+  );
 };

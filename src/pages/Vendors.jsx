@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Plus, Archive, Search, Filter } from "lucide-react";
+import toast from "react-hot-toast";
 
 import {
   toggleArchiveVendor,
   resetVendorStatuses,
   fetchVendors,
   fetchVendorStats,
+  deleteAllVendors,
+  resetDeleteAllVendorsState,
 } from "../redux/vendorsSlice";
 
 import { GenErrorState } from "../components/shared/ErrorStates";
@@ -15,11 +18,16 @@ import { useFilteredVendors } from "../globalHooks/useFilteredVendors";
 import VendorPagination from "../components/vendors/VendorPagination";
 import VendorsTable from "../components/vendors/VendorsTable";
 import { VendorStatsLoading } from "../components/shared/LoadingStates";
+import { createAllVendorsDeleteHandler } from "../components/taskManagerCollection/utils/handlers/createAllVendorsDeleteHandler";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 
 export default function Vendors() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterMode, setFilterMode] = useState("all");
+
+  const { deleteAllStatus } = useSelector((state) => state.vendors);
 
   const {
     searchTerm,
@@ -47,6 +55,21 @@ export default function Vendors() {
       dispatch(resetVendorStatuses());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    return () => dispatch(resetDeleteAllVendorsState());
+  }, [dispatch]);
+
+  // handle delete all vendors
+  const handleDeleteAll = createAllVendorsDeleteHandler(
+    dispatch,
+    navigate,
+    deleteAllVendors,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast,
+    resetVendorStatuses
+  );
 
   return (
     <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
@@ -77,29 +100,49 @@ export default function Vendors() {
           </div>
         </div>
 
-        {/* Filter Controls */}
-        <div className="flex flex-wrap items-center justify-start gap-3 mb-6">
-          <div className="flex items-center text-sm text-[#9B2C62] dark:text-gray-400">
-            <Filter className="w-4 h-4 mr-2" />
-            <span>Filter by:</span>
+        <div className="flex justify-between flex-wrap mb-6 gap-2">
+          {/* Filter Controls */}
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mb-6">
+            <div className="flex items-center text-sm text-[#9B2C62] dark:text-gray-400">
+              <Filter className="w-4 h-4 mr-2" />
+              <span>Filter by:</span>
+            </div>
+            {["all", "active", "archived"].map((mode) => (
+              <button
+                key={mode}
+                onClick={() => setFilterMode(mode)}
+                className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
+                  filterMode === mode
+                    ? "bg-[#9B2C62] text-white shadow-md"
+                    : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA] dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
+                }`}
+              >
+                {mode === "active" && (
+                  <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                )}
+                {mode === "archived" && <Archive className="w-4 h-4" />}
+                {mode.charAt(0).toUpperCase() + mode.slice(1)}
+              </button>
+            ))}
           </div>
-          {["all", "active", "archived"].map((mode) => (
-            <button
-              key={mode}
-              onClick={() => setFilterMode(mode)}
-              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
-                filterMode === mode
-                  ? "bg-[#9B2C62] text-white shadow-md"
-                  : "bg-white text-gray-700 border border-[#E3CBC1] hover:bg-[#F7F7FA] dark:bg-gray-700/60 dark:text-white dark:border-none dark:hover:bg-gray-600/70"
-              }`}
-            >
-              {mode === "active" && (
-                <span className="w-2 h-2 rounded-full bg-green-500"></span>
-              )}
-              {mode === "archived" && <Archive className="w-4 h-4" />}
-              {mode.charAt(0).toUpperCase() + mode.slice(1)}
-            </button>
-          ))}
+
+          {filteredVendors.length > 0 && (
+            <div className="w-max mx-auto sm:mx-0">
+              <button
+                onClick={handleDeleteAll}
+                disabled={deleteAllStatus === "loading"}
+                className={`bg-[#9B2C62] hover:bg-[#801f4f] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
+                  deleteAllStatus === "loading"
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+              >
+                {deleteAllStatus === "loading"
+                  ? "Deleting..."
+                  : "Delete All vendors"}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Status Messages */}

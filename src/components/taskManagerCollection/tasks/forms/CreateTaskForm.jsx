@@ -3,15 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { addTask, resetTaskStatus } from "../../../../redux/tasksSlice";
+import { fetchOrganizationUsers } from "../../../../redux/organizationSlice";
+
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import TaskFormFields from "./TaskFormFields";
 
 export default function CreateTaskForm({ onClose }) {
   const dispatch = useDispatch();
   const { id: eventId } = useParams();
-  const taskStatus = useSelector((state) => state.tasks.status);
-  const taskError = useSelector((state) => state.tasks.error);
+  const taskStatus = useSelector((state) => state.tasks.createStatus);
+  const taskError = useSelector((state) => state.tasks.createError);
   const event = useSelector((state) => state.events.selectedEvent);
+  const organizationUsers = useSelector((state) => state.organization.users);
+  const organizationStatus = useSelector((state) => state.organization.status);
 
   const [form, setForm] = useState({
     title: "",
@@ -21,6 +25,11 @@ export default function CreateTaskForm({ onClose }) {
     priority: "Medium",
     status: "To Do",
   });
+
+  // Fetch organization users when component mounts
+  useEffect(() => {
+    dispatch(fetchOrganizationUsers());
+  }, [dispatch]);
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -35,7 +44,13 @@ export default function CreateTaskForm({ onClose }) {
         return;
       }
     }
-    dispatch(addTask({ eventId, taskData: form }))
+
+    const submitData = {
+      ...form,
+      assignedTo: form.assignedTo || null,
+    };
+
+    dispatch(addTask({ eventId, taskData: submitData }))
       .then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           setForm({
@@ -51,7 +66,6 @@ export default function CreateTaskForm({ onClose }) {
         }
       })
       .catch((err) => {
-        // Error will be automatically handled by the slice
         toastWithProgress(`Error: ${err.message}`);
       });
   };
@@ -77,6 +91,8 @@ export default function CreateTaskForm({ onClose }) {
       taskStatus={taskStatus}
       taskError={taskError}
       eventDate={event?.date}
+      organizationUsers={organizationUsers}
+      organizationStatus={organizationStatus}
       mode="create"
     />
   );

@@ -101,6 +101,21 @@ export const deleteVendor = createAsyncThunk(
   }
 );
 
+// Delete all vendors
+export const deleteAllVendors = createAsyncThunk(
+  "vendors/deleteAllVendors",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.delete("/api/vendors");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to delete all vendors" }
+      );
+    }
+  }
+);
+
 const vendorsSlice = createSlice({
   name: "vendors",
   initialState: {
@@ -123,24 +138,36 @@ const vendorsSlice = createSlice({
     statsError: null,
     deleteStatus: "idle",
     deleteError: null,
+    deleteAllStatus: "idle",
+    deleteAllError: null,
   },
   reducers: {
     resetVendorStatuses: (state) => {
+      state.status = "idle";
+      state.error = null;
       state.createStatus = "idle";
       state.createError = null;
       state.updateStatus = "idle";
       state.updateError = null;
       state.archiveStatus = "idle";
       state.archiveError = null;
-      (state.deleteStatus = "idle"),
-        (state.deleteError = null),
-        (state.vendorDetails.status = "idle");
+      state.deleteStatus = "idle";
+      state.deleteError = null;
+      state.deleteAllStatus = "idle";
+      state.deleteAllError = null;
+      state.statsStatus = "idle";
+      state.statsError = null;
+      state.vendorDetails.status = "idle";
       state.vendorDetails.error = null;
     },
     clearVendorDetails: (state) => {
       state.vendorDetails.data = null;
       state.vendorDetails.status = "idle";
       state.vendorDetails.error = null;
+    },
+    resetDeleteAllVendorsState: (state) => {
+      state.deleteAllStatus = "idle";
+      state.deleteAllError = null;
     },
   },
   extraReducers: (builder) => {
@@ -287,8 +314,30 @@ const vendorsSlice = createSlice({
           state.vendorDetails.data.isDeleting = false;
         }
       });
+    // Delete all vendors
+    builder
+      .addCase(deleteAllVendors.pending, (state) => {
+        state.deleteAllStatus = "loading";
+        state.deleteAllError = null;
+      })
+      .addCase(deleteAllVendors.fulfilled, (state, action) => {
+        state.deleteAllStatus = "succeeded";
+        state.items = []; // clear all vendors from state
+        state.stats = []; // clear stats array
+      })
+      .addCase(deleteAllVendors.rejected, (state, action) => {
+        state.deleteAllStatus = "failed";
+        state.deleteAllError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to delete all vendors.";
+      });
   },
 });
 
-export const { resetVendorStatuses, clearVendorDetails } = vendorsSlice.actions;
+export const {
+  resetVendorStatuses,
+  clearVendorDetails,
+  resetDeleteAllVendorsState,
+} = vendorsSlice.actions;
 export default vendorsSlice.reducer;

@@ -4,15 +4,22 @@ import tasksReducer from "../redux/tasksSlice";
 import expensesReducer from "../redux/expensesSlice";
 import clientsReducer from "../redux/clientsSlice";
 import vendorsReducer from "../redux/vendorsSlice";
+import authReducer from "../redux/authSlice";
+import organizationReducer from "../redux/organizationSlice";
+import { setStore } from "./api";
 
 const store = configureStore({
   reducer: {
+    auth: authReducer,
     events: eventsReducer,
     tasks: tasksReducer,
     expenses: expensesReducer,
     clients: clientsReducer,
     vendors: vendorsReducer,
+    organization: organizationReducer,
   },
 });
+
+setStore(store);
 
 export default store;

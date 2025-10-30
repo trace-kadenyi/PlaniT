@@ -58,6 +58,21 @@ export const deleteClient = createAsyncThunk(
   }
 );
 
+// Delete all clients
+export const deleteAllClients = createAsyncThunk(
+  "clients/deleteAllClients",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.delete("/api/clients");
+      return res.data; // deletecount message
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data || { message: "Failed to delete all clients" }
+      );
+    }
+  }
+);
+
 // fetch client with their events
 export const fetchClientWithEvents = createAsyncThunk(
   "clients/fetchClientWithEvents",
@@ -130,6 +145,9 @@ const clientsSlice = createSlice({
     deleteStatus: "idle",
     deleteError: null,
 
+    deleteAllStatus: "idle",
+    deleteAllError: null,
+
     clientDetails: {
       data: null,
       events: [],
@@ -154,6 +172,10 @@ const clientsSlice = createSlice({
     resetClientDeleteState: (state) => {
       state.deleteStatus = "idle";
       state.deleteError = null;
+    },
+    resetDeleteAllClientsState: (state) => {
+      state.deleteAllStatus = "idle";
+      state.deleteAllError = null;
     },
     resetArchiveStates: (state) => {
       state.items = state.items.map((client) => ({
@@ -244,6 +266,23 @@ const clientsSlice = createSlice({
             ? { ...client, isDeleting: false }
             : client
         );
+      })
+
+      // Delete all clients
+      .addCase(deleteAllClients.pending, (state) => {
+        state.deleteAllStatus = "loading";
+        state.deleteAllError = null;
+      })
+      .addCase(deleteAllClients.fulfilled, (state, action) => {
+        state.deleteAllStatus = "succeeded";
+        state.items = []; // clear all clients from state
+      })
+      .addCase(deleteAllClients.rejected, (state, action) => {
+        state.deleteAllStatus = "failed";
+        state.deleteAllError =
+          action.payload?.message ||
+          action.error.message ||
+          "Failed to delete all clients.";
       })
 
       // Fetch a single client with their events
@@ -355,5 +394,6 @@ export const {
   resetClientUpdateState,
   resetClientDeleteState,
   resetArchiveStates,
+  resetDeleteAllClientsState,
 } = clientsSlice.actions;
 export default clientsSlice.reducer;

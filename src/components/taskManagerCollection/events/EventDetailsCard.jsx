@@ -1,6 +1,11 @@
 import { ClientInfo, VendorInfo } from "../../shared/UIFragments";
-import { formatDateTime, getStatusColor } from "../utils/formatting";
+import {
+  formatDateTime,
+  getStatusColor,
+  formatDateTimeShort,
+} from "../utils/formatting";
 import BudgetOverview from "../budgeting/BudgetOverview";
+import { CreatedUpdatedData, getUserDisplayName } from "../../shared/Snippets";
 
 export default function EventDetailsCard({
   event,
@@ -12,12 +17,13 @@ export default function EventDetailsCard({
   return (
     <div className="space-y-2 mt-8">
       <div className="flex flex-wrap items-center gap-5 mt-10 sm:mt-0">
+        {/* event type */}
         <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-[#6B3B0F] font-medium tracking-wide">
           {event.type}
         </p>
+        {/* client info */}
         {event.client && <ClientInfo event={event} Link={Link} />}
       </div>
-
       {/* event name */}
       <h1 className="mt-3 text-2xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
         {event.name}
@@ -71,12 +77,18 @@ export default function EventDetailsCard({
         </div>
       </div>
 
+      {/* created/updated dates section */}
+      <CreatedUpdatedData
+        item={event}
+        formatDateTimeShort={formatDateTimeShort}
+      />
+
       {/* vendors section */}
       {localVendors.length > 0 ? (
         <VendorInfo vendors={localVendors} Link={Link} />
       ) : (
         <div className="mt-4 text-xs text-gray-500 dark:text-gray-400 font-semibold">
-          No vendors associated yet. Vendors will appear here when added through
+          No associated vendors yet. Vendors will appear here when added through
           expenses.
         </div>
       )}

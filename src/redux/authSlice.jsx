@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import api from "../app/api";
 
 // --- Async Thunks ---
@@ -11,7 +12,14 @@ export const loginUser = createAsyncThunk(
       const res = await api.post("/api/auth/login", credentials);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+      const errorData = err.response?.data;
+      if (err.response?.status === 429) {
+        return rejectWithValue(
+          errorData?.message ||
+            "Too many login attempts. Please wait 15 minutes before trying again."
+        );
+      }
+      return rejectWithValue(errorData?.message || err.message);
     }
   }
 );
@@ -24,7 +32,24 @@ export const signupUser = createAsyncThunk(
       const res = await api.post("/api/auth/signup", userData);
       return res.data;
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+      const errorData = err.response?.data;
+
+      // Handle validation errors specifically
+      if (err.response?.status === 400 && errorData?.validationErrors) {
+        return rejectWithValue(
+          errorData.message || "Please check your input fields"
+        );
+      }
+
+      if (err.response?.status === 429) {
+        return rejectWithValue(
+          errorData?.message ||
+            "Too many signup attempts. Please wait 15 minutes before trying again."
+        );
+      }
+
+      // Return the backend error message
+      return rejectWithValue(errorData?.message || err.message);
     }
   }
 );
@@ -32,10 +57,9 @@ export const signupUser = createAsyncThunk(
 // Refresh token
 export const refreshToken = createAsyncThunk(
   "auth/refreshToken",
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const { refreshToken } = getState().auth;
-      const res = await api.post("/api/auth/refresh-token", { refreshToken });
+      const res = await api.post("/api/auth/refresh-token"); // No body needed
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -71,6 +95,19 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+// Logout user
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/api/auth/logout");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 // --- Slice ---
 
 const authSlice = createSlice({
@@ -80,6 +117,8 @@ const authSlice = createSlice({
     accessToken: null, // Stored in memory only
     refreshToken: null, // Stored in memory only
     tokenTimestamp: null, // Track when token was received
+    trustedDevice: localStorage.getItem("trustedDevice") === "true",
+    isInitializing: true,
 
     // Status for each operation
     loginStatus: "idle",
@@ -96,7 +135,6 @@ const authSlice = createSlice({
 
     resetPasswordStatus: "idle",
     resetPasswordError: null,
-
     isAuthenticated: false,
   },
 
@@ -133,20 +171,25 @@ const authSlice = createSlice({
 
     // Logout user - clear everything from memory
     logout: (state) => {
+      // Clear Redux state
       state.user = null;
       state.accessToken = null;
       state.refreshToken = null;
       state.tokenTimestamp = null;
       state.isAuthenticated = false;
+      state.trustedDevice = false;
+      localStorage.removeItem("trustedDevice");
     },
-
     // Initialize auth state (call this on app load)
     initializeAuth: (state) => {
-      // With in-memory storage, we start fresh each time
-      // You could implement a session persistence strategy here if needed
-      state.isAuthenticated = !!state.accessToken;
-    },
+      state.isInitializing = true;
 
+      // Immediate check: if no trusted device, we're done
+      if (!state.trustedDevice) {
+        state.isInitializing = false;
+      }
+      // If trusted device but no refresh token in memory, AuthInitializer will handle it
+    },
     // Set tokens manually
     setTokens: (state, action) => {
       const { accessToken, refreshToken } = action.payload;
@@ -154,6 +197,14 @@ const authSlice = createSlice({
       state.refreshToken = refreshToken;
       state.tokenTimestamp = Date.now();
       state.isAuthenticated = !!accessToken;
+    },
+    // set trusted device
+    setTrustedDevice: (state, action) => {
+      state.trustedDevice = action.payload;
+      localStorage.setItem("trustedDevice", action.payload.toString());
+    },
+    initializationComplete: (state) => {
+      state.isInitializing = false;
     },
   },
 
@@ -168,16 +219,14 @@ const authSlice = createSlice({
         state.loginStatus = "succeeded";
         state.user = action.payload.data.user;
         state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginStatus = "failed";
-        state.loginError = action.payload?.message || action.error.message;
+        state.loginError = action.payload || action.error.message;
         state.isAuthenticated = false;
       });
-
     // Signup
     builder
       .addCase(signupUser.pending, (state) => {
@@ -188,13 +237,12 @@ const authSlice = createSlice({
         state.signupStatus = "succeeded";
         state.user = action.payload.data.user;
         state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
         state.tokenTimestamp = Date.now();
         state.isAuthenticated = true;
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.signupStatus = "failed";
-        state.signupError = action.payload?.message || action.error.message;
+        state.signupError = action.payload || action.error.message;
       });
 
     // Refresh Token
@@ -206,16 +254,19 @@ const authSlice = createSlice({
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.refreshTokenStatus = "succeeded";
         state.accessToken = action.payload.accessToken;
+        state.user = action.payload.data.user;
         state.tokenTimestamp = Date.now();
+        state.isAuthenticated = true;
+        state.isInitializing = false;
       })
       .addCase(refreshToken.rejected, (state, action) => {
         state.refreshTokenStatus = "failed";
-        state.refreshTokenError =
-          action.payload?.message || action.error.message;
+        state.refreshTokenError = action.payload || action.error.message;
         state.isAuthenticated = false;
         state.accessToken = null;
         state.refreshToken = null;
         state.tokenTimestamp = null;
+        state.isInitializing = false;
       });
 
     // Forgot Password
@@ -229,8 +280,7 @@ const authSlice = createSlice({
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.forgotPasswordStatus = "failed";
-        state.forgotPasswordError =
-          action.payload?.message || action.error.message;
+        state.forgotPasswordError = action.payload || action.error.message;
       });
 
     // Reset Password
@@ -244,8 +294,49 @@ const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.resetPasswordStatus = "failed";
-        state.resetPasswordError =
-          action.payload?.message || action.error.message;
+        state.resetPasswordError = action.payload || action.error.message;
+      });
+    // Logout
+    builder
+      .addCase(logoutUser.pending, (state) => {
+        // Optional: to show loading state during logout
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        // Clear all state on successful logout
+        state.user = null;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.tokenTimestamp = null;
+        state.isAuthenticated = false;
+        state.trustedDevice = false;
+        state.isInitializing = false;
+
+        // Clear localStorage
+        localStorage.removeItem("trustedDevice");
+
+        // Reset all statuses
+        state.loginStatus = "idle";
+        state.signupStatus = "idle";
+        state.refreshTokenStatus = "idle";
+        state.forgotPasswordStatus = "idle";
+        state.resetPasswordStatus = "idle";
+
+        // Clear all errors
+        state.loginError = null;
+        state.signupError = null;
+        state.refreshTokenError = null;
+        state.forgotPasswordError = null;
+        state.resetPasswordError = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        // Even if the API call fails, clear local state
+        state.user = null;
+        state.accessToken = null;
+        state.refreshToken = null;
+        state.tokenTimestamp = null;
+        state.isAuthenticated = false;
+        state.trustedDevice = false;
+        localStorage.removeItem("trustedDevice");
       });
   },
 });
@@ -260,13 +351,16 @@ export const {
   logout,
   setTokens,
   initializeAuth,
+  setTrustedDevice,
+  initializationComplete,
 } = authSlice.actions;
 
 // Selectors
-// export const selectCurrentUser = (state) => state.auth.user;
-// export const selectAccessToken = (state) => state.auth.accessToken;
-// export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
-// export const selectAuthLoading = (state) =>
-//   state.auth.loginStatus === "loading";
+export const selectCurrentUser = (state) => state.auth.user;
+export const selectAccessToken = (state) => state.auth.accessToken;
+export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectAuthLoading = (state) =>
+  state.auth.loginStatus === "loading";
+export const selectIsInitializing = (state) => state.auth.isInitializing;
 
 export default authSlice.reducer;

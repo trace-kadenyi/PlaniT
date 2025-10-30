@@ -32,7 +32,7 @@ export default function EditClientForm() {
     notes: "",
   });
 
-  // FETCH CLIENT WHEN COMPONENT MOUNTS
+  // fetch client when component mounts
   useEffect(() => {
     dispatch(fetchClientWithEvents(id));
   }, [dispatch, id]);

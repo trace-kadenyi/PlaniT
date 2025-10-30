@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { initializeAuth } from "./redux/authSlice";
 
 import "./App.css";
+import AuthInitializer from "./components/user/AuthInitializer";
 import Layout from "./components/navigation/Layout";
+import Login from "./components/user/Login";
+import Signup from "./components/user/Signup";
+import ProtectedRoute from "./components/user/ProtectedRoute";
 import HomePage from "./pages/HomePage";
 import Footer from "./components/footer/Footer";
 import Events from "./pages/Events";
@@ -19,13 +26,22 @@ import EditVendorForm from "./components/vendors/forms/EditVendorForm";
 import CreateVendorForm from "./components/vendors/forms/CreateVendorForm";
 import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
-
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
+import UserManagement from "./components/user/UserManagement";
 
 function App() {
+  const dispatch = useDispatch();
+
+  //  initialize auth
+  useEffect(() => {
+    dispatch(initializeAuth());
+  }, [dispatch]);
+
   const isSmallScreen = useIsSmallScreen();
   return (
     <>
+      <AuthInitializer />
+
       {isSmallScreen ? (
         <Toaster position="top-center" />
       ) : (
@@ -33,7 +49,20 @@ function App() {
       )}
       <Router>
         <Routes>
-          <Route element={<Layout />}>
+          {/* Public routes (no layout, no sidebar) */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* Protected routes with Layout (includes sidebar) */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            {/* All nested routes are automatically protected by the parent ProtectedRoute */}
             <Route path="/" element={<HomePage />} />
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<Event />} />
@@ -49,7 +78,11 @@ function App() {
             <Route path="/vendors/new" element={<CreateVendorForm />} />
             <Route path="/tasks/board" element={<TasksBoard />} />
             <Route path="/events/board" element={<EventsBoard />} />
+            <Route path="/team" element={<UserManagement />} />
           </Route>
+
+          {/* Catch all route - redirect to home */}
+          <Route path="*" element={<HomePage />} />
         </Routes>
         <Footer />
       </Router>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Plus,
   ChevronLeft,
@@ -8,9 +10,10 @@ import {
   User,
   LogOut,
   Sun,
-  Moon,
+  Moon, UsersIcon
 } from "lucide-react";
 
+import { logout, logoutUser } from "../../redux/authSlice";
 import { navLinks } from "../../data/navData";
 import { BarLogo, UserProfile, SecondaryLinks } from "../ui/Bar";
 
@@ -21,6 +24,11 @@ export default function Sidebar() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // GET USER FROM REDUX STORE
+  const { user } = useSelector((state) => state.auth);
 
   // Close mobile sidebar when route changes or on larger screens
   useEffect(() => {
@@ -56,6 +64,20 @@ export default function Sidebar() {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log("Logout error:", error);
+        // Still redirect to login even if API call fails
+        navigate("/login");
+      });
+  };
+
   // isactive
   const isActive = (path) => {
     if (path === "/") return pathname === path;
@@ -71,7 +93,7 @@ export default function Sidebar() {
       // Start expanding
       setIsExpanding(true);
       setCollapsed(false);
-      // Set timeout to match your transition duration (500ms in your case)
+      // Set timeout to match the transition duration (500ms in this case)
       setTimeout(() => setIsExpanding(false), 500);
     }
   };
@@ -259,6 +281,14 @@ export default function Sidebar() {
               Sun={Sun}
               theme={theme}
             />
+
+            {/* user management */}
+            <div>
+              <Link to="/team" className="flex items-center space-x-2 text-gray-700 hover:text-[#9B2C62]">
+  <UsersIcon className="w-5 h-5" />
+  <span>Team</span>
+</Link>
+            </div>
           </nav>
 
           {/* User Profile */}
@@ -267,6 +297,8 @@ export default function Sidebar() {
             User={User}
             LogOut={LogOut}
             Link={Link}
+            user={user}
+            onLogout={handleLogout}
           />
         </aside>
       </div>
