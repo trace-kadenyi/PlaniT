@@ -47,17 +47,19 @@ const UserList = ({
       </div>
 
       <div className="divide-y divide-gray-200">
-        {users.map((user) => (
-          <UserListItem
-            key={user._id}
-            user={user}
-            currentUser={currentUser}
-            editable={editable}
-            superAdminOrAdmin={superAdminOrAdmin}
-            onRoleChange={onRoleChange}
-            onRemoveUser={onRemoveUser}
-          />
-        ))}
+        {users
+          .filter((user) => user && user._id)
+          .map((user) => (
+            <UserListItem
+              key={user._id.toString()}
+              user={user}
+              currentUser={currentUser}
+              editable={editable}
+              superAdminOrAdmin={superAdminOrAdmin}
+              onRoleChange={onRoleChange}
+              onRemoveUser={onRemoveUser}
+            />
+          ))}
       </div>
     </div>
   );
