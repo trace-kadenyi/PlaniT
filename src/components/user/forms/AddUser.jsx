@@ -97,10 +97,10 @@ const AddUser = ({
   return (
     <section>
       {showAddForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#F7F7FA] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-[#D97706] dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] rounded-xl shadow border-t-4 border-[#BE3455] mt-5">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
                 Add Team Member
               </h3>
               <button
@@ -150,7 +150,7 @@ const AddUser = ({
               {/* Name Row */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     First Name *
                   </label>
                   <input
@@ -159,7 +159,7 @@ const AddUser = ({
                     required
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 ${
+                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:border-gray-700 ${
                       fieldErrors.firstName
                         ? "border-red-300"
                         : "border-gray-300"
@@ -173,7 +173,7 @@ const AddUser = ({
                   )}
                 </div>
                 <div className="space-y-1">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Last Name *
                   </label>
                   <input
@@ -182,7 +182,7 @@ const AddUser = ({
                     required
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 ${
+                    className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:border-gray-700 ${
                       fieldErrors.lastName
                         ? "border-red-300"
                         : "border-gray-300"
@@ -199,7 +199,7 @@ const AddUser = ({
 
               {/* Email */}
               <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Email *
                 </label>
                 <input
@@ -208,7 +208,7 @@ const AddUser = ({
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 ${
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:border-gray-700 ${
                     fieldErrors.email ? "border-red-300" : "border-gray-300"
                   }`}
                   placeholder="john.doe@example.com"
@@ -222,14 +222,14 @@ const AddUser = ({
 
               {/* Role */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Role
                 </label>
                 <select
                   name="role"
                   value={formData.role}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent dark:text-gray-400 dark:focus:ring-[#F59E0B]"
                 >
                   <option value="viewer">Viewer</option>
                   <option value="planner">Planner</option>
@@ -240,13 +240,16 @@ const AddUser = ({
               {/* Password Section with Generate Button */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <label className="text-sm font-medium text-gray-700">
+                  <label
+                    className="text-sm font-medium text-gray-700 dark:text-gray-300
+dark:text-gray-300"
+                  >
                     Password *
                   </label>
                   <button
                     type="button"
                     onClick={handleGeneratePassword}
-                    className="text-xs text-[#9B2C62] hover:text-[#7A2250] font-medium"
+                    className="text-xs text-[#9B2C62] hover:text-[#7A2250] font-medium dark:text-[#F59E0B] dark:hover:text-[#F59E0B]/90"
                   >
                     Generate Secure Password
                   </button>
@@ -283,14 +286,14 @@ const AddUser = ({
                       special: false,
                     });
                   }}
-                  className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-3 py-1 rounded-lg transition-all text-xs"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addUserStatus === "loading"}
-                  className="bg-[#9B2C62] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#7A2250] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-[#9B2C62] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#7A2250] disabled:opacity-50 disabled:cursor-not-allowed dark:bg-[#d97706] dark:hover:bg-[#d97706]/80"
                 >
                   {addUserStatus === "loading" ? "Adding..." : "Add Member"}
                 </button>
