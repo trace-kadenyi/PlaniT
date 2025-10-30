@@ -58,6 +58,51 @@ const UserList = ({
   );
 };
 
+const UserListItem = ({ user, currentUser, editable, onRoleChange, onRemoveUser }) => (
+  <div className="px-6 py-4 flex items-center justify-between">
+    <div className="flex items-center space-x-4">
+      <div className="w-10 h-10 bg-[#9B2C62] rounded-full flex items-center justify-center">
+        <span className="text-white font-semibold text-sm">
+          {user.firstName[0]}
+          {user.lastName[0]}
+        </span>
+      </div>
+      <div>
+        <h3 className="font-medium text-gray-900">
+          {user.firstName} {user.lastName}
+          {user._id === currentUser?._id && (
+            <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+              You
+            </span>
+          )}
+          {user.role === "owner" && (
+            <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
+              Owner
+            </span>
+          )}
+        </h3>
+        <p className="text-gray-600 text-sm">{user.email}</p>
+      </div>
+    </div>
+
+    <div className="flex items-center space-x-4">
+      <RoleSelector
+        user={user}
+        currentUser={currentUser}
+        editable={editable}
+        onRoleChange={onRoleChange}
+      />
+      
+      {editable && (
+        <RemoveUserButton
+          user={user}
+          currentUser={currentUser}
+          onRemoveUser={onRemoveUser}
+        />
+      )}
+    </div>
+  </div>
+);
 
 
 
