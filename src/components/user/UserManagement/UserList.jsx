@@ -187,22 +187,10 @@ const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
     return (
       <button
         onClick={() => onRemoveUser(user._id)}
-        className="text-red-600 hover:text-red-800 p-2 transition-colors duration-200"
+        className="text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-1 rounded-lg transition-all duration-200 text-xs font-semibold border border-transparent hover:border-red-200"
         title="Remove user"
       >
-        <svg
-          className="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-          />
-        </svg>
+        delete
       </button>
     );
   }
@@ -210,26 +198,10 @@ const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
   return (
     <button
       disabled
-      className="text-gray-400 p-2 cursor-not-allowed relative group"
+      className="text-gray-400 bg-gray-50 px-3 py-1 rounded-lg cursor-not-allowed text-xs font-semibold border border-gray-200"
       title={getRemoveButtonTitle()}
     >
-      <svg
-        className="w-5 h-5"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-        />
-      </svg>
-      {/* Subtle disabled indicator */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-6 h-0.5 bg-gray-400 rotate-45 transform origin-center"></div>
-      </div>
+      delete
     </button>
   );
 };
