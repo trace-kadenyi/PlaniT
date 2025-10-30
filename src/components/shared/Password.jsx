@@ -56,7 +56,7 @@ const Password = ({
           type={showPassword ? "text" : "password"}
           value={password}
           onChange={handlePasswordChange}
-          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 pr-12"
+          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 pr-12 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:border-gray-700"
           placeholder="Create a strong password"
         />
         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -107,11 +107,15 @@ const Password = ({
       {/* Password Requirements */}
       {showPasswordRequirements && (
         <div className="space-y-1">
-          <p className="text-xs text-gray-500">Password must contain:</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400/80">
+            Password must contain:
+          </p>
           <div className="grid grid-cols-2 gap-1 text-xs">
             <div
               className={`flex items-center space-x-1 ${
-                passwordErrors.length ? "text-green-600" : "text-gray-400"
+                passwordErrors.length
+                  ? "text-green-600"
+                  : "text-gray-400 dark:text-gray-400/70"
               }`}
             >
               <span>• 8+ characters</span>
@@ -119,7 +123,9 @@ const Password = ({
             </div>
             <div
               className={`flex items-center space-x-1 ${
-                passwordErrors.uppercase ? "text-green-600" : "text-gray-400"
+                passwordErrors.uppercase
+                  ? "text-green-600"
+                  : "text-gray-400 dark:text-gray-400/70"
               }`}
             >
               <span>• Uppercase letter</span>
@@ -127,7 +133,9 @@ const Password = ({
             </div>
             <div
               className={`flex items-center space-x-1 ${
-                passwordErrors.lowercase ? "text-green-600" : "text-gray-400"
+                passwordErrors.lowercase
+                  ? "text-green-600"
+                  : "text-gray-400 dark:text-gray-400/70"
               }`}
             >
               <span>• Lowercase letter</span>
@@ -135,7 +143,9 @@ const Password = ({
             </div>
             <div
               className={`flex items-center space-x-1 ${
-                passwordErrors.number ? "text-green-600" : "text-gray-400"
+                passwordErrors.number
+                  ? "text-green-600"
+                  : "text-gray-400 dark:text-gray-400/70"
               }`}
             >
               <span>• Number</span>
@@ -143,7 +153,9 @@ const Password = ({
             </div>
             <div
               className={`flex items-center space-x-1 ${
-                passwordErrors.special ? "text-green-600" : "text-gray-400"
+                passwordErrors.special
+                  ? "text-green-600"
+                  : "text-gray-400 dark:text-gray-400/70"
               }`}
             >
               <span>• Special character</span>
