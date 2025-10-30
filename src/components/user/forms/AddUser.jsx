@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import Password, { generateRandomPassword } from "../../shared/Password";
@@ -29,6 +29,19 @@ const AddUser = ({
     useState(false);
 
   const { addUserError } = useSelector((state) => state.organization);
+
+  // Prevent background scrolling when modal is open
+  useEffect(() => {
+    if (showAddForm) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [showAddForm]);
 
   // Handle input changes with validation
   const handleInputChange = (e) => {
