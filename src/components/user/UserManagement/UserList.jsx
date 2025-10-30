@@ -174,23 +174,29 @@ const RoleSelector = ({ user, currentUser, onRoleChange }) => (
 );
 
 const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
-  const getRemoveButtonTitle = () => {
-    if (user._id === currentUser?._id) return "Cannot remove yourself";
-    if (user.role === "super_admin")
-      return "Cannot remove organization super admin";
-    if (user.role === "admin") return "Cannot remove other admins";
-    if (!canRemove) return "No permission to remove users";
-    return "Remove user";
+  const getButtonText = () => {
+    if (user._id === currentUser?._id) return "Your Account";
+    if (user.role === "super_admin") return "Super Admin";
+    if (user.role === "admin") return "Admin User";
+    return "Remove";
+  };
+
+  const getTooltipText = () => {
+    if (user._id === currentUser?._id) return "Cannot remove your own account";
+    if (user.role === "super_admin") return "Super admins cannot be removed";
+    if (user.role === "admin")
+      return "Admin users cannot be removed by other admins";
+    return "Remove this user from the organization";
   };
 
   if (canRemove) {
     return (
       <button
         onClick={() => onRemoveUser(user._id)}
-        className="text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-1 rounded-lg transition-all duration-200 text-xs font-semibold border border-transparent hover:border-red-200"
-        title="Remove user"
+        className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold"
+        title={getTooltipText()}
       >
-        delete
+        Remove
       </button>
     );
   }
@@ -198,10 +204,10 @@ const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
   return (
     <button
       disabled
-      className="text-gray-400 bg-gray-50 px-3 py-1 rounded-lg cursor-not-allowed text-xs font-semibold border border-gray-200"
-      title={getRemoveButtonTitle()}
+      className="text-gray-500 bg-gray-50 px-3 py-1 rounded-lg border border-gray-200 cursor-not-allowed text-xs font-medium"
+      title={getTooltipText()}
     >
-      delete
+      {getButtonText()}
     </button>
   );
 };
