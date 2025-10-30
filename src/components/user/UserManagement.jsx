@@ -19,8 +19,8 @@ const UserManagement = () => {
     (state) => state.organization
   );
   const currentUser = useSelector((state) => state.auth.user);
-  const ownerOrAdmin =
-    currentUser.role === "admin" || currentUser.role === "owner";
+  const superAdminOrAdmin =
+    currentUser.role === "admin" || currentUser.role === "super_admin";
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -102,7 +102,7 @@ const UserManagement = () => {
         addUserStatus={addUserStatus}
       />
 
-      {ownerOrAdmin ? (
+      {superAdminOrAdmin ? (
         <AdminView
           users={users}
           currentUser={currentUser}
