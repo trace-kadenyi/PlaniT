@@ -49,6 +49,11 @@ const UserList = ({
       <div className="divide-y divide-gray-200">
         {users
           .filter((user) => user && user._id)
+          .sort((a, b) => {
+            if (a._id === currentUser?._id) return -1;
+            if (b._id === currentUser?._id) return 1;
+            return 0;
+          })
           .map((user) => (
             <UserListItem
               key={user._id.toString()}
