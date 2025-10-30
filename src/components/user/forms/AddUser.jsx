@@ -43,6 +43,20 @@ const AddUser = ({
     };
   }, [showAddForm]);
 
+  // reset form when modal closes
+  useEffect(() => {
+    if (!showAddForm) {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        role: "planner",
+        password: "",
+      });
+      setFieldErrors({});
+    }
+  }, [showAddForm, setFormData]);
+
   // Handle input changes with validation
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -277,14 +291,6 @@ dark:text-gray-300"
                   type="button"
                   onClick={() => {
                     setShowAddForm(false);
-                    setFieldErrors({});
-                    setPasswordErrors({
-                      length: false,
-                      uppercase: false,
-                      lowercase: false,
-                      number: false,
-                      special: false,
-                    });
                   }}
                   className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-3 py-1 rounded-lg transition-all text-xs"
                 >
