@@ -31,9 +31,8 @@ const AdminView = ({
           Team Management Guide
         </h3>
         <p className="text-sm text-blue-700">
-          As an {currentUser.role === "owner" ? "owner" : "admin"}, you can add
-          new members, adjust roles, and manage team permissions. Owners have
-          full organization control.
+          As an {currentUser.role === "super_admin" ? "super_admin" : "admin"},
+          you can add new members, adjust roles, and manage team permissions.
         </p>
       </div>
     </div>
