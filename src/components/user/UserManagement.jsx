@@ -160,6 +160,7 @@ const UserManagement = () => {
               </div>
 
               <div className="flex items-center space-x-4">
+                {/* role management */}
                 <div>
                   {ownerOrAdmin ? (
                     <select
@@ -169,9 +170,9 @@ const UserManagement = () => {
                       }
                       disabled={
                         user._id === currentUser?._id ||
-                        (ownerOrAdmin && !ownerOrAdmin)
+                        (user.role === "owner" && currentUser?.role !== "owner")
                       }
-                      className="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] disabled:opacity-50"
+                      className="min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:border-gray-400"
                     >
                       <option value="viewer">Viewer</option>
                       <option value="planner">Planner</option>
@@ -181,7 +182,9 @@ const UserManagement = () => {
                       )}
                     </select>
                   ) : (
-                    <p className="capitalize">{user.role}</p>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200">
+                      {user.role}
+                    </span>
                   )}
                 </div>
 
