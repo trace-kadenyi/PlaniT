@@ -1,6 +1,6 @@
-// components/UserManagement.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   fetchOrganizationUsers,
   addOrganizationUser,
@@ -8,12 +8,16 @@ import {
   updateUserRole,
   resetOrganizationStatus,
 } from "../../redux/organizationSlice";
+
 import AddUser from "./forms/AddUser";
+import AdminView from "./UserManagement/AdminView";
+import MemberView from "./UserManagement/MemberView";
 
 const UserManagement = () => {
   const dispatch = useDispatch();
-  const { users, status, addUserStatus, removeUserStatus, updateRoleStatus } =
-    useSelector((state) => state.organization);
+  const { users, status, addUserStatus } = useSelector(
+    (state) => state.organization
+  );
   const currentUser = useSelector((state) => state.auth.user);
   const ownerOrAdmin =
     currentUser.role === "admin" || currentUser.role === "owner";
@@ -31,7 +35,6 @@ const UserManagement = () => {
     dispatch(fetchOrganizationUsers());
   }, [dispatch]);
 
-  // Reset status when component unmounts
   useEffect(() => {
     return () => {
       dispatch(resetOrganizationStatus());
@@ -50,10 +53,8 @@ const UserManagement = () => {
         role: "planner",
         password: "",
       });
-      // Refresh the user list
       dispatch(fetchOrganizationUsers());
     } catch (error) {
-      // Error is handled by the slice
       console.error("Failed to add user:", error);
     }
   };
@@ -91,47 +92,7 @@ const UserManagement = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      {/* Header */}
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              {ownerOrAdmin ? "Team Management" : "Team Directory"}
-            </h1>
-            <p className="text-gray-600 mt-2 max-w-2xl">
-              {ownerOrAdmin
-                ? "Manage your organization members and their permissions"
-                : "View your team members and their roles within the organization"}
-            </p>
-          </div>
-          {ownerOrAdmin && (
-            <button
-              onClick={() => setShowAddForm(true)}
-              className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
-            >
-              Add Team Member
-            </button>
-          )}
-        </div>
-
-        {/* Admin-only guidance section */}
-        {ownerOrAdmin && (
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <h3 className="text-sm font-semibold text-blue-900 mb-1">
-              Team Management Guide
-            </h3>
-            <p className="text-sm text-blue-700">
-              As an {currentUser.role === "owner" ? "owner" : "admin"}, you can
-              add new members, adjust roles, and manage team permissions. Owners
-              have full organization control.
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Add User Modal */}
+    <>
       <AddUser
         showAddForm={showAddForm}
         setShowAddForm={setShowAddForm}
@@ -141,129 +102,18 @@ const UserManagement = () => {
         addUserStatus={addUserStatus}
       />
 
-      {/* Users List */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Team Members ({users.length})
-          </h2>
-        </div>
-
-        <div className="divide-y divide-gray-200">
-          {users.map((user, index) => (
-            <div
-              key={index}
-              className="px-6 py-4 flex items-center justify-between"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-[#9B2C62] rounded-full flex items-center justify-center">
-                  <span className="text-white font-semibold text-sm">
-                    {user.firstName[0]}
-                    {user.lastName[0]}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">
-                    {user.firstName} {user.lastName}
-                    {user._id === currentUser?._id && (
-                      <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                        You
-                      </span>
-                    )}
-                    {user.role === "owner" && (
-                      <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
-                        Owner
-                      </span>
-                    )}
-                  </h3>
-                  <p className="text-gray-600 text-sm">{user.email}</p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                {/* role management */}
-                <div>
-                  {ownerOrAdmin ? (
-                    <select
-                      value={user.role}
-                      onChange={(e) =>
-                        handleRoleChange(user._id, e.target.value)
-                      }
-                      disabled={
-                        user._id === currentUser?._id ||
-                        (user.role === "owner" && currentUser?.role !== "owner")
-                      }
-                      className="min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:border-gray-400"
-                    >
-                      <option value="viewer">Viewer</option>
-                      <option value="planner">Planner</option>
-                      <option value="admin">Admin</option>
-                      {currentUser?.role === "owner" && (
-                        <option value="owner">Owner</option>
-                      )}
-                    </select>
-                  ) : (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200">
-                      {user.role}
-                    </span>
-                  )}
-                </div>
-
-                {/* remove user - restricted to admin and/or owner */}
-                {ownerOrAdmin && (
-                  <button
-                    onClick={() => handleRemoveUser(user._id)}
-                    disabled={
-                      user._id === currentUser?._id || user.role === "owner"
-                    }
-                    className="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed p-2"
-                    title={
-                      user.role === "owner"
-                        ? "Cannot remove organization owner"
-                        : user._id === currentUser?._id
-                        ? "Cannot remove yourself"
-                        : "Remove user"
-                    }
-                  >
-                    Delete
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {users.length === 0 && (
-          <div className="text-center py-12">
-            <svg
-              className="w-16 h-16 text-gray-300 mx-auto mb-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1}
-                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-              />
-            </svg>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No team members yet
-            </h3>
-            <p className="text-gray-500 mb-4">
-              Add your first team member to get started
-            </p>
-            <button
-              onClick={() => setShowAddForm(true)}
-              className="bg-[#9B2C62] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#7A2250]"
-            >
-              Add Team Member
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+      {ownerOrAdmin ? (
+        <AdminView
+          users={users}
+          currentUser={currentUser}
+          onAddUser={() => setShowAddForm(true)}
+          onRoleChange={handleRoleChange}
+          onRemoveUser={handleRemoveUser}
+        />
+      ) : (
+        <MemberView users={users} currentUser={currentUser} />
+      )}
+    </>
   );
 };
 
