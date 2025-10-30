@@ -119,7 +119,7 @@ const AddUser = ({
               </h3>
               <button
                 onClick={() => setShowAddForm(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 dark:text-gray-600 hover:dark:text-gray-400"
               >
                 <svg
                   className="w-6 h-6"
