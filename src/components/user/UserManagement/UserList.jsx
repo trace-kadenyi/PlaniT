@@ -162,7 +162,7 @@ const RoleSelector = ({ user, currentUser, onRoleChange }) => (
   <select
     value={user.role}
     onChange={(e) => onRoleChange(user._id, e.target.value)}
-    className="min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-gray-400"
+    className="min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700"
   >
     <option value="viewer">Viewer</option>
     <option value="planner">Planner</option>
