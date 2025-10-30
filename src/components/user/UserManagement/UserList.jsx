@@ -7,6 +7,9 @@ const UserList = ({
   onRoleChange,
   onRemoveUser,
 }) => {
+  const ownerOrAdmin =
+    currentUser?.role === "admin" || currentUser?.role === "owner";
+
   if (users.length === 0) {
     return (
       <div className="text-center py-12">
@@ -50,6 +53,7 @@ const UserList = ({
             user={user}
             currentUser={currentUser}
             editable={editable}
+            ownerOrAdmin={ownerOrAdmin}
             onRoleChange={onRoleChange}
             onRemoveUser={onRemoveUser}
           />
@@ -63,6 +67,7 @@ const UserListItem = ({
   user,
   currentUser,
   editable,
+  ownerOrAdmin,
   onRoleChange,
   onRemoveUser,
 }) => (
@@ -85,6 +90,11 @@ const UserListItem = ({
           {user.role === "owner" && (
             <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
               Owner
+            </span>
+          )}
+          {user.role === "admin" && user._id !== currentUser?._id && (
+            <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+              Admin
             </span>
           )}
         </h3>
@@ -120,14 +130,27 @@ const RoleSelector = ({ user, currentUser, editable, onRoleChange }) => {
     );
   }
 
+  // Determine if current user can edit this user's role
+  const canEditRole = () => {
+    // Can't edit your own role
+    if (user._id === currentUser?._id) return false;
+
+    // Owners can edit anyone (except themselves, handled above)
+    if (currentUser?.role === "owner") return true;
+
+    // Admins can only edit viewers and planners
+    if (currentUser?.role === "admin") {
+      return user.role === "viewer" || user.role === "planner";
+    }
+
+    return false;
+  };
+
   return (
     <select
       value={user.role}
       onChange={(e) => onRoleChange(user._id, e.target.value)}
-      disabled={
-        user._id === currentUser?._id ||
-        (user.role === "owner" && currentUser?.role !== "owner")
-      }
+      disabled={!canEditRole()}
       className="min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:border-gray-400"
     >
       <option value="viewer">Viewer</option>
@@ -138,21 +161,41 @@ const RoleSelector = ({ user, currentUser, editable, onRoleChange }) => {
   );
 };
 
-const RemoveUserButton = ({ user, currentUser, onRemoveUser }) => (
-  <button
-    onClick={() => onRemoveUser(user._id)}
-    disabled={user._id === currentUser?._id || user.role === "owner"}
-    className="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed p-2"
-    title={
-      user.role === "owner"
-        ? "Cannot remove organization owner"
-        : user._id === currentUser?._id
-        ? "Cannot remove yourself"
-        : "Remove user"
+const RemoveUserButton = ({ user, currentUser, onRemoveUser }) => {
+  // Determine if current user can remove this user
+  const canRemoveUser = () => {
+    // Can't remove yourself
+    if (user._id === currentUser?._id) return false;
+
+    // Owners can remove anyone (except themselves, handled above)
+    if (currentUser?.role === "owner") return true;
+
+    // Admins can only remove viewers and planners
+    if (currentUser?.role === "admin") {
+      return user.role === "viewer" || user.role === "planner";
     }
-  >
-    Delete
-  </button>
-);
+
+    return false;
+  };
+
+  const getRemoveButtonTitle = () => {
+    if (user._id === currentUser?._id) return "Cannot remove yourself";
+    if (user.role === "owner") return "Cannot remove organization owner";
+    if (user.role === "admin") return "Cannot remove other admins";
+    if (!canRemoveUser()) return "No permission to remove users";
+    return "Remove user";
+  };
+
+  return (
+    <button
+      onClick={() => onRemoveUser(user._id)}
+      disabled={!canRemoveUser()}
+      className="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed p-2"
+      title={getRemoveButtonTitle()}
+    >
+      Delete
+    </button>
+  );
+};
 
 export default UserList;
