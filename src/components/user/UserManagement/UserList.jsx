@@ -112,7 +112,7 @@ const UserListItem = ({
           <h3 className="font-medium text-gray-900">
             {user.firstName} {user.lastName}
             {user._id === currentUser?._id && (
-              <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+              <span className="ml-2 text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
                 You
               </span>
             )}
