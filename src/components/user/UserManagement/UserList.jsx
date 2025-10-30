@@ -72,133 +72,164 @@ const UserListItem = ({
   superAdminOrAdmin,
   onRoleChange,
   onRemoveUser,
-}) => (
-  <div className="px-6 py-4 flex items-center justify-between">
-    <div className="flex items-center space-x-4">
-      <div className="w-10 h-10 bg-[#9B2C62] rounded-full flex items-center justify-center">
-        <span className="text-white font-semibold text-sm">
-          {user.firstName[0]}
-          {user.lastName[0]}
-        </span>
-      </div>
-      <div>
-        <h3 className="font-medium text-gray-900">
-          {user.firstName} {user.lastName}
-          {user._id === currentUser?._id && (
-            <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-              You
-            </span>
-          )}
-          {user.role === "super_admin" && (
-            <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
-              Super Admin
-            </span>
-          )}
-          {user.role === "admin" && user._id !== currentUser?._id && (
-            <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-              Admin
-            </span>
-          )}
-        </h3>
-        <p className="text-gray-600 text-sm">{user.email}</p>
-      </div>
-    </div>
-
-    <div className="flex items-center space-x-4">
-      <RoleSelector
-        user={user}
-        currentUser={currentUser}
-        editable={editable}
-        onRoleChange={onRoleChange}
-      />
-
-      {editable && (
-        <RemoveUserButton
-          user={user}
-          currentUser={currentUser}
-          onRemoveUser={onRemoveUser}
-        />
-      )}
-    </div>
-  </div>
-);
-
-const RoleSelector = ({ user, currentUser, editable, onRoleChange }) => {
-  if (!editable) {
-    return (
-      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200">
-        {user.role === "super_admin" ? "Super Admin" : user.role}
-      </span>
-    );
-  }
-
-  // Determine if current user can edit this user's role
+}) => {
   const canEditRole = () => {
-    // Can't edit your own role
     if (user._id === currentUser?._id) return false;
-
-    // Super Admins can edit anyone (except themselves, handled above)
     if (currentUser?.role === "super_admin") return true;
-
-    // Admins can only edit viewers and planners
     if (currentUser?.role === "admin") {
       return user.role === "viewer" || user.role === "planner";
     }
-
     return false;
   };
 
+  const canRemoveUser = () => {
+    if (user._id === currentUser?._id) return false;
+    if (currentUser?.role === "super_admin") return true;
+    if (currentUser?.role === "admin") {
+      return user.role === "viewer" || user.role === "planner";
+    }
+    return false;
+  };
+
+  const showRoleSelector = editable && canEditRole();
+  const showDeleteButton = editable;
+
   return (
-    <select
-      value={user.role}
-      onChange={(e) => onRoleChange(user._id, e.target.value)}
-      disabled={!canEditRole()}
-      className="min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-white shadow-sm hover:border-gray-400"
-    >
-      <option value="viewer">Viewer</option>
-      <option value="planner">Planner</option>
-      <option value="admin">Admin</option>
-      {currentUser?.role === "super_admin" && (
-        <option value="super_admin">Super Admin</option>
-      )}
-    </select>
+    <div className="px-6 py-4 flex items-center justify-between">
+      <div className="flex items-center space-x-4">
+        <div className="w-10 h-10 bg-[#9B2C62] rounded-full flex items-center justify-center">
+          <span className="text-white font-semibold text-sm">
+            {user.firstName[0]}
+            {user.lastName[0]}
+          </span>
+        </div>
+        <div>
+          <h3 className="font-medium text-gray-900">
+            {user.firstName} {user.lastName}
+            {user._id === currentUser?._id && (
+              <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                You
+              </span>
+            )}
+            {user.role === "super_admin" && (
+              <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
+                Super Admin
+              </span>
+            )}
+            {user.role === "admin" && user._id !== currentUser?._id && (
+              <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                Admin
+              </span>
+            )}
+          </h3>
+          <p className="text-gray-600 text-sm">{user.email}</p>
+        </div>
+      </div>
+
+      <div className="flex items-center space-x-4">
+        {/* Role Display/Selector */}
+        {showRoleSelector ? (
+          <RoleSelector
+            user={user}
+            currentUser={currentUser}
+            onRoleChange={onRoleChange}
+          />
+        ) : (
+          <RoleDisplay user={user} />
+        )}
+
+        {/* Delete Button */}
+        {showDeleteButton && (
+          <RemoveUserButton
+            user={user}
+            currentUser={currentUser}
+            canRemove={canRemoveUser()}
+            onRemoveUser={onRemoveUser}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
-const RemoveUserButton = ({ user, currentUser, onRemoveUser }) => {
-  // Determine if current user can remove this user
-  const canRemoveUser = () => {
-    // Can't remove yourself
-    if (user._id === currentUser?._id) return false;
+const RoleDisplay = ({ user }) => (
+  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200">
+    {user.role === "super_admin" ? "Super Admin" : user.role}
+  </span>
+);
 
-    // Super admins can remove anyone (except themselves, handled above)
-    if (currentUser?.role === "super_admin") return true;
+const RoleSelector = ({ user, currentUser, onRoleChange }) => (
+  <select
+    value={user.role}
+    onChange={(e) => onRoleChange(user._id, e.target.value)}
+    className="min-w-[120px] border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-gray-400"
+  >
+    <option value="viewer">Viewer</option>
+    <option value="planner">Planner</option>
+    <option value="admin">Admin</option>
+    {currentUser?.role === "super_admin" && (
+      <option value="super_admin">Super Admin</option>
+    )}
+  </select>
+);
 
-    // Admins can only remove viewers and planners
-    if (currentUser?.role === "admin") {
-      return user.role === "viewer" || user.role === "planner";
-    }
-
-    return false;
-  };
-
+const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
   const getRemoveButtonTitle = () => {
     if (user._id === currentUser?._id) return "Cannot remove yourself";
     if (user.role === "super_admin")
       return "Cannot remove organization super admin";
     if (user.role === "admin") return "Cannot remove other admins";
-    if (!canRemoveUser()) return "No permission to remove users";
+    if (!canRemove) return "No permission to remove users";
     return "Remove user";
   };
 
+  if (canRemove) {
+    return (
+      <button
+        onClick={() => onRemoveUser(user._id)}
+        className="text-red-600 hover:text-red-800 p-2 transition-colors duration-200"
+        title="Remove user"
+      >
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
+        </svg>
+      </button>
+    );
+  }
+
   return (
     <button
-      onClick={() => onRemoveUser(user._id)}
-      disabled={!canRemoveUser()}
-      className="text-red-600 hover:text-red-800 disabled:opacity-50 disabled:cursor-not-allowed p-2"
+      disabled
+      className="text-gray-400 p-2 cursor-not-allowed relative group"
       title={getRemoveButtonTitle()}
     >
-      Delete
+      <svg
+        className="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+        />
+      </svg>
+      {/* Subtle disabled indicator */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-6 h-0.5 bg-gray-400 rotate-45 transform origin-center"></div>
+      </div>
     </button>
   );
 };
