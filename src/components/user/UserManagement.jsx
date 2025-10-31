@@ -31,16 +31,19 @@ const UserManagement = () => {
     password: "",
   });
 
+  // fetch org users
   useEffect(() => {
     dispatch(fetchOrganizationUsers());
   }, [dispatch]);
 
+  // reset org status
   useEffect(() => {
     return () => {
       dispatch(resetOrganizationStatus());
     };
   }, [dispatch]);
 
+  // handle add user
   const handleAddUser = async (e) => {
     e.preventDefault();
     try {
@@ -59,6 +62,7 @@ const UserManagement = () => {
     }
   };
 
+  // handle remove user
   const handleRemoveUser = async (userId) => {
     if (
       window.confirm(
@@ -74,6 +78,7 @@ const UserManagement = () => {
     }
   };
 
+  // handle role change
   const handleRoleChange = async (userId, newRole) => {
     try {
       await dispatch(updateUserRole({ userId, role: newRole })).unwrap();
@@ -83,6 +88,7 @@ const UserManagement = () => {
     }
   };
 
+  // loading
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center h-64">
