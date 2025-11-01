@@ -7,8 +7,10 @@ const MemberView = ({ users, currentUser }) => (
     <div className="mb-8">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Team Directory</h1>
-          <p className="text-gray-600 mt-2 max-w-2xl">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 text-center sm:text-start sm:mt-2">
+            Team Directory
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-2">
             View your team members and their roles within the organization
           </p>
         </div>
