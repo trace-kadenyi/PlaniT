@@ -3,7 +3,7 @@ import React from "react";
 import UserList from "./UserList";
 
 const MemberView = ({ users, currentUser }) => (
-  <div className="max-w-6xl mx-auto p-6">
+  <div className="max-w-7xl mx-auto">
     <div className="mb-8">
       <div className="flex justify-between items-start">
         <div>
