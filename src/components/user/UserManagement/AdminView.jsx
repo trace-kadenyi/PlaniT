@@ -31,8 +31,8 @@ const AdminView = ({
           Team Management Guide
         </h3>
         <p className="text-sm text-blue-700">
-          As an {currentUser.role === "super_admin" ? "super_admin" : "admin"},
-          you can add new members, adjust roles, and manage team permissions.
+          As {currentUser.role === "super_admin" ? "Super Admin" : "Admin"}, you
+          can add new members, adjust roles, and manage team permissions.
         </p>
       </div>
     </div>
