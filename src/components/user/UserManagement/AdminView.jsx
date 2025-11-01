@@ -28,13 +28,11 @@ const AdminView = ({
         </button>
       </div>
 
-      <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <h3 className="text-sm font-semibold text-blue-900 mb-1">
-          Team Management Guide
-        </h3>
-        <p className="text-sm text-blue-700">
+      <div className="mt-6 p-4 bg-white rounded-2xl shadow-lg border border-gray-100">
+        <h3 className="text-sm font-semibold mb-1">Team Management Guide</h3>
+        <p className="text-sm">
           As {currentUser.role === "super_admin" ? "Super Admin" : "Admin"}, you
-          can add new members, adjust roles, and manage team permissions.
+          can add or remove members and adjust roles to manage team permissions.
         </p>
       </div>
     </div>
