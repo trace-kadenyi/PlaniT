@@ -98,7 +98,7 @@ const Users = () => {
   }
 
   return (
-    <>
+    <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
       <AddUser
         showAddForm={showAddForm}
         setShowAddForm={setShowAddForm}
@@ -119,7 +119,7 @@ const Users = () => {
       ) : (
         <MemberView users={users} currentUser={currentUser} />
       )}
-    </>
+    </main>
   );
 };
 
