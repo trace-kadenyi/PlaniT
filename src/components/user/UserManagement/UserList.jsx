@@ -39,14 +39,14 @@ const UserList = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:border-gray-800">
+      <div className="px-6 py-4 border-b border-gray-200  dark:border-gray-800">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-300">
           Team Members ({users.length})
         </h2>
       </div>
 
-      <div className="divide-y divide-gray-200">
+      <div className="divide-y divide-gray-200  dark:divide-gray-800">
         {users
           .filter((user) => user && user._id)
           .sort((a, b) => {
