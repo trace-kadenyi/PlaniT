@@ -39,7 +39,7 @@ const UserList = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:border-gray-800">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto  dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
       <div className="px-6 py-4 border-b border-gray-200  dark:border-gray-800">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
           Team Members ({users.length})
