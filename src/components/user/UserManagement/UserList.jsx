@@ -41,7 +41,7 @@ const UserList = ({
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:border-gray-800">
       <div className="px-6 py-4 border-b border-gray-200  dark:border-gray-800">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-300">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
           Team Members ({users.length})
         </h2>
       </div>
@@ -109,7 +109,7 @@ const UserListItem = ({
           </span>
         </div>
         <div>
-          <h3 className="font-medium text-gray-900">
+          <h3 className="font-medium text-gray-900 dark:text-gray-300">
             {user.firstName} {user.lastName}
             {user._id === currentUser?._id && (
               <span className="ml-2 text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
@@ -127,7 +127,9 @@ const UserListItem = ({
               </span>
             )} */}
           </h3>
-          <p className="text-gray-600 text-sm">{user.email}</p>
+          <p className="text-gray-600 dark:text-gray-400/80 text-sm">
+            {user.email}
+          </p>
         </div>
       </div>
 
