@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import {
   fetchOrganizationUsers,
@@ -12,9 +14,14 @@ import {
 import AddUser from "../components/user/forms/AddUser";
 import AdminView from "../components/user/UserManagement/AdminView";
 import MemberView from "../components/user/UserManagement/MemberView";
+import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 
 const Users = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { users, status, addUserStatus } = useSelector(
     (state) => state.organization
   );
@@ -63,19 +70,31 @@ const Users = () => {
   };
 
   // handle remove user
-  const handleRemoveUser = async (userId) => {
-    if (
-      window.confirm(
-        "Are you sure you want to remove this user from the organization?"
-      )
-    ) {
-      try {
-        await dispatch(removeOrganizationUser(userId)).unwrap();
-        dispatch(fetchOrganizationUsers());
-      } catch (error) {
-        console.error("Failed to remove user:", error);
-      }
-    }
+  // const handleRemoveUser = async (userId) => {
+  //   if (
+  //     window.confirm(
+  //       "Are you sure you want to remove this user from the organization?"
+  //     )
+  //   ) {
+  //     try {
+  //       await dispatch(removeOrganizationUser(userId)).unwrap();
+  //       dispatch(fetchOrganizationUsers());
+  //     } catch (error) {
+  //       console.error("Failed to remove user:", error);
+  //     }
+  //   }
+  // };
+
+  const handleRemoveUser = (userId) => {
+    return createUserDeleteHandler(
+      dispatch,
+      userId, // Pass the userId here
+      navigate,
+      removeOrganizationUser,
+      toast,
+      toastWithProgress,
+      DeleteConfirmationToast
+    )();
   };
 
   // handle role change
