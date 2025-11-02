@@ -160,7 +160,7 @@ const UserListItem = ({
 };
 
 const RoleDisplay = ({ user }) => (
-  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200">
+  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200 dark:bg-gray-900 dark:border-gray-800  dark:text-gray-300">
     {user.role === "super_admin" ? "Super Admin" : user.role}
   </span>
 );
@@ -211,7 +211,7 @@ const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
   return (
     <button
       disabled
-      className="text-gray-500 bg-gray-50 px-3 py-1 rounded-lg border border-gray-200 cursor-not-allowed text-xs font-medium"
+      className="text-gray-500 bg-gray-50 px-3 py-1 rounded-lg border border-gray-200 cursor-not-allowed text-xs font-medium dark:bg-gray-700 dark:text-gray-300 dark:border-transparent"
       title={getTooltipText()}
     >
       {getButtonText()}
