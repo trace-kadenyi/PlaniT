@@ -271,17 +271,6 @@ export default function Sidebar() {
               </Link>
             </div>
 
-            {/* user management */}
-            <div>
-              <Link
-                to="/team"
-                className="flex items-center space-x-2 text-gray-700 hover:text-[#9B2C62]"
-              >
-                <UsersIcon className="w-5 h-5" />
-                <span>Team</span>
-              </Link>
-            </div>
-
             {/* Secondary Links */}
             <SecondaryLinks
               navLinks={navLinks}
