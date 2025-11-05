@@ -116,16 +116,6 @@ const UserListItem = ({
                 You
               </span>
             )}
-            {/* {user.role === "super_admin" && (
-              <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
-                Super Admin
-              </span>
-            )}
-            {user.role === "admin" && user._id !== currentUser?._id && (
-              <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                Admin
-              </span>
-            )} */}
           </h3>
           <p className="text-gray-600 dark:text-gray-400/80 text-sm">
             {user.email}
