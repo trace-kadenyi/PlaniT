@@ -134,7 +134,41 @@ const Users = () => {
           </div>
         </div>
       )}
-      
+      {/* Empty State */}
+      {status === "succeeded" && users.length === 0 && (
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-md dark:shadow-gray-900/30 p-8 text-center">
+          <svg
+            className="w-16 h-16 text-gray-300 mx-auto mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1}
+              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+            />
+          </svg>
+          <h3 className="text-lg font-medium text-gray-700 dark:text-gray-200 mb-2">
+            No team members yet
+          </h3>
+          <p className="text-gray-500 dark:text-gray-400 mb-4">
+            {superAdminOrAdmin
+              ? "Add your first team member to get started"
+              : "No team members found"}
+          </p>
+          {superAdminOrAdmin && (
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="bg-[#F59E0B] hover:bg-[#D97706] dark:bg-amber-600 dark:hover:bg-[#F59E0B] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200"
+            >
+              Add Your First Team Member
+            </button>
+          )}
+        </div>
+      )}
+
       {status === "succeeded" && users.length > 0 && (
         <>
           {superAdminOrAdmin ? (
