@@ -22,7 +22,7 @@ const Users = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { users, status, addUserStatus } = useSelector(
+  const { users, status, error, addUserStatus } = useSelector(
     (state) => state.organization
   );
   const currentUser = useSelector((state) => state.auth.user);
@@ -92,19 +92,8 @@ const Users = () => {
     }
   };
 
-  // // loading
-  // if (status === "loading") {
-  //   return (
-  //     <div className="flex justify-center items-center min-h-[300px]">
-  //       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
-  //     </div>
-  //   );
-  // }
-
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
-
-
       <AddUser
         showAddForm={showAddForm}
         setShowAddForm={setShowAddForm}
@@ -114,24 +103,30 @@ const Users = () => {
         addUserStatus={addUserStatus}
       />
 
-      {superAdminOrAdmin ? (
-        <AdminView
-          users={users}
-          currentUser={currentUser}
-          onAddUser={() => setShowAddForm(true)}
-          onRoleChange={handleRoleChange}
-          onRemoveUser={handleRemoveUser}
-        />
-      ) : (
-        <MemberView users={users} currentUser={currentUser} />
+      {/* Status Messages */}
+      {status === "loading" && (
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
+        </div>
       )}
 
-        {/* Loading status message */}
-        {status === "loading" && (
-          <div className="flex justify-center items-center min-h-[300px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
-          </div>
-        )}
+      
+      
+      {status === "succeeded" && users.length > 0 && (
+        <>
+          {superAdminOrAdmin ? (
+            <AdminView
+              users={users}
+              currentUser={currentUser}
+              onAddUser={() => setShowAddForm(true)}
+              onRoleChange={handleRoleChange}
+              onRemoveUser={handleRemoveUser}
+            />
+          ) : (
+            <MemberView users={users} currentUser={currentUser} />
+          )}
+        </>
+      )}
     </main>
   );
 };
