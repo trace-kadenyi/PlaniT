@@ -100,7 +100,7 @@ const UserListItem = ({
   const showDeleteButton = editable;
 
   return (
-    <div className="px-6 py-4 flex items-center justify-between">
+    <div className="px-6 py-4 flex flex-col gap-3 sm:items-center justify-between sm:flex-row">
       <div className="flex items-center space-x-4">
         <div className="w-10 h-10 bg-[#9B2C62] rounded-full flex items-center justify-center">
           <span className="text-white font-semibold text-sm">
@@ -123,7 +123,7 @@ const UserListItem = ({
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 ml-10 flex-wrap sm:flex-nowrap gap-2 sm:ml-0">
         {/* Role Display/Selector */}
         {showRoleSelector ? (
           <RoleSelector
