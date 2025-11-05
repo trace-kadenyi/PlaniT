@@ -55,10 +55,24 @@ export const updateUserRole = createAsyncThunk(
   }
 );
 
+// org details
+export const fetchOrganizationDetails = createAsyncThunk(
+  "organization/fetchDetails",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get("/api/organization");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 const organizationSlice = createSlice({
   name: "organization",
   initialState: {
     users: [],
+    organization: null,
     status: "idle",
     error: null,
     addUserStatus: "idle",
@@ -81,6 +95,9 @@ const organizationSlice = createSlice({
     },
     clearOrganizationUsers: (state) => {
       state.users = [];
+    },
+    setOrganization: (state, action) => {
+      state.organization = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -141,10 +158,17 @@ const organizationSlice = createSlice({
       .addCase(updateUserRole.rejected, (state, action) => {
         state.updateRoleStatus = "failed";
         state.updateRoleError = action.payload;
+      })
+      // Fetch organization details
+      .addCase(fetchOrganizationDetails.fulfilled, (state, action) => {
+        state.organization = action.payload;
       });
   },
 });
 
-export const { resetOrganizationStatus, clearOrganizationUsers } =
-  organizationSlice.actions;
+export const {
+  resetOrganizationStatus,
+  clearOrganizationUsers,
+  setOrganization,
+} = organizationSlice.actions;
 export default organizationSlice.reducer;
