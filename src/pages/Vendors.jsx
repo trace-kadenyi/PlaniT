@@ -18,7 +18,7 @@ import { useFilteredVendors } from "../globalHooks/useFilteredVendors";
 import VendorPagination from "../components/vendors/VendorPagination";
 import VendorsTable from "../components/vendors/VendorsTable";
 import { VendorStatsLoading } from "../components/shared/LoadingStates";
-import { createAllVendorsDeleteHandler } from "../components/taskManagerCollection/utils/handlers/createAllVendorsDeleteHandler";
+import { createAllVendorsDeleteHandler } from "../globalHandlers/createAllVendorsDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 

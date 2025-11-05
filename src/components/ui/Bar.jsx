@@ -123,8 +123,8 @@ export function SecondaryLinks({
               flex items-center p-2 m-1 rounded-lg transition-all duration-300
               ${
                 isActive(item.path)
-                  ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium"
-                  : "text-gray-500 dark:text-gray-400 hover:bg-[#FF9933]/10 hover:text-[#E07C24] dark:hover:bg-[#9B2C62]/30"
+                  ? "bg-[#9B2C62]/10 text-[#9B2C62] border-r-4 border-[#9B2C62] font-medium dark:bg-[#9B2C62]/30 dark:text-[#E07C24]"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-[#FF9933]/10 hover:text-[#E07C24] dark:hover:bg-[#9B2C62]/10 dark:hover:text-gray-400"
               }
               ${collapsed ? "justify-center" : "gap-3"}
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF9933]

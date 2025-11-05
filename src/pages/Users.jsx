@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import {
   fetchOrganizationUsers,
@@ -7,14 +9,19 @@ import {
   removeOrganizationUser,
   updateUserRole,
   resetOrganizationStatus,
-} from "../../redux/organizationSlice";
+} from "../redux/organizationSlice";
 
-import AddUser from "./forms/AddUser";
-import AdminView from "./UserManagement/AdminView";
-import MemberView from "./UserManagement/MemberView";
+import AddUser from "../components/user/forms/AddUser";
+import AdminView from "../components/user/UserManagement/AdminView";
+import MemberView from "../components/user/UserManagement/MemberView";
+import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
+import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 
-const UserManagement = () => {
+const Users = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { users, status, addUserStatus } = useSelector(
     (state) => state.organization
   );
@@ -31,16 +38,19 @@ const UserManagement = () => {
     password: "",
   });
 
+  // fetch org users
   useEffect(() => {
     dispatch(fetchOrganizationUsers());
   }, [dispatch]);
 
+  // reset org status
   useEffect(() => {
     return () => {
       dispatch(resetOrganizationStatus());
     };
   }, [dispatch]);
 
+  // handle add user
   const handleAddUser = async (e) => {
     e.preventDefault();
     try {
@@ -59,21 +69,20 @@ const UserManagement = () => {
     }
   };
 
-  const handleRemoveUser = async (userId) => {
-    if (
-      window.confirm(
-        "Are you sure you want to remove this user from the organization?"
-      )
-    ) {
-      try {
-        await dispatch(removeOrganizationUser(userId)).unwrap();
-        dispatch(fetchOrganizationUsers());
-      } catch (error) {
-        console.error("Failed to remove user:", error);
-      }
-    }
+  // handle remove user
+  const handleRemoveUser = (userId) => {
+    return createUserDeleteHandler(
+      dispatch,
+      userId, // Pass the userId here
+      navigate,
+      removeOrganizationUser,
+      toast,
+      toastWithProgress,
+      DeleteConfirmationToast
+    )();
   };
 
+  // handle role change
   const handleRoleChange = async (userId, newRole) => {
     try {
       await dispatch(updateUserRole({ userId, role: newRole })).unwrap();
@@ -83,6 +92,7 @@ const UserManagement = () => {
     }
   };
 
+  // loading
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center h-64">
@@ -92,7 +102,7 @@ const UserManagement = () => {
   }
 
   return (
-    <>
+    <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
       <AddUser
         showAddForm={showAddForm}
         setShowAddForm={setShowAddForm}
@@ -113,8 +123,8 @@ const UserManagement = () => {
       ) : (
         <MemberView users={users} currentUser={currentUser} />
       )}
-    </>
+    </main>
   );
 };
 
-export default UserManagement;
+export default Users;

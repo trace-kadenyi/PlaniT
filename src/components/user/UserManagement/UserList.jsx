@@ -39,16 +39,21 @@ const UserList = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto  dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+      <div className="px-6 py-4 border-b border-gray-200  dark:border-gray-800">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
           Team Members ({users.length})
         </h2>
       </div>
 
-      <div className="divide-y divide-gray-200">
+      <div className="divide-y divide-gray-200  dark:divide-gray-800">
         {users
           .filter((user) => user && user._id)
+          .sort((a, b) => {
+            if (a._id === currentUser?._id) return -1;
+            if (b._id === currentUser?._id) return 1;
+            return 0;
+          })
           .map((user) => (
             <UserListItem
               key={user._id.toString()}
@@ -95,7 +100,7 @@ const UserListItem = ({
   const showDeleteButton = editable;
 
   return (
-    <div className="px-6 py-4 flex items-center justify-between">
+    <div className="px-6 py-4 flex flex-col gap-3 sm:items-center justify-between sm:flex-row">
       <div className="flex items-center space-x-4">
         <div className="w-10 h-10 bg-[#9B2C62] rounded-full flex items-center justify-center">
           <span className="text-white font-semibold text-sm">
@@ -104,29 +109,21 @@ const UserListItem = ({
           </span>
         </div>
         <div>
-          <h3 className="font-medium text-gray-900">
+          <h3 className="font-medium text-gray-900 dark:text-gray-300">
             {user.firstName} {user.lastName}
             {user._id === currentUser?._id && (
-              <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+              <span className="ml-2 text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
                 You
               </span>
             )}
-            {/* {user.role === "super_admin" && (
-              <span className="ml-2 text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">
-                Super Admin
-              </span>
-            )}
-            {user.role === "admin" && user._id !== currentUser?._id && (
-              <span className="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                Admin
-              </span>
-            )} */}
           </h3>
-          <p className="text-gray-600 text-sm">{user.email}</p>
+          <p className="text-gray-600 dark:text-gray-400/80 text-sm">
+            {user.email}
+          </p>
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 ml-10 flex-wrap sm:flex-nowrap gap-2 sm:ml-0">
         {/* Role Display/Selector */}
         {showRoleSelector ? (
           <RoleSelector
@@ -153,7 +150,7 @@ const UserListItem = ({
 };
 
 const RoleDisplay = ({ user }) => (
-  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200">
+  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200 dark:bg-gray-900 dark:border-gray-800  dark:text-gray-300">
     {user.role === "super_admin" ? "Super Admin" : user.role}
   </span>
 );
@@ -162,7 +159,7 @@ const RoleSelector = ({ user, currentUser, onRoleChange }) => (
   <select
     value={user.role}
     onChange={(e) => onRoleChange(user._id, e.target.value)}
-    className="min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700"
+    className="min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-900 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300"
   >
     <option value="viewer">Viewer</option>
     <option value="planner">Planner</option>
@@ -193,7 +190,7 @@ const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
     return (
       <button
         onClick={() => onRemoveUser(user._id)}
-        className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold"
+        className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover-text-red-700"
         title={getTooltipText()}
       >
         Remove
@@ -204,7 +201,7 @@ const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
   return (
     <button
       disabled
-      className="text-gray-500 bg-gray-50 px-3 py-1 rounded-lg border border-gray-200 cursor-not-allowed text-xs font-medium"
+      className="text-gray-500 bg-gray-50 px-3 py-1 rounded-lg border border-gray-200 cursor-not-allowed text-xs font-medium dark:bg-gray-700 dark:text-gray-300 dark:border-transparent"
       title={getTooltipText()}
     >
       {getButtonText()}

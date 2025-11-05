@@ -9,12 +9,14 @@ const AdminView = ({
   onRoleChange,
   onRemoveUser,
 }) => (
-  <div className="max-w-6xl mx-auto p-6">
+  <div className="max-w-7xl mx-auto">
     <div className="mb-8">
-      <div className="flex justify-between items-start">
+      <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 z-10">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Team Management</h1>
-          <p className="text-gray-600 mt-2 max-w-2xl">
+          <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 text-start sm:mt-2">
+            Team Management
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-lg">
             Manage your organization members and their permissions
           </p>
         </div>
@@ -26,13 +28,13 @@ const AdminView = ({
         </button>
       </div>
 
-      <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <h3 className="text-sm font-semibold text-blue-900 mb-1">
+      <div className="mt-6 p-4 bg-white rounded-2xl shadow-lg border border-gray-100  dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+        <h3 className="text-sm font-semibold mb-1 dark:text-gray-300">
           Team Management Guide
         </h3>
-        <p className="text-sm text-blue-700">
-          As an {currentUser.role === "super_admin" ? "super_admin" : "admin"},
-          you can add new members, adjust roles, and manage team permissions.
+        <p className="text-sm dark:text-gray-400">
+          As {currentUser.role === "super_admin" ? "Super Admin" : "Admin"}, you
+          can add or remove members and adjust roles to manage team permissions.
         </p>
       </div>
     </div>

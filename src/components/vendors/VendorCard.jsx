@@ -17,7 +17,7 @@ import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHa
 import { toastWithProgress } from "../../globalHooks/useToastWithProgress";
 import ArchiveConfirmationToast from "../../globalUtils/archiveConfirmationToast";
 import ArchiveEditDeleteVendor from "../shared/ArchiveEditDeleteVendor";
-import { createVendorDeleteHandler } from "../taskManagerCollection/utils/handlers/vendorHandler";
+import { createVendorDeleteHandler } from "../../globalHandlers/createVendorDeleteHandler";
 import { deleteVendor } from "../../redux/vendorsSlice";
 import DeleteConfirmationToast from "../taskManagerCollection/utils/deleteConfirmationToast";
 

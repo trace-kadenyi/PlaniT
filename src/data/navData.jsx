@@ -9,6 +9,7 @@ import {
   ClipboardList as TasksBoard,
   UserCog,
   Sun,
+  Group,
 } from "lucide-react";
 
 // navlinks data
@@ -25,6 +26,8 @@ export const navLinks = [
   },
   { icon: Users, label: "Client Directory", path: "/clients" },
   { icon: UserCog, label: "Vendor Directory", path: "/vendors" },
+  { icon: Group, label: "Team", path: "/team" },
+
   {
     icon: Settings,
     label: "Settings",

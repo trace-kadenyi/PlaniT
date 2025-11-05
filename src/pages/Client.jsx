@@ -19,7 +19,7 @@ import { LoadingPage } from "../components/shared/LoadingStates";
 import { ErrorState } from "../components/shared/ErrorStates";
 import ClientEventsUI from "../components/clients/ClientEventsUI";
 import ClientCard from "../components/clients/ClientCard";
-import { createClientDeleteHandler } from "../components/taskManagerCollection/utils/handlers/clientHandler";
+import { createClientDeleteHandler } from "../globalHandlers/createClientDeleteHandler";
 
 export default function Client() {
   const { id } = useParams();
