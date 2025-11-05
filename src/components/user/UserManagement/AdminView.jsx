@@ -1,6 +1,7 @@
 import React from "react";
 
 import UserList from "./UserList";
+import { Plus } from "lucide-react";
 
 const AdminView = ({
   users,
@@ -11,7 +12,7 @@ const AdminView = ({
 }) => (
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div className="mb-8">
-      <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 z-10">
+      <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 z-10">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 text-start sm:mt-2">
             Team Management
@@ -22,8 +23,9 @@ const AdminView = ({
         </div>
         <button
           onClick={onAddUser}
-          className="bg-[#9B2C62] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#7A2250] transition-colors duration-200 shadow-lg hover:shadow-xl"
+          className="bg-[#9B2C62] hover:bg-[#801f4f] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
         >
+          <Plus className="w-5 h-5" />
           Add Team Member
         </button>
       </div>
