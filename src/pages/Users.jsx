@@ -9,6 +9,7 @@ import {
   removeOrganizationUser,
   updateUserRole,
   resetOrganizationStatus,
+  fetchOrganizationDetails,
 } from "../redux/organizationSlice";
 
 import AddUser from "../components/user/forms/AddUser";
@@ -22,7 +23,7 @@ const Users = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { users, status, error, addUserStatus } = useSelector(
+  const { users, status, error, addUserStatus, organization } = useSelector(
     (state) => state.organization
   );
   const currentUser = useSelector((state) => state.auth.user);
@@ -41,6 +42,7 @@ const Users = () => {
   // fetch org users
   useEffect(() => {
     dispatch(fetchOrganizationUsers());
+    dispatch(fetchOrganizationDetails());
   }, [dispatch]);
 
   // reset org status
@@ -186,6 +188,7 @@ const Users = () => {
               onAddUser={() => setShowAddForm(true)}
               onRoleChange={handleRoleChange}
               onRemoveUser={handleRemoveUser}
+              orgName={organization?.name}
             />
           ) : (
             <MemberView users={users} currentUser={currentUser} />
