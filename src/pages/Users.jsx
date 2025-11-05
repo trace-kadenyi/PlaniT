@@ -110,7 +110,30 @@ const Users = () => {
         </div>
       )}
 
-      
+      {/* Error Message */}
+      {error && (
+        <div className="error-message bg-red-100 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-200 p-4 mb-6 rounded flex items-start">
+          <div className="mr-3 mt-0.5 flex-shrink-0">
+            <svg
+              className="h-5 w-5 text-red-500 dark:text-red-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <div>
+            <p>{error}</p>
+          </div>
+        </div>
+      )}
       
       {status === "succeeded" && users.length > 0 && (
         <>
