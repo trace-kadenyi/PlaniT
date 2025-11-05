@@ -9,13 +9,14 @@ const AdminView = ({
   onAddUser,
   onRoleChange,
   onRemoveUser,
+  orgName
 }) => (
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div className="mb-8">
       <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 z-10">
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 text-start sm:mt-2">
-            Team Management
+            {orgName} Team Management
           </h1>
           <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-lg">
             Manage your organization members and their permissions
