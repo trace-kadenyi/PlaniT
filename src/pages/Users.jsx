@@ -191,7 +191,11 @@ const Users = () => {
               orgName={organization?.name}
             />
           ) : (
-            <MemberView users={users} currentUser={currentUser} />
+            <MemberView
+              users={users}
+              currentUser={currentUser}
+              orgName={organization?.name}
+            />
           )}
         </>
       )}
