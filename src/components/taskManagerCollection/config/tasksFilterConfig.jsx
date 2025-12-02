@@ -15,7 +15,7 @@ export const tasksFilterConfig = {
       id: "priority",
       label: "Priority",
       options: [
-        { value: "all", label: "All Priorities" }, // Removed key
+        { value: "all", label: "All Priorities" },
         { value: "high", label: "High Priority", className: "high" },
         { value: "medium", label: "Medium Priority", className: "medium" },
         { value: "low", label: "Low Priority", className: "low" },
@@ -25,10 +25,10 @@ export const tasksFilterConfig = {
       id: "assignee",
       label: "Assignee",
       options: (data) => [
-        { value: "all", label: "All Assignees" }, // Removed key
+        { value: "all", label: "All Assignees" },
         ...data.assignees.map((assignee) => ({
           value: assignee,
-          label: assignee, // Removed key
+          label: assignee,
         })),
       ],
     },
