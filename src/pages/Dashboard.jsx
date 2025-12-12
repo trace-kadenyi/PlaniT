@@ -11,32 +11,54 @@ import {
   FileText,
 } from "lucide-react";
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
+import { fetchAllTasks } from "../redux/tasksSlice";
 
 const Dashboards = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // Get events data from Redux store
-  const { dashboardItems, dashboardStatus } = useSelector(
+  const { dashboardItems, dashboardStatus: eventsStatus } = useSelector(
     (state) => state.events
   );
 
-  // Get users data from Redux store (assuming you have it in organization slice)
+  // Get tasks data from Redux store
+  const { items: tasks, status: tasksStatus } = useSelector(
+    (state) => state.tasks
+  );
+
+  // Get users data from Redux store
   const { users } = useSelector((state) => state.organization);
 
-  // Fetch events data when component mounts
+  // Fetch events and tasks data when component mounts
   useEffect(() => {
     dispatch(fetchEventsForDashboard());
+    dispatch(fetchAllTasks());
   }, [dispatch]);
 
-  // Calculate real statistics
+  // Calculate events statistics
   const totalEvents = dashboardItems.length;
-  const upcomingEvents = dashboardItems.filter(event => 
-    new Date(event.date) > new Date()
+  const upcomingEvents = dashboardItems.filter(
+    (event) => new Date(event.date) > new Date()
   ).length;
-  
-  const activeEvents = dashboardItems.filter(event => 
-    event.status === 'in-progress' || event.status === 'planning'
+
+  const activeEvents = dashboardItems.filter(
+    (event) => event.status === "in-progress" || event.status === "planning"
+  ).length;
+
+  // Calculate tasks statistics
+  const totalTasks = tasks.length;
+  const pendingTasks = tasks.filter(
+    (task) => task.status === "to-do" || task.status === "in-progress"
+  ).length;
+  const completedTasks = tasks.filter((task) => task.status === "done").length;
+
+  // Get tasks by priority
+  const highPriorityTasks = tasks.filter(
+    (task) => task.priority === "high"
+  ).length;
+  const assignedToCurrentUser = tasks.filter(
+    (task) => task.assignedTo && task.assignedTo._id === user?._id
   ).length;
 
   // Calculate total budget across all events
@@ -53,16 +75,32 @@ const Dashboards = () => {
 
   // Get upcoming events sorted by date (closest first)
   const sortedUpcomingEvents = [...dashboardItems]
-    .filter(event => new Date(event.date) > new Date())
+    .filter((event) => new Date(event.date) > new Date())
     .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 3);
+
+  // Get recent tasks (closest deadlines)
+  const sortedRecentTasks = [...tasks]
+    .filter((task) => task.status !== "done" && task.dueDate)
+    .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
     .slice(0, 3);
 
   // Group events by status for quick overview
   const eventsByStatus = {
-    planning: dashboardItems.filter(event => event.status === 'planning'),
-    'in-progress': dashboardItems.filter(event => event.status === 'in-progress'),
-    completed: dashboardItems.filter(event => event.status === 'completed'),
-    cancelled: dashboardItems.filter(event => event.status === 'cancelled')
+    planning: dashboardItems.filter((event) => event.status === "Planning"),
+    "in-progress": dashboardItems.filter(
+      (event) => event.status === "In Progress"
+    ),
+    completed: dashboardItems.filter((event) => event.status === "Completed"),
+    cancelled: dashboardItems.filter((event) => event.status === "Cancelled"),
+  };
+
+  // Group tasks by status
+  const tasksByStatus = {
+    "to-do": tasks.filter((task) => task.status === "to-do"),
+    "in-progress": tasks.filter((task) => task.status === "in-progress"),
+    done: tasks.filter((task) => task.status === "done"),
+    blocked: tasks.filter((task) => task.status === "blocked"),
   };
 
   const dashboardCards = [
@@ -88,9 +126,10 @@ const Dashboards = () => {
       color: "bg-gradient-to-br from-[#F59E0B] to-[#D97706]",
       iconColor: "text-white",
       path: "/dashboard/tasks-board",
-      stats: "Coming Soon",
-      statValue: "",
+      stats: "Pending tasks",
+      statValue: pendingTasks.toString(),
       features: ["Kanban Boards", "Assignments", "Deadlines"],
+      enabled: totalTasks > 0,
     },
     {
       id: "analytics",
@@ -117,10 +156,10 @@ const Dashboards = () => {
       textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
     },
     {
-      label: "Active Events",
-      value: activeEvents.toString(),
-      change: `${Math.round((activeEvents / totalEvents) * 100) || 0}%`,
-      icon: CalendarRange,
+      label: "Pending Tasks",
+      value: pendingTasks.toString(),
+      change: `${completedTasks} completed`,
+      icon: CheckSquare,
       color: "bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20",
       textColor: "text-[#F59E0B] dark:text-[#F59E0B]",
     },
@@ -135,7 +174,10 @@ const Dashboards = () => {
     {
       label: "Total Budget",
       value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
-      change: totalExpenses > 0 ? `$${totalExpenses.toLocaleString()} spent` : "No spending",
+      change:
+        totalExpenses > 0
+          ? `$${totalExpenses.toLocaleString()} spent`
+          : "No spending",
       icon: FileText,
       color: "bg-[#801f4f]/10 dark:bg-[#801f4f]/20",
       textColor: "text-[#801f4f] dark:text-[#F59E0B]",
@@ -144,20 +186,33 @@ const Dashboards = () => {
 
   // Format date for display
   const formatDate = (dateString) => {
+    if (!dateString) return "No date";
     const date = new Date(dateString);
     const now = new Date();
     const diffTime = date - now;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 0) return "Today";
     if (diffDays === 1) return "Tomorrow";
+    if (diffDays < 0) return "Overdue";
     if (diffDays < 7) return `In ${diffDays} days`;
-    if (diffDays < 30) return `In ${Math.floor(diffDays/7)} weeks`;
-    return date.toLocaleDateString('default', { month: 'short', day: 'numeric' });
+    if (diffDays < 30) return `In ${Math.floor(diffDays / 7)} weeks`;
+    return date.toLocaleDateString("default", {
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  // Format task title with truncation
+  const truncateText = (text, maxLength = 30) => {
+    if (!text) return "";
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
   };
 
   // Loading state
-  if (dashboardStatus === "loading") {
+  if (eventsStatus === "loading" || tasksStatus === "loading") {
     return (
       <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
         <div className="max-w-7xl mx-auto">
@@ -182,8 +237,10 @@ const Dashboards = () => {
               Dashboards
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-2xl">
-              {totalEvents > 0 
-                ? `Managing ${totalEvents} events with ${users?.length || 0} team members`
+              {totalEvents > 0 || totalTasks > 0
+                ? `Managing ${totalEvents} events and ${totalTasks} tasks with ${
+                    users?.length || 0
+                  } team members`
                 : "Central hub for managing all your events, tasks, and analytics"}
             </p>
           </div>
@@ -204,11 +261,14 @@ const Dashboards = () => {
                   <p className="text-2xl font-bold text-gray-800 dark:text-white mt-2">
                     {stat.value}
                   </p>
-                  <span className={`text-xs font-medium px-2 py-1 rounded-full mt-2 inline-block ${
-                    stat.label === "Total Budget" && totalExpenses === 0 
-                      ? "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                      : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
-                  }`}>
+                  <span
+                    className={`text-xs font-medium px-2 py-1 rounded-full mt-2 inline-block ${
+                      (stat.label === "Total Budget" && totalExpenses === 0) ||
+                      (stat.label === "Pending Tasks" && pendingTasks === 0)
+                        ? "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                        : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                    }`}
+                  >
                     {stat.change}
                   </span>
                 </div>
@@ -226,7 +286,11 @@ const Dashboards = () => {
             <div
               key={dashboard.id}
               className="group relative bg-gradient-to-br from-white to-[#FFF8F2] dark:from-gray-800/80 dark:to-gray-900/80 rounded-2xl border border-[#F3EDE9] dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 cursor-pointer"
-              onClick={() => dashboard.path && navigate(dashboard.path)}
+              onClick={() =>
+                dashboard.path &&
+                (dashboard.id === "tasks" ? totalTasks > 0 : true) &&
+                navigate(dashboard.path)
+              }
             >
               {/* Decorative Corner */}
               <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -284,7 +348,8 @@ const Dashboards = () => {
                     dashboard.path && navigate(dashboard.path);
                   }}
                   className={`w-full py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
-                    dashboard.id === "tasks" || dashboard.id === "analytics"
+                    dashboard.id === "analytics" ||
+                    (dashboard.id === "tasks" && totalTasks === 0)
                       ? "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
                       : `${dashboard.color
                           .split(" ")[0]
@@ -293,10 +358,15 @@ const Dashboards = () => {
                             "bg"
                           )} text-white hover:opacity-90`
                   }`}
-                  disabled={dashboard.id === "tasks" || dashboard.id === "analytics"}
+                  disabled={
+                    dashboard.id === "analytics" ||
+                    (dashboard.id === "tasks" && totalTasks === 0)
+                  }
                 >
-                  {dashboard.id === "tasks" || dashboard.id === "analytics"
+                  {dashboard.id === "analytics"
                     ? "Coming Soon"
+                    : dashboard.id === "tasks" && totalTasks === 0
+                    ? "No Tasks Yet"
                     : "Open Dashboard"}
                   <TrendingUp className="w-4 h-4" />
                 </button>
@@ -312,23 +382,35 @@ const Dashboards = () => {
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-sm p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
-              Events Overview
+              Quick Overview
             </h2>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              {totalEvents > 0 ? `${totalEvents} total events` : "No events yet"}
+              {totalEvents > 0
+                ? `${totalEvents} events, ${totalTasks} tasks`
+                : "No data yet"}
             </span>
           </div>
 
-          {totalEvents === 0 ? (
+          {totalEvents === 0 && totalTasks === 0 ? (
             <div className="text-center py-8">
               <Calendar className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-300 mb-4">No events created yet</p>
-              <button
-                onClick={() => navigate("/events/new")}
-                className="inline-flex items-center px-4 py-2 bg-[#9B2C62] text-white rounded-lg shadow hover:bg-[#801f4f] transition"
-              >
-                + Create Your First Event
-              </button>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                Get started by creating your first event or task
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  onClick={() => navigate("/events/new")}
+                  className="inline-flex items-center px-4 py-2 bg-[#9B2C62] text-white rounded-lg shadow hover:bg-[#801f4f] transition"
+                >
+                  + Create Event
+                </button>
+                <button
+                  onClick={() => navigate("/events")}
+                  className="inline-flex items-center px-4 py-2 bg-[#F59E0B] text-white rounded-lg shadow hover:bg-[#D97706] transition"
+                >
+                  + Add Task
+                </button>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -363,7 +445,9 @@ const Dashboards = () => {
                     ))
                   ) : (
                     <li className="text-gray-500 dark:text-gray-400 text-sm p-3 text-center">
-                      No upcoming events
+                      {totalEvents > 0
+                        ? "No upcoming events"
+                        : "No events created"}
                     </li>
                   )}
                 </ul>
@@ -375,77 +459,225 @@ const Dashboards = () => {
                 </button>
               </div>
 
-              {/* Events by Status */}
+              {/* Recent Tasks */}
               <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-5 border border-[#F3EDE9] dark:border-gray-600">
                 <div className="flex items-center gap-3 mb-4">
-                  <BarChart3 className="w-5 h-5 text-[#F59E0B] dark:text-[#F59E0B]" />
+                  <CheckSquare className="w-5 h-5 text-[#F59E0B] dark:text-[#F59E0B]" />
                   <h3 className="font-semibold text-gray-800 dark:text-white">
-                    Events by Status
+                    Upcoming Tasks ({sortedRecentTasks.length})
                   </h3>
                 </div>
                 <ul className="space-y-3">
-                  {Object.entries(eventsByStatus).map(([status, events]) => {
-                    if (events.length === 0) return null;
-                    
-                    const statusColors = {
-                      'planning': 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
-                      'in-progress': 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300',
-                      'completed': 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
-                      'cancelled': 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
-                    };
-                    
-                    const statusLabels = {
-                      'planning': 'Planning',
-                      'in-progress': 'In Progress',
-                      'completed': 'Completed',
-                      'cancelled': 'Cancelled'
-                    };
-                    
-                    return (
+                  {sortedRecentTasks.length > 0 ? (
+                    sortedRecentTasks.map((task, index) => (
                       <li
-                        key={status}
-                        className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg"
+                        key={task._id}
+                        className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg hover:bg-white dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
+                        onClick={() => navigate(`/events/${task.eventId}`)}
                       >
-                        <span className="text-gray-700 dark:text-gray-300">
-                          {statusLabels[status]}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span className={`text-xs px-2 py-1 rounded-full ${statusColors[status]}`}>
-                            {events.length} event{events.length !== 1 ? 's' : ''}
-                          </span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            {Math.round((events.length / totalEvents) * 100)}%
-                          </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-gray-700 dark:text-gray-300 font-medium truncate">
+                            {truncateText(task.title, 25)}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            {task.eventName || "Event task"} • {task.priority}
+                          </p>
                         </div>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ml-2 ${
+                            task.status === "done"
+                              ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                              : task.status === "in-progress"
+                              ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+                              : "bg-[#F59E0B]/10 text-[#F59E0B]"
+                          }`}
+                        >
+                          {formatDate(task.dueDate)}
+                        </span>
                       </li>
-                    );
-                  })}
+                    ))
+                  ) : (
+                    <li className="text-gray-500 dark:text-gray-400 text-sm p-3 text-center">
+                      {totalTasks > 0
+                        ? "No tasks with upcoming deadlines"
+                        : "No tasks created"}
+                    </li>
+                  )}
                 </ul>
                 <button
                   onClick={() => navigate("/events")}
                   className="mt-4 w-full py-2 text-sm font-medium text-[#F59E0B] dark:text-[#F59E0B] hover:bg-[#F59E0B]/5 dark:hover:bg-gray-700 rounded-lg transition-colors"
                 >
-                  Manage All Events →
+                  {totalTasks > 0 ? "Manage All Tasks →" : "Add Tasks →"}
                 </button>
               </div>
             </div>
           )}
         </div>
 
+        {/* Stats Breakdown Section */}
+        {(totalEvents > 0 || totalTasks > 0) && (
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Events by Status */}
+            <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-5 border border-[#F3EDE9] dark:border-gray-600">
+              <h3 className="font-semibold text-gray-800 dark:text-white mb-4">
+                Events by Status
+              </h3>
+              <div className="space-y-3">
+                {Object.entries(eventsByStatus).map(([status, events]) => {
+                  if (events.length === 0 && totalEvents > 0) return null;
+
+                  const statusColors = {
+                    planning:
+                      "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
+                    "in-progress":
+                      "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300",
+                    completed:
+                      "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+                    cancelled:
+                      "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+                  };
+
+                  const statusLabels = {
+                    planning: "Planning",
+                    "in-progress": "In Progress",
+                    completed: "Completed",
+                    cancelled: "Cancelled",
+                  };
+
+                  return (
+                    <div
+                      key={status}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-gray-700 dark:text-gray-300">
+                        {statusLabels[status]}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${
+                              status === "planning"
+                                ? "bg-blue-500"
+                                : status === "in-progress"
+                                ? "bg-yellow-500"
+                                : status === "completed"
+                                ? "bg-green-500"
+                                : "bg-red-500"
+                            }`}
+                            style={{
+                              width: `${
+                                (events.length / Math.max(totalEvents, 1)) * 100
+                              }%`,
+                            }}
+                          ></div>
+                        </div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">
+                          {events.length} (
+                          {Math.round(
+                            (events.length / Math.max(totalEvents, 1)) * 100
+                          )}
+                          %)
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Tasks by Status */}
+            <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-5 border border-[#F3EDE9] dark:border-gray-600">
+              <h3 className="font-semibold text-gray-800 dark:text-white mb-4">
+                Tasks by Status
+              </h3>
+              <div className="space-y-3">
+                {Object.entries(tasksByStatus).map(([status, tasksList]) => {
+                  if (tasksList.length === 0 && totalTasks > 0) return null;
+
+                  const statusColors = {
+                    "to-do":
+                      "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300",
+                    "in-progress":
+                      "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300",
+                    done: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+                    blocked:
+                      "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+                  };
+
+                  const statusLabels = {
+                    "to-do": "To Do",
+                    "in-progress": "In Progress",
+                    done: "Completed",
+                    blocked: "Blocked",
+                  };
+
+                  return (
+                    <div
+                      key={status}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-gray-700 dark:text-gray-300">
+                        {statusLabels[status]}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${
+                              status === "to-do"
+                                ? "bg-gray-500"
+                                : status === "in-progress"
+                                ? "bg-yellow-500"
+                                : status === "done"
+                                ? "bg-green-500"
+                                : "bg-red-500"
+                            }`}
+                            style={{
+                              width: `${
+                                (tasksList.length / Math.max(totalTasks, 1)) *
+                                100
+                              }%`,
+                            }}
+                          ></div>
+                        </div>
+                        <span className="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">
+                          {tasksList.length} (
+                          {Math.round(
+                            (tasksList.length / Math.max(totalTasks, 1)) * 100
+                          )}
+                          %)
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Footer Note */}
         <div className="mt-10 text-center">
           <p className="text-gray-500 dark:text-gray-400 text-sm">
-            {totalEvents > 0 
-              ? `Tracking ${totalEvents} events with ${totalBudget > 0 ? `$${totalBudget.toLocaleString()} budget` : 'no budget set'}`
-              : "Get started by creating your first event"}
+            {totalEvents > 0 || totalTasks > 0
+              ? `Tracking ${totalEvents} events and ${totalTasks} tasks`
+              : "Get started by creating your first event or task"}
           </p>
-          {totalEvents === 0 && (
-            <button
-              onClick={() => navigate("/events/new")}
-              className="mt-4 inline-flex items-center px-4 py-2 bg-[#9B2C62] text-white rounded-lg shadow hover:bg-[#801f4f] transition"
-            >
-              + Create Your First Event
-            </button>
+          {totalEvents === 0 && totalTasks === 0 && (
+            <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => navigate("/events/new")}
+                className="inline-flex items-center px-4 py-2 bg-[#9B2C62] text-white rounded-lg shadow hover:bg-[#801f4f] transition"
+              >
+                + Create Event
+              </button>
+              <button
+                onClick={() => navigate("/events")}
+                className="inline-flex items-center px-4 py-2 bg-[#F59E0B] text-white rounded-lg shadow hover:bg-[#D97706] transition"
+              >
+                + Add Task
+              </button>
+            </div>
           )}
         </div>
       </div>
