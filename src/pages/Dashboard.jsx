@@ -170,14 +170,14 @@ const Dashboards = () => {
       color: "bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20",
       textColor: "text-[#F59E0B] dark:text-[#F59E0B]",
     },
-    {
-      label: "Team Members",
-      value: users?.length?.toString() || "0",
-      change: users?.length > 0 ? `${users.length} active` : "Add members",
-      icon: Users,
-      color: "bg-[#EA580C]/10 dark:bg-[#EA580C]/20",
-      textColor: "text-[#EA580C] dark:text-[#F59E0B]",
-    },
+    // {
+    //   label: "Team Members",
+    //   value: users?.length?.toString() || "0",
+    //   change: users?.length > 0 ? `${users.length} active` : "Add members",
+    //   icon: Users,
+    //   color: "bg-[#EA580C]/10 dark:bg-[#EA580C]/20",
+    //   textColor: "text-[#EA580C] dark:text-[#F59E0B]",
+    // },
     {
       label: "Total Budget",
       value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
@@ -243,13 +243,13 @@ const Dashboards = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-4">
               Dashboards
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-2xl">
+            {/* <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-2xl">
               {totalEvents > 0 || totalTasks > 0
                 ? `Managing ${totalEvents} events and ${totalTasks} tasks with ${
                     users?.length || 0
                   } team members`
                 : "Central hub for managing all your events, tasks, and analytics"}
-            </p>
+            </p> */}
           </div>
         </div>
 
