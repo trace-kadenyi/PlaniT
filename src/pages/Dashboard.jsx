@@ -459,8 +459,8 @@ const Dashboards = () => {
                   )}
                 </ul>
                 <button
-                  onClick={() => navigate("/dashboard/events-board")}
-                  className="mt-4 w-full py-2 text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:bg-[#9B2C62]/5 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  onClick={() => navigate("/events/board")}
+                  className="mt-4 w-full py-2 text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:bg-[#9B2C62]/5 dark:hover:bg-gray-700/30 rounded-lg transition-colors"
                 >
                   View All Events →
                 </button>
