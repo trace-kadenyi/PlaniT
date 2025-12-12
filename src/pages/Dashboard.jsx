@@ -77,8 +77,6 @@ const Dashboards = () => {
       }).length
     : 0;
 
-  console.log("completedTasks after fix:", completedTasks);
-
   // Calculate total budget across all events
   const totalBudget = dashboardItems.reduce((sum, event) => {
     const budget = event.budgetStatus?.totalBudget || 0;
