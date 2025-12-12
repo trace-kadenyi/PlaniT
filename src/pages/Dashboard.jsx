@@ -73,11 +73,7 @@ const Dashboards = () => {
   const completedTasks = Array.isArray(tasks)
     ? tasks.filter((task) => {
         const status = task?.status?.toLowerCase();
-        return (
-          status === "done" ||
-          status === "completed" ||
-          status.includes("complete")
-        ); // This will catch "Completed"
+        return status === "completed";
       }).length
     : 0;
 
