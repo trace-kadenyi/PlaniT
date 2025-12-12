@@ -10,14 +10,20 @@ import {
   UserCog,
   Sun,
   Group,
+  Home,
 } from "lucide-react";
 
 // navlinks data
 export const navLinks = [
-  { icon: LayoutDashboard, label: "Home", path: "/" },
+  { icon: Home, label: "Home", path: "/" },
   {
     icon: Calendar,
     label: "Events Manager",
+    path: "/events",
+  },
+  {
+    icon: LayoutDashboard,
+    label: "Dashboards",
     path: "/events",
     children: [
       { icon: CalendarBoard, label: "Events Board", path: "/events/board" },
