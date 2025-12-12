@@ -104,10 +104,10 @@ const Dashboards = () => {
 
   // Group tasks by status
   const tasksByStatus = {
-    "to-do": tasks.filter((task) => task.status === "to-do"),
-    "in-progress": tasks.filter((task) => task.status === "in-progress"),
-    done: tasks.filter((task) => task.status === "done"),
-    blocked: tasks.filter((task) => task.status === "blocked"),
+    "To Do": tasks.filter((task) => task.status === "To Do"),
+    "In Progress": tasks.filter((task) => task.status === "In Progress"),
+    Completed: tasks.filter((task) => task.status === "Completed"),
+    "In Review": tasks.filter((task) => task.status === "In Review"),
   };
 
   const dashboardCards = [
@@ -600,23 +600,24 @@ const Dashboards = () => {
               </h3>
               <div className="space-y-3">
                 {Object.entries(tasksByStatus).map(([status, tasksList]) => {
-                  if (tasksList.length === 0 && totalTasks > 0) return null;
+                  if (!tasksList || tasksList.length === 0) return null;
 
                   const statusColors = {
-                    "to-do":
+                    "To Do":
                       "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300",
-                    "in-progress":
+                    "In Progress":
                       "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300",
-                    done: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
-                    blocked:
-                      "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300",
+                    Completed:
+                      "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300",
+                    "In Review":
+                      "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
                   };
 
-                  const statusLabels = {
-                    "to-do": "To Do",
-                    "in-progress": "In Progress",
-                    done: "Completed",
-                    blocked: "Blocked",
+                  const statusBarColors = {
+                    "To Do": "bg-gray-500",
+                    "In Progress": "bg-yellow-500",
+                    Completed: "bg-green-500",
+                    "In Review": "bg-blue-500",
                   };
 
                   return (
@@ -625,19 +626,13 @@ const Dashboards = () => {
                       className="flex items-center justify-between"
                     >
                       <span className="text-gray-700 dark:text-gray-300">
-                        {statusLabels[status]}
+                        {status}
                       </span>
                       <div className="flex items-center gap-2">
                         <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                           <div
                             className={`h-2 rounded-full ${
-                              status === "to-do"
-                                ? "bg-gray-500"
-                                : status === "in-progress"
-                                ? "bg-yellow-500"
-                                : status === "done"
-                                ? "bg-green-500"
-                                : "bg-red-500"
+                              statusBarColors[status] || "bg-gray-500"
                             }`}
                             style={{
                               width: `${
