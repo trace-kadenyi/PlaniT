@@ -38,6 +38,15 @@ const Dashboards = () => {
     dispatch(fetchAllTasks());
   }, [dispatch]);
 
+  // Debug logging
+  useEffect(() => {
+    console.log("Dashboard Debug:", {
+      tasks,
+      tasksStatus,
+      tasksLength: tasks?.length,
+      tasksIsArray: Array.isArray(tasks),
+    });
+  }, [tasks, tasksStatus]);
   // Calculate events statistics
   const totalEvents = dashboardItems.length;
   const upcomingEvents = dashboardItems.filter(
@@ -50,10 +59,29 @@ const Dashboards = () => {
 
   // Calculate tasks statistics
   const totalTasks = tasks.length;
-  const pendingTasks = tasks.filter(
-    (task) => task.status === "to-do" || task.status === "in-progress"
-  ).length;
-  const completedTasks = tasks.filter((task) => task.status === "done").length;
+  const pendingTasks = Array.isArray(tasks)
+    ? tasks.filter((task) => {
+        const status = task?.status?.toLowerCase();
+        return (
+          status === "to do" ||
+          status === "in review" ||
+          status === "in progress"
+        );
+      }).length
+    : 0;
+
+  const completedTasks = Array.isArray(tasks)
+    ? tasks.filter((task) => {
+        const status = task?.status?.toLowerCase();
+        return (
+          status === "done" ||
+          status === "completed" ||
+          status.includes("complete")
+        ); // This will catch "Completed"
+      }).length
+    : 0;
+
+  console.log("completedTasks after fix:", completedTasks);
 
   // Calculate total budget across all events
   const totalBudget = dashboardItems.reduce((sum, event) => {
