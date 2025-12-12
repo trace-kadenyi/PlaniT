@@ -28,6 +28,7 @@ import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
 import Users from "./pages/Users";
+import Dashboards from "./pages/Dashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -78,6 +79,7 @@ function App() {
             <Route path="/vendors/new" element={<CreateVendorForm />} />
             <Route path="/tasks/board" element={<TasksBoard />} />
             <Route path="/events/board" element={<EventsBoard />} />
+            <Route path="/dashboards" element={<Dashboards />} />
             <Route path="/team" element={<Users />} />
           </Route>
 
