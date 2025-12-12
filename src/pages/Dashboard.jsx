@@ -513,7 +513,7 @@ const Dashboards = () => {
                 </ul>
                 <button
                   onClick={() => navigate("/events")}
-                  className="mt-4 w-full py-2 text-sm font-medium text-[#F59E0B] dark:text-[#F59E0B] hover:bg-[#F59E0B]/5 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  className="mt-4 w-full py-2 text-sm font-medium text-[#F59E0B] dark:text-[#F59E0B] hover:bg-[#F59E0B]/5 dark:hover:bg-gray-700/30 rounded-lg transition-colors"
                 >
                   {totalTasks > 0 ? "Manage All Tasks →" : "Add Tasks →"}
                 </button>
