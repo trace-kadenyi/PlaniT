@@ -14,7 +14,7 @@ import {
 
 // navlinks data
 export const navLinks = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/" },
+  { icon: LayoutDashboard, label: "Home", path: "/" },
   {
     icon: Calendar,
     label: "Events Manager",
