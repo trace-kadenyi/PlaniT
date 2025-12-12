@@ -153,7 +153,7 @@ export default function Sidebar() {
 
           {/* Navigation */}
           <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1 hide-scrollbar dark:bg-gray-800">
-            {navLinks.slice(0, 4).map((item) => (
+            {navLinks.slice(0, 5).map((item) => (
               <div key={item.path}>
                 <Link
                   to={item.path}
