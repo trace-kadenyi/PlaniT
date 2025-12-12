@@ -24,7 +24,7 @@ export const navLinks = [
   {
     icon: LayoutDashboard,
     label: "Dashboards",
-    path: "/events",
+    path: "/dashboards",
     children: [
       { icon: CalendarBoard, label: "Events Board", path: "/events/board" },
       { icon: TasksBoard, label: "Tasks Board", path: "/tasks/board" },
