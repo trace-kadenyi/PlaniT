@@ -38,15 +38,6 @@ const Dashboards = () => {
     dispatch(fetchAllTasks());
   }, [dispatch]);
 
-  // Debug logging
-  useEffect(() => {
-    console.log("Dashboard Debug:", {
-      tasks,
-      tasksStatus,
-      tasksLength: tasks?.length,
-      tasksIsArray: Array.isArray(tasks),
-    });
-  }, [tasks, tasksStatus]);
   // Calculate events statistics
   const totalEvents = dashboardItems.length;
   const upcomingEvents = dashboardItems.filter(
