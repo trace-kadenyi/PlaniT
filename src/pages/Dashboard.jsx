@@ -55,14 +55,6 @@ const Dashboards = () => {
   ).length;
   const completedTasks = tasks.filter((task) => task.status === "done").length;
 
-  // Get tasks by priority
-  // Calculate tasks assigned to current user safely
-  const assignedToCurrentUser = currentUser
-    ? tasks.filter(
-        (task) => task.assignedTo && task.assignedTo._id === currentUser._id
-      ).length
-    : 0;
-
   // Calculate total budget across all events
   const totalBudget = dashboardItems.reduce((sum, event) => {
     const budget = event.budgetStatus?.totalBudget || 0;
