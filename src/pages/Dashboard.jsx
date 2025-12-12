@@ -29,6 +29,8 @@ const Dashboards = () => {
 
   // Get users data from Redux store
   const { users } = useSelector((state) => state.organization);
+  // Add this line to get the current user
+  const currentUser = useSelector((state) => state.auth.user);
 
   // Fetch events and tasks data when component mounts
   useEffect(() => {
@@ -54,12 +56,12 @@ const Dashboards = () => {
   const completedTasks = tasks.filter((task) => task.status === "done").length;
 
   // Get tasks by priority
-  const highPriorityTasks = tasks.filter(
-    (task) => task.priority === "high"
-  ).length;
-  const assignedToCurrentUser = tasks.filter(
-    (task) => task.assignedTo && task.assignedTo._id === user?._id
-  ).length;
+  // Calculate tasks assigned to current user safely
+  const assignedToCurrentUser = currentUser
+    ? tasks.filter(
+        (task) => task.assignedTo && task.assignedTo._id === currentUser._id
+      ).length
+    : 0;
 
   // Calculate total budget across all events
   const totalBudget = dashboardItems.reduce((sum, event) => {
