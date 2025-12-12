@@ -88,8 +88,8 @@ const Dashboards = () => {
 
   // Get recent tasks (closest deadlines)
   const sortedRecentTasks = [...tasks]
-    .filter((task) => task.status !== "done" && task.dueDate)
-    .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+    .filter((task) => task.status !== "Completed" && task.deadline)
+    .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
     .slice(0, 3);
 
   // Group events by status for quick overview
@@ -202,8 +202,8 @@ const Dashboards = () => {
     if (diffDays === 0) return "Today";
     if (diffDays === 1) return "Tomorrow";
     if (diffDays < 0) return "Overdue";
-    if (diffDays < 7) return `In ${diffDays} days`;
-    if (diffDays < 30) return `In ${Math.floor(diffDays / 7)} weeks`;
+    if (diffDays < 7) return `Due in ${diffDays} days`;
+    if (diffDays < 30) return `Due in ${Math.floor(diffDays / 7)} weeks`;
     return date.toLocaleDateString("default", {
       month: "short",
       day: "numeric",
@@ -492,14 +492,14 @@ const Dashboards = () => {
                         </div>
                         <span
                           className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ml-2 ${
-                            task.status === "done"
+                            task.status === "Completed"
                               ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
-                              : task.status === "in-progress"
+                              : task.status === "In Progress"
                               ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
                               : "bg-[#F59E0B]/10 text-[#F59E0B]"
                           }`}
                         >
-                          {formatDate(task.dueDate)}
+                          {formatDate(task.deadline)}
                         </span>
                       </li>
                     ))
