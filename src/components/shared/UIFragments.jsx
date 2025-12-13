@@ -18,6 +18,15 @@ export function EventStatusPill({ status }) {
   );
 }
 
+// Dashboards Progress Bar
+export function DashEventsBar(status) {
+  if (status === "Completed") return "bg-green-500";
+  if (status === "Cancelled") return "bg-red-500";
+  if (status === "In Progress") return "bg-[#9B2C62]";
+  return "bg-blue-500";
+}
+
+
 // tasks status colours
 export function TaskStatusPill({ status }) {
   return (
