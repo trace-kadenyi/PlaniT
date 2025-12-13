@@ -445,7 +445,7 @@ const Dashboards = () => {
                             {event.type} • {event.location.city}
                           </p>
                         </div>
-                        <span className="text-xs px-2 py-1 bg-[#F59E0B]/10 text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
+                        <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
                           {formatDate(event.date)}
                         </span>
                       </li>
