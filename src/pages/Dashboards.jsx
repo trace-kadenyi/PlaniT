@@ -246,24 +246,21 @@ const Dashboards = () => {
   }
 
   return (
-    <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
+    <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:px-10 sm:pt-10 pb-15">
       {/* Header Section */}
       <div className="max-w-7xl mx-auto">
         <div className="relative mb-8">
           <div className="absolute -top-4 -left-4 w-20 h-20 bg-[#F59E0B]/10 rounded-full blur-lg dark:bg-[#F59E0B]/20"></div>
           <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#9B2C62]/10 rounded-full blur-lg dark:bg-[#9B2C62]/20"></div>
 
-          <div className="relative z-10">
-            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-4">
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-10 mb-2 sm:my-2 text-center">
               Dashboards
             </h1>
-            {/* <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-2xl">
-              {totalEvents > 0 || totalTasks > 0
-                ? `Managing ${totalEvents} events and ${totalTasks} tasks with ${
-                    users?.length || 0
-                  } team members`
-                : "Central hub for managing all your events, tasks, and analytics"}
-            </p> */}
+            <p className="text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-4">
+              Monitor everything at a glance - track upcoming events, pending
+              tasks and budget status from your centralized command center.
+            </p>
           </div>
         </div>
 
@@ -640,7 +637,7 @@ const Dashboards = () => {
         {totalEvents > 0 && (
           <div className="mt-10 text-center">
             <p className="text-gray-500 dark:text-gray-400 text-sm">
-              `Tracking ${totalEvents} events and ${totalTasks} tasks`
+              {`Tracking ${totalEvents} events and ${totalTasks} tasks`}
             </p>
           </div>
         )}
