@@ -157,8 +157,16 @@ const Dashboards = () => {
     {
       label: "Total Events",
       value: totalEvents.toString(),
-      change: `+${upcomingEvents} upcoming`,
+      change: `+${activeEvents} upcoming`,
       icon: Calendar,
+      color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
+      textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
+    },
+    {
+      label: "Completed Events",
+      value: (totalEvents - activeEvents).toString(),
+      change: `+${activeEvents} pending`,
+      icon: CalendarRange,
       color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
       textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
     },
