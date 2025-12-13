@@ -494,9 +494,7 @@ const Dashboards = () => {
                           className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ml-2 ${
                             task.status === "Completed"
                               ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
-                              : task.status === "In Progress"
-                              ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-                              : "bg-[#F59E0B]/10 text-[#F59E0B]"
+                              : "bg-[#F59E0B]/10 text-[#9B2C62] dark:text-[#F59E0B]"
                           }`}
                         >
                           {formatDate(task.deadline)}
