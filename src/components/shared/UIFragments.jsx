@@ -18,15 +18,6 @@ export function EventStatusPill({ status }) {
   );
 }
 
-// Dashboards Progress Bar
-export function DashEventsBar(status) {
-  if (status === "Completed") return "bg-green-500";
-  if (status === "Cancelled") return "bg-red-500";
-  if (status === "In Progress") return "bg-[#9B2C62]";
-  return "bg-blue-500";
-}
-
-
 // tasks status colours
 export function TaskStatusPill({ status }) {
   return (
@@ -44,6 +35,22 @@ export function TaskStatusPill({ status }) {
       {status}
     </span>
   );
+}
+
+// Dashboards Progress Bar
+export function DashEventsBar(status) {
+  if (status === "Completed") return "bg-green-500";
+  if (status === "Cancelled") return "bg-red-500";
+  if (status === "In Progress") return "bg-[#9B2C62]";
+  return "bg-blue-500";
+}
+
+// Tasks Progress Bar
+export function DashTasksBar(status) {
+  if (status === "Completed") return "bg-green-500";
+  if (status === "In Review") return "bg-purple-500";
+  if (status === "In Progress") return "bg-blue-300";
+  return "bg-gray-500"; // For "To Do" and default
 }
 
 // handle date
