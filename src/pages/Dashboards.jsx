@@ -580,7 +580,8 @@ const Dashboards = () => {
                           ></div>
                         </div>
                         <span className="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">
-                          {events.length} (
+                          {/* {events.length}  */}
+                          (
                           {Math.round(
                             (events.length / Math.max(totalEvents, 1)) * 100
                           )}
