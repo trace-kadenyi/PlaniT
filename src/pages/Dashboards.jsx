@@ -45,7 +45,7 @@ const Dashboards = () => {
   ).length;
 
   const activeEvents = dashboardItems.filter(
-    (event) => event.status === "in-progress" || event.status === "planning"
+    (event) => event.status === "In Progress" || event.status === "Planning"
   ).length;
 
   // Calculate tasks statistics
