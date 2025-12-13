@@ -89,21 +89,23 @@ const Dashboards = () => {
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .slice(0, 3);
 
-    // Get ACTIVE upcoming events sorted by date (closest first)
-const sortedActiveUpcomingEvents = [...dashboardItems]
-  .filter((event) => 
-    (event.status === "In Progress" || event.status === "Planning") && 
-    new Date(event.date) > new Date()
-  )
-  .sort((a, b) => new Date(a.date) - new Date(b.date))
-  .slice(0, 3);
+  // Get ACTIVE upcoming events (not completed, not cancelled) sorted by date
+  const sortedActiveUpcomingEvents = [...dashboardItems]
+    .filter(
+      (event) =>
+        (event.status === "In Progress" || event.status === "Planning") &&
+        new Date(event.date) > new Date() &&
+        event.status !== "Cancelled"
+    )
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 3);
 
-// Calculate count of active upcoming events
-const activeUpcomingEventsCount = dashboardItems.filter(
-  (event) => 
-    (event.status === "In Progress" || event.status === "Planning") && 
-    new Date(event.date) > new Date()
-).length;
+  // Calculate count of active upcoming events
+  const activeUpcomingEventsCount = dashboardItems.filter(
+    (event) =>
+      (event.status === "In Progress" || event.status === "Planning") &&
+      new Date(event.date) > new Date()
+  ).length;
 
   // Get recent tasks (closest deadlines)
   const sortedRecentTasks = [...tasks]
@@ -453,12 +455,12 @@ const activeUpcomingEventsCount = dashboardItems.filter(
                 <div className="flex items-center gap-3 mb-4">
                   <CalendarRange className="w-5 h-5 text-[#9B2C62] dark:text-[#F59E0B]" />
                   <h3 className="font-semibold text-gray-800 dark:text-white">
-                    Upcoming Events ({upcomingEvents})
+                    Upcoming Events ({activeUpcomingEventsCount})
                   </h3>
                 </div>
                 <ul className="space-y-3">
-                  {sortedUpcomingEvents.length > 0 ? (
-                    sortedUpcomingEvents.map((event, index) => (
+                  {sortedActiveUpcomingEvents.length > 0 ? (
+                    sortedActiveUpcomingEvents.map((event, index) => (
                       <li
                         key={event._id}
                         className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg hover:bg-white dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
