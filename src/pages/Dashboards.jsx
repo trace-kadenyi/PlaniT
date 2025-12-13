@@ -184,14 +184,6 @@ const Dashboards = () => {
       color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
       textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
     },
-    // {
-    //   label: "Team Members",
-    //   value: users?.length?.toString() || "0",
-    //   change: users?.length > 0 ? `${users.length} active` : "Add members",
-    //   icon: Users,
-    //   color: "bg-[#EA580C]/10 dark:bg-[#EA580C]/20",
-    //   textColor: "text-[#EA580C] dark:text-[#F59E0B]",
-    // },
     {
       label: "Total Budget",
       value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
