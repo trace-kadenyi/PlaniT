@@ -282,7 +282,7 @@ const Dashboards = () => {
                       (stat.label === "Total Budget" && totalExpenses === 0) ||
                       (stat.label === "Pending Tasks" && pendingTasks === 0)
                         ? "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                        : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                        : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                     }`}
                   >
                     {stat.change}
