@@ -89,6 +89,17 @@ const Dashboards = () => {
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .slice(0, 3);
 
+    // Get ACTIVE upcoming events sorted by date (closest first)
+const sortedActiveUpcomingEvents = [...dashboardItems]
+  .filter((event) => 
+    (event.status === "In Progress" || event.status === "Planning") && 
+    new Date(event.date) > new Date()
+  )
+  .sort((a, b) => new Date(a.date) - new Date(b.date))
+  .slice(0, 3);
+
+
+
   // Get recent tasks (closest deadlines)
   const sortedRecentTasks = [...tasks]
     .filter((task) => task.status !== "Completed" && task.deadline)
