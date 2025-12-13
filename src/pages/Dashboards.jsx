@@ -98,7 +98,12 @@ const sortedActiveUpcomingEvents = [...dashboardItems]
   .sort((a, b) => new Date(a.date) - new Date(b.date))
   .slice(0, 3);
 
-
+// Calculate count of active upcoming events
+const activeUpcomingEventsCount = dashboardItems.filter(
+  (event) => 
+    (event.status === "In Progress" || event.status === "Planning") && 
+    new Date(event.date) > new Date()
+).length;
 
   // Get recent tasks (closest deadlines)
   const sortedRecentTasks = [...tasks]
