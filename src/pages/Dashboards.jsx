@@ -637,29 +637,13 @@ const Dashboards = () => {
         )}
 
         {/* Footer Note */}
-        <div className="mt-10 text-center">
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            {totalEvents > 0 || totalTasks > 0
-              ? `Tracking ${totalEvents} events and ${totalTasks} tasks`
-              : "Get started by creating your first event or task"}
-          </p>
-          {totalEvents === 0 && totalTasks === 0 && (
-            <div className="mt-4 flex flex-col sm:flex-row gap-3 justify-center">
-              <button
-                onClick={() => navigate("/events/new")}
-                className="inline-flex items-center px-4 py-2 bg-[#9B2C62] text-white rounded-lg shadow hover:bg-[#801f4f] transition"
-              >
-                + Create Event
-              </button>
-              <button
-                onClick={() => navigate("/events")}
-                className="inline-flex items-center px-4 py-2 bg-[#F59E0B] text-white rounded-lg shadow hover:bg-[#D97706] transition"
-              >
-                + Add Task
-              </button>
-            </div>
-          )}
-        </div>
+        {totalEvents > 0 && (
+          <div className="mt-10 text-center">
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              `Tracking ${totalEvents} events and ${totalTasks} tasks`
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );
