@@ -490,6 +490,7 @@ const Dashboards = () => {
                             {task.eventName || "Event task"} • {task.priority}
                           </p>
                         </div>
+
                         <span
                           className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ml-2 ${
                             task.status === "Completed"
@@ -511,7 +512,7 @@ const Dashboards = () => {
                 </ul>
                 <button
                   onClick={() => navigate("/tasks/board")}
-                  className="mt-4 w-full py-2 text-sm font-medium text-[#F59E0B] dark:text-[#F59E0B] hover:bg-[#F59E0B]/5 dark:hover:bg-gray-700/30 rounded-lg transition-colors"
+                  className="mt-4 w-full py-2 text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:bg-[#F59E0B]/5 dark:hover:bg-gray-700/30 rounded-lg transition-colors"
                 >
                   {totalTasks > 0 ? "Manage All Tasks →" : "Add Tasks →"}
                 </button>
