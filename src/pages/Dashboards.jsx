@@ -405,11 +405,11 @@ const Dashboards = () => {
             <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
               Quick Overview
             </h2>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
+            {/* <span className="text-sm text-gray-500 dark:text-gray-400">
               {totalEvents > 0
                 ? `${totalEvents} events, ${totalTasks} tasks`
                 : "No data yet"}
-            </span>
+            </span> */}
           </div>
 
           {totalEvents === 0 && totalTasks === 0 ? (
