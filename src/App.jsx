@@ -28,7 +28,7 @@ import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
 import Users from "./pages/Users";
-import Dashboards from "./pages/Dashboard";
+import Dashboards from "./pages/Dashboards";
 
 function App() {
   const dispatch = useDispatch();
