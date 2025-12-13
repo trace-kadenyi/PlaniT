@@ -142,7 +142,7 @@ const Dashboards = () => {
       iconColor: "text-white",
       path: "/events/board",
       stats: "Active events",
-      statValue: activeEvents.toString(),
+      statValue: activeUpcomingEventsCount.toString(),
       features: ["Drag & Drop", "Budget Tracking", "Status Updates"],
     },
     {
@@ -178,15 +178,15 @@ const Dashboards = () => {
     {
       label: "Total Events",
       value: totalEvents.toString(),
-      change: `+${activeEvents} upcoming`,
+      change: `+${activeUpcomingEventsCount} upcoming`,
       icon: CalendarRange,
       color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
       textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
     },
     {
       label: "Completed Events",
-      value: (totalEvents - activeEvents).toString(),
-      change: `+${activeEvents} pending`,
+      value: (totalEvents - activeUpcomingEventsCount).toString(),
+      change: `+${activeUpcomingEventsCount} pending`,
       icon: CalendarCheck2,
       color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
       textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
