@@ -9,6 +9,7 @@ import {
   BarChart3,
   Users,
   FileText,
+  CircleDollarSign,
 } from "lucide-react";
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
@@ -193,7 +194,7 @@ const Dashboards = () => {
         totalExpenses > 0
           ? `$${totalExpenses.toLocaleString()} spent`
           : "No spending",
-      icon: FileText,
+      icon: CircleDollarSign,
       color: "bg-[#801f4f]/10 dark:bg-[#801f4f]/20",
       textColor: "text-[#801f4f] dark:text-[#F59E0B]",
     },
