@@ -192,7 +192,7 @@ const Dashboards = () => {
       value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
       change:
         totalExpenses > 0
-          ? `$${totalExpenses.toLocaleString()} spent`
+          ? `- $${totalExpenses.toLocaleString()}`
           : "No spending",
       icon: CircleDollarSign,
       color: "bg-[#801f4f]/10 dark:bg-[#801f4f]/20",
