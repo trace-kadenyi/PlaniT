@@ -176,8 +176,8 @@ const Dashboards = () => {
       value: pendingTasks.toString(),
       change: `${completedTasks} completed`,
       icon: CheckSquare,
-      color: "bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20",
-      textColor: "text-[#F59E0B] dark:text-[#F59E0B]",
+      color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
+      textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
     },
     // {
     //   label: "Team Members",
