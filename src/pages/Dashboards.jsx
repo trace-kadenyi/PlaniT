@@ -14,7 +14,7 @@ import {
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
-import { DashEventsBar } from "../components/shared/UIFragments";
+import { DashEventsBar, DashTasksBar } from "../components/shared/UIFragments";
 
 const Dashboards = () => {
   const navigate = useNavigate();
@@ -595,13 +595,6 @@ const Dashboards = () => {
                 {Object.entries(tasksByStatus).map(([status, tasksList]) => {
                   if (!tasksList || tasksList.length === 0) return null;
 
-                  const statusBarColors = {
-                    "To Do": "bg-gray-500",
-                    "In Progress": "bg-yellow-500",
-                    Completed: "bg-green-500",
-                    "In Review": "bg-blue-500",
-                  };
-
                   return (
                     <div
                       key={status}
@@ -613,9 +606,9 @@ const Dashboards = () => {
                       <div className="flex items-center gap-2">
                         <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                           <div
-                            className={`h-2 rounded-full ${
-                              statusBarColors[status] || "bg-gray-500"
-                            }`}
+                            className={`h-2 rounded-full ${DashTasksBar(
+                              status
+                            )}`}
                             style={{
                               width: `${
                                 (tasksList.length / Math.max(totalTasks, 1)) *
@@ -625,7 +618,7 @@ const Dashboards = () => {
                           ></div>
                         </div>
                         <span className="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">
-                          {/* {tasksList.length}  */}(
+                          (
                           {Math.round(
                             (tasksList.length / Math.max(totalTasks, 1)) * 100
                           )}
