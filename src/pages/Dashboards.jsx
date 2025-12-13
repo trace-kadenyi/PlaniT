@@ -14,6 +14,8 @@ import {
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
+import { DashEventsBar } from "../components/shared/UIFragments";
+
 const Dashboards = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -542,7 +544,6 @@ const Dashboards = () => {
                 {Object.entries(eventsByStatus).map(([status, events]) => {
                   if (events.length === 0 && totalEvents > 0) return null;
 
-
                   const statusLabels = {
                     planning: "Planning",
                     "in-progress": "In Progress",
@@ -561,15 +562,9 @@ const Dashboards = () => {
                       <div className="flex items-center gap-2">
                         <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                           <div
-                            className={`h-2 rounded-full ${
-                              status === "planning"
-                                ? "bg-blue-500"
-                                : status === "in-progress"
-                                ? "bg-yellow-500"
-                                : status === "completed"
-                                ? "bg-green-500"
-                                : "bg-red-500"
-                            }`}
+                            className={`h-2 rounded-full ${DashEventsBar(
+                              statusLabels[status]
+                            )}`}
                             style={{
                               width: `${
                                 (events.length / Math.max(totalEvents, 1)) * 100
