@@ -7,10 +7,10 @@ import {
   CheckSquare,
   TrendingUp,
   BarChart3,
-  Users,
-  FileText,
   CircleDollarSign,
+  CalendarCheck2,
 } from "lucide-react";
+
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
@@ -159,7 +159,7 @@ const Dashboards = () => {
       label: "Total Events",
       value: totalEvents.toString(),
       change: `+${activeEvents} upcoming`,
-      icon: Calendar,
+      icon: CalendarRange,
       color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
       textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
     },
@@ -167,7 +167,7 @@ const Dashboards = () => {
       label: "Completed Events",
       value: (totalEvents - activeEvents).toString(),
       change: `+${activeEvents} pending`,
-      icon: CalendarRange,
+      icon: CalendarCheck2,
       color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
       textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
     },
@@ -433,7 +433,7 @@ const Dashboards = () => {
               {/* Upcoming Events */}
               <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-5 border border-[#F3EDE9] dark:border-gray-600">
                 <div className="flex items-center gap-3 mb-4">
-                  <Calendar className="w-5 h-5 text-[#9B2C62] dark:text-[#F59E0B]" />
+                  <CalendarRange className="w-5 h-5 text-[#9B2C62] dark:text-[#F59E0B]" />
                   <h3 className="font-semibold text-gray-800 dark:text-white">
                     Upcoming Events ({upcomingEvents})
                   </h3>
