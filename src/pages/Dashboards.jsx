@@ -89,7 +89,7 @@ const Dashboards = () => {
   // Calculate total expenses across all events
   const totalExpenses = dashboardItems.reduce((sum, event) => {
     const expenses = event.budgetStatus?.totalExpenses || 0;
-    return sum + expenses;
+    return parseFloat((sum + expenses).toFixed(2));
   }, 0);
 
   // Get recent tasks (closest deadlines)
@@ -197,7 +197,10 @@ const Dashboards = () => {
       value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
       change:
         totalExpenses > 0
-          ? `- $${totalExpenses.toLocaleString()}`
+          ? `- $${totalExpenses.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`
           : "No spending",
       icon: CircleDollarSign,
       color: "bg-[#801f4f]/10 dark:bg-[#801f4f]/20",
