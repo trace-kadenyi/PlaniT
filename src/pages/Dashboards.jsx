@@ -67,10 +67,8 @@ const Dashboards = () => {
   const totalBudget = getTotalBudget(dashboardItems);
   const totalExpenses = getTotalExpenses(dashboardItems);
 
-  // Group events by status for quick overview
+  // Group events and tasks by status
   const eventsByStatus = groupEventByStatus(dashboardItems);
-
-  // Group tasks by status
   const tasksByStatus = groupTasksByStatus(tasks);
 
   const dashboardCards = [
