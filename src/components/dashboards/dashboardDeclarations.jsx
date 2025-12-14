@@ -52,3 +52,18 @@ export const getSortedRecentTasks = (tasks) => {
     .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
     .slice(0, 3);
 };
+
+// calculate budget stats
+export const getTotalBudget = (dashboardItems) => {
+  return dashboardItems.reduce((sum, event) => {
+    const budget = event.budgetStatus?.totalBudget || 0;
+    return sum + budget;
+  }, 0);
+};
+
+export const getTotalExpenses = (dashboardItems) => {
+  return dashboardItems.reduce((sum, event) => {
+    const expenses = event.budgetStatus?.totalExpenses || 0;
+    return parseFloat((sum + expenses).toFixed(2));
+  }, 0);
+};
