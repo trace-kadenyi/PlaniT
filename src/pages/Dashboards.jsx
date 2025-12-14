@@ -31,11 +31,6 @@ const Dashboards = () => {
     (state) => state.tasks
   );
 
-  // Get users data from Redux store
-  const { users } = useSelector((state) => state.organization);
-  // Add this line to get the current user
-  const currentUser = useSelector((state) => state.auth.user);
-
   // Fetch events and tasks data when component mounts
   useEffect(() => {
     dispatch(fetchEventsForDashboard());
