@@ -22,6 +22,7 @@ import {
   groupTasksByStatus,
 } from "../components/dashboards/dashboardDeclarations";
 import { createDashboardCards, createQuickStats } from "../data/dashboardData";
+import { formatDashDate } from "../globalUtils/dateHelpers";
 
 const Dashboards = () => {
   const navigate = useNavigate();
@@ -83,23 +84,23 @@ const Dashboards = () => {
     totalBudget,
   });
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "No date";
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = date - now;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  // const formatDate = (dateString) => {
+  //   if (!dateString) return "No date";
+  //   const date = new Date(dateString);
+  //   const now = new Date();
+  //   const diffTime = date - now;
+  //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return "Today";
-    if (diffDays === 1) return "Tomorrow";
-    if (diffDays < 0) return "Overdue";
-    if (diffDays < 7) return `Due in ${diffDays} days`;
-    if (diffDays < 30) return `Due in ${Math.floor(diffDays / 7)} weeks`;
-    return date.toLocaleDateString("default", {
-      month: "short",
-      day: "numeric",
-    });
-  };
+  //   if (diffDays === 0) return "Today";
+  //   if (diffDays === 1) return "Tomorrow";
+  //   if (diffDays < 0) return "Overdue";
+  //   if (diffDays < 7) return `Due in ${diffDays} days`;
+  //   if (diffDays < 30) return `Due in ${Math.floor(diffDays / 7)} weeks`;
+  //   return date.toLocaleDateString("default", {
+  //     month: "short",
+  //     day: "numeric",
+  //   });
+  // };
 
   // Loading state
   if (eventsStatus === "loading" || tasksStatus === "loading") {
@@ -326,7 +327,7 @@ const Dashboards = () => {
                           </p>
                         </div>
                         <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
-                          {formatDate(event.date)}
+                          {formatDashDate(event.date)}
                         </span>
                       </li>
                     ))
@@ -378,7 +379,7 @@ const Dashboards = () => {
                               : "bg-[#F59E0B]/10 text-[#9B2C62] dark:text-[#F59E0B]"
                           }`}
                         >
-                          {formatDate(task.deadline)}
+                          {formatDashDate(task.deadline)}
                         </span>
                       </li>
                     ))
