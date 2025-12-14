@@ -20,3 +20,9 @@ export const getActiveUpcomingEventsCount = (dashboardItems) => {
       new Date(event.date) > new Date()
   ).length;
 };
+
+// Calculate tasks statistics
+export const getTotalTasks = (tasks) => tasks.length;
+
+
+
