@@ -67,3 +67,16 @@ export const getTotalExpenses = (dashboardItems) => {
     return parseFloat((sum + expenses).toFixed(2));
   }, 0);
 };
+
+// Group events by status for quick overview
+
+export const groupEventByStatus = (dashboardItems) => {
+  return {
+    planning: dashboardItems.filter((event) => event.status === "Planning"),
+    "in-progress": dashboardItems.filter(
+      (event) => event.status === "In Progress"
+    ),
+    completed: dashboardItems.filter((event) => event.status === "Completed"),
+    cancelled: dashboardItems.filter((event) => event.status === "Cancelled"),
+  };
+};
