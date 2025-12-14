@@ -20,6 +20,9 @@ import {
   getTotalEvents,
   getActiveUpcomingEventsCount,
   getSortedActiveUpcomingEvents,
+  getTotalTasks,
+  getPendingTasks,
+  getCompletedTasks,
 } from "../components/dashboards/dashboardDeclarations";
 
 const Dashboards = () => {
@@ -50,24 +53,28 @@ const Dashboards = () => {
     getActiveUpcomingEventsCount(dashboardItems);
 
   // Calculate tasks statistics
-  const totalTasks = tasks.length;
-  const pendingTasks = Array.isArray(tasks)
-    ? tasks.filter((task) => {
-        const status = task?.status?.toLowerCase();
-        return (
-          status === "to do" ||
-          status === "in review" ||
-          status === "in progress"
-        );
-      }).length
-    : 0;
+  // const totalTasks = tasks.length;
+  // const pendingTasks = Array.isArray(tasks)
+  //   ? tasks.filter((task) => {
+  //       const status = task?.status?.toLowerCase();
+  //       return (
+  //         status === "to do" ||
+  //         status === "in review" ||
+  //         status === "in progress"
+  //       );
+  //     }).length
+  //   : 0;
 
-  const completedTasks = Array.isArray(tasks)
-    ? tasks.filter((task) => {
-        const status = task?.status?.toLowerCase();
-        return status === "completed";
-      }).length
-    : 0;
+  // const completedTasks = Array.isArray(tasks)
+  //   ? tasks.filter((task) => {
+  //       const status = task?.status?.toLowerCase();
+  //       return status === "completed";
+  //     }).length
+  //   : 0;
+
+  const totalTasks = getTotalTasks(tasks);
+  const pendingTasks = getPendingTasks(tasks);
+  const completedTasks = getCompletedTasks(tasks);
 
   // Calculate total budget across all events
   const totalBudget = dashboardItems.reduce((sum, event) => {
