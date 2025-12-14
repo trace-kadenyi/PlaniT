@@ -18,6 +18,7 @@ import MemberView from "../components/user/UserManagement/MemberView";
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import { GenLoadingState } from "../components/shared/LoadingStates";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -94,6 +95,10 @@ const Users = () => {
     }
   };
 
+  // loading state
+  if (status === "loading")
+    return <GenLoadingState message="Loading team members..." />;
+
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
       <AddUser
@@ -104,13 +109,6 @@ const Users = () => {
         setFormData={setFormData}
         addUserStatus={addUserStatus}
       />
-
-      {/* Status Messages */}
-      {status === "loading" && (
-        <div className="flex justify-center items-center min-h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
-        </div>
-      )}
 
       {/* Error Message */}
       {error && (
