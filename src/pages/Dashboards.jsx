@@ -84,21 +84,28 @@ const Dashboards = () => {
     totalBudget,
   });
 
-  // Loading state
-  if (eventsStatus === "loading" || tasksStatus === "loading") {
-    return (
-      <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-center items-center min-h-[400px]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
-          </div>
-        </div>
-      </main>
-    );
-  }
+  // // Loading state
+  // if (eventsStatus === "loading" || tasksStatus === "loading") {
+  //   return (
+  //     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
+  //       <div className="max-w-7xl mx-auto">
+  //         <div className="flex justify-center items-center min-h-[400px]">
+  //           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
+  //         </div>
+  //       </div>
+  //     </main>
+  //   );
+  // }
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:px-10 sm:pt-10 pb-15">
+      {/* loading state */}
+      {(eventsStatus === "loading" || tasksStatus === "loading") && (
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
+        </div>
+      )}
+
       {/* Header Section */}
       <div className="max-w-7xl mx-auto">
         <div className="relative mb-8">
