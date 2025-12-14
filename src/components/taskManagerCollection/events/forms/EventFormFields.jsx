@@ -5,7 +5,7 @@ import { Lock } from "lucide-react";
 import {
   formatLocalDateTimeForDisplay,
   getLocalDateTimeString,
-} from "../../utils/dateHelpers";
+} from "../../../../globalUtils/dateHelpers";
 import { NotPreselected, PreselectedClients } from "./eventFormHelpers";
 
 export default function EventFormFields({
