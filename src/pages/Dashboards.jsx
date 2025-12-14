@@ -16,6 +16,11 @@ import { fetchAllTasks } from "../redux/tasksSlice";
 
 import { DashEventsBar, DashTasksBar } from "../components/shared/UIFragments";
 import { truncateText } from "../components/taskManagerCollection/utils/formatting";
+import {
+  getTotalEvents,
+  getActiveUpcomingEventsCount,
+  getSortedActiveUpcomingEvents,
+} from "../components/dashboards/dashboardDeclarations";
 
 const Dashboards = () => {
   const navigate = useNavigate();
@@ -38,23 +43,29 @@ const Dashboards = () => {
   }, [dispatch]);
 
   // Calculate events statistics
-  const totalEvents = dashboardItems.length;
+  // const totalEvents = dashboardItems.length;
 
-  const sortedActiveUpcomingEvents = [...dashboardItems]
-    .filter(
-      (event) =>
-        (event.status === "In Progress" || event.status === "Planning") &&
-        new Date(event.date) > new Date() &&
-        event.status !== "Cancelled"
-    )
-    .sort((a, b) => new Date(a.date) - new Date(b.date))
-    .slice(0, 3);
+  // const sortedActiveUpcomingEvents = [...dashboardItems]
+  //   .filter(
+  //     (event) =>
+  //       (event.status === "In Progress" || event.status === "Planning") &&
+  //       new Date(event.date) > new Date() &&
+  //       event.status !== "Cancelled"
+  //   )
+  //   .sort((a, b) => new Date(a.date) - new Date(b.date))
+  //   .slice(0, 3);
 
-  const activeUpcomingEventsCount = dashboardItems.filter(
-    (event) =>
-      (event.status === "In Progress" || event.status === "Planning") &&
-      new Date(event.date) > new Date()
-  ).length;
+  // const activeUpcomingEventsCount = dashboardItems.filter(
+  //   (event) =>
+  //     (event.status === "In Progress" || event.status === "Planning") &&
+  //     new Date(event.date) > new Date()
+  // ).length;
+
+  const totalEvents = getTotalEvents(dashboardItems);
+  const sortedActiveUpcomingEvents =
+    getSortedActiveUpcomingEvents(dashboardItems);
+  const activeUpcomingEventsCount =
+    getActiveUpcomingEventsCount(dashboardItems);
 
   // Calculate tasks statistics
   const totalTasks = tasks.length;
