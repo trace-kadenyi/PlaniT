@@ -57,7 +57,6 @@ const Dashboards = () => {
   const totalTasks = getTotalTasks(tasks);
   const pendingTasks = getPendingTasks(tasks);
   const completedTasks = getCompletedTasks(tasks);
-  // Get recent tasks (closest deadlines)
   const sortedRecentTasks = getSortedRecentTasks(tasks);
 
   // Calculate total budget across all events
