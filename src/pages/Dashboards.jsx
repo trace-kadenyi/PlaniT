@@ -67,15 +67,7 @@ const Dashboards = () => {
   const totalExpenses = getTotalExpenses(dashboardItems);
 
   // Group events by status for quick overview
-  // const eventsByStatus = {
-  //   planning: dashboardItems.filter((event) => event.status === "Planning"),
-  //   "in-progress": dashboardItems.filter(
-  //     (event) => event.status === "In Progress"
-  //   ),
-  //   completed: dashboardItems.filter((event) => event.status === "Completed"),
-  //   cancelled: dashboardItems.filter((event) => event.status === "Cancelled"),
-  // };
-  const eventsByStatus = groupEventByStatus(dashboardItems);
+   const eventsByStatus = groupEventByStatus(dashboardItems);
 
   // Group tasks by status
   const tasksByStatus = {
