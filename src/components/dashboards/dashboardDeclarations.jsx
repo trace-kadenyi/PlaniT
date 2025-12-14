@@ -45,3 +45,10 @@ export const getCompletedTasks = (tasks) => {
       }).length
     : 0;
 };
+
+export const getSortedRecentTasks = (tasks) => {
+  return [...tasks]
+    .filter((task) => task.status !== "Completed" && task.deadline)
+    .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+    .slice(0, 3);
+};
