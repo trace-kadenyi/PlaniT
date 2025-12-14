@@ -15,6 +15,7 @@ import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
 import { DashEventsBar, DashTasksBar } from "../components/shared/UIFragments";
+import { truncateText } from "../components/taskManagerCollection/utils/formatting";
 
 const Dashboards = () => {
   const navigate = useNavigate();
@@ -217,14 +218,6 @@ const Dashboards = () => {
       month: "short",
       day: "numeric",
     });
-  };
-
-  // Format task title with truncation
-  const truncateText = (text, maxLength = 30) => {
-    if (!text) return "";
-    return text.length > maxLength
-      ? text.substring(0, maxLength) + "..."
-      : text;
   };
 
   // Loading state
