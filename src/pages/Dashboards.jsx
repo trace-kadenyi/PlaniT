@@ -29,7 +29,7 @@ import {
   groupEventByStatus,
   groupTasksByStatus,
 } from "../components/dashboards/dashboardDeclarations";
-import { createDashboardCards } from "../data/dashboardData";
+import { createDashboardCards, createQuickStats } from "../data/dashboardData";
 
 const Dashboards = () => {
   const navigate = useNavigate();
@@ -74,56 +74,64 @@ const Dashboards = () => {
 
   // dashboard cards
   const dashboardCards = createDashboardCards({
-    CalendarRange,
     activeUpcomingEventsCount,
-    CheckSquare,
     pendingTasks,
     totalTasks,
-    BarChart3,
     totalBudget,
   });
-  const quickStats = [
-    {
-      label: "Total Events",
-      value: totalEvents.toString(),
-      change: `+${activeUpcomingEventsCount} upcoming`,
-      icon: CalendarRange,
-      color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
-      textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
-    },
-    {
-      label: "Completed Events",
-      value: (totalEvents - activeUpcomingEventsCount).toString(),
-      change: `+${activeUpcomingEventsCount} pending`,
-      icon: CalendarCheck2,
-      color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
-      textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
-    },
-    {
-      label: "Pending Tasks",
-      value: pendingTasks.toString(),
-      change: `${completedTasks} completed`,
-      icon: CheckSquare,
-      color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
-      textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
-    },
-    {
-      label: "Total Budget",
-      value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
-      change:
-        totalExpenses > 0
-          ? `- $${totalExpenses.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}`
-          : "No spending",
-      icon: CircleDollarSign,
-      color: "bg-[#801f4f]/10 dark:bg-[#801f4f]/20",
-      textColor: "text-[#801f4f] dark:text-[#F59E0B]",
-    },
-  ];
+  // const quickStats = [
+  //   {
+  //     label: "Total Events",
+  //     value: totalEvents.toString(),
+  //     change: `+${activeUpcomingEventsCount} upcoming`,
+  //     icon: CalendarRange,
+  //     color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
+  //     textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
+  //   },
+  //   {
+  //     label: "Completed Events",
+  //     value: (totalEvents - activeUpcomingEventsCount).toString(),
+  //     change: `+${activeUpcomingEventsCount} pending`,
+  //     icon: CalendarCheck2,
+  //     color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
+  //     textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
+  //   },
+  //   {
+  //     label: "Pending Tasks",
+  //     value: pendingTasks.toString(),
+  //     change: `${completedTasks} completed`,
+  //     icon: CheckSquare,
+  //     color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
+  //     textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
+  //   },
+  //   {
+  //     label: "Total Budget",
+  //     value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
+  //     change:
+  //       totalExpenses > 0
+  //         ? `- $${totalExpenses.toLocaleString("en-US", {
+  //             minimumFractionDigits: 2,
+  //             maximumFractionDigits: 2,
+  //           })}`
+  //         : "No spending",
+  //     icon: CircleDollarSign,
+  //     color: "bg-[#801f4f]/10 dark:bg-[#801f4f]/20",
+  //     textColor: "text-[#801f4f] dark:text-[#F59E0B]",
+  //   },
+  // ];
 
   // Format date for display
+
+  const quickStats = createQuickStats({
+    totalEvents,
+    activeUpcomingEventsCount,
+    activeUpcomingEventsCount,
+    pendingTasks,
+    completedTasks,
+    totalExpenses,
+    totalBudget,
+  });
+
   const formatDate = (dateString) => {
     if (!dateString) return "No date";
     const date = new Date(dateString);
