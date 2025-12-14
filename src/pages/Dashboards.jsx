@@ -79,49 +79,8 @@ const Dashboards = () => {
     totalTasks,
     totalBudget,
   });
-  // const quickStats = [
-  //   {
-  //     label: "Total Events",
-  //     value: totalEvents.toString(),
-  //     change: `+${activeUpcomingEventsCount} upcoming`,
-  //     icon: CalendarRange,
-  //     color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
-  //     textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
-  //   },
-  //   {
-  //     label: "Completed Events",
-  //     value: (totalEvents - activeUpcomingEventsCount).toString(),
-  //     change: `+${activeUpcomingEventsCount} pending`,
-  //     icon: CalendarCheck2,
-  //     color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
-  //     textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
-  //   },
-  //   {
-  //     label: "Pending Tasks",
-  //     value: pendingTasks.toString(),
-  //     change: `${completedTasks} completed`,
-  //     icon: CheckSquare,
-  //     color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
-  //     textColor: "text-[#9B2C62] dark:text-[#F59E0B]",
-  //   },
-  //   {
-  //     label: "Total Budget",
-  //     value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
-  //     change:
-  //       totalExpenses > 0
-  //         ? `- $${totalExpenses.toLocaleString("en-US", {
-  //             minimumFractionDigits: 2,
-  //             maximumFractionDigits: 2,
-  //           })}`
-  //         : "No spending",
-  //     icon: CircleDollarSign,
-  //     color: "bg-[#801f4f]/10 dark:bg-[#801f4f]/20",
-  //     textColor: "text-[#801f4f] dark:text-[#F59E0B]",
-  //   },
-  // ];
 
-  // Format date for display
-
+  // quick stats
   const quickStats = createQuickStats({
     totalEvents,
     activeUpcomingEventsCount,
