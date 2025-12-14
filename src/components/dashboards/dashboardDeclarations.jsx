@@ -24,5 +24,16 @@ export const getActiveUpcomingEventsCount = (dashboardItems) => {
 // Calculate tasks statistics
 export const getTotalTasks = (tasks) => tasks.length;
 
-
+export const getPendingTasks = (tasks) => {
+  return Array.isArray(tasks)
+    ? tasks.filter((task) => {
+        const status = task?.status?.toLowerCase();
+        return (
+          status === "to do" ||
+          status === "in review" ||
+          status === "in progress"
+        );
+      }).length
+    : 0;
+};
 
