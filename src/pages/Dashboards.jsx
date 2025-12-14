@@ -52,26 +52,7 @@ const Dashboards = () => {
   const activeUpcomingEventsCount =
     getActiveUpcomingEventsCount(dashboardItems);
 
-  // Calculate tasks statistics
-  // const totalTasks = tasks.length;
-  // const pendingTasks = Array.isArray(tasks)
-  //   ? tasks.filter((task) => {
-  //       const status = task?.status?.toLowerCase();
-  //       return (
-  //         status === "to do" ||
-  //         status === "in review" ||
-  //         status === "in progress"
-  //       );
-  //     }).length
-  //   : 0;
-
-  // const completedTasks = Array.isArray(tasks)
-  //   ? tasks.filter((task) => {
-  //       const status = task?.status?.toLowerCase();
-  //       return status === "completed";
-  //     }).length
-  //   : 0;
-
+  // tasks statistics
   const totalTasks = getTotalTasks(tasks);
   const pendingTasks = getPendingTasks(tasks);
   const completedTasks = getCompletedTasks(tasks);
