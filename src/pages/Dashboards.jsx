@@ -24,6 +24,8 @@ import {
   getPendingTasks,
   getCompletedTasks,
   getSortedRecentTasks,
+  getTotalBudget,
+  getTotalExpenses,
 } from "../components/dashboards/dashboardDeclarations";
 
 const Dashboards = () => {
@@ -59,17 +61,9 @@ const Dashboards = () => {
   const completedTasks = getCompletedTasks(tasks);
   const sortedRecentTasks = getSortedRecentTasks(tasks);
 
-  // Calculate total budget across all events
-  const totalBudget = dashboardItems.reduce((sum, event) => {
-    const budget = event.budgetStatus?.totalBudget || 0;
-    return sum + budget;
-  }, 0);
-
-  // Calculate total expenses across all events
-  const totalExpenses = dashboardItems.reduce((sum, event) => {
-    const expenses = event.budgetStatus?.totalExpenses || 0;
-    return parseFloat((sum + expenses).toFixed(2));
-  }, 0);
+  // budget stats
+  const totalBudget = getTotalBudget(dashboardItems);
+  const totalExpenses = getTotalExpenses(dashboardItems);
 
   // Group events by status for quick overview
   const eventsByStatus = {
