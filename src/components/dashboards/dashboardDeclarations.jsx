@@ -37,3 +37,11 @@ export const getPendingTasks = (tasks) => {
     : 0;
 };
 
+export const getCompletedTasks = (tasks) => {
+  return Array.isArray(tasks)
+    ? tasks.filter((task) => {
+        const status = task?.status?.toLowerCase();
+        return status === "completed";
+      }).length
+    : 0;
+};
