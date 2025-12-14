@@ -23,6 +23,7 @@ import {
   getTotalTasks,
   getPendingTasks,
   getCompletedTasks,
+  getSortedRecentTasks,
 } from "../components/dashboards/dashboardDeclarations";
 
 const Dashboards = () => {
@@ -56,6 +57,8 @@ const Dashboards = () => {
   const totalTasks = getTotalTasks(tasks);
   const pendingTasks = getPendingTasks(tasks);
   const completedTasks = getCompletedTasks(tasks);
+  // Get recent tasks (closest deadlines)
+  const sortedRecentTasks = getSortedRecentTasks(tasks);
 
   // Calculate total budget across all events
   const totalBudget = dashboardItems.reduce((sum, event) => {
@@ -68,12 +71,6 @@ const Dashboards = () => {
     const expenses = event.budgetStatus?.totalExpenses || 0;
     return parseFloat((sum + expenses).toFixed(2));
   }, 0);
-
-  // Get recent tasks (closest deadlines)
-  const sortedRecentTasks = [...tasks]
-    .filter((task) => task.status !== "Completed" && task.deadline)
-    .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
-    .slice(0, 3);
 
   // Group events by status for quick overview
   const eventsByStatus = {
