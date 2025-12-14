@@ -1,15 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Calendar,
-  CalendarRange,
-  CheckSquare,
-  TrendingUp,
-  BarChart3,
-  CircleDollarSign,
-  CalendarCheck2,
-} from "lucide-react";
+import { Calendar, CalendarRange, CheckSquare, TrendingUp } from "lucide-react";
 
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
@@ -72,14 +64,6 @@ const Dashboards = () => {
   const eventsByStatus = groupEventByStatus(dashboardItems);
   const tasksByStatus = groupTasksByStatus(tasks);
 
-  // dashboard cards
-  const dashboardCards = createDashboardCards({
-    activeUpcomingEventsCount,
-    pendingTasks,
-    totalTasks,
-    totalBudget,
-  });
-
   // quick stats
   const quickStats = createQuickStats({
     totalEvents,
@@ -88,6 +72,14 @@ const Dashboards = () => {
     pendingTasks,
     completedTasks,
     totalExpenses,
+    totalBudget,
+  });
+
+  // dashboard cards
+  const dashboardCards = createDashboardCards({
+    activeUpcomingEventsCount,
+    pendingTasks,
+    totalTasks,
     totalBudget,
   });
 
