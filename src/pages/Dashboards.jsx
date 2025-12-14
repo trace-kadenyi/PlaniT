@@ -84,24 +84,6 @@ const Dashboards = () => {
     totalBudget,
   });
 
-  // const formatDate = (dateString) => {
-  //   if (!dateString) return "No date";
-  //   const date = new Date(dateString);
-  //   const now = new Date();
-  //   const diffTime = date - now;
-  //   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  //   if (diffDays === 0) return "Today";
-  //   if (diffDays === 1) return "Tomorrow";
-  //   if (diffDays < 0) return "Overdue";
-  //   if (diffDays < 7) return `Due in ${diffDays} days`;
-  //   if (diffDays < 30) return `Due in ${Math.floor(diffDays / 7)} weeks`;
-  //   return date.toLocaleDateString("default", {
-  //     month: "short",
-  //     day: "numeric",
-  //   });
-  // };
-
   // Loading state
   if (eventsStatus === "loading" || tasksStatus === "loading") {
     return (
