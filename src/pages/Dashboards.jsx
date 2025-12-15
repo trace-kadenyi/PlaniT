@@ -6,7 +6,6 @@ import { Calendar } from "lucide-react";
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
-import { DashEventsBar, DashTasksBar } from "../components/shared/UIFragments";
 import {
   getTotalEvents,
   getActiveUpcomingEventsCount,
