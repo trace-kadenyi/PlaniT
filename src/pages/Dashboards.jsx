@@ -152,7 +152,7 @@ const Dashboards = () => {
           {quickStats.map((stat, index) => (
             <QuickStats
               stat={stat}
-              index={index}
+              key={index}
               totalExpenses={totalExpenses}
               pendingTasks={pendingTasks}
             />
