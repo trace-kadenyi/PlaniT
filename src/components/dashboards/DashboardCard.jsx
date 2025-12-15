@@ -1,6 +1,6 @@
 import { TrendingUp } from "lucide-react";
 
-function DashboardCard({ dashboard, navigate, totalTasks }) {
+function DashboardCard({ dashboard, navigate }) {
   return (
     <div
       key={dashboard.id}
