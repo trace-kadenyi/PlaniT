@@ -26,6 +26,7 @@ import { formatDashDate } from "../globalUtils/dateHelpers";
 import { GenLoadingState } from "../components/shared/LoadingStates";
 import {
   DashboardPageError,
+  DashboardSectionError,
 } from "../components/dashboards/DashboardErrorStates";
 
 const Dashboards = () => {
@@ -301,35 +302,44 @@ const Dashboards = () => {
                     Upcoming Events ({activeUpcomingEventsCount})
                   </h3>
                 </div>
-                <ul className="space-y-3">
-                  {sortedActiveUpcomingEvents.length > 0 ? (
-                    sortedActiveUpcomingEvents.map((event, index) => (
-                      <li
-                        key={event._id}
-                        className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg hover:bg-white dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
-                        onClick={() => navigate(`/events/${event._id}`)}
-                      >
-                        <div className="flex-1 min-w-0">
-                          <p className="text-gray-700 dark:text-gray-300 font-medium truncate">
-                            {event.name}
-                          </p>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            {event.type} • {event.location.city}
-                          </p>
-                        </div>
-                        <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
-                          {formatDashDate(event.date)}
-                        </span>
+                {!eventsFailed ? (
+                  <DashboardSectionError
+                    title="Events unavailable"
+                    description="We couldn’t load upcoming events."
+                    onRetry={() => dispatch(fetchEventsForDashboard())}
+                  />
+                ) : (
+                  <ul className="space-y-3">
+                    {sortedActiveUpcomingEvents.length > 0 ? (
+                      sortedActiveUpcomingEvents.map((event, index) => (
+                        <li
+                          key={event._id}
+                          className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg hover:bg-white dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
+                          onClick={() => navigate(`/events/${event._id}`)}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <p className="text-gray-700 dark:text-gray-300 font-medium truncate">
+                              {event.name}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              {event.type} • {event.location.city}
+                            </p>
+                          </div>
+                          <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
+                            {formatDashDate(event.date)}
+                          </span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-gray-500 dark:text-gray-400 text-sm p-3 text-center">
+                        {totalEvents > 0
+                          ? "No upcoming events"
+                          : "No events created"}
                       </li>
-                    ))
-                  ) : (
-                    <li className="text-gray-500 dark:text-gray-400 text-sm p-3 text-center">
-                      {totalEvents > 0
-                        ? "No upcoming events"
-                        : "No events created"}
-                    </li>
-                  )}
-                </ul>
+                    )}
+                  </ul>
+                )}
+
                 <button
                   onClick={() => navigate("/events/board")}
                   className="mt-4 w-full py-2 text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:bg-[#9B2C62]/5 dark:hover:bg-gray-700/30 rounded-lg transition-colors"
