@@ -50,6 +50,7 @@ const Dashboards = () => {
     dispatch(fetchAllTasks());
   }, [dispatch]);
 
+  // handle success/failure
   useEffect(() => {
     if (
       (eventsStatus === "succeeded" || eventsStatus === "failed") &&
@@ -288,6 +289,7 @@ const Dashboards = () => {
             </span> */}
           </div>
 
+          {/* Upcoming events and tasks */}
           {totalEvents === 0 && totalTasks === 0 ? (
             <div className="text-center py-8">
               <Calendar className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
@@ -361,44 +363,6 @@ const Dashboards = () => {
                     )}
                   </ul>
                 )}
-                {/* {!eventsFailed ? (
-                  <DashboardSectionError
-                    title="Events unavailable"
-                    description="We couldn’t load upcoming events."
-                    onRetry={() => dispatch(fetchEventsForDashboard())}
-                  />
-                ) : (
-                  <ul className="space-y-3">
-                    {sortedActiveUpcomingEvents.length > 0 ? (
-                      sortedActiveUpcomingEvents.map((event, index) => (
-                        <li
-                          key={event._id}
-                          className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg hover:bg-white dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
-                          onClick={() => navigate(`/events/${event._id}`)}
-                        >
-                          <div className="flex-1 min-w-0">
-                            <p className="text-gray-700 dark:text-gray-300 font-medium truncate">
-                              {event.name}
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                              {event.type} • {event.location.city}
-                            </p>
-                          </div>
-                          <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
-                            {formatDashDate(event.date)}
-                          </span>
-                        </li>
-                      ))
-                    ) : (
-                      <li className="text-gray-500 dark:text-gray-400 text-sm p-3 text-center">
-                        {totalEvents > 0
-                          ? "No upcoming events"
-                          : "No events created"}
-                      </li>
-                    )}
-                  </ul>
-                )} */}
-
                 {eventsStatus !== "loading" && (
                   <button
                     onClick={() => navigate("/events/board")}
