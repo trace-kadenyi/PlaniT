@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Calendar, CalendarRange, CheckSquare, TrendingUp } from "lucide-react";
@@ -32,6 +32,7 @@ import {
 const Dashboards = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const hasHydrated = useRef(false);
 
   // Get events data from Redux store
   const { dashboardItems, dashboardStatus: eventsStatus } = useSelector(
@@ -48,6 +49,15 @@ const Dashboards = () => {
     dispatch(fetchEventsForDashboard());
     dispatch(fetchAllTasks());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      (eventsStatus === "succeeded" || eventsStatus === "failed") &&
+      (tasksStatus === "succeeded" || tasksStatus === "failed")
+    ) {
+      hasHydrated.current = true;
+    }
+  }, [eventsStatus, tasksStatus]);
 
   // events statistics
   const totalEvents = getTotalEvents(dashboardItems);
@@ -89,14 +99,23 @@ const Dashboards = () => {
     totalBudget,
   });
 
-  // // Loading state
-  if (eventsStatus === "loading" || tasksStatus === "loading") {
+  const isInitialBlocking =
+    !hasHydrated.current &&
+    ((eventsStatus !== "succeeded" && eventsStatus !== "failed") ||
+      (tasksStatus !== "succeeded" && tasksStatus !== "failed"));
+
+  if (isInitialBlocking) {
     return <GenLoadingState message="Loading dashboard..." />;
   }
+
+  // // Loading state
+  // if (eventsStatus === "loading" || tasksStatus === "loading") {
+  //   return <GenLoadingState message="Loading dashboard..." />;
+  // }
   const eventsFailed = eventsStatus === "failed";
   const tasksFailed = tasksStatus === "failed";
 
-  if (!eventsFailed && tasksFailed) {
+  if (eventsFailed && tasksFailed) {
     return (
       <DashboardPageError
         onRetry={() => {
@@ -302,7 +321,12 @@ const Dashboards = () => {
                     Upcoming Events ({activeUpcomingEventsCount})
                   </h3>
                 </div>
-                {!eventsFailed ? (
+
+                {eventsStatus === "loading" ? (
+                  <div className="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                    Loading events…
+                  </div>
+                ) : eventsStatus !== "failed" ? (
                   <DashboardSectionError
                     title="Events unavailable"
                     description="We couldn’t load upcoming events."
@@ -339,13 +363,52 @@ const Dashboards = () => {
                     )}
                   </ul>
                 )}
+                {/* {!eventsFailed ? (
+                  <DashboardSectionError
+                    title="Events unavailable"
+                    description="We couldn’t load upcoming events."
+                    onRetry={() => dispatch(fetchEventsForDashboard())}
+                  />
+                ) : (
+                  <ul className="space-y-3">
+                    {sortedActiveUpcomingEvents.length > 0 ? (
+                      sortedActiveUpcomingEvents.map((event, index) => (
+                        <li
+                          key={event._id}
+                          className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg hover:bg-white dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
+                          onClick={() => navigate(`/events/${event._id}`)}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <p className="text-gray-700 dark:text-gray-300 font-medium truncate">
+                              {event.name}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              {event.type} • {event.location.city}
+                            </p>
+                          </div>
+                          <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
+                            {formatDashDate(event.date)}
+                          </span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-gray-500 dark:text-gray-400 text-sm p-3 text-center">
+                        {totalEvents > 0
+                          ? "No upcoming events"
+                          : "No events created"}
+                      </li>
+                    )}
+                  </ul>
+                )} */}
 
-                <button
-                  onClick={() => navigate("/events/board")}
-                  className="mt-4 w-full py-2 text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:bg-[#9B2C62]/5 dark:hover:bg-gray-700/30 rounded-lg transition-colors"
-                >
-                  View All Events →
-                </button>
+                {eventsStatus !== "loading" && (
+                  <button
+                    onClick={() => navigate("/events/board")}
+                    className="mt-4 w-full py-2 text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:bg-[#9B2C62]/5 dark:hover:bg-gray-700/30 rounded-lg transition-colors"
+                  >
+                    View All Events →
+                  </button>
+                )}
               </div>
 
               {/* Recent Tasks */}
