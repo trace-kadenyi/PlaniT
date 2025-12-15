@@ -99,6 +99,7 @@ const Dashboards = () => {
     totalBudget,
   });
 
+  // handle initial loading state
   const isInitialBlocking =
     !hasHydrated.current &&
     ((eventsStatus !== "succeeded" && eventsStatus !== "failed") ||
@@ -108,10 +109,7 @@ const Dashboards = () => {
     return <GenLoadingState message="Loading dashboard..." />;
   }
 
-  // // Loading state
-  // if (eventsStatus === "loading" || tasksStatus === "loading") {
-  //   return <GenLoadingState message="Loading dashboard..." />;
-  // }
+  // handle failed state
   const eventsFailed = eventsStatus === "failed";
   const tasksFailed = tasksStatus === "failed";
 
@@ -326,7 +324,7 @@ const Dashboards = () => {
                   <div className="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
                     Loading events…
                   </div>
-                ) : eventsStatus !== "failed" ? (
+                ) : eventsFailed ? (
                   <DashboardSectionError
                     title="Events unavailable"
                     description="We couldn’t load upcoming events."
