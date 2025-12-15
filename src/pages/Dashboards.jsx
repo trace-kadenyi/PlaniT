@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Calendar } from "lucide-react";
 
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
