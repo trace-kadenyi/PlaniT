@@ -31,3 +31,30 @@ export function DashboardPageError({ onRetry }) {
     </div>
   );
 }
+
+/* ===============================
+   Section-Level Error (Cards)
+================================ */
+export function DashboardSectionError({ title, description, onRetry }) {
+  return (
+    <div className="flex flex-col items-center justify-center text-center p-6 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-200 dark:border-[#F59E0B]/40">
+      <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400 mb-3" />
+
+      <h4 className="font-semibold text-gray-800 dark:text-white mb-1">
+        {title}
+      </h4>
+
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+        {description}
+      </p>
+
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+      >
+        <RotateCcw className="w-4 h-4" />
+        Retry
+      </button>
+    </div>
+  );
+}
