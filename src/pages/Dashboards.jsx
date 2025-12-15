@@ -26,7 +26,7 @@ import DashboardCard from "../components/dashboards/DashboardCard";
 import QuickStats from "../components/dashboards/QuickStats";
 import DashboardOverview from "../components/dashboards/DashboardOverview";
 import DashboardProgressStats from "../components/dashboards/DashboardProgressStats";
-import { NoEvent } from "../components/shared/NoEvent";
+import NoEvent from "../components/shared/NoEvent";
 
 const Dashboards = () => {
   const navigate = useNavigate();
