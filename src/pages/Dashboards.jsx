@@ -430,52 +430,6 @@ const Dashboards = () => {
                     )}
                   </ul>
                 )}
-
-                {/* {!tasksFailed ? (
-                  <DashboardSectionError
-                    title="Tasks unavailable"
-                    description="We couldn’t load your tasks."
-                    onRetry={() => dispatch(fetchAllTasks())}
-                  />
-                ) : (
-                  <ul className="space-y-3">
-                    {sortedRecentTasks.length > 0 ? (
-                      sortedRecentTasks.map((task, index) => (
-                        <li
-                          key={task._id}
-                          className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg hover:bg-white dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
-                          onClick={() => navigate(`/events/${task.eventId}`)}
-                        >
-                          <div className="flex-1 min-w-0">
-                            <p className="text-gray-700 dark:text-gray-300 font-medium truncate">
-                              {truncateText(task.title, 25)}
-                            </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                              {task.eventName || "Event task"} • {task.priority}
-                            </p>
-                          </div>
-
-                          <span
-                            className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ml-2 ${
-                              task.status === "Completed"
-                                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
-                                : "bg-[#F59E0B]/10 text-[#9B2C62] dark:text-[#F59E0B]"
-                            }`}
-                          >
-                            {formatDashDate(task.deadline)}
-                          </span>
-                        </li>
-                      ))
-                    ) : (
-                      <li className="text-gray-500 dark:text-gray-400 text-sm p-3 text-center">
-                        {totalTasks > 0
-                          ? "No tasks with upcoming deadlines"
-                          : "No tasks created"}
-                      </li>
-                    )}
-                  </ul>
-                )} */}
-
                 {tasksStatus !== "loading" && (
                   <button
                     onClick={() => navigate("/tasks/board")}
