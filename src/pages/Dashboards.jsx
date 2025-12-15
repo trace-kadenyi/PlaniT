@@ -26,6 +26,7 @@ import DashboardCard from "../components/dashboards/DashboardCard";
 import QuickStats from "../components/dashboards/QuickStats";
 import DashboardOverview from "../components/dashboards/DashboardOverview";
 import DashboardProgressStats from "../components/dashboards/DashboardProgressStats";
+import { NoEvent } from "../components/shared/NoEvent";
 
 const Dashboards = () => {
   const navigate = useNavigate();
@@ -176,26 +177,7 @@ const Dashboards = () => {
 
           {/* Upcoming events and tasks */}
           {totalEvents === 0 && totalTasks === 0 ? (
-            <div className="text-center py-8">
-              <Calendar className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Get started by creating your first event or task
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <button
-                  onClick={() => navigate("/events/new")}
-                  className="inline-flex items-center px-4 py-2 bg-[#9B2C62] text-white rounded-lg shadow hover:bg-[#801f4f] transition"
-                >
-                  + Create Event
-                </button>
-                <button
-                  onClick={() => navigate("/events")}
-                  className="inline-flex items-center px-4 py-2 bg-[#F59E0B] text-white rounded-lg shadow hover:bg-[#D97706] transition"
-                >
-                  + Add Task
-                </button>
-              </div>
-            </div>
+            <NoEvent />
           ) : (
             <DashboardOverview
               activeUpcomingEventsCount={activeUpcomingEventsCount}
