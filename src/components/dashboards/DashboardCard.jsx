@@ -4,7 +4,9 @@ function DashboardCard({ dashboard, navigate }) {
   return (
     <div
       key={dashboard.id}
-      className="group relative bg-gradient-to-br from-white to-[#FFF8F2] dark:from-gray-800/80 dark:to-gray-900/80 rounded-2xl border border-[#F3EDE9] dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+      className={`group relative bg-gradient-to-br from-white to-[#FFF8F2] dark:from-gray-800/80 dark:to-gray-900/80 rounded-2xl border border-[#F3EDE9] dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${
+        dashboard.id !== "analytics" && `hover:-translate-y-1`
+      }`}
       onClick={() =>
         dashboard.path &&
         dashboard.id !== "analytics" &&
