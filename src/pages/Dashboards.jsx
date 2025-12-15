@@ -24,6 +24,9 @@ import {
 import { createDashboardCards, createQuickStats } from "../data/dashboardData";
 import { formatDashDate } from "../globalUtils/dateHelpers";
 import { GenLoadingState } from "../components/shared/LoadingStates";
+import {
+  DashboardPageError,
+} from "../components/dashboards/DashboardErrorStates";
 
 const Dashboards = () => {
   const navigate = useNavigate();
@@ -88,6 +91,19 @@ const Dashboards = () => {
   // // Loading state
   if (eventsStatus === "loading" || tasksStatus === "loading") {
     return <GenLoadingState message="Loading dashboard..." />;
+  }
+  const eventsFailed = eventsStatus === "failed";
+  const tasksFailed = tasksStatus === "failed";
+
+  if (!eventsFailed && tasksFailed) {
+    return (
+      <DashboardPageError
+        onRetry={() => {
+          dispatch(fetchEventsForDashboard());
+          dispatch(fetchAllTasks());
+        }}
+      />
+    );
   }
 
   return (
