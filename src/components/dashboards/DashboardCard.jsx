@@ -72,7 +72,7 @@ function DashboardCard({ dashboard, navigate, totalTasks }) {
                   .replace(
                     "bg-gradient-to-br",
                     "bg"
-                  )} text-white hover:opacity-90`
+                  )} text-black dark:text-white hover:opacity-90 hover:bg-[#9B2C62]/5 dark:hover:bg-gray-700/30`
           }`}
           disabled={dashboard.id === "analytics"}
         >
