@@ -4,10 +4,10 @@ function DashboardCard({ dashboard, navigate, totalTasks }) {
   return (
     <div
       key={dashboard.id}
-      className="group relative bg-gradient-to-br from-white to-[#FFF8F2] dark:from-gray-800/80 dark:to-gray-900/80 rounded-2xl border border-[#F3EDE9] dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 cursor-pointer"
+      className="group relative bg-gradient-to-br from-white to-[#FFF8F2] dark:from-gray-800/80 dark:to-gray-900/80 rounded-2xl border border-[#F3EDE9] dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
       onClick={() =>
         dashboard.path &&
-        (dashboard.id === "tasks" ? totalTasks > 0 : true) &&
+        dashboard.id !== "analytics" &&
         navigate(dashboard.path)
       }
     >
@@ -65,8 +65,7 @@ function DashboardCard({ dashboard, navigate, totalTasks }) {
             dashboard.path && navigate(dashboard.path);
           }}
           className={`w-full py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
-            dashboard.id === "analytics" ||
-            (dashboard.id === "tasks" && totalTasks === 0)
+            dashboard.id === "analytics"
               ? "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 cursor-not-allowed"
               : `${dashboard.color
                   .split(" ")[0]
@@ -75,16 +74,9 @@ function DashboardCard({ dashboard, navigate, totalTasks }) {
                     "bg"
                   )} text-white hover:opacity-90`
           }`}
-          disabled={
-            dashboard.id === "analytics" ||
-            (dashboard.id === "tasks" && totalTasks === 0)
-          }
+          disabled={dashboard.id === "analytics"}
         >
-          {dashboard.id === "analytics"
-            ? "Coming Soon"
-            : dashboard.id === "tasks" && totalTasks === 0
-            ? "No Tasks Yet"
-            : "Open Dashboard"}
+          {dashboard.id === "analytics" ? "Coming Soon" : "Open Dashboard"}
           <TrendingUp className="w-4 h-4" />
         </button>
       </div>
