@@ -161,7 +161,6 @@ const Dashboards = () => {
               key={dashboard.id}
               dashboard={dashboard}
               navigate={navigate}
-              totalTasks={totalTasks}
             />
           ))}
         </div>
