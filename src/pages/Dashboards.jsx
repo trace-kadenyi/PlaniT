@@ -1,13 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Calendar, CalendarRange, CheckSquare } from "lucide-react";
+import { Calendar } from "lucide-react";
 
 import { fetchEventsForDashboard } from "../redux/eventsSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
 import { DashEventsBar, DashTasksBar } from "../components/shared/UIFragments";
-import { truncateText } from "../components/taskManagerCollection/utils/formatting";
 import {
   getTotalEvents,
   getActiveUpcomingEventsCount,
@@ -22,12 +21,8 @@ import {
   groupTasksByStatus,
 } from "../components/dashboards/dashboardDeclarations";
 import { createDashboardCards, createQuickStats } from "../data/dashboardData";
-import { formatDashDate } from "../globalUtils/dateHelpers";
 import { GenLoadingState } from "../components/shared/LoadingStates";
-import {
-  DashboardPageError,
-  DashboardSectionError,
-} from "../components/dashboards/DashboardErrorStates";
+import { DashboardPageError } from "../components/dashboards/DashboardErrorStates";
 import DashboardCard from "../components/dashboards/DashboardCard";
 import QuickStats from "../components/dashboards/QuickStats";
 import DashboardOverview from "../components/dashboards/DashboardOverview";
