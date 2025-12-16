@@ -158,7 +158,7 @@ export default function ExpenseFormFields({
       </div>
       {/* Payment Date (shown when status is paid) */}
       {form.paymentStatus === "paid" && (
-        <div>
+        <div className="relative">
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Payment Date <span className="text-red-500">*</span>
           </label>
@@ -170,6 +170,9 @@ export default function ExpenseFormFields({
             onChange={handleDateChange}
             className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300"
           />
+          <div className="absolute right-3 top-11 transform -translate-y-1/2 pointer-events-none">
+            <CustomCalendar />
+          </div>
         </div>
       )}
       {/* Due Date (shown when status is pending) */}
