@@ -160,7 +160,11 @@ export default function BudgetTab({
       {expensesArray.length > 0 && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900">
           {/* tabs List View & By Category */}
-          <ExpenseTab activeView={activeView} setActiveView={setActiveView} />
+          <ExpenseTab
+            activeView={activeView}
+            setActiveView={setActiveView}
+            expenses={expensesArray}
+          />
 
           {activeView === "list" ? (
             <ul className="space-y-4">
