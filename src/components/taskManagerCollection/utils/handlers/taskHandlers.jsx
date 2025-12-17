@@ -32,3 +32,30 @@ export const createTaskDeleteHandler = (
     );
   };
 };
+
+// task event id
+export const getTaskEventId = (task) => {
+  if (!task) return null;
+
+  if (typeof task.eventId === "object" && task.eventId !== null) {
+    return task.eventId._id || task.eventId.id || task.eventId;
+  }
+
+  return task.eventId;
+};
+
+export const navigateToTask = (navigate, task) => {
+  const eventId = getTaskEventId(task);
+
+  if (eventId && task._id) {
+    navigate(`/events/${eventId}/#${task._id}`);
+  } else {
+    console.warn("Cannot navigate to task - missing IDs:", task);
+    // Fallback options
+    if (task._id) {
+      navigate(`/tasks/board#${task._id}`);
+    } else {
+      navigate("/tasks/board");
+    }
+  }
+};
