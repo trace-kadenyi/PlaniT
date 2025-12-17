@@ -6,6 +6,7 @@ import {
 } from "../../globalUtils/dateHelpers";
 import { truncateText } from "../taskManagerCollection/utils/formatting";
 import { DashboardSectionError } from "./DashboardErrorStates";
+import { navigateToTask } from "../taskManagerCollection/utils/handlers/taskHandlers";
 
 function DashboardOverview({
   activeUpcomingEventsCount,
@@ -108,7 +109,7 @@ function DashboardOverview({
                 <li
                   key={task._id}
                   className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg hover:bg-white dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
-                  onClick={() => navigate(`/events/${task.eventId}`)}
+                  onClick={() => navigateToTask(navigate, task)}
                 >
                   <div className="flex-1 min-w-0">
                     <p className="text-gray-700 dark:text-gray-300 font-medium truncate">
