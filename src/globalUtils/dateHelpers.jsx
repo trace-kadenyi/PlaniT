@@ -68,7 +68,7 @@ export const getDateBadgeClass = (date) => {
   const baseClasses = "text-xs px-2 py-1 rounded-full whitespace-nowrap ml-2";
 
   const urgentClasses =
-    "text-red-600 font-semibold bg-red-200 dark:bg-red-400/10";
+    "text-red-600 dark:text-red-500 font-semibold bg-red-200 dark:bg-red-400/10";
 
   const normalClasses = "text-[#9B2C62] dark:text-[#F59E0B] bg-[#F59E0B]/10";
 
