@@ -57,7 +57,16 @@ function DashboardOverview({
                       {event.type} • {event.location.city}
                     </p>
                   </div>
-                  <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
+                  {/* <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
+                    {formatDashDate(event.date)}
+                  </span> */}
+                  <span
+                    className={`text-xs px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2 ${
+                     formatDashDate(event.date).includes("day") ||  formatDashDate(event.date).includes("Tomorrow") ||  formatDashDate(event.date).includes("Today") ||  formatDashDate(event.date).includes("Overdue")
+                        ? "text-red-600 dark:text-red-500 font-semibold bg-red-200 dark:bg-red-400/20"
+                        : "text-[#9B2C62] dark:text-[#F59E0B] bg-[#F59E0B]/10"
+                    }`}
+                  >
                     {formatDashDate(event.date)}
                   </span>
                 </li>
@@ -120,7 +129,11 @@ function DashboardOverview({
                     className={`text-xs px-2 py-1 rounded-full whitespace-nowrap ml-2 ${
                       task.status === "Completed"
                         ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
-                        : "bg-[#F59E0B]/10 text-[#9B2C62] dark:text-[#F59E0B]"
+                        : ""
+                    } ${
+                      formatDashDate(task.deadline).includes("day")
+                        ? "text-red-600 dark:text-red-500 font-semibold bg-red-200 dark:bg-red-400/20"
+                        : "text-[#9B2C62] dark:text-[#F59E0B] bg-[#F59E0B]/10"
                     }`}
                   >
                     {formatDashDate(task.deadline)}
