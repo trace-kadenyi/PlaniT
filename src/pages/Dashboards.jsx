@@ -209,7 +209,9 @@ const Dashboards = () => {
         {totalEvents > 0 && (
           <div className="mt-10 text-center">
             <p className="text-gray-500 dark:text-gray-400 text-sm">
-              {`Tracking ${totalEvents} events and ${totalTasks} tasks`}
+              {`Tracking ${totalEvents} ${
+                totalEvents > 0 ? "events" : "event"
+              } and ${totalTasks}  ${totalTasks > 0 ? "tasks" : "task"}`}
             </p>
           </div>
         )}
