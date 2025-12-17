@@ -1,6 +1,9 @@
 import { CalendarRange, CheckSquare } from "lucide-react";
 
-import { formatDashDate, getDateBadgeClass } from "../../globalUtils/dateHelpers";
+import {
+  formatDashDate,
+  getDateBadgeClass,
+} from "../../globalUtils/dateHelpers";
 import { truncateText } from "../taskManagerCollection/utils/formatting";
 import { DashboardSectionError } from "./DashboardErrorStates";
 
@@ -124,11 +127,7 @@ function DashboardOverview({
                       task.status === "Completed"
                         ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
                         : ""
-                    } ${
-                      formatDashDate(task.deadline).includes("day")
-                        ? "text-red-600 dark:text-red-500 font-semibold bg-red-200 dark:bg-red-400/20"
-                        : "text-[#9B2C62] dark:text-[#F59E0B] bg-[#F59E0B]/10"
-                    }`}
+                    } ${getDateBadgeClass(task.deadline)}`}
                   >
                     {formatDashDate(task.deadline)}
                   </span>
