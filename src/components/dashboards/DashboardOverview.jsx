@@ -60,9 +60,6 @@ function DashboardOverview({
                       {event.type} • {event.location.city}
                     </p>
                   </div>
-                  {/* <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
-                    {formatDashDate(event.date)}
-                  </span> */}
                   <span className={getDateBadgeClass(event.date)}>
                     {formatDashDate(event.date)}
                   </span>
