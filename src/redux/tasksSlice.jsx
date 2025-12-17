@@ -20,7 +20,14 @@ export const fetchAllTasks = createAsyncThunk(
   "events/fetchAllTasks",
   async () => {
     const res = await api.get("/api/tasks");
-    return res.data;
+    return res.data.map((task) => ({
+      ...task,
+      eventId:
+        typeof task.eventId === "object"
+          ? task.eventId._id || task.eventId.id
+          : task.eventId,
+      eventName: task.eventName || task.event?.name || "Event",
+    }));
   }
 );
 
