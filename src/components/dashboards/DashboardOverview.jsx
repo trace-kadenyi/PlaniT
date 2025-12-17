@@ -1,6 +1,6 @@
 import { CalendarRange, CheckSquare } from "lucide-react";
 
-import { formatDashDate } from "../../globalUtils/dateHelpers";
+import { formatDashDate, getDateBadgeClass } from "../../globalUtils/dateHelpers";
 import { truncateText } from "../taskManagerCollection/utils/formatting";
 import { DashboardSectionError } from "./DashboardErrorStates";
 
@@ -60,13 +60,7 @@ function DashboardOverview({
                   {/* <span className="text-xs text-[#9B2C62] px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2">
                     {formatDashDate(event.date)}
                   </span> */}
-                  <span
-                    className={`text-xs px-2 py-1 bg-[#F59E0B]/10 dark:text-[#F59E0B] rounded-full whitespace-nowrap ml-2 ${
-                     formatDashDate(event.date).includes("day") ||  formatDashDate(event.date).includes("Tomorrow") ||  formatDashDate(event.date).includes("Today") ||  formatDashDate(event.date).includes("Overdue")
-                        ? "text-red-600 dark:text-red-500 font-semibold bg-red-200 dark:bg-red-400/20"
-                        : "text-[#9B2C62] dark:text-[#F59E0B] bg-[#F59E0B]/10"
-                    }`}
-                  >
+                  <span className={getDateBadgeClass(event.date)}>
                     {formatDashDate(event.date)}
                   </span>
                 </li>
