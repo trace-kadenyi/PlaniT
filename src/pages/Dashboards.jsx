@@ -83,7 +83,6 @@ const Dashboards = () => {
   const quickStats = createQuickStats({
     totalEvents,
     activeUpcomingEventsCount,
-    activeUpcomingEventsCount,
     pendingTasks,
     completedTasks,
     totalExpenses,
