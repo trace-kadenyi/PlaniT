@@ -48,14 +48,13 @@ export const navigateToTask = (navigate, task) => {
   const eventId = getTaskEventId(task);
 
   if (eventId && task._id) {
-    navigate(`/events/${eventId}/#${task._id}`);
+    navigate(`/events/${eventId}`, {
+      state: {
+        scrollToTaskId: task._id,
+        scrollNonce: Date.now(),
+      },
+    });
   } else {
-    console.warn("Cannot navigate to task - missing IDs:", task);
-    // Fallback options
-    if (task._id) {
-      navigate(`/tasks/board#${task._id}`);
-    } else {
-      navigate("/tasks/board");
-    }
+    navigate("/tasks/board");
   }
 };
