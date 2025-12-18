@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -28,7 +28,6 @@ export default function Event() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const hasScrolledToTaskRef = useRef(false);
   const scrollTaskId = location.state?.scrollToTaskId;
   const scrollNonce = location.state?.scrollNonce;
 
