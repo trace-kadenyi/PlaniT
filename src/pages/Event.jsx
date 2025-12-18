@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
@@ -21,11 +21,16 @@ import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
 import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
 import EventDetailsCard from "../components/taskManagerCollection/events/EventDetailsCard";
+import { useSmoothScrollToTask } from "../components/taskManagerCollection/hooks/useSmoothScrollToTask";
 
 export default function Event() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const hasScrolledToTaskRef = useRef(false);
+  const scrollTaskId = location.state?.scrollToTaskId;
+  const scrollNonce = location.state?.scrollNonce;
 
   //  initialize
   const [activeTab, setActiveTab] = useState("tasks");
@@ -34,6 +39,7 @@ export default function Event() {
   const eventsState = useSelector((state) => state.events);
   const tasksState = useSelector((state) => state.tasks);
   const expensesState = useSelector((state) => state.expenses);
+  const event = eventsState.selectedEvent;
 
   // fetch tasks
   useEffect(() => {
@@ -43,7 +49,14 @@ export default function Event() {
     dispatch(fetchTasks(id));
   }, [dispatch, id]);
 
-  const event = eventsState.selectedEvent;
+  useEffect(() => {
+    if (scrollTaskId) {
+      setActiveTab("tasks");
+    }
+  }, [scrollTaskId]);
+
+  // handle smooth scrolling for task
+  useSmoothScrollToTask(scrollTaskId, scrollNonce, id);
 
   // Helper function to ensure unique vendors
   const getUniqueVendors = (vendors) => {
@@ -61,9 +74,6 @@ export default function Event() {
       setLocalVendors(getUniqueVendors(event.vendors));
     }
   }, [event?.vendors]);
-
-  // In your Event component, add this useEffect:
-  useEffect(() => {}, [localVendors]);
 
   // handle event loading state
   if (
