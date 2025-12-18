@@ -48,12 +48,18 @@ export const navigateToTask = (navigate, task) => {
   const eventId = getTaskEventId(task);
 
   if (eventId && task._id) {
-    navigate(`/events/${eventId}`, {
-      state: {
-        scrollToTaskId: task._id,
-        scrollNonce: Date.now(),
-      },
-    });
+    // Clear any existing state first
+    navigate(`/events/${eventId}`, { replace: true, state: {} });
+
+    // Then navigate with scroll state
+    setTimeout(() => {
+      navigate(`/events/${eventId}`, {
+        state: {
+          scrollToTaskId: task._id,
+          scrollNonce: Date.now(),
+        },
+      });
+    }, 0);
   } else {
     navigate("/tasks/board");
   }
