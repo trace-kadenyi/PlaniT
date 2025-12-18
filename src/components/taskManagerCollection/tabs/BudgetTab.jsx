@@ -122,7 +122,7 @@ export default function BudgetTab({
 
       {/* with budget/no expenses added  */}
       {!hasNoBudget && expensesArray.length === 0 && !isLoading && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:border-l-[#F59E0B]">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] border-l-[#F59E0B] dark:border-l-[#F59E0B]">
           <p className="text-gray-600 dark:text-gray-400">
             No expenses added yet.
           </p>
@@ -160,7 +160,11 @@ export default function BudgetTab({
       {expensesArray.length > 0 && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900">
           {/* tabs List View & By Category */}
-          <ExpenseTab activeView={activeView} setActiveView={setActiveView} />
+          <ExpenseTab
+            activeView={activeView}
+            setActiveView={setActiveView}
+            expenses={expensesArray}
+          />
 
           {activeView === "list" ? (
             <ul className="space-y-4">

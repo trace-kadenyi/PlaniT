@@ -6,19 +6,26 @@ import {
   FileText,
   HelpCircle,
   CalendarRange as CalendarBoard,
-  ClipboardList as TasksBoard,
+  // ClipboardList as TasksBoard,
+  CheckSquare as TasksBoard,
   UserCog,
   Sun,
   Group,
+  Home,
 } from "lucide-react";
 
 // navlinks data
 export const navLinks = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/" },
+  { icon: Home, label: "Home", path: "/" },
   {
     icon: Calendar,
     label: "Events Manager",
     path: "/events",
+  },
+  {
+    icon: LayoutDashboard,
+    label: "Dashboards",
+    path: "/dashboards",
     children: [
       { icon: CalendarBoard, label: "Events Board", path: "/events/board" },
       { icon: TasksBoard, label: "Tasks Board", path: "/tasks/board" },

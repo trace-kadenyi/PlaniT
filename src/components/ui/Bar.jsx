@@ -115,7 +115,7 @@ export function SecondaryLinks({
 }) {
   return (
     <div className="mt-8 border-t border-[#9B2C62]/20 pt-4">
-      {navLinks.slice(4).map((item) => (
+      {navLinks.slice(5).map((item) => (
         <div key={item.path}>
           <Link
             to={item.path}

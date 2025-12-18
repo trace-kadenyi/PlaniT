@@ -36,7 +36,7 @@ export default function DeleteConfirmationToast({
       confirm: "Yes, Delete Vendor",
     },
     vendors: {
-      warning: "This will permanently all the vendors.",
+      warning: "This will permanently delete all the vendors.",
       confirm: "Yes, Delete Vendors",
     },
     user: {

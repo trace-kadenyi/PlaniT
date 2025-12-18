@@ -24,7 +24,7 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
     <>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
-          Tasks
+          Tasks ({tasks.items.length})
         </h2>
         <button
           onClick={() => {

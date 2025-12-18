@@ -23,6 +23,7 @@ export default function TaskCard({
     <ul className="grid sm:grid-cols-2 gap-4">
       {sortedTasks.map((task) => (
         <li
+          id={task._id}
           key={task._id}
           className="relative bg-[#FFF9F5] border border-[#F3EDE9] rounded-xl shadow-md p-4 space-y-2 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
         >

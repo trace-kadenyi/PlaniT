@@ -30,7 +30,7 @@ export const createExpenseDeleteHandler = (
               .catch((err) => {
                 toast.dismiss(t.id);
                 taskToastProgress(
-                  <span className="font-semibold text-[#9B2C62]">
+                  <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
                     {err.message || err}
                   </span>
                 );

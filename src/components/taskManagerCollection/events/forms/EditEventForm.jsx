@@ -16,7 +16,7 @@ import { fetchVendors } from "../../../../redux/vendorsSlice";
 
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import EventFormFields from "./EventFormFields";
-import { formatForDateTimeLocal } from "../../utils/dateHelpers";
+import { formatForDateTimeLocal } from "../../../../globalUtils/dateHelpers";
 
 export default function EditEventForm() {
   const { id } = useParams();

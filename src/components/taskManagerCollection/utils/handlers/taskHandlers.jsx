@@ -32,3 +32,35 @@ export const createTaskDeleteHandler = (
     );
   };
 };
+
+// task event id
+export const getTaskEventId = (task) => {
+  if (!task) return null;
+
+  if (typeof task.eventId === "object" && task.eventId !== null) {
+    return task.eventId._id || task.eventId.id || task.eventId;
+  }
+
+  return task.eventId;
+};
+
+export const navigateToTask = (navigate, task) => {
+  const eventId = getTaskEventId(task);
+
+  if (eventId && task._id) {
+    // Clear any existing state first
+    navigate(`/events/${eventId}`, { replace: true, state: {} });
+
+    // Then navigate with scroll state
+    setTimeout(() => {
+      navigate(`/events/${eventId}`, {
+        state: {
+          scrollToTaskId: task._id,
+          scrollNonce: Date.now(),
+        },
+      });
+    }, 0);
+  } else {
+    navigate("/tasks/board");
+  }
+};

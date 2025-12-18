@@ -18,6 +18,8 @@ import MemberView from "../components/user/UserManagement/MemberView";
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import { GenLoadingState } from "../components/shared/LoadingStates";
+import { GenErrorState } from "../components/shared/ErrorStates";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -94,6 +96,10 @@ const Users = () => {
     }
   };
 
+  // loading state
+  if (status === "loading")
+    return <GenLoadingState message="Loading team members..." />;
+
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-3 sm:p-10 sm:pb-15">
       <AddUser
@@ -105,37 +111,14 @@ const Users = () => {
         addUserStatus={addUserStatus}
       />
 
-      {/* Status Messages */}
-      {status === "loading" && (
-        <div className="flex justify-center items-center min-h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#F59E0B]"></div>
-        </div>
-      )}
-
       {/* Error Message */}
       {error && (
-        <div className="error-message bg-red-100 dark:bg-red-900/20 border-l-4 border-red-500 dark:border-red-400 text-red-700 dark:text-red-200 p-4 mb-6 rounded flex items-start">
-          <div className="mr-3 mt-0.5 flex-shrink-0">
-            <svg
-              className="h-5 w-5 text-red-500 dark:text-red-400"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <div>
-            <p>{error}</p>
-          </div>
-        </div>
+        <GenErrorState
+          error={error}
+          message="We ran into an issue accessing your team members. Please try again later..."
+        />
       )}
+
       {/* Empty State */}
       {status === "succeeded" && users.length === 0 && (
         <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] text-center dark:bg-gray-800/80 dark:border-gray-700">

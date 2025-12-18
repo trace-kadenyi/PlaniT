@@ -37,6 +37,22 @@ export function TaskStatusPill({ status }) {
   );
 }
 
+// Dashboards Progress Bar
+export function DashEventsBar(status) {
+  if (status === "Completed") return "bg-green-500";
+  if (status === "Cancelled") return "bg-red-400";
+  if (status === "In Progress") return "bg-[#9B2C62]/60 dark:bg-[#9B2C62]";
+  return "bg-blue-400";
+}
+
+// Tasks Progress Bar
+export function DashTasksBar(status) {
+  if (status === "Completed") return "bg-emerald-500";
+  if (status === "In Review") return "bg-purple-500";
+  if (status === "In Progress") return "bg-[#F59E0B]";
+  return "bg-gray-500";
+}
+
 // handle date
 export function DatePill({ date, status }) {
   const baseStyles =
