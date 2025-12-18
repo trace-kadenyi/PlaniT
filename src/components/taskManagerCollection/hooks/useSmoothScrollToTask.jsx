@@ -1,17 +1,18 @@
-import { useEffect, useRef } from "react";
+// Simplified version without console logs
+import { useEffect, useId } from "react";
 
-export function useSmoothScrollToTask(scrollTaskId, scrollNonce, eventId) {
-  const hasScrolledToTaskRef = useRef(false);
-
-  // Reset the scroll flag when any of the dependencies change
-  useEffect(() => {
-    hasScrolledToTaskRef.current = false;
-  }, [scrollTaskId, scrollNonce, eventId]);
+export function useSmoothScrollToTask(scrollTaskId) {
+  const instanceId = useId();
 
   useEffect(() => {
     if (!scrollTaskId) return;
 
+    let hasScrolled = false;
+
     const highlightTask = (taskElement) => {
+      if (hasScrolled) return;
+      hasScrolled = true;
+
       taskElement.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -40,9 +41,8 @@ export function useSmoothScrollToTask(scrollTaskId, scrollNonce, eventId) {
 
     const tryScroll = () => {
       const el = document.getElementById(scrollTaskId);
-      if (el && !hasScrolledToTaskRef.current) {
-        hasScrolledToTaskRef.current = true;
-        setTimeout(() => highlightTask(el), 300);
+      if (el && !hasScrolled) {
+        setTimeout(() => highlightTask(el), 100);
         return true;
       }
       return false;
@@ -56,6 +56,11 @@ export function useSmoothScrollToTask(scrollTaskId, scrollNonce, eventId) {
 
     observer.observe(document.body, { childList: true, subtree: true });
 
-    return () => observer.disconnect();
-  }, [scrollTaskId, scrollNonce, eventId]);
+    const timeout = setTimeout(() => observer.disconnect(), 5000);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timeout);
+    };
+  }, [scrollTaskId, instanceId]);
 }
