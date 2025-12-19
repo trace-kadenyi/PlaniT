@@ -2,6 +2,7 @@ export const ROLES = {
   VIEWER: "viewer",
   EDITOR: "editor",
   ADMIN: "admin",
+  SUPER_ADMIN: "super_admin",
 };
 
 export const PERMISSIONS = {
@@ -15,6 +16,7 @@ export const PERMISSIONS = {
 export const ROLE_PERMISSIONS = {
   [ROLES.VIEWER]: [PERMISSIONS.VIEW],
   [ROLES.EDITOR]: [PERMISSIONS.VIEW, PERMISSIONS.CREATE, PERMISSIONS.EDIT],
+  [ROLES.SUPER_ADMIN]: Object.values(PERMISSIONS),
   [ROLES.ADMIN]: Object.values(PERMISSIONS),
 };
 
