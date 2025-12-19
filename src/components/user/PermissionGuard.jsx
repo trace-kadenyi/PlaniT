@@ -1,4 +1,4 @@
-import { hasPermission } from "../utils/permissions";
+import { hasPermission } from "../../globalUtils/permissions";
 
 const PermissionGuard = ({
   userRole,
