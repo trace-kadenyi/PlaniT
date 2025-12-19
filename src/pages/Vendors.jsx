@@ -21,6 +21,12 @@ import { VendorStatsLoading } from "../components/shared/LoadingStates";
 import { createAllVendorsDeleteHandler } from "../globalHandlers/createAllVendorsDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
+import {
+  usePermissions,
+  PERMISSIONS,
+  RESOURCES,
+} from "../globalHooks/userPermissions";
+import PermissionButton from "../components/ui/PermissionButton";
 
 export default function Vendors() {
   const dispatch = useDispatch();
@@ -28,8 +34,8 @@ export default function Vendors() {
   const [filterMode, setFilterMode] = useState("all");
 
   const { deleteAllStatus } = useSelector((state) => state.vendors);
-    const currentUser = useSelector((state) => state.auth.user);
-  
+  const currentUser = useSelector((state) => state.auth.user);
+  const { can, isRole } = usePermissions();
 
   const {
     searchTerm,
@@ -93,12 +99,16 @@ export default function Vendors() {
                 className="pl-10 pr-4 py-2 border border-[#E3CBC1] rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-none dark:bg-gray-700/60 dark:text-white"
               />
             </div>
-            <button
+            <PermissionButton
+              permission={PERMISSIONS.CREATE}
+              resource={RESOURCES.VENDOR}
               onClick={() => navigate("/vendors/new")}
+              tooltipTitle="Create a new vendor"
+              fallbackTooltip="Upgrade to Planner or Admin role to create vendors"
               className="bg-[#9B2C62] hover:bg-[#801f4f] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
             >
               <Plus className="w-5 h-5" /> New Vendor
-            </button>
+            </PermissionButton>
           </div>
         </div>
 
@@ -130,9 +140,14 @@ export default function Vendors() {
 
           {filteredVendors.length > 0 && (
             <div className="w-max mx-auto sm:mx-0">
-              <button
+              <PermissionButton
+                permission={PERMISSIONS.DELETE_ALL}
+                resource={RESOURCES.VENDOR}
                 onClick={handleDeleteAll}
+                loading={deleteAllStatus === "loading"}
                 disabled={deleteAllStatus === "loading"}
+                tooltipTitle="Delete all vendors"
+                fallbackTooltip="Admin role required to delete all vendors"
                 className={`bg-[#9B2C62] hover:bg-[#801f4f] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
                   deleteAllStatus === "loading"
                     ? "opacity-50 cursor-not-allowed"
@@ -142,7 +157,7 @@ export default function Vendors() {
                 {deleteAllStatus === "loading"
                   ? "Deleting..."
                   : "Delete All vendors"}
-              </button>
+              </PermissionButton>
             </div>
           )}
         </div>
