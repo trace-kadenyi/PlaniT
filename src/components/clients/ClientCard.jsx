@@ -1,4 +1,5 @@
-import { Mail, Trash2, Edit3, RefreshCcw, Archive } from "lucide-react";
+import { Mail } from "lucide-react";
+
 import {
   ArchiveClientBtn,
   DeleteClientBtn,
