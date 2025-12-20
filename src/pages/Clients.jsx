@@ -24,7 +24,10 @@ import {
   RESOURCES,
 } from "../globalHooks/userPermissions";
 import PermissionButton from "../components/ui/PermissionButton";
-import { AddFirstClientBtn } from "../components/buttons/ClientButtons";
+import {
+  AddFirstClientBtn,
+  CreateClientBtn,
+} from "../components/buttons/ClientButtons";
 
 export default function Clients() {
   const dispatch = useDispatch();
@@ -133,16 +136,7 @@ export default function Clients() {
                 }}
               />
             </div>
-            <PermissionButton
-              permission={PERMISSIONS.CREATE}
-              resource={RESOURCES.CLIENT}
-              onClick={() => navigate("/clients/new")}
-              tooltipTitle="Create a new client"
-              fallbackTooltip="Upgrade to Planner or Admin role to create clients"
-              className="bg-[#F59E0B] dark:bg-[#D97706] hover:bg-[#D97706] hover:dark:bg-[#F59E0B] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
-            >
-              <Plus className="w-5 h-5" /> New Client
-            </PermissionButton>
+            <CreateClientBtn navigate={navigate} />
           </div>
         </div>
 
