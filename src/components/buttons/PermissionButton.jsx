@@ -41,7 +41,7 @@ const PermissionButton = ({
   };
 
   const sharedClassName = `${className} ${
-    shouldDisable ? "opacity-60 cursor-not-allowed" : ""
+    shouldDisable ? "opacity-90 cursor-not-allowed" : ""
   }`;
 
   // Loading spinner
