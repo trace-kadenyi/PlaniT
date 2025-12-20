@@ -1,4 +1,3 @@
-// components/ui/PermissionButton.jsx - CLEAN VERSION
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Tooltip } from "@mui/material";
