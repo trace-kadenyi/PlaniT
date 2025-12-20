@@ -25,26 +25,4 @@ export default function EditDeleteEvent({ navigate, eventID, handleDelete }) {
   );
 }
 
-// edit and delete buttons for the event details page
-export function EventDetailsBtns({ navigate, eventID, handleDelete }) {
-  return (
-    <div className="absolute top-5 right-4 flex space-x-2">
-      <button
-        onClick={() => navigate(`/events/${eventID}/edit`)}
-        className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer dark:bg-[#F59E0B]/30 dark:text-gray-300 dark:hover:bg-[#F59E0B]/40"
-        title="Edit"
-      >
-        <Pencil className="w-3 h-3" />
-        <span>Edit</span>
-      </button>
-      <button
-        onClick={handleDelete}
-        className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-red-100/30 text-red-600 hover:bg-red-200 transition text-xs cursor-pointer dark:bg-red-600/30 dark:text-white dark:hover:bg-red-600/70"
-        title="Delete"
-      >
-        <Trash2 className="w-3 h-3" />
-        <span>Delete</span>
-      </button>
-    </div>
-  );
-}
+
