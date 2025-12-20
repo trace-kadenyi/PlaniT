@@ -18,4 +18,21 @@ export const CreateVendorBtn = ({ navigate }) => {
   );
 };
 
-
+export const DeleteAllVendorsBtn = ({ handleDeleteAll, deleteAllStatus }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.DELETE_ALL}
+      resource={RESOURCES.VENDOR}
+      onClick={handleDeleteAll}
+      loading={deleteAllStatus === "loading"}
+      disabled={deleteAllStatus === "loading"}
+      tooltipTitle="Delete all vendors"
+      fallbackTooltip="Admin role required to delete all vendors"
+      className={`bg-[#9B2C62] hover:bg-[#801f4f] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
+        deleteAllStatus === "loading" ? "opacity-50 cursor-not-allowed" : ""
+      }`}
+    >
+      {deleteAllStatus === "loading" ? "Deleting..." : "Delete All vendors"}
+    </PermissionButton>
+  );
+};
