@@ -27,6 +27,7 @@ import PermissionButton from "../components/ui/PermissionButton";
 import {
   AddFirstClientBtn,
   CreateClientBtn,
+  DeleteAllClientsBtn,
 } from "../components/buttons/ClientButtons";
 
 export default function Clients() {
@@ -171,24 +172,10 @@ export default function Clients() {
           {/* delete all clients btn */}
           {filteredClients.length > 0 && (
             <div className="w-max mx-auto sm:mx-0">
-              <PermissionButton
-                permission={PERMISSIONS.DELETE_ALL}
-                resource={RESOURCES.CLIENT}
-                onClick={handleDeleteAll}
-                loading={deleteAllStatus === "loading"}
-                disabled={deleteAllStatus === "loading"}
-                tooltipTitle="Delete all clients"
-                fallbackTooltip="Admin role required to delete all clients"
-                className={`bg-[#9B2C62] hover:bg-[#801f4f] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
-                  deleteAllStatus === "loading"
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
-              >
-                {deleteAllStatus === "loading"
-                  ? "Deleting..."
-                  : "Delete All Clients"}
-              </PermissionButton>
+              <DeleteAllClientsBtn
+                handleDeleteAll={handleDeleteAll}
+                deleteAllStatus={deleteAllStatus}
+              />
             </div>
           )}
         </div>
