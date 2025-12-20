@@ -11,6 +11,7 @@ import DeleteConfirmationToast from "../components/taskManagerCollection/utils/d
 import { LoadingPage } from "../components/shared/LoadingStates";
 import EventCard from "../components/taskManagerCollection/events/EventCard";
 import NoEvent from "../components/shared/NoEvent";
+import { CreateEventBtn } from "../components/buttons/EventButtons";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -106,12 +107,7 @@ export default function Events() {
                 Organize and track all your upcoming events in one place
               </p>
             </div>
-            <button
-              onClick={() => navigate("/events/new")}
-              className="flex items-center gap-2 bg-[#9B2C62] text-white px-5 py-2.5 rounded-lg shadow-md hover:bg-[#801f4f] transition-all transform hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
-            >
-              <span className="text-lg">+</span> Create New Event
-            </button>
+            <CreateEventBtn navigate={navigate} />
           </div>
         </div>
 
