@@ -20,6 +20,7 @@ import { ErrorState } from "../components/shared/ErrorStates";
 import ClientEventsUI from "../components/clients/ClientEventsUI";
 import ClientCard from "../components/clients/ClientCard";
 import { createClientDeleteHandler } from "../globalHandlers/createClientDeleteHandler";
+import { AddNewClientEventLink } from "../components/buttons/ClientButtons";
 
 export default function Client() {
   const { id } = useParams();
@@ -145,12 +146,7 @@ export default function Client() {
                 <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706]">
                   Event History
                 </h2>
-                <Link
-                  to={`/events/new?client=${client._id}`}
-                  className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg dark:bg-[#D97706] hover:dark:bg-[#F59E0B]"
-                >
-                  + Add New Event
-                </Link>
+                <AddNewClientEventLink client={client} />
               </div>
 
               {/* no events handling */}
