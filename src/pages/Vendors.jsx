@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Plus, Archive, Search, Filter } from "lucide-react";
+import { Archive, Search, Filter } from "lucide-react";
 import toast from "react-hot-toast";
 
 import {
