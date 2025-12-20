@@ -1,6 +1,7 @@
 import { User, Mail, Phone, Archive, RefreshCcw } from "lucide-react";
 import PermissionButton from "../ui/PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
+import { ArchiveClientBtn } from "../buttons/ClientButtons";
 
 export default function ClientsTable({
   currentClients,
@@ -95,45 +96,10 @@ export default function ClientsTable({
                   >
                     View Details
                   </button>
-                  <PermissionButton
-                    permission={PERMISSIONS.ARCHIVE}
-                    resource={RESOURCES.CLIENT}
-                    tooltipTitle="Archive client"
-                    fallbackTooltip="Upgrade to Planner or Admin role to archive clients"
-                    onClick={() =>
-                      handleArchiveToggle(client._id, client.isArchived)
-                    }
-                    disabled={client.isArchiving || client.isRestoring}
-                    className={`flex items-center gap-1 px-3 py-1 rounded transition-colors ${
-                      client.isArchived
-                        ? "bg-[#FFBF00] hover:bg-[#E6AC00] text-[#571838]"
-                        : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-                    } ${
-                      client.isArchiving || client.isRestoring
-                        ? "opacity-70 cursor-not-allowed"
-                        : ""
-                    }`}
-                  >
-                    {client.isArchiving ? (
-                      <>
-                        <RefreshCcw className="animate-spin w-4 h-4" />{" "}
-                        Archiving...
-                      </>
-                    ) : client.isRestoring ? (
-                      <>
-                        <RefreshCcw className="animate-spin w-4 h-4" />{" "}
-                        Restoring...
-                      </>
-                    ) : client.isArchived ? (
-                      <>
-                        <RefreshCcw className="w-4 h-4" /> Restore
-                      </>
-                    ) : (
-                      <>
-                        <Archive className="w-4 h-4" /> Archive
-                      </>
-                    )}
-                  </PermissionButton>
+                  <ArchiveClientBtn
+                    handleArchiveToggle={handleArchiveToggle}
+                    client={client}
+                  />
                 </div>
               </td>
             </tr>
