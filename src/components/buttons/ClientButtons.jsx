@@ -174,3 +174,19 @@ export const EditClientLink = ({ id }) => {
     </PermissionButton>
   );
 };
+
+// add new event
+export const AddNewClientEventLink = ({ client }) => {
+  return (
+    <PermissionButton
+      to={`/events/new?client=${client._id}`}
+      permission={PERMISSIONS.CREATE}
+      resource={RESOURCES.EVENT}
+      tooltipTitle="Add event"
+      fallbackTooltip="Upgrade to Planner or Admin role to create clients"
+      className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg dark:bg-[#D97706] hover:dark:bg-[#F59E0B]"
+    >
+      + Add New Event
+    </PermissionButton>
+  );
+};
