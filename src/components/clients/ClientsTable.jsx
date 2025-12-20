@@ -1,7 +1,7 @@
 import { User, Mail, Phone, Archive, RefreshCcw } from "lucide-react";
 import PermissionButton from "../ui/PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
-import { ArchiveClientBtn } from "../buttons/ClientButtons";
+import { ArchiveTableClientBtn } from "../buttons/ClientButtons";
 
 export default function ClientsTable({
   currentClients,
@@ -96,7 +96,7 @@ export default function ClientsTable({
                   >
                     View Details
                   </button>
-                  <ArchiveClientBtn
+                  <ArchiveTableClientBtn
                     handleArchiveToggle={handleArchiveToggle}
                     client={client}
                   />
