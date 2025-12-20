@@ -55,8 +55,8 @@ export const DeleteAllClientsBtn = ({ handleDeleteAll, deleteAllStatus }) => {
   );
 };
 
-// archive client btn
-export const ArchiveClientBtn = ({ handleArchiveToggle, client }) => {
+// archive client btn on table
+export const ArchiveTableClientBtn = ({ handleArchiveToggle, client }) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.ARCHIVE}
@@ -92,6 +92,47 @@ export const ArchiveClientBtn = ({ handleArchiveToggle, client }) => {
           <Archive className="w-4 h-4" /> Archive
         </>
       )}
+    </PermissionButton>
+  );
+};
+
+// archive client btn on client page
+export const ArchiveClientBtn = ({
+  handleArchiveToggle,
+  id,
+  localIsArchived,
+  client,
+}) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.ARCHIVE}
+      resource={RESOURCES.CLIENT}
+      tooltipTitle="Archive client"
+      fallbackTooltip="Upgrade to Planner or Admin role to archive clients"
+      onClick={() => handleArchiveToggle(id, localIsArchived)}
+      disabled={client?.isArchiving || client?.isRestoring}
+      className={`flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex-1 sm:flex-none justify-center ${
+        localIsArchived
+          ? "bg-[#FFBF00] hover:bg-[#E6AC00] text-[#571838] dark:bg-[#E6AC00]/90 dark:text-black dark:hover:bg-[#FFBF00]/60"
+          : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
+      }`}
+    >
+      {client?.isArchiving ? (
+        <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
+      ) : client?.isRestoring ? (
+        <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
+      ) : localIsArchived ? (
+        <RefreshCcw className="w-4 h-4 mr-2" />
+      ) : (
+        <Archive className="w-4 h-4 mr-2" />
+      )}
+      {client?.isArchiving
+        ? "Archiving..."
+        : client?.isRestoring
+        ? "Restoring..."
+        : localIsArchived
+        ? "Restore"
+        : "Archive"}
     </PermissionButton>
   );
 };
