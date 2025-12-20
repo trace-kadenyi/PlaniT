@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import PermissionButton from "../ui/PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 
+// create vendor btn
 export const CreateVendorBtn = ({ navigate }) => {
   return (
     <PermissionButton
@@ -18,6 +19,7 @@ export const CreateVendorBtn = ({ navigate }) => {
   );
 };
 
+// delete all vendors btn
 export const DeleteAllVendorsBtn = ({ handleDeleteAll, deleteAllStatus }) => {
   return (
     <PermissionButton
