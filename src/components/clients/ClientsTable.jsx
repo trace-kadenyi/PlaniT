@@ -1,6 +1,5 @@
-import { User, Mail, Phone, Archive, RefreshCcw } from "lucide-react";
-import PermissionButton from "../ui/PermissionButton";
-import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
+import { User, Mail, Phone } from "lucide-react";
+
 import { ArchiveTableClientBtn } from "../buttons/ClientButtons";
 
 export default function ClientsTable({
