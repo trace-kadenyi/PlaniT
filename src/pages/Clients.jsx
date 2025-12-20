@@ -19,12 +19,6 @@ import { createAllClientsDeleteHandler } from "../globalHandlers/createAllClient
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import {
-  usePermissions,
-  PERMISSIONS,
-  RESOURCES,
-} from "../globalHooks/userPermissions";
-import PermissionButton from "../components/ui/PermissionButton";
-import {
   AddFirstClientBtn,
   CreateClientBtn,
   DeleteAllClientsBtn,
