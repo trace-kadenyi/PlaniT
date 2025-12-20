@@ -34,8 +34,6 @@ export default function Vendors() {
   const [filterMode, setFilterMode] = useState("all");
 
   const { deleteAllStatus } = useSelector((state) => state.vendors);
-  const currentUser = useSelector((state) => state.auth.user);
-  const { can, isRole } = usePermissions();
 
   const {
     searchTerm,
