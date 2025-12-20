@@ -1,5 +1,9 @@
 import { Mail, Trash2, Edit3, RefreshCcw, Archive } from "lucide-react";
-import { ArchiveClientBtn, DeleteClientBtn } from "../buttons/ClientButtons";
+import {
+  ArchiveClientBtn,
+  DeleteClientBtn,
+  EditClientLink,
+} from "../buttons/ClientButtons";
 
 export default function ClientCard({
   client,
@@ -20,15 +24,7 @@ export default function ClientCard({
           {/* Primary Actions Row */}
           <div className="flex gap-2">
             {/* edit client */}
-            {client && (
-              <Link
-                to={`/clients/${id}/edit`}
-                className="flex items-center bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-[#D97706] dark:hover:bg-[#F59E0B] flex-1 sm:flex-none justify-center"
-              >
-                <Edit3 className="w-4 h-4 mr-2" />
-                Edit
-              </Link>
-            )}
+            {client && <EditClientLink id={id} />}
 
             {/* archive/restore toggle */}
             <ArchiveClientBtn
