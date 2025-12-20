@@ -1,4 +1,6 @@
 import { User, Mail, Phone, Archive, RefreshCcw } from "lucide-react";
+import PermissionButton from "../ui/PermissionButton";
+import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 
 export default function ClientsTable({
   currentClients,
@@ -93,7 +95,11 @@ export default function ClientsTable({
                   >
                     View Details
                   </button>
-                  <button
+                  <PermissionButton
+                    permission={PERMISSIONS.ARCHIVE}
+                    resource={RESOURCES.CLIENT}
+                    tooltipTitle="Archive client"
+                    fallbackTooltip="Upgrade to Planner or Admin role to archive clients"
                     onClick={() =>
                       handleArchiveToggle(client._id, client.isArchived)
                     }
@@ -127,7 +133,7 @@ export default function ClientsTable({
                         <Archive className="w-4 h-4" /> Archive
                       </>
                     )}
-                  </button>
+                  </PermissionButton>
                 </div>
               </td>
             </tr>
