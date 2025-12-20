@@ -9,7 +9,6 @@ import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
 
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
-import { EventDetailsBtns } from "../components/shared/EditDeleteEvent";
 import {
   EventLoadingState,
   TasksLoadingState,
@@ -22,6 +21,7 @@ import BudgetTab from "../components/taskManagerCollection/tabs/BudgetTab";
 import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
 import EventDetailsCard from "../components/taskManagerCollection/events/EventDetailsCard";
 import { useSmoothScrollToTask } from "../components/taskManagerCollection/hooks/useSmoothScrollToTask";
+import { EventDetailsBtns } from "../components/buttons/EventButtons";
 
 export default function Event() {
   const { id } = useParams();
