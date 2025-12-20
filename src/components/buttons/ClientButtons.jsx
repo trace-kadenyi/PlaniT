@@ -1,6 +1,6 @@
 import { Plus, Archive, RefreshCcw, Trash2, Edit3 } from "lucide-react";
 
-import PermissionButton from "../ui/PermissionButton";
+import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 
 // create new client
