@@ -1,5 +1,23 @@
+import { Plus } from "lucide-react";
+
 import PermissionButton from "../ui/PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
+
+// create new client
+export const CreateClientBtn = ({ navigate }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.CREATE}
+      resource={RESOURCES.CLIENT}
+      onClick={() => navigate("/clients/new")}
+      tooltipTitle="Create a new client"
+      fallbackTooltip="Upgrade to Planner or Admin role to create clients"
+      className="bg-[#F59E0B] dark:bg-[#D97706] hover:bg-[#D97706] hover:dark:bg-[#F59E0B] text-white px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
+    >
+      <Plus className="w-5 h-5" /> New Client
+    </PermissionButton>
+  );
+};
 
 // add first client btn
 export const AddFirstClientBtn = ({ navigate }) => {
