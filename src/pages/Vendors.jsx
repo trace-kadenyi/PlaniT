@@ -27,6 +27,7 @@ import {
   RESOURCES,
 } from "../globalHooks/userPermissions";
 import PermissionButton from "../components/ui/PermissionButton";
+import { CreateVendorBtn } from "../components/buttons/VendorButtons";
 
 export default function Vendors() {
   const dispatch = useDispatch();
@@ -97,16 +98,7 @@ export default function Vendors() {
                 className="pl-10 pr-4 py-2 border border-[#E3CBC1] rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-none dark:bg-gray-700/60 dark:text-white"
               />
             </div>
-            <PermissionButton
-              permission={PERMISSIONS.CREATE}
-              resource={RESOURCES.VENDOR}
-              onClick={() => navigate("/vendors/new")}
-              tooltipTitle="Create a new vendor"
-              fallbackTooltip="Upgrade to Planner or Admin role to create vendors"
-              className="bg-[#9B2C62] hover:bg-[#801f4f] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
-            >
-              <Plus className="w-5 h-5" /> New Vendor
-            </PermissionButton>
+            <CreateVendorBtn navigate={navigate} />
           </div>
         </div>
 
