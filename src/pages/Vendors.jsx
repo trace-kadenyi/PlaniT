@@ -27,7 +27,10 @@ import {
   RESOURCES,
 } from "../globalHooks/userPermissions";
 import PermissionButton from "../components/ui/PermissionButton";
-import { CreateVendorBtn } from "../components/buttons/VendorButtons";
+import {
+  CreateVendorBtn,
+  DeleteAllVendorsBtn,
+} from "../components/buttons/VendorButtons";
 
 export default function Vendors() {
   const dispatch = useDispatch();
@@ -130,24 +133,10 @@ export default function Vendors() {
 
           {filteredVendors.length > 0 && (
             <div className="w-max mx-auto sm:mx-0">
-              <PermissionButton
-                permission={PERMISSIONS.DELETE_ALL}
-                resource={RESOURCES.VENDOR}
-                onClick={handleDeleteAll}
-                loading={deleteAllStatus === "loading"}
-                disabled={deleteAllStatus === "loading"}
-                tooltipTitle="Delete all vendors"
-                fallbackTooltip="Admin role required to delete all vendors"
-                className={`bg-[#9B2C62] hover:bg-[#801f4f] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap ${
-                  deleteAllStatus === "loading"
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
-              >
-                {deleteAllStatus === "loading"
-                  ? "Deleting..."
-                  : "Delete All vendors"}
-              </PermissionButton>
+              <DeleteAllVendorsBtn
+                handleDeleteAll={handleDeleteAll}
+                deleteAllStatus={deleteAllStatus}
+              />
             </div>
           )}
         </div>
