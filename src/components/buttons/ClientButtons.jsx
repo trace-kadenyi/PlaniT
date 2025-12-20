@@ -1,4 +1,4 @@
-import { Plus, Archive, RefreshCcw, Trash2 } from "lucide-react";
+import { Plus, Archive, RefreshCcw, Trash2, Edit3 } from "lucide-react";
 
 import PermissionButton from "../ui/PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -137,9 +137,7 @@ export const ArchiveClientBtn = ({
   );
 };
 
-export const DeleteClientBtn = ({
-handleDelete, id, client
-}) => {
+export const DeleteClientBtn = ({ handleDelete, id, client }) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.DELETE}
@@ -156,6 +154,23 @@ handleDelete, id, client
         <Trash2 className="w-4 h-4 mr-2" />
       )}
       {client?.isDeleting ? "Deleting..." : "Delete"}
+    </PermissionButton>
+  );
+};
+
+// edit client
+export const EditClientLink = ({ id }) => {
+  return (
+    <PermissionButton
+      to={`/clients/${id}/edit`}
+      permission={PERMISSIONS.EDIT}
+      resource={RESOURCES.CLIENT}
+      tooltipTitle="Edit client"
+      fallbackTooltip="Upgrade to Planner or Admin role to edit clients"
+      className="flex items-center bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200"
+    >
+      <Edit3 className="w-4 h-4 mr-2" />
+      Edit
     </PermissionButton>
   );
 };
