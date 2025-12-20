@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { NoEventBtn } from "../buttons/EventButtons";
 
 export default function NoEvent() {
   const navigate = useNavigate();
@@ -26,12 +27,7 @@ export default function NoEvent() {
           Get started by creating your first event
         </p>
         <div className="mt-6">
-          <button
-            onClick={() => navigate("/events/new")}
-            className="inline-flex items-center px-4 py-2 bg-[#9B2C62] text-white rounded-lg shadow hover:bg-[#801f4f] transition"
-          >
-            + New Event
-          </button>
+          <NoEventBtn navigate={navigate} />
         </div>
       </div>
     </div>
