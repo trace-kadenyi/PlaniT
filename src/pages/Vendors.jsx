@@ -22,12 +22,6 @@ import { createAllVendorsDeleteHandler } from "../globalHandlers/createAllVendor
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import {
-  usePermissions,
-  PERMISSIONS,
-  RESOURCES,
-} from "../globalHooks/userPermissions";
-import PermissionButton from "../components/ui/PermissionButton";
-import {
   CreateVendorBtn,
   DeleteAllVendorsBtn,
 } from "../components/buttons/VendorButtons";
