@@ -86,3 +86,31 @@ export const AddBudgetLink = ({ id }) => {
     </PermissionButton>
   );
 };
+
+// add budget link in event sect
+export const EventAddBudgetLink = ({ eventID }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.EDIT}
+      resource={RESOURCES.EVENT}
+      tooltipTitle="Add event budget"
+      fallbackTooltip="Upgrade to Planner or Admin role to add event budgets"
+      to={`/events/${eventID}/edit/#budget`}
+      className="text-[#9B2C62] hover:text-[#7A2350] text-sm font-medium transition-colors duration-200 flex items-center gap-1.5 self-start mt-1 cursor-default ml-5 dark:text-[#F59E0B] dark:hover:text-[#F59E0B]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+      </svg>
+      <span className="border-b px-1 border-dashed border-[#9B2C62] hover:border-[#7A2350] hover:text-[#7A2350] hover:rounded-lg hover:bg-[#BE3455]/10 dark:hover:text-[#F59E0B] dark:border-[#F59E0B] dark:hover:border-[#F59E0B] dark:hover:bg-[#F59E0B]/10">
+        Add budget
+      </span>
+    </PermissionButton>
+  );
+};
