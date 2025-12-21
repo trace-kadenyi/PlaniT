@@ -11,6 +11,7 @@ import EditExpenseForm from "../expenses/forms/EditExpenseForm";
 import CreateExpenseForm from "../expenses/forms/CreateExpenseForm";
 import EditDeleteExpense from "../../shared/EditDeleteExpense";
 import ExpenseTab from "./ExpenseTab";
+import { AddExpenseBtn } from "../../buttons/ExpenseButtons";
 
 export default function BudgetTab({
   expenses,
@@ -66,24 +67,12 @@ export default function BudgetTab({
             <span>Add Budget</span>
           </Link>
         ) : (
-          <button
-            onClick={() => {
-              if (showCreateExpenseForm) {
-                setExpenseToEdit(null);
-              } else {
-                setScrollToForm(true);
-              }
-              setShowCreateExpenseForm(!showCreateExpenseForm);
-            }}
-            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
-          >
-            {showCreateExpenseForm ? (
-              <XCircle className="w-3 h-3" />
-            ) : (
-              <Plus className="w-3 h-3" />
-            )}
-            <span>{showCreateExpenseForm ? "Cancel" : "Add Expense"}</span>
-          </button>
+          <AddExpenseBtn
+            showCreateExpenseForm={showCreateExpenseForm}
+            setExpenseToEdit={setExpenseToEdit}
+            setScrollToForm={setScrollToForm}
+            setShowCreateExpenseForm={setShowCreateExpenseForm}
+          />
         )}
       </div>
 
