@@ -4,6 +4,7 @@ import { Plus, XCircle } from "lucide-react";
 import EditTaskForm from "../tasks/forms/EditTaskForm";
 import CreateTaskForm from "../tasks/forms/CreateTaskForm";
 import TaskCard from "../tasks/TaskCard";
+import { CreateTaskBtn } from "../../buttons/TaskButtons";
 
 export default function TasksTab({ tasks, handleTaskDelete }) {
   const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
@@ -26,24 +27,12 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
         <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
           Tasks ({tasks.items.length})
         </h2>
-        <button
-          onClick={() => {
-            if (showCreateTaskForm) {
-              setTaskToEdit(null);
-            } else {
-              setScrollToForm(true);
-            }
-            setShowCreateTaskForm(!showCreateTaskForm);
-          }}
-          className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
-        >
-          {showCreateTaskForm ? (
-            <XCircle className="w-3 h-3" />
-          ) : (
-            <Plus className="w-3 h-3" />
-          )}
-          <span>{showCreateTaskForm ? "Cancel" : "Create Task"}</span>
-        </button>
+        <CreateTaskBtn
+          showCreateTaskForm={showCreateTaskForm}
+          setTaskToEdit={setTaskToEdit}
+          setScrollToForm={setScrollToForm}
+          setShowCreateTaskForm={setShowCreateTaskForm}
+        />
       </div>
 
       {/* Task Form */}
