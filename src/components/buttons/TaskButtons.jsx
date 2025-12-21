@@ -1,4 +1,4 @@
-import { XCircle, Plus } from "lucide-react";
+import { XCircle, Plus, Pencil, Trash2 } from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -69,3 +69,41 @@ export const CreateTaskFormBtn = ({ mode, onClose, taskStatus }) => {
     </div>
   );
 };
+
+// edit task
+export const EditTaskBtn = ({
+  setTaskToEdit,
+  setShowCreateTaskForm,
+  setScrollToForm,
+}) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.EDIT}
+      resource={RESOURCES.TASK}
+      tooltipTitle="Edit task"
+      fallbackTooltip="Upgrade to Planner or Admin role to edit tasks"
+      className="p-1.5 rounded-md transition-all duration-200 
+              text-[#9B2C62] hover:text-white hover:bg-[#9B2C62]
+              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]"
+      //   title="Edit Task"
+      onClick={() => {
+        setTaskToEdit(task);
+        setShowCreateTaskForm(true);
+        if (typeof setScrollToForm === "function") {
+          setScrollToForm(true);
+        }
+      }}
+    >
+      <Pencil className="w-4 h-4" />
+      {/* Optional tooltip */}
+      <span
+        className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+      >
+        Edit Task
+      </span>
+    </PermissionButton>
+  );
+};
+
+
