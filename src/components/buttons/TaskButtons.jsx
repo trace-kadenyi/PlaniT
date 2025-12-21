@@ -35,3 +35,37 @@ export const CreateTaskBtn = ({
     </PermissionButton>
   );
 };
+
+// create task in form btn
+export const CreateTaskFormBtn = ({ mode, onClose, taskStatus }) => {
+  return (
+    <div className="flex justify-end gap-3 pt-4">
+      {onClose && (
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-600 transition"
+        >
+          Cancel
+        </button>
+      )}
+      <PermissionButton
+        permission={PERMISSIONS.CREATE}
+        resource={RESOURCES.TASK}
+        tooltipTitle="Create a new task"
+        fallbackTooltip="Upgrade to Planner or Admin role to create tasks"
+        type="submit"
+        disabled={taskStatus === "loading"}
+        className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition dark:bg-[#D97706] dark:hover:bg-[#F59E0B]"
+      >
+        {taskStatus === "loading"
+          ? mode === "create"
+            ? "Creating..."
+            : "Saving..."
+          : mode === "create"
+          ? "Create Task"
+          : "Save Changes"}
+      </PermissionButton>
+    </div>
+  );
+};
