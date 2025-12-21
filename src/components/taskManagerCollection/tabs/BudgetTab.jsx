@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Plus, XCircle } from "lucide-react";
 
 import { getExpensesByCategory, BudgetStatus } from "../utils/budgetHelpers";
 import {
