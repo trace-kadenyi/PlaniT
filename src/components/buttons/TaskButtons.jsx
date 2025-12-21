@@ -75,6 +75,7 @@ export const EditTaskBtn = ({
   setTaskToEdit,
   setShowCreateTaskForm,
   setScrollToForm,
+  task,
 }) => {
   return (
     <PermissionButton
@@ -96,12 +97,12 @@ export const EditTaskBtn = ({
     >
       <Pencil className="w-4 h-4" />
       {/* Optional tooltip */}
-      <span
+      {/* <span
         className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
       >
         Edit Task
-      </span>
+      </span> */}
     </PermissionButton>
   );
 };
@@ -122,12 +123,12 @@ export const DeleteTaskBtn = ({ handleTaskDelete, task }) => {
     >
       <Trash2 className="w-4 h-4" />
       {/* Optional tooltip */}
-      <span
+      {/* <span
         className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
       >
         Delete Task
-      </span>
+      </span> */}
     </PermissionButton>
   );
 };
