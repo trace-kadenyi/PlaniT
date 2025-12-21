@@ -39,7 +39,12 @@ export default function TaskCard({
             </div>
             <div className="flex space-x-2">
               {/* Edit Button */}
-              <EditTaskBtn setTaskToEdit={setTaskToEdit} setShowCreateTaskForm={setShowCreateTaskForm} setScrollToForm={setScrollToForm}  />
+              <EditTaskBtn
+                setTaskToEdit={setTaskToEdit}
+                setShowCreateTaskForm={setShowCreateTaskForm}
+                setScrollToForm={setScrollToForm}
+                task={task}
+              />
 
               {/* Delete Button */}
               <DeleteTaskBtn handleTaskDelete={handleTaskDelete} task={task} />
