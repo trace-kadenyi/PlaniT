@@ -69,3 +69,20 @@ export const AddExpenseFormBtn = ({ onClose, expenseStatus, mode }) => {
     </div>
   );
 };
+
+// add budget link
+export const AddBudgetLink = ({ id }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.EDIT}
+      resource={RESOURCES.EVENT}
+      tooltipTitle="Add event budget"
+      fallbackTooltip="Upgrade to Planner or Admin role to add event budgets"
+      to={`/events/${id}/edit/#budget`}
+      className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-default dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
+    >
+      <Plus className="w-3 h-3" />
+      <span>Add Budget</span>
+    </PermissionButton>
+  );
+};
