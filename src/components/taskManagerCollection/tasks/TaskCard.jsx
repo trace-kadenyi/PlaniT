@@ -3,6 +3,7 @@ import { Pencil, Trash2 } from "lucide-react";
 import { TasksPriorityPill, TaskStatusPill } from "../../shared/UIFragments";
 import { formatDateTimeShort, formatDateOnly } from "../utils/formatting";
 import { CreatedUpdatedData } from "../../shared/Snippets";
+import { EditTaskBtn } from "../../buttons/TaskButtons";
 
 export default function TaskCard({
   tasks,
@@ -38,28 +39,7 @@ export default function TaskCard({
             </div>
             <div className="flex space-x-2">
               {/* Edit Button */}
-              <button
-                className="p-1.5 rounded-md transition-all duration-200 
-              text-[#9B2C62] hover:text-white hover:bg-[#9B2C62]
-              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]"
-                title="Edit Task"
-                onClick={() => {
-                  setTaskToEdit(task);
-                  setShowCreateTaskForm(true);
-                  if (typeof setScrollToForm === "function") {
-                    setScrollToForm(true);
-                  }
-                }}
-              >
-                <Pencil className="w-4 h-4" />
-                {/* Optional tooltip */}
-                <span
-                  className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
-                >
-                  Edit Task
-                </span>
-              </button>
+              <EditTaskBtn setTaskToEdit={setTaskToEdit} setShowCreateTaskForm={setShowCreateTaskForm} setScrollToForm={setScrollToForm}  />
 
               {/* Delete Button */}
               <button
