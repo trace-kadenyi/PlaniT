@@ -1,5 +1,3 @@
-import { Pencil, Trash2 } from "lucide-react";
-
 import { TasksPriorityPill, TaskStatusPill } from "../../shared/UIFragments";
 import { formatDateTimeShort, formatDateOnly } from "../utils/formatting";
 import { CreatedUpdatedData } from "../../shared/Snippets";
