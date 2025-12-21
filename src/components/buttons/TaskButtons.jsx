@@ -106,4 +106,28 @@ export const EditTaskBtn = ({
   );
 };
 
-
+// delete task
+export const DeleteTaskBtn = ({ handleTaskDelete, task }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.DELETE}
+      resource={RESOURCES.TASK}
+      tooltipTitle="Delete task"
+      fallbackTooltip="Upgrade to Planner or Admin role to delete tasks"
+      className="p-1.5 rounded-md transition-all duration-200 
+              text-[#BE3455] hover:text-white hover:bg-[#BE3455]
+              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]"
+      // title="Delete Task"
+      onClick={() => handleTaskDelete(task._id)}
+    >
+      <Trash2 className="w-4 h-4" />
+      {/* Optional tooltip */}
+      <span
+        className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+      >
+        Delete Task
+      </span>
+    </PermissionButton>
+  );
+};
