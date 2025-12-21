@@ -18,7 +18,7 @@ export const RESOURCES = {
   TASK: "task",
   CLIENT: "client",
   USER: "user",
-  // Add more as needed - NO PERMISSION DUPLICATION!
+  EXPENSE: "expense",
 };
 
 export const ROLES = {
