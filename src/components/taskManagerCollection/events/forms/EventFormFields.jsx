@@ -29,7 +29,7 @@ export default function EventFormFields({
 
   // Scroll to budget section when hash matches
   useEffect(() => {
-    if (location.hash === "#budget_info_id" && budgetSectionRef.current) {
+    if (location.hash === "#budget" && budgetSectionRef.current) {
       budgetSectionRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -235,7 +235,7 @@ export default function EventFormFields({
 
       {/* Add Budget Section */}
       <div
-        id="budget_info_id"
+        id="budget"
         ref={budgetSectionRef}
         className="mt-6 border-t border-gray-200 dark:border-gray-900 pt-6"
       >
