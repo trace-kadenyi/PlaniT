@@ -1,4 +1,4 @@
-import { Plus, Pencil, RefreshCcw, Archive } from "lucide-react";
+import { Plus, Pencil, RefreshCcw, Archive, SquarePen } from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -107,6 +107,23 @@ export const ArchiveTBVendorBtn = ({
           <span>Archive</span>
         </>
       )}
+    </PermissionButton>
+  );
+};
+
+// edit vendor btn
+export const EditVendorBtn = ({ vendor }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.EDIT}
+      resource={RESOURCES.VENDOR}
+      tooltipTitle="Edit vendor"
+      fallbackTooltip="Upgrade to Planner or Admin role to edit vendors"
+      onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
+      className="flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-[#D97706] dark:hover:bg-[#F59E0B] flex-1 sm:flex-none justify-center"
+    >
+      <SquarePen className="mr-2 w-4 h-4" />
+      <span>Edit</span>
     </PermissionButton>
   );
 };
