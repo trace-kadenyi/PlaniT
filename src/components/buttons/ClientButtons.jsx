@@ -1,4 +1,11 @@
-import { Plus, Archive, RefreshCcw, Trash2, Edit3 } from "lucide-react";
+import {
+  Plus,
+  Archive,
+  RefreshCcw,
+  Trash2,
+  Edit3,
+  PlusIcon,
+} from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -191,10 +198,27 @@ export const AddNewClientEventLink = ({ client }) => {
       permission={PERMISSIONS.CREATE}
       resource={RESOURCES.EVENT}
       tooltipTitle="Add event"
-      fallbackTooltip="Upgrade to Planner or Admin role to create clients"
+      fallbackTooltip="Upgrade to Planner or Admin role to add events"
       className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg dark:bg-[#D97706] hover:dark:bg-[#F59E0B]"
     >
       + Add New Event
+    </PermissionButton>
+  );
+};
+
+// schedule event link
+export const ScheduleEventLink = ({ client }) => {
+  return (
+    <PermissionButton
+      to={`/events/new?client=${client._id}`}
+      permission={PERMISSIONS.CREATE}
+      resource={RESOURCES.EVENT}
+      tooltipTitle="Schedule event"
+      fallbackTooltip="Upgrade to Planner or Admin role to schedule events"
+      className="inline-flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+    >
+      <PlusIcon className="-ml-1 mr-2 h-4 w-4" />
+      Schedule Event
     </PermissionButton>
   );
 };
