@@ -1,3 +1,5 @@
+import { EditVendorBtn } from "../buttons/VendorButtons";
+
 export default function ArchiveEditDeleteVendor({
   handleArchive,
   archiveStatus,
@@ -13,13 +15,7 @@ export default function ArchiveEditDeleteVendor({
     <div className="flex sm:justify-end mb-4">
       <div className="flex gap-4 flex-wrap">
         {/* edit vendor */}
-        <button
-          onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
-          className="flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-[#D97706] dark:hover:bg-[#F59E0B] flex-1 sm:flex-none justify-center"
-        >
-          <SquarePen className="mr-2 w-4 h-4" />
-          <span>Edit</span>
-        </button>
+       <EditVendorBtn vendor={vendor} />
 
         {/* toggle archive vendor */}
         <button
