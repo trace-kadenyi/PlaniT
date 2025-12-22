@@ -127,3 +127,35 @@ export const EditVendorBtn = ({ vendor }) => {
     </PermissionButton>
   );
 };
+
+// archive vendor btn
+export const ArchiveVendorBtn = ({ vendor, handleArchive, archiveStatus }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.ARCHIVE}
+      resource={RESOURCES.VENDOR}
+      tooltipTitle="Archive vendor"
+      fallbackTooltip={`${
+        vendor.isArchived
+          ? "Upgrade to Planner or Admin role to restore vendors"
+          : "Upgrade to Planner or Admin role to archive vendors"
+      }`}
+      onClick={handleArchive}
+      disabled={archiveStatus === "loading"}
+      className={`flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex-1 sm:flex-none justify-center ${
+        vendor.isArchived
+          ? "bg-green-100 text-green-800 hover:bg-green-200 border border-green-300 dark:bg-green-200/80 dark:text-black dark:hover:bg-green-200/60 dark:border-green-300/20"
+          : "bg-[#FFF3E6] text-[#CC6D00] hover:bg-[#FFE0B3] border border-[#FFB84D] dark:bg-[#FFE0B3]/70 dark:text-black dark:hover:bg-[#FFE0B3]/60 dark:border-[#FFB84D]/60"
+      } ${archiveStatus === "loading" ? "opacity-70 cursor-not-allowed" : ""}`}
+    >
+      {archiveStatus === "loading" ? (
+        <RefreshCcw className="animate-spin mr-2 w-4 h-4" />
+      ) : vendor.isArchived ? (
+        <RefreshCcw className="mr-2 w-4 h-4" />
+      ) : (
+        <Archive className="mr-2 w-4 h-4" />
+      )}
+      <span>{vendor.isArchived ? "Restore" : "Archive"}</span>
+    </PermissionButton>
+  );
+};
