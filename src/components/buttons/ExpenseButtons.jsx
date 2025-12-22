@@ -14,8 +14,14 @@ export const AddExpenseBtn = ({
     <PermissionButton
       permission={PERMISSIONS.CREATE}
       resource={RESOURCES.EXPENSE}
-      tooltipTitle="Create a new expense"
-      fallbackTooltip="Upgrade to Planner or Admin role to create expenses"
+      tooltipTitle={`${
+        showCreateExpenseForm ? "Cancel" : "Create a new expense"
+      }`}
+      fallbackTooltip={`${
+        showCreateExpenseForm
+          ? "Cancel"
+          : "Upgrade to Planner or Admin role to create expenses"
+      }`}
       onClick={() => {
         if (showCreateExpenseForm) {
           setExpenseToEdit(null);
