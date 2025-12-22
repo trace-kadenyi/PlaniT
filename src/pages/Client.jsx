@@ -21,7 +21,10 @@ import { ErrorState } from "../components/shared/ErrorStates";
 import ClientEventsUI from "../components/clients/ClientEventsUI";
 import ClientCard from "../components/clients/ClientCard";
 import { createClientDeleteHandler } from "../globalHandlers/createClientDeleteHandler";
-import { AddNewClientEventLink } from "../components/buttons/ClientButtons";
+import {
+  AddNewClientEventLink,
+  ScheduleEventLink,
+} from "../components/buttons/ClientButtons";
 
 export default function Client() {
   const { id } = useParams();
@@ -172,13 +175,7 @@ export default function Client() {
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 mb-4">
                     Get started by scheduling your first event
                   </p>
-                  <Link
-                    to={`/events/new?client=${client._id}`}
-                    className="inline-flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                  >
-                    <PlusIcon className="-ml-1 mr-2 h-4 w-4" />
-                    Schedule Event
-                  </Link>
+                  <ScheduleEventLink client={client} />
                 </div>
               ) : (
                 // events list
