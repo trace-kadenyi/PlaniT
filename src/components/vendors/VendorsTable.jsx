@@ -9,7 +9,7 @@ import {
 import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
 import ArchiveConfirmationToast from "../../globalUtils/archiveConfirmationToast";
 import { toastWithProgress } from "../../globalHooks/useToastWithProgress";
-import { EditTBVendorBtn } from "../buttons/VendorButtons";
+import { ArchiveTBVendorBtn, EditTBVendorBtn } from "../buttons/VendorButtons";
 
 export default function VendorsTable({
   currentVendors,
@@ -103,40 +103,20 @@ export default function VendorsTable({
                     <ExternalLink className="w-3 h-3" />
                     <span>View</span>
                   </button>
+                  {/* edit vendor */}
+                  <EditTBVendorBtn navigate={navigate} vendor={vendor} />
 
-                 <EditTBVendorBtn navigate={navigate} vendor={vendor} />
-                  <button
-                    onClick={createVendorArchiveHandler(
-                      dispatch,
-                      vendor._id,
-                      vendor.isArchived,
-                      vendor,
-                      toggleArchiveVendor,
-                      fetchVendors,
-                      fetchVendorStats,
-                      filterMode,
-                      toastWithProgress,
-                      ArchiveConfirmationToast
-                    )}
-                    className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs ${
-                      vendor.isArchived
-                        ? "text-green-500 dark:text-green-900 hover:text-green-600 bg-green-100/50 dark:bg-green-900 text-green-600 dark:text-white hover:bg-green-200 dark:hover:bg-green-200 dark:hover:text-gray-900"
-                        : "text-red-600 hover:text-red-700 bg-red-100/30 hover:bg-red-200 dark:bg-red-100/30 dark:hover:bg-red-200 dark:text-white dark:hover:text-black"
-                    }`}
-                    title={vendor.isArchived ? "Restore" : "Archive"}
-                  >
-                    {vendor.isArchived ? (
-                      <>
-                        <RefreshCcw className="w-3 h-3" />
-                        <span>Restore</span>
-                      </>
-                    ) : (
-                      <>
-                        <Archive className="w-3 h-3" />
-                        <span>Archive</span>
-                      </>
-                    )}
-                  </button>
+                  {/* archive vendor */}
+                  <ArchiveTBVendorBtn
+                    dispatch={dispatch}
+                    vendor={vendor}
+                    toggleArchiveVendor={toggleArchiveVendor}
+                    fetchVendors={fetchVendors}
+                    fetchVendorStats={fetchVendorStats}
+                    filterMode={filterMode}
+                    toastWithProgress={toastWithProgress}
+                    ArchiveConfirmationToast={ArchiveConfirmationToast}
+                  />
                 </div>
               </td>
             </tr>
