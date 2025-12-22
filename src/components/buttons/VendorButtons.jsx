@@ -1,4 +1,11 @@
-import { Plus, Pencil, RefreshCcw, Archive, SquarePen } from "lucide-react";
+import {
+  Plus,
+  Pencil,
+  RefreshCcw,
+  Archive,
+  SquarePen,
+  Trash2,
+} from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -112,7 +119,7 @@ export const ArchiveTBVendorBtn = ({
 };
 
 // edit vendor btn
-export const EditVendorBtn = ({ vendor }) => {
+export const EditVendorBtn = ({ vendor, navigate }) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.EDIT}
@@ -156,6 +163,28 @@ export const ArchiveVendorBtn = ({ vendor, handleArchive, archiveStatus }) => {
         <Archive className="mr-2 w-4 h-4" />
       )}
       <span>{vendor.isArchived ? "Restore" : "Archive"}</span>
+    </PermissionButton>
+  );
+};
+
+// delete vendor
+export const DeleteVendorBtn = ({ handleDelete, vendor }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.DELETE}
+      resource={RESOURCES.VENDOR}
+      tooltipTitle="Delete vendor"
+      fallbackTooltip="Upgrade to Planner or Admin role to delete vendors"
+      onClick={() => handleDelete(vendor._id)}
+      disabled={vendor?.isDeleting}
+      className="flex items-center bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-red-900/60 dark:hover:bg-red-900/50 dark:text-white justify-center border border-red-200 dark:border-red-700/50"
+    >
+      {vendor?.isDeleting ? (
+        <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
+      ) : (
+        <Trash2 className="w-4 h-4 mr-2" />
+      )}
+      {vendor?.isDeleting ? "Deleting..." : "Delete"}
     </PermissionButton>
   );
 };
