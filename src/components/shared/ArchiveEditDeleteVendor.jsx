@@ -1,14 +1,14 @@
-import { ArchiveVendorBtn, DeleteVendorBtn, EditVendorBtn } from "../buttons/VendorButtons";
+import {
+  ArchiveVendorBtn,
+  DeleteVendorBtn,
+  EditVendorBtn,
+} from "../buttons/VendorButtons";
 
 export default function ArchiveEditDeleteVendor({
   handleArchive,
   archiveStatus,
   vendor,
-  RefreshCcw,
-  Archive,
   navigate,
-  SquarePen,
-  Trash2,
   handleDelete,
 }) {
   return (
