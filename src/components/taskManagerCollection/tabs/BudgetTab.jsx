@@ -10,7 +10,11 @@ import EditExpenseForm from "../expenses/forms/EditExpenseForm";
 import CreateExpenseForm from "../expenses/forms/CreateExpenseForm";
 import EditDeleteExpense from "../../shared/EditDeleteExpense";
 import ExpenseTab from "./ExpenseTab";
-import { AddBudgetLink, AddExpenseBtn } from "../../buttons/ExpenseButtons";
+import {
+  AddBudgetLink,
+  AddExpenseBtn,
+  EditDeleteExpenseBtns,
+} from "../../buttons/ExpenseButtons";
 
 export default function BudgetTab({
   expenses,
@@ -156,7 +160,7 @@ export default function BudgetTab({
                   className="border border-[#F3EDE9] bg-white p-4 rounded-lg hover:shadow-md transition group dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
                 >
                   <ExpenseListView expense={expense}>
-                    <EditDeleteExpense
+                    <EditDeleteExpenseBtns
                       setShowCreateExpenseForm={setShowCreateExpenseForm}
                       handleExpenseDelete={(expenseId) =>
                         handleExpenseDelete(
