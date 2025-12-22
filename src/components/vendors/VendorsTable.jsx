@@ -9,6 +9,7 @@ import {
 import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
 import ArchiveConfirmationToast from "../../globalUtils/archiveConfirmationToast";
 import { toastWithProgress } from "../../globalHooks/useToastWithProgress";
+import { EditTBVendorBtn } from "../buttons/VendorButtons";
 
 export default function VendorsTable({
   currentVendors,
@@ -103,14 +104,7 @@ export default function VendorsTable({
                     <span>View</span>
                   </button>
 
-                  <button
-                    onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
-                    className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/30 text-[#BE3455] dark:text-[#F59E0B] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
-                    title="Edit"
-                  >
-                    <Pencil className="w-3 h-3" />
-                    <span>edit</span>
-                  </button>
+                 <EditTBVendorBtn navigate={navigate} vendor={vendor} />
                   <button
                     onClick={createVendorArchiveHandler(
                       dispatch,
