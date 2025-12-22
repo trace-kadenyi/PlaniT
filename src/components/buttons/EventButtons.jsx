@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Lock } from "lucide-react";
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 
@@ -101,5 +101,35 @@ export const EventDetailsBtns = ({ navigate, eventID, handleDelete }) => {
         <span>Delete</span>
       </PermissionButton>
     </div>
+  );
+};
+
+// add event form btn
+export const AddEventFormBtn = ({ formStatus, shouldDisable, mode }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.CREATE}
+      resource={RESOURCES.EVENT}
+      tooltipTitle="Create a new event"
+      fallbackTooltip="Upgrade to Planner or Admin role to create events"
+      type="submit"
+      disabled={formStatus === "loading" || shouldDisable}
+      className={`bg-[#F59E0B] dark:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all dark:hover:bg-[#F59E0B] ${
+        shouldDisable ? "bg-gray-300 cursor-not-allowed" : "hover:bg-[#d97706]"
+      } ${formStatus === "loading" ? "opacity-50 cursor-not-allowed" : ""}`}
+    >
+      {shouldDisable ? (
+        <span className="flex items-center justify-center gap-1">
+          <Lock className="w-4 h-4" />
+          Form Disabled
+        </span>
+      ) : formStatus === "loading" ? (
+        "Saving..."
+      ) : mode === "create" ? (
+        "Add Event"
+      ) : (
+        "Save Changes"
+      )}
+    </PermissionButton>
   );
 };
