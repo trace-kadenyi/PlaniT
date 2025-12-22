@@ -53,7 +53,7 @@ export const AddExpenseFormBtn = ({ onClose, expenseStatus, mode }) => {
         permission={PERMISSIONS.CREATE}
         resource={RESOURCES.EXPENSE}
         tooltipTitle="Create a new expense"
-        fallbackTooltip="Upgrade to Planner or Admin role to create expenses"
+        fallbackTooltip="Upgrade to Planner or Admin role to save expense"
         type="submit"
         disabled={expenseStatus === "loading"}
         className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] dark:bg-[#D97706] dark:hover:bg-[#F59E0B] transition"
@@ -114,3 +114,5 @@ export const EventAddBudgetLink = ({ eventID }) => {
     </PermissionButton>
   );
 };
+
+// edit expense btn
