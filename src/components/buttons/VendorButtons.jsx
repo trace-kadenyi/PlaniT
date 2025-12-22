@@ -1,7 +1,8 @@
-import { Plus, Pencil } from "lucide-react";
+import { Plus, Pencil, RefreshCcw, Archive } from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
+import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
 
 // create vendor btn
 export const CreateVendorBtn = ({ navigate }) => {
@@ -39,7 +40,7 @@ export const DeleteAllVendorsBtn = ({ handleDeleteAll, deleteAllStatus }) => {
   );
 };
 
-// edit vendor btn
+// edit vendor table btn
 export const EditTBVendorBtn = ({ navigate, vendor }) => {
   return (
     <PermissionButton
@@ -52,6 +53,60 @@ export const EditTBVendorBtn = ({ navigate, vendor }) => {
     >
       <Pencil className="w-3 h-3" />
       <span>edit</span>
+    </PermissionButton>
+  );
+};
+
+// archive vendor table btn
+export const ArchiveTBVendorBtn = ({
+  dispatch,
+  vendor,
+  toggleArchiveVendor,
+  fetchVendors,
+  fetchVendorStats,
+  filterMode,
+  toastWithProgress,
+  ArchiveConfirmationToast,
+}) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.ARCHIVE}
+      resource={RESOURCES.VENDOR}
+      tooltipTitle="Archive vendor"
+      fallbackTooltip={`${
+        vendor.isArchived
+          ? "Upgrade to Planner or Admin role to restore vendors"
+          : "Upgrade to Planner or Admin role to archive vendors"
+      }`}
+      onClick={createVendorArchiveHandler(
+        dispatch,
+        vendor._id,
+        vendor.isArchived,
+        vendor,
+        toggleArchiveVendor,
+        fetchVendors,
+        fetchVendorStats,
+        filterMode,
+        toastWithProgress,
+        ArchiveConfirmationToast
+      )}
+      className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs ${
+        vendor.isArchived
+          ? "text-green-500 dark:text-green-900 hover:text-green-600 bg-green-100/50 dark:bg-green-900 text-green-600 dark:text-white hover:bg-green-200 dark:hover:bg-green-200 dark:hover:text-gray-900"
+          : "text-red-600 hover:text-red-700 bg-red-100/30 hover:bg-red-200 dark:bg-red-100/30 dark:hover:bg-red-200 dark:text-white dark:hover:text-black"
+      }`}
+    >
+      {vendor.isArchived ? (
+        <>
+          <RefreshCcw className="w-3 h-3" />
+          <span>Restore</span>
+        </>
+      ) : (
+        <>
+          <Archive className="w-3 h-3" />
+          <span>Archive</span>
+        </>
+      )}
     </PermissionButton>
   );
 };
