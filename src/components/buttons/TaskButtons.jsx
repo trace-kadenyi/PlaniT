@@ -14,8 +14,12 @@ export const CreateTaskBtn = ({
     <PermissionButton
       permission={PERMISSIONS.CREATE}
       resource={RESOURCES.TASK}
-      tooltipTitle="Create a new task"
-      fallbackTooltip="Upgrade to Planner or Admin role to create tasks"
+      tooltipTitle={`${showCreateTaskForm ? "Cancel" : "Create a new task"}`}
+      fallbackTooltip={`${
+        showCreateTaskForm
+          ? "Cancel"
+          : "Upgrade to Planner or Admin role to create tasks"
+      }`}
       onClick={() => {
         if (showCreateTaskForm) {
           setTaskToEdit(null);
