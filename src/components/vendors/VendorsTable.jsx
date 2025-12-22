@@ -1,12 +1,5 @@
-import {
-  ExternalLink,
-  Pencil,
-  RefreshCcw,
-  Archive,
-  UserCog,
-} from "lucide-react";
+import { ExternalLink, UserCog } from "lucide-react";
 
-import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
 import ArchiveConfirmationToast from "../../globalUtils/archiveConfirmationToast";
 import { toastWithProgress } from "../../globalHooks/useToastWithProgress";
 import { ArchiveTBVendorBtn, EditTBVendorBtn } from "../buttons/VendorButtons";
