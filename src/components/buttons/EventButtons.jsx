@@ -1,4 +1,4 @@
-import { Pencil, Trash2, Lock } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 
@@ -105,7 +105,7 @@ export const EventDetailsBtns = ({ navigate, eventID, handleDelete }) => {
 };
 
 // add event form btn
-export const AddEventFormBtn = ({ formStatus, shouldDisable, mode }) => {
+export const AddEventFormBtn = ({ formStatus, shouldDisable, mode, Lock }) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.CREATE}
