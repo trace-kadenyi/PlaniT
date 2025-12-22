@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -35,6 +35,23 @@ export const DeleteAllVendorsBtn = ({ handleDeleteAll, deleteAllStatus }) => {
       }`}
     >
       {deleteAllStatus === "loading" ? "Deleting..." : "Delete All vendors"}
+    </PermissionButton>
+  );
+};
+
+// edit vendor btn
+export const EditTBVendorBtn = ({ navigate, vendor }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.EDIT}
+      resource={RESOURCES.VENDOR}
+      tooltipTitle="Edit vendor"
+      fallbackTooltip="Upgrade to Planner or Admin role to edit vendors"
+      onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
+      className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/30 text-[#BE3455] dark:text-[#F59E0B] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
+    >
+      <Pencil className="w-3 h-3" />
+      <span>edit</span>
     </PermissionButton>
   );
 };
