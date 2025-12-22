@@ -341,6 +341,7 @@ export default function EventFormFields({
           formStatus={formStatus}
           shouldDisable={shouldDisable}
           mode={mode}
+          Lock={Lock}
         />
 
         {onCancel && (
