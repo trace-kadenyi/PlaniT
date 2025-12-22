@@ -8,6 +8,7 @@ import {
 } from "../../../../globalUtils/dateHelpers";
 import { NotPreselected, PreselectedClients } from "./eventFormHelpers";
 import { CustomCalendar } from "../../../ui/Calendar";
+import { AddEventFormBtn } from "../../../buttons/EventButtons";
 
 export default function EventFormFields({
   formData,
@@ -336,28 +337,11 @@ export default function EventFormFields({
 
       {/* Submit Button */}
       <div className="flex items-center gap-4">
-        <button
-          type="submit"
-          disabled={formStatus === "loading" || shouldDisable}
-          className={`bg-[#F59E0B] dark:bg-[#d97706] text-white font-semibold px-6 py-2 rounded-lg transition-all dark:hover:bg-[#F59E0B] ${
-            shouldDisable
-              ? "bg-gray-300 cursor-not-allowed"
-              : "hover:bg-[#d97706]"
-          } ${formStatus === "loading" ? "opacity-50 cursor-not-allowed" : ""}`}
-        >
-          {shouldDisable ? (
-            <span className="flex items-center justify-center gap-1">
-              <Lock className="w-4 h-4" />
-              Form Disabled
-            </span>
-          ) : formStatus === "loading" ? (
-            "Saving..."
-          ) : mode === "create" ? (
-            "Add Event"
-          ) : (
-            "Save Changes"
-          )}
-        </button>
+        <AddEventFormBtn
+          formStatus={formStatus}
+          shouldDisable={shouldDisable}
+          mode={mode}
+        />
 
         {onCancel && (
           <button
