@@ -62,7 +62,11 @@ export const ArchiveTableClientBtn = ({ handleArchiveToggle, client }) => {
       permission={PERMISSIONS.ARCHIVE}
       resource={RESOURCES.CLIENT}
       tooltipTitle="Archive client"
-      fallbackTooltip="Upgrade to Planner or Admin role to archive clients"
+      fallbackTooltip={`${
+        client.isArchived
+          ? "Upgrade to Planner or Admin role to restore clients"
+          : "Upgrade to Planner or Admin role to archive clients"
+      }`}
       onClick={() => handleArchiveToggle(client._id, client.isArchived)}
       disabled={client.isArchiving || client.isRestoring}
       className={`flex items-center gap-1 px-3 py-1 rounded transition-colors ${
@@ -108,7 +112,11 @@ export const ArchiveClientBtn = ({
       permission={PERMISSIONS.ARCHIVE}
       resource={RESOURCES.CLIENT}
       tooltipTitle="Archive client"
-      fallbackTooltip="Upgrade to Planner or Admin role to archive clients"
+      fallbackTooltip={`${
+        client.isArchived
+          ? "Upgrade to Planner or Admin role to restore clients"
+          : "Upgrade to Planner or Admin role to archive clients"
+      }`}
       onClick={() => handleArchiveToggle(id, localIsArchived)}
       disabled={client?.isArchiving || client?.isRestoring}
       className={`flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex-1 sm:flex-none justify-center ${
