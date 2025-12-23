@@ -1,3 +1,5 @@
+import { AddClientFormBtn } from "../../buttons/ClientButtons";
+
 export default function ClientFormFields({
   formData,
   onFieldChange,
@@ -111,24 +113,7 @@ export default function ClientFormFields({
       )}
 
       {/* Submit Buttons */}
-      <div className="flex gap-4">
-        <button
-          type="submit"
-          disabled={formStatus === "loading"}
-          className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold px-6 py-2 rounded-lg dark:bg-[#D97706] dark:hover:bg-[#F59E0B]"
-        >
-          {formStatus === "loading" ? "Saving..." : "Save Client"}
-        </button>
-        {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg"
-          >
-            Cancel
-          </button>
-        )}
-      </div>
+      <AddClientFormBtn formStatus={formStatus} onCancel={onCancel} />
     </form>
   );
 }
