@@ -103,23 +103,34 @@ const checkPermission = (
 
 // 5. Special function ONLY for user modification (Super Admin protection)
 export const canModifyUser = (currentUser, targetUser, action) => {
+  // Safety check
+  if (!currentUser || !targetUser) return false;
+
   const currentRole = currentUser.role;
   const targetRole = targetUser.role || targetUser;
+  const isSelf = targetUser._id && targetUser._id === currentUser._id;
 
-  // Super admins can modify anyone (except themselves for delete)
+  // RULE 1: Cannot modify yourself (except maybe some actions)
+  if (isSelf) {
+    // Can never delete yourself
+    if (action === PERMISSIONS.DELETE) return false;
+    // Can never change your own role (this is the fix!)
+    if (action === PERMISSIONS.EDIT) return false;
+    // For other actions, maybe allow (like updating profile)
+    return false; // Or true if you want to allow profile updates
+  }
+
+  // RULE 2: Super admins can modify anyone else
   if (currentRole === ROLES.SUPER_ADMIN) {
-    if (action === PERMISSIONS.DELETE && targetUser._id === currentUser._id) {
-      return false; // Can't delete yourself
-    }
     return true;
   }
 
-  // Admins cannot modify super admins
+  // RULE 3: Admins cannot modify super admins
   if (currentRole === ROLES.ADMIN && targetRole === ROLES.SUPER_ADMIN) {
     return false;
   }
 
-  // Everyone else can only modify users with lower/equal role
+  // RULE 4: Everyone else can only modify users with lower/equal role
   const currentLevel = ROLE_HIERARCHY[currentRole];
   const targetLevel = ROLE_HIERARCHY[targetRole];
 
