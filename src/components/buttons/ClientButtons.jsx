@@ -222,3 +222,31 @@ export const ScheduleEventLink = ({ client }) => {
     </PermissionButton>
   );
 };
+
+// add client form btn
+export const AddClientFormBtn = ({ formStatus, onCancel }) => {
+  return (
+    <div className="flex gap-4">
+      <PermissionButton
+        permission={PERMISSIONS.CREATE}
+        resource={RESOURCES.CLIENT}
+        tooltipTitle="Add a new client"
+        fallbackTooltip="Upgrade to Planner or Admin role to add clients"
+        type="submit"
+        disabled={formStatus === "loading"}
+        className="bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold px-6 py-2 rounded-lg dark:bg-[#D97706] dark:hover:bg-[#F59E0B]"
+      >
+        {formStatus === "loading" ? "Saving..." : "Save Client"}
+      </PermissionButton>
+      {onCancel && (
+        <button
+          type="button"
+          onClick={onCancel}
+          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg"
+        >
+          Cancel
+        </button>
+      )}
+    </div>
+  );
+};
