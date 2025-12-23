@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { Plus, XCircle } from "lucide-react";
 
 import { getExpensesByCategory, BudgetStatus } from "../utils/budgetHelpers";
 import {
@@ -9,8 +8,12 @@ import {
 } from "../expenses/ExpenseCard";
 import EditExpenseForm from "../expenses/forms/EditExpenseForm";
 import CreateExpenseForm from "../expenses/forms/CreateExpenseForm";
-import EditDeleteExpense from "../../shared/EditDeleteExpense";
 import ExpenseTab from "./ExpenseTab";
+import {
+  AddBudgetLink,
+  AddExpenseBtn,
+  EditDeleteExpenseBtns,
+} from "../../buttons/ExpenseButtons";
 
 export default function BudgetTab({
   expenses,
@@ -58,32 +61,14 @@ export default function BudgetTab({
           Budget & Expenses
         </h2>
         {hasNoBudget ? (
-          <Link
-            to={`/events/${id}/edit/#budget_info_id`}
-            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#9B2C62] text-white hover:bg-[#7A2350] transition text-xs cursor-default dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
-          >
-            <Plus className="w-3 h-3" />
-            <span>Add Budget</span>
-          </Link>
+          <AddBudgetLink id={id} />
         ) : (
-          <button
-            onClick={() => {
-              if (showCreateExpenseForm) {
-                setExpenseToEdit(null);
-              } else {
-                setScrollToForm(true);
-              }
-              setShowCreateExpenseForm(!showCreateExpenseForm);
-            }}
-            className="flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455]/20 transition text-xs cursor-pointer dark:bg-[#D97706]/90 dark:text-white dark:hover:bg-[#D97706]/50"
-          >
-            {showCreateExpenseForm ? (
-              <XCircle className="w-3 h-3" />
-            ) : (
-              <Plus className="w-3 h-3" />
-            )}
-            <span>{showCreateExpenseForm ? "Cancel" : "Add Expense"}</span>
-          </button>
+          <AddExpenseBtn
+            showCreateExpenseForm={showCreateExpenseForm}
+            setExpenseToEdit={setExpenseToEdit}
+            setScrollToForm={setScrollToForm}
+            setShowCreateExpenseForm={setShowCreateExpenseForm}
+          />
         )}
       </div>
 
@@ -174,7 +159,7 @@ export default function BudgetTab({
                   className="border border-[#F3EDE9] bg-white p-4 rounded-lg hover:shadow-md transition group dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
                 >
                   <ExpenseListView expense={expense}>
-                    <EditDeleteExpense
+                    <EditDeleteExpenseBtns
                       setShowCreateExpenseForm={setShowCreateExpenseForm}
                       handleExpenseDelete={(expenseId) =>
                         handleExpenseDelete(

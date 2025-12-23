@@ -1,3 +1,5 @@
+import { CreateTaskFormBtn } from "../../../buttons/TaskButtons";
+
 export default function TaskFormFields({
   form,
   onFieldChange,
@@ -190,30 +192,11 @@ export default function TaskFormFields({
       )}
 
       {/* Buttons */}
-      <div className="flex justify-end gap-3 pt-4">
-        {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-600 transition"
-          >
-            Cancel
-          </button>
-        )}
-        <button
-          type="submit"
-          disabled={taskStatus === "loading"}
-          className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] transition dark:bg-[#D97706] dark:hover:bg-[#F59E0B]"
-        >
-          {taskStatus === "loading"
-            ? mode === "create"
-              ? "Creating..."
-              : "Saving..."
-            : mode === "create"
-            ? "Create Task"
-            : "Save Changes"}
-        </button>
-      </div>
+      <CreateTaskFormBtn
+        mode={mode}
+        onClose={onClose}
+        taskStatus={taskStatus}
+      />
     </form>
   );
 }

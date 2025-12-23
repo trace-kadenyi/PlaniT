@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { PlusIcon } from "lucide-react";
 import toast from "react-hot-toast";
+
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 
@@ -20,6 +21,10 @@ import { ErrorState } from "../components/shared/ErrorStates";
 import ClientEventsUI from "../components/clients/ClientEventsUI";
 import ClientCard from "../components/clients/ClientCard";
 import { createClientDeleteHandler } from "../globalHandlers/createClientDeleteHandler";
+import {
+  AddNewClientEventLink,
+  ScheduleEventLink,
+} from "../components/buttons/ClientButtons";
 
 export default function Client() {
   const { id } = useParams();
@@ -145,12 +150,7 @@ export default function Client() {
                 <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706]">
                   Event History
                 </h2>
-                <Link
-                  to={`/events/new?client=${client._id}`}
-                  className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg dark:bg-[#D97706] hover:dark:bg-[#F59E0B]"
-                >
-                  + Add New Event
-                </Link>
+                <AddNewClientEventLink client={client} />
               </div>
 
               {/* no events handling */}
@@ -175,13 +175,7 @@ export default function Client() {
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 mb-4">
                     Get started by scheduling your first event
                   </p>
-                  <Link
-                    to={`/events/new?client=${client._id}`}
-                    className="inline-flex items-center bg-[#9B2C62] hover:bg-[#7B1D52] text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                  >
-                    <PlusIcon className="-ml-1 mr-2 h-4 w-4" />
-                    Schedule Event
-                  </Link>
+                  <ScheduleEventLink client={client} />
                 </div>
               ) : (
                 // events list

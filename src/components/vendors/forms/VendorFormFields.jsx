@@ -1,3 +1,5 @@
+import { SaveVendorFormBtn } from "../../buttons/VendorButtons";
+
 export default function VendorFormFields({
   formData,
   onFieldChange,
@@ -168,24 +170,7 @@ export default function VendorFormFields({
       )}
 
       {/* Submit Buttons */}
-      <div className="flex gap-4">
-        <button
-          type="submit"
-          disabled={formStatus === "loading"}
-          className="bg-[#F59E0B] hover:bg-[#D97706] dark:bg-[#D97706] dark:hover:bg-[#F59E0B]  text-white font-semibold px-6 py-2 rounded-lg"
-        >
-          {formStatus === "loading" ? "Saving..." : "Save Vendor"}
-        </button>
-        {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg dark:bg-gray-500 dark:hover:bg-gray-400"
-          >
-            Cancel
-          </button>
-        )}
-      </div>
+      <SaveVendorFormBtn formStatus={formStatus} onCancel={onCancel} />
     </form>
   );
 }

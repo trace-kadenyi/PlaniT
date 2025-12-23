@@ -5,6 +5,7 @@ import { FormBudgetSummary } from "../../utils/budgetHelpers";
 import { handleFileUpload, handleRemoveReceipt } from "../expenseHelpers";
 import AutocompleteWithChips from "../../../shared/AutocompleteWithChips";
 import { CustomCalendar } from "../../../ui/Calendar";
+import { AddExpenseFormBtn } from "../../../buttons/ExpenseButtons";
 
 export default function ExpenseFormFields({
   form,
@@ -293,30 +294,11 @@ export default function ExpenseFormFields({
       )}
 
       {/* Buttons */}
-      <div className="flex justify-end gap-3 pt-4">
-        {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-600 transition"
-          >
-            Cancel
-          </button>
-        )}
-        <button
-          type="submit"
-          disabled={expenseStatus === "loading"}
-          className="px-4 py-2 rounded-md bg-[#9B2C62] text-white hover:bg-[#801f4f] dark:bg-[#D97706] dark:hover:bg-[#F59E0B] transition"
-        >
-          {expenseStatus === "loading"
-            ? mode === "create"
-              ? "Adding..."
-              : "Saving..."
-            : mode === "create"
-            ? "Add Expense"
-            : "Save Changes"}
-        </button>
-      </div>
+      <AddExpenseFormBtn
+        onClose={onClose}
+        expenseStatus={expenseStatus}
+        mode={mode}
+      />
     </form>
   );
 }

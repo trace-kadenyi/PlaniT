@@ -1,4 +1,10 @@
-import { Mail, Trash2, Edit3, RefreshCcw, Archive } from "lucide-react";
+import { Mail } from "lucide-react";
+
+import {
+  ArchiveClientBtn,
+  DeleteClientBtn,
+  EditClientLink,
+} from "../buttons/ClientButtons";
 
 export default function ClientCard({
   client,
@@ -19,58 +25,23 @@ export default function ClientCard({
           {/* Primary Actions Row */}
           <div className="flex gap-2">
             {/* edit client */}
-            {client && (
-              <Link
-                to={`/clients/${id}/edit`}
-                className="flex items-center bg-[#F59E0B] hover:bg-[#D97706] text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-[#D97706] dark:hover:bg-[#F59E0B] flex-1 sm:flex-none justify-center"
-              >
-                <Edit3 className="w-4 h-4 mr-2" />
-                Edit
-              </Link>
-            )}
+            {client && <EditClientLink id={id} />}
 
             {/* archive/restore toggle */}
-            <button
-              onClick={() => handleArchiveToggle(id, localIsArchived)}
-              disabled={client?.isArchiving || client?.isRestoring}
-              className={`flex items-center px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 flex-1 sm:flex-none justify-center ${
-                localIsArchived
-                  ? "bg-[#FFBF00] hover:bg-[#E6AC00] text-[#571838] dark:bg-[#E6AC00]/90 dark:text-black dark:hover:bg-[#FFBF00]/60"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
-              }`}
-            >
-              {client?.isArchiving ? (
-                <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
-              ) : client?.isRestoring ? (
-                <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
-              ) : localIsArchived ? (
-                <RefreshCcw className="w-4 h-4 mr-2" />
-              ) : (
-                <Archive className="w-4 h-4 mr-2" />
-              )}
-              {client?.isArchiving
-                ? "Archiving..."
-                : client?.isRestoring
-                ? "Restoring..."
-                : localIsArchived
-                ? "Restore"
-                : "Archive"}
-            </button>
+            <ArchiveClientBtn
+              handleArchiveToggle={handleArchiveToggle}
+              id={id}
+              localIsArchived={localIsArchived}
+              client={client}
+            />
           </div>
 
           {/* Delete Button */}
-          <button
-            onClick={() => handleDelete(id)}
-            disabled={client?.isDeleting}
-            className="flex items-center bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-red-900/60 dark:hover:bg-red-900/50 dark:text-white justify-center border border-red-200 dark:border-red-700/50"
-          >
-            {client?.isDeleting ? (
-              <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Trash2 className="w-4 h-4 mr-2" />
-            )}
-            {client?.isDeleting ? "Deleting..." : "Delete"}
-          </button>
+          <DeleteClientBtn
+            handleDelete={handleDelete}
+            id={id}
+            client={client}
+          />
         </div>
       </div>
 

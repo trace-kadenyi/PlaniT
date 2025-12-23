@@ -17,6 +17,7 @@ import {
 import { logout, logoutUser } from "../../redux/authSlice";
 import { navLinks } from "../../data/navData";
 import { BarLogo, UserProfile, SecondaryLinks } from "../ui/Bar";
+import { SidebarCreateEventLink } from "../buttons/EventButtons";
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
@@ -254,21 +255,7 @@ export default function Sidebar() {
 
             {/* Create Event Button */}
             <div className={`pt-2 ${collapsed ? "px-1" : "px-2"}`}>
-              <Link
-                to="/events/new"
-                className={`
-              flex items-center p-3 rounded-lg transition-colors 
-              bg-[#FF9933] dark:bg-[#E07C24] text-white
-              hover:bg-[#E07C24] dark:hover:bg-[#FF9933] ${
-                collapsed ? "justify-center" : "gap-3 justify-center"
-              }
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
-            `}
-                title={collapsed ? "Create Event" : undefined}
-              >
-                <Plus size={20} aria-hidden="true" />
-                {!collapsed && <span>Create Event</span>}
-              </Link>
+              <SidebarCreateEventLink collapsed={collapsed} />
             </div>
 
             {/* Secondary Links */}

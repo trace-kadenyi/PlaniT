@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import Password, { generateRandomPassword } from "../../shared/Password";
+import { AddMemberFormBtn } from "../../buttons/UserButtons";
 
 const AddUser = ({
   showAddForm,
@@ -283,24 +284,10 @@ dark:text-gray-300"
               </div>
 
               {/* Submit Buttons */}
-              <div className="flex justify-end space-x-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowAddForm(false);
-                  }}
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-3 py-1 rounded-lg transition-all text-xs"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={addUserStatus === "loading"}
-                  className="bg-[#9B2C62] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#7A2250] disabled:opacity-50 disabled:cursor-not-allowed dark:bg-[#d97706] dark:hover:bg-[#d97706]/80"
-                >
-                  {addUserStatus === "loading" ? "Adding..." : "Add Member"}
-                </button>
-              </div>
+              <AddMemberFormBtn
+                setShowAddForm={setShowAddForm}
+                addUserStatus={addUserStatus}
+              />
             </form>
           </div>
         </div>
