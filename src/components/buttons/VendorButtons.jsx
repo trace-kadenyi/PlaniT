@@ -188,3 +188,31 @@ export const DeleteVendorBtn = ({ handleDelete, vendor }) => {
     </PermissionButton>
   );
 };
+
+// save vendor form btn
+export const SaveVendorFormBtn = ({ formStatus, onCancel }) => {
+  return (
+    <div className="flex gap-4">
+      <PermissionButton
+        permission={PERMISSIONS.CREATE}
+        resource={RESOURCES.VENDOR}
+        tooltipTitle="Add a new vendor"
+        fallbackTooltip="Upgrade to Planner or Admin role to add vendors"
+        type="submit"
+        disabled={formStatus === "loading"}
+        className="bg-[#F59E0B] hover:bg-[#D97706] dark:bg-[#D97706] dark:hover:bg-[#F59E0B]  text-white font-semibold px-6 py-2 rounded-lg"
+      >
+        {formStatus === "loading" ? "Saving..." : "Save Vendor"}
+      </PermissionButton>
+      {onCancel && (
+        <button
+          type="button"
+          onClick={onCancel}
+          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg dark:bg-gray-500 dark:hover:bg-gray-400"
+        >
+          Cancel
+        </button>
+      )}
+    </div>
+  );
+};
