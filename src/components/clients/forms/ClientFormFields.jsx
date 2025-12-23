@@ -1,4 +1,4 @@
-import { AddClientFormBtn } from "../../buttons/ClientButtons";
+import { SaveClientFormBtn } from "../../buttons/ClientButtons";
 
 export default function ClientFormFields({
   formData,
@@ -113,7 +113,7 @@ export default function ClientFormFields({
       )}
 
       {/* Submit Buttons */}
-      <AddClientFormBtn formStatus={formStatus} onCancel={onCancel} />
+      <SaveClientFormBtn formStatus={formStatus} onCancel={onCancel} />
     </form>
   );
 }
