@@ -1,6 +1,7 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Plus } from "lucide-react";
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
+import PermissionLink from "./PermissionLink";
 
 // create event btn
 export const CreateEventBtn = ({ navigate }) => {
@@ -131,5 +132,30 @@ export const AddEventFormBtn = ({ formStatus, shouldDisable, mode, Lock }) => {
         "Save Changes"
       )}
     </PermissionButton>
+  );
+};
+
+// sidebar create event link
+export const SidebarCreateEventLink = ({ collapsed }) => {
+  return (
+    <PermissionLink
+      to="/events/new"
+      permission={PERMISSIONS.CREATE}
+      resource={RESOURCES.EVENT}
+      tooltipTitle="Create a new event"
+      fallbackTooltip="Upgrade to Planner or Admin role to create events"
+      className={`
+                  flex items-center p-3 rounded-lg transition-colors 
+                  bg-[#FF9933] dark:bg-[#E07C24] text-white
+                  hover:bg-[#E07C24] dark:hover:bg-[#FF9933] ${
+                    collapsed ? "justify-center" : "gap-3 justify-center"
+                  }
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866]
+                `}
+      title={collapsed ? "Create Event" : undefined}
+    >
+      <Plus size={20} aria-hidden="true" />
+      {!collapsed && <span>Create Event</span>}
+    </PermissionLink>
   );
 };
