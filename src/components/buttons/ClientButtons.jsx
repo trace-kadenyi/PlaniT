@@ -223,8 +223,8 @@ export const ScheduleEventLink = ({ client }) => {
   );
 };
 
-// add client form btn
-export const AddClientFormBtn = ({ formStatus, onCancel }) => {
+// save client form btn
+export const SaveClientFormBtn = ({ formStatus, onCancel }) => {
   return (
     <div className="flex gap-4">
       <PermissionButton
