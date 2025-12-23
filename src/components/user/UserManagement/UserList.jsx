@@ -1,24 +1,24 @@
-import React from "react";
+import {
+  usePermissions,
+  PERMISSIONS,
+  RESOURCES,
+  canModifyUser,
+  ROLES,
+} from "../../../globalHooks/userPermissions";
+import PermissionButton from "../../buttons/PermissionButton";
 
-const UserList = ({
-  users,
-  currentUser,
-  editable = false,
-  onRoleChange,
-  onRemoveUser,
-}) => {
-  const superAdminOrAdmin =
-    currentUser?.role === "admin" || currentUser?.role === "super_admin";
+const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
+  const { can, currentUser } = usePermissions();
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto  dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
-      <div className="px-6 py-4 border-b border-gray-200  dark:border-gray-800">
+    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
           Team Members ({users.length})
         </h2>
       </div>
 
-      <div className="divide-y divide-gray-200  dark:divide-gray-800">
+      <div className="divide-y divide-gray-200 dark:divide-gray-800">
         {users
           .filter((user) => user && user._id)
           .sort((a, b) => {
@@ -30,9 +30,7 @@ const UserList = ({
             <UserListItem
               key={user._id.toString()}
               user={user}
-              currentUser={currentUser}
               editable={editable}
-              superAdminOrAdmin={superAdminOrAdmin}
               onRoleChange={onRoleChange}
               onRemoveUser={onRemoveUser}
             />
@@ -42,34 +40,12 @@ const UserList = ({
   );
 };
 
-const UserListItem = ({
-  user,
-  currentUser,
-  editable,
-  superAdminOrAdmin,
-  onRoleChange,
-  onRemoveUser,
-}) => {
-  const canEditRole = () => {
-    if (user._id === currentUser?._id) return false;
-    if (currentUser?.role === "super_admin") return true;
-    if (currentUser?.role === "admin") {
-      return user.role === "viewer" || user.role === "planner";
-    }
-    return false;
-  };
+const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
+  const { can, currentUser } = usePermissions();
 
-  const canRemoveUser = () => {
-    if (user._id === currentUser?._id) return false;
-    if (currentUser?.role === "super_admin") return true;
-    if (currentUser?.role === "admin") {
-      return user.role === "viewer" || user.role === "planner";
-    }
-    return false;
-  };
-
-  const showRoleSelector = editable && canEditRole();
-  const showDeleteButton = editable;
+  // Use canModifyUser from your existing hook!
+  const canEditRole = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
+  const canRemove = canModifyUser(currentUser, user, PERMISSIONS.DELETE);
 
   return (
     <div className="px-6 py-4 flex flex-col gap-3 sm:items-center justify-between sm:flex-row">
@@ -97,7 +73,7 @@ const UserListItem = ({
 
       <div className="flex items-center space-x-4 ml-10 flex-wrap sm:flex-nowrap gap-2 sm:ml-0">
         {/* Role Display/Selector */}
-        {showRoleSelector ? (
+        {editable && canEditRole ? (
           <RoleSelector
             user={user}
             currentUser={currentUser}
@@ -107,14 +83,19 @@ const UserListItem = ({
           <RoleDisplay user={user} />
         )}
 
-        {/* Delete Button */}
-        {showDeleteButton && (
-          <RemoveUserButton
-            user={user}
-            currentUser={currentUser}
-            canRemove={canRemoveUser()}
-            onRemoveUser={onRemoveUser}
-          />
+        {/* Delete Button - Using PermissionButton for consistency! */}
+        {editable && (
+          <PermissionButton
+            permission={PERMISSIONS.DELETE}
+            resource={RESOURCES.USER}
+            target={user} // Pass target user for permission check
+            onClick={() => onRemoveUser(user._id)}
+            tooltipTitle="Remove user from organization"
+            fallbackTooltip="Cannot remove this user"
+            className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-700"
+          >
+            Remove
+          </PermissionButton>
         )}
       </div>
     </div>
@@ -122,63 +103,69 @@ const UserListItem = ({
 };
 
 const RoleDisplay = ({ user }) => (
-  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200 dark:bg-gray-900 dark:border-gray-800  dark:text-gray-300">
-    {user.role === "super_admin" ? "Super Admin" : user.role}
+  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium capitalize bg-gray-100 text-gray-800 border border-gray-200 dark:bg-gray-900 dark:border-gray-800 dark:text-gray-300">
+    {user.role === ROLES.SUPER_ADMIN ? "Super Admin" : user.role}
   </span>
 );
 
-const RoleSelector = ({ user, currentUser, onRoleChange }) => (
-  <select
-    value={user.role}
-    onChange={(e) => onRoleChange(user._id, e.target.value)}
-    className="min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-900 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300"
-  >
-    <option value="viewer">Viewer</option>
-    <option value="planner">Planner</option>
-    <option value="admin">Admin</option>
-    {currentUser?.role === "super_admin" && (
-      <option value="super_admin">Super Admin</option>
-    )}
-  </select>
-);
+const RoleSelector = ({ user, onRoleChange }) => {
+  const { can, currentUser } = usePermissions();
 
-const RemoveUserButton = ({ user, currentUser, canRemove, onRemoveUser }) => {
-  const getButtonText = () => {
-    if (user._id === currentUser?._id) return "Your Account";
-    if (user.role === "super_admin") return "Super Admin";
-    if (user.role === "admin") return "Admin User";
-    return "Remove";
+  const canEditRole = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
+  const shouldDisable = !canEditRole;
+
+  const getAvailableRoles = () => {
+    const roles = [
+      { value: ROLES.VIEWER, label: "Viewer" },
+      { value: ROLES.PLANNER, label: "Planner" },
+    ];
+
+    if (canModifyUser(currentUser, { role: ROLES.ADMIN }, PERMISSIONS.EDIT)) {
+      roles.push({ value: ROLES.ADMIN, label: "Admin" });
+    }
+
+    if (currentUser?.role === ROLES.SUPER_ADMIN) {
+      roles.push({ value: ROLES.SUPER_ADMIN, label: "Super Admin" });
+    }
+
+    return roles;
   };
 
-  const getTooltipText = () => {
-    if (user._id === currentUser?._id) return "Cannot remove your own account";
-    if (user.role === "super_admin") return "Super admins cannot be removed";
-    if (user.role === "admin")
-      return "Admin users cannot be removed by other admins";
-    return "Remove this user from the organization";
-  };
+  const select = (
+    <select
+      value={user.role}
+      onChange={
+        canEditRole ? (e) => onRoleChange(user._id, e.target.value) : undefined
+      }
+      disabled={shouldDisable}
+      className={`min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-900 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300 ${
+        shouldDisable ? "opacity-60 cursor-not-allowed" : ""
+      }`}
+    >
+      {getAvailableRoles().map((role) => (
+        <option key={role.value} value={role.value}>
+          {role.label}
+        </option>
+      ))}
+    </select>
+  );
 
-  if (canRemove) {
+  if (shouldDisable) {
     return (
-      <button
-        onClick={() => onRemoveUser(user._id)}
-        className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover-text-red-700"
-        title={getTooltipText()}
+      <Tooltip
+        title={
+          user._id === currentUser?._id
+            ? "Cannot change your own role"
+            : "Insufficient permissions to change this user's role"
+        }
+        arrow
       >
-        Remove
-      </button>
+        <span>{select}</span>
+      </Tooltip>
     );
   }
 
-  return (
-    <button
-      disabled
-      className="text-gray-500 bg-gray-50 px-3 py-1 rounded-lg border border-gray-200 cursor-not-allowed text-xs font-medium dark:bg-gray-700 dark:text-gray-300 dark:border-transparent"
-      title={getTooltipText()}
-    >
-      {getButtonText()}
-    </button>
-  );
+  return select;
 };
 
 export default UserList;
