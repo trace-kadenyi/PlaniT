@@ -1,7 +1,4 @@
-import React from "react";
-
 import UserList from "./UserList";
-import { Plus } from "lucide-react";
 import { AddNewMembersBtn } from "../../buttons/UserButtons";
 
 const AdminView = ({
