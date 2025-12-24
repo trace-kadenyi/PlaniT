@@ -43,7 +43,7 @@ const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
 const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
   const { can, currentUser } = usePermissions();
 
-  // Use canModifyUser from your existing hook!
+  // canModifyUser func
   const canEditRole = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
   const canRemove = canModifyUser(currentUser, user, PERMISSIONS.DELETE);
 
@@ -83,12 +83,12 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
           <RoleDisplay user={user} />
         )}
 
-        {/* Delete Button - Using PermissionButton for consistency! */}
+        {/* Delete Button */}
         {editable && (
           <PermissionButton
             permission={PERMISSIONS.DELETE}
             resource={RESOURCES.USER}
-            target={user} // Pass target user for permission check
+            target={user}
             onClick={() => onRemoveUser(user._id)}
             tooltipTitle="Remove user from organization"
             fallbackTooltip="Cannot remove this user"
