@@ -68,6 +68,21 @@ export const fetchOrganizationDetails = createAsyncThunk(
   }
 );
 
+// Fetch single user details
+export const fetchUserDetails = createAsyncThunk(
+  "organization/fetchUserDetails",
+  async (userId, { rejectWithValue }) => {
+    try {
+      // You might need to add this endpoint to your backend
+      const res = await api.get(`/api/organization/users/${userId}`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+
 const organizationSlice = createSlice({
   name: "organization",
   initialState: {
