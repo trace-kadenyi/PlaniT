@@ -179,6 +179,19 @@ const organizationSlice = createSlice({
       // Fetch organization details
       .addCase(fetchOrganizationDetails.fulfilled, (state, action) => {
         state.organization = action.payload;
+      })
+      // Fetch user details
+      .addCase(fetchUserDetails.pending, (state) => {
+        state.userDetailsStatus = "loading";
+        state.userDetailsError = null;
+      })
+      .addCase(fetchUserDetails.fulfilled, (state, action) => {
+        state.userDetailsStatus = "succeeded";
+        state.userDetails = action.payload;
+      })
+      .addCase(fetchUserDetails.rejected, (state, action) => {
+        state.userDetailsStatus = "failed";
+        state.userDetailsError = action.payload;
       });
   },
 });
