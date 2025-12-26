@@ -82,12 +82,14 @@ export const fetchUserDetails = createAsyncThunk(
   }
 );
 
-
 const organizationSlice = createSlice({
   name: "organization",
   initialState: {
     users: [],
     organization: null,
+    userDetails: null,
+    userDetailsStatus: "idle",
+    userDetailsError: null,
     status: "idle",
     error: null,
     addUserStatus: "idle",
@@ -180,6 +182,8 @@ const organizationSlice = createSlice({
       });
   },
 });
+
+export const deleteUser = removeOrganizationUser;
 
 export const {
   resetOrganizationStatus,
