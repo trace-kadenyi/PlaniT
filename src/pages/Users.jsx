@@ -108,7 +108,7 @@ export default function Users() {
         <div className="flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 sm:text-center lg:text-start sm:mt-2">
-              {organization.name} Team Directory
+              {organization?.name} Team Directory
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
               Manage your organization's team members and permissions
