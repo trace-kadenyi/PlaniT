@@ -132,7 +132,7 @@ const usersSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-      
+
       // Fetch single user details
       .addCase(fetchUserDetails.pending, (state) => {
         state.fetchDetailsStatus = "loading";
@@ -146,7 +146,7 @@ const usersSlice = createSlice({
         state.fetchDetailsStatus = "failed";
         state.fetchDetailsError = action.payload;
       })
-      
+
       // Add user
       .addCase(addUser.pending, (state) => {
         state.addStatus = "loading";
@@ -160,7 +160,7 @@ const usersSlice = createSlice({
         state.addStatus = "failed";
         state.addError = action.payload;
       })
-      
+
       // Update user
       .addCase(updateUser.pending, (state) => {
         state.updateStatus = "loading";
@@ -173,10 +173,16 @@ const usersSlice = createSlice({
           (user) => user._id === action.payload.user.id
         );
         if (index !== -1) {
-          state.items[index] = { ...state.items[index], ...action.payload.user };
+          state.items[index] = {
+            ...state.items[index],
+            ...action.payload.user,
+          };
         }
         // Update current user if it's the same
-        if (state.currentUser && state.currentUser._id === action.payload.user.id) {
+        if (
+          state.currentUser &&
+          state.currentUser._id === action.payload.user.id
+        ) {
           state.currentUser = { ...state.currentUser, ...action.payload.user };
         }
       })
@@ -184,7 +190,7 @@ const usersSlice = createSlice({
         state.updateStatus = "failed";
         state.updateError = action.payload;
       })
-      
+
       // Update user role
       .addCase(updateUserRole.pending, (state) => {
         state.updateRoleStatus = "loading";
@@ -198,7 +204,10 @@ const usersSlice = createSlice({
         if (index !== -1) {
           state.items[index].role = action.payload.user.role;
         }
-        if (state.currentUser && state.currentUser._id === action.payload.user.id) {
+        if (
+          state.currentUser &&
+          state.currentUser._id === action.payload.user.id
+        ) {
           state.currentUser.role = action.payload.user.role;
         }
       })
@@ -206,7 +215,7 @@ const usersSlice = createSlice({
         state.updateRoleStatus = "failed";
         state.updateRoleError = action.payload;
       })
-      
+
       // Delete user
       .addCase(deleteUser.pending, (state) => {
         state.deleteStatus = "loading";
@@ -226,3 +235,6 @@ const usersSlice = createSlice({
   },
 });
 
+export const { resetUsersStatus, clearUsers, setCurrentUser } =
+  usersSlice.actions;
+export default usersSlice.reducer;
