@@ -1,5 +1,5 @@
-// redux/usersSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import api from "../app/api";
 
 // Fetch all users (already filtered by organization in backend)
