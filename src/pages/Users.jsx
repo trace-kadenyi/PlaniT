@@ -8,6 +8,7 @@ import {
   deleteUser,
   addUser,
 } from "../redux/usersSlice";
+import { fetchOrganizationDetails } from "../redux/organizationSlice";
 
 import UserList from "../components/user/UserManagement/UserList";
 import AddUserForm from "../components/user/forms/AddUserForm";
@@ -28,6 +29,7 @@ export default function Users() {
     error,
     addStatus,
   } = useSelector((state) => state.users);
+  const { organization } = useSelector((state) => state.organization);
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -39,6 +41,7 @@ export default function Users() {
 
   useEffect(() => {
     dispatch(fetchUsers());
+    dispatch(fetchOrganizationDetails());
   }, [dispatch]);
 
   // Handle add user
@@ -102,10 +105,10 @@ export default function Users() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div className="flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706]">
-              Team Members
+            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 sm:text-center lg:text-start sm:mt-2">
+              {organization.name} Team Directory
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
               Manage your organization's team members and permissions
