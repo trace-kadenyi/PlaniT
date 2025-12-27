@@ -117,6 +117,112 @@ const usersSlice = createSlice({
       state.currentUser = action.payload;
     },
   },
- 
+  extraReducers: (builder) => {
+    builder
+      // Fetch all users
+      .addCase(fetchUsers.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      
+      // Fetch single user details
+      .addCase(fetchUserDetails.pending, (state) => {
+        state.fetchDetailsStatus = "loading";
+        state.fetchDetailsError = null;
+      })
+      .addCase(fetchUserDetails.fulfilled, (state, action) => {
+        state.fetchDetailsStatus = "succeeded";
+        state.currentUser = action.payload;
+      })
+      .addCase(fetchUserDetails.rejected, (state, action) => {
+        state.fetchDetailsStatus = "failed";
+        state.fetchDetailsError = action.payload;
+      })
+      
+      // Add user
+      .addCase(addUser.pending, (state) => {
+        state.addStatus = "loading";
+        state.addError = null;
+      })
+      .addCase(addUser.fulfilled, (state, action) => {
+        state.addStatus = "succeeded";
+        state.items.push(action.payload.user);
+      })
+      .addCase(addUser.rejected, (state, action) => {
+        state.addStatus = "failed";
+        state.addError = action.payload;
+      })
+      
+      // Update user
+      .addCase(updateUser.pending, (state) => {
+        state.updateStatus = "loading";
+        state.updateError = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+        // Update in items list
+        const index = state.items.findIndex(
+          (user) => user._id === action.payload.user.id
+        );
+        if (index !== -1) {
+          state.items[index] = { ...state.items[index], ...action.payload.user };
+        }
+        // Update current user if it's the same
+        if (state.currentUser && state.currentUser._id === action.payload.user.id) {
+          state.currentUser = { ...state.currentUser, ...action.payload.user };
+        }
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError = action.payload;
+      })
+      
+      // Update user role
+      .addCase(updateUserRole.pending, (state) => {
+        state.updateRoleStatus = "loading";
+        state.updateRoleError = null;
+      })
+      .addCase(updateUserRole.fulfilled, (state, action) => {
+        state.updateRoleStatus = "succeeded";
+        const index = state.items.findIndex(
+          (user) => user._id === action.payload.user.id
+        );
+        if (index !== -1) {
+          state.items[index].role = action.payload.user.role;
+        }
+        if (state.currentUser && state.currentUser._id === action.payload.user.id) {
+          state.currentUser.role = action.payload.user.role;
+        }
+      })
+      .addCase(updateUserRole.rejected, (state, action) => {
+        state.updateRoleStatus = "failed";
+        state.updateRoleError = action.payload;
+      })
+      
+      // Delete user
+      .addCase(deleteUser.pending, (state) => {
+        state.deleteStatus = "loading";
+        state.deleteError = null;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.deleteStatus = "succeeded";
+        state.items = state.items.filter((user) => user._id !== action.payload);
+        if (state.currentUser && state.currentUser._id === action.payload) {
+          state.currentUser = null;
+        }
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.deleteStatus = "failed";
+        state.deleteError = action.payload;
+      });
+  },
 });
 
