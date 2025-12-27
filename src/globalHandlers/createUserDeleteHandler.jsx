@@ -2,7 +2,7 @@ export const createUserDeleteHandler = (
   dispatch,
   id,
   navigate,
-  removeOrganizationUser,
+  deleteUser,
   toast,
   toastWithProgress,
   DeleteConfirmationToast
@@ -16,7 +16,7 @@ export const createUserDeleteHandler = (
           duration={duration}
           type="user"
           onConfirm={() => {
-            dispatch(removeOrganizationUser(id));
+            dispatch(deleteUser(id));
             toast.dismiss(t.id);
             toastWithProgress("User deleted successfully");
             navigate("/team");
