@@ -98,7 +98,25 @@ const usersSlice = createSlice({
     updateRoleError: null,
     deleteError: null,
   },
-  
+  reducers: {
+    resetUsersStatus: (state) => {
+      state.status = "idle";
+      state.error = null;
+      state.addStatus = "idle";
+      state.addError = null;
+      state.updateStatus = "idle";
+      state.updateError = null;
+      state.deleteStatus = "idle";
+      state.deleteError = null;
+    },
+    clearUsers: (state) => {
+      state.items = [];
+      state.currentUser = null;
+    },
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
+    },
+  },
  
 });
 
