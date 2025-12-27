@@ -80,4 +80,25 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+const usersSlice = createSlice({
+  name: "users",
+  initialState: {
+    items: [], // All users
+    currentUser: null, // User being viewed/edited
+    status: "idle", // For fetchUsers
+    fetchDetailsStatus: "idle", // For fetchUserDetails
+    addStatus: "idle",
+    updateStatus: "idle",
+    updateRoleStatus: "idle",
+    deleteStatus: "idle",
+    error: null,
+    fetchDetailsError: null,
+    addError: null,
+    updateError: null,
+    updateRoleError: null,
+    deleteError: null,
+  },
+  
+ 
+});
 
