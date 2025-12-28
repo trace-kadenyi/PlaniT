@@ -238,6 +238,7 @@ export default function UserProfile() {
                   </h3>
 
                   <div className="space-y-2 flex flex-col">
+                    {/* edit btn */}
                     <PermissionButton
                       to={`/users/${userId}/edit`}
                       permission={PERMISSIONS.EDIT}
@@ -258,6 +259,7 @@ export default function UserProfile() {
                       Edit Profile
                     </PermissionButton>
 
+                    {/* delete btn */}
                     <PermissionButton
                       permission={PERMISSIONS.DELETE}
                       resource={RESOURCES.USER}
