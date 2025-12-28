@@ -27,7 +27,6 @@ import PermissionButton from "../components/buttons/PermissionButton";
 import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
 import toast from "react-hot-toast";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
-import { truncateText } from "../components/taskManagerCollection/utils/formatting";
 
 export default function UserProfile() {
   // Renamed component to avoid conflict
@@ -298,11 +297,8 @@ export default function UserProfile() {
             {/* User Details */}
             <div className="flex-1">
               <div className="mb-6">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2">
-                  {truncateText(
-                    `${userData.firstName} ${userData.lastName}`,
-                    15
-                  )}
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 break-words">
+                  {userData.firstName} {userData.lastName}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
                   Member since {formatDate(userData.createdAt)}
@@ -363,11 +359,11 @@ export default function UserProfile() {
                   Contact Information
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg">
+                  <div className="flex items-center justify-between p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg gap-2 flex-wrap">
                     <span className="text-gray-600 dark:text-gray-400">
                       Email
                     </span>
-                    <span className="font-medium text-gray-800 dark:text-white">
+                    <span className="font-medium text-gray-800 dark:text-white break-all">
                       {userData.email}
                     </span>
                   </div>
