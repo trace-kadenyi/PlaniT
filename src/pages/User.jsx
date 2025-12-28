@@ -203,7 +203,7 @@ export default function UserProfile() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Avatar and Basic Info */}
             <div className="flex flex-col sm:flex-row lg:flex-col items-center gap-6 sm:gap-10 lg:gap-6 justify-center ">
-              <div className="flex items-center flex-col gap-3">
+              <div className="flex items-center flex-col gap-5">
                 <div className="relative">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#9B2C62] to-[#F59E0B] flex items-center justify-center shadow-xl">
                     <span className="text-white text-5xl font-bold">
@@ -266,7 +266,14 @@ export default function UserProfile() {
                       loading={deleteStatus === "loading" || isDeleting}
                       disabled={deleteStatus === "loading" || isDeleting}
                       tooltipTitle="Remove user from organization"
-                      fallbackTooltip="You do not have permission to remove this user"
+                      fallbackTooltip={`${
+                        authUser.firstName === userData.firstName &&
+                        authUser.lastName === userData.lastName &&
+                        (authUser.role === "super_admin" ||
+                          authUser.role === "admin")
+                          ? "You cannot remove your own profile"
+                          : "You do not have permission to remove this user"
+                      }`}
                       className="flex items-center justify-center gap-2 w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 px-5 py-3 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md"
                     >
                       <Trash2 className="w-5 h-5" />
