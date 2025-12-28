@@ -59,7 +59,7 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
         </div>
         <div>
           <h3 className="font-medium text-gray-900 dark:text-gray-300">
-            {truncateText(`${user.firstName} ${user.lastName}`, 15)}
+            {truncateText(`${user.firstName} ${user.lastName}`, 25)}
             {user._id === currentUser?._id && (
               <span className="ml-2 text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
                 You
@@ -67,7 +67,7 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
             )}
           </h3>
           <p className="text-gray-600 dark:text-gray-400/80 text-sm">
-            {truncateText(`${user.email}`, 20)}
+            {truncateText(`${user.email}`, 25)}
           </p>
         </div>
       </a>
