@@ -244,7 +244,14 @@ export default function UserProfile() {
                       resource={RESOURCES.USER}
                       target={userData}
                       tooltipTitle="Edit user details"
-                      fallbackTooltip="Cannot edit this user"
+                      fallbackTooltip={`${
+                        authUser.firstName === userData.firstName &&
+                        authUser.lastName === userData.lastName &&
+                        (authUser.role === "super_admin" ||
+                          authUser.role === "admin")
+                          ? "You cannot edit your own profile"
+                          : "You do not have permission to edit this user"
+                      }`}
                       className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#9B2C62] to-[#801f4f] hover:opacity-90 text-white px-5 py-3 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md"
                     >
                       <Edit2 className="w-5 h-5" />
@@ -259,7 +266,7 @@ export default function UserProfile() {
                       loading={deleteStatus === "loading" || isDeleting}
                       disabled={deleteStatus === "loading" || isDeleting}
                       tooltipTitle="Remove user from organization"
-                      fallbackTooltip="Cannot remove this user"
+                      fallbackTooltip="You do not have permission to remove this user"
                       className="flex items-center justify-center gap-2 w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 px-5 py-3 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md"
                     >
                       <Trash2 className="w-5 h-5" />
