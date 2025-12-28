@@ -27,6 +27,7 @@ import PermissionButton from "../components/buttons/PermissionButton";
 import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
 import toast from "react-hot-toast";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
+import { truncateText } from "../components/taskManagerCollection/utils/formatting";
 
 export default function UserProfile() {
   // Renamed component to avoid conflict
@@ -298,7 +299,10 @@ export default function UserProfile() {
             <div className="flex-1">
               <div className="mb-6">
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2">
-                  {userData.firstName} {userData.lastName}
+                  {truncateText(
+                    `${userData.firstName} ${userData.lastName}`,
+                    15
+                  )}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
                   Member since {formatDate(userData.createdAt)}
