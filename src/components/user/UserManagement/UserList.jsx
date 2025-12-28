@@ -49,10 +49,7 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
 
   return (
     <div className="px-6 py-4 flex flex-col gap-3 sm:items-center justify-between sm:flex-row">
-      <a
-        href={`users/${currentUser._id}`}
-        className="flex items-center space-x-4"
-      >
+      <a href={`users/${user._id}`} className="flex items-center space-x-4">
         <div className="w-10 h-10 bg-[#9B2C62] rounded-full flex items-center justify-center">
           <span className="text-white font-semibold text-sm">
             {user.firstName[0]}
