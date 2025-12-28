@@ -286,7 +286,7 @@ export default function UserProfile() {
                   <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                       {isSelf
-                        ? "Note: You cannot delete your own account"
+                        ? "Note: You cannot edit or delete your own account"
                         : "Only admins can modify user roles and permissions"}
                     </p>
                   </div>
