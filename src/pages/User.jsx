@@ -3,8 +3,6 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Mail,
-  Phone,
-  Calendar,
   Shield,
   Edit2,
   Trash2,
