@@ -28,7 +28,6 @@ import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandl
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 
 export default function UserProfile() {
-  // Renamed component to avoid conflict
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,31 +47,7 @@ export default function UserProfile() {
     }
   }, [dispatch, userId]);
 
-  const handleDeleteUser = async () => {
-    if (!can(PERMISSIONS.DELETE, RESOURCES.USER, userData)) {
-      toast.error("You don't have permission to delete this user");
-      return;
-    }
-
-    const confirmed = await DeleteConfirmationToast(
-      "Delete User",
-      `Are you sure you want to remove ${userData?.firstName} ${userData?.lastName} from the organization? This action cannot be undone.`
-    );
-
-    if (confirmed) {
-      setIsDeleting(true);
-      try {
-        await dispatch(deleteUser(userId)).unwrap();
-        toast.success("User removed successfully");
-        navigate("/users");
-      } catch (err) {
-        toast.error(err.message || "Failed to delete user");
-      } finally {
-        setIsDeleting(false);
-      }
-    }
-  };
-
+  // handle remove user
   const handleRemoveUser = (userId) => {
     return createUserDeleteHandler(
       dispatch,
