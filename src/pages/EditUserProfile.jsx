@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+
 import {
   ArrowLeft,
   Save,
@@ -11,27 +13,37 @@ import {
   Phone,
   AlertCircle,
 } from "lucide-react";
-import {
-  usePermissions,
-  PERMISSIONS,
-  RESOURCES,
-  ROLES,
-} from "../globalHooks/userPermissions";
-import PermissionButton from "../components/buttons/PermissionButton";
 
 import {
   fetchUserDetails,
   updateUser,
   updateUserRole,
 } from "../redux/usersSlice";
-import toast from "react-hot-toast";
+
+import {
+  usePermissions,
+  PERMISSIONS,
+  RESOURCES,
+  ROLES,
+} from "../globalHooks/userPermissions";
+import {
+  getAvailableRoles,
+  getRoleDescriptions,
+  getRoleColors,
+  getRoleLabels,
+  canEditUser,
+} from "../globalHooks/usePermissionHelpers";
+import { createUserEditHandler } from "../globalHandlers/createUserEditHandler";
+import PermissionButton from "../components/buttons/PermissionButton";
+import EditConfirmationToast from "../globalUtils/editConfirmationToast";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 
 export default function EditUserProfile() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { can, currentUser } = usePermissions();
+  const { can, currentUser: authUser } = usePermissions();
 
   const {
     currentUser: userDetails,
@@ -44,9 +56,13 @@ export default function EditUserProfile() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors },
+    watch,
   } = useForm();
   const [isSaving, setIsSaving] = useState(false);
+
+  // Watch for role changes to show appropriate permissions
+  const selectedRole = watch("role", userDetails?.role || ROLES.VIEWER);
 
   useEffect(() => {
     if (userId) {
@@ -56,54 +72,60 @@ export default function EditUserProfile() {
 
   useEffect(() => {
     if (userDetails) {
-      setValue("firstName", userDetails.firstName);
-      setValue("lastName", userDetails.lastName);
-      setValue("email", userDetails.email);
-      setValue("role", userDetails.role);
+      setValue("firstName", userDetails.firstName || "");
+      setValue("lastName", userDetails.lastName || "");
+      setValue("email", userDetails.email || "");
+      setValue("phone", userDetails.phone || "");
+      setValue("role", userDetails.role || ROLES.VIEWER);
     }
   }, [userDetails, setValue]);
 
-  const onSubmit = async (data) => {
-    if (!can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)) {
+  // Get available roles based on current user's permissions
+
+  // Check if user can edit this specific user
+  const { canEdit, isSelf, hasPermission } = canEditUser(
+    authUser,
+    userDetails,
+    can
+  );
+  const canEditRole = canEdit;
+
+  // Check if fields should be disabled
+  const shouldDisableFields = !canEditUser || isSelf;
+  const shouldDisableRole = !canEditRole || isSelf;
+
+  const handleSaveChanges = createUserEditHandler(
+    dispatch,
+    userId,
+    navigate,
+    updateUser,
+    updateUserRole,
+    toast,
+    toastWithProgress,
+    EditConfirmationToast
+  );
+
+  const onSubmit = async (formData) => {
+    if (!canEditUser) {
       toast.error("You don't have permission to edit this user");
       return;
     }
 
-    setIsSaving(true);
-    try {
-      // Update basic user information
-      if (
-        data.firstName !== userDetails.firstName ||
-        data.lastName !== userDetails.lastName ||
-        data.email !== userDetails.email ||
-        data.phone !== (userDetails.phone || "")
-      ) {
-        const updateData = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          phone: data.phone || null,
-        };
+    // Check if there are actual changes
+    const hasRoleChange = formData.role !== userDetails.role;
+    const hasBasicChanges =
+      formData.firstName !== userDetails.firstName ||
+      formData.lastName !== userDetails.lastName ||
+      formData.email !== userDetails.email ||
+      formData.phone !== (userDetails.phone || "");
 
-        await dispatch(updateUser({ userId, userData: updateData })).unwrap();
-      }
-
-      // Update role if changed (only if user has permission)
-      if (
-        data.role !== userDetails.role &&
-        can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)
-      ) {
-        await dispatch(updateUserRole({ userId, role: data.role })).unwrap();
-      }
-
-      toast.success("User updated successfully");
-      navigate(`/users/${userId}`);
-    } catch (err) {
-      toast.error(err.message || "Failed to update user");
-      console.error("Update error:", err);
-    } finally {
-      setIsSaving(false);
+    if (!hasRoleChange && !hasBasicChanges) {
+      toastWithProgress("No changes detected");
+      return;
     }
+
+    // Show confirmation toast with the handler
+    handleSaveChanges(formData, userDetails);
   };
 
   if (fetchDetailsStatus === "loading") {
@@ -141,33 +163,13 @@ export default function EditUserProfile() {
     );
   }
 
-  const isSelf = userDetails._id === currentUser?._id;
-
-  // Only include available roles based on current user's permissions
-  const availableRoles = [];
-
-  if (currentUser?.role === ROLES.SUPER_ADMIN) {
-    availableRoles.push(
-      { value: ROLES.VIEWER, label: "Viewer" },
-      { value: ROLES.PLANNER, label: "Planner" },
-      { value: ROLES.ADMIN, label: "Admin" },
-      { value: ROLES.SUPER_ADMIN, label: "Super Admin" }
-    );
-  } else if (currentUser?.role === ROLES.ADMIN) {
-    // Admins can only set roles up to Admin (not Super Admin)
-    availableRoles.push(
-      { value: ROLES.VIEWER, label: "Viewer" },
-      { value: ROLES.PLANNER, label: "Planner" },
-      { value: ROLES.ADMIN, label: "Admin" }
-    );
-  }
-
-  // Determine if role can be edited
-  const canEditRole =
-    can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails) && !isSelf;
+  const availableRoles = getAvailableRoles(authUser?.role);
+  const rolePermissions = getRoleDescriptions();
+  const roleColors = getRoleColors();
+  const roleLabels = getRoleLabels();
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-6">
+    <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
       {/* Back Navigation */}
       <div className="max-w-4xl mx-auto mb-6">
         <Link
@@ -194,7 +196,9 @@ export default function EditUserProfile() {
                 Edit {userDetails.firstName} {userDetails.lastName}
               </h1>
               <p className="text-gray-600 dark:text-gray-400">
-                Update user details and permissions
+                {isSelf
+                  ? "Edit your own profile information"
+                  : "Update user details and permissions"}
               </p>
             </div>
           </div>
@@ -202,6 +206,7 @@ export default function EditUserProfile() {
 
         {/* Edit Form */}
         <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Basic Information Card */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
               <User className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
@@ -224,10 +229,7 @@ export default function EditUserProfile() {
                   })}
                   className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
                   placeholder="First name"
-                  disabled={
-                    isSelf &&
-                    !can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)
-                  }
+                  disabled={shouldDisableFields}
                 />
                 {errors.firstName && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -251,10 +253,7 @@ export default function EditUserProfile() {
                   })}
                   className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
                   placeholder="Last name"
-                  disabled={
-                    isSelf &&
-                    !can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)
-                  }
+                  disabled={shouldDisableFields}
                 />
                 {errors.lastName && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -278,14 +277,34 @@ export default function EditUserProfile() {
                   })}
                   className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
                   placeholder="email@example.com"
-                  disabled={
-                    isSelf &&
-                    !can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)
-                  }
+                  disabled={shouldDisableFields}
                 />
                 {errors.email && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                     {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  {...register("phone", {
+                    pattern: {
+                      value: /^[+]?[\d\s\-()]+$/,
+                      message: "Please enter a valid phone number",
+                    },
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
+                  placeholder="+1 (555) 123-4567"
+                  disabled={shouldDisableFields}
+                />
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.phone.message}
                   </p>
                 )}
               </div>
@@ -294,33 +313,34 @@ export default function EditUserProfile() {
 
           {/* Role Section */}
           <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
-              Role & Permissions
-            </h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <Shield className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
+                Role & Permissions
+              </h2>
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                {isSelf ? "(You cannot change your own role)" : ""}
+              </div>
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 User Role
               </label>
-              {isSelf ? (
+
+              {shouldDisableRole ? (
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                   <div className="text-gray-600 dark:text-gray-400">
-                    You cannot change your own role. Contact another
-                    administrator if you need to change your permissions.
-                  </div>
-                </div>
-              ) : !canEditRole ? (
-                <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                  <div className="text-gray-600 dark:text-gray-400">
-                    You don't have permission to change this user's role.
+                    {isSelf
+                      ? "You cannot change your own role. Contact another administrator if you need to change your permissions."
+                      : "You don't have permission to change this user's role."}
                   </div>
                 </div>
               ) : (
                 <select
                   {...register("role", { required: "Role is required" })}
                   className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
-                  disabled={updateRoleStatus === "loading" || !canEditRole}
+                  disabled={updateRoleStatus === "loading"}
                 >
                   <option value="">Select a role</option>
                   {availableRoles.map((role) => (
@@ -331,31 +351,24 @@ export default function EditUserProfile() {
                 </select>
               )}
 
-              {!canEditRole && (
-                <div className="mt-4 p-4 rounded-lg bg-[#FFF7ED] dark:bg-gray-800/50 border border-[#F59E0B]/20 dark:border-gray-700">
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-                    Role Permissions
-                  </h3>
-                  <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                    <li>
-                      • <strong>Super Admin:</strong> Full organization access
-                      including managing other super admins
+              {/* Role Permissions Preview */}
+              <div className="mt-6 p-4 rounded-lg bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 border border-[#F59E0B]/20 dark:border-gray-700">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                  <Shield className="w-4 h-4" />
+                  {roleLabels[selectedRole]} Permissions
+                </h3>
+                <ul className="space-y-2">
+                  {rolePermissions[selectedRole]?.map((permission, index) => (
+                    <li
+                      key={index}
+                      className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400"
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#F59E0B] mt-1.5"></div>
+                      {permission}
                     </li>
-                    <li>
-                      • <strong>Admin:</strong> Can manage users, events,
-                      vendors, and all content
-                    </li>
-                    <li>
-                      • <strong>Planner:</strong> Can create and edit events,
-                      vendors, and assigned tasks
-                    </li>
-                    <li>
-                      • <strong>Viewer:</strong> Can view content but cannot
-                      create or edit anything
-                    </li>
-                  </ul>
-                </div>
-              )}
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -379,15 +392,19 @@ export default function EditUserProfile() {
                 updateStatus === "loading"
               }
               disabled={
+                !canEditUser ||
                 isSaving ||
                 updateRoleStatus === "loading" ||
-                updateStatus === "loading" ||
-                isSelf
+                updateStatus === "loading"
               }
               tooltipTitle={
-                isSelf ? "Cannot edit your own profile" : "Save changes"
+                isSelf
+                  ? "You cannot edit your own profile"
+                  : canEditUser
+                  ? "Save changes"
+                  : "You don't have permission to edit this user"
               }
-              fallbackTooltip="Cannot edit this user"
+              fallbackTooltip="You don't have permission to edit this user"
               className="flex items-center gap-2 bg-[#F59E0B] hover:bg-[#D97706] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4" />
@@ -400,6 +417,6 @@ export default function EditUserProfile() {
           </div>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
