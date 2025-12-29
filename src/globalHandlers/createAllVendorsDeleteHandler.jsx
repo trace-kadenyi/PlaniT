@@ -37,7 +37,7 @@ export const createAllVendorsDeleteHandler = (
 
               navigate("/vendors");
             } else {
-              toast.error("Failed to delete all vendors");
+              toastWithProgress(error || "Failed to delete all vendors");
             }
           }}
           onCancel={() => toast.dismiss(t.id)}
