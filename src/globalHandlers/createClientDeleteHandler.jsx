@@ -15,11 +15,19 @@ export const createClientDeleteHandler = (
           t={t}
           duration={duration}
           type="client"
-          onConfirm={() => {
-            dispatch(deleteClient(id));
-            toast.dismiss(t.id);
-            toastWithProgress("Client deleted successfully");
-            navigate("/clients");
+          onConfirm={async () => {
+            try {
+              dispatch(deleteClient(id));
+              toast.dismiss(t.id);
+              toastWithProgress("Client deleted successfully");
+              navigate("/clients");
+            } catch (error) {
+              // Only dismiss the confirmation toast
+              toast.dismiss(t.id);
+
+              // Show error toast with progress
+              toastWithProgress(error || "Failed to delete client");
+            }
           }}
           onCancel={() => toast.dismiss(t.id)}
         />
