@@ -34,7 +34,7 @@ export const createAllClientsDeleteHandler = (
 
               navigate("/clients");
             } else {
-              toast.error("Failed to delete all clients");
+              toastWithProgress(error || "Failed to delete all clients");
             }
           }}
           onCancel={() => toast.dismiss(t.id)}
