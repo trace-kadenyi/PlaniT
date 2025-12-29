@@ -321,7 +321,7 @@ export default function UserProfile() {
                           ? "You cannot remove your own profile"
                           : "You do not have permission to remove this user"
                       }`}
-                      className="flex items-center justify-center gap-2 w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 px-5 py-3 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md"
+                      className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-white/80 to-rose-50/80 dark:from-gray-900/30 dark:to-[#9B2C62]/10 hover:from-rose-50 hover:to-rose-100/80 dark:hover:from-gray-800/40 dark:hover:to-[#9B2C62]/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-[#9B2C62]/30 px-5 py-3 rounded-xl font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:border-rose-300 dark:hover:border-[#9B2C62]/50 group"
                     >
                       <Trash2 className="w-5 h-5" />
                       {deleteStatus === "loading"
