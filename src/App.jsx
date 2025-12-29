@@ -83,7 +83,6 @@ function App() {
             <Route path="/events/board" element={<EventsBoard />} />
             <Route path="/dashboards" element={<Dashboards />} />
             <Route path="/team" element={<Users />} />
-            {/* <Route path="/users/:userId" element={<User />} /> */}
             <Route path="/users" element={<Users />} />
             <Route path="/users/:userId" element={<User />} />
             <Route path="/users/:userId/edit" element={<EditUserProfile />} />
