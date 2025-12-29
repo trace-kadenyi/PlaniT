@@ -20,13 +20,9 @@ const EditConfirmationToast = ({
     formData.firstName !== originalUserData.firstName ||
     formData.lastName !== originalUserData.lastName;
   const hasEmailChanged = formData.email !== originalUserData.email;
-  const hasPhoneChanged = formData.phone !== (originalUserData.phone || "");
 
   const getTitle = () => {
-    if (
-      hasRoleChanged &&
-      (hasNameChanged || hasEmailChanged || hasPhoneChanged)
-    ) {
+    if (hasRoleChanged && (hasNameChanged || hasEmailChanged)) {
       return "Update User Profile & Role";
     }
     if (hasRoleChanged) return "Update User Role";
@@ -56,10 +52,7 @@ const EditConfirmationToast = ({
           </h3>
 
           {/* Changes summary */}
-          {(hasRoleChanged ||
-            hasNameChanged ||
-            hasEmailChanged ||
-            hasPhoneChanged) && (
+          {(hasRoleChanged || hasNameChanged || hasEmailChanged) && (
             <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 mb-4">
               <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
                 <AlertCircle className="w-4 h-4" />
@@ -67,44 +60,37 @@ const EditConfirmationToast = ({
               </div>
               <div className="space-y-2 text-xs">
                 {hasRoleChanged && (
-                  <div className="flex justify-between">
+                  <div className="flex gap-2">
                     <span className="text-gray-500 dark:text-gray-400">
                       Role:
                     </span>
                     <span className="font-medium text-gray-700 dark:text-gray-300">
-                      {originalUserData.role} → {formData.role}
+                      {originalUserData.role} →{" "}
+                      <span className="font-semibold">{formData.role}</span>
                     </span>
                   </div>
                 )}
                 {hasNameChanged && (
-                  <div className="flex justify-between">
+                  <div className="flex gap-2">
                     <span className="text-gray-500 dark:text-gray-400">
                       Name:
                     </span>
                     <span className="font-medium text-gray-700 dark:text-gray-300">
                       {originalUserData.firstName} {originalUserData.lastName} →{" "}
-                      {formData.firstName} {formData.lastName}
+                      <span className="font-semibold">
+                        {formData.firstName} {formData.lastName}
+                      </span>
                     </span>
                   </div>
                 )}
                 {hasEmailChanged && (
-                  <div className="flex justify-between">
+                  <div className="flex gap-2">
                     <span className="text-gray-500 dark:text-gray-400">
                       Email:
                     </span>
                     <span className="font-medium text-gray-700 dark:text-gray-300">
-                      {originalUserData.email} → {formData.email}
-                    </span>
-                  </div>
-                )}
-                {hasPhoneChanged && (
-                  <div className="flex justify-between">
-                    <span className="text-gray-500 dark:text-gray-400">
-                      Phone:
-                    </span>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">
-                      {originalUserData.phone || "Not set"} →{" "}
-                      {formData.phone || "Not set"}
+                      {originalUserData.email} →{" "}
+                      <span className="font-semibold">{formData.email}</span>
                     </span>
                   </div>
                 )}
