@@ -49,8 +49,10 @@ const EditConfirmationToast = ({
     formData.lastName !== originalUserData.lastName;
   const hasEmailChanged = formData.email !== originalUserData.email;
 
-  const changeCount = [hasRoleChanged, hasNameChanged, hasEmailChanged].filter(Boolean).length;
-  
+  const changeCount = [hasRoleChanged, hasNameChanged, hasEmailChanged].filter(
+    Boolean
+  ).length;
+
   const getTitle = () => {
     if (changeCount > 1) return `${changeCount} Changes Detected`;
     if (hasRoleChanged) return "Update User Role";
@@ -60,24 +62,25 @@ const EditConfirmationToast = ({
   };
 
   const roleLabels = {
-    "super_admin": "Super Admin",
-    "admin": "Admin",
-    "planner": "Planner",
-    "viewer": "Viewer"
+    super_admin: "Super Admin",
+    admin: "Admin",
+    planner: "Planner",
+    viewer: "Viewer",
   };
 
   return (
-    <div className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-2xl p-4 sm:p-6 max-w-md w-full mx-auto border border-gray-100 dark:border-gray-700 transform transition-all duration-300 ${
-      isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"
-    } hover:shadow-2xl transition-shadow duration-300`}>
-      
+    <div
+      className={`relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-2xl p-4 sm:p-6 max-w-md w-full mx-auto border border-gray-100 dark:border-gray-700 transform transition-all duration-300 ${
+        isClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"
+      } hover:shadow-2xl transition-shadow duration-300`}
+    >
       {/* Animated background glow */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#F59E0B]/5 to-[#9B2C62]/5 dark:from-[#F59E0B]/10 dark:to-[#9B2C62]/10 rounded-2xl -m-1 blur-xl -z-10"></div>
 
       {/* Close button with animation */}
       <button
         onClick={handleClose}
-        className="absolute top-3 sm:top-4 right-3 sm:right-4 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all duration-200 transform hover:rotate-90"
+        className="absolute top-3 sm:top-1 right-3 sm:right-2 p-1 rounded-full bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all duration-200 transform hover:rotate-90"
       >
         <X className="w-4 h-4" />
       </button>
@@ -101,9 +104,9 @@ const EditConfirmationToast = ({
             <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white break-words">
               {getTitle()}
             </h3>
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 self-start xs:self-center">
+            {/* <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 self-start xs:self-center">
               Review
-            </span>
+            </span> */}
           </div>
 
           {/* User info preview */}
@@ -111,7 +114,8 @@ const EditConfirmationToast = ({
             <div className="flex items-center gap-3">
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] flex items-center justify-center">
                 <span className="text-xs font-bold text-white">
-                  {originalUserData.firstName?.[0]}{originalUserData.lastName?.[0]}
+                  {originalUserData.firstName?.[0]}
+                  {originalUserData.lastName?.[0]}
                 </span>
               </div>
               <div className="min-w-0">
@@ -132,14 +136,17 @@ const EditConfirmationToast = ({
                 <AlertCircle className="w-4 h-4 text-[#F59E0B] flex-shrink-0" />
                 <span className="font-semibold truncate">Changes Summary</span>
               </div>
-              
+
               <div className="space-y-3">
                 {hasRoleChanged && (
                   <div className="flex flex-col xs:flex-row xs:items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-100 dark:border-blue-800/30 gap-2 xs:gap-0">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0">Role</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0">
+                      Role
+                    </span>
                     <div className="flex flex-wrap items-center justify-end xs:justify-start gap-2 min-w-0">
                       <span className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 rounded text-gray-600 dark:text-gray-300 whitespace-nowrap">
-                        {roleLabels[originalUserData.role] || originalUserData.role}
+                        {roleLabels[originalUserData.role] ||
+                          originalUserData.role}
                       </span>
                       <ChevronRight className="w-3 h-3 text-gray-400 flex-shrink-0" />
                       <span className="px-2 py-1 text-xs font-bold bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white rounded whitespace-nowrap">
@@ -151,7 +158,9 @@ const EditConfirmationToast = ({
 
                 {hasNameChanged && (
                   <div className="flex flex-col xs:flex-row xs:items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border border-green-100 dark:border-green-800/30 gap-2 xs:gap-0">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0">Name</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0">
+                      Name
+                    </span>
                     <div className="flex flex-col items-end xs:items-start text-right xs:text-left min-w-0">
                       <p className="text-xs font-medium text-gray-600 dark:text-gray-300 line-through truncate w-full">
                         {originalUserData.firstName} {originalUserData.lastName}
@@ -165,7 +174,9 @@ const EditConfirmationToast = ({
 
                 {hasEmailChanged && (
                   <div className="flex flex-col xs:flex-row xs:items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border border-purple-100 dark:border-purple-800/30 gap-2 xs:gap-0">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0">Email</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0">
+                      Email
+                    </span>
                     <div className="flex flex-col items-end xs:items-start text-right xs:text-left min-w-0">
                       <p className="text-xs font-medium text-gray-600 dark:text-gray-300 line-through truncate w-full">
                         {originalUserData.email}
@@ -202,7 +213,7 @@ const EditConfirmationToast = ({
       {/* Progress bar with animation */}
       <div className="absolute bottom-0 left-0 right-0 h-1.5">
         <div className="h-full bg-gray-200 dark:bg-gray-700 rounded-b-2xl overflow-hidden">
-          <div 
+          <div
             className="h-full bg-gradient-to-r from-[#F59E0B] via-[#D97706] to-[#9B2C62] transition-all duration-100 ease-linear"
             style={{ width: `${progress}%` }}
           />
@@ -210,7 +221,6 @@ const EditConfirmationToast = ({
       </div>
 
       {/* Add some CSS for animations */}
-     
     </div>
   );
 };
