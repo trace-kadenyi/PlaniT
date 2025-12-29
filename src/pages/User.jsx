@@ -233,7 +233,7 @@ export default function UserProfile() {
               <div className="flex items-center flex-col gap-5">
                 <div className="relative">
                   {/* Deep Mulberry Focused Avatar Gradient */}
-                  <div className="w-32 h-32 rounded-full relative flex items-center justify-center shadow-xl overflow-hidden">
+                  <div className="w-25 h-25 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full relative flex items-center justify-center shadow-xl overflow-hidden">
                     {/* Rich mulberry base with subtle gold accents */}
                     <div className="absolute inset-0 bg-gradient-to-br from-[#9B2C62] via-[#801f4f] to-[#9B2C62]/90"></div>
 
