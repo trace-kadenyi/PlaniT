@@ -29,6 +29,7 @@ import toast from "react-hot-toast";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
+import { GenLoadingState } from "../components/shared/LoadingStates";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -36,8 +37,8 @@ export default function UserProfile() {
   const dispatch = useDispatch();
 
   const { can, currentUser: authUser } = usePermissions();
-  const [userTasks, setUserTasks] = useState([]);
-  const [userEvents, setUserEvents] = useState([]);
+  // const [userTasks, setUserTasks] = useState([]);
+  // const [userEvents, setUserEvents] = useState([]);
   const tasksState = useSelector((state) => state.tasks);
 
   const {
@@ -57,40 +58,41 @@ export default function UserProfile() {
   // Fetch tasks when user data loads
   useEffect(() => {
     if (userData && userData._id) {
-      dispatch(fetchAllTasks())
-        .unwrap()
-        .then((tasks) => {
-          // Filter tasks assigned to this user
-          const assignedTasks = tasks.filter(
-            (task) => task.assignedTo?._id === userData._id
-          );
-          setUserTasks(assignedTasks);
-
-          // Extract unique events from assigned tasks
-          const eventsMap = new Map();
-          assignedTasks.forEach((task) => {
-            if (task.eventId) {
-              const eventId = task.eventId._id || task.eventId;
-              if (!eventsMap.has(eventId)) {
-                eventsMap.set(eventId, {
-                  _id: eventId,
-                  name: task.eventName || "Unnamed Event",
-                  date: task.eventId?.date,
-                  taskCount: 1,
-                  tasks: [task],
-                });
-              } else {
-                const event = eventsMap.get(eventId);
-                event.taskCount += 1;
-                event.tasks.push(task);
-              }
-            }
-          });
-
-          setUserEvents(Array.from(eventsMap.values()));
-        });
+      dispatch(fetchAllTasks());
     }
   }, [userData, dispatch]);
+
+  // Calculate user tasks and events from Redux state:
+  const userTasks = userData
+    ? tasksState.items.filter((task) => task.assignedTo?._id === userData._id)
+    : [];
+
+  // Calculate userEvents from userTasks
+  const userEvents = React.useMemo(() => {
+    if (!userTasks.length) return [];
+
+    const eventsMap = new Map();
+    userTasks.forEach((task) => {
+      if (task.eventId) {
+        const eventId = task.eventId._id || task.eventId;
+        if (!eventsMap.has(eventId)) {
+          eventsMap.set(eventId, {
+            _id: eventId,
+            name: task.eventName || "Unnamed Event",
+            date: task.eventId?.date,
+            taskCount: 1,
+            tasks: [task],
+          });
+        } else {
+          const event = eventsMap.get(eventId);
+          event.taskCount += 1;
+          event.tasks.push(task);
+        }
+      }
+    });
+
+    return Array.from(eventsMap.values());
+  }, [userTasks]);
 
   // handle remove user
   const handleRemoveUser = (userId) => {
@@ -105,14 +107,8 @@ export default function UserProfile() {
     )();
   };
 
-  if (fetchDetailsStatus === "loading") {
-    return (
-      <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
-        <div className="max-w-6xl mx-auto flex items-center justify-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#D97706]"></div>
-        </div>
-      </main>
-    );
+  if (fetchDetailsStatus === "loading" || tasksState.status === "loading") {
+    return <GenLoadingState message="Loading user details..." />;
   }
 
   if (fetchDetailsError || !userData) {
