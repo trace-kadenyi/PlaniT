@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import api from "../app/api";
 
 // Fetch all users in organization
@@ -40,21 +41,6 @@ export const removeOrganizationUser = createAsyncThunk(
   }
 );
 
-// Update user role
-// export const updateUserRole = createAsyncThunk(
-//   "organization/updateUserRole",
-//   async ({ userId, role }, { rejectWithValue }) => {
-//     try {
-//       const res = await api.patch(`/api/organization/users/${userId}/role`, {
-//         role,
-//       });
-//       return res.data;
-//     } catch (err) {
-//       return rejectWithValue(err.response?.data?.message || err.message);
-//     }
-//   }
-// );
-
 // org details
 export const fetchOrganizationDetails = createAsyncThunk(
   "organization/fetchDetails",
@@ -68,20 +54,6 @@ export const fetchOrganizationDetails = createAsyncThunk(
   }
 );
 
-// Fetch single user details
-// export const fetchUserDetails = createAsyncThunk(
-//   "organization/fetchUserDetails",
-//   async (userId, { rejectWithValue }) => {
-//     try {
-//       // You might need to add this endpoint to your backend
-//       const res = await api.get(`/api/organization/users/${userId}`);
-//       return res.data;
-//     } catch (err) {
-//       return rejectWithValue(err.response?.data?.message || err.message);
-//     }
-//   }
-// );
-
 const organizationSlice = createSlice({
   name: "organization",
   initialState: {
@@ -93,7 +65,6 @@ const organizationSlice = createSlice({
     addUserError: null,
     removeUserStatus: "idle",
     removeUserError: null,
-    
   },
   reducers: {
     resetOrganizationStatus: (state) => {
@@ -103,7 +74,6 @@ const organizationSlice = createSlice({
       state.addUserError = null;
       state.removeUserStatus = "idle";
       state.removeUserError = null;
-     
     },
     clearOrganizationUsers: (state) => {
       state.users = [];
@@ -153,41 +123,10 @@ const organizationSlice = createSlice({
         state.removeUserStatus = "failed";
         state.removeUserError = action.payload;
       })
-      // Update user role
-      // .addCase(updateUserRole.pending, (state) => {
-      //   state.updateRoleStatus = "loading";
-      //   state.updateRoleError = null;
-      // })
-      // .addCase(updateUserRole.fulfilled, (state, action) => {
-      //   state.updateRoleStatus = "succeeded";
-      //   const index = state.users.findIndex(
-      //     (user) => user._id === action.payload.user.id
-      //   );
-      //   if (index !== -1) {
-      //     state.users[index].role = action.payload.user.role;
-      //   }
-      // })
-      // .addCase(updateUserRole.rejected, (state, action) => {
-      //   state.updateRoleStatus = "failed";
-      //   state.updateRoleError = action.payload;
-      // })
       // Fetch organization details
       .addCase(fetchOrganizationDetails.fulfilled, (state, action) => {
         state.organization = action.payload;
-      })
-      // Fetch user details
-      // .addCase(fetchUserDetails.pending, (state) => {
-      //   state.userDetailsStatus = "loading";
-      //   state.userDetailsError = null;
-      // })
-      // .addCase(fetchUserDetails.fulfilled, (state, action) => {
-      //   state.userDetailsStatus = "succeeded";
-      //   state.userDetails = action.payload;
-      // })
-      // .addCase(fetchUserDetails.rejected, (state, action) => {
-      //   state.userDetailsStatus = "failed";
-      //   state.userDetailsError = action.payload;
-      // });
+      });
   },
 });
 
