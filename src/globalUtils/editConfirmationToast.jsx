@@ -43,7 +43,7 @@ const EditConfirmationToast = ({
   const handleClose = () => {
     if (isConfirming) return;
     setIsClosing(true);
-    setTimeout(() => onCancel(), 50);
+    setTimeout(() => onCancel(), 20);
   };
 
   const handleConfirm = async () => {
