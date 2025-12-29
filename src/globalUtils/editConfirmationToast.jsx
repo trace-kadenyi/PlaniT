@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Edit2, AlertCircle, CheckCircle, X, ChevronRight } from "lucide-react";
+import {
+  Edit2,
+  AlertCircle,
+  CheckCircle,
+  X,
+  ChevronRight,
+  Loader2,
+} from "lucide-react";
 
 const EditConfirmationToast = ({
   t,
@@ -12,6 +19,7 @@ const EditConfirmationToast = ({
 }) => {
   const [progress, setProgress] = useState(100);
   const [isClosing, setIsClosing] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,13 +41,14 @@ const EditConfirmationToast = ({
   }
 
   const handleClose = () => {
+    if (isConfirming) return;
     setIsClosing(true);
-    setTimeout(() => onCancel(), 300);
+    setTimeout(() => onCancel(), 50);
   };
 
-  const handleConfirm = () => {
-    setIsClosing(true);
-    setTimeout(() => onConfirm(), 300);
+  const handleConfirm = async () => {
+    setIsConfirming(true);
+    onConfirm();
   };
 
   // Determine what changes are being made
@@ -77,10 +86,38 @@ const EditConfirmationToast = ({
       {/* Animated background glow */}
       <div className="absolute inset-0 bg-gradient-to-r from-[#F59E0B]/5 to-[#9B2C62]/5 dark:from-[#F59E0B]/10 dark:to-[#9B2C62]/10 rounded-2xl -m-1 blur-xl -z-10"></div>
 
+      {/* Loading overlay when confirming */}
+      {isConfirming && (
+        <div className="absolute inset-0 bg-white/90 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl z-10 flex flex-col items-center justify-center">
+          <div className="text-center">
+            <div className="relative">
+              {/* Spinner */}
+              <Loader2 className="w-12 h-12 text-[#F59E0B] animate-spin mx-auto mb-4" />
+
+              {/* Glowing effect around spinner */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#F59E0B]/20 to-[#9B2C62]/20 blur-xl rounded-full -z-10"></div>
+            </div>
+
+            {/* Loading text */}
+            <h3 className="text-md font-bold text-gray-900 dark:text-white m-2">
+              Applying Changes...
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 p-2">
+              Please wait while we update the user profile
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Close button with animation */}
       <button
         onClick={handleClose}
-        className="absolute top-3 sm:top-1 right-3 sm:right-2 p-1 rounded-full bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all duration-200 transform hover:rotate-90"
+        disabled={isConfirming}
+        className={`absolute top-3 sm:top-1 right-3 sm:right-2 p-1 rounded-full ${
+          isConfirming
+            ? "bg-gray-300 dark:bg-gray-600 cursor-not-allowed"
+            : "bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700"
+        } text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-all duration-200 transform hover:rotate-90`}
       >
         <X className="w-4 h-4" />
       </button>
@@ -106,34 +143,9 @@ const EditConfirmationToast = ({
             </h3>
           </div>
 
-          {/* User info preview */}
-          <div className="mb-4 p-3 bg-gradient-to-r from-gray-50 to-white dark:from-gray-800/50 dark:to-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-700">
-            <div className="flex items-center gap-3">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#D97706] flex items-center justify-center">
-                <span className="text-xs font-bold text-white">
-                  {originalUserData.firstName?.[0]}
-                  {originalUserData.lastName?.[0]}
-                </span>
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                  {originalUserData.firstName} {originalUserData.lastName}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                  {originalUserData.email}
-                </p>
-              </div>
-            </div>
-          </div>
-
           {/* Changes summary - animated */}
           {(hasRoleChanged || hasNameChanged || hasEmailChanged) && (
             <div className="mb-5 sm:mb-6 animate-[slideUp_0.3s_ease-out]">
-              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                <AlertCircle className="w-4 h-4 text-[#F59E0B] flex-shrink-0" />
-                <span className="font-semibold truncate">Changes Summary</span>
-              </div>
-
               <div className="space-y-3">
                 {hasRoleChanged && (
                   <div className="flex flex-col xs:flex-row xs:items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg border border-blue-100 dark:border-blue-800/30 gap-2 xs:gap-0">
@@ -189,19 +201,38 @@ const EditConfirmationToast = ({
           )}
 
           {/* Action buttons */}
-          <div className="flex flex-col xs:flex-row justify-end gap-3">
+          <div className="flex flex-col sm:flex-row justify-end gap-3">
             <button
               onClick={handleClose}
-              className="px-4 sm:px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 order-2 xs:order-1"
+              disabled={isConfirming}
+              className={`px-4 sm:px-5 py-2.5 text-sm font-medium rounded-xl border transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 order-2 xs:order-1 ${
+                isConfirming
+                  ? "text-gray-400 dark:text-gray-500 bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 cursor-not-allowed"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600"
+              }`}
             >
               Cancel
             </button>
             <button
               onClick={handleConfirm}
-              className="px-4 sm:px-5 py-2.5 text-sm font-bold bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white rounded-xl hover:shadow-lg hover:shadow-[#F59E0B]/20 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 group order-1 xs:order-2"
+              disabled={isConfirming}
+              className={`px-4 sm:px-5 py-2.5 text-sm font-bold rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 group order-1 xs:order-2 ${
+                isConfirming
+                  ? "bg-gradient-to-r from-[#F59E0B]/80 to-[#D97706]/80 text-white/90 cursor-wait"
+                  : "bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white hover:shadow-lg hover:shadow-[#F59E0B]/20"
+              }`}
             >
-              <CheckCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
-              Confirm Changes
+              {isConfirming ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Confirming...
+                </>
+              ) : (
+                <>
+                  <CheckCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                  Confirm Changes
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -216,8 +247,6 @@ const EditConfirmationToast = ({
           />
         </div>
       </div>
-
-      {/* Add some CSS for animations */}
     </div>
   );
 };
