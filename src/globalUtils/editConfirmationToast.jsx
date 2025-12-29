@@ -33,19 +33,6 @@ const EditConfirmationToast = ({
     return "Update User Profile";
   };
 
-  const getDescription = () => {
-    if (
-      hasRoleChanged &&
-      (hasNameChanged || hasEmailChanged || hasPhoneChanged)
-    ) {
-      return `Update ${originalUserData.firstName} ${originalUserData.lastName}'s profile information and change their role?`;
-    }
-    if (hasRoleChanged) {
-      return `Change ${originalUserData.firstName} ${originalUserData.lastName}'s role from ${originalUserData.role} to ${formData.role}?`;
-    }
-    return `Update ${originalUserData.firstName} ${originalUserData.lastName}'s profile information?`;
-  };
-
   return (
     <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 max-w-md w-full border border-gray-200 dark:border-gray-700">
       {/* Close button */}
@@ -67,9 +54,6 @@ const EditConfirmationToast = ({
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
             {getTitle()}
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
-            {getDescription()}
-          </p>
 
           {/* Changes summary */}
           {(hasRoleChanged ||
