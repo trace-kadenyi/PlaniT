@@ -39,7 +39,6 @@ export default function UserProfile() {
     fetchDetailsError,
     deleteStatus,
   } = useSelector((state) => state.users);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (userId) {
@@ -245,14 +244,13 @@ export default function UserProfile() {
                       Edit Profile
                     </PermissionButton>
 
-                    {/* delete btn */}
                     <PermissionButton
                       permission={PERMISSIONS.DELETE}
                       resource={RESOURCES.USER}
                       target={userData}
                       onClick={() => handleRemoveUser(userId)}
-                      loading={deleteStatus === "loading" || isDeleting}
-                      disabled={deleteStatus === "loading" || isDeleting}
+                      loading={deleteStatus === "loading"}
+                      disabled={deleteStatus === "loading"}
                       tooltipTitle="Remove user from organization"
                       fallbackTooltip={`${
                         authUser.firstName === userData.firstName &&
@@ -265,7 +263,7 @@ export default function UserProfile() {
                       className="flex items-center justify-center gap-2 w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 px-5 py-3 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md"
                     >
                       <Trash2 className="w-5 h-5" />
-                      {deleteStatus === "loading" || isDeleting
+                      {deleteStatus === "loading"
                         ? "Removing..."
                         : "Remove User"}
                     </PermissionButton>
