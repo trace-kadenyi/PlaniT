@@ -104,9 +104,6 @@ const EditConfirmationToast = ({
             <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white break-words">
               {getTitle()}
             </h3>
-            {/* <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 self-start xs:self-center">
-              Review
-            </span> */}
           </div>
 
           {/* User info preview */}
