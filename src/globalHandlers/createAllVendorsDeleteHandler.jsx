@@ -17,11 +17,11 @@ export const createAllVendorsDeleteHandler = (
           duration={duration}
           type="vendors"
           onConfirm={async () => {
-            const resultAction = await dispatch(deleteAllVendors());
-            toast.dismiss(t.id);
+            try {
+              const result = await dispatch(deleteAllVendors()).unwrap();
+              toast.dismiss(t.id);
 
-            if (deleteAllVendors.fulfilled.match(resultAction)) {
-              const deletedCount = resultAction.payload?.deletedCount ?? 0;
+              const deletedCount = result?.deletedCount ?? 0;
 
               if (deletedCount > 0) {
                 toastWithProgress(
@@ -36,7 +36,8 @@ export const createAllVendorsDeleteHandler = (
               }
 
               navigate("/vendors");
-            } else {
+            } catch (error) {
+              toast.dismiss(t.id);
               toastWithProgress(error || "Failed to delete all vendors");
             }
           }}
