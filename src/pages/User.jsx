@@ -24,6 +24,8 @@ import PermissionButton from "../components/buttons/PermissionButton";
 import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
 import toast from "react-hot-toast";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
+import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
+import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 
 export default function UserProfile() {
   // Renamed component to avoid conflict
@@ -69,6 +71,18 @@ export default function UserProfile() {
         setIsDeleting(false);
       }
     }
+  };
+
+  const handleRemoveUser = (userId) => {
+    return createUserDeleteHandler(
+      dispatch,
+      userId,
+      navigate,
+      deleteUser,
+      toast,
+      toastWithProgress,
+      DeleteConfirmationToast
+    )();
   };
 
   if (fetchDetailsStatus === "loading") {
@@ -261,7 +275,7 @@ export default function UserProfile() {
                       permission={PERMISSIONS.DELETE}
                       resource={RESOURCES.USER}
                       target={userData}
-                      onClick={handleDeleteUser}
+                      onClick={() => handleRemoveUser(userId)}
                       loading={deleteStatus === "loading" || isDeleting}
                       disabled={deleteStatus === "loading" || isDeleting}
                       tooltipTitle="Remove user from organization"
