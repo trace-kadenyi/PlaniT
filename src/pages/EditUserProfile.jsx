@@ -1,35 +1,51 @@
-// pages/EditUserProfile.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { 
-  ArrowLeft, 
-  Save, 
-  User, 
+import {
+  ArrowLeft,
+  Save,
+  User,
   Shield,
   Mail,
   Phone,
-  AlertCircle
+  AlertCircle,
 } from "lucide-react";
-import { usePermissions, PERMISSIONS, RESOURCES, ROLES } from "../globalHooks/userPermissions";
+import {
+  usePermissions,
+  PERMISSIONS,
+  RESOURCES,
+  ROLES,
+} from "../globalHooks/userPermissions";
 import PermissionButton from "../components/buttons/PermissionButton";
-import { fetchUserDetails, updateUserRole } from "../redux/organizationSlice";
+
+import {
+  fetchUserDetails,
+  updateUser,
+  updateUserRole,
+} from "../redux/usersSlice";
 import toast from "react-hot-toast";
 
 export default function EditUserProfile() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const { can, currentUser } = usePermissions();
-  const { 
-    userDetails, 
-    userDetailsStatus,
-    updateRoleStatus
-  } = useSelector((state) => state.organization);
-  
-  const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm();
+
+  const {
+    currentUser: userDetails,
+    fetchDetailsStatus,
+    updateRoleStatus,
+    updateStatus,
+  } = useSelector((state) => state.users);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm();
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -43,7 +59,6 @@ export default function EditUserProfile() {
       setValue("firstName", userDetails.firstName);
       setValue("lastName", userDetails.lastName);
       setValue("email", userDetails.email);
-      setValue("phone", userDetails.contact?.phone || "");
       setValue("role", userDetails.role);
     }
   }, [userDetails, setValue]);
@@ -56,25 +71,42 @@ export default function EditUserProfile() {
 
     setIsSaving(true);
     try {
-      // Update basic info
-      if (data.role !== userDetails.role) {
-        await dispatch(updateUserRole({ userId, role: data.role })).unwrap();
-        toast.success("User role updated successfully");
+      // Update basic user information
+      if (
+        data.firstName !== userDetails.firstName ||
+        data.lastName !== userDetails.lastName ||
+        data.email !== userDetails.email ||
+        data.phone !== (userDetails.phone || "")
+      ) {
+        const updateData = {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: data.phone || null,
+        };
+
+        await dispatch(updateUser({ userId, userData: updateData })).unwrap();
       }
 
-      // You'll need to add an endpoint for updating user details
-      // const updateResponse = await dispatch(updateUserDetails({ userId, ...data })).unwrap();
-      
+      // Update role if changed (only if user has permission)
+      if (
+        data.role !== userDetails.role &&
+        can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)
+      ) {
+        await dispatch(updateUserRole({ userId, role: data.role })).unwrap();
+      }
+
       toast.success("User updated successfully");
       navigate(`/users/${userId}`);
     } catch (err) {
       toast.error(err.message || "Failed to update user");
+      console.error("Update error:", err);
     } finally {
       setIsSaving(false);
     }
   };
 
-  if (userDetailsStatus === "loading") {
+  if (fetchDetailsStatus === "loading") {
     return (
       <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62] dark:border-[#D97706]"></div>
@@ -110,17 +142,29 @@ export default function EditUserProfile() {
   }
 
   const isSelf = userDetails._id === currentUser?._id;
-  const canEditRole = can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails);
 
-  const availableRoles = [
-    { value: ROLES.VIEWER, label: "Viewer" },
-    { value: ROLES.PLANNER, label: "Planner" },
-    { value: ROLES.ADMIN, label: "Admin" },
-  ];
+  // Only include available roles based on current user's permissions
+  const availableRoles = [];
 
   if (currentUser?.role === ROLES.SUPER_ADMIN) {
-    availableRoles.push({ value: ROLES.SUPER_ADMIN, label: "Super Admin" });
+    availableRoles.push(
+      { value: ROLES.VIEWER, label: "Viewer" },
+      { value: ROLES.PLANNER, label: "Planner" },
+      { value: ROLES.ADMIN, label: "Admin" },
+      { value: ROLES.SUPER_ADMIN, label: "Super Admin" }
+    );
+  } else if (currentUser?.role === ROLES.ADMIN) {
+    // Admins can only set roles up to Admin (not Super Admin)
+    availableRoles.push(
+      { value: ROLES.VIEWER, label: "Viewer" },
+      { value: ROLES.PLANNER, label: "Planner" },
+      { value: ROLES.ADMIN, label: "Admin" }
+    );
   }
+
+  // Determine if role can be edited
+  const canEditRole =
+    can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails) && !isSelf;
 
   return (
     <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-6">
@@ -141,7 +185,8 @@ export default function EditUserProfile() {
           <div className="flex items-center gap-4 mb-6">
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#9B2C62] to-[#F59E0B] flex items-center justify-center">
               <span className="text-white text-2xl font-bold">
-                {userDetails.firstName[0]}{userDetails.lastName[0]}
+                {userDetails.firstName?.[0]}
+                {userDetails.lastName?.[0]}
               </span>
             </div>
             <div>
@@ -162,7 +207,7 @@ export default function EditUserProfile() {
               <User className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
               Basic Information
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -170,15 +215,19 @@ export default function EditUserProfile() {
                 </label>
                 <input
                   type="text"
-                  {...register("firstName", { 
+                  {...register("firstName", {
                     required: "First name is required",
                     maxLength: {
                       value: 50,
-                      message: "First name must be 50 characters or fewer"
-                    }
+                      message: "First name must be 50 characters or fewer",
+                    },
                   })}
                   className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
                   placeholder="First name"
+                  disabled={
+                    isSelf &&
+                    !can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)
+                  }
                 />
                 {errors.firstName && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -193,15 +242,19 @@ export default function EditUserProfile() {
                 </label>
                 <input
                   type="text"
-                  {...register("lastName", { 
+                  {...register("lastName", {
                     required: "Last name is required",
                     maxLength: {
                       value: 50,
-                      message: "Last name must be 50 characters or fewer"
-                    }
+                      message: "Last name must be 50 characters or fewer",
+                    },
                   })}
                   className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
                   placeholder="Last name"
+                  disabled={
+                    isSelf &&
+                    !can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)
+                  }
                 />
                 {errors.lastName && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -216,33 +269,25 @@ export default function EditUserProfile() {
                 </label>
                 <input
                   type="email"
-                  {...register("email", { 
+                  {...register("email", {
                     required: "Email is required",
                     pattern: {
                       value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-                      message: "Please enter a valid email"
-                    }
+                      message: "Please enter a valid email",
+                    },
                   })}
                   className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
                   placeholder="email@example.com"
+                  disabled={
+                    isSelf &&
+                    !can(PERMISSIONS.EDIT, RESOURCES.USER, userDetails)
+                  }
                 />
                 {errors.email && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                     {errors.email.message}
                   </p>
                 )}
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  {...register("phone")}
-                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
-                  placeholder="+1 (555) 123-4567"
-                />
               </div>
             </div>
           </div>
@@ -253,7 +298,7 @@ export default function EditUserProfile() {
               <Shield className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
               Role & Permissions
             </h2>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 User Role
@@ -261,7 +306,8 @@ export default function EditUserProfile() {
               {isSelf ? (
                 <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                   <div className="text-gray-600 dark:text-gray-400">
-                    You cannot change your own role. Contact another administrator if you need to change your permissions.
+                    You cannot change your own role. Contact another
+                    administrator if you need to change your permissions.
                   </div>
                 </div>
               ) : !canEditRole ? (
@@ -274,8 +320,9 @@ export default function EditUserProfile() {
                 <select
                   {...register("role", { required: "Role is required" })}
                   className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
-                  disabled={updateRoleStatus === "loading"}
+                  disabled={updateRoleStatus === "loading" || !canEditRole}
                 >
+                  <option value="">Select a role</option>
                   {availableRoles.map((role) => (
                     <option key={role.value} value={role.value}>
                       {role.label}
@@ -283,16 +330,32 @@ export default function EditUserProfile() {
                   ))}
                 </select>
               )}
-              
-              <div className="mt-4 p-4 rounded-lg bg-[#FFF7ED] dark:bg-gray-800/50 border border-[#F59E0B]/20 dark:border-gray-700">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Role Permissions</h3>
-                <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                  <li>• <strong>Super Admin:</strong> Full organization access including managing other super admins</li>
-                  <li>• <strong>Admin:</strong> Can manage users, events, vendors, and all content</li>
-                  <li>• <strong>Planner:</strong> Can create and edit events, vendors, and assigned tasks</li>
-                  <li>• <strong>Viewer:</strong> Can view content but cannot create or edit anything</li>
-                </ul>
-              </div>
+
+              {!canEditRole && (
+                <div className="mt-4 p-4 rounded-lg bg-[#FFF7ED] dark:bg-gray-800/50 border border-[#F59E0B]/20 dark:border-gray-700">
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    Role Permissions
+                  </h3>
+                  <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                    <li>
+                      • <strong>Super Admin:</strong> Full organization access
+                      including managing other super admins
+                    </li>
+                    <li>
+                      • <strong>Admin:</strong> Can manage users, events,
+                      vendors, and all content
+                    </li>
+                    <li>
+                      • <strong>Planner:</strong> Can create and edit events,
+                      vendors, and assigned tasks
+                    </li>
+                    <li>
+                      • <strong>Viewer:</strong> Can view content but cannot
+                      create or edit anything
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
 
@@ -304,20 +367,35 @@ export default function EditUserProfile() {
             >
               Cancel
             </Link>
-            
+
             <PermissionButton
               permission={PERMISSIONS.EDIT}
               resource={RESOURCES.USER}
               target={userDetails}
               type="submit"
-              loading={isSaving || updateRoleStatus === "loading"}
-              disabled={isSaving || updateRoleStatus === "loading"}
-              tooltipTitle="Save changes"
+              loading={
+                isSaving ||
+                updateRoleStatus === "loading" ||
+                updateStatus === "loading"
+              }
+              disabled={
+                isSaving ||
+                updateRoleStatus === "loading" ||
+                updateStatus === "loading" ||
+                isSelf
+              }
+              tooltipTitle={
+                isSelf ? "Cannot edit your own profile" : "Save changes"
+              }
               fallbackTooltip="Cannot edit this user"
-              className="flex items-center gap-2 bg-[#F59E0B] hover:bg-[#D97706] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+              className="flex items-center gap-2 bg-[#F59E0B] hover:bg-[#D97706] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4" />
-              {isSaving || updateRoleStatus === "loading" ? "Saving..." : "Save Changes"}
+              {isSaving ||
+              updateRoleStatus === "loading" ||
+              updateStatus === "loading"
+                ? "Saving..."
+                : "Save Changes"}
             </PermissionButton>
           </div>
         </form>
