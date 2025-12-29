@@ -69,18 +69,18 @@ export const fetchOrganizationDetails = createAsyncThunk(
 );
 
 // Fetch single user details
-export const fetchUserDetails = createAsyncThunk(
-  "organization/fetchUserDetails",
-  async (userId, { rejectWithValue }) => {
-    try {
-      // You might need to add this endpoint to your backend
-      const res = await api.get(`/api/organization/users/${userId}`);
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
-    }
-  }
-);
+// export const fetchUserDetails = createAsyncThunk(
+//   "organization/fetchUserDetails",
+//   async (userId, { rejectWithValue }) => {
+//     try {
+//       // You might need to add this endpoint to your backend
+//       const res = await api.get(`/api/organization/users/${userId}`);
+//       return res.data;
+//     } catch (err) {
+//       return rejectWithValue(err.response?.data?.message || err.message);
+//     }
+//   }
+// );
 
 const organizationSlice = createSlice({
   name: "organization",
@@ -181,18 +181,18 @@ const organizationSlice = createSlice({
         state.organization = action.payload;
       })
       // Fetch user details
-      .addCase(fetchUserDetails.pending, (state) => {
-        state.userDetailsStatus = "loading";
-        state.userDetailsError = null;
-      })
-      .addCase(fetchUserDetails.fulfilled, (state, action) => {
-        state.userDetailsStatus = "succeeded";
-        state.userDetails = action.payload;
-      })
-      .addCase(fetchUserDetails.rejected, (state, action) => {
-        state.userDetailsStatus = "failed";
-        state.userDetailsError = action.payload;
-      });
+      // .addCase(fetchUserDetails.pending, (state) => {
+      //   state.userDetailsStatus = "loading";
+      //   state.userDetailsError = null;
+      // })
+      // .addCase(fetchUserDetails.fulfilled, (state, action) => {
+      //   state.userDetailsStatus = "succeeded";
+      //   state.userDetails = action.payload;
+      // })
+      // .addCase(fetchUserDetails.rejected, (state, action) => {
+      //   state.userDetailsStatus = "failed";
+      //   state.userDetailsError = action.payload;
+      // });
   },
 });
 
