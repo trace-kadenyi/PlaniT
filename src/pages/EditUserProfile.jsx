@@ -4,15 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-import {
-  ArrowLeft,
-  Save,
-  User,
-  Shield,
-  Mail,
-  Phone,
-  AlertCircle,
-} from "lucide-react";
+import { ArrowLeft, Save, User, Shield, AlertCircle } from "lucide-react";
 
 import {
   fetchUserDetails,
@@ -75,7 +67,6 @@ export default function EditUserProfile() {
       setValue("firstName", userDetails.firstName || "");
       setValue("lastName", userDetails.lastName || "");
       setValue("email", userDetails.email || "");
-      setValue("phone", userDetails.phone || "");
       setValue("role", userDetails.role || ROLES.VIEWER);
     }
   }, [userDetails, setValue]);
@@ -116,8 +107,7 @@ export default function EditUserProfile() {
     const hasBasicChanges =
       formData.firstName !== userDetails.firstName ||
       formData.lastName !== userDetails.lastName ||
-      formData.email !== userDetails.email ||
-      formData.phone !== (userDetails.phone || "");
+      formData.email !== userDetails.email;
 
     if (!hasRoleChange && !hasBasicChanges) {
       toastWithProgress("No changes detected");
@@ -282,29 +272,6 @@ export default function EditUserProfile() {
                 {errors.email && (
                   <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                     {errors.email.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  {...register("phone", {
-                    pattern: {
-                      value: /^[+]?[\d\s\-()]+$/,
-                      message: "Please enter a valid phone number",
-                    },
-                  })}
-                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:focus:ring-[#D97706] focus:border-transparent"
-                  placeholder="+1 (555) 123-4567"
-                  disabled={shouldDisableFields}
-                />
-                {errors.phone && (
-                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                    {errors.phone.message}
                   </p>
                 )}
               </div>
