@@ -229,17 +229,36 @@ export default function UserProfile() {
 
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Avatar and Basic Info */}
-            <div className="flex flex-col sm:flex-row lg:flex-col items-center gap-6 sm:gap-10 lg:gap-6 justify-center ">
+            <div className="flex flex-col sm:flex-row lg:flex-col items-center gap-6 sm:gap-10 lg:gap-6 justify-center">
               <div className="flex items-center flex-col gap-5">
                 <div className="relative">
-                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[#9B2C62] to-[#F59E0B] flex items-center justify-center shadow-xl">
-                    <span className="text-white text-5xl font-bold">
+                  {/* Deep Mulberry Focused Avatar Gradient */}
+                  <div className="w-32 h-32 rounded-full relative flex items-center justify-center shadow-xl overflow-hidden">
+                    {/* Rich mulberry base with subtle gold accents */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#9B2C62] via-[#801f4f] to-[#9B2C62]/90"></div>
+
+                    {/* Elegant gold accent ring */}
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-[#F59E0B]/30 to-transparent"></div>
+
+                    {/* Soft inner highlight */}
+                    <div className="absolute inset-4 rounded-full bg-gradient-to-br from-white/10 via-transparent to-[#9B2C62]/20"></div>
+
+                    {/* Deep mulberry overlay with shimmer */}
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#9B2C62]/70 via-[#801f4f]/80 to-[#9B2C62]/90 backdrop-blur-[1px]"></div>
+
+                    {/* Gold accent corner */}
+                    <div className="absolute -top-2 -right-2 w-12 h-12 bg-gradient-to-br from-[#F59E0B] to-[#D97706] rounded-full blur-md opacity-40"></div>
+
+                    {/* Inner content with enhanced visibility */}
+                    <span className="relative text-white text-5xl font-bold z-10 text-shadow-lg">
                       {userData.firstName[0]}
                       {userData.lastName[0]}
                     </span>
                   </div>
+
+                  {/* "You" badge */}
                   {isSelf && (
-                    <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-lg">
+                    <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white text-xs px-4 py-1.5 rounded-full font-medium shadow-lg z-20">
                       You
                     </div>
                   )}
