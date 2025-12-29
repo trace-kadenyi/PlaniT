@@ -139,7 +139,7 @@ export default function UserProfile() {
             </p>
             <Link
               to="/users"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#9B2C62] to-[#F59E0B] hover:opacity-90 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
+              className="inline-flex items-center gap-2 bg-[#9B2C62] hover:opacity-90 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Team Members
