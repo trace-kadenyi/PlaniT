@@ -13,7 +13,6 @@ import {
   Users,
   Briefcase,
   TrendingUp,
-  User as UserIcon, // Renamed to avoid conflict
 } from "lucide-react";
 import {
   usePermissions,
@@ -228,7 +227,7 @@ export default function UserProfile() {
                 </div>
               </div>
               {/* Action Buttons */}
-              <div className="">
+              <div>
                 <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-5 border border-[#F3EDE9] dark:border-gray-700 mx-auto">
                   <h3 className="font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
                     <Shield className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
