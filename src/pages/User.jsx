@@ -630,7 +630,8 @@ export default function UserProfile() {
         <div className="text-center mt-10">
           <p className="text-gray-500 dark:text-gray-400 text-sm">
             Profile last updated:{" "}
-            {formatDateTime(userData.updatedAt || userData.createdAt)}
+            {formatDateTime(userData.updatedAt || userData.createdAt)} by{" "}
+            {authUser.firstName} {authUser.lastName}
           </p>
         </div>
       </div>
