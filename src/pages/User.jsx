@@ -21,7 +21,10 @@ import {
   ROLES,
 } from "../globalHooks/userPermissions";
 import PermissionButton from "../components/buttons/PermissionButton";
+
 import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
+import { fetchAllTasks } from "../redux/tasksSlice";
+
 import toast from "react-hot-toast";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
@@ -33,6 +36,10 @@ export default function UserProfile() {
   const dispatch = useDispatch();
 
   const { can, currentUser: authUser } = usePermissions();
+  const [userTasks, setUserTasks] = useState([]);
+  const [userEvents, setUserEvents] = useState([]);
+  const tasksState = useSelector((state) => state.tasks);
+
   const {
     currentUser: userData,
     fetchDetailsStatus,
@@ -40,11 +47,50 @@ export default function UserProfile() {
     deleteStatus,
   } = useSelector((state) => state.users);
 
+  // fetch user details
   useEffect(() => {
     if (userId) {
       dispatch(fetchUserDetails(userId));
     }
   }, [dispatch, userId]);
+
+  // Fetch tasks when user data loads
+  useEffect(() => {
+    if (userData && userData._id) {
+      dispatch(fetchAllTasks())
+        .unwrap()
+        .then((tasks) => {
+          // Filter tasks assigned to this user
+          const assignedTasks = tasks.filter(
+            (task) => task.assignedTo?._id === userData._id
+          );
+          setUserTasks(assignedTasks);
+
+          // Extract unique events from assigned tasks
+          const eventsMap = new Map();
+          assignedTasks.forEach((task) => {
+            if (task.eventId) {
+              const eventId = task.eventId._id || task.eventId;
+              if (!eventsMap.has(eventId)) {
+                eventsMap.set(eventId, {
+                  _id: eventId,
+                  name: task.eventName || "Unnamed Event",
+                  date: task.eventId?.date,
+                  taskCount: 1,
+                  tasks: [task],
+                });
+              } else {
+                const event = eventsMap.get(eventId);
+                event.taskCount += 1;
+                event.tasks.push(task);
+              }
+            }
+          });
+
+          setUserEvents(Array.from(eventsMap.values()));
+        });
+    }
+  }, [userData, dispatch]);
 
   // handle remove user
   const handleRemoveUser = (userId) => {
@@ -476,36 +522,77 @@ export default function UserProfile() {
                 <Briefcase className="w-6 h-6 text-white" />
               </div>
               <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-                Assigned Events
+                Assigned Events & Tasks
               </h2>
             </div>
 
-            {userData.assignedEvents && userData.assignedEvents.length > 0 ? (
+            {userEvents.length > 0 ? (
               <div className="space-y-4">
                 <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-5 border border-[#F3EDE9] dark:border-gray-700">
                   <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                     Total Assigned Events
                   </div>
                   <div className="text-3xl font-bold text-gray-800 dark:text-white">
-                    {userData.assignedEvents.length}
+                    {userEvents.length}
+                  </div>
+                  <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                    Across {userTasks.length} total tasks
                   </div>
                   <div className="mt-3">
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                       <div
                         className="h-2 rounded-full bg-gradient-to-r from-[#9B2C62] to-[#F59E0B]"
                         style={{
-                          width: `${Math.min(
-                            userData.assignedEvents.length * 10,
-                            100
-                          )}%`,
+                          width: `${Math.min(userEvents.length * 20, 100)}%`,
                         }}
                       ></div>
                     </div>
                   </div>
                 </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 italic">
-                  This user is assigned to {userData.assignedEvents.length}{" "}
-                  event(s)
+
+                {/* Events List */}
+                <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
+                  {userEvents.slice(0, 5).map((event) => (
+                    <div
+                      key={event._id}
+                      className="p-3 bg-white/50 dark:bg-gray-700/30 rounded-lg border border-[#F3EDE9] dark:border-gray-700"
+                    >
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <h4 className="font-medium text-gray-800 dark:text-white">
+                            {event.name}
+                          </h4>
+                          {event.date && (
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              Event Date:{" "}
+                              {new Date(event.date).toLocaleDateString()}
+                            </p>
+                          )}
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
+                              {event.taskCount} task
+                              {event.taskCount !== 1 ? "s" : ""}
+                            </span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                              •
+                              {
+                                event.tasks.filter(
+                                  (t) => t.status === "Completed"
+                                ).length
+                              }{" "}
+                              completed
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  {userEvents.length > 5 && (
+                    <div className="text-center text-sm text-gray-500 dark:text-gray-400 pt-2">
+                      + {userEvents.length - 5} more events
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
@@ -518,7 +605,7 @@ export default function UserProfile() {
                     No events assigned
                   </h3>
                   <p className="text-gray-500 dark:text-gray-400 text-sm">
-                    This user is not currently assigned to any events
+                    This user is not currently assigned to any tasks or events
                   </p>
                 </div>
               </div>
