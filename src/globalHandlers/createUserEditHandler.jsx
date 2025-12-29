@@ -9,7 +9,7 @@ export const createUserEditHandler = (
   EditConfirmationToast
 ) => {
   return (formData, originalUserData) => {
-    const duration = 100000;
+    const duration = 10000;
 
     toast(
       (t) => (
