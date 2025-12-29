@@ -41,19 +41,19 @@ export const removeOrganizationUser = createAsyncThunk(
 );
 
 // Update user role
-export const updateUserRole = createAsyncThunk(
-  "organization/updateUserRole",
-  async ({ userId, role }, { rejectWithValue }) => {
-    try {
-      const res = await api.patch(`/api/organization/users/${userId}/role`, {
-        role,
-      });
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
-    }
-  }
-);
+// export const updateUserRole = createAsyncThunk(
+//   "organization/updateUserRole",
+//   async ({ userId, role }, { rejectWithValue }) => {
+//     try {
+//       const res = await api.patch(`/api/organization/users/${userId}/role`, {
+//         role,
+//       });
+//       return res.data;
+//     } catch (err) {
+//       return rejectWithValue(err.response?.data?.message || err.message);
+//     }
+//   }
+// );
 
 // org details
 export const fetchOrganizationDetails = createAsyncThunk(
@@ -159,23 +159,23 @@ const organizationSlice = createSlice({
         state.removeUserError = action.payload;
       })
       // Update user role
-      .addCase(updateUserRole.pending, (state) => {
-        state.updateRoleStatus = "loading";
-        state.updateRoleError = null;
-      })
-      .addCase(updateUserRole.fulfilled, (state, action) => {
-        state.updateRoleStatus = "succeeded";
-        const index = state.users.findIndex(
-          (user) => user._id === action.payload.user.id
-        );
-        if (index !== -1) {
-          state.users[index].role = action.payload.user.role;
-        }
-      })
-      .addCase(updateUserRole.rejected, (state, action) => {
-        state.updateRoleStatus = "failed";
-        state.updateRoleError = action.payload;
-      })
+      // .addCase(updateUserRole.pending, (state) => {
+      //   state.updateRoleStatus = "loading";
+      //   state.updateRoleError = null;
+      // })
+      // .addCase(updateUserRole.fulfilled, (state, action) => {
+      //   state.updateRoleStatus = "succeeded";
+      //   const index = state.users.findIndex(
+      //     (user) => user._id === action.payload.user.id
+      //   );
+      //   if (index !== -1) {
+      //     state.users[index].role = action.payload.user.role;
+      //   }
+      // })
+      // .addCase(updateUserRole.rejected, (state, action) => {
+      //   state.updateRoleStatus = "failed";
+      //   state.updateRoleError = action.payload;
+      // })
       // Fetch organization details
       .addCase(fetchOrganizationDetails.fulfilled, (state, action) => {
         state.organization = action.payload;
