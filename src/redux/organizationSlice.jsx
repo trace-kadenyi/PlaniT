@@ -87,17 +87,13 @@ const organizationSlice = createSlice({
   initialState: {
     users: [],
     organization: null,
-    userDetails: null,
-    userDetailsStatus: "idle",
-    userDetailsError: null,
     status: "idle",
     error: null,
     addUserStatus: "idle",
     addUserError: null,
     removeUserStatus: "idle",
     removeUserError: null,
-    updateRoleStatus: "idle",
-    updateRoleError: null,
+    
   },
   reducers: {
     resetOrganizationStatus: (state) => {
@@ -107,8 +103,7 @@ const organizationSlice = createSlice({
       state.addUserError = null;
       state.removeUserStatus = "idle";
       state.removeUserError = null;
-      state.updateRoleStatus = "idle";
-      state.updateRoleError = null;
+     
     },
     clearOrganizationUsers: (state) => {
       state.users = [];
