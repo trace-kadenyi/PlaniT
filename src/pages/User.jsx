@@ -37,8 +37,6 @@ export default function UserProfile() {
   const dispatch = useDispatch();
 
   const { can, currentUser: authUser } = usePermissions();
-  // const [userTasks, setUserTasks] = useState([]);
-  // const [userEvents, setUserEvents] = useState([]);
   const tasksState = useSelector((state) => state.tasks);
 
   const {
