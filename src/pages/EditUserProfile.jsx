@@ -371,7 +371,12 @@ export default function EditUserProfile() {
                   ? "Save changes"
                   : "You don't have permission to edit this user"
               }
-              fallbackTooltip="You don't have permission to edit this user"
+              fallbackTooltip={`${
+                isSelf &&
+                (authUser.role === "super_admin" || authUser.role === "admin")
+                  ? "You cannot edit your own profile"
+                  : "You don't have permission to edit this user"
+              }`}
               className="flex items-center gap-2 bg-[#F59E0B] hover:bg-[#D97706] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4" />
