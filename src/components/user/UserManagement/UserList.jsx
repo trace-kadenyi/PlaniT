@@ -10,6 +10,7 @@ import { truncateText } from "../../taskManagerCollection/utils/formatting";
 
 const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
   const { can, currentUser } = usePermissions();
+  console.log(currentUser);
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
@@ -92,7 +93,13 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
             target={user}
             onClick={() => onRemoveUser(user._id)}
             tooltipTitle="Remove user from organization"
-            fallbackTooltip="Cannot remove this user"
+            fallbackTooltip={`${
+              currentUser._id === user._id &&
+              (currentUser.role === "super_admin" ||
+                currentUser.role === "admin")
+                ? "Cannot remove yourself from the system"
+                : "Cannot remove this user"
+            }`}
             className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-700"
           >
             Remove
