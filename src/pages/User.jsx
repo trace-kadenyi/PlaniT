@@ -556,7 +556,7 @@ export default function UserProfile() {
                   <div className="mt-3">
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                       <div
-                        className="h-2 rounded-full bg-gradient-to-r from-[#9B2C62] to-[#F59E0B]"
+                        className="h-2 rounded-full bg-gradient-to-r from-[#9B2C62] to-[#F59E0B] dark:from-pink-900 dark:to-[#D97706]"
                         style={{
                           width: `${Math.min(userEvents.length * 20, 100)}%`,
                         }}
