@@ -30,6 +30,10 @@ import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
 import useUserEvents from "../globalHooks/useUserEvents";
 import UserNotFound from "../components/user/UserManagement/UserNotFound";
+import {
+  getRoleColors,
+  getRoleLabels,
+} from "../globalHooks/usePermissionHelpers";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -98,19 +102,8 @@ export default function UserProfile() {
   }
 
   const isSelf = userData._id === authUser?._id;
-  const roleColors = {
-    [ROLES.SUPER_ADMIN]: "bg-gradient-to-r from-black to-pink-900 text-white",
-    [ROLES.ADMIN]: "bg-gradient-to-r from-black to-[#F59E0B] text-white",
-    [ROLES.PLANNER]: "bg-gradient-to-r from-black to-[#D97706] text-white",
-    [ROLES.VIEWER]: "bg-gradient-to-r from-black to-gray-800 text-white",
-  };
-
-  const roleLabels = {
-    [ROLES.SUPER_ADMIN]: "Super Admin",
-    [ROLES.ADMIN]: "Admin",
-    [ROLES.PLANNER]: "Planner",
-    [ROLES.VIEWER]: "Viewer",
-  };
+  const roleColors = getRoleColors();
+  const roleLabels = getRoleLabels();
 
   // Format date
   const formatDate = (dateString) => {
