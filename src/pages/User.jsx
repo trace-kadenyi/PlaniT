@@ -28,6 +28,7 @@ import DeleteConfirmationToast from "../components/taskManagerCollection/utils/d
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
+import useUserEvents from "../globalHooks/useUserEvents";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -64,31 +65,7 @@ export default function UserProfile() {
     : [];
 
   // Calculate userEvents from userTasks
-  const userEvents = React.useMemo(() => {
-    if (!userTasks.length) return [];
-
-    const eventsMap = new Map();
-    userTasks.forEach((task) => {
-      if (task.eventId) {
-        const eventId = task.eventId._id || task.eventId;
-        if (!eventsMap.has(eventId)) {
-          eventsMap.set(eventId, {
-            _id: eventId,
-            name: task.eventName || "Unnamed Event",
-            date: task.eventId?.date,
-            taskCount: 1,
-            tasks: [task],
-          });
-        } else {
-          const event = eventsMap.get(eventId);
-          event.taskCount += 1;
-          event.tasks.push(task);
-        }
-      }
-    });
-
-    return Array.from(eventsMap.values());
-  }, [userTasks]);
+  const userEvents = useUserEvents(userTasks); 
 
   // handle remove user
   const handleRemoveUser = (userId) => {
