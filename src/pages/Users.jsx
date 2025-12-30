@@ -35,7 +35,7 @@ export default function Users() {
     firstName: "",
     lastName: "",
     email: "",
-    role: "planner",
+    role: "viewer",
     password: "",
   });
 
@@ -54,7 +54,7 @@ export default function Users() {
         firstName: "",
         lastName: "",
         email: "",
-        role: "planner",
+        role: "viewer",
         password: "",
       });
       toast.success("User added successfully");
