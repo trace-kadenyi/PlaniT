@@ -1,3 +1,6 @@
+import React from "react";
+import { Tooltip } from "@mui/material";
+
 import {
   usePermissions,
   PERMISSIONS,
@@ -10,7 +13,6 @@ import { truncateText } from "../../taskManagerCollection/utils/formatting";
 
 const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
   const { can, currentUser } = usePermissions();
-  console.log(currentUser);
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
@@ -45,9 +47,11 @@ const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
 const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
   const { can, currentUser } = usePermissions();
 
-  // canModifyUser func
-  const canEditRole = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
-  const canRemove = canModifyUser(currentUser, user, PERMISSIONS.DELETE);
+  // Check if user has EDIT permission for this specific user
+  const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
+  // Combine with canModifyUser to ensure hierarchy rules are respected
+  const canEditRole =
+    hasEditPermission && canModifyUser(currentUser, user, PERMISSIONS.EDIT);
 
   return (
     <div className="px-6 py-4 flex flex-col gap-3 sm:items-center justify-between sm:flex-row">
@@ -94,9 +98,7 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
             onClick={() => onRemoveUser(user._id)}
             tooltipTitle="Remove user from organization"
             fallbackTooltip={`${
-              currentUser._id === user._id &&
-              (currentUser.role === "super_admin" ||
-                currentUser.role === "admin")
+              currentUser._id === user._id
                 ? "Cannot remove yourself from the system"
                 : "Cannot remove this user"
             }`}
@@ -119,7 +121,10 @@ const RoleDisplay = ({ user }) => (
 const RoleSelector = ({ user, onRoleChange }) => {
   const { can, currentUser } = usePermissions();
 
-  const canEditRole = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
+  // Check permissions again in the selector
+  const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
+  const canModifyThisUser = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
+  const canEditRole = hasEditPermission && canModifyThisUser;
   const shouldDisable = !canEditRole;
 
   const getAvailableRoles = () => {
@@ -128,11 +133,19 @@ const RoleSelector = ({ user, onRoleChange }) => {
       { value: ROLES.PLANNER, label: "Planner" },
     ];
 
-    if (canModifyUser(currentUser, { role: ROLES.ADMIN }, PERMISSIONS.EDIT)) {
+    // Check if current user can assign ADMIN role
+    const canAssignAdmin = can(PERMISSIONS.EDIT, RESOURCES.USER, {
+      role: ROLES.ADMIN,
+    });
+    if (canAssignAdmin) {
       roles.push({ value: ROLES.ADMIN, label: "Admin" });
     }
 
-    if (currentUser?.role === ROLES.SUPER_ADMIN) {
+    // Check if current user can assign SUPER_ADMIN role
+    const canAssignSuperAdmin = can(PERMISSIONS.EDIT, RESOURCES.USER, {
+      role: ROLES.SUPER_ADMIN,
+    });
+    if (canAssignSuperAdmin) {
       roles.push({ value: ROLES.SUPER_ADMIN, label: "Super Admin" });
     }
 
