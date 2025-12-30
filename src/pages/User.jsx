@@ -587,7 +587,7 @@ export default function UserProfile() {
                             </p>
                           )}
                           <div className="flex items-center gap-2 mt-2">
-                            <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded">
+                            <span className="text-xs bg-[#D97706] dark:bg-[#9B2C62] text-white dark:text-white px-2 py-1 rounded">
                               {event.taskCount} task
                               {event.taskCount !== 1 ? "s" : ""}
                             </span>
