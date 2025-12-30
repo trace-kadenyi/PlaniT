@@ -68,7 +68,7 @@ export default function Users() {
     try {
       await dispatch(updateUserRole({ userId, role: newRole })).unwrap();
       dispatch(fetchUsers());
-      toast.success("User role updated successfully");
+      toastWithProgress("User role updated successfully");
     } catch (err) {
       toast.error(err.message || "Failed to update role");
     }
