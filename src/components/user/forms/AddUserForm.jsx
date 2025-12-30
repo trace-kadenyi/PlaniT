@@ -51,7 +51,7 @@ const AddUserForm = ({
         firstName: "",
         lastName: "",
         email: "",
-        role: "planner",
+        role: "viewer",
         password: "",
       });
       setFieldErrors({});
