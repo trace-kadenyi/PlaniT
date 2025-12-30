@@ -85,28 +85,6 @@ export default function TaskCard({
               </div>
 
               {/* assigned to */}
-              {/* <div>
-              <span className="font-semibold text-gray-500 dark:text-gray-400">
-                Assigned To:
-              </span>{" "}
-              <span
-                className="max-w-[120px] truncate inline-block align-bottom"
-                title={
-                  task.assignedTo
-                    ? typeof task.assignedTo === "object"
-                      ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}`
-                      : "User ID: " + task.assignedTo
-                    : "Unassigned"
-                } // Show full name on hover
-              >
-                {task.assignedTo
-                  ? typeof task.assignedTo === "object"
-                    ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}`
-                    : "User ID: " + task.assignedTo
-                  : "Unassigned"}
-              </span>
-            </div> */}
-
               <div>
                 <span className="font-semibold text-gray-500 dark:text-gray-400">
                   Assigned To:
