@@ -150,11 +150,10 @@ export default function UserProfile() {
 
   const isSelf = userData._id === authUser?._id;
   const roleColors = {
-    [ROLES.SUPER_ADMIN]:
-      "bg-gradient-to-r from-purple-600 to-pink-600 text-white",
-    [ROLES.ADMIN]: "bg-gradient-to-r from-[#9B2C62] to-[#801f4f] text-white",
-    [ROLES.PLANNER]: "bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white",
-    [ROLES.VIEWER]: "bg-gradient-to-r from-gray-600 to-gray-800 text-white",
+    [ROLES.SUPER_ADMIN]: "bg-gradient-to-r from-black to-pink-900 text-white",
+    [ROLES.ADMIN]: "bg-gradient-to-r from-black to-[#F59E0B] text-white",
+    [ROLES.PLANNER]: "bg-gradient-to-r from-black to-[#D97706] text-white",
+    [ROLES.VIEWER]: "bg-gradient-to-r from-black to-gray-800 text-white",
   };
 
   const roleLabels = {
