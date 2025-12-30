@@ -534,7 +534,7 @@ export default function UserProfile() {
                 <Briefcase className="w-6 h-6 text-white" />
               </div>
               <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-                Assigned Events & Tasks
+                Associated Events & Tasks
               </h2>
             </div>
 
@@ -542,13 +542,16 @@ export default function UserProfile() {
               <div className="space-y-4">
                 <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-5 border border-[#F3EDE9] dark:border-gray-700">
                   <div className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                    Total Assigned Events
+                    Events
                   </div>
                   <div className="text-3xl font-bold text-gray-800 dark:text-white">
                     {userEvents.length}
                   </div>
                   <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                    Across {userTasks.length} total tasks
+                    {userTasks.length}
+                    {userTasks.length > 1
+                      ? " individual tasks"
+                      : " individual task"}
                   </div>
                   <div className="mt-3">
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -571,7 +574,10 @@ export default function UserProfile() {
                     >
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
-                          <h4 className="font-medium text-gray-800 dark:text-white">
+                          <h4
+                            onClick={() => navigate(`/events/${event._id}`)}
+                            className="font-medium text-gray-800 dark:text-white cursor-pointer"
+                          >
                             {event.name}
                           </h4>
                           {event.date && (
