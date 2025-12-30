@@ -12,6 +12,11 @@ import {
   XCircle,
   Briefcase,
 } from "lucide-react";
+import toast from "react-hot-toast";
+
+import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
+import { fetchAllTasks } from "../redux/tasksSlice";
+
 import {
   usePermissions,
   PERMISSIONS,
@@ -19,11 +24,6 @@ import {
   ROLES,
 } from "../globalHooks/userPermissions";
 import PermissionButton from "../components/buttons/PermissionButton";
-
-import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
-import { fetchAllTasks } from "../redux/tasksSlice";
-
-import toast from "react-hot-toast";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
