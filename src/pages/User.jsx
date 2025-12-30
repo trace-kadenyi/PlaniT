@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,9 +10,7 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-  Users,
   Briefcase,
-  TrendingUp,
 } from "lucide-react";
 import {
   usePermissions,
@@ -629,15 +627,6 @@ export default function UserProfile() {
               </div>
             )}
           </div>
-        </div>
-
-        {/* Footer Note */}
-        <div className="text-center mt-10">
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            Profile last updated:{" "}
-            {formatDateTime(userData.updatedAt || userData.createdAt)} by{" "}
-            {authUser.firstName} {authUser.lastName}
-          </p>
         </div>
       </div>
     </main>
