@@ -57,7 +57,7 @@ export default function Users() {
         role: "viewer",
         password: "",
       });
-      toast.success("User added successfully");
+      toastWithProgress("User added successfully");
     } catch (error) {
       console.error("Failed to add user:", error);
     }
