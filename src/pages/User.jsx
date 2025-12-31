@@ -85,6 +85,7 @@ export default function UserProfile() {
     )();
   };
 
+  // handle loading state
   if (fetchDetailsStatus === "loading" || tasksState.status === "loading") {
     return <GenLoadingState message="Loading user details..." />;
   }
