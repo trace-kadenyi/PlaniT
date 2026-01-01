@@ -78,6 +78,9 @@ export default function EditUserProfile() {
     can
   );
   const canEditRole = canEdit;
+  const availableRoles = getAvailableRoles(authUser?.role);
+  const roleDescriptions = getRoleDescriptions();
+  const roleLabels = getRoleLabels();
 
   // Check if fields should be disabled
   const shouldDisableFields = !canEditUser || isSelf;
@@ -134,10 +137,6 @@ export default function EditUserProfile() {
       ArrowLeft={ArrowLeft}
     />;
   }
-
-  const availableRoles = getAvailableRoles(authUser?.role);
-  const roleDescriptions = getRoleDescriptions();
-  const roleLabels = getRoleLabels();
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
