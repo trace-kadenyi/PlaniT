@@ -20,22 +20,12 @@ import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
 import useUserEvents from "../globalHooks/useUserEvents";
 import UserNotFound from "../components/user/UserManagement/UserNotFound";
-import {
-  getRoleColors,
-  getRoleLabels,
-} from "../globalHooks/usePermissionHelpers";
-import {
-  formatYearMonthDay,
-  formatHourMinute,
-} from "../globalUtils/dateHelpers";
 import UserProfileCard from "../components/user/UserManagement/UserProfileCard";
 
 export default function User() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const roleColors = getRoleColors();
-  const roleLabels = getRoleLabels();
 
   const { can, currentUser: authUser } = usePermissions();
   const tasksState = useSelector((state) => state.tasks);
