@@ -41,3 +41,35 @@ export default function UserNotFound({
     </main>
   );
 }
+
+// no user details
+export function NoUserDetails({
+  AlertCircle,
+  Link,
+  ArrowLeft,
+  message,
+  details,
+}) {
+  return (
+    <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center border border-[#E3CBC1] dark:border-gray-700">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
+            <AlertCircle className="w-8 h-8 text-red-500 dark:text-red-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+            {message}
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">{details}</p>
+          <Link
+            to="/users"
+            className="inline-flex items-center gap-2 bg-[#9B2C62] hover:bg-[#801f4f] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Users
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
