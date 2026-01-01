@@ -110,25 +110,6 @@ export default function UserProfile() {
   const roleColors = getRoleColors();
   const roleLabels = getRoleLabels();
 
-  // Format date
-  const formatDate = (dateString) => {
-    if (!dateString) return "Never";
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const formatDateTime = (dateString) => {
-    if (!dateString) return "Never logged in";
-    const date = new Date(dateString);
-    return `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    })}`;
-  };
-
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
       {/* Decorative Background Elements */}
