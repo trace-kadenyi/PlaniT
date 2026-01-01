@@ -154,7 +154,7 @@ export default function EditUserProfile() {
   }
 
   const availableRoles = getAvailableRoles(authUser?.role);
-  const rolePermissions = getRoleDescriptions();
+  const roleDescriptions = getRoleDescriptions();
   const roleColors = getRoleColors();
   const roleLabels = getRoleLabels();
 
@@ -325,13 +325,24 @@ export default function EditUserProfile() {
                   {roleLabels[selectedRole]} Permissions
                 </h3>
                 <ul className="space-y-2">
-                  {rolePermissions[selectedRole]?.map((permission, index) => (
-                    <li
-                      key={index}
-                      className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400"
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#F59E0B] mt-1.5"></div>
-                      {permission}
+                  {roleDescriptions[selectedRole]?.map((permission, index) => (
+                    <li key={index} className="flex items-start gap-2 text-sm">
+                      <div
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          permission.isRestricted
+                            ? "bg-red-500"
+                            : "bg-[#F59E0B]"
+                        } mt-1.5`}
+                      ></div>
+                      <span
+                        className={
+                          permission.isRestricted
+                            ? "text-red-600 dark:text-red-400"
+                            : "text-gray-600 dark:text-gray-400"
+                        }
+                      >
+                        {permission.text}
+                      </span>
                     </li>
                   ))}
                 </ul>
