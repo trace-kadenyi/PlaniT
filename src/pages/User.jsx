@@ -21,6 +21,7 @@ import { GenLoadingState } from "../components/shared/LoadingStates";
 import useUserEvents from "../globalHooks/useUserEvents";
 import UserNotFound from "../components/user/UserManagement/UserNotFound";
 import UserProfileCard from "../components/user/UserManagement/UserProfileCard";
+import { getRoleDescriptions } from "../globalHooks/usePermissionHelpers";
 
 export default function User() {
   const { userId } = useParams();
@@ -29,6 +30,7 @@ export default function User() {
 
   const { can, currentUser: authUser } = usePermissions();
   const tasksState = useSelector((state) => state.tasks);
+  const roleDescriptions = getRoleDescriptions();
 
   const {
     currentUser: userData,
@@ -163,74 +165,26 @@ export default function User() {
                   Current Permissions
                 </h3>
                 <ul className="space-y-2 text-sm">
-                  {userData.role === ROLES.SUPER_ADMIN && (
-                    <>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Full organization access
-                      </li>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Manage other super admins
-                      </li>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Complete control over all settings
-                      </li>
-                    </>
-                  )}
-                  {userData.role === ROLES.ADMIN && (
-                    <>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Manage users (except super admins)
-                      </li>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Create/edit all events and content
-                      </li>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Full administrative privileges
-                      </li>
-                    </>
-                  )}
-                  {userData.role === ROLES.PLANNER && (
-                    <>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Create and edit events
-                      </li>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        Manage vendors and clients
-                      </li>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        View all organization content
-                      </li>
-                      <li className="flex items-center gap-2 text-red-600 dark:text-red-400">
-                        <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                        Cannot manage users
-                      </li>
-                    </>
-                  )}
-                  {userData.role === ROLES.VIEWER && (
-                    <>
-                      <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        View all organization content
-                      </li>
-                      <li className="flex items-center gap-2 text-red-600 dark:text-red-400">
-                        <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                        Cannot create or edit anything
-                      </li>
-                      <li className="flex items-center gap-2 text-red-600 dark:text-red-400">
-                        <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                        Read-only access
-                      </li>
-                    </>
-                  )}
+                  {roleDescriptions[userData.role]?.map((permission, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          permission.isRestricted
+                            ? "bg-red-500"
+                            : "bg-green-500"
+                        }`}
+                      ></div>
+                      <span
+                        className={
+                          permission.isRestricted
+                            ? "text-red-600 dark:text-red-400"
+                            : "text-gray-700 dark:text-gray-300"
+                        }
+                      >
+                        {permission.text}
+                      </span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
