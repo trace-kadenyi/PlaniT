@@ -74,3 +74,15 @@ export const getDateBadgeClass = (date) => {
 
   return `${baseClasses} ${isUrgent ? urgentClasses : normalClasses}`;
 };
+
+// year|month|day
+
+export const formatYearMonthDay = (dateString) => {
+  if (!dateString) return "Never";
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
