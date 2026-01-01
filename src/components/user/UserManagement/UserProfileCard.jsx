@@ -30,6 +30,7 @@ export default function UserProfileCard({
 }) {
   const roleColors = getRoleColors();
   const roleLabels = getRoleLabels();
+
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-8 hover:shadow-xl transition-all duration-300 group">
       {/* Decorative Corner */}
@@ -115,6 +116,7 @@ export default function UserProfileCard({
                   Edit Profile
                 </PermissionButton>
 
+                {/* delete btn */}
                 <PermissionButton
                   permission={PERMISSIONS.DELETE}
                   resource={RESOURCES.USER}
