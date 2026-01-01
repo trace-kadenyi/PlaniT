@@ -193,6 +193,7 @@ export function EditUserForm({
           Cancel
         </Link>
 
+        {/* edit btn/save changes */}
         <PermissionButton
           permission={PERMISSIONS.EDIT}
           resource={RESOURCES.USER}
