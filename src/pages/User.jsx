@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Shield, ArrowLeft, Briefcase } from "lucide-react";
+import { Shield, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
@@ -20,7 +20,6 @@ import { GenLoadingState } from "../components/shared/LoadingStates";
 import useUserEvents from "../globalHooks/useUserEvents";
 import UserNotFound from "../components/user/UserManagement/UserNotFound";
 import UserProfileCard from "../components/user/UserManagement/UserProfileCard";
-import { getRoleDescriptions } from "../globalHooks/usePermissionHelpers";
 import { UserDetailsGrid } from "../components/user/UserManagement/UserDetailsGrid";
 
 export default function User() {
@@ -30,7 +29,6 @@ export default function User() {
 
   const { can, currentUser: authUser } = usePermissions();
   const tasksState = useSelector((state) => state.tasks);
-  const roleDescriptions = getRoleDescriptions();
 
   const {
     currentUser: userData,
