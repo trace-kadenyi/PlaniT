@@ -26,31 +26,6 @@ export const getAvailableRoles = (currentUserRole) => {
 };
 
 // Helper to get role descriptions
-// export const getRoleDescriptions = () => ({
-//   [ROLES.SUPER_ADMIN]: [
-//     "Full organization access including managing other super admins",
-//     "Complete control over all settings and configurations",
-//     "Can manage all users, events, vendors, and clients",
-//   ],
-//   [ROLES.ADMIN]: [
-//     "Can manage users (except super admins)",
-//     "Create/edit all events and content",
-//     "Full administrative privileges",
-//   ],
-//   [ROLES.PLANNER]: [
-//     "Can create and edit events",
-//     "Manage assigned vendors and clients",
-//     "View all organization content",
-//     "Cannot manage users",
-//   ],
-//   [ROLES.VIEWER]: [
-//     "Can view all organization content",
-//     "Cannot create or edit anything",
-//     "Read-only access",
-//   ],
-// });
-
-// Single source of truth - just the permission texts
 const ROLE_PERMISSION_TEXTS = {
   [ROLES.SUPER_ADMIN]: [
     "Full organization access including managing other super admins",
