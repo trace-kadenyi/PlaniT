@@ -73,9 +73,6 @@ export default function EditUserProfile() {
     can
   );
   const canEditRole = canEdit;
-  const availableRoles = getAvailableRoles(authUser?.role);
-  const roleDescriptions = getRoleDescriptions();
-  const roleLabels = getRoleLabels();
 
   // Check if fields should be disabled
   const shouldDisableFields = !canEditUser || isSelf;
