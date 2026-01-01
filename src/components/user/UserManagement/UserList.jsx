@@ -1,3 +1,6 @@
+import React from "react";
+import { Tooltip } from "@mui/material";
+
 import {
   usePermissions,
   PERMISSIONS,
@@ -6,6 +9,7 @@ import {
   ROLES,
 } from "../../../globalHooks/userPermissions";
 import PermissionButton from "../../buttons/PermissionButton";
+import { truncateText } from "../../taskManagerCollection/utils/formatting";
 
 const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
   const { can, currentUser } = usePermissions();
@@ -43,13 +47,15 @@ const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
 const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
   const { can, currentUser } = usePermissions();
 
-  // canModifyUser func
-  const canEditRole = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
-  const canRemove = canModifyUser(currentUser, user, PERMISSIONS.DELETE);
+  // Check if user has EDIT permission for this specific user
+  const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
+  // Combine with canModifyUser to ensure hierarchy rules are respected
+  const canEditRole =
+    hasEditPermission && canModifyUser(currentUser, user, PERMISSIONS.EDIT);
 
   return (
     <div className="px-6 py-4 flex flex-col gap-3 sm:items-center justify-between sm:flex-row">
-      <div className="flex items-center space-x-4">
+      <a href={`users/${user._id}`} className="flex items-center space-x-4">
         <div className="w-10 h-10 bg-[#9B2C62] rounded-full flex items-center justify-center">
           <span className="text-white font-semibold text-sm">
             {user.firstName[0]}
@@ -58,7 +64,7 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
         </div>
         <div>
           <h3 className="font-medium text-gray-900 dark:text-gray-300">
-            {user.firstName} {user.lastName}
+            {truncateText(`${user.firstName} ${user.lastName}`, 25)}
             {user._id === currentUser?._id && (
               <span className="ml-2 text-xs bg-[#F59E0B] text-white px-2 py-1 rounded-full">
                 You
@@ -66,10 +72,10 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
             )}
           </h3>
           <p className="text-gray-600 dark:text-gray-400/80 text-sm">
-            {user.email}
+            {truncateText(`${user.email}`, 25)}
           </p>
         </div>
-      </div>
+      </a>
 
       <div className="flex items-center space-x-4 ml-10 flex-wrap sm:flex-nowrap gap-2 sm:ml-0">
         {/* Role Display/Selector */}
@@ -91,7 +97,11 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
             target={user}
             onClick={() => onRemoveUser(user._id)}
             tooltipTitle="Remove user from organization"
-            fallbackTooltip="Cannot remove this user"
+            fallbackTooltip={`${
+              currentUser._id === user._id
+                ? "Cannot remove yourself from the system"
+                : "Cannot remove this user"
+            }`}
             className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-700"
           >
             Remove
@@ -111,7 +121,10 @@ const RoleDisplay = ({ user }) => (
 const RoleSelector = ({ user, onRoleChange }) => {
   const { can, currentUser } = usePermissions();
 
-  const canEditRole = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
+  // Check permissions again in the selector
+  const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
+  const canModifyThisUser = canModifyUser(currentUser, user, PERMISSIONS.EDIT);
+  const canEditRole = hasEditPermission && canModifyThisUser;
   const shouldDisable = !canEditRole;
 
   const getAvailableRoles = () => {
@@ -120,11 +133,19 @@ const RoleSelector = ({ user, onRoleChange }) => {
       { value: ROLES.PLANNER, label: "Planner" },
     ];
 
-    if (canModifyUser(currentUser, { role: ROLES.ADMIN }, PERMISSIONS.EDIT)) {
+    // Check if current user can assign ADMIN role
+    const canAssignAdmin = can(PERMISSIONS.EDIT, RESOURCES.USER, {
+      role: ROLES.ADMIN,
+    });
+    if (canAssignAdmin) {
       roles.push({ value: ROLES.ADMIN, label: "Admin" });
     }
 
-    if (currentUser?.role === ROLES.SUPER_ADMIN) {
+    // Check if current user can assign SUPER_ADMIN role
+    const canAssignSuperAdmin = can(PERMISSIONS.EDIT, RESOURCES.USER, {
+      role: ROLES.SUPER_ADMIN,
+    });
+    if (canAssignSuperAdmin) {
       roles.push({ value: ROLES.SUPER_ADMIN, label: "Super Admin" });
     }
 

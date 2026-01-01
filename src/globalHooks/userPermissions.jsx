@@ -40,23 +40,44 @@ const ROLE_HIERARCHY = {
 const getBasePermissionsForRole = (role) => {
   const hierarchy = ROLE_HIERARCHY[role] || 0;
 
-  const basePermissions = [PERMISSIONS.VIEW];
+  const basePermissions = {
+    [RESOURCES.VENDOR]: [PERMISSIONS.VIEW],
+    [RESOURCES.EVENT]: [PERMISSIONS.VIEW],
+    [RESOURCES.TASK]: [PERMISSIONS.VIEW],
+    [RESOURCES.CLIENT]: [PERMISSIONS.VIEW],
+    [RESOURCES.USER]: [PERMISSIONS.VIEW], // Everyone can view users
+    [RESOURCES.EXPENSE]: [PERMISSIONS.VIEW],
+  };
 
   if (hierarchy >= ROLE_HIERARCHY[ROLES.PLANNER]) {
-    basePermissions.push(
-      PERMISSIONS.CREATE,
-      PERMISSIONS.EDIT,
-      PERMISSIONS.ARCHIVE
-    );
+    // Planners get create/edit/archive for most resources
+    [
+      RESOURCES.VENDOR,
+      RESOURCES.EVENT,
+      RESOURCES.TASK,
+      RESOURCES.CLIENT,
+      RESOURCES.EXPENSE,
+    ].forEach((resource) => {
+      basePermissions[resource].push(
+        PERMISSIONS.CREATE,
+        PERMISSIONS.EDIT,
+        PERMISSIONS.ARCHIVE
+      );
+    });
   }
 
   if (hierarchy >= ROLE_HIERARCHY[ROLES.ADMIN]) {
-    // Admins and Super Admins get ALL permissions
-    basePermissions.push(
-      PERMISSIONS.DELETE,
-      PERMISSIONS.DELETE_ALL,
-      PERMISSIONS.MANAGE_USERS
-    );
+    // Admins and Super Admins get ALL permissions for ALL resources
+    Object.values(RESOURCES).forEach((resource) => {
+      basePermissions[resource].push(
+        PERMISSIONS.CREATE,
+        PERMISSIONS.EDIT,
+        PERMISSIONS.DELETE,
+        PERMISSIONS.ARCHIVE,
+        PERMISSIONS.DELETE_ALL,
+        PERMISSIONS.MANAGE_USERS
+      );
+    });
   }
 
   return basePermissions;
@@ -69,13 +90,15 @@ const checkPermission = (
   resource = null,
   targetUser = null
 ) => {
-  if (!currentUser?.role) return false;
+  if (!currentUser?.role || !resource) return false;
 
   const userRole = currentUser.role;
 
   // RULE 1: Get base permissions based on role
   const basePermissions = getBasePermissionsForRole(userRole);
-  if (!basePermissions.includes(permission)) {
+  const resourcePermissions = basePermissions[resource] || [];
+
+  if (!resourcePermissions.includes(permission)) {
     return false;
   }
 

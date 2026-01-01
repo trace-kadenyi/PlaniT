@@ -28,6 +28,8 @@ import TasksBoard from "./pages/TasksBoard";
 import EventsBoard from "./pages/EventsBoard";
 import useIsSmallScreen from "./globalHooks/useIsSmallScreen";
 import Users from "./pages/Users";
+import User from "./pages/User";
+import EditUserProfile from "./pages/EditUserProfile";
 import Dashboards from "./pages/Dashboards";
 
 function App() {
@@ -81,6 +83,9 @@ function App() {
             <Route path="/events/board" element={<EventsBoard />} />
             <Route path="/dashboards" element={<Dashboards />} />
             <Route path="/team" element={<Users />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/users/:userId" element={<User />} />
+            <Route path="/users/:userId/edit" element={<EditUserProfile />} />
           </Route>
 
           {/* Catch all route - redirect to home */}

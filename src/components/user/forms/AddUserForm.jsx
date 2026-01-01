@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import Password, { generateRandomPassword } from "../../shared/Password";
 import { AddMemberFormBtn } from "../../buttons/UserButtons";
 
-const AddUser = ({
+const AddUserForm = ({
   showAddForm,
   setShowAddForm,
   handleAddUser,
@@ -51,7 +51,7 @@ const AddUser = ({
         firstName: "",
         lastName: "",
         email: "",
-        role: "planner",
+        role: "viewer",
         password: "",
       });
       setFieldErrors({});
@@ -296,4 +296,4 @@ dark:text-gray-300"
   );
 };
 
-export default AddUser;
+export default AddUserForm;

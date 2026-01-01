@@ -16,11 +16,11 @@ export const createAllClientsDeleteHandler = (
           duration={duration}
           type="clients"
           onConfirm={async () => {
-            const resultAction = await dispatch(deleteAllClients());
-            toast.dismiss(t.id);
+            try {
+              const result = await dispatch(deleteAllClients()).unwrap();
+              toast.dismiss(t.id);
 
-            if (deleteAllClients.fulfilled.match(resultAction)) {
-              const deletedCount = resultAction.payload?.deletedCount ?? 0;
+              const deletedCount = result?.deletedCount ?? 0;
 
               if (deletedCount > 0) {
                 toastWithProgress(
@@ -33,8 +33,9 @@ export const createAllClientsDeleteHandler = (
               }
 
               navigate("/clients");
-            } else {
-              toast.error("Failed to delete all clients");
+            } catch (error) {
+              toast.dismiss(t.id);
+              toastWithProgress(error || "Failed to delete all clients");
             }
           }}
           onCancel={() => toast.dismiss(t.id)}

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 import api from "../app/api";
 
 // Fetch all users in organization
@@ -40,21 +41,6 @@ export const removeOrganizationUser = createAsyncThunk(
   }
 );
 
-// Update user role
-export const updateUserRole = createAsyncThunk(
-  "organization/updateUserRole",
-  async ({ userId, role }, { rejectWithValue }) => {
-    try {
-      const res = await api.patch(`/api/organization/users/${userId}/role`, {
-        role,
-      });
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
-    }
-  }
-);
-
 // org details
 export const fetchOrganizationDetails = createAsyncThunk(
   "organization/fetchDetails",
@@ -79,8 +65,6 @@ const organizationSlice = createSlice({
     addUserError: null,
     removeUserStatus: "idle",
     removeUserError: null,
-    updateRoleStatus: "idle",
-    updateRoleError: null,
   },
   reducers: {
     resetOrganizationStatus: (state) => {
@@ -90,8 +74,6 @@ const organizationSlice = createSlice({
       state.addUserError = null;
       state.removeUserStatus = "idle";
       state.removeUserError = null;
-      state.updateRoleStatus = "idle";
-      state.updateRoleError = null;
     },
     clearOrganizationUsers: (state) => {
       state.users = [];
@@ -141,30 +123,14 @@ const organizationSlice = createSlice({
         state.removeUserStatus = "failed";
         state.removeUserError = action.payload;
       })
-      // Update user role
-      .addCase(updateUserRole.pending, (state) => {
-        state.updateRoleStatus = "loading";
-        state.updateRoleError = null;
-      })
-      .addCase(updateUserRole.fulfilled, (state, action) => {
-        state.updateRoleStatus = "succeeded";
-        const index = state.users.findIndex(
-          (user) => user._id === action.payload.user.id
-        );
-        if (index !== -1) {
-          state.users[index].role = action.payload.user.role;
-        }
-      })
-      .addCase(updateUserRole.rejected, (state, action) => {
-        state.updateRoleStatus = "failed";
-        state.updateRoleError = action.payload;
-      })
       // Fetch organization details
       .addCase(fetchOrganizationDetails.fulfilled, (state, action) => {
         state.organization = action.payload;
       });
   },
 });
+
+export const deleteUser = removeOrganizationUser;
 
 export const {
   resetOrganizationStatus,

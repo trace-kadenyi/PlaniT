@@ -15,11 +15,19 @@ export const createVendorDeleteHandler = (
           t={t}
           duration={duration}
           type="vendor"
-          onConfirm={() => {
-            dispatch(deleteVendor(id));
-            toast.dismiss(t.id);
-            toastWithProgress("Vendor deleted successfully");
-            navigate("/vendors");
+          onConfirm={async () => {
+            try {
+              dispatch(deleteVendor(id)).unwrap();
+              toast.dismiss(t.id);
+              toastWithProgress("Vendor deleted successfully");
+              navigate("/vendors");
+            } catch (error) {
+              // Only dismiss the confirmation toast
+              toast.dismiss(t.id);
+
+              // Show error toast with progress
+              toastWithProgress(error || "Failed to delete vendor");
+            }
           }}
           onCancel={() => toast.dismiss(t.id)}
         />
