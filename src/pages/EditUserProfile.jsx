@@ -50,7 +50,6 @@ export default function EditUserProfile() {
     formState: { errors },
     watch,
   } = useForm();
-  const [isSaving, setIsSaving] = useState(false);
 
   // Watch for role changes to show appropriate permissions
   const selectedRole = watch("role", userDetails?.role || ROLES.VIEWER);
@@ -363,13 +362,10 @@ export default function EditUserProfile() {
               target={userDetails}
               type="submit"
               loading={
-                isSaving ||
-                updateRoleStatus === "loading" ||
-                updateStatus === "loading"
+                updateRoleStatus === "loading" || updateStatus === "loading"
               }
               disabled={
                 !canEditUser ||
-                isSaving ||
                 updateRoleStatus === "loading" ||
                 updateStatus === "loading"
               }
@@ -389,9 +385,7 @@ export default function EditUserProfile() {
               className="flex items-center gap-2 bg-[#F59E0B] hover:bg-[#D97706] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4" />
-              {isSaving ||
-              updateRoleStatus === "loading" ||
-              updateStatus === "loading"
+              {updateRoleStatus === "loading" || updateStatus === "loading"
                 ? "Saving..."
                 : "Save Changes"}
             </PermissionButton>
