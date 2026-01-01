@@ -155,7 +155,6 @@ export default function EditUserProfile() {
 
   const availableRoles = getAvailableRoles(authUser?.role);
   const roleDescriptions = getRoleDescriptions();
-  const roleColors = getRoleColors();
   const roleLabels = getRoleLabels();
 
   return (
