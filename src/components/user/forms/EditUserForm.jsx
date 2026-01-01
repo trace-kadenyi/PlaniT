@@ -28,6 +28,7 @@ export function EditUserForm({
   const availableRoles = getAvailableRoles(authUser?.role);
   const roleDescriptions = getRoleDescriptions();
   const roleLabels = getRoleLabels();
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Basic Information Card */}
