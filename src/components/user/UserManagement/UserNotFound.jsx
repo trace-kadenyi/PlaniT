@@ -42,7 +42,14 @@ export default function UserNotFound({
   );
 }
 
-export function NoUserDetails({ AlertCircle, Link, ArrowLeft }) {
+// no user details
+export function NoUserDetails({
+  AlertCircle,
+  Link,
+  ArrowLeft,
+  message,
+  details,
+}) {
   return (
     <div className="min-h-screen bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-6">
       <div className="max-w-4xl mx-auto">
@@ -51,11 +58,9 @@ export function NoUserDetails({ AlertCircle, Link, ArrowLeft }) {
             <AlertCircle className="w-8 h-8 text-red-500 dark:text-red-400" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-            User Not Found
+            {message}
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            The user you're trying to edit doesn't exist.
-          </p>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">{details}</p>
           <Link
             to="/users"
             className="inline-flex items-center gap-2 bg-[#9B2C62] hover:bg-[#801f4f] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
