@@ -26,7 +26,32 @@ export const getAvailableRoles = (currentUserRole) => {
 };
 
 // Helper to get role descriptions
-export const getRoleDescriptions = () => ({
+// export const getRoleDescriptions = () => ({
+//   [ROLES.SUPER_ADMIN]: [
+//     "Full organization access including managing other super admins",
+//     "Complete control over all settings and configurations",
+//     "Can manage all users, events, vendors, and clients",
+//   ],
+//   [ROLES.ADMIN]: [
+//     "Can manage users (except super admins)",
+//     "Create/edit all events and content",
+//     "Full administrative privileges",
+//   ],
+//   [ROLES.PLANNER]: [
+//     "Can create and edit events",
+//     "Manage assigned vendors and clients",
+//     "View all organization content",
+//     "Cannot manage users",
+//   ],
+//   [ROLES.VIEWER]: [
+//     "Can view all organization content",
+//     "Cannot create or edit anything",
+//     "Read-only access",
+//   ],
+// });
+
+// Single source of truth - just the permission texts
+const ROLE_PERMISSION_TEXTS = {
   [ROLES.SUPER_ADMIN]: [
     "Full organization access including managing other super admins",
     "Complete control over all settings and configurations",
@@ -48,7 +73,59 @@ export const getRoleDescriptions = () => ({
     "Cannot create or edit anything",
     "Read-only access",
   ],
-});
+};
+
+// Smart helper to check if a permission is restricted
+const isRestrictedPermission = (text) => {
+  const lowerText = text.toLowerCase().trim();
+
+  // Rules for detecting restricted permissions (in order of priority)
+  const restrictedRules = [
+    // Exact negative phrases at the start
+    /^(cannot|can't|no\s+access\s+to|read-only|restricted\s+to)/,
+
+    // Contains negative phrases anywhere
+    /\b(cannot|can't|no\s+access|read-only|restricted)\b/,
+
+    // Contains "except" or "excluding"
+    /\b(except|excluding|but\s+not)\b/,
+
+    // Contains negative action words
+    /\b(no\s+permission\s+to|unable\s+to|not\s+allowed\s+to|prohibited\s+from)\b/,
+  ];
+
+  const allowedRules = [
+    // These are positive even if they contain certain keywords
+    /^can\s+(manage|create|edit|view|access)/,
+    /full\s+access/,
+    /complete\s+control/,
+  ];
+
+  // First check if it's explicitly allowed (overrides everything)
+  if (allowedRules.some((pattern) => pattern.test(lowerText))) {
+    return false;
+  }
+
+  // Then check if it's restricted
+  return restrictedRules.some((pattern) => pattern.test(lowerText));
+};
+
+// Helper to get role descriptions with styling
+export const getRoleDescriptions = () => {
+  const descriptions = {};
+
+  Object.keys(ROLE_PERMISSION_TEXTS).forEach((role) => {
+    descriptions[role] = ROLE_PERMISSION_TEXTS[role].map((text) => ({
+      text,
+      isRestricted: isRestrictedPermission(text),
+    }));
+  });
+
+  return descriptions;
+};
+
+// Helper to get plain role descriptions (just strings)
+export const getPlainRoleDescriptions = () => ROLE_PERMISSION_TEXTS;
 
 // Helper to get role colors
 export const getRoleColors = () => ({
