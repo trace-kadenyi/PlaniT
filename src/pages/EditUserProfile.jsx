@@ -13,12 +13,7 @@ import {
 } from "../redux/usersSlice";
 
 import { usePermissions, ROLES } from "../globalHooks/userPermissions";
-import {
-  getAvailableRoles,
-  getRoleDescriptions,
-  getRoleLabels,
-  canEditUser,
-} from "../globalHooks/usePermissionHelpers";
+import { canEditUser } from "../globalHooks/usePermissionHelpers";
 import { createUserEditHandler } from "../globalHandlers/createUserEditHandler";
 import EditConfirmationToast from "../globalUtils/editConfirmationToast";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
@@ -114,8 +109,22 @@ export default function EditUserProfile() {
     handleSaveChanges(formData, userDetails);
   };
 
+  // loading
   if (fetchDetailsStatus === "loading") {
     return <GenLoadingState message="Loading user details..." />;
+  }
+
+  // failed
+  if (fetchDetailsStatus === "failed") {
+    return (
+      <NoUserDetails
+        AlertCircle={AlertCircle}
+        Link={Link}
+        ArrowLeft={ArrowLeft}
+        message="Failed to Load User"
+        details="Error loading user details. Please try again."
+      />
+    );
   }
 
   // no user details found
@@ -125,6 +134,8 @@ export default function EditUserProfile() {
         AlertCircle={AlertCircle}
         Link={Link}
         ArrowLeft={ArrowLeft}
+        message="User Not Found"
+        details="The user you're trying to edit doesn't exist."
       />
     );
   }
