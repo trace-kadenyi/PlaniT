@@ -39,10 +39,12 @@ import {
   formatHourMinute,
 } from "../globalUtils/dateHelpers";
 
-export default function UserProfile() {
+export default function User() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const roleColors = getRoleColors();
+  const roleLabels = getRoleLabels();
 
   const { can, currentUser: authUser } = usePermissions();
   const tasksState = useSelector((state) => state.tasks);
@@ -106,9 +108,8 @@ export default function UserProfile() {
     );
   }
 
+  // logged in user declaration
   const isSelf = userData._id === authUser?._id;
-  const roleColors = getRoleColors();
-  const roleLabels = getRoleLabels();
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
