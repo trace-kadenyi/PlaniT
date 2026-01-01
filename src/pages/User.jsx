@@ -34,6 +34,10 @@ import {
   getRoleColors,
   getRoleLabels,
 } from "../globalHooks/usePermissionHelpers";
+import {
+  formatYearMonthDay,
+  formatHourMinute,
+} from "../globalUtils/dateHelpers";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -288,7 +292,7 @@ export default function UserProfile() {
                   {userData.firstName} {userData.lastName}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Member since {formatDate(userData.createdAt)}
+                  Member since {formatYearMonthDay(userData.createdAt)}
                 </p>
               </div>
 
@@ -331,7 +335,7 @@ export default function UserProfile() {
                       </p>
                       <p className="text-md font-bold text-gray-800 dark:text-white">
                         {userData.lastLogin
-                          ? formatDateTime(userData.lastLogin)
+                          ? formatHourMinute(userData.lastLogin)
                           : "Never"}
                       </p>
                     </div>
