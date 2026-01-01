@@ -21,7 +21,6 @@ import {
 import {
   getAvailableRoles,
   getRoleDescriptions,
-  getRoleColors,
   getRoleLabels,
   canEditUser,
 } from "../globalHooks/usePermissionHelpers";
