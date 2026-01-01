@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
-import { ArrowLeft, Save, User, Shield, AlertCircle } from "lucide-react";
+import { ArrowLeft, AlertCircle } from "lucide-react";
 
 import {
   fetchUserDetails,
@@ -12,12 +12,7 @@ import {
   updateUserRole,
 } from "../redux/usersSlice";
 
-import {
-  usePermissions,
-  PERMISSIONS,
-  RESOURCES,
-  ROLES,
-} from "../globalHooks/userPermissions";
+import { usePermissions, ROLES } from "../globalHooks/userPermissions";
 import {
   getAvailableRoles,
   getRoleDescriptions,
@@ -25,7 +20,6 @@ import {
   canEditUser,
 } from "../globalHooks/usePermissionHelpers";
 import { createUserEditHandler } from "../globalHandlers/createUserEditHandler";
-import PermissionButton from "../components/buttons/PermissionButton";
 import EditConfirmationToast from "../globalUtils/editConfirmationToast";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { NoUserDetails } from "../components/user/UserManagement/UserNotFound";
