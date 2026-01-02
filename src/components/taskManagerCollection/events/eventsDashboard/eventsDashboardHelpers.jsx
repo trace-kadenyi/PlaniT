@@ -1,4 +1,5 @@
 import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress";
+import { canTransitionStatus } from "./eventStatusPermissions";
 
 // map event to card
 export const mapEventToCard = (event) => ({
@@ -68,6 +69,7 @@ export const handleEventDragEnd = async (
     completed: "Completed",
     cancelled: "Cancelled",
   };
+
   const newStatus = statusMap[destination.droppableId];
 
   const originalEvent = events.find((event) => event._id === draggableId);
@@ -97,33 +99,36 @@ export const handleEventDragEnd = async (
       return newColumns;
     });
 
-    // API update using existing updateEvent thunk
-    await dispatch(
-      updateEvent({
-        eventId: draggableId,
-        updatedEvent: { status: newStatus },
-      })
-    ).unwrap();
+    // Only call API if status changed
+    if (source.droppableId !== destination.droppableId) {
+      // API update using existing updateEvent thunk
+      await dispatch(
+        updateEvent({
+          eventId: draggableId,
+          updatedEvent: { status: newStatus },
+        })
+      ).unwrap();
 
-    // ✅ Manually sync dashboardItems to reflect new status
-    dispatch({
-      type: "events/updateDashboardItemStatus",
-      payload: { ...originalEvent, status: newStatus },
-    });
+      // ✅ Manually sync dashboardItems to reflect new status
+      dispatch({
+        type: "events/updateDashboardItemStatus",
+        payload: { ...originalEvent, status: newStatus },
+      });
 
-    taskToastProgress(
-      <span>
-        Status of <span className="font-bold">{eventName}</span> updated from{" "}
-        <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
-          {formerStatus}
-        </span>{" "}
-        to{" "}
-        <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
-          {newStatus}
+      taskToastProgress(
+        <span>
+          Status of <span className="font-bold">{eventName}</span> updated from{" "}
+          <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+            {formerStatus}
+          </span>{" "}
+          to{" "}
+          <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+            {newStatus}
+          </span>
+          .
         </span>
-        .
-      </span>
-    );
+      );
+    }
   } catch (err) {
     setColumns(currentColumns);
     console.error("Event status update failed:", err);
