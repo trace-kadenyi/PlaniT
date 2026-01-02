@@ -28,6 +28,7 @@ export function EditUserForm({
   const availableRoles = getAvailableRoles(authUser?.role);
   const roleDescriptions = getRoleDescriptions();
   const roleLabels = getRoleLabels();
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Basic Information Card */}
@@ -184,6 +185,7 @@ export function EditUserForm({
 
       {/* Action Buttons */}
       <div className="flex justify-end gap-4">
+        {/* cancel btn */}
         <Link
           to={`/users/${userId}`}
           className="px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium transition-colors duration-200"
@@ -191,6 +193,7 @@ export function EditUserForm({
           Cancel
         </Link>
 
+        {/* edit btn/save changes */}
         <PermissionButton
           permission={PERMISSIONS.EDIT}
           resource={RESOURCES.USER}

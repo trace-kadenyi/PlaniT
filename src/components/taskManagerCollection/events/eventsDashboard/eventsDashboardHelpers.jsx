@@ -56,7 +56,7 @@ export function getColumnsFromEvents(events, mapEventToCardFn) {
 // handle event drag
 export const handleEventDragEnd = async (
   result,
-  { events, columns, setColumns, dispatch, updateEvent }
+  { events, columns, setColumns, dispatch, updateEvent, can }
 ) => {
   const { source, destination, draggableId } = result;
 
@@ -68,10 +68,21 @@ export const handleEventDragEnd = async (
     completed: "Completed",
     cancelled: "Cancelled",
   };
+
   const newStatus = statusMap[destination.droppableId];
 
   const originalEvent = events.find((event) => event._id === draggableId);
   if (!originalEvent) return;
+
+  // Check for UPDATE_STATUS permission, not DRAG_CARD
+  if (can && !can("update_status", "event", originalEvent)) {
+    taskToastProgress(
+      <span className="text-[#9B2C62] dark:text-[#F59E0B] font-semibold">
+        You don't have permission to update event status. Upgrade to planner.
+      </span>
+    );
+    return;
+  }
 
   const currentColumns = JSON.parse(JSON.stringify(columns));
 
@@ -97,33 +108,36 @@ export const handleEventDragEnd = async (
       return newColumns;
     });
 
-    // API update using existing updateEvent thunk
-    await dispatch(
-      updateEvent({
-        eventId: draggableId,
-        updatedEvent: { status: newStatus },
-      })
-    ).unwrap();
+    // Only call API if status changed
+    if (source.droppableId !== destination.droppableId) {
+      // API update using existing updateEvent thunk
+      await dispatch(
+        updateEvent({
+          eventId: draggableId,
+          updatedEvent: { status: newStatus },
+        })
+      ).unwrap();
 
-    // ✅ Manually sync dashboardItems to reflect new status
-    dispatch({
-      type: "events/updateDashboardItemStatus",
-      payload: { ...originalEvent, status: newStatus },
-    });
+      // ✅ Manually sync dashboardItems to reflect new status
+      dispatch({
+        type: "events/updateDashboardItemStatus",
+        payload: { ...originalEvent, status: newStatus },
+      });
 
-    taskToastProgress(
-      <span>
-        Status of <span className="font-bold">{eventName}</span> updated from{" "}
-        <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
-          {formerStatus}
-        </span>{" "}
-        to{" "}
-        <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
-          {newStatus}
+      taskToastProgress(
+        <span>
+          Status of <span className="font-bold">{eventName}</span> updated from{" "}
+          <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+            {formerStatus}
+          </span>{" "}
+          to{" "}
+          <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+            {newStatus}
+          </span>
+          .
         </span>
-        .
-      </span>
-    );
+      );
+    }
   } catch (err) {
     setColumns(currentColumns);
     console.error("Event status update failed:", err);

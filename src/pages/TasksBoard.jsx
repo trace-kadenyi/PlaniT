@@ -22,6 +22,7 @@ import {
   useTaskFilters,
   useAssignees,
 } from "../components/taskManagerCollection/hooks/useTaskFilters";
+import { usePermissions } from "../globalHooks/userPermissions";
 
 export default function TasksBoard() {
   // Track whether columns have been initialized to prevent unnecessary recalculations
@@ -42,6 +43,7 @@ export default function TasksBoard() {
   });
 
   const dispatch = useDispatch();
+  const { can } = usePermissions();
 
   // Get tasks from Redux store
   const {
@@ -90,9 +92,9 @@ export default function TasksBoard() {
   // Handle drag-and-drop reordering
   const onDragEnd = useCallback(
     (result) => {
-      handleDragEnd(result, { tasks, columns, setColumns, dispatch });
+      handleDragEnd(result, { tasks, columns, setColumns, dispatch, can });
     },
-    [tasks, columns, setColumns, dispatch]
+    [tasks, columns, setColumns, dispatch, can]
   );
 
   // Refresh tasks and reset column state
