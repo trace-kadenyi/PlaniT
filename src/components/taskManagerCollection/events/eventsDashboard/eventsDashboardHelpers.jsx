@@ -75,14 +75,12 @@ export const handleEventDragEnd = async (
   const originalEvent = events.find((event) => event._id === draggableId);
   if (!originalEvent) return;
 
-  // FIX: Check for UPDATE_STATUS permission, not DRAG_CARD
+  // Check for UPDATE_STATUS permission, not DRAG_CARD
   if (can && !can("update_status", "event", originalEvent)) {
     taskToastProgress(
-      <span className="text-yellow-600 dark:text-yellow-400">
-        You don't have permission to update event status. Contact an
-        administrator.
-      </span>,
-      "warning"
+      <span className="text-[#9B2C62] dark:text-[#F59E0B] font-semibold">
+        You don't have permission to update event status. Upgrade to planner.
+      </span>
     );
     return;
   }
