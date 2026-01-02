@@ -6,6 +6,7 @@ import {
   Clock,
   CheckCircle,
   XCircle,
+  LogOut,
 } from "lucide-react";
 
 import {
@@ -138,6 +139,12 @@ export default function UserProfileCard({
                   <Trash2 className="w-5 h-5" />
                   {deleteStatus === "loading" ? "Removing..." : "Remove User"}
                 </PermissionButton>
+
+                {/* logout btn */}
+                <button className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#D97706] via-[#7C1C2E] to-[#D97706] hover:opacity-90 text-white px-5 py-1 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md">
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </button>
               </div>
 
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
