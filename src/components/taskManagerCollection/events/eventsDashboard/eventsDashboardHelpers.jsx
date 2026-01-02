@@ -1,5 +1,4 @@
 import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress";
-import { canTransitionStatus } from "./eventStatusPermissions";
 
 // map event to card
 export const mapEventToCard = (event) => ({
