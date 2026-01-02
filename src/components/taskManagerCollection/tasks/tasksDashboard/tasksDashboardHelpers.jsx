@@ -55,7 +55,7 @@ export const getColumnsFromTasks = (tasks, mapTaskToCardFn) => {
 // on drag end func
 export const handleDragEnd = async (
   result,
-  { tasks, columns, setColumns, dispatch }
+  { tasks, columns, setColumns, dispatch, can }
 ) => {
   const { source, destination, draggableId } = result;
 
@@ -73,13 +73,24 @@ export const handleDragEnd = async (
   const originalTask = tasks.find((task) => task._id === draggableId);
   if (!originalTask) return;
 
+  // Permission check - show warning toast if no permission
+  if (can && !can("update_status", "task", originalTask)) {
+    taskToastProgress(
+      <span className="text-[#9B2C62] dark:text-[#F59E0B] font-semibold">
+        You don't have permission to update event status. Upgrade to planner.
+      </span>
+    );
+    return;
+  }
+
   // Store current columns for rollback
-  const currentColumns = columns;
+  const currentColumns = JSON.parse(JSON.stringify(columns));
 
   try {
     // Store the task title before optimistic update
     const taskTitle = originalTask.title;
     const formerStatus = originalTask.status;
+
     // Optimistic update
     setColumns((prevColumns) => {
       const newColumns = JSON.parse(JSON.stringify(prevColumns));
@@ -114,6 +125,7 @@ export const handleDragEnd = async (
         updatedData: { status: newStatus },
       })
     ).unwrap();
+
     taskToastProgress(
       <span>
         Status of <span className="font-bold">{taskTitle}</span> successfully
