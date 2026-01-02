@@ -13,19 +13,15 @@ const PermissionDraggable = ({
 }) => {
   const { can } = usePermissions();
 
-  // Debug logging
-  //   console.log("Current user:", currentUser);
-  //   console.log("Permission check for:", permission, resource, target);
-  //   console.log("Can drag?", can(permission, resource, target));
-
   const hasAccess = can(permission, resource, target);
-  const shouldDisable = !hasAccess || disabled;
 
+  // ALWAYS allow dragging UI (isDragDisabled=false)
+  // The actual permission check happens in handleEventDragEnd
   return (
     <Draggable
       draggableId={draggableId}
       index={index}
-      isDragDisabled={shouldDisable}
+      isDragDisabled={false} // Always false so UI shows draggable
       {...draggableProps}
     >
       {children}
