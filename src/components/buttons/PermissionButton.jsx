@@ -38,7 +38,7 @@ export default function PermissionButton({
   // Shared styles
   const sharedStyles = {
     ...style,
-    cursor: shouldDisable ? "not-allowed" : "pointer",
+    cursor: shouldDisable ? "not-allowed" : "default",
   };
 
   const sharedClassName = `${className} ${
