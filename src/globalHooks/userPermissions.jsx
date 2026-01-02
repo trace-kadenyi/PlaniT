@@ -10,6 +10,9 @@ export const PERMISSIONS = {
   ARCHIVE: "archive",
   DELETE_ALL: "delete_all",
   MANAGE_USERS: "manage_users",
+  DRAG_CARD: "drag_card",
+  UPDATE_STATUS: "update_status",
+  MANAGE_EVENT_STATUS: "manage_event_status",
 };
 
 export const RESOURCES = {
@@ -45,7 +48,7 @@ const getBasePermissionsForRole = (role) => {
     [RESOURCES.EVENT]: [PERMISSIONS.VIEW],
     [RESOURCES.TASK]: [PERMISSIONS.VIEW],
     [RESOURCES.CLIENT]: [PERMISSIONS.VIEW],
-    [RESOURCES.USER]: [PERMISSIONS.VIEW], // Everyone can view users
+    [RESOURCES.USER]: [PERMISSIONS.VIEW],
     [RESOURCES.EXPENSE]: [PERMISSIONS.VIEW],
   };
 
@@ -61,7 +64,10 @@ const getBasePermissionsForRole = (role) => {
       basePermissions[resource].push(
         PERMISSIONS.CREATE,
         PERMISSIONS.EDIT,
-        PERMISSIONS.ARCHIVE
+        PERMISSIONS.ARCHIVE,
+        PERMISSIONS.DRAG_CARD,
+        PERMISSIONS.UPDATE_STATUS,
+        PERMISSIONS.MANAGE_EVENT_STATUS
       );
     });
   }
@@ -75,7 +81,10 @@ const getBasePermissionsForRole = (role) => {
         PERMISSIONS.DELETE,
         PERMISSIONS.ARCHIVE,
         PERMISSIONS.DELETE_ALL,
-        PERMISSIONS.MANAGE_USERS
+        PERMISSIONS.MANAGE_USERS,
+        PERMISSIONS.DRAG_CARD,
+        PERMISSIONS.UPDATE_STATUS,
+        PERMISSIONS.MANAGE_EVENT_STATUS
       );
     });
   }
