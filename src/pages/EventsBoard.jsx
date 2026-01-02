@@ -16,6 +16,7 @@ import {
   getInitialEventColumns,
   filterEvents,
 } from "../components/taskManagerCollection/events/eventsDashboard/eventsDashboardHelpers";
+import { usePermissions } from "../globalHooks/userPermissions";
 import {
   LoadingDashboard,
   FetchDashboardError,
@@ -39,6 +40,7 @@ export default function EventsBoard() {
   });
 
   const dispatch = useDispatch();
+  const { can } = usePermissions();
 
   // Corrected selectors - only use dashboard-related state
   const { dashboardItems, dashboardStatus, dashboardError, updateError } =
@@ -117,9 +119,10 @@ export default function EventsBoard() {
         setColumns,
         dispatch,
         updateEvent,
+        can,
       });
     },
-    [dashboardItems, columns, setColumns, dispatch]
+    [dashboardItems, columns, setColumns, dispatch, can]
   );
 
   return (
