@@ -57,7 +57,7 @@ export function getColumnsFromEvents(events, mapEventToCardFn) {
 // handle event drag
 export const handleEventDragEnd = async (
   result,
-  { events, columns, setColumns, dispatch, updateEvent }
+  { events, columns, setColumns, dispatch, updateEvent, can }
 ) => {
   const { source, destination, draggableId } = result;
 
@@ -74,6 +74,18 @@ export const handleEventDragEnd = async (
 
   const originalEvent = events.find((event) => event._id === draggableId);
   if (!originalEvent) return;
+
+  // FIX: Check for UPDATE_STATUS permission, not DRAG_CARD
+  if (can && !can("update_status", "event", originalEvent)) {
+    taskToastProgress(
+      <span className="text-yellow-600 dark:text-yellow-400">
+        You don't have permission to update event status. Contact an
+        administrator.
+      </span>,
+      "warning"
+    );
+    return;
+  }
 
   const currentColumns = JSON.parse(JSON.stringify(columns));
 
