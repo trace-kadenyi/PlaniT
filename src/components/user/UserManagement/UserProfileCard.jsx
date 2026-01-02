@@ -88,6 +88,7 @@ export default function UserProfileCard({
               </div>
             </div>
           </div>
+
           {/* Action Buttons */}
           <div>
             <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-5 border border-[#F3EDE9] dark:border-gray-700 mx-auto">
