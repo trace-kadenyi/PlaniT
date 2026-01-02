@@ -4,7 +4,7 @@ import { Tooltip } from "@mui/material";
 
 import { usePermissions } from "../../globalHooks/userPermissions";
 
-const PermissionButton = ({
+export default function PermissionButton({
   permission,
   resource = null,
   target = null,
@@ -18,7 +18,7 @@ const PermissionButton = ({
   className = "",
   style = {},
   ...props
-}) => {
+}) {
   const { can } = usePermissions();
 
   const hasAccess = can(permission, resource, target);
@@ -108,6 +108,4 @@ const PermissionButton = ({
   }
 
   return baseElement;
-};
-
-export default PermissionButton;
+}
