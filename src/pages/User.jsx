@@ -5,6 +5,7 @@ import { Shield, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
+import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
 import {
@@ -70,6 +71,20 @@ export default function User() {
       toastWithProgress,
       DeleteConfirmationToast
     )();
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log("Logout error:", error);
+        // Still redirect to login even if API call fails
+        navigate("/login");
+      });
   };
 
   // handle loading state
@@ -138,6 +153,7 @@ export default function User() {
           userId={userId}
           handleRemoveUser={handleRemoveUser}
           deleteStatus={deleteStatus}
+          onLogout={handleLogout}
         />
 
         {/* Details Grid */}

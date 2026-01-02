@@ -66,7 +66,7 @@ export function UserProfile({ collapsed, User, LogOut, onLogout, user, Link }) {
         }`}
       >
         <Link
-          to="/profile"
+          to={`users/${user._id}`}
           className="flex items-center gap-2 focus-visible:outline-none group"
           title={collapsed ? "Profile" : undefined}
         >
