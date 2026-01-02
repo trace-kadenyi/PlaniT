@@ -45,7 +45,7 @@ const getBasePermissionsForRole = (role) => {
 
   const basePermissions = {
     [RESOURCES.VENDOR]: [PERMISSIONS.VIEW],
-    [RESOURCES.EVENT]: [PERMISSIONS.VIEW],
+    [RESOURCES.EVENT]: [PERMISSIONS.VIEW, PERMISSIONS.DRAG_CARD],
     [RESOURCES.TASK]: [PERMISSIONS.VIEW],
     [RESOURCES.CLIENT]: [PERMISSIONS.VIEW],
     [RESOURCES.USER]: [PERMISSIONS.VIEW],
@@ -65,7 +65,6 @@ const getBasePermissionsForRole = (role) => {
         PERMISSIONS.CREATE,
         PERMISSIONS.EDIT,
         PERMISSIONS.ARCHIVE,
-        PERMISSIONS.DRAG_CARD,
         PERMISSIONS.UPDATE_STATUS,
         PERMISSIONS.MANAGE_EVENT_STATUS
       );
@@ -81,10 +80,7 @@ const getBasePermissionsForRole = (role) => {
         PERMISSIONS.DELETE,
         PERMISSIONS.ARCHIVE,
         PERMISSIONS.DELETE_ALL,
-        PERMISSIONS.MANAGE_USERS,
-        PERMISSIONS.DRAG_CARD,
-        PERMISSIONS.UPDATE_STATUS,
-        PERMISSIONS.MANAGE_EVENT_STATUS
+        PERMISSIONS.MANAGE_USERS
       );
     });
   }
@@ -102,6 +98,11 @@ const checkPermission = (
   if (!currentUser?.role || !resource) return false;
 
   const userRole = currentUser.role;
+
+  // Special rule: Viewers can see DRAG_CARD UI but can't actually update
+  if (permission === PERMISSIONS.DRAG_CARD && userRole === ROLES.VIEWER) {
+    return true;
+  }
 
   // RULE 1: Get base permissions based on role
   const basePermissions = getBasePermissionsForRole(userRole);
