@@ -37,7 +37,6 @@ export default function User() {
     fetchDetailsError,
     deleteStatus,
   } = useSelector((state) => state.users);
-  const { user } = useSelector((state) => state.auth);
 
   // fetch user details
   useEffect(() => {
