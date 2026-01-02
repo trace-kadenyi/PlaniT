@@ -1,5 +1,5 @@
-import { Droppable, Draggable } from "@hello-pangea/dnd";
-
+import { Droppable } from "@hello-pangea/dnd";
+import PermissionDraggable from "../../../buttons/PermissionDraggable";
 import DashEventCard from "./DashEventCard";
 
 export default function EventColumn({ columns }) {
@@ -28,34 +28,40 @@ export default function EventColumn({ columns }) {
 
                 <div className="space-y-3 overflow-y-auto flex-1 minimal-scrollbar">
                   {column.tasks.map((event, index) => (
-                    <Draggable
+                    <PermissionDraggable
                       key={event.id}
                       draggableId={event.id}
                       index={index}
+                      permission="drag_card"
+                      resource="event"
+                      target={event}
                     >
-                      {(provided) => (
+                      {(provided, snapshot) => (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
-                          className="bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]"
+                          className={`
+                            bg-[#FFF9F5] border border-gray-200 p-3 rounded-md shadow-xs hover:shadow-md transition-shadow relative 
+                            dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 
+                            dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]
+                            ${
+                              snapshot.isDragging
+                                ? "shadow-lg ring-2 ring-[#9B2C62]"
+                                : ""
+                            }
+                          `}
                         >
-                          {/* Drag handle (invisible overlay) */}
+                          {/* CRITICAL: dragHandleProps MUST be passed to the drag handle */}
                           <div
                             {...provided.dragHandleProps}
-                            className="absolute inset-0 cursor-grab z-10"
+                            className="absolute inset-0 cursor-grab active:cursor-grabbing z-10"
                             style={{ pointerEvents: "auto" }}
                           />
-                          {/* Event card content */}
                           <DashEventCard event={event} />
                         </div>
                       )}
-                    </Draggable>
+                    </PermissionDraggable>
                   ))}
-                  {column.tasks.length === 0 && (
-                    <div className="text-gray-400 text-sm italic p-2 text-center">
-                      No events here yet
-                    </div>
-                  )}
                   {provided.placeholder}
                 </div>
               </div>
