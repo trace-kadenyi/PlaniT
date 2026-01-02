@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import {
-  signupUser,
-  resetSignupState,
-  clearAuthErrors,
-} from "../../redux/authSlice";
+import { signupUser, clearAuthErrors } from "../../redux/authSlice";
 
 import LogoWordmark from "../navigation/LogoWordmark";
 import Password from "../shared/Password";
