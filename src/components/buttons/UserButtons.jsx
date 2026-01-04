@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Edit2 } from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -45,5 +45,29 @@ export const AddMemberFormBtn = ({ setShowAddForm, addUserStatus }) => {
         {addUserStatus === "loading" ? "Adding..." : "Add Member"}
       </PermissionButton>
     </div>
+  );
+};
+
+// edit user btn
+export const EditUserBtn = ({ userId, userData, authUser }) => {
+  return (
+    <PermissionButton
+      to={`/users/${userId}/edit`}
+      permission={PERMISSIONS.EDIT}
+      resource={RESOURCES.USER}
+      target={userData}
+      tooltipTitle="Edit user details"
+      fallbackTooltip={`${
+        authUser.firstName === userData.firstName &&
+        authUser.lastName === userData.lastName &&
+        (authUser.role === "super_admin" || authUser.role === "admin")
+          ? "You cannot edit your own profile"
+          : "You do not have permission to edit this user"
+      }`}
+      className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#9B2C62] to-[#801f4f] hover:opacity-90 text-white px-5 py-3 rounded-lg font-medium transition-all duration-300 shadow-sm hover:shadow-md"
+    >
+      <Edit2 className="w-5 h-5" />
+      Edit Profile
+    </PermissionButton>
   );
 };
