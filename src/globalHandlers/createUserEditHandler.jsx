@@ -8,8 +8,11 @@ export const createUserEditHandler = (
   toastWithProgress,
   EditConfirmationToast
 ) => {
-  return (formData, originalUserData) => {
+  return (updateData, originalUserData, fullFormData) => {
     const duration = 10000;
+
+    // Use fullFormData if provided, otherwise use updateData
+    const formDataForToast = fullFormData || updateData;
 
     toast(
       (t) => (
@@ -17,7 +20,7 @@ export const createUserEditHandler = (
           t={t}
           duration={duration}
           type="user"
-          formData={formData}
+          formData={formDataForToast} // Pass the full form data with role
           originalUserData={originalUserData}
           onConfirm={async () => {
             try {
@@ -26,33 +29,42 @@ export const createUserEditHandler = (
 
               // Check what changes are being made
               const hasBasicInfoChanged =
-                formData.firstName !== originalUserData.firstName ||
-                formData.lastName !== originalUserData.lastName ||
-                formData.email !== originalUserData.email ||
-                formData.phone !== (originalUserData.phone || "");
+                updateData.firstName !== originalUserData.firstName ||
+                updateData.lastName !== originalUserData.lastName ||
+                updateData.email !== originalUserData.email;
 
-              const hasRoleChanged = formData.role !== originalUserData.role;
+              const hasRoleChanged =
+                formDataForToast.role !== originalUserData.role;
+              const hasPasswordChanged = !!updateData.newPassword;
 
-              // Update basic information if changed
-              if (hasBasicInfoChanged) {
-                const updateData = {
-                  firstName: formData.firstName,
-                  lastName: formData.lastName,
-                  email: formData.email,
-                  phone: formData.phone || null,
+              // Update user info (including password if present)
+              if (hasBasicInfoChanged || hasPasswordChanged) {
+                // Always send ALL data including passwords
+                const userUpdateData = {
+                  firstName: updateData.firstName,
+                  lastName: updateData.lastName,
+                  email: updateData.email,
+                  // Add password fields if they exist
+                  ...(updateData.newPassword && {
+                    newPassword: updateData.newPassword,
+                  }),
+                  ...(updateData.currentPassword && {
+                    currentPassword: updateData.currentPassword,
+                  }),
                 };
+
                 updates.push(
                   dispatch(
-                    updateUser({ userId, userData: updateData })
+                    updateUser({ userId, userData: userUpdateData })
                   ).unwrap()
                 );
               }
 
-              // Update role if changed
-              if (hasRoleChanged) {
+              // Update role if changed (only if role is different)
+              if (hasRoleChanged && formDataForToast.role) {
                 updates.push(
                   dispatch(
-                    updateUserRole({ userId, role: formData.role })
+                    updateUserRole({ userId, role: formDataForToast.role })
                   ).unwrap()
                 );
               }
