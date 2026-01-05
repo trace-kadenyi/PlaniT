@@ -86,9 +86,57 @@ export default function EditUserProfile() {
   );
 
   // onsubmit
+  // const onSubmit = async (formData) => {
+  //   if (!canEditUser) {
+  //     toast.error("You don't have permission to edit this user");
+  //     return;
+  //   }
+
+  //   // Check if there are actual changes
+  //   const hasRoleChange = formData.role !== userDetails.role;
+  //   const hasBasicChanges =
+  //     formData.firstName !== userDetails.firstName ||
+  //     formData.lastName !== userDetails.lastName ||
+  //     formData.email !== userDetails.email;
+
+  //   if (!hasRoleChange && !hasBasicChanges) {
+  //     toastWithProgress("No changes detected");
+  //     return;
+  //   }
+
+  //   // Show confirmation toast with the handler
+  //   handleSaveChanges(formData, userDetails);
+  // };
+
+  // Auto-show password fields for self or admins
+  useEffect(() => {
+    if (isSelf) {
+      setValue("passwordMode", "self");
+    } else if (
+      authUser?.role === ROLES.ADMIN ||
+      authUser?.role === ROLES.SUPER_ADMIN
+    ) {
+      setValue("passwordMode", "other");
+    }
+  }, [isSelf, authUser, setValue]);
+
+  // Register password fields
+  useEffect(() => {
+    register("passwordMode");
+    register("currentPassword");
+    register("newPassword");
+    register("confirmPassword");
+  }, [register]);
+
+  // onsubmit
   const onSubmit = async (formData) => {
-    if (!canEditUser) {
-      toast.error("You don't have permission to edit this user");
+    console.log("=== FORM DATA ===");
+    console.log("Form data:", formData);
+    console.log("Has newPassword:", !!formData.newPassword);
+    console.log("Has currentPassword:", !!formData.currentPassword);
+    if (!canEdit) {
+      // Changed from canEditUser to canEdit
+      toastWithProgress("You don't have permission to edit this user");
       return;
     }
 
@@ -98,14 +146,31 @@ export default function EditUserProfile() {
       formData.firstName !== userDetails.firstName ||
       formData.lastName !== userDetails.lastName ||
       formData.email !== userDetails.email;
+    const hasPasswordChange = !!formData.newPassword;
 
-    if (!hasRoleChange && !hasBasicChanges) {
+    if (!hasRoleChange && !hasBasicChanges && !hasPasswordChange) {
       toastWithProgress("No changes detected");
       return;
     }
 
+    // Prepare data for API
+    const updateData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      role: formData.role,
+    };
+
+    // Add password fields if changing password
+    if (hasPasswordChange) {
+      updateData.newPassword = formData.newPassword;
+      if (isSelf) {
+        updateData.currentPassword = formData.currentPassword;
+      }
+    }
+
     // Show confirmation toast with the handler
-    handleSaveChanges(formData, userDetails);
+    handleSaveChanges(updateData, userDetails, formData);
   };
 
   // loading
@@ -191,6 +256,7 @@ export default function EditUserProfile() {
           userDetails={userDetails}
           authUser={authUser}
           selectedRole={selectedRole}
+          watch={watch}
         />
       </div>
     </main>
