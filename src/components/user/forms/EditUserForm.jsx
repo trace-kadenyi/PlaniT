@@ -8,6 +8,7 @@ import {
 } from "../../../globalHooks/usePermissionHelpers";
 import { PERMISSIONS, RESOURCES } from "../../../globalHooks/userPermissions";
 import PermissionButton from "../../buttons/PermissionButton";
+import { EditUserFormBtn } from "../../buttons/UserButtons";
 
 export function EditUserForm({
   handleSubmit,
@@ -194,37 +195,14 @@ export function EditUserForm({
         </Link>
 
         {/* edit btn/save changes */}
-        <PermissionButton
-          permission={PERMISSIONS.EDIT}
-          resource={RESOURCES.USER}
-          target={userDetails}
-          type="submit"
-          loading={updateRoleStatus === "loading" || updateStatus === "loading"}
-          disabled={
-            !canEditUser ||
-            updateRoleStatus === "loading" ||
-            updateStatus === "loading"
-          }
-          tooltipTitle={
-            isSelf
-              ? "You cannot edit your own profile"
-              : canEditUser
-              ? "Save changes"
-              : "You don't have permission to edit this user"
-          }
-          fallbackTooltip={`${
-            isSelf &&
-            (authUser.role === "super_admin" || authUser.role === "admin")
-              ? "You cannot edit your own profile"
-              : "You don't have permission to edit this user"
-          }`}
-          className="flex items-center gap-2 bg-[#F59E0B] hover:bg-[#D97706] text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <Save className="w-4 h-4" />
-          {updateRoleStatus === "loading" || updateStatus === "loading"
-            ? "Saving..."
-            : "Save Changes"}
-        </PermissionButton>
+        <EditUserFormBtn
+          userDetails={userDetails}
+          updateRoleStatus={updateRoleStatus}
+          updateStatus={updateStatus}
+          canEditUser={canEditUser}
+          isSelf={isSelf}
+          authUser={authUser}
+        />
       </div>
     </form>
   );
