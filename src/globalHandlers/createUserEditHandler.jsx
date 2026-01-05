@@ -90,7 +90,24 @@ export const createUserEditHandler = (
               }
             } catch (error) {
               toast.dismiss(t.id);
-              toastWithProgress(error || "Failed to update user");
+
+              // SPECIFIC HANDLING FOR PASSWORD ERRORS
+              if (error.includes?.("Current password is incorrect")) {
+                // Show error but DON'T logout
+                toastWithProgress(
+                  "Current password is incorrect. Please try again."
+                );
+                // Stay on the edit page - don't navigate anywhere
+              }
+              // Handle other specific errors
+              else if (error.includes?.("Password must contain")) {
+                toastWithProgress("New password doesn't meet requirements.");
+              } else if (error.includes?.("Email already exists")) {
+                toastWithProgress("This email is already in use.");
+              } else {
+                // For other errors, use generic message
+                toastWithProgress(error || "Failed to update user");
+              }
             }
           }}
           onCancel={() => toast.dismiss(t.id)}
