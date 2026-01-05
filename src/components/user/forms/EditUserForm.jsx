@@ -26,6 +26,7 @@ export function EditUserForm({
   authUser,
   selectedRole,
   watch,
+  setValue,
 }) {
   const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [showPasswordFields, setShowPasswordFields] = useState(false);
@@ -37,6 +38,7 @@ export function EditUserForm({
   const roleLabels = getRoleLabels();
 
   const newPasswordVal = watch("newPassword", "");
+  const newPasswordOnChange = register("newPassword").onChange;
 
   // check permissions
   useEffect(() => {
@@ -57,14 +59,7 @@ export function EditUserForm({
   // Handle password generation
   const handleGeneratePassword = () => {
     const newPassword = generateRandomPassword();
-    // Update form value
-    register("newPassword").onChange({
-      target: {
-        value: newPassword,
-        name: "newPassword",
-      },
-    });
-    // Trigger validation
+    setValue("newPassword", newPassword); // <-- CHANGE TO THIS
     setTriggerPasswordValidation((prev) => !prev);
   };
 
@@ -153,7 +148,7 @@ export function EditUserForm({
       </div>
 
       {/* Password Change Card */}
-      {showPasswordFields && showPasswordChange && (
+      {/* {showPasswordFields && showPasswordChange && (
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
             <Key className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
@@ -278,6 +273,160 @@ export function EditUserForm({
                     validate: (value) => {
                       const newPassword = watch("newPassword");
                       if (newPassword && value !== newPassword) {
+                        return "Passwords do not match";
+                      }
+                      return true;
+                    },
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="Confirm new password"
+                  disabled={shouldDisableFields}
+                />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                As an admin, you can reset this user's password without knowing
+                their current one.
+              </p>
+            </div>
+          )}
+        </div>
+      )} */}
+      {showPasswordFields && showPasswordChange && (
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+            <Key className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
+            Change Password
+          </h2>
+
+          {passwordMode === "self" ? (
+            <div className="space-y-4">
+              {/* Current Password field remains the same */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  {...register("currentPassword", {
+                    required: newPasswordVal
+                      ? "Current password is required to change password"
+                      : false,
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="Enter current password"
+                  disabled={shouldDisableFields}
+                />
+                {errors.currentPassword && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.currentPassword.message}
+                  </p>
+                )}
+              </div>
+
+              {/* New Password using Password component */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    New Password
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleGeneratePassword}
+                    className="text-xs text-[#9B2C62] hover:text-[#7A2250] font-medium dark:text-[#F59E0B] dark:hover:text-[#F59E0B]/90"
+                  >
+                    Generate Secure Password
+                  </button>
+                </div>
+
+                <Password
+                  password={newPasswordVal}
+                  onPasswordChange={(value) => setValue("newPassword", value)} // <-- JUST USE setValue!
+                  triggerValidation={triggerPasswordValidation}
+                  mode="editUser"
+                  className="mt-1"
+                />
+
+                {errors.newPassword && (
+                  <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                    {errors.newPassword.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  {...register("confirmPassword", {
+                    validate: (value) => {
+                      if (newPasswordVal && value !== newPasswordVal) {
+                        return "Passwords do not match";
+                      }
+                      return true;
+                    },
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="Confirm new password"
+                  disabled={shouldDisableFields}
+                />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          ) : (
+            // Admin changing someone else's password
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    New Password (optional)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleGeneratePassword}
+                    className="text-xs text-[#9B2C62] hover:text-[#7A2250] font-medium dark:text-[#F59E0B] dark:hover:text-[#F59E0B]/90"
+                  >
+                    Generate Secure Password
+                  </button>
+                </div>
+
+                <Password
+                  password={newPasswordVal}
+                  onPasswordChange={(value) => setValue("newPassword", value)} // <-- JUST USE setValue!
+                  triggerValidation={triggerPasswordValidation}
+                  mode="editUser"
+                  className="mt-1"
+                />
+
+                {errors.newPassword && (
+                  <p className="text-xs text-red-600 dark:text-red-400 mt-1">
+                    {errors.newPassword.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm Password */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  {...register("confirmPassword", {
+                    validate: (value) => {
+                      if (newPasswordVal && value !== newPasswordVal) {
                         return "Passwords do not match";
                       }
                       return true;
