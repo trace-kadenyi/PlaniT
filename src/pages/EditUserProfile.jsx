@@ -107,12 +107,13 @@ export default function EditUserProfile() {
     if (isSelf) {
       setValue("passwordMode", "self");
     } else if (
-      authUser?.role === ROLES.ADMIN ||
-      authUser?.role === ROLES.SUPER_ADMIN
+      (authUser?.role === ROLES.ADMIN ||
+        authUser?.role === ROLES.SUPER_ADMIN) &&
+      userDetails?.role !== ROLES.SUPER_ADMIN
     ) {
       setValue("passwordMode", "other");
     }
-  }, [isSelf, authUser, setValue]);
+  }, [isSelf, authUser, userDetails, setValue]);
 
   // Register password fields
   useEffect(() => {
