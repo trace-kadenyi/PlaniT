@@ -17,7 +17,7 @@ import {
   formatYearMonthDay,
   formatHourMinute,
 } from "../../../globalUtils/dateHelpers";
-import { EditUserBtn } from "../../buttons/UserButtons";
+import { DeleteUserBtn, EditUserBtn } from "../../buttons/UserButtons";
 
 export default function UserProfileCard({
   userData,
@@ -118,27 +118,13 @@ export default function UserProfileCard({
                 />
 
                 {/* delete btn */}
-                <PermissionButton
-                  permission={PERMISSIONS.DELETE}
-                  resource={RESOURCES.USER}
-                  target={userData}
-                  onClick={() => handleRemoveUser(userId)}
-                  loading={deleteStatus === "loading"}
-                  disabled={deleteStatus === "loading"}
-                  tooltipTitle="Remove user from organization"
-                  fallbackTooltip={`${
-                    authUser.firstName === userData.firstName &&
-                    authUser.lastName === userData.lastName &&
-                    (authUser.role === "super_admin" ||
-                      authUser.role === "admin")
-                      ? "You cannot remove your own profile"
-                      : "You do not have permission to remove this user"
-                  }`}
-                  className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-white/80 to-rose-50/80 dark:from-gray-900/30 dark:to-[#9B2C62]/10 hover:from-rose-50 hover:to-rose-100/80 dark:hover:from-gray-800/40 dark:hover:to-[#9B2C62]/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-[#9B2C62]/30 px-5 py-3 rounded-xl font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:border-rose-300 dark:hover:border-[#9B2C62]/50 group"
-                >
-                  <Trash2 className="w-5 h-5" />
-                  {deleteStatus === "loading" ? "Removing..." : "Remove User"}
-                </PermissionButton>
+                <DeleteUserBtn
+                  userData={userData}
+                  handleRemoveUser={handleRemoveUser}
+                  userId={userId}
+                  deleteStatus={deleteStatus}
+                  authUser={authUser}
+                />
               </div>
 
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
