@@ -388,6 +388,10 @@ export function EditUserForm({
           ) : (
             // Admin changing someone else's password
             <div className="space-y-4">
+              <p className="text-sm text-gray-500 dark:text-gray-400 font-semibold">
+                As an admin, you can reset this user's password without knowing
+                their current one.
+              </p>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -442,11 +446,6 @@ export function EditUserForm({
                   </p>
                 )}
               </div>
-
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                As an admin, you can reset this user's password without knowing
-                their current one.
-              </p>
             </div>
           )}
         </div>
