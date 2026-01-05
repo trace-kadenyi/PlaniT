@@ -162,7 +162,7 @@ export default function EditUserProfile() {
     handleSaveChanges(updateData, userDetails, formData);
   };
 
-  // loading
+  // loading states
   if (fetchDetailsStatus === "loading") {
     return <GenLoadingState message="Loading user details..." />;
   }
