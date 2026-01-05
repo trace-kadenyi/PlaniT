@@ -35,15 +35,21 @@ export function EditUserForm({
 
   const newPasswordVal = watch("newPassword", "");
 
+  // check permissions
   useEffect(() => {
     if (isSelf) {
       setShowPasswordFields(true);
       setPasswordMode("self");
-    } else if (authUser?.role === "admin" || authUser?.role === "super_admin") {
+    } else if (
+      (authUser?.role === "admin" || authUser?.role === "super_admin") &&
+      userDetails?.role !== "super_admin"
+    ) {
       setShowPasswordFields(true);
       setPasswordMode("other");
+    } else {
+      setShowPasswordFields(false);
     }
-  }, [isSelf, authUser]);
+  }, [isSelf, authUser, userDetails]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
