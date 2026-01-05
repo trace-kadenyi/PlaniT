@@ -6,13 +6,15 @@ export const createUserEditHandler = (
   updateUserRole,
   toast,
   toastWithProgress,
-  EditConfirmationToast
+  EditConfirmationToast,
+  handleLogout
 ) => {
   return (updateData, originalUserData, fullFormData) => {
     const duration = 10000;
 
     // Use fullFormData if provided, otherwise use updateData
     const formDataForToast = fullFormData || updateData;
+    const isSelf = originalUserData._id === userId;
 
     toast(
       (t) => (
@@ -70,20 +72,24 @@ export const createUserEditHandler = (
               }
 
               // Wait for all updates to complete
+              // In the success part of onConfirm function:
               if (updates.length > 0) {
                 await Promise.all(updates);
                 toast.dismiss(t.id);
-                toastWithProgress("User updated successfully");
-                navigate(`/users/${userId}`);
+
+                if (hasPasswordChanged && isSelf) {
+                  toastWithProgress(`Password updated! Logging out...`);
+                  handleLogout();
+                } else {
+                  toastWithProgress("User updated successfully");
+                  navigate(`/users/${userId}`);
+                }
               } else {
                 toast.dismiss(t.id);
                 toastWithProgress("No changes detected");
               }
             } catch (error) {
-              // Only dismiss the confirmation toast
               toast.dismiss(t.id);
-
-              // Show error toast with progress
               toastWithProgress(error || "Failed to update user");
             }
           }}
