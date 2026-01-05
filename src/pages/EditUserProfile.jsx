@@ -11,6 +11,7 @@ import {
   updateUser,
   updateUserRole,
 } from "../redux/usersSlice";
+import { logoutUser } from "../redux/authSlice";
 
 import { usePermissions, ROLES } from "../globalHooks/userPermissions";
 import { canEditUser } from "../globalHooks/usePermissionHelpers";
@@ -73,6 +74,20 @@ export default function EditUserProfile() {
   const shouldDisableFields = !canEdit;
   const shouldDisableRole = !canEditRole;
 
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log("Logout error:", error);
+        // Still redirect to login even if API call fails
+        navigate("/login");
+      });
+  };
+
   // handle save changes
   const handleSaveChanges = createUserEditHandler(
     dispatch,
@@ -82,7 +97,8 @@ export default function EditUserProfile() {
     updateUserRole,
     toast,
     toastWithProgress,
-    EditConfirmationToast
+    EditConfirmationToast,
+    handleLogout
   );
 
   // Auto-show password fields for self or admins
