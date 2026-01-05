@@ -1,8 +1,6 @@
 import {
   Mail,
   Shield,
-  Edit2,
-  Trash2,
   Clock,
   CheckCircle,
   XCircle,
@@ -22,9 +20,6 @@ import { DeleteUserBtn, EditUserBtn } from "../../buttons/UserButtons";
 export default function UserProfileCard({
   userData,
   isSelf,
-  PermissionButton,
-  PERMISSIONS,
-  RESOURCES,
   authUser,
   userId,
   handleRemoveUser,
