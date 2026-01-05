@@ -125,7 +125,7 @@ export const canEditUser = (authUser, targetUser, can) => {
 
   return {
     canEdit: isSelf || hasPermission, // <- Allow self-edits OR has permission
+    canEditRole: hasPermission && !isSelf,
     isSelf,
-    hasPermission,
   };
 };
