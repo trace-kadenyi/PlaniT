@@ -8,7 +8,6 @@ import {
   canModifyUser,
   ROLES,
 } from "../../../globalHooks/userPermissions";
-import PermissionButton from "../../buttons/PermissionButton";
 import { truncateText } from "../../taskManagerCollection/utils/formatting";
 import { RemoveUserBtn } from "../../buttons/UserButtons";
 
