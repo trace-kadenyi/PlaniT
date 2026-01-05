@@ -1,4 +1,4 @@
-import { Save, User, Shield } from "lucide-react";
+import { User, Shield } from "lucide-react";
 
 import {
   getAvailableRoles,
@@ -6,8 +6,6 @@ import {
   getRoleLabels,
   canEditUser,
 } from "../../../globalHooks/usePermissionHelpers";
-import { PERMISSIONS, RESOURCES } from "../../../globalHooks/userPermissions";
-import PermissionButton from "../../buttons/PermissionButton";
 import { EditUserFormBtn } from "../../buttons/UserButtons";
 
 export function EditUserForm({
