@@ -1,4 +1,4 @@
-import { User, Shield } from "lucide-react";
+import { User, Shield, Key } from "lucide-react";
 
 import {
   getAvailableRoles,
@@ -7,6 +7,7 @@ import {
   canEditUser,
 } from "../../../globalHooks/usePermissionHelpers";
 import { EditUserFormBtn } from "../../buttons/UserButtons";
+import { useEffect, useState } from "react";
 
 export function EditUserForm({
   handleSubmit,
@@ -23,10 +24,25 @@ export function EditUserForm({
   userDetails,
   authUser,
   selectedRole,
+  watch,
 }) {
+  const [showPasswordFields, setShowPasswordFields] = useState(false);
+  const [passwordMode, setPasswordMode] = useState("");
   const availableRoles = getAvailableRoles(authUser?.role);
   const roleDescriptions = getRoleDescriptions();
   const roleLabels = getRoleLabels();
+
+  const newPasswordVal = watch("newPassword", "");
+
+  useEffect(() => {
+    if (isSelf) {
+      setShowPasswordFields(true);
+      setPasswordMode("self");
+    } else if (authUser?.role === "admin" || authUser?.role === "super_admin") {
+      setShowPasswordFields(true);
+      setPasswordMode("other");
+    }
+  }, [isSelf, authUser]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -111,6 +127,157 @@ export function EditUserForm({
           </div>
         </div>
       </div>
+
+      {/* Password Change Card */}
+      {showPasswordFields && (
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+            <Key className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
+            Change Password
+          </h2>
+
+          {passwordMode === "self" ? (
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  {...register("currentPassword", {
+                    required: newPasswordVal
+                      ? "Current password is required to change password"
+                      : false,
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="Enter current password"
+                  disabled={shouldDisableFields}
+                />
+                {errors.currentPassword && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.currentPassword.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  {...register("newPassword", {
+                    validate: (value) => {
+                      if (!value) return true; // Optional field
+                      const passwordRegex =
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
+                      return (
+                        passwordRegex.test(value) ||
+                        "Must contain uppercase, lowercase, number, and special character"
+                      );
+                    },
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="Leave blank to keep current"
+                  disabled={shouldDisableFields}
+                />
+                {errors.newPassword && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.newPassword.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  {...register("confirmPassword", {
+                    validate: (value) => {
+                      if (newPasswordVal && value !== newPasswordVal) {
+                        return "Passwords do not match";
+                      }
+                      return true;
+                    },
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="Confirm new password"
+                  disabled={shouldDisableFields}
+                />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          ) : (
+            // Admin changing someone else's password
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  New Password (optional)
+                </label>
+                <input
+                  type="password"
+                  {...register("newPassword", {
+                    validate: (value) => {
+                      if (!value) return true; // Optional field
+                      const passwordRegex =
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
+                      return (
+                        passwordRegex.test(value) ||
+                        "Must contain uppercase, lowercase, number, and special character"
+                      );
+                    },
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="Set new password for this user"
+                  disabled={shouldDisableFields}
+                />
+                {errors.newPassword && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.newPassword.message}
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  {...register("confirmPassword", {
+                    validate: (value) => {
+                      const newPassword = watch("newPassword");
+                      if (newPassword && value !== newPassword) {
+                        return "Passwords do not match";
+                      }
+                      return true;
+                    },
+                  })}
+                  className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  placeholder="Confirm new password"
+                  disabled={shouldDisableFields}
+                />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
+
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                As an admin, you can reset this user's password without knowing
+                their current one.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Role Section */}
       <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-8">
