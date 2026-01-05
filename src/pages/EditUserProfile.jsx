@@ -85,29 +85,6 @@ export default function EditUserProfile() {
     EditConfirmationToast
   );
 
-  // onsubmit
-  // const onSubmit = async (formData) => {
-  //   if (!canEditUser) {
-  //     toast.error("You don't have permission to edit this user");
-  //     return;
-  //   }
-
-  //   // Check if there are actual changes
-  //   const hasRoleChange = formData.role !== userDetails.role;
-  //   const hasBasicChanges =
-  //     formData.firstName !== userDetails.firstName ||
-  //     formData.lastName !== userDetails.lastName ||
-  //     formData.email !== userDetails.email;
-
-  //   if (!hasRoleChange && !hasBasicChanges) {
-  //     toastWithProgress("No changes detected");
-  //     return;
-  //   }
-
-  //   // Show confirmation toast with the handler
-  //   handleSaveChanges(formData, userDetails);
-  // };
-
   // Auto-show password fields for self or admins
   useEffect(() => {
     if (isSelf) {
