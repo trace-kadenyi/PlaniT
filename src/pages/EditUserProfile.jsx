@@ -98,7 +98,8 @@ export default function EditUserProfile() {
     toast,
     toastWithProgress,
     EditConfirmationToast,
-    handleLogout
+    handleLogout,
+    authUser._id
   );
 
   // Auto-show password fields for self or admins
