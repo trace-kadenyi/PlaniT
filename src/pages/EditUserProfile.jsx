@@ -123,10 +123,6 @@ export default function EditUserProfile() {
 
   // onsubmit
   const onSubmit = async (formData) => {
-    console.log("=== FORM DATA ===");
-    console.log("Form data:", formData);
-    console.log("Has newPassword:", !!formData.newPassword);
-    console.log("Has currentPassword:", !!formData.currentPassword);
     if (!canEdit) {
       // Changed from canEditUser to canEdit
       toastWithProgress("You don't have permission to edit this user");
