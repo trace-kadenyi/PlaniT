@@ -146,9 +146,6 @@ export default function User() {
         <UserProfileCard
           userData={userData}
           isSelf={isSelf}
-          PermissionButton={PermissionButton}
-          PERMISSIONS={PERMISSIONS}
-          RESOURCES={RESOURCES}
           authUser={authUser}
           userId={userId}
           handleRemoveUser={handleRemoveUser}
