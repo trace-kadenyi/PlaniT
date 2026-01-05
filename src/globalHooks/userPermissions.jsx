@@ -178,7 +178,7 @@ export const canModifyUser = (currentUser, targetUser, action) => {
   const targetLevel = ROLE_HIERARCHY[targetRole];
 
   // Admins can edit lower roles only
-  return currentLevel > targetLevel;
+  return currentLevel >= targetLevel;
 };
 
 // 6. Main hook - SIMPLE API
