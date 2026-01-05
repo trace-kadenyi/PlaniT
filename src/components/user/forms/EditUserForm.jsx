@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { User, Shield, Key } from "lucide-react";
 
 import {
@@ -7,7 +8,7 @@ import {
   canEditUser,
 } from "../../../globalHooks/usePermissionHelpers";
 import { EditUserFormBtn } from "../../buttons/UserButtons";
-import { useEffect, useState } from "react";
+import Password, { generateRandomPassword } from "../../shared/Password";
 
 export function EditUserForm({
   handleSubmit,
@@ -29,6 +30,8 @@ export function EditUserForm({
   const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const [passwordMode, setPasswordMode] = useState("");
+  const [triggerPasswordValidation, setTriggerPasswordValidation] =
+    useState(false);
   const availableRoles = getAvailableRoles(authUser?.role);
   const roleDescriptions = getRoleDescriptions();
   const roleLabels = getRoleLabels();
@@ -50,6 +53,20 @@ export function EditUserForm({
       setShowPasswordFields(false);
     }
   }, [isSelf, authUser, userDetails]);
+
+  // Handle password generation
+  const handleGeneratePassword = () => {
+    const newPassword = generateRandomPassword();
+    // Update form value
+    register("newPassword").onChange({
+      target: {
+        value: newPassword,
+        name: "newPassword",
+      },
+    });
+    // Trigger validation
+    setTriggerPasswordValidation((prev) => !prev);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
