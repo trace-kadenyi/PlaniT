@@ -63,16 +63,15 @@ export default function EditUserProfile() {
   }, [userDetails, setValue]);
 
   // Check if user can edit this specific user
-  const { canEdit, isSelf, hasPermission } = canEditUser(
+  const { canEdit, isSelf, canEditRole } = canEditUser(
     authUser,
     userDetails,
     can
   );
-  const canEditRole = canEdit;
 
   // Check if fields should be disabled
-  const shouldDisableFields = !canEditUser || isSelf;
-  const shouldDisableRole = !canEditRole || isSelf;
+  const shouldDisableFields = !canEdit;
+  const shouldDisableRole = !canEditRole;
 
   // handle save changes
   const handleSaveChanges = createUserEditHandler(
