@@ -26,6 +26,7 @@ export function EditUserForm({
   selectedRole,
   watch,
 }) {
+  const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const [passwordMode, setPasswordMode] = useState("");
   const availableRoles = getAvailableRoles(authUser?.role);
@@ -129,7 +130,7 @@ export function EditUserForm({
       </div>
 
       {/* Password Change Card */}
-      {showPasswordFields && (
+      {showPasswordFields && showPasswordChange && (
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
             <Key className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
@@ -279,6 +280,31 @@ export function EditUserForm({
         </div>
       )}
 
+      {/* button to show password fields */}
+      {showPasswordFields && !showPasswordChange && (
+        <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-6">
+          <div className="flex justify-between items-center flex-wrap gap-2">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <Key className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
+              Password
+            </h2>
+            <button
+              type="button"
+              onClick={() => setShowPasswordChange(true)}
+              className="text-sm text-[#9B2C62] dark:text-[#D97706] hover:underline font-medium"
+            >
+              Change Password
+            </button>
+          </div>
+          <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
+            Your password can be changed here. Click "Change Password" to
+            update.
+          </p>
+          <p className="text-gray-500 dark:text-gray-400 mt-2 text-xs font-semibold">
+            You will have to log in again after password change.
+          </p>
+        </div>
+      )}
       {/* Role Section */}
       <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-8">
         <div className="flex items-center justify-between mb-6">
