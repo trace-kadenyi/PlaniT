@@ -248,6 +248,7 @@ export default function EditUserProfile() {
           authUser={authUser}
           selectedRole={selectedRole}
           watch={watch}
+          setValue={setValue}
         />
       </div>
     </main>
