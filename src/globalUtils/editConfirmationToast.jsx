@@ -204,12 +204,12 @@ const EditConfirmationToast = ({
                 )}
 
                 {hasPasswordChanged && (
-                  <div className="flex flex-col xs:flex-row xs:items-center justify-between p-3 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg border border-amber-100 dark:border-amber-800/30 gap-2 xs:gap-0">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 flex-shrink-0">
+                  <div className="flex flex-col xs:flex-row xs:items-center justify-between p-3 bg-[#FFF0F5] dark:bg-gray-800 rounded-lg border border-[#E6C8D8] dark:border-gray-700 gap-2 xs:gap-0">
+                    <span className="text-sm font-medium text-[#9B2C62] dark:text-gray-300 flex-shrink-0">
                       Password
                     </span>
                     <div className="flex items-center justify-end xs:justify-start gap-2">
-                      <span className="px-2 py-1 text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded whitespace-nowrap">
+                      <span className="px-2 py-1 text-xs font-bold bg-[#9B2C62] text-white rounded whitespace-nowrap">
                         Password will be updated
                       </span>
                     </div>
