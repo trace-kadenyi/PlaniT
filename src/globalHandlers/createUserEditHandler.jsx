@@ -7,14 +7,16 @@ export const createUserEditHandler = (
   toast,
   toastWithProgress,
   EditConfirmationToast,
-  handleLogout
+  handleLogout,
+  currentUserId
 ) => {
   return (updateData, originalUserData, fullFormData) => {
     const duration = 10000;
 
     // Use fullFormData if provided, otherwise use updateData
     const formDataForToast = fullFormData || updateData;
-    const isSelf = originalUserData._id === userId;
+    // const isSelf = originalUserData._id === userId;
+    const isSelf = currentUserId === originalUserData._id;
 
     toast(
       (t) => (
@@ -72,7 +74,6 @@ export const createUserEditHandler = (
               }
 
               // Wait for all updates to complete
-              // In the success part of onConfirm function:
               if (updates.length > 0) {
                 await Promise.all(updates);
                 toast.dismiss(t.id);
