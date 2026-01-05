@@ -300,9 +300,11 @@ export function EditUserForm({
             Your password can be changed here. Click "Change Password" to
             update.
           </p>
-          <p className="text-gray-500 dark:text-gray-400 mt-2 text-xs font-semibold">
-            You will have to log in again after password change.
-          </p>
+          {isSelf && (
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-xs font-semibold">
+              You will have to log in again after password change.
+            </p>
+          )}
         </div>
       )}
       {/* Role Section */}
