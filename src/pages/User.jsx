@@ -8,12 +8,7 @@ import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
 import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
-import {
-  usePermissions,
-  PERMISSIONS,
-  RESOURCES,
-} from "../globalHooks/userPermissions";
-import PermissionButton from "../components/buttons/PermissionButton";
+import { usePermissions } from "../globalHooks/userPermissions";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
