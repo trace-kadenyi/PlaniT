@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Key, Eye, EyeOff } from "lucide-react";
+import { Key } from "lucide-react";
 
 import Password, { generateRandomPassword } from "../../shared/Password";
 import { PasswordInput } from "../../ui/Button";
