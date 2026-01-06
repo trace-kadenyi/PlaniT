@@ -1,11 +1,12 @@
 import React from "react";
 import { History, User, Shield, Key, Phone, Mail } from "lucide-react";
 
-const UserUpdateHistory = ({ 
-  updateHistory, 
-  fetchHistoryStatus, 
-  isSelf, 
-  authUser 
+const UserUpdateHistory = ({
+  updateHistory,
+  fetchHistoryStatus,
+  isSelf,
+  authUser,
+  userRole,
 }) => {
   // Function to get icon for update type
   const getUpdateIcon = (type) => {
@@ -38,11 +39,31 @@ const UserUpdateHistory = ({
   };
 
   // Check if user can view history (only self or admins)
-  const canViewHistory = isSelf || ["super_admin", "admin"].includes(authUser?.role);
+  const canViewHistory = () => {
+    if (isSelf) return true;
+    if (authUser?.role === "super_admin") return true;
 
-  if (!canViewHistory) {
-    return null; // Don't show history if user doesn't have permission
+    // Admins can only view non-super-admin history
+    if (authUser?.role === "admin") {
+      return userRole !== "super_admin";
+    }
+
+    return false;
+  };
+
+  if (!canViewHistory()) {
+    return null; // Don't show history section
   }
+
+  //   IP/Browser info check
+  const canViewIpInfo = () => {
+    // Only super admins can see IP info for super admins
+    if (userRole === "super_admin" && authUser?.role !== "super_admin") {
+      return false;
+    }
+
+    return ["super_admin", "admin"].includes(authUser?.role);
+  };
 
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-6 hover:shadow-xl transition-all duration-300 group">
@@ -86,9 +107,10 @@ const UserUpdateHistory = ({
       ) : (
         <div className="space-y-4">
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-            Showing last {updateHistory.length} update{updateHistory.length !== 1 ? 's' : ''}
+            Showing last {updateHistory.length} update
+            {updateHistory.length !== 1 ? "s" : ""}
           </div>
-          
+
           <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
             {updateHistory.map((update, index) => (
               <div
@@ -112,9 +134,9 @@ const UserUpdateHistory = ({
                   </div>
                   <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
                     {new Date(update.createdAt).toLocaleDateString()} at{" "}
-                    {new Date(update.createdAt).toLocaleTimeString([], { 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
+                    {new Date(update.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
                     })}
                   </span>
                 </div>
@@ -127,7 +149,10 @@ const UserUpdateHistory = ({
                     </div>
                     <div className="space-y-2">
                       {update.changes.map((change, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-sm">
+                        <div
+                          key={idx}
+                          className="flex items-center gap-2 text-sm"
+                        >
                           {getFieldIcon(change.field) && (
                             <div className="text-[#9B2C62] dark:text-[#D97706]">
                               {getFieldIcon(change.field)}
@@ -135,11 +160,15 @@ const UserUpdateHistory = ({
                           )}
                           <span className="text-gray-700 dark:text-gray-300">
                             <span className="font-medium capitalize">
-                              {change.field.replace(/([A-Z])/g, ' $1').toLowerCase()}:
-                            </span>
-                            {" "}
+                              {change.field
+                                .replace(/([A-Z])/g, " $1")
+                                .toLowerCase()}
+                              :
+                            </span>{" "}
                             {change.field === "password" ? (
-                              <span className="text-gray-500 dark:text-gray-400">••••••••</span>
+                              <span className="text-gray-500 dark:text-gray-400">
+                                ••••••••
+                              </span>
                             ) : (
                               <>
                                 {change.oldValue ? (
@@ -167,10 +196,11 @@ const UserUpdateHistory = ({
                 )}
 
                 {/* IP and Browser info (for admins) */}
-                {["super_admin", "admin"].includes(authUser?.role) && (
+                {canViewIpInfo() && (
                   <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                     <div className="text-xs text-gray-500 dark:text-gray-400">
-                      <span className="font-medium">From IP:</span> {update.ipAddress || "Unknown"}
+                      <span className="font-medium">From IP:</span>{" "}
+                      {update.ipAddress || "Unknown"}
                       {update.userAgent && (
                         <span className="ml-4">
                           <span className="font-medium">Browser:</span>{" "}
@@ -187,7 +217,8 @@ const UserUpdateHistory = ({
 
           <div className="text-center pt-2">
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Showing last 30 days of activity • Total updates: {updateHistory.length}
+              Showing last 30 days of activity • Total updates:{" "}
+              {updateHistory.length}
             </p>
           </div>
         </div>
