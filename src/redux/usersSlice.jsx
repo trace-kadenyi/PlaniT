@@ -97,18 +97,19 @@ const usersSlice = createSlice({
   name: "users",
   initialState: {
     items: [], // All users
-    updateHistory: {},
+    updateHistory: {}, // Store history by userId
     currentUser: null, // User being viewed/edited
     status: "idle", // For fetchUsers
     fetchDetailsStatus: "idle", // For fetchUserDetails
+    fetchHistoryStatus: "idle",
     addStatus: "idle",
     updateStatus: "idle",
     updateRoleStatus: "idle",
     deleteStatus: "idle",
-    fetchHistoryStatus: "idle",
-    fetchHistoryError: null,
     error: null,
     fetchDetailsError: null,
+    fetchHistoryError: null,
+
     addError: null,
     updateError: null,
     updateRoleError: null,
@@ -124,13 +125,22 @@ const usersSlice = createSlice({
       state.updateError = null;
       state.deleteStatus = "idle";
       state.deleteError = null;
+      state.fetchHistoryStatus = "idle";
+      state.fetchHistoryError = null;
     },
     clearUsers: (state) => {
       state.items = [];
       state.currentUser = null;
+      state.updateHistory = {};
     },
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload;
+    },
+    clearUserHistory: (state, action) => {
+      const userId = action.payload;
+      if (state.updateHistory[userId]) {
+        delete state.updateHistory[userId];
+      }
     },
   },
   extraReducers: (builder) => {
@@ -266,6 +276,13 @@ const usersSlice = createSlice({
   },
 });
 
-export const { resetUsersStatus, clearUsers, setCurrentUser } =
-  usersSlice.actions;
+export const {
+  resetUsersStatus,
+  clearUsers,
+  setCurrentUser,
+  clearUserHistory,
+} = usersSlice.actions;
+export const selectUserUpdateHistory = (state, userId) => {
+  return state.users.updateHistory[userId] || [];
+};
 export default usersSlice.reducer;
