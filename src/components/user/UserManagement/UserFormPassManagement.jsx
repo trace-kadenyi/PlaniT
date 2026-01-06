@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Key } from "lucide-react";
+import { Key, Eye, EyeOff } from "lucide-react";
 
 import Password, { generateRandomPassword } from "../../shared/Password";
+import { PasswordInput } from "../../ui/Button";
 
 export default function UserFormPassManagement({
   passwordMode,
@@ -13,6 +14,7 @@ export default function UserFormPassManagement({
 }) {
   const [triggerPasswordValidation, setTriggerPasswordValidation] =
     useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 
   // Handle password generation
   const handleGeneratePassword = () => {
@@ -35,16 +37,16 @@ export default function UserFormPassManagement({
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Current Password
             </label>
-            <input
-              type="password"
-              {...register("currentPassword", {
-                required: newPasswordVal
-                  ? "Current password is required to change password"
-                  : false,
-              })}
-              className="w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            <PasswordInput
+              register={register}
+              name="currentPassword"
               placeholder="Enter current password"
               disabled={shouldDisableFields}
+              required={!!newPasswordVal}
+              showPassword={showCurrentPassword}
+              togglePassword={() =>
+                setShowCurrentPassword(!showCurrentPassword)
+              }
             />
             {errors.currentPassword && (
               <p className="mt-1 text-sm text-red-600 dark:text-red-400">
