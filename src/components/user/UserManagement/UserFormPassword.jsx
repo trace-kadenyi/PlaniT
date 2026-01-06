@@ -20,6 +20,7 @@ export default function UserFormPassword({
     setValue("newPassword", newPassword);
     setTriggerPasswordValidation((prev) => !prev);
   };
+
   return (
     <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black rounded-2xl shadow-lg border border-[#E3CBC1] dark:border-gray-800 p-6 mb-6">
       <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
