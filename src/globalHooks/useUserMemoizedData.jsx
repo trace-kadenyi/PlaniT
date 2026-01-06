@@ -21,7 +21,13 @@ export function useUserMemoizedData(userId, userData) {
     [rawUpdateHistory]
   );
 
-
+  // Memoized user tasks
+  const userTasks = useMemo(() => {
+    if (!userData) return [];
+    return tasksState.items.filter(
+      (task) => task.assignedTo?._id === userData._id
+    );
+  }, [userData, tasksState.items]);
 
  
 
