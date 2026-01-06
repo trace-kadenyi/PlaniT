@@ -10,7 +10,7 @@ import {
 import { EditUserFormBtn } from "../../buttons/UserButtons";
 import UserFormPassword, {
   ShowPassFieldsBtn,
-} from "../UserManagement/UserFormPassword";
+} from "../UserManagement/UserFormPassManagement";
 
 export function EditUserForm({
   handleSubmit,
