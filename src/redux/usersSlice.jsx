@@ -270,9 +270,12 @@ const usersSlice = createSlice({
         state.updateHistory[action.payload.userId] = action.payload.history;
       })
       .addCase(fetchUserUpdateHistory.rejected, (state, action) => {
-        state.fetchHistoryStatus = "failed";
-        state.fetchHistoryError = action.payload;
-      });
+  state.fetchHistoryStatus = 'failed';
+  // Don't throw error if it's just a 403 permission issue
+  if (action.error?.status !== 403) {
+    state.error = action.error.message;
+  }
+});
   },
 });
 
