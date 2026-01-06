@@ -29,7 +29,8 @@ export function useUserMemoizedData(userId, userData) {
     );
   }, [userData, tasksState.items]);
 
- 
+  // Use the existing useUserEvents hook
+  const userEvents = useUserEvents(userTasks);
 
 
 }
