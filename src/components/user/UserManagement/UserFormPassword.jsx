@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { Key } from "lucide-react";
 
 import Password, { generateRandomPassword } from "../../shared/Password";
-import { useState } from "react";
 
 export default function UserFormPassword({
   passwordMode,
