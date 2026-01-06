@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { User, Shield, Key } from "lucide-react";
+import { User, Shield } from "lucide-react";
 
 import {
   getAvailableRoles,
@@ -8,7 +8,6 @@ import {
   canEditUser,
 } from "../../../globalHooks/usePermissionHelpers";
 import { EditUserFormBtn } from "../../buttons/UserButtons";
-import Password, { generateRandomPassword } from "../../shared/Password";
 import UserFormPassword, {
   ShowPassFieldsBtn,
 } from "../UserManagement/UserFormPassword";
@@ -57,7 +56,6 @@ export function EditUserForm({
       setShowPasswordFields(false);
     }
   }, [isSelf, authUser, userDetails]);
-
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
