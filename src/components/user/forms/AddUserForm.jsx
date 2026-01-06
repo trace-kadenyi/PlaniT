@@ -29,7 +29,7 @@ const AddUserForm = ({
   const [triggerPasswordValidation, setTriggerPasswordValidation] =
     useState(false);
 
-  const { addUserError } = useSelector((state) => state.organization);
+  const { addError } = useSelector((state) => state.users);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -140,7 +140,7 @@ const AddUserForm = ({
 
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* error message */}
-              {addUserError && (
+              {addError && (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-4">
                   <div className="flex items-center space-x-2">
                     <svg
@@ -157,7 +157,7 @@ const AddUserForm = ({
                       />
                     </svg>
                     <span className="text-red-700 text-sm font-medium">
-                      {addUserError}
+                      {addError}
                     </span>
                   </div>
                 </div>

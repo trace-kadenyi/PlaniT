@@ -52,21 +52,27 @@ const EditConfirmationToast = ({
   };
 
   // Determine what changes are being made
-  const hasRoleChanged = formData.role !== originalUserData.role;
+  const hasRoleChanged =
+    formData.role && formData.role !== originalUserData.role;
   const hasNameChanged =
     formData.firstName !== originalUserData.firstName ||
     formData.lastName !== originalUserData.lastName;
   const hasEmailChanged = formData.email !== originalUserData.email;
+  const hasPasswordChanged = !!formData.newPassword;
 
-  const changeCount = [hasRoleChanged, hasNameChanged, hasEmailChanged].filter(
-    Boolean
-  ).length;
+  const changeCount = [
+    hasRoleChanged,
+    hasNameChanged,
+    hasEmailChanged,
+    hasPasswordChanged,
+  ].filter(Boolean).length;
 
   const getTitle = () => {
     if (changeCount > 1) return `${changeCount} Changes Detected`;
     if (hasRoleChanged) return "Update User Role";
     if (hasNameChanged) return "Update User Name";
     if (hasEmailChanged) return "Update User Email";
+    if (hasPasswordChanged) return "Update Password";
     return "Update User Profile";
   };
 
@@ -193,6 +199,19 @@ const EditConfirmationToast = ({
                       <p className="text-xs font-bold text-gray-900 dark:text-white truncate w-full">
                         {formData.email}
                       </p>
+                    </div>
+                  </div>
+                )}
+
+                {hasPasswordChanged && (
+                  <div className="flex flex-col xs:flex-row xs:items-center justify-between p-3 bg-[#FFF0F5] dark:bg-gray-800 rounded-lg border border-[#E6C8D8] dark:border-gray-700 gap-2 xs:gap-0">
+                    <span className="text-sm font-medium text-[#9B2C62] dark:text-gray-300 flex-shrink-0">
+                      Password
+                    </span>
+                    <div className="flex items-center justify-end xs:justify-start gap-2">
+                      <span className="px-2 py-1 text-xs font-bold bg-[#9B2C62] text-white rounded whitespace-nowrap">
+                        Password will be updated
+                      </span>
                     </div>
                   </div>
                 )}

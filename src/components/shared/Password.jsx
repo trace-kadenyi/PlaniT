@@ -26,7 +26,7 @@ const Password = ({
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /\d/.test(password),
-      special: /[@$!%*?&]/.test(password),
+      special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password),
     };
     setPasswordErrors(errors);
     return Object.values(errors).every(Boolean);
@@ -177,7 +177,7 @@ export const validatePassword = (password) => {
     uppercase: /[A-Z]/.test(password),
     lowercase: /[a-z]/.test(password),
     number: /\d/.test(password),
-    special: /[@$!%*?&]/.test(password),
+    special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password),
   };
   return {
     isValid: Object.values(errors).every(Boolean),

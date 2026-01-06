@@ -104,6 +104,16 @@ const checkPermission = (
     return true;
   }
 
+  // SPECIAL EXCEPTION: Everyone can edit their own basic info
+  const isSelf = targetUser?._id === currentUser._id;
+  if (
+    resource === RESOURCES.USER &&
+    permission === PERMISSIONS.EDIT &&
+    isSelf
+  ) {
+    return true; // Allow self-edits for everyone
+  }
+
   // RULE 1: Get base permissions based on role
   const basePermissions = getBasePermissionsForRole(userRole);
   const resourcePermissions = basePermissions[resource] || [];
@@ -143,14 +153,9 @@ export const canModifyUser = (currentUser, targetUser, action) => {
   const targetRole = targetUser.role || targetUser;
   const isSelf = targetUser._id && targetUser._id === currentUser._id;
 
-  // RULE 1: Cannot modify yourself (except maybe some actions)
+  // RULE 1: NO ONE can modify themselves (except basic info which is handled elsewhere)
   if (isSelf) {
-    // Can never delete yourself
-    if (action === PERMISSIONS.DELETE) return false;
-    // Can never change your own role (this is the fix!)
-    if (action === PERMISSIONS.EDIT) return false;
-    // For other actions, maybe allow (like updating profile)
-    return false; // Or true if you want to allow profile updates
+    return false; // Never allow self-modification in canModifyUser
   }
 
   // RULE 2: Super admins can modify anyone else
@@ -163,10 +168,16 @@ export const canModifyUser = (currentUser, targetUser, action) => {
     return false;
   }
 
-  // RULE 4: Everyone else can only modify users with lower/equal role
+  // RULE 4: Only Admins+ can modify other users
+  if (currentRole !== ROLES.ADMIN && currentRole !== ROLES.SUPER_ADMIN) {
+    return false; // Viewers and Planners CANNOT modify other users
+  }
+
+  // RULE 5: Admins can only modify users with lower role (not equal!)
   const currentLevel = ROLE_HIERARCHY[currentRole];
   const targetLevel = ROLE_HIERARCHY[targetRole];
 
+  // Admins can edit lower roles only
   return currentLevel >= targetLevel;
 };
 

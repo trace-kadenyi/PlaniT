@@ -118,14 +118,14 @@ export const getRoleLabels = () => ({
   [ROLES.VIEWER]: "Viewer",
 });
 
-// Helper to check if user can edit another user
+// // Helper to check if user can edit another user
 export const canEditUser = (authUser, targetUser, can) => {
   const isSelf = authUser?._id === targetUser?._id;
   const hasPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, targetUser);
 
   return {
-    canEdit: hasPermission && !isSelf,
+    canEdit: isSelf || hasPermission, // <- Allow self-edits OR has permission
+    canEditRole: hasPermission && !isSelf,
     isSelf,
-    hasPermission,
   };
 };

@@ -32,9 +32,22 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const errorMessage = error.response?.data?.message || "";
 
-    // If 401 error and haven't retried yet
-    if (error.response?.status === 401 && !originalRequest._retry && store) {
+    // Skip token refresh for specific 401 errors that are NOT token-related
+    const skipRefreshErrors = [
+      "Current password is incorrect",
+      "Invalid credentials",
+      "Password is incorrect",
+    ];
+
+    // If 401 error and haven't retried yet AND it's NOT a password error
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      store &&
+      !skipRefreshErrors.some((msg) => errorMessage.includes(msg))
+    ) {
       originalRequest._retry = true;
 
       try {

@@ -11,6 +11,7 @@ import {
   updateUser,
   updateUserRole,
 } from "../redux/usersSlice";
+import { logoutUser } from "../redux/authSlice";
 
 import { usePermissions, ROLES } from "../globalHooks/userPermissions";
 import { canEditUser } from "../globalHooks/usePermissionHelpers";
@@ -63,16 +64,29 @@ export default function EditUserProfile() {
   }, [userDetails, setValue]);
 
   // Check if user can edit this specific user
-  const { canEdit, isSelf, hasPermission } = canEditUser(
+  const { canEdit, isSelf, canEditRole } = canEditUser(
     authUser,
     userDetails,
     can
   );
-  const canEditRole = canEdit;
 
   // Check if fields should be disabled
-  const shouldDisableFields = !canEditUser || isSelf;
-  const shouldDisableRole = !canEditRole || isSelf;
+  const shouldDisableFields = !canEdit;
+  const shouldDisableRole = !canEditRole;
+
+  // Handle logout
+  const handleLogout = () => {
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log("Logout error:", error);
+        // Still redirect to login even if API call fails
+        navigate("/login");
+      });
+  };
 
   // handle save changes
   const handleSaveChanges = createUserEditHandler(
@@ -83,13 +97,37 @@ export default function EditUserProfile() {
     updateUserRole,
     toast,
     toastWithProgress,
-    EditConfirmationToast
+    EditConfirmationToast,
+    handleLogout,
+    authUser._id
   );
+
+  // Auto-show password fields for self or admins
+  useEffect(() => {
+    if (isSelf) {
+      setValue("passwordMode", "self");
+    } else if (
+      (authUser?.role === ROLES.ADMIN ||
+        authUser?.role === ROLES.SUPER_ADMIN) &&
+      userDetails?.role !== ROLES.SUPER_ADMIN
+    ) {
+      setValue("passwordMode", "other");
+    }
+  }, [isSelf, authUser, userDetails, setValue]);
+
+  // Register password fields
+  useEffect(() => {
+    register("passwordMode");
+    register("currentPassword");
+    register("newPassword");
+    register("confirmPassword");
+  }, [register]);
 
   // onsubmit
   const onSubmit = async (formData) => {
-    if (!canEditUser) {
-      toast.error("You don't have permission to edit this user");
+    if (!canEdit) {
+      // Changed from canEditUser to canEdit
+      toastWithProgress("You don't have permission to edit this user");
       return;
     }
 
@@ -99,17 +137,34 @@ export default function EditUserProfile() {
       formData.firstName !== userDetails.firstName ||
       formData.lastName !== userDetails.lastName ||
       formData.email !== userDetails.email;
+    const hasPasswordChange = !!formData.newPassword;
 
-    if (!hasRoleChange && !hasBasicChanges) {
+    if (!hasRoleChange && !hasBasicChanges && !hasPasswordChange) {
       toastWithProgress("No changes detected");
       return;
     }
 
+    // Prepare data for API
+    const updateData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      role: formData.role,
+    };
+
+    // Add password fields if changing password
+    if (hasPasswordChange) {
+      updateData.newPassword = formData.newPassword;
+      if (isSelf) {
+        updateData.currentPassword = formData.currentPassword;
+      }
+    }
+
     // Show confirmation toast with the handler
-    handleSaveChanges(formData, userDetails);
+    handleSaveChanges(updateData, userDetails, formData);
   };
 
-  // loading
+  // loading states
   if (fetchDetailsStatus === "loading") {
     return <GenLoadingState message="Loading user details..." />;
   }
@@ -192,6 +247,8 @@ export default function EditUserProfile() {
           userDetails={userDetails}
           authUser={authUser}
           selectedRole={selectedRole}
+          watch={watch}
+          setValue={setValue}
         />
       </div>
     </main>
