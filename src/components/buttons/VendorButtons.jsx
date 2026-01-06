@@ -27,6 +27,22 @@ export const CreateVendorBtn = ({ navigate }) => {
   );
 };
 
+// Add first vendor
+export const AddFirstVendorBtn = ({ navigate }) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.CREATE}
+      resource={RESOURCES.VENDOR}
+      onClick={() => navigate("/vendors/new")}
+      tooltipTitle="Create a new vendor"
+      fallbackTooltip="Upgrade to Planner or Admin role to create vendors"
+      className="bg-[#9B2C62] hover:bg-[#801f4f] text-white px-5 py-2 rounded-lg font-medium"
+    >
+      Add Your First Vendor
+    </PermissionButton>
+  );
+};
+
 // delete all vendors btn
 export const DeleteAllVendorsBtn = ({ handleDeleteAll, deleteAllStatus }) => {
   return (
