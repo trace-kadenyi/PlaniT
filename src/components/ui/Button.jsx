@@ -92,4 +92,32 @@ export function ShowHideBtn({
   );
 }
 
-
+// PasswordInput wrapper
+export function PasswordInput({
+  register,
+  name,
+  placeholder = "",
+  disabled = false,
+  className = "",
+  required = false,
+  validation = {},
+  showPassword,
+  togglePassword,
+}) {
+  return (
+    <div className="relative">
+      <input
+        type={showPassword ? "text" : "password"}
+        {...register(name, { required, ...validation })}
+        className={`w-full px-4 py-2.5 rounded-lg border border-[#E3CBC1] dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white pr-12 ${className}`}
+        placeholder={placeholder}
+        disabled={disabled}
+      />
+      <ShowHideBtn
+        showPassword={showPassword}
+        togglePassword={togglePassword}
+        disabled={disabled}
+      />
+    </div>
+  );
+}
