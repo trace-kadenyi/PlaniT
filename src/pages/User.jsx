@@ -63,8 +63,19 @@ export default function User() {
   // Fetch update history when user data loads if authorized
   useEffect(() => {
     const isSelf = userData?._id === authUser?._id;
+
+    // Check if user is admin trying to view super admin
+    const isAdminViewingSuperAdmin =
+      authUser?.role === "admin" && userData?.role === "super_admin";
+
+    // Can view history if:
+    // 1. It's themselves (isSelf), OR
+    // 2. They're a super admin, OR
+    // 3. They're an admin AND the target user is NOT a super admin
     const canViewHistory =
-      isSelf || ["super_admin", "admin"].includes(authUser?.role);
+      isSelf ||
+      authUser?.role === "super_admin" ||
+      (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
 
     if (userData && userData._id && canViewHistory) {
       dispatch(fetchUserUpdateHistory(userId));
@@ -170,6 +181,7 @@ export default function User() {
           fetchHistoryStatus={fetchHistoryStatus}
           isSelf={isSelf}
           authUser={authUser}
+          userRole={userData.role}
         />
 
         {/* Details Grid */}
