@@ -59,12 +59,6 @@ export function EditUserForm({
     }
   }, [isSelf, authUser, userDetails]);
 
-  // Handle password generation
-  const handleGeneratePassword = () => {
-    const newPassword = generateRandomPassword();
-    setValue("newPassword", newPassword); // <-- CHANGE TO THIS
-    setTriggerPasswordValidation((prev) => !prev);
-  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
