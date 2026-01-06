@@ -80,10 +80,24 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+// Fetch user update history
+export const fetchUserUpdateHistory = createAsyncThunk(
+  "users/fetchUserUpdateHistory",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`/api/users/${userId}/history`);
+      return { userId, history: res.data };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 const usersSlice = createSlice({
   name: "users",
   initialState: {
     items: [], // All users
+    updateHistory: {},
     currentUser: null, // User being viewed/edited
     status: "idle", // For fetchUsers
     fetchDetailsStatus: "idle", // For fetchUserDetails
@@ -91,6 +105,8 @@ const usersSlice = createSlice({
     updateStatus: "idle",
     updateRoleStatus: "idle",
     deleteStatus: "idle",
+    fetchHistoryStatus: "idle",
+    fetchHistoryError: null,
     error: null,
     fetchDetailsError: null,
     addError: null,
