@@ -247,6 +247,21 @@ const usersSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         state.deleteStatus = "failed";
         state.deleteError = action.payload;
+      })
+
+      // Fetch user update history
+      .addCase(fetchUserUpdateHistory.pending, (state) => {
+        state.fetchHistoryStatus = "loading";
+        state.fetchHistoryError = null;
+      })
+      .addCase(fetchUserUpdateHistory.fulfilled, (state, action) => {
+        state.fetchHistoryStatus = "succeeded";
+        // Store history by userId
+        state.updateHistory[action.payload.userId] = action.payload.history;
+      })
+      .addCase(fetchUserUpdateHistory.rejected, (state, action) => {
+        state.fetchHistoryStatus = "failed";
+        state.fetchHistoryError = action.payload;
       });
   },
 });
