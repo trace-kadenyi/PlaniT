@@ -164,7 +164,6 @@ export default function User() {
         <UserUpdateHistory
           updateHistory={updateHistory}
           fetchHistoryStatus={fetchHistoryStatus}
-          userId={userId}
           isSelf={isSelf}
           authUser={authUser}
         />
