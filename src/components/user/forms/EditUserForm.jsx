@@ -33,8 +33,6 @@ export function EditUserForm({
   const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const [passwordMode, setPasswordMode] = useState("");
-  const [triggerPasswordValidation, setTriggerPasswordValidation] =
-    useState(false);
   const availableRoles = getAvailableRoles(authUser?.role);
   const roleDescriptions = getRoleDescriptions();
   const roleLabels = getRoleLabels();
@@ -150,8 +148,6 @@ export function EditUserForm({
           shouldDisableFields={shouldDisableFields}
           errors={errors}
           setValue={setValue}
-          triggerPasswordValidation={triggerPasswordValidation}
-          setTriggerPasswordValidation={setTriggerPasswordValidation}
         />
       )}
 
