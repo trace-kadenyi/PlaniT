@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Shield, ArrowLeft } from "lucide-react";
+import { Shield, ArrowLeft, History } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
+import {
+  fetchUserDetails,
+  deleteUser,
+  fetchUserUpdateHistory,
+} from "../redux/usersSlice";
 import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
@@ -17,6 +21,7 @@ import useUserEvents from "../globalHooks/useUserEvents";
 import UserNotFound from "../components/user/UserManagement/UserNotFound";
 import UserProfileCard from "../components/user/UserManagement/UserProfileCard";
 import { UserDetailsGrid } from "../components/user/UserManagement/UserDetailsGrid";
+import UserUpdateHistory from "../components/user/UserManagement/UserUpdateHistory";
 
 export default function User() {
   const { userId } = useParams();
@@ -26,12 +31,24 @@ export default function User() {
   const { can, currentUser: authUser } = usePermissions();
   const tasksState = useSelector((state) => state.tasks);
 
+  // selectors
   const {
     currentUser: userData,
     fetchDetailsStatus,
     fetchDetailsError,
     deleteStatus,
   } = useSelector((state) => state.users);
+
+  const rawUpdateHistory = useSelector(
+    (state) => state.users.updateHistory[userId]
+  );
+  const updateHistory = useMemo(
+    () => rawUpdateHistory || [],
+    [rawUpdateHistory]
+  );
+  const fetchHistoryStatus = useSelector(
+    (state) => state.users.fetchHistoryStatus
+  );
 
   // fetch user details
   useEffect(() => {
@@ -47,13 +64,24 @@ export default function User() {
     }
   }, [userData, dispatch]);
 
+  // Fetch update history when user data loads
+  useEffect(() => {
+    if (userData && userData._id) {
+      dispatch(fetchUserUpdateHistory(userId));
+    }
+  }, [dispatch, userId, userData]);
+
   // Calculate user tasks and events from Redux state:
-  const userTasks = userData
-    ? tasksState.items.filter((task) => task.assignedTo?._id === userData._id)
-    : [];
+  const userTasks = useMemo(() => {
+    if (!userData) return [];
+    return tasksState.items.filter(
+      (task) => task.assignedTo?._id === userData._id
+    );
+  }, [userData, tasksState.items]);
 
   // Calculate userEvents from userTasks
-  const userEvents = useUserEvents(userTasks);
+  const rawUserEvents = useUserEvents(userTasks);
+const userEvents = useMemo(() => rawUserEvents, [rawUserEvents]);
 
   // handle remove user
   const handleRemoveUser = (userId) => {
@@ -146,6 +174,15 @@ export default function User() {
           handleRemoveUser={handleRemoveUser}
           deleteStatus={deleteStatus}
           onLogout={handleLogout}
+        />
+
+        {/* Update History Section */}
+        <UserUpdateHistory
+          updateHistory={updateHistory}
+          fetchHistoryStatus={fetchHistoryStatus}
+          userId={userId}
+          isSelf={isSelf}
+          authUser={authUser}
         />
 
         {/* Details Grid */}
