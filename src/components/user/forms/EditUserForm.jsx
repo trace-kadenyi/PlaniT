@@ -41,7 +41,6 @@ export function EditUserForm({
   const roleLabels = getRoleLabels();
 
   const newPasswordVal = watch("newPassword", "");
-  const newPasswordOnChange = register("newPassword").onChange;
 
   // check permissions
   useEffect(() => {
