@@ -60,12 +60,16 @@ export default function User() {
     }
   }, [userData, dispatch]);
 
-  // Fetch update history when user data loads
+  // Fetch update history when user data loads if authorized
   useEffect(() => {
-    if (userData && userData._id) {
+    const isSelf = userData?._id === authUser?._id;
+    const canViewHistory =
+      isSelf || ["super_admin", "admin"].includes(authUser?.role);
+
+    if (userData && userData._id && canViewHistory) {
       dispatch(fetchUserUpdateHistory(userId));
     }
-  }, [dispatch, userId, userData]);
+  }, [dispatch, userId, userData, authUser]);
 
   // handle remove user
   const handleRemoveUser = (userId) => {
