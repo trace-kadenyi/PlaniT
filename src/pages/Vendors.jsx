@@ -22,6 +22,7 @@ import { createAllVendorsDeleteHandler } from "../globalHandlers/createAllVendor
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import {
+  AddFirstVendorBtn,
   CreateVendorBtn,
   DeleteAllVendorsBtn,
 } from "../components/buttons/VendorButtons";
@@ -192,12 +193,7 @@ export default function Vendors() {
                 ? "Your archive is empty"
                 : "You don't have any vendors yet"}
             </p>
-            <button
-              onClick={() => navigate("/vendors/new")}
-              className="bg-[#9B2C62] hover:bg-[#801f4f] text-white px-5 py-2 rounded-lg font-medium"
-            >
-              Add Your First Vendor
-            </button>
+            <AddFirstVendorBtn navigate={navigate} />
           </div>
         )}
 
