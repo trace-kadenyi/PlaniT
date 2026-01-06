@@ -150,7 +150,16 @@ export function EditUserForm({
 
       {/* Password Change Card */}
       {showPasswordFields && showPasswordChange && (
-        <UserFormPassword passwordMode={passwordMode} register={register} newPasswordVal={newPasswordVal} shouldDisableFields={shouldDisableFields} errors={errors} setValue={setValue} triggerPasswordValidation={triggerPasswordValidation} />
+        <UserFormPassword
+          passwordMode={passwordMode}
+          register={register}
+          newPasswordVal={newPasswordVal}
+          shouldDisableFields={shouldDisableFields}
+          errors={errors}
+          setValue={setValue}
+          triggerPasswordValidation={triggerPasswordValidation}
+          setTriggerPasswordValidation={setTriggerPasswordValidation}
+        />
       )}
 
       {/* button to show password fields */}
