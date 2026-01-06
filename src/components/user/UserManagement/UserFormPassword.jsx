@@ -1,6 +1,7 @@
 import { Key } from "lucide-react";
 
 import Password, { generateRandomPassword } from "../../shared/Password";
+import { useState } from "react";
 
 export default function UserFormPassword({
   passwordMode,
@@ -9,9 +10,10 @@ export default function UserFormPassword({
   shouldDisableFields,
   errors,
   setValue,
-  triggerPasswordValidation,
-  setTriggerPasswordValidation,
 }) {
+  const [triggerPasswordValidation, setTriggerPasswordValidation] =
+    useState(false);
+
   // Handle password generation
   const handleGeneratePassword = () => {
     const newPassword = generateRandomPassword();
@@ -129,7 +131,7 @@ export default function UserFormPassword({
 
             <Password
               password={newPasswordVal}
-              onPasswordChange={(value) => setValue("newPassword", value)} // <-- JUST USE setValue!
+              onPasswordChange={(value) => setValue("newPassword", value)}
               triggerValidation={triggerPasswordValidation}
               mode="editUser"
               className="mt-1"
