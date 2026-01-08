@@ -175,6 +175,13 @@ export default function User() {
           onLogout={handleLogout}
         />
 
+        {/* Details Grid */}
+        <UserDetailsGrid
+          userData={userData}
+          userEvents={userEvents}
+          userTasks={userTasks}
+        />
+
         {/* Update History Section */}
         <UserUpdateHistory
           updateHistory={updateHistory}
@@ -182,13 +189,6 @@ export default function User() {
           isSelf={isSelf}
           authUser={authUser}
           userRole={userData.role}
-        />
-
-        {/* Details Grid */}
-        <UserDetailsGrid
-          userData={userData}
-          userEvents={userEvents}
-          userTasks={userTasks}
         />
       </div>
     </main>
