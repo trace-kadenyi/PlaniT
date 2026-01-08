@@ -8,6 +8,7 @@ import {
   Mail,
   ChevronDown,
 } from "lucide-react";
+
 import { ViewUpdateHistory } from "../../ui/Button";
 
 const UserUpdateHistory = ({
