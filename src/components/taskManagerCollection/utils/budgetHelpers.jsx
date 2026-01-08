@@ -18,15 +18,30 @@ export function getBudgetStatus(budget, expenses) {
 }
 
 // get expenses by category
-export function getExpensesByCategory(expenses) {
-  return expenses.reduce((acc, expense) => {
-    if (!acc[expense.category]) {
-      acc[expense.category] = 0;
-    }
-    acc[expense.category] += expense.amount;
-    return acc;
-  }, {});
-}
+// export function getExpensesByCategory(expenses) {
+//   return expenses.reduce((acc, expense) => {
+//     if (!acc[expense.category]) {
+//       acc[expense.category] = 0;
+//     }
+//     acc[expense.category] += expense.amount;
+//     return acc;
+//   }, {});
+// }
+
+// In budgetHelpers.js, update the getExpensesByCategory function:
+export const getExpensesByCategory = (expenses) => {
+  const categoryTotals = {};
+  
+  // Only count active (non-voided) expenses for category view
+  const activeExpenses = expenses.filter(exp => !exp.isVoided);
+  
+  activeExpenses.forEach((expense) => {
+    const category = expense.category || "other";
+    categoryTotals[category] = (categoryTotals[category] || 0) + expense.amount;
+  });
+  
+  return categoryTotals;
+};
 
 // handle budget status
 export function BudgetStatus({ budgetStatus }) {

@@ -122,42 +122,119 @@ export const EventAddBudgetLink = ({ eventID }) => {
 };
 
 // edit expense btn
-export const EditDeleteExpenseBtns = ({
-  setExpenseToEdit,
+// export const EditDeleteExpenseBtns = ({
+//   setExpenseToEdit,
+//   setShowCreateExpenseForm,
+//   setScrollToForm,
+//   handleExpenseDelete,
+//   expense,
+//   expenses,
+// }) => {
+//   return (
+//     <div className="transform -translate-y-1/2 flex space-x-2 mt-4 flex justify-self-end sm:min-w-[212px]">
+//       <PermissionButton
+//         permission={PERMISSIONS.EDIT}
+//         resource={RESOURCES.EXPENSE}
+//         tooltipTitle="Edit expense"
+//         fallbackTooltip="Upgrade to Planner or Admin role to edit expenses"
+//         className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#9B2C62]/10 text-[#9B2C62] hover:bg-[#9B2C62] hover:text-white text-xs dark:bg-[#F59E0B]/40 dark:text-gray-300 dark:hover:bg-[#F59E0B]/30"
+//         onClick={() => {
+//           setExpenseToEdit(expense);
+//           setShowCreateExpenseForm(true);
+//           setScrollToForm(true);
+//         }}
+//       >
+//         Edit expense
+//       </PermissionButton>
+//       <PermissionButton
+//         permission={PERMISSIONS.DELETE}
+//         resource={RESOURCES.EXPENSE}
+//         tooltipTitle="Delete expense"
+//         fallbackTooltip="Upgrade to Planner or Admin role to delete expenses"
+//         className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs dark:bg-[#BE3455]/40 dark:hover:bg-[#BE3455]/30 dark:text-white"
+//         onClick={() =>
+//           handleExpenseDelete(expense._id, expense.vendor?._id, expenses)
+//         }
+//       >
+//         Delete expense
+//       </PermissionButton>
+//     </div>
+//   );
+// };
+
+// In ExpenseButtons.jsx, add these components:
+
+// EditDeleteExpenseBtns (updated)
+// EditDeleteExpenseBtns (updated)
+export function EditDeleteExpenseBtns({
   setShowCreateExpenseForm,
-  setScrollToForm,
   handleExpenseDelete,
+  setExpenseToEdit,
   expense,
-  expenses,
-}) => {
+  setScrollToForm,
+  eventId,
+  showVoided = false,
+  onVoidClick,
+  permissions,
+  userRole
+}) {
+  const canEdit = !expense.isVoided && (permissions?.canVoidExpenses || userRole === 'admin' || userRole === 'super_admin');
+  const canVoid = !expense.isVoided && permissions?.canVoidExpenses;
+  const canDelete = !expense.isVoided && permissions?.canVoidExpenses; // Can delete pending expenses
+  const canUnvoid = expense.isVoided && permissions?.canUnvoidExpenses && userRole === 'super_admin';
+  
   return (
-    <div className="transform -translate-y-1/2 flex space-x-2 mt-4 flex justify-self-end sm:min-w-[212px]">
-      <PermissionButton
-        permission={PERMISSIONS.EDIT}
-        resource={RESOURCES.EXPENSE}
-        tooltipTitle="Edit expense"
-        fallbackTooltip="Upgrade to Planner or Admin role to edit expenses"
-        className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#9B2C62]/10 text-[#9B2C62] hover:bg-[#9B2C62] hover:text-white text-xs dark:bg-[#F59E0B]/40 dark:text-gray-300 dark:hover:bg-[#F59E0B]/30"
-        onClick={() => {
-          setExpenseToEdit(expense);
-          setShowCreateExpenseForm(true);
-          setScrollToForm(true);
-        }}
-      >
-        Edit expense
-      </PermissionButton>
-      <PermissionButton
-        permission={PERMISSIONS.DELETE}
-        resource={RESOURCES.EXPENSE}
-        tooltipTitle="Delete expense"
-        fallbackTooltip="Upgrade to Planner or Admin role to delete expenses"
-        className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs dark:bg-[#BE3455]/40 dark:hover:bg-[#BE3455]/30 dark:text-white"
-        onClick={() =>
-          handleExpenseDelete(expense._id, expense.vendor?._id, expenses)
-        }
-      >
-        Delete expense
-      </PermissionButton>
+    <div className="flex gap-2">
+      {canEdit && (
+        <button
+          onClick={() => {
+            setExpenseToEdit(expense);
+            setShowCreateExpenseForm(true);
+            setScrollToForm(true);
+          }}
+          className="text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:text-[#801f4f] dark:hover:text-[#D97706]"
+        >
+          Edit
+        </button>
+      )}
+      
+      {/* DELETE button for pending expenses (regular deletion) */}
+      {canDelete && expense.paymentStatus === "pending" && (
+        <button
+          onClick={() => {
+            if (confirm("Delete this pending expense?")) {
+              handleExpenseDelete(expense._id, expense.vendor?._id, [], "delete");
+            }
+          }}
+          className="text-sm font-medium text-red-600 hover:text-red-800"
+        >
+          Delete
+        </button>
+      )}
+      
+      {/* VOID button (for paid expenses OR as alternative to delete) */}
+      {canVoid && (
+        <button
+          onClick={onVoidClick}
+          className="text-sm font-medium text-red-600 hover:text-red-800"
+        >
+          Void
+        </button>
+      )}
+      
+      {canUnvoid && (
+        <button
+          onClick={() => {
+            if (confirm("Unvoid this expense? This will restore it to active expenses.")) {
+              // Call unvoid API
+              console.log("Unvoid expense:", expense._id);
+            }
+          }}
+          className="text-sm font-medium text-green-600 hover:text-green-800"
+        >
+          Unvoid
+        </button>
+      )}
     </div>
   );
-};
+}

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
 import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
-import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
+import { fetchExpenses, deleteExpense, voidExpense } from "../redux/expensesSlice";
 
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
@@ -117,6 +117,7 @@ export default function Event() {
   // handle delete expense
   const handleExpenseDelete = createExpenseDeleteHandler(
     dispatch,
+    voidExpense,
     deleteExpense,
     toast,
     toastWithProgress,
@@ -188,9 +189,7 @@ export default function Event() {
           <BudgetTab
             expenses={expensesState.items}
             budgetStatus={expensesState.budgetStatus}
-            handleExpenseDelete={handleExpenseDelete}
             setLocalVendors={setLocalVendors}
-            Link={Link}
             onVendorAdded={(newVendor) => {
               setLocalVendors((prev) => {
                 const vendorExists = prev.some((v) => v._id === newVendor._id);
