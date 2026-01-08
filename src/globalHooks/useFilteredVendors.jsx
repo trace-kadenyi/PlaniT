@@ -57,14 +57,13 @@ export function useFilteredVendors({
     });
 
   // Calculate pagination indices
-  const indexOfLastVendor = Math.min(
-    currentPage * vendorsPerPage,
-    filteredVendors.length
-  );
-  const indexOfFirstVendor = Math.max(0, indexOfLastVendor - vendorsPerPage);
+  const indexOfLastVendor = currentPage * vendorsPerPage;
+  const indexOfFirstVendor = indexOfLastVendor - vendorsPerPage;
+
+  // Use Math.min for the slice to handle the last page correctly
   const currentVendors = filteredVendors.slice(
     indexOfFirstVendor,
-    indexOfLastVendor
+    Math.min(indexOfLastVendor, filteredVendors.length)
   );
   const totalPages = Math.max(
     1,
@@ -92,6 +91,6 @@ export function useFilteredVendors({
     error,
     statsStatus,
     indexOfFirstVendor,
-    indexOfLastVendor,
+    indexOfLastVendor: Math.min(indexOfLastVendor, filteredVendors.length),
   };
 }
