@@ -1,5 +1,13 @@
-import React from "react";
-import { History, User, Shield, Key, Phone, Mail } from "lucide-react";
+import React, { useState } from "react";
+import {
+  History,
+  User,
+  Shield,
+  Key,
+  Phone,
+  Mail,
+  ChevronDown,
+} from "lucide-react";
 
 const UserUpdateHistory = ({
   updateHistory,
@@ -8,6 +16,7 @@ const UserUpdateHistory = ({
   authUser,
   userRole,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   // Function to get icon for update type
   const getUpdateIcon = (type) => {
     switch (type) {
@@ -104,7 +113,7 @@ const UserUpdateHistory = ({
             </p>
           </div>
         </div>
-      ) : (
+      ) : isExpanded ? (
         <div className="space-y-4">
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
             Showing last {updateHistory.length} update
@@ -220,6 +229,29 @@ const UserUpdateHistory = ({
               Only a maximum of 50 updates will be stored • Total updates:{" "}
               {updateHistory.length}
             </p>
+          </div>
+        </div>
+      ) : (
+        <div className="text-center py-6">
+          <button
+            onClick={() => setIsExpanded(true)}
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-black via-[#9B2C62] to-[#9B2C62] text-white font-medium px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group border border-white/30 flex-wrap justify-center"
+          >
+            <div className="p-2 rounded-lg bg-white/20 backdrop-blur-sm">
+              <History className="w-5 h-5" />
+            </div>
+            <div className="text-left">
+              <div className="font-semibold text-sm">View Update History</div>
+              <div className="text-xs opacity-90">
+                {updateHistory.length} recent{" "}
+                {updateHistory.length > 1 ? "changes" : "change"} available
+              </div>
+            </div>
+            <ChevronDown className="w-5 h-5 ml-2 group-hover:translate-y-0.5 transition-transform" />
+          </button>
+
+          <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
+            Only last 50 updates are stored for security
           </div>
         </div>
       )}
