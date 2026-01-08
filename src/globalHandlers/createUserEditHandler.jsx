@@ -15,7 +15,6 @@ export const createUserEditHandler = (
 
     // Use fullFormData if provided, otherwise use updateData
     const formDataForToast = fullFormData || updateData;
-    // const isSelf = originalUserData._id === userId;
     const isSelf = currentUserId === originalUserData._id;
 
     toast(
@@ -41,7 +40,7 @@ export const createUserEditHandler = (
                 formDataForToast.role !== originalUserData.role;
               const hasPasswordChanged = !!updateData.newPassword;
 
-              // Update user info (including password if present)
+              // Update user info
               if (hasBasicInfoChanged || hasPasswordChanged) {
                 // Always send ALL data including passwords
                 const userUpdateData = {
