@@ -8,6 +8,7 @@ import {
   Mail,
   ChevronDown,
 } from "lucide-react";
+import { ViewUpdateHistory } from "../../ui/Button";
 
 const UserUpdateHistory = ({
   updateHistory,
@@ -232,28 +233,12 @@ const UserUpdateHistory = ({
           </div>
         </div>
       ) : (
-        <div className="text-center py-6">
-          <button
-            onClick={() => setIsExpanded(true)}
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-black via-[#9B2C62] to-[#9B2C62] text-white font-medium px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group border border-white/30 flex-wrap justify-center"
-          >
-            <div className="p-2 rounded-lg bg-white/20 backdrop-blur-sm">
-              <History className="w-5 h-5" />
-            </div>
-            <div className="text-left">
-              <div className="font-semibold text-sm">View Update History</div>
-              <div className="text-xs opacity-90">
-                {updateHistory.length} recent{" "}
-                {updateHistory.length > 1 ? "changes" : "change"} available
-              </div>
-            </div>
-            <ChevronDown className="w-5 h-5 ml-2 group-hover:translate-y-0.5 transition-transform" />
-          </button>
-
-          <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
-            Only last 50 updates are stored for security
-          </div>
-        </div>
+        <ViewUpdateHistory
+          setIsExpanded={setIsExpanded}
+          History={History}
+          updateHistory={updateHistory}
+          ChevronDown={ChevronDown}
+        />
       )}
     </div>
   );
