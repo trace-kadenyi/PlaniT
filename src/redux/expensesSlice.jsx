@@ -68,7 +68,10 @@ const expensesSlice = createSlice({
   initialState: {
     items: [],
     budgetStatus: null,
+    auditLogs: [],
     status: "idle",
+    auditLogStatus: "idle",
+    auditLogError: null,
     error: null,
     createStatus: "idle",
     createError: null,
