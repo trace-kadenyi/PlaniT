@@ -50,6 +50,19 @@ export const deleteExpense = createAsyncThunk(
   }
 );
 
+// get deleted paid expenses log
+export const fetchDeletedPaidExpensesLog = createAsyncThunk(
+  "expenses/fetchDeletedPaidExpensesLog",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get("/api/expenses/deleted-paid-expenses/log");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 const expensesSlice = createSlice({
   name: "expenses",
   initialState: {
