@@ -115,9 +115,9 @@ const UserUpdateHistory = ({
             {updateHistory.map((update, index) => (
               <div
                 key={update._id || index}
-                className="p-4 bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl border border-[#F3EDE9] dark:border-gray-700 hover:border-[#9B2C62]/30 dark:hover:border-[#D97706]/30 transition-all duration-300"
+                className="p-4 bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl border border-[#F3EDE9] dark:border-gray-700 hover:border-[#9B2C62]/50 dark:hover:border-[#D97706]/50 transition-all duration-300"
               >
-                <div className="flex items-start justify-between mb-2">
+                <div className="flex items-start justify-between mb-2 flex-col sm:flex-row gap-3">
                   <div className="flex items-center gap-2">
                     <div className="p-2 rounded-lg bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20">
                       {getUpdateIcon(update.type)}
@@ -132,7 +132,7 @@ const UserUpdateHistory = ({
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                  <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap ml-auto sm:ml-0">
                     {new Date(update.createdAt).toLocaleDateString()} at{" "}
                     {new Date(update.createdAt).toLocaleTimeString([], {
                       hour: "2-digit",
