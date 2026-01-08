@@ -217,7 +217,7 @@ const UserUpdateHistory = ({
 
           <div className="text-center pt-2">
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Showing last 30 days of activity • Total updates:{" "}
+              Only a maximum of 50 updates will be stored • Total updates:{" "}
               {updateHistory.length}
             </p>
           </div>
