@@ -80,19 +80,36 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+// Fetch user update history
+export const fetchUserUpdateHistory = createAsyncThunk(
+  "users/fetchUserUpdateHistory",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`/api/users/${userId}/history`);
+      return { userId, history: res.data };
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
 const usersSlice = createSlice({
   name: "users",
   initialState: {
     items: [], // All users
+    updateHistory: {}, // Store history by userId
     currentUser: null, // User being viewed/edited
     status: "idle", // For fetchUsers
     fetchDetailsStatus: "idle", // For fetchUserDetails
+    fetchHistoryStatus: "idle",
     addStatus: "idle",
     updateStatus: "idle",
     updateRoleStatus: "idle",
     deleteStatus: "idle",
     error: null,
     fetchDetailsError: null,
+    fetchHistoryError: null,
+
     addError: null,
     updateError: null,
     updateRoleError: null,
@@ -108,13 +125,22 @@ const usersSlice = createSlice({
       state.updateError = null;
       state.deleteStatus = "idle";
       state.deleteError = null;
+      state.fetchHistoryStatus = "idle";
+      state.fetchHistoryError = null;
     },
     clearUsers: (state) => {
       state.items = [];
       state.currentUser = null;
+      state.updateHistory = {};
     },
     setCurrentUser: (state, action) => {
       state.currentUser = action.payload;
+    },
+    clearUserHistory: (state, action) => {
+      const userId = action.payload;
+      if (state.updateHistory[userId]) {
+        delete state.updateHistory[userId];
+      }
     },
   },
   extraReducers: (builder) => {
@@ -231,10 +257,35 @@ const usersSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         state.deleteStatus = "failed";
         state.deleteError = action.payload;
+      })
+
+      // Fetch user update history
+      .addCase(fetchUserUpdateHistory.pending, (state) => {
+        state.fetchHistoryStatus = "loading";
+        state.fetchHistoryError = null;
+      })
+      .addCase(fetchUserUpdateHistory.fulfilled, (state, action) => {
+        state.fetchHistoryStatus = "succeeded";
+        // Store history by userId
+        state.updateHistory[action.payload.userId] = action.payload.history;
+      })
+      .addCase(fetchUserUpdateHistory.rejected, (state, action) => {
+        state.fetchHistoryStatus = "failed";
+        // Don't throw error if it's just a 403 permission issue
+        if (action.error?.status !== 403) {
+          state.error = action.error.message;
+        }
       });
   },
 });
 
-export const { resetUsersStatus, clearUsers, setCurrentUser } =
-  usersSlice.actions;
+export const {
+  resetUsersStatus,
+  clearUsers,
+  setCurrentUser,
+  clearUserHistory,
+} = usersSlice.actions;
+export const selectUserUpdateHistory = (state, userId) => {
+  return state.users.updateHistory[userId] || [];
+};
 export default usersSlice.reducer;

@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Shield, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { fetchUserDetails, deleteUser } from "../redux/usersSlice";
+import {
+  fetchUserDetails,
+  deleteUser,
+  fetchUserUpdateHistory,
+} from "../redux/usersSlice";
 import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
@@ -13,10 +17,11 @@ import DeleteConfirmationToast from "../components/taskManagerCollection/utils/d
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
-import useUserEvents from "../globalHooks/useUserEvents";
+import { useUserMemoizedData } from "../globalHooks/useUserMemoizedData";
 import UserNotFound from "../components/user/UserManagement/UserNotFound";
 import UserProfileCard from "../components/user/UserManagement/UserProfileCard";
 import { UserDetailsGrid } from "../components/user/UserManagement/UserDetailsGrid";
+import UserUpdateHistory from "../components/user/UserManagement/UserUpdateHistory";
 
 export default function User() {
   const { userId } = useParams();
@@ -24,14 +29,22 @@ export default function User() {
   const dispatch = useDispatch();
 
   const { can, currentUser: authUser } = usePermissions();
-  const tasksState = useSelector((state) => state.tasks);
 
+  // selectors
   const {
     currentUser: userData,
     fetchDetailsStatus,
     fetchDetailsError,
     deleteStatus,
   } = useSelector((state) => state.users);
+
+  const {
+    updateHistory,
+    fetchHistoryStatus,
+    userTasks,
+    userEvents,
+    tasksState,
+  } = useUserMemoizedData(userId, userData);
 
   // fetch user details
   useEffect(() => {
@@ -47,13 +60,27 @@ export default function User() {
     }
   }, [userData, dispatch]);
 
-  // Calculate user tasks and events from Redux state:
-  const userTasks = userData
-    ? tasksState.items.filter((task) => task.assignedTo?._id === userData._id)
-    : [];
+  // Fetch update history when user data loads if authorized
+  useEffect(() => {
+    const isSelf = userData?._id === authUser?._id;
 
-  // Calculate userEvents from userTasks
-  const userEvents = useUserEvents(userTasks);
+    // Check if user is admin trying to view super admin
+    const isAdminViewingSuperAdmin =
+      authUser?.role === "admin" && userData?.role === "super_admin";
+
+    // Can view history if:
+    // 1. It's themselves (isSelf), OR
+    // 2. They're a super admin, OR
+    // 3. They're an admin AND the target user is NOT a super admin
+    const canViewHistory =
+      isSelf ||
+      authUser?.role === "super_admin" ||
+      (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
+
+    if (userData && userData._id && canViewHistory) {
+      dispatch(fetchUserUpdateHistory(userId));
+    }
+  }, [dispatch, userId, userData, authUser]);
 
   // handle remove user
   const handleRemoveUser = (userId) => {
@@ -153,6 +180,15 @@ export default function User() {
           userData={userData}
           userEvents={userEvents}
           userTasks={userTasks}
+        />
+
+        {/* Update History Section */}
+        <UserUpdateHistory
+          updateHistory={updateHistory}
+          fetchHistoryStatus={fetchHistoryStatus}
+          isSelf={isSelf}
+          authUser={authUser}
+          userRole={userData.role}
         />
       </div>
     </main>

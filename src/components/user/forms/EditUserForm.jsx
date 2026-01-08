@@ -43,15 +43,22 @@ export function EditUserForm({
   // check permissions
   useEffect(() => {
     if (isSelf) {
+      // User editing themselves
       setShowPasswordFields(true);
       setPasswordMode("self");
+    } else if (authUser?.role === "super_admin") {
+      // Super admin editing anyone (including other super admins)
+      setShowPasswordFields(true);
+      setPasswordMode("other");
     } else if (
-      (authUser?.role === "admin" || authUser?.role === "super_admin") &&
+      authUser?.role === "admin" &&
       userDetails?.role !== "super_admin"
     ) {
+      // Admin editing non-super-admin users
       setShowPasswordFields(true);
       setPasswordMode("other");
     } else {
+      // No permission to change password
       setShowPasswordFields(false);
     }
   }, [isSelf, authUser, userDetails]);
