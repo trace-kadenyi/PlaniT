@@ -161,6 +161,20 @@ const expensesSlice = createSlice({
           action.payload?.systemMessage ||
           action.error.message;
       });
+
+    // get deleted paid expenses log
+    builder
+      .addCase(fetchDeletedPaidExpensesLog.pending, (state) => {
+        state.auditLogStatus = "loading";
+      })
+      .addCase(fetchDeletedPaidExpensesLog.fulfilled, (state, action) => {
+        state.auditLogStatus = "succeeded";
+        state.auditLogs = action.payload.deletedPaidExpenses;
+      })
+      .addCase(fetchDeletedPaidExpensesLog.rejected, (state, action) => {
+        state.auditLogStatus = "failed";
+        state.auditLogError = action.payload?.message || action.error.message;
+      });
   },
 });
 
