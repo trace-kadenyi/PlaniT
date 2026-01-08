@@ -12,13 +12,13 @@ const UserUpdateHistory = ({
   const getUpdateIcon = (type) => {
     switch (type) {
       case "role_change":
-        return <Shield className="w-4 h-4" />;
+        return <Shield className="w-4 h-4 dark:text-white" />;
       case "password_change":
-        return <Key className="w-4 h-4" />;
+        return <Key className="w-4 h-4 dark:text-white" />;
       case "profile_update":
-        return <User className="w-4 h-4" />;
+        return <User className="w-4 h-4 dark:text-white" />;
       default:
-        return <History className="w-4 h-4" />;
+        return <History className="w-4 h-4 dark:text-white" />;
     }
   };
 
@@ -177,7 +177,7 @@ const UserUpdateHistory = ({
                                       {change.oldValue}
                                     </span>
                                     {" → "}
-                                    <span className="text-green-600 dark:text-green-400">
+                                    <span className="text-green-600 dark:text-green-500">
                                       {change.newValue}
                                     </span>
                                   </>
