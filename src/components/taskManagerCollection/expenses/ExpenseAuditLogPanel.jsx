@@ -208,6 +208,27 @@ const ExpenseAuditLogPanel = () => {
                         <div className="flex items-center gap-2">
                           <User className="w-3 h-3 text-gray-400" />
                           <span className="text-xs text-gray-500 dark:text-gray-400">
+                            Created by:{" "}
+                            <span className="font-medium text-gray-700 dark:text-gray-300">
+                              {log.expenseData?.createdBy?.firstName ||
+                                "Unknown"}
+                            </span>
+                            {log.expenseData?.createdBy?.lastName && (
+                              <span className="font-medium text-gray-700 dark:text-gray-300">
+                                {" "}
+                                {log.expenseData.createdBy.lastName}
+                              </span>
+                            )}
+                            {log.expenseData?.createdBy?.role && (
+                              <span className="ml-2 px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
+                                {log.expenseData.createdBy.role}
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <User className="w-3 h-3 text-gray-400" />
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
                             Deleted by:{" "}
                             <span className="font-medium text-gray-700 dark:text-gray-300">
                               {log.deletedBy?.name || "Unknown"}
@@ -219,6 +240,7 @@ const ExpenseAuditLogPanel = () => {
                             )}
                           </span>
                         </div>
+
                         {log.event?.name && (
                           <div className="flex items-center gap-2">
                             <Calendar className="w-3 h-3 text-gray-400" />
