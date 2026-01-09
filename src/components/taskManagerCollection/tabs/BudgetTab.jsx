@@ -44,6 +44,7 @@ export default function BudgetTab({
 
   // form ref
   const formRef = useRef(null);
+  const auditLogRef = useRef(null);
 
   // Check if user can view audit logs
   const canViewAuditLogs = can(
@@ -63,6 +64,18 @@ export default function BudgetTab({
     }
   }, [scrollToForm, showCreateExpenseForm, expenseToEdit]);
 
+  // scroll to audit log when it's shown
+  useEffect(() => {
+    if (showAuditLogs && auditLogRef.current) {
+      setTimeout(() => {
+        auditLogRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+    }
+  }, [showAuditLogs]);
+
   // Handle both array and Redux-style expense objects
   const expensesArray = Array.isArray(expenses)
     ? expenses
@@ -72,6 +85,10 @@ export default function BudgetTab({
 
   // check if budget is 0 or not set
   const hasNoBudget = !budgetStatus || budgetStatus.totalBudget === 0;
+
+  const handleToggleAuditLogs = () => {
+    setShowAuditLogs(!showAuditLogs);
+  };
 
   return (
     <>
@@ -83,7 +100,7 @@ export default function BudgetTab({
           {/* Show Audit Logs toggle button for super admins */}
           {canViewAuditLogs && (
             <button
-              onClick={() => setShowAuditLogs(!showAuditLogs)}
+              onClick={handleToggleAuditLogs}
               className={`flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full transition text-xs cursor-pointer ${
                 showAuditLogs
                   ? "bg-[#9B2C62] text-white hover:bg-[#801f4f] dark:bg-[#D97706] dark:hover:bg-[#F59E0B]"
@@ -244,7 +261,8 @@ export default function BudgetTab({
 
       {/* Audit Logs Section (only for super admins) */}
       {canViewAuditLogs && showAuditLogs && (
-        <div className="mt-8">
+        <div ref={auditLogRef} className="mt-8 scroll-mt-4">
+          {" "}
           <ExpenseAuditLogPanel />
         </div>
       )}
