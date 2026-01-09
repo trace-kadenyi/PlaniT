@@ -101,7 +101,7 @@ const ExpenseAuditLogPanel = () => {
       </div>
 
       {auditLogStatus === "loading" ? (
-        <div className="flex justify-center py-8">
+        <div className="flex justify-center items-center py-8 min-h-[200px]">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#9B2C62]"></div>
         </div>
       ) : auditLogError ? (
