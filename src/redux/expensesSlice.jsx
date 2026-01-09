@@ -272,5 +272,9 @@ const expensesSlice = createSlice({
   },
 });
 
-export const { resetExpenseStatuses } = expensesSlice.actions;
+export const {
+  resetExpenseStatuses,
+  setAuditLogFilters,
+  clearAuditLogFilters,
+} = expensesSlice.actions;
 export default expensesSlice.reducer;
