@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchDeletedPaidExpensesLog } from "../../../redux/expensesSlice";
-
 import { getExpensesByCategory, BudgetStatus } from "../utils/budgetHelpers";
 import {
   ExpenseListView,
@@ -137,7 +135,6 @@ export default function BudgetTab({
           )}
         </div>
       </div>
-
       {/* Expense Form */}
       {!hasNoBudget && showCreateExpenseForm && (
         <div ref={formRef} className="mb-6 scroll-mt-4">
@@ -164,13 +161,10 @@ export default function BudgetTab({
           )}
         </div>
       )}
-
       {/* Budget Status Summary */}
       {budgetStatus && <BudgetStatus budgetStatus={budgetStatus} />}
-
       {/* Loading/Empty States */}
       {isLoading && expensesArray.length === 0 && <p>Loading expenses...</p>}
-
       {/* with budget/no expenses added  */}
       {!hasNoBudget && expensesArray.length === 0 && !isLoading && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] border-l-[#F59E0B] dark:border-l-[#F59E0B]">
@@ -179,7 +173,6 @@ export default function BudgetTab({
           </p>
         </div>
       )}
-
       {/* without budget/no expenses added  */}
       {hasNoBudget && expensesArray.length === 0 && !isLoading && (
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 p-6 rounded-xl shadow-sm border border-[#F3EDE9] flex items-start gap-3">
@@ -253,12 +246,11 @@ export default function BudgetTab({
           )}
         </div>
       )}
-
       {/* Audit Logs Section (only for super admins) */}
+      // In BudgetTab.jsx, update the audit log section:
       {canViewAuditLogs && showAuditLogs && (
         <div ref={auditLogRef} className="mt-8 scroll-mt-4">
-          {" "}
-          <ExpenseAuditLogPanel />
+          <ExpenseAuditLogPanel eventId={id} />
         </div>
       )}
     </>
