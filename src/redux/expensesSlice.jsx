@@ -88,6 +88,8 @@ const expensesSlice = createSlice({
       state.updateError = null;
       state.deleteStatus = "idle";
       state.deleteError = null;
+      state.auditLogStatus = "idle";
+      state.auditLogError = null;
     },
   },
   extraReducers: (builder) => {
