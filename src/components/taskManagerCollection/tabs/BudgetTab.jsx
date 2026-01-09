@@ -227,15 +227,10 @@ export default function BudgetTab({
                   <ExpenseListView expense={expense}>
                     <EditDeleteExpenseBtns
                       setShowCreateExpenseForm={setShowCreateExpenseForm}
-                      handleExpenseDelete={(expenseId) =>
-                        handleExpenseDelete(
-                          expenseId,
-                          expense.vendor?._id,
-                          expensesArray
-                        )
-                      }
+                      handleExpenseDelete={handleExpenseDelete}
                       setExpenseToEdit={setExpenseToEdit}
                       expense={expense}
+                      expenses={expensesArray}
                       setScrollToForm={setScrollToForm}
                       eventId={id}
                     />
