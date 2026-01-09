@@ -160,7 +160,7 @@ const checkPermission = (
 
   // Special rule: Only super admins can view audit logs
   if (permission === PERMISSIONS.VIEW_AUDIT_LOGS) {
-    return userRole === ROLES.SUPER_ADMIN;
+    return userRole === ROLES.ADMIN || userRole === ROLES.SUPER_ADMIN;
   }
 
   // For ALL other cases: if user has base permission, they're good!
