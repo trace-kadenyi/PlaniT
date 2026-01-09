@@ -50,6 +50,45 @@ export const deleteExpense = createAsyncThunk(
   }
 );
 
+// get expense audit logs with event filtering
+export const fetchExpenseAuditLogs = createAsyncThunk(
+  "expenses/fetchExpenseAuditLogs",
+  async ({ eventId, filters = {} } = {}, { rejectWithValue }) => {
+    try {
+      // Build query params
+      const params = new URLSearchParams();
+
+      // Add eventId if provided
+      if (eventId) {
+        params.append("eventId", eventId);
+      }
+
+      // Add other filters if provided
+      if (filters.actionType) {
+        params.append("actionType", filters.actionType);
+      }
+      if (filters.startDate) {
+        params.append("startDate", filters.startDate);
+      }
+      if (filters.endDate) {
+        params.append("endDate", filters.endDate);
+      }
+      if (filters.limit) {
+        params.append("limit", filters.limit);
+      }
+
+      // Use the new endpoint
+      const url = `/api/expenses/audit-logs${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+      const res = await api.get(url);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 // get deleted paid expenses log
 export const fetchDeletedPaidExpensesLog = createAsyncThunk(
   "expenses/fetchDeletedPaidExpensesLog",
@@ -79,6 +118,15 @@ const expensesSlice = createSlice({
     updateError: null,
     deleteStatus: "idle",
     deleteError: null,
+    auditLogFilters: {
+      eventId: null,
+      actionType: null,
+      startDate: null,
+      endDate: null,
+      limit: 100,
+    },
+    auditLogCount: 0,
+    paidExpensesCount: 0,
   },
   reducers: {
     resetExpenseStatuses: (state) => {
@@ -90,6 +138,18 @@ const expensesSlice = createSlice({
       state.deleteError = null;
       state.auditLogStatus = "idle";
       state.auditLogError = null;
+    },
+    setAuditLogFilters: (state, action) => {
+      state.auditLogFilters = { ...state.auditLogFilters, ...action.payload };
+    },
+    clearAuditLogFilters: (state) => {
+      state.auditLogFilters = {
+        eventId: null,
+        actionType: null,
+        startDate: null,
+        endDate: null,
+        limit: 100,
+      };
     },
   },
   extraReducers: (builder) => {
