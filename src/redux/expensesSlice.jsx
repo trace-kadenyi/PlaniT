@@ -89,25 +89,13 @@ export const fetchExpenseAuditLogs = createAsyncThunk(
   }
 );
 
-// get deleted paid expenses log
-export const fetchDeletedPaidExpensesLog = createAsyncThunk(
-  "expenses/fetchDeletedPaidExpensesLog",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await api.get("/api/expenses/deleted-paid-expenses/log");
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
-    }
-  }
-);
-
 const expensesSlice = createSlice({
   name: "expenses",
   initialState: {
     items: [],
     budgetStatus: null,
     auditLogs: [],
+    deletedPaidExpenses: [],
     status: "idle",
     auditLogStatus: "idle",
     auditLogError: null,
@@ -252,20 +240,6 @@ const expensesSlice = createSlice({
         }
       })
       .addCase(fetchExpenseAuditLogs.rejected, (state, action) => {
-        state.auditLogStatus = "failed";
-        state.auditLogError = action.payload?.message || action.error.message;
-      });
-
-    // get deleted paid expenses log
-    builder
-      .addCase(fetchDeletedPaidExpensesLog.pending, (state) => {
-        state.auditLogStatus = "loading";
-      })
-      .addCase(fetchDeletedPaidExpensesLog.fulfilled, (state, action) => {
-        state.auditLogStatus = "succeeded";
-        state.auditLogs = action.payload.deletedPaidExpenses;
-      })
-      .addCase(fetchDeletedPaidExpensesLog.rejected, (state, action) => {
         state.auditLogStatus = "failed";
         state.auditLogError = action.payload?.message || action.error.message;
       });
