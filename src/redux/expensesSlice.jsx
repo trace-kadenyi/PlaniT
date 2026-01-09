@@ -227,6 +227,35 @@ const expensesSlice = createSlice({
           action.error.message;
       });
 
+    // Get expense audit logs (NEW)
+    builder
+      .addCase(fetchExpenseAuditLogs.pending, (state) => {
+        state.auditLogStatus = "loading";
+      })
+      .addCase(fetchExpenseAuditLogs.fulfilled, (state, action) => {
+        state.auditLogStatus = "succeeded";
+
+        // Store both sets of logs
+        state.auditLogs = action.payload.auditLogs || [];
+        state.deletedPaidExpenses = action.payload.deletedPaidExpenses || [];
+
+        // Store counts
+        state.auditLogCount = action.payload.count || 0;
+        state.paidExpensesCount = action.payload.paidExpensesCount || 0;
+
+        // Store filters used
+        if (action.payload.filters) {
+          state.auditLogFilters = {
+            ...state.auditLogFilters,
+            ...action.payload.filters,
+          };
+        }
+      })
+      .addCase(fetchExpenseAuditLogs.rejected, (state, action) => {
+        state.auditLogStatus = "failed";
+        state.auditLogError = action.payload?.message || action.error.message;
+      });
+
     // get deleted paid expenses log
     builder
       .addCase(fetchDeletedPaidExpensesLog.pending, (state) => {
