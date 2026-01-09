@@ -208,7 +208,12 @@ export const EditDeleteExpenseBtns = ({
         }
         className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs dark:bg-[#BE3455]/40 dark:hover:bg-[#BE3455]/30 dark:text-white"
         onClick={() =>
-          handleExpenseDelete(expense._id, expense.vendor?._id, expenses)
+          handleExpenseDelete(
+            expense._id,
+            expense.vendor?._id,
+            expenses,
+            expense.paymentStatus
+          )
         }
       >
         Delete expense
