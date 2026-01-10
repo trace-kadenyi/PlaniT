@@ -464,14 +464,14 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                   change.field === "dueDate" ||
                                   change.field === "paymentDate"
                                 ) {
-                                  // Format dates nicely
+                                  // Format dates
                                   const formatDate = (dateStr) =>
                                     dateStr
-                                      ? new Date(dateStr).toLocaleDateString()
+                                      ? formatYearMonthDay(dateStr)
                                       : "None";
                                   displayText = `${change.field}: ${formatDate(
                                     change.oldValue
-                                  )} → ${formatDate(change.newValue)}`;
+                                  )} → ${formatYearMonthDay(change.newValue)}`;
                                 } else {
                                   displayText = `${change.field}: ${
                                     change.oldValue || "None"
