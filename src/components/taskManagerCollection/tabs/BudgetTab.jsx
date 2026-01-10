@@ -247,7 +247,6 @@ export default function BudgetTab({
         </div>
       )}
       {/* Audit Logs Section (only for super admins) */}
-      // In BudgetTab.jsx, update the audit log section:
       {canViewAuditLogs && showAuditLogs && (
         <div ref={auditLogRef} className="mt-8 scroll-mt-4">
           <ExpenseAuditLogPanel eventId={id} />
