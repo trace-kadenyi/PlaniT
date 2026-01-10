@@ -389,33 +389,6 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                       </div>
 
                       <div className="space-y-2">
-                        {/* {log.metadata && (
-                          <>
-                            <div className="flex items-center gap-2">
-                              <DollarSign className="w-3 h-3 text-gray-400" />
-                              <span className="text-xs text-gray-500 dark:text-gray-400">
-                                Budget before:{" "}
-                                <span className="font-medium text-gray-700 dark:text-gray-300">
-                                  {formatCurrency(
-                                    log.metadata.budgetRemainingBefore || 0
-                                  )}
-                                </span>
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <DollarSign className="w-3 h-3 text-green-400" />
-                              <span className="text-xs text-gray-500 dark:text-gray-400">
-                                Budget after:{" "}
-                                <span className="font-medium text-green-600 dark:text-green-400">
-                                  {formatCurrency(
-                                    log.metadata.budgetRemainingAfter || 0
-                                  )}
-                                </span>
-                              </span>
-                            </div>
-                          </>
-                        )} */}
-
                         {/* Show changes for UPDATE actions */}
                         {log.changes && log.changes.length > 0 && (
                           <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
