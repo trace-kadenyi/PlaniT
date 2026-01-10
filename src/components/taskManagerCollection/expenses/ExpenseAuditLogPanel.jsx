@@ -468,7 +468,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                   <span className="text-gray-600 dark:text-gray-400">
                                     Created by:
                                   </span>
-                                  <span className="font-medium text-[#6B3B0F] dark:text-gray-300">
+                                  <span className="font-medium text-gray-500 dark:text-gray-300">
                                     {log.expenseData?.createdBy?.firstName ||
                                       "Unknown"}
                                     {log.expenseData?.createdBy?.lastName &&
@@ -489,7 +489,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                   <span className="text-gray-600 dark:text-gray-400 mr-1">
                                     Created on:
                                   </span>
-                                  <span className="font-medium text-[#6B3B0F] dark:text-gray-300">
+                                  <span className="font-medium text-gray-500 dark:text-gray-300">
                                     {formatYearMonthDay(
                                       log.expenseData?.createdAt
                                     )}
@@ -505,7 +505,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                     <span className="text-gray-600 dark:text-gray-400 mr-1">
                                       Paid on:
                                     </span>
-                                    <span className="font-medium text-[#6B3B0F] dark:text-gray-300">
+                                    <span className="font-medium text-gray-500 dark:text-gray-300">
                                       {formatYearMonthDay(
                                         log.expenseData.paymentDate
                                       )}
@@ -522,7 +522,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                     <span className="text-gray-600 dark:text-gray-400 mr-1">
                                       Event:
                                     </span>
-                                    <span className="font-medium text-[#6B3B0F] dark:text-gray-300">
+                                    <span className="font-medium text-gray-500 dark:text-gray-300">
                                       {log.event.name}
                                     </span>
                                   </div>
@@ -541,7 +541,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                       <span className="text-gray-600 dark:text-gray-400 mr-1">
                                         Budget before:
                                       </span>
-                                      <span className="font-medium text-[#6B3B0F] dark:text-gray-300">
+                                      <span className="font-medium text-gray-500 dark:text-gray-300">
                                         {formatCurrency(
                                           log.metadata.budgetRemainingBefore ||
                                             0
@@ -586,7 +586,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                     <span className="text-gray-600 dark:text-gray-400 mr-1">
                                       Vendor:
                                     </span>
-                                    <span className="font-medium text-[#6B3B0F] dark:text-gray-300">
+                                    <span className="font-medium text-gray-500 dark:text-gray-300">
                                       {log.expenseData.vendor.name}
                                     </span>
                                   </div>
@@ -601,7 +601,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                     <span className="text-gray-600 dark:text-gray-400 mr-1">
                                       Fields Changed:
                                     </span>
-                                    <span className="font-medium text-[#6B3B0F] dark:text-gray-300">
+                                    <span className="font-medium text-gray-500 dark:text-gray-300">
                                       {log.changes.length}
                                     </span>
                                   </div>
