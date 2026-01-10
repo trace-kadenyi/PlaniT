@@ -13,7 +13,8 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
   }
 
   const { totalBudget, totalExpenses, remainingBudget } = budgetStatus;
-  const percentageUsed = (totalExpenses / totalBudget) * 100;
+  const percentageUsed =
+    totalBudget > 0 ? (totalExpenses / totalBudget) * 100 : 0;
   const isBudgetWarning = remainingBudget < totalBudget * 0.1;
 
   const renderHeader = (withChevron = false) => (
