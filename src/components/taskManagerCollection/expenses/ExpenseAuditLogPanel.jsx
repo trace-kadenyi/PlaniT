@@ -473,7 +473,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                 return (
                                   <span
                                     key={idx}
-                                    className="px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-xs"
+                                    className="px-2 py-0.5 bg-[#9B2C62]/10 dark:bg-[#F59E0B]/10 text-[#9B2C62] dark:text-[#F59E0B] rounded text-xs font-medium"
                                   >
                                     {displayText}
                                   </span>
@@ -512,7 +512,9 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                               <span className="text-gray-500 dark:text-gray-400">
                                 Original ID:
                               </span>
-                              <span className="font-mono dark:text-gray-400">{log.expenseId}</span>
+                              <span className="font-mono dark:text-gray-400">
+                                {log.expenseId}
+                              </span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-500 dark:text-gray-400">
@@ -529,7 +531,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                 <span className="text-gray-500 dark:text-gray-400">
                                   Paid on:
                                 </span>
-                                <span>
+                                <span className="dark:text-gray-400">
                                   {new Date(
                                     log.expenseData.paymentDate
                                   ).toLocaleDateString()}
