@@ -368,7 +368,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                   </div>
 
                   <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-4">
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
                           <User className="w-3 h-3 text-gray-400" />
