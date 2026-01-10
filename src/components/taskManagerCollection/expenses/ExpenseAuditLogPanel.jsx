@@ -13,6 +13,8 @@ import {
   Edit,
   ArrowUpDown,
   RefreshCw,
+  CircleDollarSign,
+  CirclePlus,
 } from "lucide-react";
 
 import { fetchExpenseAuditLogs } from "../../../redux/expensesSlice";
@@ -371,27 +373,6 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                         <div className="flex items-center gap-2">
                           <User className="w-3 h-3 text-gray-400" />
                           <span className="text-xs text-gray-500 dark:text-gray-400">
-                            Created by:{" "}
-                            <span className="font-medium text-gray-700 dark:text-gray-300">
-                              {log.expenseData?.createdBy?.firstName ||
-                                "Unknown"}
-                            </span>
-                            {log.expenseData?.createdBy?.lastName && (
-                              <span className="font-medium text-gray-700 dark:text-gray-300">
-                                {" "}
-                                {log.expenseData.createdBy.lastName}
-                              </span>
-                            )}
-                            {log.expenseData?.createdBy?.role && (
-                              <span className="ml-2 px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
-                                {log.expenseData.createdBy.role}
-                              </span>
-                            )}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <User className="w-3 h-3 text-gray-400" />
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
                             Modified by:{" "}
                             <span className="font-medium text-gray-700 dark:text-gray-300">
                               {log.deletedBy?.name ||
@@ -405,22 +386,10 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                             )}
                           </span>
                         </div>
-
-                        {log.event?.name && (
-                          <div className="flex items-center gap-2">
-                            <Calendar className="w-3 h-3 text-gray-400" />
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
-                              Event:{" "}
-                              <span className="font-medium text-gray-700 dark:text-gray-300">
-                                {log.event.name}
-                              </span>
-                            </span>
-                          </div>
-                        )}
                       </div>
 
                       <div className="space-y-2">
-                        {log.metadata && (
+                        {/* {log.metadata && (
                           <>
                             <div className="flex items-center gap-2">
                               <DollarSign className="w-3 h-3 text-gray-400" />
@@ -445,7 +414,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                               </span>
                             </div>
                           </>
-                        )}
+                        )} */}
 
                         {/* Show changes for UPDATE actions */}
                         {log.changes && log.changes.length > 0 && (
@@ -517,28 +486,99 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                         <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                           <div className="space-y-2 text-xs">
                             <div className="flex justify-between"></div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-500 dark:text-gray-400">
+                            {/* created by */}
+                            <div className="flex items-center gap-2">
+                              <User className="w-3 h-3 text-gray-400" />
+                              <span className="text-xs text-gray-500 dark:text-gray-400">
+                                Created by:{" "}
+                                <span className="font-medium text-gray-700 dark:text-gray-300">
+                                  {log.expenseData?.createdBy?.firstName ||
+                                    "Unknown"}
+                                </span>
+                                {log.expenseData?.createdBy?.lastName && (
+                                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                                    {" "}
+                                    {log.expenseData.createdBy.lastName}
+                                  </span>
+                                )}
+                                {log.expenseData?.createdBy?.role && (
+                                  <span className="ml-2 px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
+                                    {log.expenseData.createdBy.role}
+                                  </span>
+                                )}
+                              </span>
+                            </div>
+
+                            {/* created on */}
+                            <div className="flex items-center gap-2">
+                              <CirclePlus className="w-3 h-3 text-gray-400" />
+                              <span className="text-gray-500 dark:text-gray-300">
                                 Created on:
                               </span>
-                              <span className="dark:text-gray-400">
+                              <span className="text-gray-700 dark:text-gray-300">
                                 {formatDateTimeShort(
                                   log.expenseData?.createdAt
                                 )}
                               </span>
                             </div>
+
+                            {/* paid on */}
                             {log.expenseData?.paymentDate && (
-                              <div className="flex justify-between">
-                                <span className="text-gray-500 dark:text-gray-400">
+                              <div className="flex items-center gap-2">
+                                <CircleDollarSign className="w-3 h-3 text-gray-400" />
+                                <span className="text-gray-500 dark:text-gray-300">
                                   Paid on:
                                 </span>
-                                <span className="dark:text-gray-400">
+                                <span className="text-gray-700 dark:text-gray-300">
                                   {formatYearMonthDay(
                                     log.expenseData.paymentDate
                                   )}
                                 </span>
                               </div>
                             )}
+
+                            {/* budget before/after */}
+                            {log.metadata && (
+                              <>
+                                <div className="flex items-center gap-2">
+                                  <DollarSign className="w-3 h-3 text-gray-400" />
+                                  <span className="text-xs text-gray-500 dark:text-gray-300">
+                                    Budget before:{" "}
+                                    <span className="font-medium text-gray-700 dark:text-gray-300">
+                                      {formatCurrency(
+                                        log.metadata.budgetRemainingBefore || 0
+                                      )}
+                                    </span>
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <DollarSign className="w-3 h-3 text-green-400" />
+                                  <span className="text-xs text-gray-500  dark:text-gray-300">
+                                    Budget after:{" "}
+                                    <span className="font-medium text-green-600 dark:text-green-400">
+                                      {formatCurrency(
+                                        log.metadata.budgetRemainingAfter || 0
+                                      )}
+                                    </span>
+                                  </span>
+                                </div>
+                              </>
+                            )}
+
+                            {/* event name */}
+                            {log.event?.name && (
+                              <div className="flex items-center gap-2">
+                                <Calendar className="w-3 h-3 text-gray-400" />
+                                <span className="text-xs text-gray-500  dark:text-gray-300">
+                                  Event:{" "}
+                                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                                    {log.event.name}
+                                  </span>
+                                </span>
+                              </div>
+                            )}
+
+                            {/* reason */}
                             {log.reason && (
                               <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
                                 <span className="text-gray-500 dark:text-gray-400">
