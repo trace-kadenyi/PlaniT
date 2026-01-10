@@ -22,6 +22,14 @@ import {
   RESOURCES,
 } from "../../../globalHooks/userPermissions";
 import { formatDateTimeShort } from "../utils/formatting";
+import {
+  formatDashDate,
+  formatForDateTimeLocal,
+  formatLocalDateTimeForDisplay,
+  formatYearMonthDay,
+  getLocalDateTimeString,
+  parseFromDateTimeLocal,
+} from "../../../globalUtils/dateHelpers";
 
 const ExpenseAuditLogPanel = ({ eventId }) => {
   const dispatch = useDispatch();
@@ -525,9 +533,9 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                   Paid on:
                                 </span>
                                 <span className="dark:text-gray-400">
-                                  {new Date(
+                                  {formatYearMonthDay(
                                     log.expenseData.paymentDate
-                                  ).toLocaleDateString()}
+                                  )}
                                 </span>
                               </div>
                             )}
