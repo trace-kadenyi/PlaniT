@@ -226,6 +226,7 @@ export default function BudgetTab({
                       expenses={expensesArray}
                       setScrollToForm={setScrollToForm}
                       eventId={id}
+                      can={can}
                     />
                   </ExpenseListView>
                 </li>
