@@ -170,22 +170,40 @@ export const EditDeleteExpenseBtns = ({
   handleExpenseDelete,
   expense,
   expenses,
+  can,
 }) => {
+  // Check if user has EDIT permission
+  const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.EXPENSE);
+
+  // Determine if edit should be disabled
+  const isPaidExpense = expense.paymentStatus === "paid";
+  const editTooltip = isPaidExpense
+    ? "Paid expenses cannot be edited"
+    : "Edit expense";
+
   return (
     <div className="transform -translate-y-1/2 flex space-x-2 mt-4 flex justify-self-end sm:min-w-[212px]">
+      {/* EDIT BUTTON - disabled for paid expenses */}
       <PermissionButton
         permission={PERMISSIONS.EDIT}
         resource={RESOURCES.EXPENSE}
-        tooltipTitle="Edit expense"
+        tooltipTitle={editTooltip}
         fallbackTooltip="Upgrade to Planner or Admin role to edit expenses"
-        className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#9B2C62]/10 text-[#9B2C62] hover:bg-[#9B2C62] hover:text-white text-xs dark:bg-[#F59E0B]/40 dark:text-gray-300 dark:hover:bg-[#F59E0B]/30"
+        className={`flex items-center px-2 py-1 rounded-md transition-all duration-200 text-xs ${
+          isPaidExpense && hasEditPermission
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-500"
+            : "bg-[#9B2C62]/10 text-[#9B2C62] hover:bg-[#9B2C62] hover:text-white dark:bg-[#F59E0B]/40 dark:text-gray-300 dark:hover:bg-[#F59E0B]/30"
+        }`}
         onClick={() => {
-          setExpenseToEdit(expense);
-          setShowCreateExpenseForm(true);
-          setScrollToForm(true);
+          if (!isPaidExpense && hasEditPermission) {
+            setExpenseToEdit(expense);
+            setShowCreateExpenseForm(true);
+            setScrollToForm(true);
+          }
         }}
+        disabled={isPaidExpense}
       >
-        Edit expense
+        {isPaidExpense && hasEditPermission ? "Edit (Locked)" : "Edit expense"}
       </PermissionButton>
 
       {/* DELETE BUTTON with special check for paid expenses */}
