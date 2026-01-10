@@ -15,6 +15,7 @@ import {
   RefreshCw,
   CircleDollarSign,
   CirclePlus,
+  Shapes,
 } from "lucide-react";
 
 import { fetchExpenseAuditLogs } from "../../../redux/expensesSlice";
@@ -608,7 +609,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                               {/* No. of changes */}
                               {log.changes && log.changes.length > 0 && (
                                 <div className="flex items-center gap-2">
-                                  <RefreshCw className="w-3 h-3 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                                  <Shapes className="w-3 h-3 text-gray-500 dark:text-gray-400 flex-shrink-0" />
                                   <div>
                                     <span className="text-gray-600 dark:text-gray-400 mr-1">
                                       Fields Changed:
