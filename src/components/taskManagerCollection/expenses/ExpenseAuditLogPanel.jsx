@@ -508,14 +508,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                       {expandedLogId === log._id && (
                         <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                           <div className="space-y-2 text-xs">
-                            <div className="flex justify-between">
-                              <span className="text-gray-500 dark:text-gray-400">
-                                Original ID:
-                              </span>
-                              <span className="font-mono dark:text-gray-400">
-                                {log.expenseId}
-                              </span>
-                            </div>
+                            <div className="flex justify-between"></div>
                             <div className="flex justify-between">
                               <span className="text-gray-500 dark:text-gray-400">
                                 Created on:
