@@ -10,9 +10,12 @@ import {
   Shield,
   Receipt,
   Tag,
+  Edit,
+  ArrowUpDown,
+  RefreshCw,
 } from "lucide-react";
 
-import { fetchDeletedPaidExpensesLog } from "../../../redux/expensesSlice";
+import { fetchExpenseAuditLogs } from "../../../redux/expensesSlice";
 import {
   usePermissions,
   PERMISSIONS,
@@ -20,22 +23,37 @@ import {
 } from "../../../globalHooks/userPermissions";
 import { formatDateTimeShort } from "../utils/formatting";
 
-const ExpenseAuditLogPanel = () => {
+const ExpenseAuditLogPanel = ({ eventId }) => {
   const dispatch = useDispatch();
   const { can, currentUser: authUser } = usePermissions();
 
-  const { auditLogs, auditLogStatus, auditLogError } = useSelector(
-    (state) => state.expenses
-  );
+  const {
+    auditLogs,
+    auditLogStatus,
+    auditLogError,
+    auditLogFilters,
+    auditLogCount,
+    paidExpensesCount,
+  } = useSelector((state) => state.expenses);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedLogId, setExpandedLogId] = useState(null);
+  const [filterActionType, setFilterActionType] = useState("ALL");
 
   useEffect(() => {
     if (can(PERMISSIONS.VIEW_AUDIT_LOGS, RESOURCES.AUDIT_LOG)) {
-      dispatch(fetchDeletedPaidExpensesLog());
+      dispatch(
+        fetchExpenseAuditLogs({
+          eventId,
+          filters: {
+            ...auditLogFilters,
+            actionType:
+              filterActionType !== "ALL" ? filterActionType : undefined,
+          },
+        })
+      );
     }
-  }, [dispatch, can]);
+  }, [dispatch, can, eventId, filterActionType]);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -69,6 +87,57 @@ const ExpenseAuditLogPanel = () => {
     return colors[category] || colors.other;
   };
 
+  const getActionIcon = (actionType) => {
+    switch (actionType) {
+      case "CREATE":
+        return <Tag className="w-3 h-3" />;
+      case "UPDATE":
+        return <Edit className="w-3 h-3" />;
+      case "DELETE":
+        return <Receipt className="w-3 h-3" />;
+      case "AMOUNT_CHANGE":
+        return <DollarSign className="w-3 h-3" />;
+      case "STATUS_CHANGE":
+        return <ArrowUpDown className="w-3 h-3" />;
+      default:
+        return <History className="w-3 h-3" />;
+    }
+  };
+
+  const getActionColor = (actionType) => {
+    switch (actionType) {
+      case "CREATE":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+      case "UPDATE":
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+      case "DELETE":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+      case "AMOUNT_CHANGE":
+        return "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200";
+      case "STATUS_CHANGE":
+        return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+    }
+  };
+
+  const getActionLabel = (actionType) => {
+    switch (actionType) {
+      case "CREATE":
+        return "Created";
+      case "UPDATE":
+        return "Updated";
+      case "DELETE":
+        return "Deleted";
+      case "AMOUNT_CHANGE":
+        return "Amount Changed";
+      case "STATUS_CHANGE":
+        return "Status Changed";
+      default:
+        return "Modified";
+    }
+  };
+
   // Check if user can view audit logs
   const canViewAuditLogs = can(
     PERMISSIONS.VIEW_AUDIT_LOGS,
@@ -76,8 +145,25 @@ const ExpenseAuditLogPanel = () => {
   );
 
   if (!canViewAuditLogs) {
-    return null; // Don't show anything if not authorized
+    return null;
   }
+
+  // Filter logs based on selected action type
+  const filteredLogs =
+    filterActionType === "ALL"
+      ? auditLogs
+      : auditLogs.filter((log) => log.actionType === filterActionType);
+
+  const actionTypeCounts = {
+    ALL: auditLogs.length,
+    DELETE: auditLogs.filter((log) => log.actionType === "DELETE").length,
+    UPDATE: auditLogs.filter((log) => log.actionType === "UPDATE").length,
+    CREATE: auditLogs.filter((log) => log.actionType === "CREATE").length,
+    AMOUNT_CHANGE: auditLogs.filter((log) => log.actionType === "AMOUNT_CHANGE")
+      .length,
+    STATUS_CHANGE: auditLogs.filter((log) => log.actionType === "STATUS_CHANGE")
+      .length,
+  };
 
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-6 hover:shadow-xl transition-all duration-300 group">
@@ -90,13 +176,62 @@ const ExpenseAuditLogPanel = () => {
         <div className="p-3 rounded-xl bg-gradient-to-br from-[#801f4f] to-[#9B2C62]">
           <History className="w-6 h-6 text-white" />
         </div>
-        <div>
+        <div className="flex-1">
           <h2 className="text-xl font-bold text-gray-800 dark:text-white">
             Expense Audit Log
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Records of paid expenses deleted by super administrators
+            {eventId ? "Records for this event" : "All expense audit records"}
+            {paidExpensesCount > 0 &&
+              ` • ${paidExpensesCount} paid expense deletion${
+                paidExpensesCount !== 1 ? "s" : ""
+              } recorded`}
           </p>
+        </div>
+        {auditLogStatus === "succeeded" && (
+          <button
+            onClick={() => dispatch(fetchExpenseAuditLogs({ eventId }))}
+            className="p-2 rounded-lg bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 dark:bg-gray-800 dark:hover:bg-gray-700 transition"
+            title="Refresh logs"
+          >
+            <RefreshCw className="w-4 h-4 text-[#9B2C62] dark:text-gray-300" />
+          </button>
+        )}
+      </div>
+
+      {/* Action Type Filter */}
+      <div className="mb-6">
+        <div className="flex flex-wrap gap-2">
+          {[
+            "ALL",
+            "DELETE",
+            "UPDATE",
+            "CREATE",
+            "AMOUNT_CHANGE",
+            "STATUS_CHANGE",
+          ].map((type) => (
+            <button
+              key={type}
+              onClick={() => setFilterActionType(type)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition flex items-center gap-1.5 ${
+                filterActionType === type
+                  ? "bg-[#9B2C62] text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+              }`}
+            >
+              {getActionIcon(type)}
+              <span>{getActionLabel(type)}</span>
+              <span
+                className={`px-1.5 py-0.5 rounded text-xs ${
+                  filterActionType === type
+                    ? "bg-white/20"
+                    : "bg-gray-200 dark:bg-gray-700"
+                }`}
+              >
+                {actionTypeCounts[type] || 0}
+              </span>
+            </button>
+          ))}
         </div>
       </div>
 
@@ -117,7 +252,7 @@ const ExpenseAuditLogPanel = () => {
               {auditLogError || "Failed to load audit logs"}
             </p>
             <button
-              onClick={() => dispatch(fetchDeletedPaidExpensesLog())}
+              onClick={() => dispatch(fetchExpenseAuditLogs({ eventId }))}
               className="mt-4 px-4 py-2 text-sm bg-[#9B2C62] hover:bg-[#801f4f] text-white rounded-md transition"
             >
               Retry
@@ -134,8 +269,9 @@ const ExpenseAuditLogPanel = () => {
               Expense Audit Log
             </h3>
             <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
-              {auditLogs?.length || 0} paid expense deletion
-              {auditLogs?.length !== 1 ? "s" : ""} recorded
+              {auditLogCount} audit record{auditLogCount !== 1 ? "s" : ""}{" "}
+              recorded
+              {eventId && " for this event"}
             </p>
             <button
               onClick={() => setIsExpanded(true)}
@@ -149,11 +285,12 @@ const ExpenseAuditLogPanel = () => {
       ) : (
         <div className="space-y-4">
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-            Showing {auditLogs?.length || 0} audit record
-            {auditLogs?.length !== 1 ? "s" : ""}
+            Showing {filteredLogs.length} of {auditLogCount} audit record
+            {auditLogCount !== 1 ? "s" : ""}
+            {eventId && " for this event"}
           </div>
 
-          {auditLogs?.length === 0 ? (
+          {filteredLogs.length === 0 ? (
             <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-8 border border-[#F3EDE9] dark:border-gray-700 text-center">
               <div className="mx-auto max-w-sm flex flex-col items-center">
                 <div className="w-12 h-12 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20 flex items-center justify-center mb-4">
@@ -163,13 +300,17 @@ const ExpenseAuditLogPanel = () => {
                   No audit records
                 </h3>
                 <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  No paid expenses have been deleted yet
+                  {filterActionType === "ALL"
+                    ? "No expense changes recorded yet"
+                    : `No ${getActionLabel(
+                        filterActionType
+                      ).toLowerCase()} records found`}
                 </p>
               </div>
             </div>
           ) : (
             <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-              {auditLogs.map((log, index) => (
+              {filteredLogs.map((log, index) => (
                 <div
                   key={log._id || index}
                   className="p-4 bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl border border-[#F3EDE9] dark:border-gray-700 hover:border-[#9B2C62]/50 dark:hover:border-[#D97706]/50 transition-all duration-300"
@@ -177,11 +318,25 @@ const ExpenseAuditLogPanel = () => {
                   <div className="flex items-start justify-between mb-2 flex-col sm:flex-row gap-3">
                     <div className="flex items-center gap-2">
                       <div className="p-2 rounded-lg bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20">
-                        <Receipt className="w-4 h-4 dark:text-white" />
+                        {getActionIcon(log.actionType)}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-800 dark:text-white text-sm">
-                          {log.expenseData?.description || "Expense deleted"}
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getActionColor(
+                              log.actionType
+                            )}`}
+                          >
+                            {getActionLabel(log.actionType)}
+                          </span>
+                          {log.expenseData?.paymentStatus === "paid" && (
+                            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                              Paid
+                            </span>
+                          )}
+                        </div>
+                        <p className="font-medium text-gray-800 dark:text-white text-sm mt-1">
+                          {log.expenseData?.description || "Expense modified"}
                         </p>
                         <div className="flex flex-wrap items-center gap-2 mt-1">
                           <span
@@ -198,7 +353,7 @@ const ExpenseAuditLogPanel = () => {
                       </div>
                     </div>
                     <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap ml-auto sm:ml-0">
-                      {formatDateTimeShort(log.deletedAt)}
+                      {formatDateTimeShort(log.deletedAt || log.createdAt)}
                     </span>
                   </div>
 
@@ -229,9 +384,11 @@ const ExpenseAuditLogPanel = () => {
                         <div className="flex items-center gap-2">
                           <User className="w-3 h-3 text-gray-400" />
                           <span className="text-xs text-gray-500 dark:text-gray-400">
-                            Deleted by:{" "}
+                            Modified by:{" "}
                             <span className="font-medium text-gray-700 dark:text-gray-300">
-                              {log.deletedBy?.name || "Unknown"}
+                              {log.deletedBy?.name ||
+                                log.performedBy?.name ||
+                                "Unknown"}
                             </span>
                             {log.deletedBy?.role && (
                               <span className="ml-2 px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
@@ -280,6 +437,50 @@ const ExpenseAuditLogPanel = () => {
                               </span>
                             </div>
                           </>
+                        )}
+
+                        {/* Show changes for UPDATE actions */}
+                        {log.changes && log.changes.length > 0 && (
+                          <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
+                            <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                              Changed fields:
+                            </p>
+                            <div className="flex flex-wrap gap-1">
+                              {log.changes.map((change, idx) => {
+                                let displayText = `${change.field}: `;
+
+                                if (change.field === "vendor") {
+                                  // For vendor, show just "Vendor changed" or vendor names
+                                  displayText = "Vendor changed";
+                                } else if (
+                                  change.field === "dueDate" ||
+                                  change.field === "paymentDate"
+                                ) {
+                                  // Format dates nicely
+                                  const formatDate = (dateStr) =>
+                                    dateStr
+                                      ? new Date(dateStr).toLocaleDateString()
+                                      : "None";
+                                  displayText = `${change.field}: ${formatDate(
+                                    change.oldValue
+                                  )} → ${formatDate(change.newValue)}`;
+                                } else {
+                                  displayText = `${change.field}: ${
+                                    change.oldValue || "None"
+                                  } → ${change.newValue || "None"}`;
+                                }
+
+                                return (
+                                  <span
+                                    key={idx}
+                                    className="px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-xs"
+                                  >
+                                    {displayText}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -365,7 +566,9 @@ const ExpenseAuditLogPanel = () => {
 
           <div className="text-center pt-2">
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Only super administrators can view and delete paid expenses
+              {authUser.role === "super_admin"
+                ? "Super administrators can view and delete paid expenses"
+                : "Administrators can view audit logs"}
             </p>
             <button
               onClick={() => setIsExpanded(false)}
