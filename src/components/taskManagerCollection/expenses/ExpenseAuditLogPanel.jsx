@@ -512,13 +512,13 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                               <span className="text-gray-500 dark:text-gray-400">
                                 Original ID:
                               </span>
-                              <span className="font-mono">{log.expenseId}</span>
+                              <span className="font-mono dark:text-gray-400">{log.expenseId}</span>
                             </div>
                             <div className="flex justify-between">
                               <span className="text-gray-500 dark:text-gray-400">
-                                Created:
+                                Created on:
                               </span>
-                              <span>
+                              <span className="dark:text-gray-400">
                                 {formatDateTimeShort(
                                   log.expenseData?.createdAt
                                 )}
@@ -534,14 +534,6 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                     log.expenseData.paymentDate
                                   ).toLocaleDateString()}
                                 </span>
-                              </div>
-                            )}
-                            {log.expenseData?.vendor && (
-                              <div className="flex justify-between">
-                                <span className="text-gray-500 dark:text-gray-400">
-                                  Vendor:
-                                </span>
-                                <span>{log.expenseData.vendor.name}</span>
                               </div>
                             )}
                             {log.reason && (
