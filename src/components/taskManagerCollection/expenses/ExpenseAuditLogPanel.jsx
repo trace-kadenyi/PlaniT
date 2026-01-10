@@ -101,17 +101,17 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
   const getActionIcon = (actionType) => {
     switch (actionType) {
       case "CREATE":
-        return <Tag className="w-3 h-3" />;
+        return <Tag className="w-3 h-3 dark:text-gray-300" />;
       case "UPDATE":
-        return <Edit className="w-3 h-3" />;
+        return <Edit className="w-3 h-3 dark:text-gray-300" />;
       case "DELETE":
-        return <Receipt className="w-3 h-3" />;
+        return <Receipt className="w-3 h-3 dark:text-gray-300" />;
       case "AMOUNT_CHANGE":
-        return <DollarSign className="w-3 h-3" />;
+        return <DollarSign className="w-3 h-3 dark:text-gray-300" />;
       case "STATUS_CHANGE":
-        return <ArrowUpDown className="w-3 h-3" />;
+        return <ArrowUpDown className="w-3 h-3 dark:text-gray-300" />;
       default:
-        return <History className="w-3 h-3" />;
+        return <History className="w-3 h-3 dark:text-gray-300" />;
     }
   };
 
@@ -437,7 +437,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                     </div>
 
                     {/* Expandable Details */}
-                    <div className="mt-3">
+                    <div className="mt-5">
                       <button
                         onClick={() =>
                           setExpandedLogId(
