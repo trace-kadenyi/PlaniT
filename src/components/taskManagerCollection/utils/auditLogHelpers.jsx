@@ -93,3 +93,17 @@ export const getActionLabel = (actionType) => {
       return "Modified";
   }
 };
+
+// action type counts
+export const getActionTypeCounts = (auditLogs = []) => {
+  return {
+    ALL: auditLogs.length,
+    DELETE: auditLogs.filter((log) => log.actionType === "DELETE").length,
+    UPDATE: auditLogs.filter((log) => log.actionType === "UPDATE").length,
+    CREATE: auditLogs.filter((log) => log.actionType === "CREATE").length,
+    AMOUNT_CHANGE: auditLogs.filter((log) => log.actionType === "AMOUNT_CHANGE")
+      .length,
+    STATUS_CHANGE: auditLogs.filter((log) => log.actionType === "STATUS_CHANGE")
+      .length,
+  };
+};
