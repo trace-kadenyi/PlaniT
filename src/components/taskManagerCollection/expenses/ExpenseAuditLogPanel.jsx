@@ -199,15 +199,13 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
               } recorded`}
           </p>
         </div>
-        {auditLogStatus === "succeeded" && (
-          <button
-            onClick={() => dispatch(fetchExpenseAuditLogs({ eventId }))}
-            className="p-2 rounded-lg bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 dark:bg-gray-800 dark:hover:bg-gray-700 transition"
-            title="Refresh logs"
-          >
-            <RefreshCw className="w-4 h-4 text-[#9B2C62] dark:text-gray-300" />
-          </button>
-        )}
+        <button
+          onClick={() => dispatch(fetchExpenseAuditLogs({ eventId }))}
+          className="p-2 rounded-lg bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 dark:bg-gray-800 dark:hover:bg-gray-700 transition"
+          title="Refresh logs"
+        >
+          <RefreshCw className="w-4 h-4 text-[#9B2C62] dark:text-gray-300" />
+        </button>
       </div>
 
       {/* Action Type Filter */}
