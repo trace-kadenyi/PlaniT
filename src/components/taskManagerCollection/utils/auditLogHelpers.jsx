@@ -1,3 +1,13 @@
+import {
+  History,
+  DollarSign,
+  Receipt,
+  Tag,
+  Edit,
+  ArrowUpDown,
+} from "lucide-react";
+
+// format currency
 export const formatCurrency = (amount) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -5,6 +15,7 @@ export const formatCurrency = (amount) => {
   }).format(amount);
 };
 
+// get category color
 export const getCategoryColor = (category) => {
   const colors = {
     venue:
@@ -29,6 +40,7 @@ export const getCategoryColor = (category) => {
   return colors[category] || colors.other;
 };
 
+// get action icon
 export const getActionIcon = (actionType) => {
   switch (actionType) {
     case "CREATE":
@@ -46,6 +58,7 @@ export const getActionIcon = (actionType) => {
   }
 };
 
+// get action color
 export const getActionColor = (actionType) => {
   switch (actionType) {
     case "CREATE":
@@ -63,6 +76,7 @@ export const getActionColor = (actionType) => {
   }
 };
 
+// get action label
 export const getActionLabel = (actionType) => {
   switch (actionType) {
     case "CREATE":
