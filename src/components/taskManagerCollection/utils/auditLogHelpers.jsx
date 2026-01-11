@@ -29,5 +29,21 @@ export const getCategoryColor = (category) => {
   return colors[category] || colors.other;
 };
 
+export const getActionIcon = (actionType) => {
+  switch (actionType) {
+    case "CREATE":
+      return <Tag className="w-3 h-3 dark:text-gray-300" />;
+    case "UPDATE":
+      return <Edit className="w-3 h-3 dark:text-gray-300" />;
+    case "DELETE":
+      return <Receipt className="w-3 h-3 dark:text-gray-300" />;
+    case "AMOUNT_CHANGE":
+      return <DollarSign className="w-3 h-3 dark:text-gray-300" />;
+    case "STATUS_CHANGE":
+      return <ArrowUpDown className="w-3 h-3 dark:text-gray-300" />;
+    default:
+      return <History className="w-3 h-3 dark:text-gray-300" />;
+  }
+};
 
 
