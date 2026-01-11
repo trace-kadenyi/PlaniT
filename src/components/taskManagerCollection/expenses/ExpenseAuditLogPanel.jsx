@@ -13,7 +13,6 @@ import {
   Edit,
   ArrowUpDown,
   RefreshCw,
-  CircleDollarSign,
   CirclePlus,
   Shapes,
 } from "lucide-react";
@@ -25,14 +24,7 @@ import {
   RESOURCES,
 } from "../../../globalHooks/userPermissions";
 import { formatDateTimeShort } from "../utils/formatting";
-import {
-  formatDashDate,
-  formatForDateTimeLocal,
-  formatLocalDateTimeForDisplay,
-  formatYearMonthDay,
-  getLocalDateTimeString,
-  parseFromDateTimeLocal,
-} from "../../../globalUtils/dateHelpers";
+import { formatYearMonthDay } from "../../../globalUtils/dateHelpers";
 
 const ExpenseAuditLogPanel = ({ eventId }) => {
   const dispatch = useDispatch();
