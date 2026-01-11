@@ -31,6 +31,7 @@ import {
   getActionColor,
   getActionIcon,
   getActionLabel,
+  getActionTypeCounts,
 } from "../utils/auditLogHelpers";
 
 const ExpenseAuditLogPanel = ({ eventId }) => {
@@ -81,16 +82,8 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
       ? auditLogs
       : auditLogs.filter((log) => log.actionType === filterActionType);
 
-  const actionTypeCounts = {
-    ALL: auditLogs.length,
-    DELETE: auditLogs.filter((log) => log.actionType === "DELETE").length,
-    UPDATE: auditLogs.filter((log) => log.actionType === "UPDATE").length,
-    CREATE: auditLogs.filter((log) => log.actionType === "CREATE").length,
-    AMOUNT_CHANGE: auditLogs.filter((log) => log.actionType === "AMOUNT_CHANGE")
-      .length,
-    STATUS_CHANGE: auditLogs.filter((log) => log.actionType === "STATUS_CHANGE")
-      .length,
-  };
+  //  action type counts
+  const actionTypeCounts = getActionTypeCounts(auditLogs);
 
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-4 sm:p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-6 hover:shadow-xl transition-all duration-300 group">
