@@ -63,3 +63,19 @@ export const getActionColor = (actionType) => {
   }
 };
 
+export const getActionLabel = (actionType) => {
+  switch (actionType) {
+    case "CREATE":
+      return "Created";
+    case "UPDATE":
+      return "Updated";
+    case "DELETE":
+      return "Deleted";
+    case "AMOUNT_CHANGE":
+      return "Amount Changed";
+    case "STATUS_CHANGE":
+      return "Status Changed";
+    default:
+      return "Modified";
+  }
+};
