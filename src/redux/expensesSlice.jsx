@@ -215,7 +215,7 @@ const expensesSlice = createSlice({
           action.error.message;
       });
 
-    // Get expense audit logs (NEW)
+    // Get expense audit logs
     builder
       .addCase(fetchExpenseAuditLogs.pending, (state) => {
         state.auditLogStatus = "loading";
