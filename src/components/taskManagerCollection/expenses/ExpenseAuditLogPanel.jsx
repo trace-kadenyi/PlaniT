@@ -9,15 +9,13 @@ import {
   ChevronDown,
   Shield,
   Receipt,
-  Tag,
-  Edit,
-  ArrowUpDown,
   RefreshCw,
   CirclePlus,
   Shapes,
 } from "lucide-react";
 
 import { fetchExpenseAuditLogs } from "../../../redux/expensesSlice";
+
 import {
   usePermissions,
   PERMISSIONS,
