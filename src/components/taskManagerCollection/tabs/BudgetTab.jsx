@@ -94,7 +94,7 @@ export default function BudgetTab({
         <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
           Budget & Expenses
         </h2>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap justify-center">
           {/* Show Audit Logs toggle button for super admins */}
           {canViewAuditLogs && (
             <button
