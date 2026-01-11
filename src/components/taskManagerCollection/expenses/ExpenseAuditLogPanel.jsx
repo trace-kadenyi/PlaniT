@@ -179,7 +179,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-6 hover:shadow-xl transition-all duration-300 group">
       {/* Decorative Corner */}
-      <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity">
+      <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
         <div className="bg-gradient-to-br from-[#9B2C62] to-[#F59E0B] w-full h-full rounded-bl-full"></div>
       </div>
 
@@ -245,7 +245,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
       </div>
 
       {auditLogStatus === "loading" ? (
-        <div className="flex justify-center items-center py-8 min-h-[200px]">
+        <div className="flex justify-center items-center py-8 min-h-[250px]">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#9B2C62]"></div>
         </div>
       ) : auditLogError ? (
