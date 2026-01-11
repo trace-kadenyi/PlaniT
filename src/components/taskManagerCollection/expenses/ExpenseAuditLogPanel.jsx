@@ -177,7 +177,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
   };
 
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-6 hover:shadow-xl transition-all duration-300 group">
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-4 sm:p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-6 hover:shadow-xl transition-all duration-300 group">
       {/* Decorative Corner */}
       <div className="absolute top-0 right-0 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
         <div className="bg-gradient-to-br from-[#9B2C62] to-[#F59E0B] w-full h-full rounded-bl-full"></div>
@@ -210,7 +210,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
 
       {/* Action Type Filter */}
       <div className="mb-6">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
           {[
             "ALL",
             "DELETE",
@@ -369,21 +369,24 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                   <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                     <div className="flex flex-col gap-4">
                       <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <User className="w-3 h-3 text-gray-400" />
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            Modified by:{" "}
-                            <span className="font-medium text-gray-700 dark:text-gray-300">
+                        <div className="flex items-center gap-2 text-xs">
+                          <User className="w-3 h-3 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                          <div className="flex flex-wrap items-center gap-1">
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                              {" "}
+                              Modified by:
+                            </span>
+                            <span className="font-medium text-gray-500 dark:text-gray-300">
                               {log.deletedBy?.name ||
                                 log.performedBy?.name ||
                                 "Unknown"}
                             </span>
                             {log.deletedBy?.role && (
-                              <span className="ml-2 px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
+                              <span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
                                 {log.deletedBy.role}
                               </span>
                             )}
-                          </span>
+                          </div>
                         </div>
                       </div>
 
@@ -473,7 +476,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                                       ` ${log.expenseData.createdBy.lastName}`}
                                   </span>
                                   {log.expenseData?.createdBy?.role && (
-                                    <span className="ml-2 px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
+                                    <span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
                                       {log.expenseData.createdBy.role}
                                     </span>
                                   )}
