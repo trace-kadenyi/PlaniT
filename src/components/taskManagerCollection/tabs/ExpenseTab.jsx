@@ -1,7 +1,7 @@
 export default function ExpenseTab({ activeView, setActiveView, expenses }) {
   return (
-    <div className="flex justify-between items-center mb-6">
-      <h2 className="text-md sm:text-lg font-semibold text-[#6B3B0F] dark:text-amber-400">
+    <div className="flex justify-between items-center mb-6 flex-col sm:flex-row gap-4 sm:gap-3">
+      <h2 className="text-md sm:text-lg font-semibold text-[#6B3B0F] dark:text-amber-400 text-center">
         {activeView === "list"
           ? `Expenses Summary (${expenses.length})`
           : "Expenses by Category"}
