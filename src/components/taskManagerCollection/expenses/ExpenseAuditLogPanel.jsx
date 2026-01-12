@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { History, User, ChevronDown, RefreshCw } from "lucide-react";
+import { History, RefreshCw } from "lucide-react";
 
 import { fetchExpenseAuditLogs } from "../../../redux/expensesSlice";
 
@@ -29,7 +29,7 @@ import {
 } from "../../ui/AuditLogFragments";
 import { AuditLogsLoading } from "../../shared/LoadingStates";
 import { AuditLogsErrorState } from "../../shared/ErrorStates";
-import { ExpenseLogExpandables } from "./ExpenseLogExpandables";
+import ExpenseLogExpandables from "./ExpenseLogExpandables";
 
 const ExpenseAuditLogPanel = ({ eventId }) => {
   const dispatch = useDispatch();
@@ -179,40 +179,20 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                     />
 
                     {/* Expandable Details */}
-                    <div className="mt-5">
-                      <button
-                        onClick={() =>
-                          setExpandedLogId(
-                            expandedLogId === log._id ? null : log._id
-                          )
-                        }
-                        className="text-xs text-[#9B2C62] dark:text-[#D97706] hover:underline flex items-center gap-1"
-                      >
-                        {expandedLogId === log._id
-                          ? "Show less"
-                          : "View details"}
-                        <ChevronDown
-                          className={`h-3 w-3 transition-transform ${
-                            expandedLogId === log._id ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-
-                      {/* expandable details */}
-                      {expandedLogId === log._id && (
-                        <ExpenseLogExpandables
-                          log={log}
-                          formatCurrency={formatCurrency}
-                          formatYearMonthDay={formatYearMonthDay}
-                        />
-                      )}
-                    </div>
+                    <ExpenseLogExpandables
+                      setExpandedLogId={setExpandedLogId}
+                      expandedLogId={expandedLogId}
+                      log={log}
+                      formatCurrency={formatCurrency}
+                      formatYearMonthDay={formatYearMonthDay}
+                    />
                   </div>
                 </div>
               ))}
             </div>
           )}
 
+          {/* logs footer */}
           <div className="text-center pt-2">
             <p className="text-xs text-gray-500 dark:text-gray-400">
               {authUser.role === "super_admin"
