@@ -20,7 +20,7 @@ import {
   getActionTypeCounts,
 } from "../utils/auditLogHelpers";
 import { useFilteredAuditLogs } from "../hooks/useExpenseAuditLogs";
-import {
+import ChangedFields, {
   ActionTypeFilter,
   CollapsedLog,
   NoFilteredLogs,
@@ -226,46 +226,10 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
                       <div className="space-y-2">
                         {/* Show changes for UPDATE actions */}
                         {log.changes && log.changes.length > 0 && (
-                          <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
-                            <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
-                              Changed fields:
-                            </p>
-                            <div className="flex flex-wrap gap-1">
-                              {log.changes.map((change, idx) => {
-                                let displayText = `${change.field}: `;
-
-                                if (change.field === "vendor") {
-                                  // For vendor, show just "Vendor changed" or vendor names
-                                  displayText = "Vendor changed";
-                                } else if (
-                                  change.field === "dueDate" ||
-                                  change.field === "paymentDate"
-                                ) {
-                                  // Format dates
-                                  const formatDate = (dateStr) =>
-                                    dateStr
-                                      ? formatYearMonthDay(dateStr)
-                                      : "None";
-                                  displayText = `${change.field}: ${formatDate(
-                                    change.oldValue
-                                  )} → ${formatYearMonthDay(change.newValue)}`;
-                                } else {
-                                  displayText = `${change.field}: ${
-                                    change.oldValue || "None"
-                                  } → ${change.newValue || "None"}`;
-                                }
-
-                                return (
-                                  <span
-                                    key={idx}
-                                    className="px-2 py-0.5 bg-[#9B2C62]/10 dark:bg-[#F59E0B]/10 text-[#9B2C62] dark:text-[#F59E0B] rounded text-xs font-medium"
-                                  >
-                                    {displayText}
-                                  </span>
-                                );
-                              })}
-                            </div>
-                          </div>
+                          <ChangedFields
+                            log={log}
+                            formatYearMonthDay={formatYearMonthDay}
+                          />
                         )}
                       </div>
                     </div>
