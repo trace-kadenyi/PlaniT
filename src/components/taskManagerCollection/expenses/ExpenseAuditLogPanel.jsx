@@ -49,6 +49,21 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
   const [expandedLogId, setExpandedLogId] = useState(null);
   const [filterActionType, setFilterActionType] = useState("ALL");
 
+  // useEffect(() => {
+  //   if (can(PERMISSIONS.VIEW_AUDIT_LOGS, RESOURCES.AUDIT_LOG)) {
+  //     dispatch(
+  //       fetchExpenseAuditLogs({
+  //         eventId,
+  //         filters: {
+  //           ...auditLogFilters,
+  //           actionType:
+  //             filterActionType !== "ALL" ? filterActionType : undefined,
+  //         },
+  //       })
+  //     );
+  //   }
+  // }, [dispatch, can, eventId, filterActionType]);
+
   useEffect(() => {
     if (can(PERMISSIONS.VIEW_AUDIT_LOGS, RESOURCES.AUDIT_LOG)) {
       dispatch(
@@ -56,13 +71,12 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
           eventId,
           filters: {
             ...auditLogFilters,
-            actionType:
-              filterActionType !== "ALL" ? filterActionType : undefined,
+            actionType: undefined,
           },
         })
       );
     }
-  }, [dispatch, can, eventId, filterActionType]);
+  }, [dispatch, can, eventId]);
 
   // Check if user can view audit logs
   const canViewAuditLogs = can(
