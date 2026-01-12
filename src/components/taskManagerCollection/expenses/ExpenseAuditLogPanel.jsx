@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  History,
-  FileText,
-  Calendar,
-  User,
-  DollarSign,
-  ChevronDown,
-  Shield,
-  Receipt,
-  RefreshCw,
-  CirclePlus,
-  Shapes,
-} from "lucide-react";
+import { History, User, ChevronDown, RefreshCw } from "lucide-react";
 
 import { fetchExpenseAuditLogs } from "../../../redux/expensesSlice";
 
