@@ -45,13 +45,13 @@ export default function ExpenseLogExpandables({
                     Created by:
                   </span>
                   <span className="font-medium text-gray-500 dark:text-gray-300">
-                    {log.expenseData?.createdBy?.firstName || "Unknown"}
-                    {log.expenseData?.createdBy?.lastName &&
-                      ` ${log.expenseData.createdBy.lastName}`}
+                    {log.expenseData?.createdBySnapshot?.firstName || "Unknown"}
+                    {log.expenseData?.createdBySnapshot?.lastName &&
+                      ` ${log.expenseData.createdBySnapshot.lastName}`}
                   </span>
-                  {log.expenseData?.createdBy?.role && (
+                  {log.expenseData?.createdBySnapshot?.role && (
                     <span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
-                      {log.expenseData.createdBy.role}
+                      {log.expenseData.createdBySnapshot.role}
                     </span>
                   )}
                 </div>
