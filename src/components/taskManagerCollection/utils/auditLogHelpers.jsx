@@ -79,8 +79,6 @@ export const getActionColor = (actionType) => {
 // get action label
 export const getActionLabel = (actionType) => {
   switch (actionType) {
-    case "CREATE":
-      return "Created";
     case "UPDATE":
       return "Updated";
     case "DELETE":
@@ -100,7 +98,6 @@ export const getActionTypeCounts = (auditLogs = []) => {
     ALL: auditLogs.length,
     DELETE: auditLogs.filter((log) => log.actionType === "DELETE").length,
     UPDATE: auditLogs.filter((log) => log.actionType === "UPDATE").length,
-    CREATE: auditLogs.filter((log) => log.actionType === "CREATE").length,
     AMOUNT_CHANGE: auditLogs.filter((log) => log.actionType === "AMOUNT_CHANGE")
       .length,
     STATUS_CHANGE: auditLogs.filter((log) => log.actionType === "STATUS_CHANGE")
