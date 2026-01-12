@@ -148,6 +148,8 @@ export function AuditLogsIntro({
 
 // Audit Overview - modified by/changed fields
 export function AuditLogsOverview({ log, formatYearMonthDay }) {
+  const enforcer = log.deletedBy ?? log.performedBySnapshot ?? null;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="space-y-2">
@@ -159,12 +161,14 @@ export function AuditLogsOverview({ log, formatYearMonthDay }) {
               Modified by:
             </span>
             <span className="font-medium text-gray-500 dark:text-gray-300">
-              {`${log.deletedBy?.firstName} ${log.deletedBy?.lastName}}` ||
-                "Unknown"}
+              {enforcer
+                ? `${enforcer.firstName} ${enforcer.lastName}`
+                : "Unknown"}
             </span>
-            {log.deletedBy?.role && (
+
+            {enforcer?.role && (
               <span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
-                {log.deletedBy.role}
+                {enforcer.role}
               </span>
             )}
           </div>
