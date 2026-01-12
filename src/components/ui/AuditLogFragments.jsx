@@ -159,7 +159,7 @@ export function AuditLogsOverview({ log, formatYearMonthDay }) {
           <div className="flex flex-wrap items-center gap-1">
             <span className="text-xs text-gray-500 dark:text-gray-400">
               {" "}
-              Modified by:
+              {log.deletedBy ? "Deleted by: " : "Modified By: "}
             </span>
             <span className="font-medium text-gray-500 dark:text-gray-300">
               {enforcer
