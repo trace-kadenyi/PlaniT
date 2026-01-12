@@ -148,6 +148,7 @@ export function AuditLogsIntro({
 
 // Audit Overview - modified by/changed fields
 export function AuditLogsOverview({ log, formatYearMonthDay }) {
+  // enforcer/performer
   const enforcer = log.deletedBy ?? log.performedBySnapshot ?? null;
 
   return (
