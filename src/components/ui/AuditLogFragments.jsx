@@ -79,3 +79,26 @@ export function CollapsedLog({ auditLogCount, eventId, setIsExpanded }) {
     </div>
   );
 }
+
+// no filtered logs
+export function NoFilteredLogs({ filterActionType, getActionLabel }) {
+  return (
+    <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-8 border border-[#F3EDE9] dark:border-gray-700 text-center">
+      <div className="mx-auto max-w-sm flex flex-col items-center">
+        <div className="w-12 h-12 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20 flex items-center justify-center mb-4">
+          <Receipt className="w-6 h-6 text-[#F59E0B]" />
+        </div>
+        <h3 className="font-semibold text-gray-800 dark:text-white mb-2">
+          No audit records
+        </h3>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
+          {filterActionType === "ALL"
+            ? "No expense changes recorded yet"
+            : `No ${getActionLabel(
+                filterActionType
+              ).toLowerCase()} records found`}
+        </p>
+      </div>
+    </div>
+  );
+}
