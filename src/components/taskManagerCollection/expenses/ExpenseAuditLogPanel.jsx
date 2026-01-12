@@ -32,7 +32,11 @@ import {
   getActionTypeCounts,
 } from "../utils/auditLogHelpers";
 import { useFilteredAuditLogs } from "../hooks/useExpenseAuditLogs";
-import { ActionTypeFilter } from "../../ui/AuditLogFragments";
+import {
+  ActionTypeFilter,
+  CollapsedLog,
+  NoFilteredLogs,
+} from "../../ui/AuditLogFragments";
 import { AuditLogsLoading } from "../../shared/LoadingStates";
 import { AuditLogsErrorState } from "../../shared/ErrorStates";
 
@@ -135,30 +139,15 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
           fetchExpenseAuditLogs={fetchExpenseAuditLogs}
           eventId={eventId}
         />
-      ) : !isExpanded ? (
-        <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-8 border border-[#F3EDE9] dark:border-gray-700 text-center">
-          <div className="mx-auto max-w-sm flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20 flex items-center justify-center mb-4">
-              <Shield className="w-6 h-6 text-[#F59E0B]" />
-            </div>
-            <h3 className="font-semibold text-gray-800 dark:text-white mb-2">
-              Expense Audit Log
-            </h3>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
-              {auditLogCount} audit record{auditLogCount !== 1 ? "s" : ""}{" "}
-              recorded
-              {eventId && " for this event"}
-            </p>
-            <button
-              onClick={() => setIsExpanded(true)}
-              className="inline-flex items-center gap-2 bg-[#9B2C62] hover:bg-[#801f4f] text-white font-medium px-4 py-2.5 rounded-lg transition-all duration-300 shadow-sm hover:shadow-md"
-            >
-              View Audit Log
-              <ChevronDown className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+      ) : // collapsed log
+      !isExpanded ? (
+        <CollapsedLog
+          auditLogCount={auditLogCount}
+          setIsExpanded={setIsExpanded}
+          eventId={eventId}
+        />
       ) : (
+        // expanded log
         <div className="space-y-4">
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
             Showing {filteredLogs.length} of {auditLogCount} audit record
@@ -166,24 +155,12 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
             {eventId && " for this event"}
           </div>
 
+          {/* no filtered logs */}
           {filteredLogs.length === 0 ? (
-            <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-8 border border-[#F3EDE9] dark:border-gray-700 text-center">
-              <div className="mx-auto max-w-sm flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20 flex items-center justify-center mb-4">
-                  <Receipt className="w-6 h-6 text-[#F59E0B]" />
-                </div>
-                <h3 className="font-semibold text-gray-800 dark:text-white mb-2">
-                  No audit records
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  {filterActionType === "ALL"
-                    ? "No expense changes recorded yet"
-                    : `No ${getActionLabel(
-                        filterActionType
-                      ).toLowerCase()} records found`}
-                </p>
-              </div>
-            </div>
+            <NoFilteredLogs
+              filterActionType={filterActionType}
+              getActionLabel={getActionLabel}
+            />
           ) : (
             <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
               {filteredLogs.map((log, index) => (
