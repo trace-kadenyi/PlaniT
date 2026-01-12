@@ -159,7 +159,8 @@ export function AuditLogsOverview({ log, formatYearMonthDay }) {
               Modified by:
             </span>
             <span className="font-medium text-gray-500 dark:text-gray-300">
-              {log.deletedBy?.name || log.performedBy?.name || "Unknown"}
+              {`${log.deletedBy?.firstName} ${log.deletedBy?.lastName}}` ||
+                "Unknown"}
             </span>
             {log.deletedBy?.role && (
               <span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
