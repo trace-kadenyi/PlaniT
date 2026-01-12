@@ -136,7 +136,6 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
             "ALL",
             "DELETE",
             "UPDATE",
-            "CREATE",
             "AMOUNT_CHANGE",
             "STATUS_CHANGE",
           ].map((type) => (
