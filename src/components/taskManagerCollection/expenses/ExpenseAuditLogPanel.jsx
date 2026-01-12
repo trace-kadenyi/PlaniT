@@ -31,6 +31,7 @@ import {
   getActionLabel,
   getActionTypeCounts,
 } from "../utils/auditLogHelpers";
+import { useFilteredAuditLogs } from "../hooks/useExpenseAuditLogs";
 
 const ExpenseAuditLogPanel = ({ eventId }) => {
   const dispatch = useDispatch();
@@ -75,10 +76,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
   }
 
   // Filter logs based on selected action type
-  const filteredLogs =
-    filterActionType === "ALL"
-      ? auditLogs
-      : auditLogs.filter((log) => log.actionType === filterActionType);
+  const filteredLogs = useFilteredAuditLogs(auditLogs, filterActionType);
 
   //  action type counts
   const actionTypeCounts = getActionTypeCounts(auditLogs);
