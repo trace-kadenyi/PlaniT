@@ -33,6 +33,7 @@ import {
 } from "../utils/auditLogHelpers";
 import { useFilteredAuditLogs } from "../hooks/useExpenseAuditLogs";
 import { ActionTypeFilter } from "../../ui/AuditLogFragments";
+import { AuditLogsLoading } from "../../shared/LoadingStates";
 
 const ExpenseAuditLogPanel = ({ eventId }) => {
   const dispatch = useDispatch();
@@ -123,10 +124,9 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
         actionTypeCounts={actionTypeCounts}
       />
 
+{/* loading and error handling */}
       {auditLogStatus === "loading" ? (
-        <div className="flex justify-center items-center py-8 min-h-[250px]">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#9B2C62]"></div>
-        </div>
+        <AuditLogsLoading />
       ) : auditLogError ? (
         <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-8 border border-[#F3EDE9] dark:border-gray-700 text-center">
           <div className="mx-auto max-w-sm flex flex-col items-center">
