@@ -20,8 +20,10 @@ import {
   getActionTypeCounts,
 } from "../utils/auditLogHelpers";
 import { useFilteredAuditLogs } from "../hooks/useExpenseAuditLogs";
-import ChangedFields, {
+import {
   ActionTypeFilter,
+  AuditLogsIntro,
+  AuditLogsOverview,
   CollapsedLog,
   NoFilteredLogs,
 } from "../../ui/AuditLogFragments";
@@ -151,88 +153,30 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
               getActionLabel={getActionLabel}
             />
           ) : (
+            // filtered logs available
             <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
               {filteredLogs.map((log, index) => (
                 <div
                   key={log._id || index}
                   className="p-4 bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl border border-[#F3EDE9] dark:border-gray-700 hover:border-[#9B2C62]/50 dark:hover:border-[#D97706]/50 transition-all duration-300"
                 >
-                  <div className="flex items-start justify-between mb-2 flex-col sm:flex-row gap-3">
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-lg bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20">
-                        {getActionIcon(log.actionType)}
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getActionColor(
-                              log.actionType
-                            )}`}
-                          >
-                            {getActionLabel(log.actionType)}
-                          </span>
-                          {log.expenseData?.paymentStatus === "paid" && (
-                            <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                              Paid
-                            </span>
-                          )}
-                        </div>
-                        <p className="font-medium text-gray-800 dark:text-white text-sm mt-1">
-                          {log.expenseData?.description || "Expense modified"}
-                        </p>
-                        <div className="flex flex-wrap items-center gap-2 mt-1">
-                          <span
-                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(
-                              log.expenseData?.category
-                            )}`}
-                          >
-                            {log.expenseData?.category || "other"}
-                          </span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            {formatCurrency(log.expenseData?.amount || 0)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap ml-auto sm:ml-0">
-                      {formatDateTimeShort(log.deletedAt || log.createdAt)}
-                    </span>
-                  </div>
+                  {/* audit logs intro */}
+                  <AuditLogsIntro
+                    getActionIcon={getActionIcon}
+                    log={log}
+                    getActionColor={getActionColor}
+                    getActionLabel={getActionLabel}
+                    getCategoryColor={getCategoryColor}
+                    formatCurrency={formatCurrency}
+                    formatDateTimeShort={formatDateTimeShort}
+                  />
 
                   <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <div className="flex flex-col gap-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-xs">
-                          <User className="w-3 h-3 text-gray-500 dark:text-gray-400 flex-shrink-0" />
-                          <div className="flex flex-wrap items-center gap-1">
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
-                              {" "}
-                              Modified by:
-                            </span>
-                            <span className="font-medium text-gray-500 dark:text-gray-300">
-                              {log.deletedBy?.name ||
-                                log.performedBy?.name ||
-                                "Unknown"}
-                            </span>
-                            {log.deletedBy?.role && (
-                              <span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded text-xs">
-                                {log.deletedBy.role}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        {/* Show changes for UPDATE actions */}
-                        {log.changes && log.changes.length > 0 && (
-                          <ChangedFields
-                            log={log}
-                            formatYearMonthDay={formatYearMonthDay}
-                          />
-                        )}
-                      </div>
-                    </div>
+                    {/* audit logs overview - modified by and change fields */}
+                    <AuditLogsOverview
+                      log={log}
+                      formatYearMonthDay={formatYearMonthDay}
+                    />
 
                     {/* Expandable Details */}
                     <div className="mt-5">
