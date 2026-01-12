@@ -1,16 +1,4 @@
-import {
-  History,
-  FileText,
-  Calendar,
-  User,
-  DollarSign,
-  ChevronDown,
-  Shield,
-  Receipt,
-  RefreshCw,
-  CirclePlus,
-  Shapes,
-} from "lucide-react";
+import { User, ChevronDown, Shield, Receipt } from "lucide-react";
 
 // Action type filter
 export function ActionTypeFilter({
