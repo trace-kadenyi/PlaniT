@@ -202,7 +202,7 @@ export default function BudgetTab({
       )}
       {/* Expense List */}
       {expensesArray.length > 0 && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 max-h-[450px] overflow-y-auto minimal-scrollbar">
           {/* tabs List View & By Category */}
           <ExpenseTab
             activeView={activeView}
