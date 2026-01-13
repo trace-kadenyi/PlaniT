@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Loader2 } from "lucide-react";
 
 export default function DeleteConfirmationToast({
   t,
@@ -10,6 +10,8 @@ export default function DeleteConfirmationToast({
   expensePaymentStatus,
 }) {
   const [progress, setProgress] = useState(100);
+  const [isLoading, setIsLoading] = useState(false);
+
   const messages = {
     event: {
       warning:
@@ -64,6 +66,8 @@ export default function DeleteConfirmationToast({
   const message = messages[messageType];
 
   useEffect(() => {
+    if (isLoading) return; // ⛔ pause countdown while deleting
+
     const interval = 10;
     const step = (interval / duration) * 100;
     const timer = setInterval(() => {
@@ -71,7 +75,26 @@ export default function DeleteConfirmationToast({
     }, interval);
 
     return () => clearInterval(timer);
-  }, [duration]);
+  }, [duration, isLoading]);
+
+  // handle confirm
+  const handleConfirm = async () => {
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+      await onConfirm();
+    } finally {
+      // Do NOT reset isLoading here
+      // Toast will be dismissed externally on success/error
+    }
+  };
+
+  // handle cancel
+  const handleCancel = () => {
+    if (isLoading) return;
+    onCancel();
+  };
 
   return (
     <div className="relative p-4 rounded-lg bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black border-gray-200 shadow-lg max-w-[300px]">
@@ -96,16 +119,38 @@ export default function DeleteConfirmationToast({
       </div>
       <div className="flex justify-end gap-3">
         <button
-          onClick={onCancel}
-          className="px-4 py-1.5 text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition cursor-pointer"
+          onClick={handleCancel}
+          disabled={isLoading}
+          className={`px-4 py-1.5 text-sm border rounded-lg transition
+    ${
+      isLoading
+        ? "border-gray-200 text-gray-400 cursor-not-allowed pointer-events-none dark:border-gray-700 bg:gray-600 dark:bg-gray-700"
+        : "border-gray-300 text-gray-700 hover:bg-gray-100 cursor-pointer dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-900"
+    }
+  `}
         >
           Cancel
         </button>
         <button
-          onClick={onConfirm}
-          className="px-4 py-1.5 text-sm text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 rounded-lg transition cursor-pointer"
+          onClick={handleConfirm}
+          disabled={isLoading}
+          className={`px-4 py-1.5 text-sm text-white rounded-lg transition
+      flex items-center justify-center gap-2 min-w-[150px]
+      ${
+        isLoading
+          ? "bg-red-400 cursor-not-allowed"
+          : "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500"
+      }
+    `}
         >
-          {message.confirm}
+          {isLoading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Deleting…
+            </>
+          ) : (
+            message.confirm
+          )}
         </button>
       </div>
       {/* Countdown bar */}
