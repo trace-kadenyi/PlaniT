@@ -17,7 +17,7 @@ export const createVendorDeleteHandler = (
           type="vendor"
           onConfirm={async () => {
             try {
-              dispatch(deleteVendor(id)).unwrap();
+              await dispatch(deleteVendor(id)).unwrap();
               toast.dismiss(t.id);
               toastWithProgress("Vendor deleted successfully");
               navigate("/vendors");
