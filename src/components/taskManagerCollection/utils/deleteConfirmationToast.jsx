@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Trash2, AlertTriangle } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 export default function DeleteConfirmationToast({
   t,
