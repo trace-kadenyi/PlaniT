@@ -154,7 +154,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
             />
           ) : (
             // filtered logs available
-            <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
+            <div className="space-y-3 max-h-96 overflow-y-auto pr-2 minimal-scrollbar">
               {filteredLogs.map((log, index) => (
                 <div
                   key={log._id || index}
