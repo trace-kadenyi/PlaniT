@@ -18,7 +18,7 @@ export const createExpenseDeleteHandler = (
           type="expense"
           expensePaymentStatus={expensePaymentStatus}
           onConfirm={() => {
-            dispatch(deleteExpense(expenseId))
+            return dispatch(deleteExpense(expenseId))
               .unwrap()
               .then(() => {
                 // Add null check before calling onVendorRemoved
@@ -26,10 +26,11 @@ export const createExpenseDeleteHandler = (
                   onVendorRemoved(vendorId, expenses || []);
                 }
                 toast.dismiss(t.id);
-                const successMessage = expensePaymentStatus === "paid" 
-                  ? "Paid expense deleted successfully. This action has been logged in the audit trail." 
-                  : "Expense deleted successfully";
-                  
+                const successMessage =
+                  expensePaymentStatus === "paid"
+                    ? "Paid expense deleted successfully. This action has been logged in the audit trail."
+                    : "Expense deleted successfully";
+
                 toastWithProgress(successMessage);
               })
               .catch((err) => {
