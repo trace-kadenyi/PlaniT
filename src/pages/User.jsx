@@ -22,11 +22,13 @@ import UserNotFound from "../components/user/UserManagement/UserNotFound";
 import UserProfileCard from "../components/user/UserManagement/UserProfileCard";
 import { UserDetailsGrid } from "../components/user/UserManagement/UserDetailsGrid";
 import UserUpdateHistory from "../components/user/UserManagement/UserUpdateHistory";
+import { useToastLock } from "../globalUtils/useToastLock";
 
 export default function User() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const toastLock = useToastLock();
 
   const { can, currentUser: authUser } = usePermissions();
 
@@ -91,7 +93,8 @@ export default function User() {
       deleteUser,
       toast,
       toastWithProgress,
-      DeleteConfirmationToast
+      DeleteConfirmationToast,
+      toastLock
     )();
   };
 
