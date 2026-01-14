@@ -20,6 +20,7 @@ import ArchiveEditDeleteVendor from "../shared/ArchiveEditDeleteVendor";
 import { createVendorDeleteHandler } from "../../globalHandlers/createVendorDeleteHandler";
 import { deleteVendor } from "../../redux/vendorsSlice";
 import DeleteConfirmationToast from "../taskManagerCollection/utils/deleteConfirmationToast";
+import { useToastLock } from "../../globalUtils/useToastLock";
 
 export default function VendorCard({
   dispatch,
@@ -28,6 +29,8 @@ export default function VendorCard({
   archiveStatus,
   navigate,
 }) {
+  const toastLock = useToastLock();
+
   const handleArchive = createVendorArchiveHandler(
     dispatch,
     vendor?._id,
@@ -48,7 +51,8 @@ export default function VendorCard({
     deleteVendor,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
+    toastLock
   );
 
   return (
