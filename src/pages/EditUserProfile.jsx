@@ -252,6 +252,7 @@ export default function EditUserProfile() {
           watch={watch}
           setValue={setValue}
           isEditConfirmActive={isEditConfirmActive}
+          navigate={navigate}
         />
       </div>
     </main>
