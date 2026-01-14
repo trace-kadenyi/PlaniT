@@ -10,6 +10,7 @@ import {
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
+import { useToastLock } from "../../globalUtils/useToastLock";
 
 // create vendor btn
 export const CreateVendorBtn = ({ navigate }) => {
@@ -91,6 +92,8 @@ export const ArchiveTBVendorBtn = ({
   toastWithProgress,
   ArchiveConfirmationToast,
 }) => {
+  const toastLock = useToastLock();
+
   return (
     <PermissionButton
       permission={PERMISSIONS.ARCHIVE}
@@ -111,7 +114,8 @@ export const ArchiveTBVendorBtn = ({
         fetchVendorStats,
         filterMode,
         toastWithProgress,
-        ArchiveConfirmationToast
+        ArchiveConfirmationToast,
+        toastLock
       )}
       className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs ${
         vendor.isArchived
