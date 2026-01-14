@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -21,11 +21,15 @@ import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { NoUserDetails } from "../components/user/UserManagement/UserNotFound";
 import { EditUserForm } from "../components/user/forms/EditUserForm";
 import { GenLoadingState } from "../components/shared/LoadingStates";
+import { useToastLock } from "../globalUtils/useToastLock";
 
 export default function EditUserProfile() {
   const { userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const editToastLock = useToastLock;
+
+  const [isEditConfirmActive, setIsEditConfirmActive] = useState(false);
 
   const { can, currentUser: authUser } = usePermissions();
 
@@ -99,7 +103,8 @@ export default function EditUserProfile() {
     toastWithProgress,
     EditConfirmationToast,
     handleLogout,
-    authUser._id
+    authUser._id,
+    setIsEditConfirmActive
   );
 
   // Auto-show password fields for self or admins
@@ -249,6 +254,7 @@ export default function EditUserProfile() {
           selectedRole={selectedRole}
           watch={watch}
           setValue={setValue}
+          isEditConfirmActive={isEditConfirmActive}
         />
       </div>
     </main>
