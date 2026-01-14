@@ -26,10 +26,11 @@ export const AddMemberFormBtn = ({ setShowAddForm, addUserStatus }) => {
     <div className="flex justify-end space-x-3 pt-4">
       <button
         type="button"
+        disabled={addUserStatus === "loading"}
         onClick={() => {
           setShowAddForm(false);
         }}
-        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-3 py-1 rounded-lg transition-all text-xs"
+        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-3 py-1 rounded-lg transition-all text-xs disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Cancel
       </button>
