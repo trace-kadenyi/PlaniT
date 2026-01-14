@@ -130,6 +130,8 @@ export const EditDeleteExpenseBtns = ({
   expense,
   expenses,
   can,
+  isDeletePending,
+  setIsDeletePending,
 }) => {
   // Check if user has EDIT permission
   const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.EXPENSE);
@@ -174,24 +176,33 @@ export const EditDeleteExpenseBtns = ({
         }
         resource={RESOURCES.EXPENSE}
         tooltipTitle={
-          expense.paymentStatus === "paid"
+          !isDeletePending &&
+          (expense.paymentStatus === "paid"
             ? "Delete paid expense (Super Admin only)"
-            : "Delete expense"
+            : "Delete expense")
         }
         fallbackTooltip={
           expense.paymentStatus === "paid"
             ? "Only Super Administrators can delete paid expenses"
             : "Upgrade to Planner or Admin role to delete expenses"
         }
-        className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs dark:bg-[#BE3455]/40 dark:hover:bg-[#BE3455]/30 dark:text-white"
-        onClick={() =>
+        disabled={isDeletePending}
+        className={`flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs dark:bg-[#BE3455]/40 dark:hover:bg-[#BE3455]/30 dark:text-white ${
+          isDeletePending ? "opacity-50 cursor-not-allowed" : "cursor-default"
+        }`}
+        onClick={() => {
+          if (isDeletePending) return;
+
+          setIsDeletePending(true);
+
           handleExpenseDelete(
             expense._id,
             expense.vendor?._id,
             expenses,
-            expense.paymentStatus
-          )
-        }
+            expense.paymentStatus,
+            () => setIsDeletePending(false)
+          );
+        }}
       >
         Delete expense
       </PermissionButton>
