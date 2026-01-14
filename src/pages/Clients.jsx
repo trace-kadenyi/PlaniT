@@ -23,6 +23,7 @@ import {
   CreateClientBtn,
   DeleteAllClientsBtn,
 } from "../components/buttons/ClientButtons";
+import { useToastLock } from "../globalUtils/useToastLock";
 
 export default function Clients() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export default function Clients() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const clientsPerPage = 10;
+  const toastLock = useToastLock();
 
   const {
     items: allClients,
@@ -105,7 +107,8 @@ export default function Clients() {
     deleteAllClients,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
+    toastLock
   );
 
   return (
