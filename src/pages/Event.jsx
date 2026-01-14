@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -13,7 +13,7 @@ import {
   EventLoadingState,
   TasksLoadingState,
 } from "../components/shared/LoadingStates";
-import { createEventDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
+import { createEventDeleteHandler, createLockedDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
 import { createTaskDeleteHandler } from "../components/taskManagerCollection/utils/handlers/taskHandlers";
 import { createExpenseDeleteHandler } from "../components/taskManagerCollection/utils/handlers/expenseHandler";
 import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
@@ -28,6 +28,8 @@ export default function Event() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const deleteEventToastRef = useRef(null);
   const scrollTaskId = location.state?.scrollToTaskId;
   const scrollNonce = location.state?.scrollNonce;
 
@@ -96,15 +98,25 @@ export default function Event() {
   if (!event) return <p>Event not found.</p>;
 
   // handle event delete
-  const handleDelete = createEventDeleteHandler(
-    dispatch,
-    id,
-    navigate,
-    deleteEvent,
-    toast,
-    toastWithProgress,
-    DeleteConfirmationToast
-  );
+  // const handleDelete = createEventDeleteHandler(
+  //   dispatch,
+  //   id,
+  //   navigate,
+  //   deleteEvent,
+  //   toast,
+  //   toastWithProgress,
+  //   DeleteConfirmationToast
+  // );
+
+  const handleDelete = createLockedDeleteHandler(
+  dispatch,
+  deleteEvent,
+  toast,
+  toastWithProgress,
+  DeleteConfirmationToast,
+  deleteEventToastRef
+);
+
   // handle task delete
   const handleTaskDelete = createTaskDeleteHandler(
     dispatch,
@@ -149,6 +161,7 @@ export default function Event() {
           <EventDetailsBtns
             navigate={navigate}
             eventID={event._id}
+            eventName={event.name}
             handleDelete={handleDelete}
           />
 
