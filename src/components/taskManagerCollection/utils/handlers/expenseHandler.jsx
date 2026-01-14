@@ -42,6 +42,10 @@ export const createExpenseDeleteHandler = (
                     {err.message || err}
                   </span>
                 );
+              })
+              .finally(() => {
+                toast.dismiss(t.id);
+                onDone?.();
               });
           }}
           onCancel={() => {
