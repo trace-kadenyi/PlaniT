@@ -113,6 +113,7 @@ export const EditUserFormBtn = ({
   canEditUser,
   isSelf,
   authUser,
+  isEditConfirmActive,
 }) => {
   return (
     <PermissionButton
@@ -124,11 +125,14 @@ export const EditUserFormBtn = ({
       disabled={
         !canEditUser ||
         updateRoleStatus === "loading" ||
-        updateStatus === "loading"
+        updateStatus === "loading" ||
+        isEditConfirmActive
       }
       tooltipTitle={
         isSelf
           ? "You cannot edit your own profile"
+          : isEditConfirmActive
+          ? "Confirming..."
           : canEditUser
           ? "Save changes"
           : "You don't have permission to edit this user"
