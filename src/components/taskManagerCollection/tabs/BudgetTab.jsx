@@ -39,6 +39,7 @@ export default function BudgetTab({
   const [activeView, setActiveView] = useState("list");
   const [scrollToForm, setScrollToForm] = useState(false);
   const [showAuditLogs, setShowAuditLogs] = useState(false);
+  const [isDeletePending, setIsDeletePending] = useState(false);
 
   // form ref
   const formRef = useRef(null);
@@ -227,6 +228,8 @@ export default function BudgetTab({
                       setScrollToForm={setScrollToForm}
                       eventId={id}
                       can={can}
+                      isDeletePending={isDeletePending}
+                      setIsDeletePending={setIsDeletePending}
                     />
                   </ExpenseListView>
                 </li>
