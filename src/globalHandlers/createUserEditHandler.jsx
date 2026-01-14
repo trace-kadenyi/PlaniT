@@ -8,9 +8,12 @@ export const createUserEditHandler = (
   toastWithProgress,
   EditConfirmationToast,
   handleLogout,
-  currentUserId
+  currentUserId,
+  setIsEditConfirmActive
 ) => {
   return (updateData, originalUserData, fullFormData) => {
+    setIsEditConfirmActive(true); // 🔒 lock form
+
     const duration = 10000;
 
     // Use fullFormData if provided, otherwise use updateData
@@ -23,7 +26,7 @@ export const createUserEditHandler = (
           t={t}
           duration={duration}
           type="user"
-          formData={formDataForToast} // Pass the full form data with role
+          formData={formDataForToast}
           originalUserData={originalUserData}
           onConfirm={async () => {
             try {
@@ -76,6 +79,7 @@ export const createUserEditHandler = (
               if (updates.length > 0) {
                 await Promise.all(updates);
                 toast.dismiss(t.id);
+                setIsEditConfirmActive(false); // 🔓 unlock
 
                 if (hasPasswordChanged && isSelf) {
                   toastWithProgress(`Password updated! Logging out...`);
@@ -110,7 +114,10 @@ export const createUserEditHandler = (
               }
             }
           }}
-          onCancel={() => toast.dismiss(t.id)}
+          onCancel={() => {
+            toast.dismiss(t.id);
+            setIsEditConfirmActive(false); // 🔓 unlock
+          }}
         />
       ),
       { duration, position: "top-center" }
