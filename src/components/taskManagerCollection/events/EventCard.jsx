@@ -114,6 +114,7 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
       <EditDeleteEventBtns
         navigate={navigate}
         eventID={event._id}
+        eventName={event.name}
         handleDelete={handleDelete}
       />
     </li>
