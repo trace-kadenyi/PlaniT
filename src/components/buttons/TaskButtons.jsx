@@ -105,18 +105,35 @@ export const EditTaskBtn = ({
 };
 
 // delete task
-export const DeleteTaskBtn = ({ handleTaskDelete, task }) => {
+export const DeleteTaskBtn = ({
+  handleTaskDelete,
+  task,
+  isDeletePending,
+  setIsDeletePending,
+}) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.TASK}
-      tooltipTitle="Delete task"
+      tooltipTitle={!isDeletePending && "Delete task"}
+      disabled={isDeletePending}
       fallbackTooltip="Upgrade to Planner or Admin role to delete tasks"
-      className="p-1.5 rounded-md transition-all duration-200 
+      className={`p-1.5 rounded-md transition-all duration-200 
               text-[#BE3455] hover:text-white hover:bg-[#BE3455]
-              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]"
-      // title="Delete Task"
-      onClick={() => handleTaskDelete(task._id)}
+              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]${
+                isDeletePending
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-default"
+              }`}
+      onClick={() => {
+        if (isDeletePending) return;
+
+        setIsDeletePending(true);
+
+        handleTaskDelete(task._id).finally(() => {
+          setIsDeletePending(false); // ✅ React owns state
+        });
+      }}
     >
       <Trash2 className="w-4 h-4" />
     </PermissionButton>
