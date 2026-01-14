@@ -199,9 +199,10 @@ export const EditDeleteExpenseBtns = ({
             expense._id,
             expense.vendor?._id,
             expenses,
-            expense.paymentStatus,
-            () => setIsDeletePending(false)
-          );
+            expense.paymentStatus
+          ).finally(() => {
+            setIsDeletePending(false);
+          });
         }}
       >
         Delete expense
