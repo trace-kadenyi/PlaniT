@@ -13,7 +13,7 @@ export const createVendorDeleteHandler = (
 
     const duration = 10000;
 
-    toastLock.lock("client-delete");
+    toastLock.lock("vendor-delete");
 
     const toastId = toast(
       (t) => (
