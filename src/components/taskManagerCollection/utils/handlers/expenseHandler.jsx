@@ -65,7 +65,6 @@ import { taskToastProgress } from "../../../../globalHooks/useToastWithProgress"
 //   };
 // };
 
-
 export const createExpenseDeleteHandler = (
   dispatch,
   deleteExpense,
@@ -74,12 +73,7 @@ export const createExpenseDeleteHandler = (
   DeleteConfirmationToast,
   onVendorRemoved
 ) => {
-  return (
-    expenseId,
-    vendorId,
-    expenses,
-    expensePaymentStatus
-  ) => {
+  return (expenseId, vendorId, expenses, expensePaymentStatus) => {
     const duration = 10000;
 
     return new Promise((resolve) => {
@@ -104,7 +98,7 @@ export const createExpenseDeleteHandler = (
             type="expense"
             expensePaymentStatus={expensePaymentStatus}
             onConfirm={() => {
-              dispatch(deleteExpense(expenseId))
+              return dispatch(deleteExpense(expenseId))
                 .unwrap()
                 .then(() => {
                   if (vendorId && onVendorRemoved) {
