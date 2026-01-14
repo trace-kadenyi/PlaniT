@@ -354,7 +354,7 @@ export default function EventFormFields({
             type="button"
             onClick={onCancel}
             disabled={isSaving}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg transition-all disabled:opacity-20"
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg transition-all disabled:opacity-20 disabled:cursor-not-allowed"
           >
             Cancel
           </button>
