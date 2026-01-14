@@ -41,7 +41,8 @@ export default function VendorCard({
     null, // Don't need to fetch stats in details page
     null, // No filter mode needed
     toastWithProgress,
-    ArchiveConfirmationToast
+    ArchiveConfirmationToast,
+    toastLock
   );
 
   const handleDelete = createVendorDeleteHandler(
