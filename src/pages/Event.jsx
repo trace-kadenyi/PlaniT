@@ -13,7 +13,7 @@ import {
   EventLoadingState,
   TasksLoadingState,
 } from "../components/shared/LoadingStates";
-import { createEventDeleteHandler, createLockedDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
+import { createLockedDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
 import { createTaskDeleteHandler } from "../components/taskManagerCollection/utils/handlers/taskHandlers";
 import { createExpenseDeleteHandler } from "../components/taskManagerCollection/utils/handlers/expenseHandler";
 import TasksTab from "../components/taskManagerCollection/tabs/TasksTab";
@@ -28,7 +28,7 @@ export default function Event() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const deleteEventToastRef = useRef(null);
   const scrollTaskId = location.state?.scrollToTaskId;
   const scrollNonce = location.state?.scrollNonce;
@@ -98,24 +98,14 @@ export default function Event() {
   if (!event) return <p>Event not found.</p>;
 
   // handle event delete
-  // const handleDelete = createEventDeleteHandler(
-  //   dispatch,
-  //   id,
-  //   navigate,
-  //   deleteEvent,
-  //   toast,
-  //   toastWithProgress,
-  //   DeleteConfirmationToast
-  // );
-
   const handleDelete = createLockedDeleteHandler(
-  dispatch,
-  deleteEvent,
-  toast,
-  toastWithProgress,
-  DeleteConfirmationToast,
-  deleteEventToastRef
-);
+    dispatch,
+    deleteEvent,
+    toast,
+    toastWithProgress,
+    DeleteConfirmationToast,
+    deleteEventToastRef
+  );
 
   // handle task delete
   const handleTaskDelete = createTaskDeleteHandler(
