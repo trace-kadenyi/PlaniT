@@ -26,11 +26,13 @@ import {
   CreateVendorBtn,
   DeleteAllVendorsBtn,
 } from "../components/buttons/VendorButtons";
+import { useToastLock } from "../globalUtils/useToastLock";
 
 export default function Vendors() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterMode, setFilterMode] = useState("all");
+  const toastLock = useToastLock();
 
   const { deleteAllStatus } = useSelector((state) => state.vendors);
 
@@ -73,7 +75,8 @@ export default function Vendors() {
     toast,
     toastWithProgress,
     DeleteConfirmationToast,
-    resetVendorStatuses
+    resetVendorStatuses,
+    toastLock
   );
 
   return (
