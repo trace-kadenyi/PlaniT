@@ -243,7 +243,8 @@ export const SaveClientFormBtn = ({ formStatus, onCancel }) => {
         <button
           type="button"
           onClick={onCancel}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg"
+          disabled={formStatus === "loading"}
+          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </button>
