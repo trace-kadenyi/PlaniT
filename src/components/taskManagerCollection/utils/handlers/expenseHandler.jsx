@@ -8,7 +8,7 @@ export const createExpenseDeleteHandler = (
   DeleteConfirmationToast,
   onVendorRemoved
 ) => {
-  return (expenseId, vendorId, expenses, expensePaymentStatus) => {
+  return (expenseId, vendorId, expenses, expensePaymentStatus, onDone) => {
     const duration = 10000;
     toast(
       (t) => (
@@ -26,6 +26,7 @@ export const createExpenseDeleteHandler = (
                   onVendorRemoved(vendorId, expenses || []);
                 }
                 toast.dismiss(t.id);
+                onDone?.(); // ✅ RESET
                 const successMessage =
                   expensePaymentStatus === "paid"
                     ? "Paid expense deleted successfully. This action has been logged in the audit trail."
@@ -35,6 +36,7 @@ export const createExpenseDeleteHandler = (
               })
               .catch((err) => {
                 toast.dismiss(t.id);
+                onDone?.(); // ✅ RESET
                 taskToastProgress(
                   <span className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
                     {err.message || err}
@@ -42,7 +44,10 @@ export const createExpenseDeleteHandler = (
                 );
               });
           }}
-          onCancel={() => toast.dismiss(t.id)}
+          onCancel={() => {
+            toast.dismiss(t.id);
+            onDone?.(); // ✅ RESET
+          }}
         />
       ),
       { duration, position: "top-center" }
