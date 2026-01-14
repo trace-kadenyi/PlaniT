@@ -88,7 +88,6 @@ export const createEventDeleteHandler = (
 //   };
 // };
 
-
 export const createLockedDeleteHandler = (
   dispatch,
   deleteAction,
@@ -100,12 +99,7 @@ export const createLockedDeleteHandler = (
   return (id, options = {}) => {
     if (lockRef.current) return; // 🔒 HARD LOCK
 
-    const {
-      duration = 10000,
-      type = "event",
-      entityName,
-      onSuccess,
-    } = options;
+    const { duration = 10000, type = "event", entityName, onSuccess } = options;
 
     const unlock = () => {
       lockRef.current = null;
