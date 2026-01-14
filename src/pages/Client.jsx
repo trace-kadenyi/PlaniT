@@ -25,11 +25,14 @@ import {
   AddNewClientEventLink,
   ScheduleEventLink,
 } from "../components/buttons/ClientButtons";
+import { useToastLock } from "../globalUtils/useToastLock";
 
 export default function Client() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const toastLock = useToastLock();
+
   const [localIsArchived, setLocalIsArchived] = useState(false);
 
   const {
@@ -71,7 +74,8 @@ export default function Client() {
     deleteClient,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
+    toastLock
   );
 
   return (
