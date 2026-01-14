@@ -5,7 +5,7 @@ export const createTaskDeleteHandler = (
   toastWithProgress,
   DeleteConfirmationToast
 ) => {
-  return (taskId) => {
+  return (taskId, onDone) => {
     const duration = 10000;
     toast(
       (t) => (
@@ -18,14 +18,23 @@ export const createTaskDeleteHandler = (
               .unwrap()
               .then(() => {
                 toast.dismiss(t.id);
+                onDone?.(); // ✅ RESET
                 toastWithProgress("Task deleted successfully");
               })
               .catch((err) => {
                 toast.dismiss(t.id);
+                onDone?.(); // ✅ RESET
                 toastWithProgress(`Failed to delete task: ${err}`);
+              })
+              .finally(() => {
+                toast.dismiss(t.id);
+                onDone?.();
               });
           }}
-          onCancel={() => toast.dismiss(t.id)}
+          onCancel={() => {
+            toast.dismiss(t.id);
+            onDone?.(); // ✅ RESET
+          }}
         />
       ),
       { duration, position: "top-center" }
