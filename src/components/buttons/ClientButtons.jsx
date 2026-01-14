@@ -152,6 +152,7 @@ export const ArchiveClientBtn = ({
   );
 };
 
+// delete client btn
 export const DeleteClientBtn = ({ handleDelete, id, client }) => {
   return (
     <PermissionButton
