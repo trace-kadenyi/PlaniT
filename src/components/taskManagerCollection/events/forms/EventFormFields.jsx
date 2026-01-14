@@ -27,6 +27,7 @@ export default function EventFormFields({
 }) {
   const location = useLocation();
   const budgetSectionRef = useRef(null);
+  const isSaving = formStatus === "loading";
 
   // Scroll to budget section when hash matches
   useEffect(() => {
@@ -352,7 +353,8 @@ export default function EventFormFields({
           <button
             type="button"
             onClick={onCancel}
-            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg transition-all"
+            disabled={isSaving}
+            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg transition-all disabled:opacity-20"
           >
             Cancel
           </button>
