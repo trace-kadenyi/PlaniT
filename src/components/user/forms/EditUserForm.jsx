@@ -31,6 +31,7 @@ export function EditUserForm({
   watch,
   setValue,
   isEditConfirmActive,
+  navigate,
 }) {
   const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [showPasswordFields, setShowPasswordFields] = useState(false);
@@ -184,8 +185,9 @@ export function EditUserForm({
       <div className="flex justify-end gap-4">
         {/* cancel btn */}
         <button
+          type="button"
           disabled={updateStatus === "loading" || isEditConfirmActive}
-          to={`/users/${userId}`}
+          onClick={() => navigate(`/users/${userId}`)}
           className="px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
