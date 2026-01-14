@@ -4,7 +4,12 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import ProgressBar from "../../ui/ProgressBar";
 import { NoBudget } from "../../shared/Snippets";
 
-export default function BudgetOverview({ budgetStatus, Link, eventID }) {
+export default function BudgetOverview({
+  budgetStatus,
+  deletedPaidTotal = 0,
+  Link,
+  eventID,
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // No budget
@@ -13,7 +18,8 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
   }
 
   const { totalBudget, totalExpenses, remainingBudget } = budgetStatus;
-  const percentageUsed = (totalExpenses / totalBudget) * 100;
+  const percentageUsed =
+    totalBudget > 0 ? (totalExpenses / totalBudget) * 100 : 0;
   const isBudgetWarning = remainingBudget < totalBudget * 0.1;
 
   const renderHeader = (withChevron = false) => (
@@ -82,6 +88,7 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
               ${totalExpenses.toLocaleString()}
             </p>
           </div>
+
           <div className="relative">
             <div
               className={`p-3 rounded-lg border ${
@@ -105,6 +112,14 @@ export default function BudgetOverview({ budgetStatus, Link, eventID }) {
             )}
           </div>
         </div>
+
+        {budgetStatus.deletedPaidTotal > 0 && (
+          <p className="mt-2 text-xs text-gray-500 italic">
+            Note: ${budgetStatus.deletedPaidTotal.toLocaleString()} in paid
+            expenses were deleted. Paid expenses do not restore remaining
+            budget.
+          </p>
+        )}
 
         {isBudgetWarning && (
           <div className="mt-4 p-3 bg-[#FFF5EB] rounded-lg text-[#6B3B0F] text-sm border border-[#9B2C62] flex items-center dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:text-[#F59E0B] dark:border-[#F59E0B]/30">

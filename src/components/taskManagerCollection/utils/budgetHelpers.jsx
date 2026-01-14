@@ -29,38 +29,61 @@ export function getExpensesByCategory(expenses) {
 }
 
 // handle budget status
-export function BudgetStatus({ budgetStatus }) {
+export function BudgetStatus({ budgetStatus, paidExpensesCount = 0 }) {
+  const {
+    totalBudget = 0,
+    totalExpenses = 0,
+    remainingBudget = 0,
+  } = budgetStatus ?? {};
+
+  const showPaidDeletionNotice = paidExpensesCount > 0;
+
   return (
     <div className="bg-white p-4 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 mb-6">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        {/* Total Budget */}
         <div className="bg-[#FFF5EB] p-3 rounded-lg dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+          {" "}
           <p className="text-sm text-[#6B3B0F] dark:text-[#D97706]/90">
             Total Budget
           </p>
           <p className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
-            ${budgetStatus.totalBudget?.toFixed(2) || "0.00"}
+            ${totalBudget.toFixed(2)}
           </p>
         </div>
+
+        {/* Total Expenses */}
         <div className="bg-[#FFF5EB] p-3 rounded-lg dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
+          {" "}
           <p className="text-sm text-[#6B3B0F] dark:text-[#D97706]/90">
             Total Expenses
           </p>
           <p className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
-            ${budgetStatus.totalExpenses?.toFixed(2) || "0.00"}
+            ${totalExpenses.toFixed(2)}
           </p>
         </div>
+
+        {/* Remaining */}
         <div className="bg-[#FFF5EB] p-3 rounded-lg dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
-          <p className="text-sm text-[#6B3B0F] dark:text-[#D97706]">
+          {" "}
+          <p className="text-sm text-[#6B3B0F] dark:text-[#D97706]/90">
             Remaining
           </p>
-          <p className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B]/90">
-            $
-            {(budgetStatus.totalBudget - budgetStatus.totalExpenses)?.toFixed(
-              2
-            ) || "0.00"}
+          <p className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B]">
+            ${remainingBudget.toFixed(2)}
           </p>
         </div>
       </div>
+
+      {/* Explanation */}
+      {showPaidDeletionNotice && (
+        <p className="mt-3 text-xs text-gray-600 dark:text-gray-400 italic">
+          Note: {paidExpensesCount} paid expense
+          {paidExpensesCount > 1 ? "s were" : " was"} deleted. Paid expenses do
+          not restore remaining budget, which may cause totals to appear
+          different.
+        </p>
+      )}
     </div>
   );
 }

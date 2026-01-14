@@ -50,12 +50,55 @@ export const deleteExpense = createAsyncThunk(
   }
 );
 
+// get expense audit logs with event filtering
+export const fetchExpenseAuditLogs = createAsyncThunk(
+  "expenses/fetchExpenseAuditLogs",
+  async ({ eventId, filters = {} } = {}, { rejectWithValue }) => {
+    try {
+      // Build query params
+      const params = new URLSearchParams();
+
+      // Add eventId if provided
+      if (eventId) {
+        params.append("eventId", eventId);
+      }
+
+      // Add other filters if provided
+      if (filters.actionType) {
+        params.append("actionType", filters.actionType);
+      }
+      if (filters.startDate) {
+        params.append("startDate", filters.startDate);
+      }
+      if (filters.endDate) {
+        params.append("endDate", filters.endDate);
+      }
+      if (filters.limit) {
+        params.append("limit", filters.limit);
+      }
+
+      // Use the new endpoint
+      const url = `/api/expenses/audit-logs${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+      const res = await api.get(url);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
+
 const expensesSlice = createSlice({
   name: "expenses",
   initialState: {
     items: [],
     budgetStatus: null,
+    auditLogs: [],
+    deletedPaidExpenses: [],
     status: "idle",
+    auditLogStatus: "idle",
+    auditLogError: null,
     error: null,
     createStatus: "idle",
     createError: null,
@@ -63,6 +106,15 @@ const expensesSlice = createSlice({
     updateError: null,
     deleteStatus: "idle",
     deleteError: null,
+    auditLogFilters: {
+      eventId: null,
+      actionType: null,
+      startDate: null,
+      endDate: null,
+      limit: 100,
+    },
+    auditLogCount: 0,
+    paidExpensesCount: 0,
   },
   reducers: {
     resetExpenseStatuses: (state) => {
@@ -72,6 +124,20 @@ const expensesSlice = createSlice({
       state.updateError = null;
       state.deleteStatus = "idle";
       state.deleteError = null;
+      state.auditLogStatus = "idle";
+      state.auditLogError = null;
+    },
+    setAuditLogFilters: (state, action) => {
+      state.auditLogFilters = { ...state.auditLogFilters, ...action.payload };
+    },
+    clearAuditLogFilters: (state) => {
+      state.auditLogFilters = {
+        eventId: null,
+        actionType: null,
+        startDate: null,
+        endDate: null,
+        limit: 100,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -148,8 +214,41 @@ const expensesSlice = createSlice({
           action.payload?.systemMessage ||
           action.error.message;
       });
+
+    // Get expense audit logs
+    builder
+      .addCase(fetchExpenseAuditLogs.pending, (state) => {
+        state.auditLogStatus = "loading";
+      })
+      .addCase(fetchExpenseAuditLogs.fulfilled, (state, action) => {
+        state.auditLogStatus = "succeeded";
+
+        // Store both sets of logs
+        state.auditLogs = action.payload.auditLogs || [];
+        state.deletedPaidExpenses = action.payload.deletedPaidExpenses || [];
+
+        // Store counts
+        state.auditLogCount = action.payload.count || 0;
+        state.paidExpensesCount = action.payload.paidExpensesCount || 0;
+
+        // Store filters used
+        if (action.payload.filters) {
+          state.auditLogFilters = {
+            ...state.auditLogFilters,
+            ...action.payload.filters,
+          };
+        }
+      })
+      .addCase(fetchExpenseAuditLogs.rejected, (state, action) => {
+        state.auditLogStatus = "failed";
+        state.auditLogError = action.payload?.message || action.error.message;
+      });
   },
 });
 
-export const { resetExpenseStatuses } = expensesSlice.actions;
+export const {
+  resetExpenseStatuses,
+  setAuditLogFilters,
+  clearAuditLogFilters,
+} = expensesSlice.actions;
 export default expensesSlice.reducer;

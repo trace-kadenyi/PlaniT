@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { getExpensesByCategory, BudgetStatus } from "../utils/budgetHelpers";
 import {
@@ -14,6 +15,12 @@ import {
   AddExpenseBtn,
   EditDeleteExpenseBtns,
 } from "../../buttons/ExpenseButtons";
+import ExpenseAuditLogPanel from "../expenses/ExpenseAuditLogPanel";
+import {
+  usePermissions,
+  PERMISSIONS,
+  RESOURCES,
+} from "../../../globalHooks/userPermissions";
 
 export default function BudgetTab({
   expenses,
@@ -24,13 +31,24 @@ export default function BudgetTab({
   Link,
 }) {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { can } = usePermissions();
+
   const [showCreateExpenseForm, setShowCreateExpenseForm] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const [activeView, setActiveView] = useState("list");
   const [scrollToForm, setScrollToForm] = useState(false);
+  const [showAuditLogs, setShowAuditLogs] = useState(false);
 
   // form ref
   const formRef = useRef(null);
+  const auditLogRef = useRef(null);
+
+  // Check if user can view audit logs
+  const canViewAuditLogs = can(
+    PERMISSIONS.VIEW_AUDIT_LOGS,
+    RESOURCES.AUDIT_LOG
+  );
 
   // scroll to form start
   useEffect(() => {
@@ -44,6 +62,18 @@ export default function BudgetTab({
     }
   }, [scrollToForm, showCreateExpenseForm, expenseToEdit]);
 
+  // scroll to audit log when it's shown
+  useEffect(() => {
+    if (showAuditLogs && auditLogRef.current) {
+      setTimeout(() => {
+        auditLogRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+    }
+  }, [showAuditLogs]);
+
   // Handle both array and Redux-style expense objects
   const expensesArray = Array.isArray(expenses)
     ? expenses
@@ -54,24 +84,57 @@ export default function BudgetTab({
   // check if budget is 0 or not set
   const hasNoBudget = !budgetStatus || budgetStatus.totalBudget === 0;
 
+  const handleToggleAuditLogs = () => {
+    setShowAuditLogs(!showAuditLogs);
+  };
+
   return (
     <>
       <div className="flex sm:justify-between items-center mb-4 flex-col sm:flex-row gap-5 sm:gap-3">
         <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
           Budget & Expenses
         </h2>
-        {hasNoBudget ? (
-          <AddBudgetLink id={id} />
-        ) : (
-          <AddExpenseBtn
-            showCreateExpenseForm={showCreateExpenseForm}
-            setExpenseToEdit={setExpenseToEdit}
-            setScrollToForm={setScrollToForm}
-            setShowCreateExpenseForm={setShowCreateExpenseForm}
-          />
-        )}
-      </div>
+        <div className="flex items-center gap-2 flex-wrap justify-center">
+          {/* Show Audit Logs toggle button for super admins */}
+          {canViewAuditLogs && (
+            <button
+              onClick={handleToggleAuditLogs}
+              className={`flex items-center space-x-1 text-sm px-3 py-1.5 rounded-full transition text-xs cursor-pointer ${
+                showAuditLogs
+                  ? "bg-[#9B2C62] text-white hover:bg-[#801f4f] dark:bg-[#D97706] dark:hover:bg-[#F59E0B]"
+                  : "bg-[#6B3B0F]/10 text-[#6B3B0F] hover:bg-[#6B3B0F]/20 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-3 h-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <span>{showAuditLogs ? "Hide Audit Log" : "View Audit Log"}</span>
+            </button>
+          )}
 
+          {hasNoBudget ? (
+            <AddBudgetLink id={id} />
+          ) : (
+            <AddExpenseBtn
+              showCreateExpenseForm={showCreateExpenseForm}
+              setExpenseToEdit={setExpenseToEdit}
+              setScrollToForm={setScrollToForm}
+              setShowCreateExpenseForm={setShowCreateExpenseForm}
+            />
+          )}
+        </div>
+      </div>
       {/* Expense Form */}
       {!hasNoBudget && showCreateExpenseForm && (
         <div ref={formRef} className="mb-6 scroll-mt-4">
@@ -98,13 +161,10 @@ export default function BudgetTab({
           )}
         </div>
       )}
-
       {/* Budget Status Summary */}
       {budgetStatus && <BudgetStatus budgetStatus={budgetStatus} />}
-
       {/* Loading/Empty States */}
       {isLoading && expensesArray.length === 0 && <p>Loading expenses...</p>}
-
       {/* with budget/no expenses added  */}
       {!hasNoBudget && expensesArray.length === 0 && !isLoading && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] border-l-[#F59E0B] dark:border-l-[#F59E0B]">
@@ -113,7 +173,6 @@ export default function BudgetTab({
           </p>
         </div>
       )}
-
       {/* without budget/no expenses added  */}
       {hasNoBudget && expensesArray.length === 0 && !isLoading && (
         <div className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 p-6 rounded-xl shadow-sm border border-[#F3EDE9] flex items-start gap-3">
@@ -143,7 +202,7 @@ export default function BudgetTab({
       )}
       {/* Expense List */}
       {expensesArray.length > 0 && (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900">
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 max-h-[450px] overflow-y-auto minimal-scrollbar">
           {/* tabs List View & By Category */}
           <ExpenseTab
             activeView={activeView}
@@ -161,17 +220,13 @@ export default function BudgetTab({
                   <ExpenseListView expense={expense}>
                     <EditDeleteExpenseBtns
                       setShowCreateExpenseForm={setShowCreateExpenseForm}
-                      handleExpenseDelete={(expenseId) =>
-                        handleExpenseDelete(
-                          expenseId,
-                          expense.vendor?._id,
-                          expensesArray
-                        )
-                      }
+                      handleExpenseDelete={handleExpenseDelete}
                       setExpenseToEdit={setExpenseToEdit}
                       expense={expense}
+                      expenses={expensesArray}
                       setScrollToForm={setScrollToForm}
                       eventId={id}
+                      can={can}
                     />
                   </ExpenseListView>
                 </li>
@@ -190,6 +245,12 @@ export default function BudgetTab({
               ))}
             </div>
           )}
+        </div>
+      )}
+      {/* Audit Logs Section (only for super admins) */}
+      {canViewAuditLogs && showAuditLogs && (
+        <div ref={auditLogRef} className="mt-8 scroll-mt-4">
+          <ExpenseAuditLogPanel eventId={id} />
         </div>
       )}
     </>

@@ -23,7 +23,7 @@ export const createVendorArchiveHandler = (
           duration={duration}
           isArchived={isArchived}
           onConfirm={() => {
-            dispatch(toggleArchiveVendor(id))
+            return dispatch(toggleArchiveVendor(id))
               .unwrap()
               .then(() => {
                 toast.dismiss(t.id);

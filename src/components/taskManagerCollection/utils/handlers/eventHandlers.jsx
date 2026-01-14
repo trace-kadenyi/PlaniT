@@ -1,9 +1,11 @@
-
 export const createEventDeleteHandler = (
   dispatch,
   id,
   navigate,
-  deleteEvent, toast, toastWithProgress, DeleteConfirmationToast
+  deleteEvent,
+  toast,
+  toastWithProgress,
+  DeleteConfirmationToast
 ) => {
   return () => {
     const duration = 10000;
@@ -14,10 +16,17 @@ export const createEventDeleteHandler = (
           duration={duration}
           type="event"
           onConfirm={() => {
-            dispatch(deleteEvent(id));
-            toast.dismiss(t.id);
-            toastWithProgress("Event deleted successfully");
-            navigate("/events");
+            return dispatch(deleteEvent(id))
+              .unwrap()
+              .then(() => {
+                toast.dismiss(t.id);
+                toastWithProgress("Event deleted successfully");
+                navigate("/events");
+              })
+              .catch((err) => {
+                toast.dismiss(t.id);
+                toastWithProgress(err?.message || "Failed to delete event");
+              });
           }}
           onCancel={() => toast.dismiss(t.id)}
         />

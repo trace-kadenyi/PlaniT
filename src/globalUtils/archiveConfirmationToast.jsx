@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Archive, RefreshCcw } from "lucide-react";
+import { Archive, RefreshCcw, Loader2 } from "lucide-react";
 
 export default function ArchiveConfirmationToast({
   t,
@@ -9,6 +9,7 @@ export default function ArchiveConfirmationToast({
   isArchived = false,
 }) {
   const [progress, setProgress] = useState(100);
+  const [isLoading, setIsLoading] = useState(false);
   const action = isArchived ? "restore" : "archive";
 
   // toast messages
@@ -27,6 +28,8 @@ export default function ArchiveConfirmationToast({
   };
 
   useEffect(() => {
+    if (isLoading) return; // ⛔ pause countdown while confirming
+
     const interval = 10;
     const step = (interval / duration) * 100;
     const timer = setInterval(() => {
@@ -34,7 +37,26 @@ export default function ArchiveConfirmationToast({
     }, interval);
 
     return () => clearInterval(timer);
-  }, [duration]);
+  }, [duration, isLoading]);
+
+  // handle confirm
+  const handleConfirm = async () => {
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+      await onConfirm();
+    } finally {
+      // Do NOT reset isLoading here
+      // Toast will be dismissed externally on success/error
+    }
+  };
+
+  // handle cancel
+  const handleCancel = () => {
+    if (isLoading) return;
+    onCancel();
+  };
 
   return (
     <div className="relative p-4 rounded-lg bg-white border border-gray-200 shadow-lg max-w-[300px] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black dark:border-gray-600">
@@ -46,20 +68,39 @@ export default function ArchiveConfirmationToast({
       </div>
       <div className="flex justify-end gap-3">
         <button
-          onClick={onCancel}
-          className="px-4 py-1.5 text-sm border border-gray-300 text-gray-700 dark:text-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
+          onClick={handleCancel}
+          disabled={isLoading}
+          className={`px-4 py-1.5 text-sm border rounded-lg transition
+    ${
+      isLoading
+        ? "border-gray-200 text-gray-400 cursor-not-allowed pointer-events-none dark:border-gray-700 bg:gray-600 dark:bg-gray-700"
+        : "border-gray-300 text-gray-700 hover:bg-gray-100 cursor-pointer dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-900"
+    }
+  `}
         >
           Cancel
         </button>
         <button
-          onClick={onConfirm}
-          className={`px-4 py-1.5 text-sm text-white rounded-lg transition cursor-pointer ${
+          onClick={handleConfirm}
+          disabled={isLoading}
+          className={`px-4 py-1.5 text-sm text-white rounded-lg transition flex items-center justify-center gap-2 min-w-[150px] ${
             action === "archive"
               ? "bg-[#9B2C62] hover:bg-[#801f4f]"
               : "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
+          }  ${
+            isLoading
+              ? "bg-red-400 cursor-not-allowed"
+              : "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500"
           }`}
         >
-          {messages[action].confirm}
+          {isLoading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              {action === "archive" ? "Archiving…" : "Restoring…"}
+            </>
+          ) : (
+            messages[action].confirm
+          )}
         </button>
       </div>
       {/* Countdown bar */}

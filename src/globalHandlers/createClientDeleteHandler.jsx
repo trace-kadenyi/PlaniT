@@ -17,7 +17,7 @@ export const createClientDeleteHandler = (
           type="client"
           onConfirm={async () => {
             try {
-              dispatch(deleteClient(id)).unwrap();
+              await dispatch(deleteClient(id)).unwrap();
               toast.dismiss(t.id);
               toastWithProgress("Client deleted successfully");
               navigate("/clients");

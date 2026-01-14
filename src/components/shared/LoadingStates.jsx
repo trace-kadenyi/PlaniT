@@ -59,3 +59,12 @@ export const VendorStatsLoading = () => (
     ))}
   </div>
 );
+
+// load expense audit logs
+export const AuditLogsLoading = () => {
+  return (
+    <div className="flex justify-center items-center py-8 min-h-[250px]">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#9B2C62] dark:border-[#F59E0B] "></div>
+    </div>
+  );
+};

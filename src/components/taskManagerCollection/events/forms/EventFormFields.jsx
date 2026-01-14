@@ -293,6 +293,7 @@ export default function EventFormFields({
                 id="budgetNotes"
                 name="budgetNotes"
                 rows={3}
+                maxLength={300}
                 value={formData.budgetNotes || ""}
                 onChange={onFieldChange}
                 disabled={shouldDisable}
@@ -301,6 +302,9 @@ export default function EventFormFields({
                 }`}
                 placeholder="Any notes about the budget..."
               />
+              <p className="text-xs text-right text-gray-500 dark:text-gray-400 mt-1">
+                {formData.budgetNotes.length}/300 characters
+              </p>
             </div>
           </div>
         </div>

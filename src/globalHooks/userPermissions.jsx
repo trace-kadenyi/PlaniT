@@ -13,6 +13,8 @@ export const PERMISSIONS = {
   DRAG_CARD: "drag_card",
   UPDATE_STATUS: "update_status",
   MANAGE_EVENT_STATUS: "manage_event_status",
+  VIEW_AUDIT_LOGS: "view_audit_logs",
+  DELETE_PAID_EXPENSE: "delete_paid_expense",
 };
 
 export const RESOURCES = {
@@ -22,6 +24,7 @@ export const RESOURCES = {
   CLIENT: "client",
   USER: "user",
   EXPENSE: "expense",
+  AUDIT_LOG: "audit_log",
 };
 
 export const ROLES = {
@@ -50,6 +53,7 @@ const getBasePermissionsForRole = (role) => {
     [RESOURCES.CLIENT]: [PERMISSIONS.VIEW],
     [RESOURCES.USER]: [PERMISSIONS.VIEW],
     [RESOURCES.EXPENSE]: [PERMISSIONS.VIEW],
+    [RESOURCES.AUDIT_LOG]: [],
   };
 
   if (hierarchy >= ROLE_HIERARCHY[ROLES.PLANNER]) {
@@ -83,6 +87,15 @@ const getBasePermissionsForRole = (role) => {
         PERMISSIONS.MANAGE_USERS
       );
     });
+
+    // Audit log permission for Admins and Super Admins
+    basePermissions[RESOURCES.AUDIT_LOG].push(PERMISSIONS.VIEW_AUDIT_LOGS);
+  }
+
+  // Only Super Admins can delete paid expenses
+  if (hierarchy >= ROLE_HIERARCHY[ROLES.SUPER_ADMIN]) {
+    basePermissions[RESOURCES.EXPENSE].push(PERMISSIONS.DELETE_PAID_EXPENSE);
+    basePermissions[RESOURCES.AUDIT_LOG].push(PERMISSIONS.VIEW_AUDIT_LOGS);
   }
 
   return basePermissions;
@@ -138,6 +151,16 @@ const checkPermission = (
     targetUser?._id === currentUser._id
   ) {
     return false;
+  }
+
+  // Special rule: Only super admins can delete paid expenses
+  if (permission === PERMISSIONS.DELETE_PAID_EXPENSE) {
+    return userRole === ROLES.SUPER_ADMIN;
+  }
+
+  // Special rule: Only super admins can view audit logs
+  if (permission === PERMISSIONS.VIEW_AUDIT_LOGS) {
+    return userRole === ROLES.ADMIN || userRole === ROLES.SUPER_ADMIN;
   }
 
   // For ALL other cases: if user has base permission, they're good!

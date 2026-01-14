@@ -14,7 +14,7 @@ export const createTaskDeleteHandler = (
           duration={duration}
           type="task"
           onConfirm={() => {
-            dispatch(deleteTask(taskId))
+            return dispatch(deleteTask(taskId))
               .unwrap()
               .then(() => {
                 toast.dismiss(t.id);

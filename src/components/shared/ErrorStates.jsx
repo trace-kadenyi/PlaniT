@@ -1,4 +1,4 @@
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, FileText } from "lucide-react";
 
 // error state func
 export function ErrorState({
@@ -58,9 +58,37 @@ export function GenErrorState({ error, message }) {
           />
         </svg>
       </div>
-      <p>
-        {error || message}
-      </p>
+      <p>{error || message}</p>
+    </div>
+  );
+}
+
+// audit logs error state
+export function AuditLogsErrorState({
+  auditLogError,
+  dispatch,
+  fetchExpenseAuditLogs,
+  eventId,
+}) {
+  return (
+    <div className="bg-gradient-to-br from-[#FFF9F5] to-white dark:from-gray-800/30 dark:to-gray-900/30 rounded-xl p-8 border border-[#F3EDE9] dark:border-gray-700 text-center">
+      <div className="mx-auto max-w-sm flex flex-col items-center">
+        <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center mb-4">
+          <FileText className="w-6 h-6 text-red-600 dark:text-red-400" />
+        </div>
+        <h3 className="font-semibold text-gray-800 dark:text-white mb-2">
+          Error loading audit logs
+        </h3>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">
+          {auditLogError || "Failed to load audit logs"}
+        </p>
+        <button
+          onClick={() => dispatch(fetchExpenseAuditLogs({ eventId }))}
+          className="mt-4 px-4 py-2 text-sm bg-[#9B2C62] hover:bg-[#801f4f] text-white rounded-md transition"
+        >
+          Retry
+        </button>
+      </div>
     </div>
   );
 }

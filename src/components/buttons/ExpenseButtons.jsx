@@ -122,6 +122,47 @@ export const EventAddBudgetLink = ({ eventID }) => {
 };
 
 // edit expense btn
+// export const EditDeleteExpenseBtns = ({
+//   setExpenseToEdit,
+//   setShowCreateExpenseForm,
+//   setScrollToForm,
+//   handleExpenseDelete,
+//   expense,
+//   expenses,
+// }) => {
+//   return (
+//     <div className="transform -translate-y-1/2 flex space-x-2 mt-4 flex justify-self-end sm:min-w-[212px]">
+//       <PermissionButton
+//         permission={PERMISSIONS.EDIT}
+//         resource={RESOURCES.EXPENSE}
+//         tooltipTitle="Edit expense"
+//         fallbackTooltip="Upgrade to Planner or Admin role to edit expenses"
+//         className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#9B2C62]/10 text-[#9B2C62] hover:bg-[#9B2C62] hover:text-white text-xs dark:bg-[#F59E0B]/40 dark:text-gray-300 dark:hover:bg-[#F59E0B]/30"
+//         onClick={() => {
+//           setExpenseToEdit(expense);
+//           setShowCreateExpenseForm(true);
+//           setScrollToForm(true);
+//         }}
+//       >
+//         Edit expense
+//       </PermissionButton>
+//       <PermissionButton
+//         permission={PERMISSIONS.DELETE}
+//         resource={RESOURCES.EXPENSE}
+//         tooltipTitle="Delete expense"
+//         fallbackTooltip="Upgrade to Planner or Admin role to delete expenses"
+//         className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs dark:bg-[#BE3455]/40 dark:hover:bg-[#BE3455]/30 dark:text-white"
+//         onClick={() =>
+//           handleExpenseDelete(expense._id, expense.vendor?._id, expenses)
+//         }
+//       >
+//         Delete expense
+//       </PermissionButton>
+//     </div>
+//   );
+// };
+
+// edit expense btn
 export const EditDeleteExpenseBtns = ({
   setExpenseToEdit,
   setShowCreateExpenseForm,
@@ -129,31 +170,68 @@ export const EditDeleteExpenseBtns = ({
   handleExpenseDelete,
   expense,
   expenses,
+  can,
 }) => {
+  // Check if user has EDIT permission
+  const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.EXPENSE);
+
+  // Determine if edit should be disabled
+  const isPaidExpense = expense.paymentStatus === "paid";
+  const editTooltip = isPaidExpense
+    ? "Paid expenses cannot be edited"
+    : "Edit expense";
+
   return (
     <div className="transform -translate-y-1/2 flex space-x-2 mt-4 flex justify-self-end sm:min-w-[212px]">
+      {/* EDIT BUTTON - disabled for paid expenses */}
       <PermissionButton
         permission={PERMISSIONS.EDIT}
         resource={RESOURCES.EXPENSE}
-        tooltipTitle="Edit expense"
+        tooltipTitle={editTooltip}
         fallbackTooltip="Upgrade to Planner or Admin role to edit expenses"
-        className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#9B2C62]/10 text-[#9B2C62] hover:bg-[#9B2C62] hover:text-white text-xs dark:bg-[#F59E0B]/40 dark:text-gray-300 dark:hover:bg-[#F59E0B]/30"
+        className={`flex items-center px-2 py-1 rounded-md transition-all duration-200 text-xs ${
+          isPaidExpense && hasEditPermission
+            ? "bg-gray-100 text-gray-400 cursor-not-allowed dark:bg-gray-800 dark:text-gray-500"
+            : "bg-[#9B2C62]/10 text-[#9B2C62] hover:bg-[#9B2C62] hover:text-white dark:bg-[#F59E0B]/40 dark:text-gray-300 dark:hover:bg-[#F59E0B]/30"
+        }`}
         onClick={() => {
-          setExpenseToEdit(expense);
-          setShowCreateExpenseForm(true);
-          setScrollToForm(true);
+          if (!isPaidExpense && hasEditPermission) {
+            setExpenseToEdit(expense);
+            setShowCreateExpenseForm(true);
+            setScrollToForm(true);
+          }
         }}
+        disabled={isPaidExpense}
       >
-        Edit expense
+        {isPaidExpense && hasEditPermission ? "Edit (Locked)" : "Edit expense"}
       </PermissionButton>
+
+      {/* DELETE BUTTON with special check for paid expenses */}
       <PermissionButton
-        permission={PERMISSIONS.DELETE}
+        permission={
+          expense.paymentStatus === "paid"
+            ? PERMISSIONS.DELETE_PAID_EXPENSE
+            : PERMISSIONS.DELETE
+        }
         resource={RESOURCES.EXPENSE}
-        tooltipTitle="Delete expense"
-        fallbackTooltip="Upgrade to Planner or Admin role to delete expenses"
+        tooltipTitle={
+          expense.paymentStatus === "paid"
+            ? "Delete paid expense (Super Admin only)"
+            : "Delete expense"
+        }
+        fallbackTooltip={
+          expense.paymentStatus === "paid"
+            ? "Only Super Administrators can delete paid expenses"
+            : "Upgrade to Planner or Admin role to delete expenses"
+        }
         className="flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs dark:bg-[#BE3455]/40 dark:hover:bg-[#BE3455]/30 dark:text-white"
         onClick={() =>
-          handleExpenseDelete(expense._id, expense.vendor?._id, expenses)
+          handleExpenseDelete(
+            expense._id,
+            expense.vendor?._id,
+            expenses,
+            expense.paymentStatus
+          )
         }
       >
         Delete expense
