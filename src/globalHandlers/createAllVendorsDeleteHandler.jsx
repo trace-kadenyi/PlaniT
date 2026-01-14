@@ -5,12 +5,15 @@ export const createAllVendorsDeleteHandler = (
   toast,
   toastWithProgress,
   DeleteConfirmationToast,
-  resetVendorStatuses
+  resetVendorStatuses,
+  toastLock
 ) => {
   return () => {
+    if (toastLock.isLocked()) return; // 🔒 BLOCK MULTI-CLICK
+
     const duration = 10000;
 
-    toast(
+    const toastId = toast(
       (t) => (
         <DeleteConfirmationToast
           t={t}
@@ -39,12 +42,21 @@ export const createAllVendorsDeleteHandler = (
             } catch (error) {
               toast.dismiss(t.id);
               toastWithProgress(error || "Failed to delete all vendors");
+            } finally {
+              toastLock.unlock(); // 🔓 ALWAYS UNLOCK
             }
           }}
-          onCancel={() => toast.dismiss(t.id)}
+          onCancel={() => {
+            toast.dismiss(t.id);
+            toastLock.unlock(); // 🔓 unlock on cancel
+          }}
         />
       ),
       { duration, position: "top-center" }
     );
+    toastLock.lock(toastId); // 🔒 LOCK AFTER TOAST SPAWNS
+
+    // ✅ SAFETY NET
+    setTimeout(toastLock.unlock, duration + 100);
   };
 };
