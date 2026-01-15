@@ -134,7 +134,7 @@ export const EditUserFormBtn = ({
         isSelf
           ? "You cannot edit your own profile"
           : updateStatus === "loading" || updateRoleStatus === "loading"
-          ? "Saving"
+          ? "Saving..."
           : isEditConfirmActive
           ? "Confirming..."
           : canEditUser
