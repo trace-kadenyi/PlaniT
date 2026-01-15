@@ -110,6 +110,8 @@ export default function VendorCard({
                 <CircleUserRound className="mr-2 text-[#9B2C62] dark:text-[#D97706]" />
                 Contact Information
               </h3>
+
+              {/* email */}
               <div className="space-y-4">
                 <div className="flex items-start">
                   <Mail className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
@@ -126,6 +128,8 @@ export default function VendorCard({
                     </p>
                   </div>
                 </div>
+
+                {/* phone */}
                 <div className="flex items-start">
                   <Phone className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
                   <div>
@@ -141,6 +145,8 @@ export default function VendorCard({
                     </p>
                   </div>
                 </div>
+
+                {/* website */}
                 <div className="flex items-start">
                   <Globe className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
                   <div>
