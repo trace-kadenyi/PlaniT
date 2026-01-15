@@ -91,6 +91,7 @@ export const ArchiveTBVendorBtn = ({
   filterMode,
   toastWithProgress,
   ArchiveConfirmationToast,
+  archiveStatus,
 }) => {
   const toastLock = useToastLock();
 
@@ -98,12 +99,19 @@ export const ArchiveTBVendorBtn = ({
     <PermissionButton
       permission={PERMISSIONS.ARCHIVE}
       resource={RESOURCES.VENDOR}
-      tooltipTitle="Archive vendor"
+      tooltipTitle={`${
+        archiveStatus === "loading"
+          ? "please wait..."
+          : vendor.isArchived
+          ? "Restore vendor"
+          : "Archive vendor"
+      }`}
       fallbackTooltip={`${
         vendor.isArchived
           ? "Upgrade to Planner or Admin role to restore vendors"
           : "Upgrade to Planner or Admin role to archive vendors"
       }`}
+      disabled={archiveStatus === "loading"}
       onClick={createVendorArchiveHandler(
         dispatch,
         vendor._id,
@@ -161,7 +169,9 @@ export const ArchiveVendorBtn = ({ vendor, handleArchive, archiveStatus }) => {
     <PermissionButton
       permission={PERMISSIONS.ARCHIVE}
       resource={RESOURCES.VENDOR}
-      tooltipTitle="Archive vendor"
+      tooltipTitle={`${
+        vendor.isArchived ? "Restore vendor" : "Archive vendor"
+      }`}
       fallbackTooltip={`${
         vendor.isArchived
           ? "Upgrade to Planner or Admin role to restore vendors"
