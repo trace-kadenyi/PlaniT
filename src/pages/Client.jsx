@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { PlusIcon } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
