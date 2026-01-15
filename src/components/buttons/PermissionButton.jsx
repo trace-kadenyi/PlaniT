@@ -27,6 +27,7 @@ export default function PermissionButton({
   // Get tooltip content
   const getTooltipContent = () => {
     if (!hasAccess && fallbackTooltip) return fallbackTooltip;
+    if (loading && tooltipTitle) return tooltipTitle;
     if (loading) return "Loading...";
     if (disabled) return tooltipTitle;
     return tooltipTitle;
