@@ -58,7 +58,15 @@ export const AddExpenseFormBtn = ({ onClose, expenseStatus, mode }) => {
       <PermissionButton
         permission={PERMISSIONS.CREATE}
         resource={RESOURCES.EXPENSE}
-        tooltipTitle="Create a new expense"
+        tooltipTitle={`${
+          expenseStatus === "loading"
+            ? mode === "create"
+              ? "Adding..."
+              : "Saving..."
+            : mode === "create"
+            ? "Add Expense"
+            : "Save Changes"
+        }`}
         fallbackTooltip="Upgrade to Planner or Admin role to save expense"
         type="submit"
         disabled={expenseStatus === "loading"}
