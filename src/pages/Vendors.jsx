@@ -182,7 +182,7 @@ export default function Vendors() {
           )}
 
         {/* No vendors */}
-        {status === "succeeded" && filteredVendors.length === 0 && (
+        {filteredVendors.length === 0 && status !== "loading" && !error && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 text-center border border-[#E3CBC1] dark:border-gray-700 dark:shadow-md dark:shadow-gray-900/30">
             <h3 className="text-lg font-medium text-gray-700 dark:text-gray-200 mb-2">
               No vendors found
