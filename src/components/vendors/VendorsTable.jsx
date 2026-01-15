@@ -12,6 +12,7 @@ export default function VendorsTable({
   fetchVendors,
   fetchVendorStats,
   filterMode,
+  archiveStatus,
 }) {
   return (
     <div className="minimal-scrollbar overflow-x-auto bg-white rounded-lg shadow overflow-hidden border border-[#E3CBC1] dark:border-gray-900 dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black">
@@ -109,6 +110,7 @@ export default function VendorsTable({
                     filterMode={filterMode}
                     toastWithProgress={toastWithProgress}
                     ArchiveConfirmationToast={ArchiveConfirmationToast}
+                    archiveStatus={archiveStatus}
                   />
                 </div>
               </td>
