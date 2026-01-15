@@ -37,7 +37,9 @@ export const AddMemberFormBtn = ({ setShowAddForm, addUserStatus }) => {
       <PermissionButton
         permission={PERMISSIONS.MANAGE_USERS}
         resource={RESOURCES.USER}
-        tooltipTitle="Add new member"
+        tooltipTitle={`${
+          addUserStatus === "loading" ? "Adding..." : "Add a new member"
+        }`}
         fallbackTooltip="Upgrade to Admin role to add team members"
         type="submit"
         disabled={addUserStatus === "loading"}
