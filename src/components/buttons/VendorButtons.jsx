@@ -10,6 +10,7 @@ import {
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 import { createVendorArchiveHandler } from "../../globalHandlers/vendorArchiveHandler";
+import { useToastLock } from "../../globalUtils/useToastLock";
 
 // create vendor btn
 export const CreateVendorBtn = ({ navigate }) => {
@@ -90,17 +91,27 @@ export const ArchiveTBVendorBtn = ({
   filterMode,
   toastWithProgress,
   ArchiveConfirmationToast,
+  archiveStatus,
 }) => {
+  const toastLock = useToastLock();
+
   return (
     <PermissionButton
       permission={PERMISSIONS.ARCHIVE}
       resource={RESOURCES.VENDOR}
-      tooltipTitle="Archive vendor"
+      tooltipTitle={`${
+        archiveStatus === "loading"
+          ? "please wait..."
+          : vendor.isArchived
+          ? "Restore vendor"
+          : "Archive vendor"
+      }`}
       fallbackTooltip={`${
         vendor.isArchived
           ? "Upgrade to Planner or Admin role to restore vendors"
           : "Upgrade to Planner or Admin role to archive vendors"
       }`}
+      disabled={archiveStatus === "loading"}
       onClick={createVendorArchiveHandler(
         dispatch,
         vendor._id,
@@ -111,7 +122,8 @@ export const ArchiveTBVendorBtn = ({
         fetchVendorStats,
         filterMode,
         toastWithProgress,
-        ArchiveConfirmationToast
+        ArchiveConfirmationToast,
+        toastLock
       )}
       className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs ${
         vendor.isArchived
@@ -157,7 +169,13 @@ export const ArchiveVendorBtn = ({ vendor, handleArchive, archiveStatus }) => {
     <PermissionButton
       permission={PERMISSIONS.ARCHIVE}
       resource={RESOURCES.VENDOR}
-      tooltipTitle="Archive vendor"
+      tooltipTitle={`${
+        archiveStatus === "loading"
+          ? "please wait..."
+          : vendor.isArchived
+          ? "Restore vendor"
+          : "Archive vendor"
+      }`}
       fallbackTooltip={`${
         vendor.isArchived
           ? "Upgrade to Planner or Admin role to restore vendors"
@@ -212,7 +230,9 @@ export const SaveVendorFormBtn = ({ formStatus, onCancel }) => {
       <PermissionButton
         permission={PERMISSIONS.CREATE}
         resource={RESOURCES.VENDOR}
-        tooltipTitle="Add a new vendor"
+        tooltipTitle={`${
+          formStatus === "loading" ? "Saving..." : "Save vendor"
+        }`}
         fallbackTooltip="Upgrade to Planner or Admin role to add vendors"
         type="submit"
         disabled={formStatus === "loading"}
@@ -224,7 +244,8 @@ export const SaveVendorFormBtn = ({ formStatus, onCancel }) => {
         <button
           type="button"
           onClick={onCancel}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg dark:bg-gray-500 dark:hover:bg-gray-400"
+          disabled={formStatus === "loading"}
+          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </button>

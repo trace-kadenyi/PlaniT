@@ -8,6 +8,7 @@ export default function DeleteConfirmationToast({
   onCancel,
   type = "event", // 'event' or 'task'
   expensePaymentStatus,
+  entityName, // optional
 }) {
   const [progress, setProgress] = useState(100);
   const [isLoading, setIsLoading] = useState(false);
@@ -104,11 +105,22 @@ export default function DeleteConfirmationToast({
         </div>
         <div>
           <p className="text-sm text-gray-800 dark:text-gray-300">
-            {message.warning}{" "}
+            {entityName && (
+              <>
+                Delete{" "}
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  “{entityName}”.{" "}
+                </span>
+              </>
+            )}
+            {message.warning}
+
             <span className="font-semibold text-red-600">
+              {" "}
               It cannot be undone.
             </span>
           </p>
+
           {/* Show additional note for paid expenses */}
           {messageType === "paid_expense" && message.note && (
             <p className="text-xs text-amber-600 dark:text-amber-400 mt-2 font-medium">

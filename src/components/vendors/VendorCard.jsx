@@ -20,6 +20,7 @@ import ArchiveEditDeleteVendor from "../shared/ArchiveEditDeleteVendor";
 import { createVendorDeleteHandler } from "../../globalHandlers/createVendorDeleteHandler";
 import { deleteVendor } from "../../redux/vendorsSlice";
 import DeleteConfirmationToast from "../taskManagerCollection/utils/deleteConfirmationToast";
+import { useToastLock } from "../../globalUtils/useToastLock";
 
 export default function VendorCard({
   dispatch,
@@ -28,6 +29,8 @@ export default function VendorCard({
   archiveStatus,
   navigate,
 }) {
+  const toastLock = useToastLock();
+
   const handleArchive = createVendorArchiveHandler(
     dispatch,
     vendor?._id,
@@ -38,7 +41,8 @@ export default function VendorCard({
     null, // Don't need to fetch stats in details page
     null, // No filter mode needed
     toastWithProgress,
-    ArchiveConfirmationToast
+    ArchiveConfirmationToast,
+    toastLock
   );
 
   const handleDelete = createVendorDeleteHandler(
@@ -48,7 +52,8 @@ export default function VendorCard({
     deleteVendor,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
+    toastLock
   );
 
   return (
@@ -105,6 +110,8 @@ export default function VendorCard({
                 <CircleUserRound className="mr-2 text-[#9B2C62] dark:text-[#D97706]" />
                 Contact Information
               </h3>
+
+              {/* email */}
               <div className="space-y-4">
                 <div className="flex items-start">
                   <Mail className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
@@ -121,6 +128,8 @@ export default function VendorCard({
                     </p>
                   </div>
                 </div>
+
+                {/* phone */}
                 <div className="flex items-start">
                   <Phone className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
                   <div>
@@ -136,6 +145,8 @@ export default function VendorCard({
                     </p>
                   </div>
                 </div>
+
+                {/* website */}
                 <div className="flex items-start">
                   <Globe className="h-5 w-5 text-[#FF8F00] mt-0.5 mr-3 flex-shrink-0" />
                   <div>

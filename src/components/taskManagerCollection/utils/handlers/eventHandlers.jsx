@@ -1,37 +1,58 @@
-export const createEventDeleteHandler = (
+export const createLockedDeleteHandler = (
   dispatch,
-  id,
-  navigate,
-  deleteEvent,
+  deleteAction,
   toast,
   toastWithProgress,
-  DeleteConfirmationToast
+  DeleteConfirmationToast,
+  lockRef
 ) => {
-  return () => {
-    const duration = 10000;
-    toast(
+  return (id, options = {}) => {
+    if (lockRef.current) return; // 🔒 HARD LOCK
+
+    const { duration = 10000, type = "event", entityName, onSuccess } = options;
+
+    const unlock = () => {
+      lockRef.current = null;
+    };
+
+    const toastId = toast(
       (t) => (
         <DeleteConfirmationToast
           t={t}
           duration={duration}
-          type="event"
+          type={type}
+          entityName={entityName}
           onConfirm={() => {
-            return dispatch(deleteEvent(id))
+            // ✅ MUST return promise (loader depends on this)
+            return dispatch(deleteAction(id))
               .unwrap()
               .then(() => {
-                toast.dismiss(t.id);
-                toastWithProgress("Event deleted successfully");
-                navigate("/events");
+                toastWithProgress(`${type} deleted successfully`);
+                onSuccess?.();
               })
               .catch((err) => {
+                toastWithProgress(err?.message || `Failed to delete ${type}`);
+              })
+              .finally(() => {
                 toast.dismiss(t.id);
-                toastWithProgress(err?.message || "Failed to delete event");
+                unlock(); // 🔓 always unlock
               });
           }}
-          onCancel={() => toast.dismiss(t.id)}
+          onCancel={() => {
+            toast.dismiss(t.id);
+            unlock(); // 🔓 unlock on cancel
+          }}
         />
       ),
-      { duration, position: "top-center" }
+      {
+        duration,
+        position: "top-center",
+      }
     );
+
+    lockRef.current = toastId;
+
+    // ✅ SAFETY NET (timeout)
+    setTimeout(unlock, duration + 100);
   };
 };

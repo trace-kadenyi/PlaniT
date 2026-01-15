@@ -4,12 +4,15 @@ export const createAllClientsDeleteHandler = (
   deleteAllClients,
   toast,
   toastWithProgress,
-  DeleteConfirmationToast
+  DeleteConfirmationToast,
+  toastLock
 ) => {
   return () => {
+    if (toastLock.isLocked()) return; // 🔒 BLOCK MULTI-CLICK
+
     const duration = 10000;
 
-    toast(
+    const toastId = toast(
       (t) => (
         <DeleteConfirmationToast
           t={t}
@@ -34,14 +37,23 @@ export const createAllClientsDeleteHandler = (
 
               navigate("/clients");
             } catch (error) {
-              toast.dismiss(t.id);
               toastWithProgress(error || "Failed to delete all clients");
+            } finally {
+              toastLock.unlock(); // 🔓 ALWAYS UNLOCK
             }
           }}
-          onCancel={() => toast.dismiss(t.id)}
+          onCancel={() => {
+            toast.dismiss(t.id);
+            toastLock.unlock(); // 🔓 unlock on cancel
+          }}
         />
       ),
       { duration, position: "top-center" }
     );
+
+    toastLock.lock(toastId); // 🔒 LOCK AFTER TOAST SPAWNS
+
+    // ✅ SAFETY NET
+    setTimeout(toastLock.unlock, duration + 100);
   };
 };

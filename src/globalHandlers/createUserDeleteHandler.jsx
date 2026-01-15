@@ -5,11 +5,17 @@ export const createUserDeleteHandler = (
   deleteUser,
   toast,
   toastWithProgress,
-  DeleteConfirmationToast
+  DeleteConfirmationToast,
+  toastLock
 ) => {
   return () => {
+    if (toastLock.isLocked()) return; // 🔒
+
     const duration = 10000;
-    toast(
+
+    toastLock.lock("user-delete");
+
+    const toastId = toast(
       (t) => (
         <DeleteConfirmationToast
           t={t}
@@ -29,12 +35,22 @@ export const createUserDeleteHandler = (
 
               // Show error toast with progress
               toastWithProgress(error || "Failed to delete user");
+            } finally {
+              toast.dismiss(t.id);
+              toastLock.unlock(); // 🔓 ALWAYS
             }
           }}
-          onCancel={() => toast.dismiss(t.id)}
+          onCancel={() => {
+            toast.dismiss(t.id);
+            toastLock.unlock(); // 🔓
+          }}
         />
       ),
       { duration, position: "top-center" }
     );
+    toastLock.lock(toastId);
+
+    // 🛟 safety net
+    setTimeout(toastLock.unlock, duration + 100);
   };
 };

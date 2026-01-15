@@ -4,6 +4,7 @@ import { TasksPriorityPill, TaskStatusPill } from "../../shared/UIFragments";
 import { formatDateTimeShort, formatDateOnly } from "../utils/formatting";
 import { CreatedUpdatedData } from "../../shared/Snippets";
 import { DeleteTaskBtn, EditTaskBtn } from "../../buttons/TaskButtons";
+import { useState } from "react";
 
 export default function TaskCard({
   tasks,
@@ -13,6 +14,8 @@ export default function TaskCard({
   setScrollToForm,
 }) {
   const navigate = useNavigate();
+  const [isDeletePending, setIsDeletePending] = useState(false);
+
   // Sort tasks by deadline (earliest first)
   const sortedTasks = [...tasks].sort((a, b) => {
     // Handle cases where deadline might be missing
@@ -63,6 +66,8 @@ export default function TaskCard({
                 <DeleteTaskBtn
                   handleTaskDelete={handleTaskDelete}
                   task={task}
+                  isDeletePending={isDeletePending}
+                  setIsDeletePending={setIsDeletePending}
                 />
               </div>
             </div>

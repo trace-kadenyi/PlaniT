@@ -19,10 +19,13 @@ import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandl
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenErrorState } from "../components/shared/ErrorStates";
 import { GenLoadingState } from "../components/shared/LoadingStates";
+import { useToastLock } from "../globalUtils/useToastLock";
 
 export default function Users() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const toastLock = useToastLock();
+
   const {
     items: users,
     status,
@@ -83,7 +86,8 @@ export default function Users() {
       deleteUser,
       toast,
       toastWithProgress,
-      DeleteConfirmationToast
+      DeleteConfirmationToast,
+      toastLock
     )();
   };
 

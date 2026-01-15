@@ -48,7 +48,8 @@ export const CreateTaskFormBtn = ({ mode, onClose, taskStatus }) => {
         <button
           type="button"
           onClick={onClose}
-          className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-600 transition"
+          disabled={taskStatus === "loading"}
+          className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:border-gray-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </button>
@@ -56,7 +57,7 @@ export const CreateTaskFormBtn = ({ mode, onClose, taskStatus }) => {
       <PermissionButton
         permission={PERMISSIONS.CREATE}
         resource={RESOURCES.TASK}
-        tooltipTitle="Create a new task"
+        tooltipTitle={`${taskStatus === "loading" ? "Saving..." : "Save task"}`}
         fallbackTooltip="Upgrade to Planner or Admin role to create tasks"
         type="submit"
         disabled={taskStatus === "loading"}
@@ -105,27 +106,37 @@ export const EditTaskBtn = ({
 };
 
 // delete task
-export const DeleteTaskBtn = ({ handleTaskDelete, task }) => {
+export const DeleteTaskBtn = ({
+  handleTaskDelete,
+  task,
+  isDeletePending,
+  setIsDeletePending,
+}) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.TASK}
-      tooltipTitle="Delete task"
+      tooltipTitle={!isDeletePending && "Delete task"}
+      disabled={isDeletePending}
       fallbackTooltip="Upgrade to Planner or Admin role to delete tasks"
-      className="p-1.5 rounded-md transition-all duration-200 
+      className={`p-1.5 rounded-md transition-all duration-200 
               text-[#BE3455] hover:text-white hover:bg-[#BE3455]
-              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]"
-      // title="Delete Task"
-      onClick={() => handleTaskDelete(task._id)}
+              group relative dark:text-[#D97706] dark:hover:bg-[#D97706]${
+                isDeletePending
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-default"
+              }`}
+      onClick={() => {
+        if (isDeletePending) return;
+
+        setIsDeletePending(true);
+
+        handleTaskDelete(task._id).finally(() => {
+          setIsDeletePending(false); // ✅ React owns state
+        });
+      }}
     >
       <Trash2 className="w-4 h-4" />
-      {/* Optional tooltip */}
-      {/* <span
-        className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
-      >
-        Delete Task
-      </span> */}
     </PermissionButton>
   );
 };

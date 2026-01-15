@@ -36,7 +36,12 @@ export const NoEventBtn = ({ navigate }) => {
 };
 
 // edit/delete event btns
-export const EditDeleteEventBtns = ({ navigate, eventID, handleDelete }) => {
+export const EditDeleteEventBtns = ({
+  navigate,
+  eventID,
+  eventName,
+  handleDelete,
+}) => {
   return (
     <div className="px-5 pb-3 flex space-x-2 lg:opacity-0 lg:group-hover:opacity-100 transition">
       {/* edit event */}
@@ -59,7 +64,13 @@ export const EditDeleteEventBtns = ({ navigate, eventID, handleDelete }) => {
         resource={RESOURCES.EVENT}
         tooltipTitle="Delete event"
         fallbackTooltip="Upgrade to Planner or Admin role to delete events"
-        onClick={() => handleDelete(eventID)}
+        onClick={() =>
+          handleDelete(eventID, {
+            type: "event",
+            entityName: eventName, // optional
+            onSuccess: () => navigate("/events"),
+          })
+        }
         className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-red-100/30 text-red-600 hover:bg-red-200 transition text-xs cursor-pointer dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50"
         // title="Delete"
       >
@@ -71,7 +82,12 @@ export const EditDeleteEventBtns = ({ navigate, eventID, handleDelete }) => {
 };
 
 // event details btn
-export const EventDetailsBtns = ({ navigate, eventID, handleDelete }) => {
+export const EventDetailsBtns = ({
+  navigate,
+  eventID,
+  eventName,
+  handleDelete,
+}) => {
   return (
     <div className="absolute top-5 right-4 flex space-x-2">
       {/* edit event */}
@@ -94,7 +110,13 @@ export const EventDetailsBtns = ({ navigate, eventID, handleDelete }) => {
         resource={RESOURCES.EVENT}
         tooltipTitle="Delete event"
         fallbackTooltip="Upgrade to Planner or Admin role to delete events"
-        onClick={handleDelete}
+        onClick={() =>
+          handleDelete(eventID, {
+            type: "event",
+            entityName: eventName, // optional
+            onSuccess: () => navigate("/events"),
+          })
+        }
         className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-red-100/30 text-red-600 hover:bg-red-200 transition text-xs cursor-pointer dark:bg-red-600/30 dark:text-white dark:hover:bg-red-600/70"
         title="Delete"
       >
@@ -111,7 +133,7 @@ export const AddEventFormBtn = ({ formStatus, shouldDisable, mode, Lock }) => {
     <PermissionButton
       permission={PERMISSIONS.CREATE}
       resource={RESOURCES.EVENT}
-      tooltipTitle="Create a new event"
+      tooltipTitle={`${formStatus === "loading" ? "Saving..." : "Save event"}`}
       fallbackTooltip="Upgrade to Planner or Admin role to create events"
       type="submit"
       disabled={formStatus === "loading" || shouldDisable}

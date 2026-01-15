@@ -26,13 +26,17 @@ import {
   CreateVendorBtn,
   DeleteAllVendorsBtn,
 } from "../components/buttons/VendorButtons";
+import { useToastLock } from "../globalUtils/useToastLock";
 
 export default function Vendors() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [filterMode, setFilterMode] = useState("all");
+  const toastLock = useToastLock();
 
-  const { deleteAllStatus } = useSelector((state) => state.vendors);
+  const { deleteAllStatus, archiveStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   const {
     searchTerm,
@@ -73,7 +77,8 @@ export default function Vendors() {
     toast,
     toastWithProgress,
     DeleteConfirmationToast,
-    resetVendorStatuses
+    resetVendorStatuses,
+    toastLock
   );
 
   return (
@@ -179,7 +184,7 @@ export default function Vendors() {
           )}
 
         {/* No vendors */}
-        {status === "succeeded" && filteredVendors.length === 0 && (
+        {filteredVendors.length === 0 && status !== "loading" && !error && (
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8 text-center border border-[#E3CBC1] dark:border-gray-700 dark:shadow-md dark:shadow-gray-900/30">
             <h3 className="text-lg font-medium text-gray-700 dark:text-gray-200 mb-2">
               No vendors found
@@ -208,6 +213,7 @@ export default function Vendors() {
               fetchVendors={fetchVendors}
               fetchVendorStats={fetchVendorStats}
               filterMode={filterMode}
+              archiveStatus={archiveStatus}
             />
 
             {/* Pagination */}

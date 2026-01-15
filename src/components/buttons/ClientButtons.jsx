@@ -152,6 +152,7 @@ export const ArchiveClientBtn = ({
   );
 };
 
+// delete client btn
 export const DeleteClientBtn = ({ handleDelete, id, client }) => {
   return (
     <PermissionButton
@@ -230,7 +231,9 @@ export const SaveClientFormBtn = ({ formStatus, onCancel }) => {
       <PermissionButton
         permission={PERMISSIONS.CREATE}
         resource={RESOURCES.CLIENT}
-        tooltipTitle="Add a new client"
+        tooltipTitle={`${
+          formStatus === "loading" ? "Saving..." : "Save client"
+        }`}
         fallbackTooltip="Upgrade to Planner or Admin role to add clients"
         type="submit"
         disabled={formStatus === "loading"}
@@ -242,7 +245,8 @@ export const SaveClientFormBtn = ({ formStatus, onCancel }) => {
         <button
           type="button"
           onClick={onCancel}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg"
+          disabled={formStatus === "loading"}
+          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </button>

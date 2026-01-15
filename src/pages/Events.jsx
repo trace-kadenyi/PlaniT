@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -12,10 +12,13 @@ import { LoadingPage } from "../components/shared/LoadingStates";
 import EventCard from "../components/taskManagerCollection/events/EventCard";
 import NoEvent from "../components/shared/NoEvent";
 import { CreateEventBtn } from "../components/buttons/EventButtons";
+import { createLockedDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
 
 export default function Events() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const deleteToastRef = useRef(null);
+
   const [expandedMonths, setExpandedMonths] = useState({});
 
   const { items: events, status, error } = useSelector((state) => state.events);
@@ -31,28 +34,18 @@ export default function Events() {
   );
 
   // handle delete event
-  const handleDelete = (id) => {
-    const duration = 10000; // 10 seconds
-
-    toast(
-      (t) => (
-        <DeleteConfirmationToast
-          t={t}
-          duration={duration}
-          onConfirm={() => {
-            dispatch(deleteEvent(id));
-            toast.dismiss(t.id);
-            toastWithProgress("Event deleted successfully");
-          }}
-          onCancel={() => toast.dismiss(t.id)}
-        />
+  const handleDelete = useMemo(
+    () =>
+      createLockedDeleteHandler(
+        dispatch,
+        deleteEvent,
+        toast,
+        toastWithProgress,
+        DeleteConfirmationToast,
+        deleteToastRef
       ),
-      {
-        duration,
-        position: "top-center",
-      }
-    );
-  };
+    [dispatch]
+  );
 
   // Group events by month
   const eventsByMonth = sortedEvents.reduce((acc, event) => {
