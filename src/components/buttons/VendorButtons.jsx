@@ -170,7 +170,11 @@ export const ArchiveVendorBtn = ({ vendor, handleArchive, archiveStatus }) => {
       permission={PERMISSIONS.ARCHIVE}
       resource={RESOURCES.VENDOR}
       tooltipTitle={`${
-        vendor.isArchived ? "Restore vendor" : "Archive vendor"
+        archiveStatus === "loading"
+          ? "please wait..."
+          : vendor.isArchived
+          ? "Restore vendor"
+          : "Archive vendor"
       }`}
       fallbackTooltip={`${
         vendor.isArchived
