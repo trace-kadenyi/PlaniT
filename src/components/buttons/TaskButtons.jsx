@@ -57,7 +57,7 @@ export const CreateTaskFormBtn = ({ mode, onClose, taskStatus }) => {
       <PermissionButton
         permission={PERMISSIONS.CREATE}
         resource={RESOURCES.TASK}
-        tooltipTitle="Create a new task"
+        tooltipTitle={`${taskStatus === "loading" ? "Saving..." : "Save task"}`}
         fallbackTooltip="Upgrade to Planner or Admin role to create tasks"
         type="submit"
         disabled={taskStatus === "loading"}
