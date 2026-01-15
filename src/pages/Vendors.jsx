@@ -34,7 +34,9 @@ export default function Vendors() {
   const [filterMode, setFilterMode] = useState("all");
   const toastLock = useToastLock();
 
-  const { deleteAllStatus } = useSelector((state) => state.vendors);
+  const { deleteAllStatus, archiveStatus } = useSelector(
+    (state) => state.vendors
+  );
 
   const {
     searchTerm,
@@ -211,6 +213,7 @@ export default function Vendors() {
               fetchVendors={fetchVendors}
               fetchVendorStats={fetchVendorStats}
               filterMode={filterMode}
+              archiveStatus={archiveStatus}
             />
 
             {/* Pagination */}
