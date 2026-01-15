@@ -133,7 +133,7 @@ export const AddEventFormBtn = ({ formStatus, shouldDisable, mode, Lock }) => {
     <PermissionButton
       permission={PERMISSIONS.CREATE}
       resource={RESOURCES.EVENT}
-      tooltipTitle="Create a new event"
+      tooltipTitle={`${formStatus === "loading" ? "Saving..." : "Save event"}`}
       fallbackTooltip="Upgrade to Planner or Admin role to create events"
       type="submit"
       disabled={formStatus === "loading" || shouldDisable}
