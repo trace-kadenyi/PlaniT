@@ -231,7 +231,9 @@ export const SaveClientFormBtn = ({ formStatus, onCancel }) => {
       <PermissionButton
         permission={PERMISSIONS.CREATE}
         resource={RESOURCES.CLIENT}
-        tooltipTitle="Add a new client"
+        tooltipTitle={`${
+          formStatus === "loading" ? "Saving..." : "Save client"
+        }`}
         fallbackTooltip="Upgrade to Planner or Admin role to add clients"
         type="submit"
         disabled={formStatus === "loading"}
