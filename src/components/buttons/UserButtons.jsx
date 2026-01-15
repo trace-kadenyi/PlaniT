@@ -133,6 +133,8 @@ export const EditUserFormBtn = ({
       tooltipTitle={
         isSelf
           ? "You cannot edit your own profile"
+          : updateStatus === "loading" || updateRoleStatus === "loading"
+          ? "Saving"
           : isEditConfirmActive
           ? "Confirming..."
           : canEditUser
