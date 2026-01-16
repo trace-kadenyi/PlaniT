@@ -68,7 +68,9 @@ export const ArchiveTableClientBtn = ({ handleArchiveToggle, client }) => {
     <PermissionButton
       permission={PERMISSIONS.ARCHIVE}
       resource={RESOURCES.CLIENT}
-      tooltipTitle="Archive client"
+      tooltipTitle={`${
+        client.isArchived ? "Restore client" : "Archive client"
+      }`}
       fallbackTooltip={`${
         client.isArchived
           ? "Upgrade to Planner or Admin role to restore clients"
