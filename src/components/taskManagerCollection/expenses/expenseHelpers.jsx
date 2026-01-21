@@ -63,11 +63,6 @@ export const handleFileUpload = async (e, callbacks) => {
 
     if (uploadError) throw uploadError;
 
-    // 5. PUBLIC URL
-    // const publicUrl = `${
-    //   import.meta.env.VITE_SUPABASE_URL
-    // }/storage/v1/object/public/expense-receipts/${filePath}`;
-
     const { data } = supabase.storage
       .from("planit-receipts")
       .getPublicUrl(filePath);
@@ -79,11 +74,6 @@ export const handleFileUpload = async (e, callbacks) => {
     setUploadProgress(100);
   } catch (error) {
     console.error("Upload error:", error);
-
-    // 6. CLEANUP (Now checks for RLS errors specifically)
-    // if (filePath && !error.message.includes("row-level security")) {
-    //   await supabase.storage.from("planit-receipts").remove([filePath]);
-    // }
 
     if (filePath) {
       await supabase.storage.from("planit-receipts").remove([filePath]);
@@ -99,43 +89,12 @@ export const handleFileUpload = async (e, callbacks) => {
 };
 
 // handle remove receipt
-// export const handleRemoveReceipt = async ({ form, onFieldChange }) => {
-//   if (!form.receiptUrl) return;
-
-//   try {
-//     // Extract path from URL (works with both public and signed URLs)
-//     const urlParts = form.receiptUrl.split("expense-receipts/");
-//     // const filePath = urlParts[urlParts.length - 1];
-//     const filePath = new URL(form.receiptUrl).pathname.split(
-//       "planit-receipts/",
-//     )[1];
-
-//     if (!filePath) {
-//       throw new Error("Invalid receipt URL");
-//     }
-
-//     // Delete from storage
-//     const { error } = await supabase.storage
-//       .from("planit-receipts")
-//       .remove([filePath]);
-
-//     // Always clear the form field
-//     onFieldChange({ target: { name: "receiptUrl", value: "" } });
-
-//     if (error) throw error;
-//   } catch (error) {
-//     console.error("Failed to delete receipt:", error);
-//     alert(`Couldn't remove receipt: ${error.message}`);
-//   }
-// };
-
 export const handleRemoveReceipt = async ({ form, onFieldChange }) => {
   if (!form.receiptUrl) return;
 
   try {
     const url = new URL(form.receiptUrl);
 
-    // /storage/v1/object/public/planit-receipts/receipts/temp_uploads/uuid.pdf
     const filePath = url.pathname.split("/planit-receipts/")[1];
 
     if (!filePath) {
