@@ -245,7 +245,7 @@ export default function ExpenseFormFields({
               />
             </label>
             <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 italic">
-              Accepted formats: JPG, PNG, WEBP, PDF (max 2MB)
+              Accepted formats: jpg, png, webp, pdf (max 2mb)
             </p>
             {uploading && (
               <div className="mt-2 space-y-1">
