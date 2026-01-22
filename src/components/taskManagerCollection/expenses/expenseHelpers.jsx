@@ -7,6 +7,9 @@ export const handleFileUpload = async (e, callbacks) => {
   const file = e.target.files[0];
   if (!file) return;
 
+  // 🔑allow re-selecting the same file
+  e.target.value = "";
+
   // 1. VALIDATION (Keep all security checks)
   const validTypes = [
     "image/jpeg",
@@ -51,7 +54,7 @@ export const handleFileUpload = async (e, callbacks) => {
 
     // 4. UPLOAD
     const { error: uploadError } = await supabase.storage
-      .from("expense-receipts")
+      .from("planit-receipts")
       .upload(filePath, file, {
         cacheControl: "3600",
         upsert: false,
@@ -60,10 +63,11 @@ export const handleFileUpload = async (e, callbacks) => {
 
     if (uploadError) throw uploadError;
 
-    // 5. PUBLIC URL
-    const publicUrl = `${
-      import.meta.env.VITE_SUPABASE_URL
-    }/storage/v1/object/public/expense-receipts/${filePath}`;
+    const { data } = supabase.storage
+      .from("planit-receipts")
+      .getPublicUrl(filePath);
+
+    const publicUrl = data.publicUrl;
 
     onFieldChange({ target: { name: "receiptUrl", value: publicUrl } });
 
@@ -71,9 +75,8 @@ export const handleFileUpload = async (e, callbacks) => {
   } catch (error) {
     console.error("Upload error:", error);
 
-    // 6. CLEANUP (Now checks for RLS errors specifically)
-    if (filePath && !error.message.includes("row-level security")) {
-      await supabase.storage.from("expense-receipts").remove([filePath]);
+    if (filePath) {
+      await supabase.storage.from("planit-receipts").remove([filePath]);
     }
 
     alert(`Upload failed: ${error.message}`);
@@ -90,13 +93,16 @@ export const handleRemoveReceipt = async ({ form, onFieldChange }) => {
   if (!form.receiptUrl) return;
 
   try {
-    // Extract path from URL (works with both public and signed URLs)
-    const urlParts = form.receiptUrl.split("expense-receipts/");
-    const filePath = urlParts[urlParts.length - 1];
+    const url = new URL(form.receiptUrl);
 
-    // Delete from storage
+    const filePath = url.pathname.split("/planit-receipts/")[1];
+
+    if (!filePath) {
+      throw new Error("Invalid receipt URL");
+    }
+
     const { error } = await supabase.storage
-      .from("expense-receipts")
+      .from("planit-receipts")
       .remove([filePath]);
 
     // Always clear the form field

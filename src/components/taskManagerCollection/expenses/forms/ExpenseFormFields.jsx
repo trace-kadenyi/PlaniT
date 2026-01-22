@@ -21,7 +21,7 @@ export default function ExpenseFormFields({
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const { items: vendors, status: vendorsStatus } = useSelector(
-    (state) => state.vendors
+    (state) => state.vendors,
   );
 
   // Handle date changes
@@ -222,7 +222,7 @@ export default function ExpenseFormFields({
               </span>
             )}
           </label>
-          <div className="mt-1 flex items-center gap-2">
+          <div className="mt-1 gap-2">
             <label className="cursor-pointer">
               <span className="sr-only">Choose receipt file</span>
               <input
@@ -244,6 +244,9 @@ export default function ExpenseFormFields({
           hover:file:bg-[#801f4f]"
               />
             </label>
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400 italic">
+              Accepted formats: jpg, png, webp, pdf (max 2mb)
+            </p>
             {uploading && (
               <div className="mt-2 space-y-1">
                 <div className="w-full bg-gray-200 rounded-full h-2">

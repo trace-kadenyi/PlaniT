@@ -64,8 +64,8 @@ export const AddExpenseFormBtn = ({ onClose, expenseStatus, mode }) => {
               ? "Adding..."
               : "Saving..."
             : mode === "create"
-            ? "Add Expense"
-            : "Save Changes"
+              ? "Add Expense"
+              : "Save Changes"
         }`}
         fallbackTooltip="Upgrade to Planner or Admin role to save expense"
         type="submit"
@@ -77,8 +77,8 @@ export const AddExpenseFormBtn = ({ onClose, expenseStatus, mode }) => {
             ? "Adding..."
             : "Saving..."
           : mode === "create"
-          ? "Add Expense"
-          : "Save Changes"}
+            ? "Add Expense"
+            : "Save Changes"}
       </PermissionButton>
     </div>
   );
@@ -207,7 +207,8 @@ export const EditDeleteExpenseBtns = ({
             expense._id,
             expense.vendor?._id,
             expenses,
-            expense.paymentStatus
+            expense.paymentStatus,
+            expense.receiptUrl,
           ).finally(() => {
             setIsDeletePending(false);
           });
