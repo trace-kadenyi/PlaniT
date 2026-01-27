@@ -1,7 +1,7 @@
+import React, { useState } from "react";
 import { CheckCircle } from "lucide-react";
 
 import { productFeatures } from "../../data/productData";
-import { useState } from "react";
 
 export default function ProductFeatures() {
   const [activeFeature, setActiveFeature] = useState("demo");
