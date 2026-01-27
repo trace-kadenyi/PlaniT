@@ -473,11 +473,11 @@ const ProductOverview = () => {
                 </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-300">
-                Manage all events through an interactive Kanban board. View
-                event details, track progress, and update status with
-                drag-and-drop functionality.
+                Comprehensive event management with financial tracking, status
+                monitoring, and role-based controls for complete planning
+                oversight.
               </p>
-              <div className="bg-gradient-to-br from-[#9B2C62]/5 to-[#7B1E5A]/5 dark:from-[#9B2C62]/10 dark:to-[#7B1E5A]/10 rounded-xl p-4 border border-[#9B2C62]/20">
+              <div className="bg-gradient-to-br from-[#9B2C62]/5 to-[#7B1E5A]/5 dark:from-[#9B2C62]/10 dark:to-[#7B1E5A]/20 rounded-xl p-4 border border-[#9B2C62]/20">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-sm font-medium text-[#9B2C62] dark:text-[#D97706]">
                     Key Features:
@@ -486,15 +486,20 @@ const ProductOverview = () => {
                 <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
                   <li className="flex items-start">
                     <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#9B2C62] dark:text-[#D97706] flex-shrink-0" />
-                    Monthly grouped event organization
+                    Drag-and-drop events between columns (Planning, In Progress,
+                    Completed, Cancelled)
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#9B2C62] dark:text-[#D97706] flex-shrink-0" />
-                    Detailed event cards with all information
+                    Budget tracking with spent and remaining amount details
                   </li>
                   <li className="flex items-start">
                     <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#9B2C62] dark:text-[#D97706] flex-shrink-0" />
-                    Role-based event management
+                    Role-based event management and permissions
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#9B2C62] dark:text-[#D97706] flex-shrink-0" />
+                    Detailed event cards
                   </li>
                 </ul>
               </div>
@@ -508,36 +513,35 @@ const ProductOverview = () => {
                 </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-300">
-                Track tasks with visual Kanban boards. Each task can be moved
-                between columns to update status, with real-time
-                synchronization.
+                Manage all tasks through an interactive Kanban board. View task
+                details, track progress, and update status with drag-and-drop
+                functionality.
               </p>
               <div className="bg-gradient-to-br from-[#F59E0B]/5 to-[#F97316]/5 dark:from-[#F59E0B]/10 dark:to-[#F97316]/10 rounded-xl p-4 border border-[#F59E0B]/20">
-                <div className="grid grid-cols-3 gap-3">
-                  {["To Do", "In Progress", "Completed"].map((col, idx) => (
-                    <div
-                      key={idx}
-                      className="bg-white/80 dark:bg-gray-800/80 rounded-lg p-3"
-                    >
-                      <h4 className="text-xs font-semibold text-[#9B2C62] dark:text-[#D97706] mb-2">
-                        {col}
-                      </h4>
-                      <div className="space-y-2">
-                        {Array(2)
-                          .fill()
-                          .map((_, i) => (
-                            <div
-                              key={i}
-                              className="bg-gray-50 dark:bg-gray-700/50 p-2 rounded"
-                            >
-                              <div className="w-3/4 h-2 bg-gray-200 dark:bg-gray-600 rounded mb-1"></div>
-                              <div className="w-1/2 h-2 bg-gray-100 dark:bg-gray-700 rounded"></div>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  ))}
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm font-medium text-[#D97706] dark:text-[#F59E0B]">
+                    Key Features:
+                  </span>
                 </div>
+                <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#D97706] dark:text-[#F59E0B] flex-shrink-0" />
+                    Drag-and-drop task movement between columns (To Do, In
+                    Progress, In Review, Completed)
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#D97706] dark:text-[#F59E0B] flex-shrink-0" />
+                    Real-time status updates with role-based permissions
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#D97706] dark:text-[#F59E0B] flex-shrink-0" />
+                    Detailed task cards with assignments and deadlines
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-4 h-4 mr-2 mt-0.5 text-[#D97706] dark:text-[#F59E0B] flex-shrink-0" />
+                    Visual progress tracking with color-coded statuses
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
