@@ -58,7 +58,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
             ...auditLogFilters,
             actionType: undefined,
           },
-        })
+        }),
       );
     }
   }, [dispatch, can, eventId]);
@@ -66,7 +66,7 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
   // Check if user can view audit logs
   const canViewAuditLogs = can(
     PERMISSIONS.VIEW_AUDIT_LOGS,
-    RESOURCES.AUDIT_LOG
+    RESOURCES.AUDIT_LOG,
   );
 
   if (!canViewAuditLogs) {
@@ -194,10 +194,13 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
 
           {/* logs footer */}
           <div className="text-center pt-2">
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            {/* <p className="text-xs text-gray-500 dark:text-gray-400">
               {authUser.role === "super_admin"
                 ? "Super administrators can view and delete paid expenses"
                 : "Administrators can view audit logs"}
+            </p> */}
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Only admins can view expense audit logs
             </p>
             <button
               onClick={() => setIsExpanded(false)}
