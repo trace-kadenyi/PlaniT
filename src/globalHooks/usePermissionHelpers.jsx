@@ -32,17 +32,14 @@ export const ROLE_PERMISSION_TEXTS = {
     "Full administrative privileges",
   ],
   [ROLES.ADMIN]: [
-    "Can manage users (except super admins)",
-    "Create/edit all events and content",
     "Full administrative privileges",
+    "Manage users (except super admins)",
   ],
   [ROLES.PLANNER]: [
-    "Can create and edit events",
-    "Manage vendors and clients",
-    "View all organization content",
+    "Manage events, clients, and vendors",
     "Cannot manage users",
   ],
-  [ROLES.VIEWER]: ["Can view all organization content", "Read-only access"],
+  [ROLES.VIEWER]: ["View all organization content", "Read-only access"],
 };
 
 // Smart helper to check if a permission is restricted
