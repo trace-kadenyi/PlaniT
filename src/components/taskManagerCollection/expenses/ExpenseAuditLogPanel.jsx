@@ -194,11 +194,6 @@ const ExpenseAuditLogPanel = ({ eventId }) => {
 
           {/* logs footer */}
           <div className="text-center pt-2">
-            {/* <p className="text-xs text-gray-500 dark:text-gray-400">
-              {authUser.role === "super_admin"
-                ? "Super administrators can view and delete paid expenses"
-                : "Administrators can view audit logs"}
-            </p> */}
             <p className="text-xs text-gray-500 dark:text-gray-400">
               Only admins can view expense audit logs
             </p>
