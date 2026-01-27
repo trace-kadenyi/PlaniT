@@ -33,7 +33,7 @@ const ProductOverview = () => {
 
   const [activeFeature, setActiveFeature] = useState("dashboard");
 
-  const features = [
+  const productFeatures = [
     {
       id: "demo",
       title: "Demo Access",
@@ -154,7 +154,7 @@ const ProductOverview = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature) => (
+            {productFeatures.map((feature) => (
               <div
                 key={feature.id}
                 className={`bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-xl p-6 shadow-sm border border-[#F3EDE9] dark:border-gray-700/50 hover:shadow-md transition-all duration-300 cursor-pointer ${
