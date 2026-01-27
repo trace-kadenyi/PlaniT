@@ -36,17 +36,10 @@ export const navLinks = [
   { icon: Group, label: "Team", path: "/team" },
 
   {
-    icon: Settings,
-    label: "Settings",
-    path: "/settings",
-    children: [
-      {
-        icon: Sun,
-        label: "Theme",
-        isThemeToggle: true,
-      },
-    ],
+    icon: Sun,
+    label: "Theme",
+    isThemeToggle: true,
   },
-  { icon: FileText, label: "Documents", path: "/documents" },
-  { icon: HelpCircle, label: "Help", path: "/help" },
+  // { icon: FileText, label: "Documents", path: "/documents" },
+  // { icon: HelpCircle, label: "Help", path: "/help" },
 ];

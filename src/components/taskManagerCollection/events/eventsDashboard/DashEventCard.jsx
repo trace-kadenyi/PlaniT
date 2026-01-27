@@ -9,12 +9,15 @@ export default function DashEventCard({ event }) {
   // Safely access budget data
   const {
     totalBudget = 0,
-    totalExpenses = 0,
+    spentAmount = 0,
+    reservedAmount = 0,
     remainingBudget = 0,
   } = event.budgetStatus || {};
 
+  const usedBudget = spentAmount + reservedAmount;
   const hasBudget = totalBudget > 0;
-  const percentageUsed = hasBudget ? (totalExpenses / totalBudget) * 100 : 0;
+  const percentageUsed = hasBudget ? (usedBudget / totalBudget) * 100 : 0;
+
   const isBudgetWarning = hasBudget && remainingBudget < totalBudget * 0.1;
 
   return (
@@ -53,8 +56,7 @@ export default function DashEventCard({ event }) {
                 Budget:
               </span>
               <span className={`font-semibold dark:text-gray-300`}>
-                ${totalExpenses.toLocaleString()} / $
-                {totalBudget.toLocaleString()}
+                ${usedBudget.toLocaleString()} / ${totalBudget.toLocaleString()}
               </span>
             </div>
             <ProgressBar

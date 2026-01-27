@@ -144,7 +144,7 @@ export default function ExpenseLogExpandables({
                       </span>
                       <span className="font-medium text-gray-500 dark:text-gray-300">
                         {formatCurrency(
-                          log.metadata.budgetRemainingBefore || 0
+                          log.metadata.budgetRemainingBefore || 0,
                         )}
                       </span>
                     </div>
@@ -227,7 +227,7 @@ export default function ExpenseLogExpandables({
                   </svg>
                   <div>
                     <span className="text-gray-600 dark:text-gray-400 mr-1">
-                      Reason:
+                      Brief:
                     </span>
                     <span className="text-[#6B3B0F] dark:text-gray-300">
                       {log.reason}
