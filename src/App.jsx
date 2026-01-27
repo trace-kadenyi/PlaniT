@@ -31,6 +31,7 @@ import Users from "./pages/Users";
 import User from "./pages/User";
 import EditUserProfile from "./pages/EditUserProfile";
 import Dashboards from "./pages/Dashboards";
+import ProductOverview from "./pages/ProductOverview";
 
 function App() {
   const dispatch = useDispatch();
@@ -86,6 +87,7 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/users/:userId" element={<User />} />
             <Route path="/users/:userId/edit" element={<EditUserProfile />} />
+            <Route path="/product-overview" element={<ProductOverview />} />
           </Route>
 
           {/* Catch all route - redirect to home */}
