@@ -68,11 +68,11 @@ const ProductOverview = () => {
         {/* Audit & Security */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-8">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#9B2C62]/30 to-transparent"></div>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#9B2C62]/30 to-transparent dark:via-[#F59E0B]/30"></div>
             <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706]">
               Audit & Security System
             </h2>
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#9B2C62]/30 to-transparent"></div>
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#9B2C62]/30 to-transparent dark:via-[#F59E0B]/30"></div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
