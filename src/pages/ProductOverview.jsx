@@ -104,52 +104,7 @@ const ProductOverview = () => {
     },
   ];
 
-  const roles = [
-    {
-      level: "Super Admin",
-      icon: <ShieldCheck className="w-5 h-5" />,
-      permissions: [
-        "All system operations",
-        "Create/edit all users",
-        "Delete paid expenses",
-      ],
-      restrictions: ["Cannot change own role", "Cannot delete own account"],
-      color: "bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A]",
-    },
-    {
-      level: "Admin",
-      icon: <Users className="w-5 h-5" />,
-      permissions: [
-        "Edit user profiles",
-        "Reset passwords",
-        "All except Super Admin editing",
-      ],
-      restrictions: ["Cannot edit Super Admins"],
-      color: "bg-gradient-to-r from-[#7C3AED] to-[#6D28D9]",
-    },
-    {
-      level: "Planner",
-      icon: <Calendar className="w-5 h-5" />,
-      permissions: [
-        "Create events/tasks/expenses",
-        "Edit own profile",
-        "Kanban board access",
-      ],
-      restrictions: ["Limited expense operations", "Cannot edit other users"],
-      color: "bg-gradient-to-r from-[#D97706] to-[#B45309]",
-    },
-    {
-      level: "Viewer",
-      icon: <Eye className="w-5 h-5" />,
-      permissions: [
-        "Read-only access",
-        "View dashboard data",
-        "Edit own profile",
-      ],
-      restrictions: ["No write operations", "Cannot edit other users"],
-      color: "bg-gradient-to-r from-[#4B5563] to-[#374151]",
-    },
-  ];
+ 
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
