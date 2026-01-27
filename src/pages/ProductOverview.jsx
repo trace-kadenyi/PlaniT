@@ -1,36 +1,26 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
-  ShieldCheck,
   Users,
   Calendar,
   CreditCard,
   History,
   KanbanSquare,
   Zap,
-  Eye,
   CheckCircle,
   BarChart,
   Lock,
   Key,
-  AlertTriangle,
   FolderKanban,
 } from "lucide-react";
 
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-import { ROLES } from "../globalHooks/userPermissions";
-import {
-  getRoleLabels,
-  ROLE_PERMISSION_TEXTS,
-} from "../globalHooks/usePermissionHelpers";
 import ProductFeatures from "../components/productOverview/ProductFeatures";
 import RoleSystem from "../components/productOverview/RoleSystem";
 
 const ProductOverview = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const isLoggedIn = isAuthenticated;
-
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
