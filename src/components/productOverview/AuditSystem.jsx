@@ -8,6 +8,8 @@ import {
   Key,
 } from "lucide-react";
 
+import auditLogDark from "../../assets/auditlogdark.png";
+
 export default function AuditSystem() {
   return (
     <section className="mb-16">
@@ -19,7 +21,7 @@ export default function AuditSystem() {
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#9B2C62]/30 to-transparent dark:via-[#F59E0B]/30"></div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8  items-center">
         <div className="space-y-6">
           <div className="bg-gradient-to-br from-white/80 to-white/60 dark:from-gray-800/80 dark:to-gray-900/80 rounded-xl p-6 border border-[#F3EDE9] dark:border-gray-700/50">
             <div className="flex items-center gap-3 mb-4">
@@ -68,57 +70,18 @@ export default function AuditSystem() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 dark:from-gray-900 dark:to-black rounded-xl p-6 border border-gray-700/50">
-          <h3 className="text-lg font-bold text-white mb-4">
-            Live Audit Log Example
-          </h3>
-          <div className="space-y-3">
-            {[
-              {
-                action: "Expense Approved",
-                user: "John Doe",
-                role: "Admin",
-                time: "2 hours ago",
-                color: "bg-green-600",
-              },
-              {
-                action: "Password Reset",
-                user: "Jane Smith",
-                role: "Admin",
-                time: "5 hours ago",
-                color: "bg-blue-600",
-              },
-              {
-                action: "Role Updated",
-                user: "Super Admin",
-                role: "System",
-                time: "Yesterday",
-                color: "bg-purple-600",
-              },
-              {
-                action: "Expense Deleted",
-                user: "Super Admin",
-                role: "System",
-                time: "2 days ago",
-                color: "bg-red-600",
-              },
-            ].map((log, idx) => (
-              <div key={idx} className="bg-gray-700/50 rounded-lg p-4">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="font-medium text-white">{log.action}</p>
-                    <p className="text-sm text-gray-400">
-                      {log.user} • {log.role} • {log.time}
-                    </p>
-                  </div>
-                  <span
-                    className={`px-2 py-1 ${log.color} text-white text-xs font-medium rounded-full`}
-                  >
-                    LOGGED
-                  </span>
-                </div>
-              </div>
-            ))}
+        <div className="flex items-center justify-center">
+          <div
+            className="bg-gradient-to-br from-white/80 to-white/60 
+                dark:from-gray-800/80 dark:to-gray-900/80
+                rounded-xl p-2 border border-[#F3EDE9] dark:border-gray-700/50
+               flex items-center justify-center"
+          >
+            <img
+              src={auditLogDark}
+              alt="expense audit log image"
+              className="rounded-lg max-h-[420px] w-full object-contain"
+            />
           </div>
         </div>
       </div>
