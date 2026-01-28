@@ -4,14 +4,10 @@ import { useNavigate } from "react-router-dom";
 import {
   Users,
   Calendar,
-  CreditCard,
-  History,
   KanbanSquare,
   Zap,
   CheckCircle,
   BarChart,
-  Lock,
-  Key,
   FolderKanban,
 } from "lucide-react";
 
