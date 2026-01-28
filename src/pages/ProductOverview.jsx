@@ -43,10 +43,6 @@ const ProductOverview = () => {
                 <Zap className="w-5 h-5 mr-2" />
                 Generate Demo Credentials
               </button>
-              <button className="px-6 py-3 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center">
-                <Calendar className="w-5 h-5 mr-2" />
-                Watch Video Tour
-              </button>
             </div>
           </div>
         </div>
@@ -81,10 +77,6 @@ const ProductOverview = () => {
               <button className="px-8 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center">
                 <Zap className="w-5 h-5 mr-2" />
                 Generate Demo Credentials
-              </button>
-              <button className="px-8 py-3 bg-gradient-to-r from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center">
-                <BarChart className="w-5 h-5 mr-2" />
-                View Feature Walkthrough
               </button>
             </div>
           </div>
