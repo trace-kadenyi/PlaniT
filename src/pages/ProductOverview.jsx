@@ -1,20 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  Users,
-  Calendar,
-  KanbanSquare,
-  Zap,
-  CheckCircle,
-  BarChart,
-  FolderKanban,
-} from "lucide-react";
+import { Calendar, Zap, BarChart } from "lucide-react";
 
 import ProductFeatures from "../components/productOverview/ProductFeatures";
 import RoleSystem from "../components/productOverview/RoleSystem";
 import AuditSystem from "../components/productOverview/AuditSystem";
-import VisualBoards, { InterfaceVisuals } from "../components/productOverview/VisualBoards";
+import VisualBoards, {
+  InterfaceVisuals,
+} from "../components/productOverview/VisualBoards";
 
 const ProductOverview = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
