@@ -39,7 +39,7 @@ export const productFeatures = [
     description: "Task management with interactive Kanban board",
     color: "from-[#D97706] to-[#B45309]",
     details: [
-      "Task tracking tied to events",
+      "Task-tracking tied to events",
       "Real-time status updates",
       "Detailed task management",
     ],
