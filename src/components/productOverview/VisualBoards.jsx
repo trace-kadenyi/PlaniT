@@ -133,14 +133,17 @@ export function InterfaceVisuals() {
             <CheckSquare className="w-5 h-5 text-[#F59E0B] dark:text-[#FBBF24]" />
             Tasks Manager Interface
           </h3>
-          <div className="bg-gradient-to-br from-white/80 to-white/60 dark:from-gray-800/80 dark:to-gray-900/80 rounded-xl p-8 border border-[#F3EDE9] dark:border-gray-700/50 h-64 flex items-center justify-center">
-            <p className="text-gray-400 text-center">
-              [Tasks Dashboard Screenshot/Video]
-              <br />
-              <span className="text-sm">
-                Monthly task organization with detailed cards
-              </span>
-            </p>
+          <div
+            className="bg-gradient-to-br from-white/80 to-white/60 
+                         dark:from-gray-800/80 dark:to-gray-900/80
+                         rounded-xl p-2 border border-[#F3EDE9] dark:border-gray-700/50
+                        flex items-center justify-center"
+          >
+            <img
+              src={tasksBoard}
+              alt="expense audit log image"
+              className="rounded-lg max-h-[420px] w-full object-contain"
+            />
           </div>
         </div>
       </div>
