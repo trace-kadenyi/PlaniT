@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Calendar, Zap, BarChart } from "lucide-react";
+import { Zap } from "lucide-react";
 
 import ProductFeatures from "../components/productOverview/ProductFeatures";
 import RoleSystem from "../components/productOverview/RoleSystem";
@@ -12,7 +11,6 @@ import VisualBoards, {
 
 const ProductOverview = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const isLoggedIn = isAuthenticated;
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
