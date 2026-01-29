@@ -159,7 +159,7 @@ export default function Sidebar() {
                 <Link
                   to={item.path}
                   className={`
-        flex items-center p-3 rounded-lg transition-colors
+        flex items-center p-2.5 rounded-lg transition-colors
         ${
           isActive(item.path)
             ? "bg-[#9B2C62] text-white dark:text-gray-200"
