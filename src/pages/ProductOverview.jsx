@@ -1,5 +1,7 @@
 import React from "react";
-import { Zap } from "lucide-react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Calendar, Zap, BarChart } from "lucide-react";
 
 import ProductFeatures from "../components/productOverview/ProductFeatures";
 import RoleSystem from "../components/productOverview/RoleSystem";
@@ -9,6 +11,9 @@ import VisualBoards, {
 } from "../components/productOverview/VisualBoards";
 
 const ProductOverview = () => {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const isLoggedIn = isAuthenticated;
+
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
       {/* Decorative Background Elements */}
@@ -61,25 +66,6 @@ const ProductOverview = () => {
         <section className="text-center py-12">
           <div className="bg-gradient-to-br from-[#FFF8F2] to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-8 border border-[#F3EDE9] dark:border-gray-700/50">
             <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
-              Ready to Explore the System?
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              Experience the complete event management platform with demo
-              credentials. No email required, no commitment – just full access
-              to test all features.
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <button className="px-8 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center">
-                <Zap className="w-5 h-5 mr-2" />
-                Generate Demo Credentials
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* <section className="text-center py-12">
-          <div className="bg-gradient-to-br from-[#FFF8F2] to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-8 border border-[#F3EDE9] dark:border-gray-700/50">
-            <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
               {isLoggedIn
                 ? "Ready to Dive In?"
                 : "Ready to Explore the System?"}
@@ -129,7 +115,7 @@ const ProductOverview = () => {
               )}
             </div>
           </div>
-        </section> */}
+        </section>
       </div>
     </main>
   );
