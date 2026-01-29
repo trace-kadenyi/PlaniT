@@ -8,6 +8,7 @@ import {
   Users,
   Shield,
   FileStack,
+  Receipt,
 } from "lucide-react";
 
 export const productFeatures = [
@@ -31,8 +32,8 @@ export const productFeatures = [
     color: "from-[#9B2C62] to-[#7B1E5A]",
     details: [
       "Events as central planning units",
+      "Connected client and vendor databases",
       "Drag-and-drop status updates",
-      "Visual dashboard with event details",
     ],
   },
   {
@@ -43,34 +44,33 @@ export const productFeatures = [
     color: "from-[#D97706] to-[#B45309]",
     details: [
       "Task-tracking tied to events",
-      "Real-time status updates",
+      "Drag-and-drop status updates",
       "Detailed task management",
     ],
   },
   {
-    id: "clients-vendors",
-    title: "Client & Vendor Management",
-    icon: <Users className="w-6 h-6 text-white dark:text-gray-300" />,
-    description: "Complete management of clients and vendors",
-    color: "from-[#0891b2] to-[#0e7490]",
+    id: "expenses",
+    title: "Expense Control",
+    icon: <Receipt className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "Secure financial management with comprehensive tracking",
+    color: "from-[#059669] to-[#047857]",
     details: [
-      "Create and manage client profiles",
-      "Vendor database with contact details",
-      "Archive and restore functionality",
-      "Assign to events and tasks",
+      "Role-restricted operations",
+      "Real-time budget tracking",
+      "Receipt upload and management",
     ],
   },
   {
-    id: "expenses-audit",
-    title: "Financial and User Audit System",
+    id: "audit",
+    title: "Audit & Security System",
     icon: <FileStack className="w-6 h-6 text-white dark:text-gray-300" />,
-    description:
-      "Secure expense handling and user management with detailed audit trails",
+    description: "Complete audit trails for financial and user operations",
     color: "from-[#DC2626] to-[#B91C1C]",
     details: [
-      "Role-restricted expense operations",
-      "Complete audit trails for all expense-related actions",
+      "Expense operation audit logs",
       "User update history tracking",
+      "Action timestamping",
+      "Comprehensive accountability",
     ],
   },
   {
