@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Zap } from "lucide-react";
 
 import ProductFeatures from "../components/productOverview/ProductFeatures";
@@ -10,8 +9,6 @@ import VisualBoards, {
 } from "../components/productOverview/VisualBoards";
 
 const ProductOverview = () => {
-  const { isAuthenticated } = useSelector((state) => state.auth);
-
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
       {/* Decorative Background Elements */}
