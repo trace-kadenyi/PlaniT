@@ -9,6 +9,7 @@ import AuditSystem from "../components/productOverview/AuditSystem";
 import VisualBoards, {
   InterfaceVisuals,
 } from "../components/productOverview/VisualBoards";
+import ProductLogo from "../components/productOverview/ProductLogo";
 
 const ProductOverview = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -30,19 +31,21 @@ const ProductOverview = () => {
           <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#9B2C62]/10 rounded-full blur-lg dark:bg-[#9B2C62]/20"></div>
 
           <div className="text-center">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-2">
-                PlaniT
-              </h1>
-              <h2 className="text-xl md:text-2xl font-semibold text-[#9B2C62] dark:text-[#D97706] my-4">
-                Event Management Platform
-              </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                Streamline event planning with integrated client/vendor
-                management, real-time task tracking, and secure financial
-                controls in one unified platform.
-              </p>
+            <div className="flex items-center justify-center mb-6">
+              <div className="scale-[1.8]">
+                <ProductLogo />
+              </div>
             </div>
+
+            <h2 className="text-xl md:text-2xl font-semibold text-[#9B2C62] dark:text-[#D97706] my-4">
+              Event Management Platform
+            </h2>
+
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Streamline event planning with integrated client/vendor
+              management, real-time task tracking, and secure financial controls
+              in one unified platform.
+            </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               {!isLoggedIn ? (
