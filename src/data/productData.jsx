@@ -4,7 +4,10 @@ import {
   ClipboardList,
   CreditCard,
   History,
-  Zap, Users, Shield, FileStack
+  Zap,
+  Users,
+  Shield,
+  FileStack,
 } from "lucide-react";
 
 export const productFeatures = [
@@ -44,7 +47,7 @@ export const productFeatures = [
       "Detailed task management",
     ],
   },
-   {
+  {
     id: "clients-vendors",
     title: "Client & Vendor Management",
     icon: <Users className="w-6 h-6 text-white dark:text-gray-300" />,
@@ -61,7 +64,8 @@ export const productFeatures = [
     id: "expenses-audit",
     title: "Financial and User Audit System",
     icon: <FileStack className="w-6 h-6 text-white dark:text-gray-300" />,
-    description: "Secure expense handling and user management with detailed audit trails",
+    description:
+      "Secure expense handling and user management with detailed audit trails",
     color: "from-[#DC2626] to-[#B91C1C]",
     details: [
       "Role-restricted expense operations",
@@ -80,25 +84,5 @@ export const productFeatures = [
       "No self-role modification",
       "Hierarchical permissions",
     ],
-  },
-  {
-    id: "expenses",
-    title: "Expense Control",
-    icon: <CreditCard className="w-6 h-6 text-white dark:text-gray-300" />,
-    description: "Secure expense handling with complete audit trails",
-    color: "from-[#DC2626] to-[#B91C1C]",
-    details: [
-      "Role-restricted operations",
-      "Paid expense deletion limited to Super Admin",
-      "All actions logged",
-    ],
-  },
-  {
-    id: "audit",
-    title: "Audit System",
-    icon: <History className="w-6 h-6 text-white dark:text-gray-300" />,
-    description: "Comprehensive logging for transparency and accountability",
-    color: "from-[#059669] to-[#047857]",
-    details: ["Expense audit logs", "User update history", "Action tracking"],
   },
 ];
