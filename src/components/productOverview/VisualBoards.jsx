@@ -7,6 +7,9 @@ import {
   CheckSquare,
 } from "lucide-react";
 
+import eventsBoard from "../../assets/eventsboard.png";
+import tasksBoard from "../../assets/tasksboard.png";
+
 export default function VisualBoards() {
   return (
     <section className="mb-16">
@@ -112,14 +115,17 @@ export function InterfaceVisuals() {
             <Calendar className="w-5 h-5 text-[#9B2C62] dark:text-[#D97706]" />
             Events Manager Interface
           </h3>
-          <div className="bg-gradient-to-br from-white/80 to-white/60 dark:from-gray-800/80 dark:to-gray-900/80 rounded-xl p-8 border border-[#F3EDE9] dark:border-gray-700/50 h-64 flex items-center justify-center">
-            <p className="text-gray-400 text-center">
-              [Events Dashboard Screenshot/Video]
-              <br />
-              <span className="text-sm">
-                Monthly event organization with detailed cards
-              </span>
-            </p>
+          <div
+            className="bg-gradient-to-br from-white/80 to-white/60 
+                         dark:from-gray-800/80 dark:to-gray-900/80
+                         rounded-xl p-2 border border-[#F3EDE9] dark:border-gray-700/50
+                        flex items-center justify-center"
+          >
+            <img
+              src={eventsBoard}
+              alt="expense audit log image"
+              className="rounded-lg max-h-[420px] w-full object-contain"
+            />
           </div>
         </div>
         <div>
