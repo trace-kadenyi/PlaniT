@@ -32,6 +32,7 @@ import User from "./pages/User";
 import EditUserProfile from "./pages/EditUserProfile";
 import Dashboards from "./pages/Dashboards";
 import ProductOverview from "./pages/ProductOverview";
+import PublicProductLayout from "./components/navigation/PublicProductLayout";
 
 function App() {
   const dispatch = useDispatch();
@@ -56,6 +57,11 @@ function App() {
           {/* Public routes (no layout, no sidebar) */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          {/* Product Overview - special handling */}
+          <Route path="/product-overview" element={<PublicProductLayout />}>
+            <Route index element={<ProductOverview />} />
+          </Route>
 
           {/* Protected routes with Layout (includes sidebar) */}
           <Route
@@ -87,7 +93,6 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/users/:userId" element={<User />} />
             <Route path="/users/:userId/edit" element={<EditUserProfile />} />
-            <Route path="/product-overview" element={<ProductOverview />} />
           </Route>
 
           {/* Catch all route - redirect to home */}
