@@ -4,7 +4,7 @@ import {
   ClipboardList,
   CreditCard,
   History,
-  Zap,
+  Zap, Users, Shield, FileStack
 } from "lucide-react";
 
 export const productFeatures = [
@@ -42,6 +42,31 @@ export const productFeatures = [
       "Task-tracking tied to events",
       "Real-time status updates",
       "Detailed task management",
+    ],
+  },
+   {
+    id: "clients-vendors",
+    title: "Client & Vendor Management",
+    icon: <Users className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "Complete management of clients and vendors",
+    color: "from-[#0891b2] to-[#0e7490]",
+    details: [
+      "Create and manage client profiles",
+      "Vendor database with contact details",
+      "Archive and restore functionality",
+      "Assign to events and tasks",
+    ],
+  },
+  {
+    id: "expenses-audit",
+    title: "Financial and User Audit System",
+    icon: <FileStack className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "Secure expense handling and user management with detailed audit trails",
+    color: "from-[#DC2626] to-[#B91C1C]",
+    details: [
+      "Role-restricted expense operations",
+      "Complete audit trails for all expense-related actions",
+      "User update history tracking",
     ],
   },
   {
