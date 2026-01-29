@@ -5,7 +5,7 @@ import Footer from "../footer/Footer";
 
 const PublicProductLayout = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  
+
   // For logged-in users: Show with sidebar
   if (isAuthenticated) {
     return (
@@ -13,16 +13,14 @@ const PublicProductLayout = () => {
         <Layout>
           <Outlet />
         </Layout>
-        <Footer />
       </>
     );
   }
-  
+
   // For non-logged-in users: Show without sidebar
   return (
     <>
       <Outlet />
-      <Footer />
     </>
   );
 };
