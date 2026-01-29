@@ -32,7 +32,7 @@ const ProductOverview = () => {
 
           <div className="text-center">
             <div className="flex items-center justify-center mb-6">
-              <div className="scale-[1.8]">
+              <div className="scale-[1.5] sm:scale-[1.8]">
                 <ProductLogo />
               </div>
             </div>
