@@ -91,13 +91,6 @@ const ProductOverview = () => {
                     <Calendar className="w-5 h-5 mr-2" />
                     Create Your First Event
                   </button>
-                  <button
-                    onClick={() => navigate("/events")}
-                    className="px-8 py-3 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
-                  >
-                    <BarChart className="w-5 h-5 mr-2" />
-                    Explore Dashboards
-                  </button>
                 </>
               ) : (
                 <>
