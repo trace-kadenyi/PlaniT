@@ -30,23 +30,38 @@ const ProductOverview = () => {
           <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#9B2C62]/10 rounded-full blur-lg dark:bg-[#9B2C62]/20"></div>
 
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
-              Event Management Platform
-            </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              A sophisticated role-based system for planning, tracking, and
-              managing events with enterprise-grade security and complete audit
-              trails.
-            </p>
+            <div className="text-center">
+              <h1 className="text-4xl md:text-5xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-2">
+                PlaniT
+              </h1>
+              <h2 className="text-xl md:text-2xl font-semibold text-[#9B2C62] dark:text-[#D97706] my-4">
+                Event Management Platform
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Streamline event planning with integrated client/vendor
+                management, real-time task tracking, and secure financial
+                controls in one unified platform.
+              </p>
+            </div>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <button
-                onClick={() => navigate("/signup")}
-                className="px-6 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
-              >
-                <Zap className="w-5 h-5 mr-2" />
-                Sign Up For a Demo Account
-              </button>
+              {!isLoggedIn ? (
+                <button
+                  onClick={() => navigate("/signup")}
+                  className="px-6 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
+                >
+                  <Zap className="w-5 h-5 mr-2" />
+                  Sign Up For Demo Access
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate("/events/new")}
+                  className="px-6 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
+                >
+                  <Zap className="w-5 h-5 mr-2" />
+                  Get Started
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -77,7 +92,7 @@ const ProductOverview = () => {
 
             <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
               {isLoggedIn
-                ? "You're already logged in! Start by creating your first event or explore the dashboards."
+                ? "You're already logged in! Start by creating your first event or add clients and vendors."
                 : "Experience the complete event management platform with demo credentials. No email required, no commitment – just full access to test all features."}
             </p>
 
