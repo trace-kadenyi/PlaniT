@@ -33,7 +33,7 @@ function DashboardProgressStats({
                   <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${DashEventsBar(
-                        statusLabels[status]
+                        statusLabels[status],
                       )}`}
                       style={{
                         width: `${
@@ -45,7 +45,7 @@ function DashboardProgressStats({
                   <span className="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">
                     {/* {events.length}  */}(
                     {Math.round(
-                      (events.length / Math.max(totalEvents, 1)) * 100
+                      (events.length / Math.max(totalEvents, 1)) * 100,
                     )}
                     %)
                   </span>
@@ -62,36 +62,42 @@ function DashboardProgressStats({
           Tasks by Status
         </h3>
         <div className="space-y-3">
-          {Object.entries(tasksByStatus).map(([status, tasksList]) => {
-            if (!tasksList || tasksList.length === 0) return null;
+          {totalTasks === 0 ? (
+            <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+              No tasks yet
+            </p>
+          ) : (
+            Object.entries(tasksByStatus).map(([status, tasksList]) => {
+              if (!tasksList || tasksList.length === 0) return null;
 
-            return (
-              <div key={status} className="flex items-center justify-between">
-                <span className="text-gray-700 dark:text-gray-300">
-                  {status}
-                </span>
-                <div className="flex items-center gap-2">
-                  <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full ${DashTasksBar(status)}`}
-                      style={{
-                        width: `${
-                          (tasksList.length / Math.max(totalTasks, 1)) * 100
-                        }%`,
-                      }}
-                    ></div>
-                  </div>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">
-                    (
-                    {Math.round(
-                      (tasksList.length / Math.max(totalTasks, 1)) * 100
-                    )}
-                    %)
+              return (
+                <div key={status} className="flex items-center justify-between">
+                  <span className="text-gray-700 dark:text-gray-300">
+                    {status}
                   </span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div
+                        className={`h-2 rounded-full ${DashTasksBar(status)}`}
+                        style={{
+                          width: `${
+                            (tasksList.length / Math.max(totalTasks, 1)) * 100
+                          }%`,
+                        }}
+                      ></div>
+                    </div>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 w-10 text-right">
+                      (
+                      {Math.round(
+                        (tasksList.length / Math.max(totalTasks, 1)) * 100,
+                      )}
+                      %)
+                    </span>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
     </div>
