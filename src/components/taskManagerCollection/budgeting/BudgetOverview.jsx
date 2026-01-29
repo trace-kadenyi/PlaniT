@@ -9,6 +9,7 @@ export default function BudgetOverview({
   deletedPaidTotal = 0,
   Link,
   eventID,
+  notes,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -135,6 +136,15 @@ export default function BudgetOverview({
               />
             </svg>
             <span>Warning: Less than 10% of budget remaining</span>
+          </div>
+        )}
+        {/* budget notes */}
+        {notes && (
+          <div className="mt-4 p-3 rounded-lg bg-[#FFF5EB] dark:bg-gray-800 dark:border-gray-800 p-3 rounded-lg border border-[#F3EDE9] text-xs text-gray-700 dark:text-gray-300">
+            <p className="font-semibold underline tracking-wide text-[#9B2C62] dark:text-[#D97706] mb-1">
+              Budget notes
+            </p>
+            <p>{notes}</p>
           </div>
         )}
       </div>
