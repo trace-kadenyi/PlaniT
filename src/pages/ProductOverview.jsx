@@ -13,6 +13,7 @@ import VisualBoards, {
 const ProductOverview = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const isLoggedIn = isAuthenticated;
+  const navigate = useNavigate();
 
   return (
     <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
@@ -39,9 +40,12 @@ const ProductOverview = () => {
             </p>
 
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <button className="px-6 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center">
+              <button
+                onClick={() => navigate("/signup")}
+                className="px-6 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
+              >
                 <Zap className="w-5 h-5 mr-2" />
-                Generate Demo Credentials
+                Sign Up For a Demo Account
               </button>
             </div>
           </div>
@@ -102,7 +106,7 @@ const ProductOverview = () => {
                     className="px-8 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
                   >
                     <Zap className="w-5 h-5 mr-2" />
-                    Generate Demo Credentials
+                    Sign up for a demo account
                   </button>
                   <button
                     onClick={() => navigate("/login")}
