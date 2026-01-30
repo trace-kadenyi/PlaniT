@@ -10,6 +10,7 @@ import VisualBoards, {
   InterfaceVisuals,
 } from "../components/productOverview/VisualBoards";
 import ProductLogo from "../components/productOverview/ProductLogo";
+import ProductAnimation from "../components/productOverview/ProductAnimation";
 
 const ProductOverview = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -86,55 +87,60 @@ const ProductOverview = () => {
 
         {/* Final CTA */}
         <section className="text-center py-12">
-          <div className="bg-gradient-to-br from-[#FFF8F2] to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-8 border border-[#F3EDE9] dark:border-gray-700/50">
-            <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
-              {isLoggedIn
-                ? "Ready to Dive In?"
-                : "Ready to Explore the System?"}
-            </h2>
+          <div className="bg-gradient-to-br from-[#FFF8F2] to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-8 border border-[#F3EDE9] dark:border-gray-700/50 flex flex-wrap justify-between gap-8 items-center">
+            <div className="flex justify-start w-full md:w-auto">
+              <ProductAnimation />
+            </div>
+            <div className="flex-1 text-center">
+              <h2 className="text-2xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
+                {isLoggedIn
+                  ? "Ready to Dive In?"
+                  : "Ready to Explore the System?"}
+              </h2>
 
-            <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-              {isLoggedIn
-                ? "You're already logged in! Start by creating your first event or add clients."
-                : "Experience the complete event management platform with demo credentials. No email required, no commitment – just full access to test all features."}
-            </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                {isLoggedIn
+                  ? "You're already logged in! Start by creating your first event or add clients."
+                  : "Experience the complete event management platform with demo credentials. No email required, no commitment – just full access to test all features."}
+              </p>
 
-            <div className="flex flex-wrap justify-center gap-6">
-              {isLoggedIn ? (
-                <>
-                  <button
-                    onClick={() => navigate("/events/new")}
-                    className="px-8 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
-                  >
-                    <Calendar className="w-5 h-5 mr-2" />
-                    Create Your First Event
-                  </button>
-                  <button
-                    onClick={() => navigate("/clients/new")}
-                    className="px-8 py-3 bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
-                  >
-                    <Users className="w-5 h-5 mr-2" />
-                    Add Your First Client
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => navigate("/signup")}
-                    className="px-8 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
-                  >
-                    <Zap className="w-5 h-5 mr-2" />
-                    Sign up for a demo account
-                  </button>
-                  <button
-                    onClick={() => navigate("/login")}
-                    className="px-8 py-3 bg-gradient-to-r from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
-                  >
-                    <BarChart className="w-5 h-5 mr-2" />
-                    Already Have Access? Login
-                  </button>
-                </>
-              )}
+              <div className="flex flex-wrap justify-center gap-6">
+                {isLoggedIn ? (
+                  <>
+                    <button
+                      onClick={() => navigate("/events/new")}
+                      className="px-8 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
+                    >
+                      <Calendar className="w-5 h-5 mr-2" />
+                      Create Your First Event
+                    </button>
+                    <button
+                      onClick={() => navigate("/clients/new")}
+                      className="px-8 py-3 bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
+                    >
+                      <Users className="w-5 h-5 mr-2" />
+                      Add Your First Client
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => navigate("/signup")}
+                      className="px-8 py-3 bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
+                    >
+                      <Zap className="w-5 h-5 mr-2" />
+                      Sign up for a demo account
+                    </button>
+                    <button
+                      onClick={() => navigate("/login")}
+                      className="px-8 py-3 bg-gradient-to-r from-gray-800 to-gray-900 dark:from-gray-700 dark:to-gray-800 text-white rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 flex items-center"
+                    >
+                      <BarChart className="w-5 h-5 mr-2" />
+                      Already Have Access? Login
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </section>
