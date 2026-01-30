@@ -1,5 +1,5 @@
 import { easeOut, motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import HeroImg from "../components/landing/HeroAnimation";
 import { features, steps } from "../data/homeData";
@@ -12,6 +12,8 @@ import {
 } from "../components/ui/FramerMotion";
 
 export default function HomePage() {
+  const navigate = useNavigate();
+
   return (
     <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100">
       {/* Hero Section */}
@@ -42,8 +44,11 @@ export default function HomePage() {
             >
               Get Started
             </Link>
-            <button className="border border-[#F59E0B] text-[#F59E0B] px-6 py-2 rounded font-semibold hover:bg-[#fef3c7] transition">
-              View Demo
+            <button
+              onClick={() => navigate("/product-overview")}
+              className="border border-[#F59E0B] text-[#F59E0B] px-6 py-2 rounded font-semibold hover:bg-gray-900 transition"
+            >
+              Product Overview
             </button>
           </motion.div>
         </motion.div>
