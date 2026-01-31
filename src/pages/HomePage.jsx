@@ -1,23 +1,25 @@
-import { easeOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 
 import HeroImg from "../components/landing/HeroAnimation";
-import { features, steps } from "../data/homeData";
 import {
-  ScrollFadeFunc,
   heroVariants,
   fadeUp,
-  StepCard,
   delayedFadeUp,
 } from "../components/ui/FramerMotion";
+import { useSelector } from "react-redux";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.auth.user);
+  const userDetails = currentUser
+    ? `${currentUser.firstName || ""} ${currentUser.lastName || ""}`.trim()
+    : "";
 
   return (
     <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100">
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10 h-screen sm:h-full">
+      <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10 h-screen">
         <motion.div
           variants={heroVariants}
           initial="hidden"
@@ -26,32 +28,76 @@ export default function HomePage() {
         >
           <motion.h1
             variants={fadeUp}
-            className="text-4xl font-bold leading-tight mb-4"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4"
           >
-            Simplify Your <br /> Event Planning
+            Welcome
+            {userDetails ? (
+              <>
+                <br />
+                {userDetails}
+              </>
+            ) : (
+              ""
+            )}
           </motion.h1>
           <motion.p
             variants={fadeUp}
-            className="text-gray-600 dark:text-gray-300 mb-6 max-w-md"
+            className="text-gray-600 dark:text-gray-300 mb-6 max-w-md text-lg"
           >
-            PlaniT helps event planners manage tasks, budgets, and resources
-            efficiently, with elegance and ease.
+            Ready to plan your next successful event?
           </motion.p>
-          <motion.div variants={fadeUp} className="flex gap-4">
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
             <Link
               to="/events/new"
-              className="bg-[#F59E0B] text-black font-semibold px-6 py-2 rounded hover:bg-[#d97706] transition"
+              className="bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
             >
-              Get Started
+              <span>New Event</span>
             </Link>
             <button
-              onClick={() => navigate("/product-overview")}
-              className="border border-[#F59E0B] text-[#F59E0B] px-6 py-2 rounded font-semibold hover:bg-gray-900 transition"
+              onClick={() => navigate("/clients/new")}
+              className="bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
             >
-              Product Overview
+              <span>Add Clients</span>
+            </button>
+            <button
+              onClick={() => navigate("/product-overview")}
+              className="border-2 border-[#F59E0B] text-[#F59E0B] px-6 py-3 rounded-xl font-semibold hover:text-white transform hover:-translate-y-1 transition-all duration-200 hover:bg-gray-900"
+            >
+              <span>Product Overview</span>
             </button>
           </motion.div>
+
+          {/* Quick Stats/Links */}
+          <motion.div
+            variants={fadeUp}
+            className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4"
+          >
+            <Link
+              to="/events/board"
+              className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <div className="font-semibold text-[#9B2C62] dark:text-[#D97706]">
+                Events
+              </div>
+              <div className="text-sm text-gray-500">Manage all events</div>
+            </Link>
+            <Link
+              to="/tasks/board"
+              className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <div className="font-semibold text-[#F59E0B]">Tasks</div>
+              <div className="text-sm text-gray-500">Kanban board</div>
+            </Link>
+            <Link
+              to="/dashboards"
+              className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+              <div className="font-semibold text-[#7C3AED]">Dashboard</div>
+              <div className="text-sm text-gray-500">View insights</div>
+            </Link>
+          </motion.div>
         </motion.div>
+
         <motion.div
           variants={delayedFadeUp}
           initial="hidden"
@@ -62,57 +108,47 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* Core Features Section */}
-      <ScrollFadeFunc>
-        <section className="bg-gray-50 dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 py-16 px-6">
-          <div className="max-w-6xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-10 text-[#9B2C62] dark:text-[#D97706]">
-              Core MVP Features
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-              {features.map((feature, i) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, duration: 0.5, ease: easeOut }}
-                  viewport={{ once: true }}
-                  className="bg-white dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 p-6 rounded-lg shadow hover:shadow-md transition border border-gray-100 dark:shadow-gray-900/50 dark:hover:shadow-amber-900/20 dark:border dark:border-gray-700"
-                >
-                  <h4 className="text-lg font-semibold mb-2 text-[#BE3455] dark:text-[#F59E0B]">
-                    {feature.title}
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">
-                    {feature.desc}
-                  </p>
-                </motion.div>
-              ))}
+      {/* Optional: Recent Activity Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="px-4 sm:px-6 pb-12 max-w-7xl mx-auto"
+      >
+        <div className="bg-gradient-to-r from-[#FFF8F2] to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 border border-[#F3EDE9] dark:border-gray-700/50">
+          <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
+            Quick Start Guide
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-4 bg-white/80 dark:bg-gray-800/80 rounded-lg">
+              <div className="text-sm font-semibold text-[#F59E0B] mb-2">
+                1. Create an Event
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Start by creating your first event with budget, timeline, and
+                team.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 dark:bg-gray-800/80 rounded-lg">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-2">
+                2. Add Tasks
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Break down your event into manageable tasks on the Kanban board.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 dark:bg-gray-800/80 rounded-lg">
+              <div className="text-sm font-semibold text-[#7C3AED] mb-2">
+                3. Invite Team
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Add team members and assign them roles with appropriate
+                permissions.
+              </p>
             </div>
           </div>
-        </section>
-      </ScrollFadeFunc>
-
-      {/* Process or How it Works Section */}
-      <ScrollFadeFunc>
-        <section className="py-20 px-6 bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-black">
-          <div className="max-w-6xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-12 text-[#9B2C62] dark:text-[#D97706]">
-              How PlaniT Works
-            </h3>
-            <div className="grid grid-cols-1 #E879Csm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
-              {steps.map((step, index) => (
-                <StepCard
-                  key={index}
-                  Icon={step.Icon}
-                  stepNumber={index + 1}
-                  title={step.title}
-                  text={step.text}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      </ScrollFadeFunc>
+        </div>
+      </motion.section>
     </main>
   );
 }
