@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isInitializing } = useSelector(
-    (state) => state.auth
+    (state) => state.auth,
   );
 
   // Show loading while initializing auth (checking for refresh token)
@@ -15,7 +15,11 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+  return isAuthenticated ? (
+    children
+  ) : (
+    <Navigate to="/product-overview" replace />
+  );
 };
 
 export default ProtectedRoute;
