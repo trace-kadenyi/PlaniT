@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import planningLottie from "../../assets/animations/Meetings.json";
+import planningLottie from "../../assets/animations/event-planning.json";
 
 export default function HeroAnimation() {
   return (
