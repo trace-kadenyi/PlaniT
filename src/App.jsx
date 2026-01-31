@@ -1,10 +1,5 @@
 import { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { initializeAuth } from "./redux/authSlice";
@@ -62,6 +57,8 @@ function App() {
           {/* Public routes (no layout, no sidebar) */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          {/* Product Overview - special handling */}
           <Route path="/product-overview" element={<PublicProductLayout />}>
             <Route index element={<ProductOverview />} />
           </Route>
@@ -76,7 +73,7 @@ function App() {
             }
           >
             {/* All nested routes are automatically protected by the parent ProtectedRoute */}
-            <Route index element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<Event />} />
             <Route path="/clients" element={<Clients />} />
@@ -98,11 +95,8 @@ function App() {
             <Route path="/users/:userId/edit" element={<EditUserProfile />} />
           </Route>
 
-          {/* Catch all - redirect to product-overview for non-logged-in users */}
-          <Route
-            path="*"
-            element={<Navigate to="/product-overview" replace />}
-          />
+          {/* Catch all route - redirect to home */}
+          <Route path="*" element={<HomePage />} />
         </Routes>
         <Footer />
       </Router>
