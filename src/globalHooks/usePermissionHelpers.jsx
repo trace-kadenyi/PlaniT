@@ -9,13 +9,13 @@ export const getAvailableRoles = (currentUserRole) => {
       { value: ROLES.VIEWER, label: "Viewer" },
       { value: ROLES.PLANNER, label: "Planner" },
       { value: ROLES.ADMIN, label: "Admin" },
-      { value: ROLES.SUPER_ADMIN, label: "Super Admin" }
+      { value: ROLES.SUPER_ADMIN, label: "Super Admin" },
     );
   } else if (currentUserRole === ROLES.ADMIN) {
     roles.push(
       { value: ROLES.VIEWER, label: "Viewer" },
       { value: ROLES.PLANNER, label: "Planner" },
-      { value: ROLES.ADMIN, label: "Admin" }
+      { value: ROLES.ADMIN, label: "Admin" },
     );
   } else {
     // Default - can't assign roles
@@ -26,28 +26,20 @@ export const getAvailableRoles = (currentUserRole) => {
 };
 
 // Helper to get role descriptions
-const ROLE_PERMISSION_TEXTS = {
+export const ROLE_PERMISSION_TEXTS = {
   [ROLES.SUPER_ADMIN]: [
     "Full organization access including managing other super admins",
-    "Complete control over all settings and configurations",
-    "Can manage all users, events, vendors, and clients",
-  ],
-  [ROLES.ADMIN]: [
-    "Can manage users (except super admins)",
-    "Create/edit all events and content",
     "Full administrative privileges",
   ],
+  [ROLES.ADMIN]: [
+    "Full administrative privileges",
+    "Manage users (except super admins)",
+  ],
   [ROLES.PLANNER]: [
-    "Can create and edit events",
-    "Manage assigned vendors and clients",
-    "View all organization content",
+    "Manage events, clients, and vendors",
     "Cannot manage users",
   ],
-  [ROLES.VIEWER]: [
-    "Can view all organization content",
-    "Cannot create or edit anything",
-    "Read-only access",
-  ],
+  [ROLES.VIEWER]: ["View all organization content", "Read-only access"],
 };
 
 // Smart helper to check if a permission is restricted

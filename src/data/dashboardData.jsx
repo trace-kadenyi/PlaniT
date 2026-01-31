@@ -45,7 +45,7 @@ export const createQuickStats = ({
       value: totalBudget > 0 ? `$${(totalBudget / 1000).toFixed(0)}k` : "$0",
       change:
         totalExpenses > 0
-          ? `- $${totalExpenses.toLocaleString("en-US", {
+          ? `-$${totalExpenses.toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}`

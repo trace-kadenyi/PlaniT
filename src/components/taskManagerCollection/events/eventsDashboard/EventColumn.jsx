@@ -62,6 +62,11 @@ export default function EventColumn({ columns }) {
                       )}
                     </PermissionDraggable>
                   ))}
+                  {column.tasks.length === 0 && (
+                    <div className="text-gray-400 text-sm italic p-2 text-center">
+                      No events here yet
+                    </div>
+                  )}
                   {provided.placeholder}
                 </div>
               </div>

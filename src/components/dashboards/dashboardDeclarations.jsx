@@ -7,7 +7,7 @@ export const getSortedActiveUpcomingEvents = (dashboardItems) => {
       (event) =>
         (event.status === "In Progress" || event.status === "Planning") &&
         new Date(event.date) > new Date() &&
-        event.status !== "Cancelled"
+        event.status !== "Cancelled",
     )
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .slice(0, 3);
@@ -17,7 +17,7 @@ export const getActiveUpcomingEventsCount = (dashboardItems) => {
   return dashboardItems.filter(
     (event) =>
       (event.status === "In Progress" || event.status === "Planning") &&
-      new Date(event.date) > new Date()
+      new Date(event.date) > new Date(),
   ).length;
 };
 
@@ -63,8 +63,7 @@ export const getTotalBudget = (dashboardItems) => {
 
 export const getTotalExpenses = (dashboardItems) => {
   return dashboardItems.reduce((sum, event) => {
-    const expenses = event.budgetStatus?.totalExpenses || 0;
-    return parseFloat((sum + expenses).toFixed(2));
+    return sum + (event.budgetStatus?.spentAmount || 0);
   }, 0);
 };
 
@@ -74,7 +73,7 @@ export const groupEventByStatus = (dashboardItems) => {
   return {
     planning: dashboardItems.filter((event) => event.status === "Planning"),
     "in-progress": dashboardItems.filter(
-      (event) => event.status === "In Progress"
+      (event) => event.status === "In Progress",
     ),
     completed: dashboardItems.filter((event) => event.status === "Completed"),
     cancelled: dashboardItems.filter((event) => event.status === "Cancelled"),

@@ -69,7 +69,7 @@ export default function EventDetailsCard({
           </span>{" "}
           <span
             className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(
-              event.status
+              event.status,
             )}`}
           >
             {event.status}
@@ -100,6 +100,7 @@ export default function EventDetailsCard({
           deletedPaidTotal={expensesState.deletedPaidTotal}
           Link={Link}
           eventID={id}
+          notes={event?.budget?.notes}
         />
       )}
     </div>

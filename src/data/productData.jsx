@@ -1,0 +1,88 @@
+import {
+  ShieldCheck,
+  Calendar,
+  ClipboardList,
+  CreditCard,
+  History,
+  Zap,
+  Users,
+  Shield,
+  FileStack,
+  Receipt,
+} from "lucide-react";
+
+export const productFeatures = [
+  {
+    id: "demo",
+    title: "Demo Access",
+    icon: <Zap className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "Generate demo credentials instantly - no email required",
+    color: "from-[#F59E0B] to-[#F97316]",
+    details: [
+      "No email verification required",
+      "Fake or disposable emails allowed",
+      "Immediate access to all features",
+    ],
+  },
+  {
+    id: "events",
+    title: "Events Management",
+    icon: <Calendar className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "Comprehensive event planning with Kanban-style dashboard",
+    color: "from-[#9B2C62] to-[#7B1E5A]",
+    details: [
+      "Events as central planning units",
+      "Connected client and vendor databases",
+      "Drag-and-drop status updates",
+    ],
+  },
+  {
+    id: "tasks",
+    title: "Tasks Dashboard",
+    icon: <ClipboardList className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "Task management with interactive Kanban board",
+    color: "from-[#D97706] to-[#B45309]",
+    details: [
+      "Task-tracking tied to events",
+      "Drag-and-drop status updates",
+      "Detailed task management",
+    ],
+  },
+  {
+    id: "expenses",
+    title: "Expense Control",
+    icon: <Receipt className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "Secure financial management with comprehensive tracking",
+    color: "from-[#059669] to-[#047857]",
+    details: [
+      "Role-restricted operations",
+      "Real-time budget tracking",
+      "Receipt upload and management",
+    ],
+  },
+  {
+    id: "audit",
+    title: "Audit & Security System",
+    icon: <FileStack className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "Complete audit trails for financial and user operations",
+    color: "from-[#DC2626] to-[#B91C1C]",
+    details: [
+      "Expense operation audit logs",
+      "User update history tracking",
+      "Action timestamping",
+      "Comprehensive accountability",
+    ],
+  },
+  {
+    id: "roles",
+    title: "Role-Based Access",
+    icon: <ShieldCheck className="w-6 h-6 text-white dark:text-gray-300" />,
+    description: "4-tier permission system with strict separation",
+    color: "from-[#7C3AED] to-[#6D28D9]",
+    details: [
+      "Super Admin, Admin, Planner, Viewer",
+      "No self-role modification",
+      "Hierarchical permissions",
+    ],
+  },
+];

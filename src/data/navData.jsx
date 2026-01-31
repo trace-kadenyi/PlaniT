@@ -34,12 +34,6 @@ export const navLinks = [
   { icon: Users, label: "Client Directory", path: "/clients" },
   { icon: UserCog, label: "Vendor Directory", path: "/vendors" },
   { icon: Group, label: "Team", path: "/team" },
-
-  {
-    icon: Sun,
-    label: "Theme",
-    isThemeToggle: true,
-  },
-  // { icon: FileText, label: "Documents", path: "/documents" },
-  // { icon: HelpCircle, label: "Help", path: "/help" },
+  { icon: HelpCircle, label: "Product Overview", path: "/product-overview" },
+  { icon: Sun, label: "Theme", isThemeToggle: true },
 ];

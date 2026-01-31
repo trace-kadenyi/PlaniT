@@ -145,7 +145,7 @@ function DashboardOverview({
             onClick={() => navigate("/tasks/board")}
             className="mt-4 w-full py-2 text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B] hover:bg-[#F59E0B]/5 dark:hover:bg-gray-700/30 rounded-lg transition-colors"
           >
-            {totalTasks > 0 ? "Manage All Tasks →" : "Add Tasks →"}
+            {totalTasks > 0 && "Manage All Tasks →"}
           </button>
         )}
       </div>
