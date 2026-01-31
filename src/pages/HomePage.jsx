@@ -57,7 +57,7 @@ export default function HomePage() {
               onClick={() => navigate("/clients/new")}
               className="bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
             >
-              <span>Add Clients</span>
+              <span>Add Client</span>
             </button>
             <button
               onClick={() => navigate("/product-overview")}
@@ -109,41 +109,67 @@ export default function HomePage() {
       </section>
 
       {/* Optional: Recent Activity Section */}
+      {/* Quick Start Guide Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="px-4 sm:px-6 pb-12 max-w-7xl mx-auto"
+        className="relative px-4 sm:px-6 pb-12 max-w-7xl mx-auto z-10"
       >
-        <div className="bg-gradient-to-r from-[#FFF8F2] to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 border border-[#F3EDE9] dark:border-gray-700/50">
+        <div className="bg-gradient-to-br from-[#FFF8F2]/80 to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 border border-[#F3EDE9] dark:border-gray-700/50 backdrop-blur-sm">
           <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
             Quick Start Guide
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-white/80 dark:bg-gray-800/80 rounded-lg">
-              <div className="text-sm font-semibold text-[#F59E0B] mb-2">
-                1. Create an Event
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                1. Add Team Members
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Invite your organization team and assign roles with appropriate
+                permissions.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                2. Create an Event
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 Start by creating your first event with budget, timeline, and
-                team.
+                details.
               </p>
             </div>
-            <div className="p-4 bg-white/80 dark:bg-gray-800/80 rounded-lg">
-              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#D97706] mb-2">
-                2. Add Tasks
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                3. Create & Assign Tasks
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Break down your event into manageable tasks on the Kanban board.
+                Break down events into manageable tasks and assign them to team
+                members.
               </p>
             </div>
-            <div className="p-4 bg-white/80 dark:bg-gray-800/80 rounded-lg">
-              <div className="text-sm font-semibold text-[#7C3AED] mb-2">
-                3. Invite Team
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                4. Add Expenses
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Add team members and assign them roles with appropriate
-                permissions.
+                Track event expenses with receipts and budget allocations.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                5. Add Clients
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Create client profiles and assign them to relevant events.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                6. Add Vendors
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Create vendor contacts and assign them to event expenses.
               </p>
             </div>
           </div>
