@@ -37,11 +37,6 @@ const ProductOverview = () => {
                 <ProductLogo />
               </div>
             </div>
-
-            {/* <h2 className="text-xl md:text-2xl font-semibold text-[#9B2C62] dark:text-[#D97706] my-4">
-              Event Management Platform
-            </h2> */}
-
             <p className="text-md text-gray-600 dark:text-gray-300 max-w-3xl mx-auto my-2">
               Simplify event planning with an integrated solution to manage
               tasks, expenses, clients, and vendors. Streamline workflows with
