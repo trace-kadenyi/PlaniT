@@ -1,118 +1,194 @@
-import { easeOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 
 import HeroImg from "../components/landing/HeroAnimation";
-import { features, steps } from "../data/homeData";
 import {
-  ScrollFadeFunc,
   heroVariants,
   fadeUp,
-  StepCard,
   delayedFadeUp,
 } from "../components/ui/FramerMotion";
+import { useSelector } from "react-redux";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.auth.user);
+  const userDetails = currentUser
+    ? `${currentUser.firstName || ""} ${currentUser.lastName || ""}`.trim()
+    : "";
 
   return (
-    <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100">
+    <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100 pb-4 md:pb-10 px-3 sm:px-10">
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10 h-screen sm:h-full">
+      <section className="flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 py-16 md:py-20 max-w-7xl mx-auto gap-12 min-h-screen">
+        {/* Text */}
         <motion.div
           variants={heroVariants}
           initial="hidden"
           animate="visible"
-          className="flex-1"
+          className="flex-1 max-w-xl text-center md:text-left"
         >
           <motion.h1
             variants={fadeUp}
-            className="text-4xl font-bold leading-tight mb-4"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 break-words"
           >
-            Simplify Your <br /> Event Planning
+            Welcome
+            {userDetails && (
+              <>
+                <br />
+                {userDetails}
+              </>
+            )}
           </motion.h1>
+
           <motion.p
             variants={fadeUp}
-            className="text-gray-600 dark:text-gray-300 mb-6 max-w-md"
+            className="text-gray-600 dark:text-gray-300 mb-6 text-base sm:text-lg"
           >
-            PlaniT helps event planners manage tasks, budgets, and resources
-            efficiently, with elegance and ease.
+            Ready to plan your next successful event?
           </motion.p>
-          <motion.div variants={fadeUp} className="flex gap-4">
+
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center md:justify-start"
+          >
             <Link
               to="/events/new"
-              className="bg-[#F59E0B] text-black font-semibold px-6 py-2 rounded hover:bg-[#d97706] transition"
+              className="bg-gradient-to-r from-[#9B2C62] to-[#9B2C62]/90 dark:to-[#9B2C62]/80 text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center w-full sm:w-auto cursor-default"
             >
-              Get Started
+              New Event
             </Link>
             <button
               onClick={() => navigate("/product-overview")}
-              className="border border-[#F59E0B] text-[#F59E0B] px-6 py-2 rounded font-semibold hover:bg-gray-900 transition"
+              className="bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center w-full sm:w-auto"
             >
               Product Overview
             </button>
           </motion.div>
+
+          {/* Quick Stats */}
+          <motion.div
+            variants={fadeUp}
+            className="mt-10 bg-[#FFF7ED] dark:bg-transparent dark:bg-gradient-to-br dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 border border-[#F3EDE9] dark:border-gray-700/50 backdrop-blur-sm"
+          >
+            <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
+              Quick Access
+            </h2>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center sm:justify-start">
+              <Link
+                to="/dashboards"
+                className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50 hover:bg-[#9B2C62]/10 dark:hover:bg-gray-700 transition-colors cursor-default"
+              >
+                <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+                  Dashboard
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  View insights
+                </div>
+              </Link>
+              <Link
+                to="/events/board"
+                className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50 hover:bg-[#9B2C62]/10 dark:hover:bg-gray-700 transition-colors cursor-default"
+              >
+                <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+                  Events
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  Manage all events
+                </div>
+              </Link>
+
+              <Link
+                to="/tasks/board"
+                className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50 hover:bg-[#9B2C62]/10 dark:hover:bg-gray-700 transition-colors cursor-default"
+              >
+                <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+                  Tasks
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  Kanban board
+                </div>
+              </Link>
+            </div>
+          </motion.div>
         </motion.div>
+
+        {/* Hero Image */}
         <motion.div
           variants={delayedFadeUp}
           initial="hidden"
           animate="visible"
-          className="flex-1 flex justify-center items-center"
+          className="flex-1 flex justify-center items-center max-w-md w-full"
         >
           <HeroImg />
         </motion.div>
       </section>
 
-      {/* Core Features Section */}
-      <ScrollFadeFunc>
-        <section className="bg-gray-50 dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 py-16 px-6">
-          <div className="max-w-6xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-10 text-[#9B2C62] dark:text-[#D97706]">
-              Core MVP Features
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-              {features.map((feature, i) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, duration: 0.5, ease: easeOut }}
-                  viewport={{ once: true }}
-                  className="bg-white dark:bg-gradient-to-b dark:from-gray-800 dark:to-gray-900 p-6 rounded-lg shadow hover:shadow-md transition border border-gray-100 dark:shadow-gray-900/50 dark:hover:shadow-amber-900/20 dark:border dark:border-gray-700"
-                >
-                  <h4 className="text-lg font-semibold mb-2 text-[#BE3455] dark:text-[#F59E0B]">
-                    {feature.title}
-                  </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">
-                    {feature.desc}
-                  </p>
-                </motion.div>
-              ))}
+      {/* Quick Start Guide Section stays mostly fine */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="relative px-4 sm:px-6 pb-12 max-w-7xl mx-auto z-10"
+      >
+        <div className="bg-gradient-to-br from-[#FFF8F2]/80 to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 border border-[#F3EDE9] dark:border-gray-700/50 backdrop-blur-sm">
+          <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
+            Quick Start Guide
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                1. Add Team Members
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Invite your organization team and assign roles with appropriate
+                permissions.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                2. Create an Event
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Start by creating your first event with budget, timeline, and
+                details.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                3. Create & Assign Tasks
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Break down events into manageable tasks and assign them to team
+                members.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                4. Add Expenses
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Track event expenses with receipts and budget allocations.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                5. Add Clients
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Create client profiles and assign them to relevant events.
+              </p>
+            </div>
+            <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+              <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
+                6. Add Vendors
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300">
+                Create vendor contacts and assign them to event expenses.
+              </p>
             </div>
           </div>
-        </section>
-      </ScrollFadeFunc>
-
-      {/* Process or How it Works Section */}
-      <ScrollFadeFunc>
-        <section className="py-20 px-6 bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-black">
-          <div className="max-w-6xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-12 text-[#9B2C62] dark:text-[#D97706]">
-              How PlaniT Works
-            </h3>
-            <div className="grid grid-cols-1 #E879Csm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
-              {steps.map((step, index) => (
-                <StepCard
-                  key={index}
-                  Icon={step.Icon}
-                  stepNumber={index + 1}
-                  title={step.title}
-                  text={step.text}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      </ScrollFadeFunc>
+        </div>
+      </motion.section>
     </main>
   );
 }
