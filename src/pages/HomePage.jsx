@@ -53,7 +53,7 @@ export default function HomePage() {
           >
             <Link
               to="/events/new"
-              className="bg-gradient-to-r from-[#9B2C62] to-[#9B2C62]/90 dark:to-[#9B2C62]/80 text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center w-full sm:w-auto"
+              className="bg-gradient-to-r from-[#9B2C62] to-[#9B2C62]/90 dark:to-[#9B2C62]/80 text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center w-full sm:w-auto cursor-default"
             >
               New Event
             </Link>
@@ -68,43 +68,47 @@ export default function HomePage() {
           {/* Quick Stats */}
           <motion.div
             variants={fadeUp}
-            className="mt-10 flex flex-col sm:flex-row flex-wrap gap-4 justify-center sm:justify-start"
+            className="mt-10 bg-[#FFF7ED] dark:bg-transparent dark:bg-gradient-to-br dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 border border-[#F3EDE9] dark:border-gray-700/50 backdrop-blur-sm"
           >
-            <Link
-              to="/events/board"
-              className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            >
-              <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
-                Events
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
-                Manage all events
-              </div>
-            </Link>
+            <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
+              Quick Access
+            </h2>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center sm:justify-start">
+              <Link
+                to="/dashboards"
+                className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50 hover:bg-[#9B2C62]/10 dark:hover:bg-gray-700 transition-colors cursor-default"
+              >
+                <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+                  Dashboard
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  View insights
+                </div>
+              </Link>
+              <Link
+                to="/events/board"
+                className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50 hover:bg-[#9B2C62]/10 dark:hover:bg-gray-700 transition-colors cursor-default"
+              >
+                <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+                  Events
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  Manage all events
+                </div>
+              </Link>
 
-            <Link
-              to="/tasks/board"
-              className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            >
-              <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
-                Tasks
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
-                Kanban board
-              </div>
-            </Link>
-
-            <Link
-              to="/dashboards"
-              className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            >
-              <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
-                Dashboard
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">
-                View insights
-              </div>
-            </Link>
+              <Link
+                to="/tasks/board"
+                className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50 hover:bg-[#9B2C62]/10 dark:hover:bg-gray-700 transition-colors cursor-default"
+              >
+                <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+                  Tasks
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  Kanban board
+                </div>
+              </Link>
+            </div>
           </motion.div>
         </motion.div>
 
