@@ -17,60 +17,58 @@ export default function HomePage() {
     : "";
 
   return (
-    <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100 pb-4 md:pb-10">
+    <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100 pb-4 md:pb-10 px-3 sm:px-10">
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10 h-screen">
+      <section className="flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 py-16 md:py-20 max-w-7xl mx-auto gap-12 min-h-screen">
+        {/* Text */}
         <motion.div
           variants={heroVariants}
           initial="hidden"
           animate="visible"
-          className="flex-1"
+          className="flex-1 max-w-xl text-center md:text-left"
         >
           <motion.h1
             variants={fadeUp}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-4"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4 break-words"
           >
             Welcome
-            {userDetails ? (
+            {userDetails && (
               <>
                 <br />
                 {userDetails}
               </>
-            ) : (
-              ""
             )}
           </motion.h1>
+
           <motion.p
             variants={fadeUp}
-            className="text-gray-600 dark:text-gray-300 mb-6 max-w-md text-lg"
+            className="text-gray-600 dark:text-gray-300 mb-6 text-base sm:text-lg"
           >
             Ready to plan your next successful event?
           </motion.p>
-          <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center md:justify-start"
+          >
             <Link
               to="/events/new"
-              className="bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
+              className="bg-gradient-to-r from-[#9B2C62] to-[#9B2C62]/90 dark:to-[#9B2C62]/80 text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center w-full sm:w-auto"
             >
-              <span>New Event</span>
+              New Event
             </Link>
             <button
-              onClick={() => navigate("/clients/new")}
-              className="bg-gradient-to-r from-[#9B2C62] to-[#7B1E5A] text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center"
-            >
-              <span>Add Client</span>
-            </button>
-            <button
               onClick={() => navigate("/product-overview")}
-              className="border-2 border-[#F59E0B] text-[#F59E0B] px-6 py-3 rounded-xl font-semibold hover:text-white transform hover:-translate-y-1 transition-all duration-200 hover:bg-gray-900"
+              className="bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white font-semibold px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center w-full sm:w-auto"
             >
-              <span>Product Overview</span>
+              Product Overview
             </button>
           </motion.div>
 
-          {/* Quick Stats/Links */}
+          {/* Quick Stats */}
           <motion.div
             variants={fadeUp}
-            className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4"
+            className="mt-10 flex flex-col sm:flex-row flex-wrap gap-4 justify-center sm:justify-start"
           >
             <Link
               to="/events/board"
@@ -83,6 +81,7 @@ export default function HomePage() {
                 Manage all events
               </div>
             </Link>
+
             <Link
               to="/tasks/board"
               className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -94,6 +93,7 @@ export default function HomePage() {
                 Kanban board
               </div>
             </Link>
+
             <Link
               to="/dashboards"
               className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -108,17 +108,18 @@ export default function HomePage() {
           </motion.div>
         </motion.div>
 
+        {/* Hero Image */}
         <motion.div
           variants={delayedFadeUp}
           initial="hidden"
           animate="visible"
-          className="flex-1 flex justify-center items-center"
+          className="flex-1 flex justify-center items-center max-w-md w-full"
         >
           <HeroImg />
         </motion.div>
       </section>
 
-      {/* Quick Start Guide Section */}
+      {/* Quick Start Guide Section stays mostly fine */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
