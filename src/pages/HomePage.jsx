@@ -76,24 +76,34 @@ export default function HomePage() {
               to="/events/board"
               className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
-              <div className="font-semibold text-[#9B2C62] dark:text-[#D97706]">
+              <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
                 Events
               </div>
-              <div className="text-sm text-gray-500">Manage all events</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Manage all events
+              </div>
             </Link>
             <Link
               to="/tasks/board"
               className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
-              <div className="font-semibold text-[#F59E0B]">Tasks</div>
-              <div className="text-sm text-gray-500">Kanban board</div>
+              <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+                Tasks
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                Kanban board
+              </div>
             </Link>
             <Link
               to="/dashboards"
               className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             >
-              <div className="font-semibold text-[#7C3AED]">Dashboard</div>
-              <div className="text-sm text-gray-500">View insights</div>
+              <div className="font-semibold text-[#9B2C62] dark:text-[#F59E0B]">
+                Dashboard
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">
+                View insights
+              </div>
             </Link>
           </motion.div>
         </motion.div>
