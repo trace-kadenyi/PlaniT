@@ -17,7 +17,7 @@ export default function HomePage() {
     : "";
 
   return (
-    <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100">
+    <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-[#374151] dark:text-gray-100 pb-4 md:pb-10">
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between px-6 py-20 max-w-7xl mx-auto gap-10 h-screen">
         <motion.div
@@ -118,7 +118,6 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* Optional: Recent Activity Section */}
       {/* Quick Start Guide Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
