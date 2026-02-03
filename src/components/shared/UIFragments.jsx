@@ -7,10 +7,10 @@ export function EventStatusPill({ status }) {
         status === "Completed"
           ? "bg-green-100 dark:bg-green-800 text-green-800 dark:text-green-100"
           : status === "Cancelled"
-          ? "bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-100"
-          : status === "In Progress"
-          ? "bg-[#F5EBFF] text-[#9B2C62] dark:bg-purple-900/40 dark:text-purple-200"
-          : "bg-[#EFF6FF] text-[#1E40AF] dark:bg-blue-900/30 dark:text-blue-300"
+            ? "bg-red-100 dark:bg-red-800 text-red-800 dark:text-red-100"
+            : status === "In Progress"
+              ? "bg-[#F5EBFF] text-[#9B2C62] dark:bg-purple-900/40 dark:text-purple-200"
+              : "bg-[#EFF6FF] text-[#1E40AF] dark:bg-blue-900/30 dark:text-blue-300"
       }`}
     >
       {status}
@@ -26,10 +26,10 @@ export function TaskStatusPill({ status }) {
         status === "Completed"
           ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
           : status === "In Review"
-          ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
-          : status === "In Progress"
-          ? "bg-[#EFF6FF] text-[#1E40AF] dark:bg-blue-900/30 dark:text-blue-300"
-          : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
+            ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+            : status === "In Progress"
+              ? "bg-[#EFF6FF] text-[#1E40AF] dark:bg-blue-900/30 dark:text-blue-300"
+              : "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
       }`}
     >
       {status}
@@ -107,8 +107,8 @@ export function TasksPriorityPill({ priority }) {
         priority.toLowerCase() === "high"
           ? "bg-[#F59E0B]/20 text-[#C2410C] dark:bg-red-900 dark:text-red-200"
           : priority.toLowerCase() === "medium"
-          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-200"
-          : "bg-gray-200 text-gray-600 dark:bg-gray-800/50 dark:text-gray-300"
+            ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-200"
+            : "bg-gray-200 text-gray-600 dark:bg-gray-800/50 dark:text-gray-300"
       }`}
     >
       {priority}
@@ -209,34 +209,50 @@ export function VendorInfo({ vendors, Link }) {
         Vendors
       </h3>
       <div className="flex flex-wrap gap-2">
-        {vendors.map((vendor, index) => (
-          <Link
-            to={`/vendors/${vendor._id}`}
-            key={index}
-            className="cursor-default text-xs font-semibold transition-transform duration-300 hover:-translate-y-0.5"
-          >
-            <div
-              className={`border-2 rounded-lg px-3 py-2 transition-all duration-300
+        {vendors.map((vendor, index) =>
+          vendor.isDeleted ? (
+            <div key={index} className="text-xs font-semibold">
+              <div className="border-2 border-[#F59E0B]/50 rounded-lg px-3 py-2 bg-[#F8D476]/30 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/50">
+                <span className="text-[#6B3B0F] dark:text-amber-600 line-through decoration-[#9B2C62] dark:decoration-[#F59E0B]">
+                  {vendor.name}
+                </span>
+                <span className="text-[#9B2C62]/80 dark:text-amber-400 ml-1 line-through decoration-[#9B2C62] dark:decoration-[#F59E0B]">
+                  - {vendor.services}
+                </span>
+                <span className="text-gray-400 dark:text-gray-300/80 text-xs ml-1">
+                  (inactive)
+                </span>
+              </div>
+            </div>
+          ) : (
+            <Link
+              to={`/vendors/${vendor._id}`}
+              key={index}
+              className="cursor-default text-xs font-semibold transition-transform duration-300 hover:-translate-y-0.5"
+            >
+              <div
+                className={`border-2 rounded-lg px-3 py-2 transition-all duration-300
               ${
                 vendor.isArchived
                   ? "bg-[#F8D476]/10 border-[#F59E0B]/30 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/70"
                   : "bg-[#F8D476]/30 border-[#F59E0B]/50 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/50"
               } hover:border-[#F59E0B] hover:shadow-lg hover:shadow-amber-100/50 hover:bg-[#F8D476]/40 group dark:hover:shadow-gray-900 dark:hover:bg-[#F8D476]/10`}
-            >
-              <span className="text-[#6B3B0F] group-hover:text-amber-900 dark:text-amber-600 dark:group-hover:text-amber-600 transition-colors">
-                {vendor.name}
-              </span>
-              <span className="text-[#9B2C62]/80 dark:text-amber-400 ml-1 transition-colors">
-                - {vendor.services}
-              </span>
-              {vendor.isArchived && (
-                <span className="text-gray-400 dark:text-gray-300/80 text-xs ml-1">
-                  (archived)
+              >
+                <span className="text-[#6B3B0F] group-hover:text-amber-900 dark:text-amber-600 dark:group-hover:text-amber-600 transition-colors">
+                  {vendor.name}
                 </span>
-              )}
-            </div>
-          </Link>
-        ))}
+                <span className="text-[#9B2C62]/80 dark:text-amber-400 ml-1 transition-colors">
+                  - {vendor.services}
+                </span>
+                {vendor.isArchived && (
+                  <span className="text-gray-400 dark:text-gray-300/80 text-xs ml-1">
+                    (archived)
+                  </span>
+                )}
+              </div>
+            </Link>
+          ),
+        )}
       </div>
     </div>
   );
