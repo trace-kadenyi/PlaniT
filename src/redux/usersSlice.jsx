@@ -80,6 +80,20 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+// Reactivate user
+export const reactivateUser = createAsyncThunk(
+  "users/reactivateUser",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/users/${userId}/reactivate`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+
 // Fetch user update history
 export const fetchUserUpdateHistory = createAsyncThunk(
   "users/fetchUserUpdateHistory",
