@@ -12,7 +12,7 @@ export const fetchUsers = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Fetch single user details
@@ -25,7 +25,7 @@ export const fetchUserDetails = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Add new user
@@ -38,7 +38,7 @@ export const addUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Update user details
@@ -51,7 +51,7 @@ export const updateUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Update user role
@@ -64,7 +64,7 @@ export const updateUserRole = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Delete user
@@ -77,7 +77,7 @@ export const deleteUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Reactivate user
@@ -90,9 +90,8 @@ export const reactivateUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
-
 
 // Fetch user update history
 export const fetchUserUpdateHistory = createAsyncThunk(
@@ -104,7 +103,7 @@ export const fetchUserUpdateHistory = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 const usersSlice = createSlice({
@@ -210,7 +209,7 @@ const usersSlice = createSlice({
         state.updateStatus = "succeeded";
         // Update in items list
         const index = state.items.findIndex(
-          (user) => user._id === action.payload.user.id
+          (user) => user._id === action.payload.user.id,
         );
         if (index !== -1) {
           state.items[index] = {
@@ -239,7 +238,7 @@ const usersSlice = createSlice({
       .addCase(updateUserRole.fulfilled, (state, action) => {
         state.updateRoleStatus = "succeeded";
         const index = state.items.findIndex(
-          (user) => user._id === action.payload.user.id
+          (user) => user._id === action.payload.user.id,
         );
         if (index !== -1) {
           state.items[index].role = action.payload.user.role;
@@ -271,6 +270,35 @@ const usersSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         state.deleteStatus = "failed";
         state.deleteError = action.payload;
+      })
+
+      // Reactivate user
+      .addCase(reactivateUser.pending, (state) => {
+        state.updateStatus = "loading";
+        state.updateError = null;
+      })
+      .addCase(reactivateUser.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+
+        const updatedUser = action.payload.user;
+
+        // Update in items list
+        const index = state.items.findIndex(
+          (user) => user._id === updatedUser._id,
+        );
+
+        if (index !== -1) {
+          state.items[index] = updatedUser;
+        }
+
+        // Update current user if open
+        if (state.currentUser && state.currentUser._id === updatedUser._id) {
+          state.currentUser = updatedUser;
+        }
+      })
+      .addCase(reactivateUser.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError = action.payload;
       })
 
       // Fetch user update history
