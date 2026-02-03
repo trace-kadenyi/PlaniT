@@ -38,7 +38,7 @@ function Vend({ expense }) {
   return (
     <div
       className={`border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center ${
-        expense.vendor.isArchived
+        expense.vendor.isArchived || expense.vendor.isDeleted
           ? "bg-[#F8D476]/10"
           : "bg-[#F8D476]/30 dark:bg-[#F8D476]/20"
       }`}
