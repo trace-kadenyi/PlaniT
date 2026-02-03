@@ -44,17 +44,18 @@ function Vend({ expense }) {
       }`}
     >
       {expense.vendor.isDeleted ? (
-        // Deleted vendor - span instead of Link, with line-through
-        <span className="font-medium text-[#6B3C0F] dark:text-[#D97706] line-through">
-          {expense.vendor.name}
-          {expense.vendor.services && (
-            <span className="text-[#9B2C62]/80 dark:text-[#F59E0B]/90 ml-1">
-              - {expense.vendor.services}
-            </span>
-          )}
+        <span className="font-medium text-[#6B3C0F] dark:text-[#D97706]">
+          <span className="line-through">
+            {expense.vendor.name}
+            {expense.vendor.services && (
+              <span className="text-[#9B2C62]/80 dark:text-[#F59E0B]/90 ml-1">
+                - {expense.vendor.services}
+              </span>
+            )}
+          </span>
           <span className="text-gray-500 dark:text-gray-400 text-xs ml-1">
             {" "}
-            (Deleted)
+            (Inactive)
           </span>
         </span>
       ) : (
