@@ -220,7 +220,7 @@ export function VendorInfo({ vendors, Link }) {
                   - {vendor.services}
                 </span>
                 <span className="text-gray-400 dark:text-gray-300/80 text-xs ml-1">
-                  (inactive)
+                  (removed)
                 </span>
               </div>
             </div>
