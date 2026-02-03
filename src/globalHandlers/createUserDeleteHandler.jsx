@@ -5,8 +5,8 @@ export const createUserDeleteHandler = (
   deleteUser,
   toast,
   toastWithProgress,
-  DeleteConfirmationToast,
-  toastLock
+  UserDeactivateConfirmationToast,
+  toastLock,
 ) => {
   return () => {
     if (toastLock.isLocked()) return; // 🔒
@@ -17,7 +17,7 @@ export const createUserDeleteHandler = (
 
     const toastId = toast(
       (t) => (
-        <DeleteConfirmationToast
+        <UserDeactivateConfirmationToast
           t={t}
           duration={duration}
           type="user"
@@ -27,14 +27,14 @@ export const createUserDeleteHandler = (
               const result = await dispatch(deleteUser(id)).unwrap();
 
               toast.dismiss(t.id);
-              toastWithProgress("User deleted successfully");
-              navigate("/team");
+              toastWithProgress("User deactivated successfully");
+              // navigate("/team");
             } catch (error) {
               // Only dismiss the confirmation toast
               toast.dismiss(t.id);
 
               // Show error toast with progress
-              toastWithProgress(error || "Failed to delete user");
+              toastWithProgress(error || "Failed to deactivate user");
             } finally {
               toast.dismiss(t.id);
               toastLock.unlock(); // 🔓 ALWAYS
@@ -46,7 +46,7 @@ export const createUserDeleteHandler = (
           }}
         />
       ),
-      { duration, position: "top-center" }
+      { duration, position: "top-center" },
     );
     toastLock.lock(toastId);
 
