@@ -43,30 +43,41 @@ function Vend({ expense }) {
           : "bg-[#F8D476]/30 dark:bg-[#F8D476]/20"
       }`}
     >
-      <Link
-        to={`/vendors/${expense.vendor._id}`}
-        className="font-medium text-[#6B3C0F] hover:italic cursor-default dark:text-[#D97706]"
-      >
-        {expense.vendor.name}
-
-        {expense.vendor.services && (
-          <span className="text-[#9B2C62]/80 dark:text-[#F59E0B]/90 ml-1">
-            - {expense.vendor.services}
-          </span>
-        )}
-        {expense.vendor.isDeleted && (
+      {expense.vendor.isDeleted ? (
+        // Deleted vendor - span instead of Link, with line-through
+        <span className="font-medium text-[#6B3C0F] dark:text-[#D97706] line-through">
+          {expense.vendor.name}
+          {expense.vendor.services && (
+            <span className="text-[#9B2C62]/80 dark:text-[#F59E0B]/90 ml-1">
+              - {expense.vendor.services}
+            </span>
+          )}
           <span className="text-gray-500 dark:text-gray-400 text-xs ml-1">
             {" "}
             (Deleted)
           </span>
-        )}
-        {expense.vendor.isArchived && (
-          <span className="text-gray-500 dark:text-gray-400 text-xs ml-1">
-            {" "}
-            (Archived)
-          </span>
-        )}
-      </Link>
+        </span>
+      ) : (
+        <Link
+          to={`/vendors/${expense.vendor._id}`}
+          className="font-medium text-[#6B3C0F] hover:italic cursor-default dark:text-[#D97706]"
+        >
+          {expense.vendor.name}
+
+          {expense.vendor.services && (
+            <span className="text-[#9B2C62]/80 dark:text-[#F59E0B]/90 ml-1">
+              - {expense.vendor.services}
+            </span>
+          )}
+
+          {expense.vendor.isArchived && (
+            <span className="text-gray-500 dark:text-gray-400 text-xs ml-1">
+              {" "}
+              (Archived)
+            </span>
+          )}
+        </Link>
+      )}
     </div>
   );
 }
