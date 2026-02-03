@@ -44,7 +44,7 @@ function Vend({ expense }) {
       }`}
     >
       {expense.vendor.isDeleted ? (
-        <span className="font-medium text-[#6B3C0F] dark:text-[#D97706]">
+        <span className="font-medium text-[#6B3C0F] dark:text-[#D97706] opacity-50">
           <span className="line-through">
             {expense.vendor.name}
             {expense.vendor.services && (
