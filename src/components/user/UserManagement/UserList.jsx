@@ -9,7 +9,7 @@ import {
   ROLES,
 } from "../../../globalHooks/userPermissions";
 import { truncateText } from "../../taskManagerCollection/utils/formatting";
-import { RemoveUserBtn } from "../../buttons/UserButtons";
+import { DeactivateUserBtn } from "../../buttons/UserButtons";
 
 const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
   const { can, currentUser } = usePermissions();
@@ -91,7 +91,7 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
 
         {/* Delete Button */}
         {editable && (
-          <RemoveUserBtn
+          <DeactivateUserBtn
             onRemoveUser={onRemoveUser}
             user={user}
             currentUser={currentUser}
