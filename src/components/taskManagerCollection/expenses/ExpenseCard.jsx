@@ -54,6 +54,12 @@ function Vend({ expense }) {
             - {expense.vendor.services}
           </span>
         )}
+        {expense.vendor.isDeleted && (
+          <span className="text-gray-500 dark:text-gray-400 text-xs ml-1">
+            {" "}
+            (Deleted)
+          </span>
+        )}
         {expense.vendor.isArchived && (
           <span className="text-gray-500 dark:text-gray-400 text-xs ml-1">
             {" "}
