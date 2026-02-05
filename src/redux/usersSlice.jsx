@@ -237,19 +237,20 @@ const usersSlice = createSlice({
       })
       .addCase(updateUserRole.fulfilled, (state, action) => {
         state.updateRoleStatus = "succeeded";
-        const index = state.items.findIndex(
-          (user) => user._id === action.payload.user.id,
-        );
+
+        const updatedUser = action.payload.user;
+        const userId = updatedUser._id || updatedUser.id;
+
+        const index = state.items.findIndex((u) => u._id === userId);
         if (index !== -1) {
-          state.items[index].role = action.payload.user.role;
+          state.items[index].role = updatedUser.role;
         }
-        if (
-          state.currentUser &&
-          state.currentUser._id === action.payload.user.id
-        ) {
-          state.currentUser.role = action.payload.user.role;
+
+        if (state.currentUser && state.currentUser._id === userId) {
+          state.currentUser.role = updatedUser.role;
         }
       })
+
       .addCase(updateUserRole.rejected, (state, action) => {
         state.updateRoleStatus = "failed";
         state.updateRoleError = action.payload;
