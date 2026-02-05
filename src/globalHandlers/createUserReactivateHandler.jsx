@@ -28,9 +28,6 @@ export const createUserReactivateHandler = (
 
               toast.dismiss(t.id);
               toastWithProgress("User reactivated successfully");
-
-              // Stay consistent with delete flow
-              navigate("/team");
             } catch (error) {
               // Only dismiss confirmation toast
               toast.dismiss(t.id);
