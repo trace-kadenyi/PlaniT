@@ -1,3 +1,5 @@
+import React from "react";
+
 import { EventAddBudgetLink } from "../buttons/ExpenseButtons";
 
 // No budget UI
@@ -68,9 +70,17 @@ export function NoBudget({ Link, eventID }) {
 // Helper function to get user display name
 export const getUserDisplayName = (user) => {
   if (!user) return "Unknown User";
-  if (user.firstName && user.lastName)
-    return `${user.firstName} ${user.lastName}`;
-  return "Unknown User";
+
+  const name =
+    user.firstName && user.lastName
+      ? `${user.firstName} ${user.lastName}`
+      : "Unknown User";
+
+  if (user.isActive === false) {
+    return `${name} (deactivated)`;
+  }
+
+  return name;
 };
 
 // created and updated on/by Snippet
