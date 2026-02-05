@@ -118,6 +118,7 @@ const usersSlice = createSlice({
     addStatus: "idle",
     updateStatus: "idle",
     updateRoleStatus: "idle",
+    updatingUserId: null,
     deleteStatus: "idle",
     error: null,
     fetchDetailsError: null,
@@ -230,12 +231,14 @@ const usersSlice = createSlice({
       })
 
       // Update user role
-      .addCase(updateUserRole.pending, (state) => {
+      .addCase(updateUserRole.pending, (state, action) => {
         state.updateRoleStatus = "loading";
         state.updateRoleError = null;
+        state.updatingUserId = action.meta.arg.userId;
       })
       .addCase(updateUserRole.fulfilled, (state, action) => {
         state.updateRoleStatus = "succeeded";
+        state.updatingUserId = null;
 
         const updatedUser = action.payload.user;
         const userId = updatedUser._id || updatedUser.id;
@@ -253,6 +256,7 @@ const usersSlice = createSlice({
       .addCase(updateUserRole.rejected, (state, action) => {
         state.updateRoleStatus = "failed";
         state.updateRoleError = action.payload;
+        state.updatingUserId = null;
       })
 
       // Delete user
