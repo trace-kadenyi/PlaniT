@@ -8,6 +8,7 @@ import {
   fetchUserDetails,
   deleteUser,
   fetchUserUpdateHistory,
+  reactivateUser,
 } from "../redux/usersSlice";
 import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
@@ -23,6 +24,9 @@ import UserProfileCard from "../components/user/UserManagement/UserProfileCard";
 import { UserDetailsGrid } from "../components/user/UserManagement/UserDetailsGrid";
 import UserUpdateHistory from "../components/user/UserManagement/UserUpdateHistory";
 import { useToastLock } from "../globalUtils/useToastLock";
+import UserDeactivateConfirmationToast from "../globalUtils/userDeactivateConfirmationToast";
+import { createUserReactivateHandler } from "../globalHandlers/createUserReactivateHandler";
+import UserReactivateConfirmationToast from "../globalUtils/userReactivateConfirmationToast";
 
 export default function User() {
   const { userId } = useParams();
@@ -93,8 +97,22 @@ export default function User() {
       deleteUser,
       toast,
       toastWithProgress,
-      DeleteConfirmationToast,
-      toastLock
+      UserDeactivateConfirmationToast,
+      toastLock,
+    )();
+  };
+
+  // handle reactivate user
+  const handleReactivateUser = (userId) => {
+    return createUserReactivateHandler(
+      dispatch,
+      userId,
+      navigate,
+      reactivateUser,
+      toast,
+      toastWithProgress,
+      UserReactivateConfirmationToast,
+      toastLock,
     )();
   };
 
@@ -174,6 +192,7 @@ export default function User() {
           authUser={authUser}
           userId={userId}
           handleRemoveUser={handleRemoveUser}
+          handleReactivateUser={handleReactivateUser}
           deleteStatus={deleteStatus}
           onLogout={handleLogout}
         />
