@@ -120,14 +120,15 @@ const usersSlice = createSlice({
     updateRoleStatus: "idle",
     updatingUserId: null,
     deleteStatus: "idle",
+    reactivateStatus: "idle",
     error: null,
     fetchDetailsError: null,
     fetchHistoryError: null,
-
     addError: null,
     updateError: null,
     updateRoleError: null,
     deleteError: null,
+    reactivateError: null,
   },
   reducers: {
     resetUsersStatus: (state) => {
@@ -141,6 +142,8 @@ const usersSlice = createSlice({
       state.deleteError = null;
       state.fetchHistoryStatus = "idle";
       state.fetchHistoryError = null;
+      state.reactivateStatus = "idle";
+      state.reactivateError = null;
     },
     clearUsers: (state) => {
       state.items = [];
@@ -288,11 +291,11 @@ const usersSlice = createSlice({
 
       // Reactivate user
       .addCase(reactivateUser.pending, (state) => {
-        state.updateStatus = "loading";
-        state.updateError = null;
+        state.reactivateStatus = "loading";
+        state.reactivateError = null;
       })
       .addCase(reactivateUser.fulfilled, (state, action) => {
-        state.updateStatus = "succeeded";
+        state.reactivateStatus = "succeeded";
 
         const updatedUser = action.payload.user;
 
@@ -311,8 +314,8 @@ const usersSlice = createSlice({
         }
       })
       .addCase(reactivateUser.rejected, (state, action) => {
-        state.updateStatus = "failed";
-        state.updateError = action.payload;
+        state.reactivateStatus = "failed";
+        state.reactivateError = action.payload;
       })
 
       // Fetch user update history
