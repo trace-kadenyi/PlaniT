@@ -1,4 +1,10 @@
-import { Plus, Edit2, Trash2, Save } from "lucide-react";
+import {
+  Plus,
+  Edit2,
+  Save,
+  ShieldBan,
+  ShieldCheck,
+} from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -101,7 +107,7 @@ export const DeactivateUserOnProfile = ({
       }`}
       className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-white/80 to-rose-50/80 dark:from-gray-900/30 dark:to-[#9B2C62]/10 hover:from-rose-50 hover:to-rose-100/80 dark:hover:from-gray-800/40 dark:hover:to-[#9B2C62]/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-[#9B2C62]/30 px-5 py-3 rounded-xl font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:border-rose-300 dark:hover:border-[#9B2C62]/50 group"
     >
-      <Trash2 className="w-5 h-5" />
+      <ShieldBan className="w-5 h-5" />
       {deleteStatus === "loading" ? "Deactivating..." : "Deactivate Account"}
     </PermissionButton>
   );
@@ -112,14 +118,18 @@ export const ReactivateUserOnProfile = ({
   onReactivateUser,
   user,
   currentUser,
+  reactivateStatus,
 }) => {
+  const isLoading = reactivateStatus === "loading";
   return (
     <PermissionButton
       permission={PERMISSIONS.MANAGE_USERS}
       resource={RESOURCES.USER}
       target={user}
       onClick={() => onReactivateUser(user._id)}
-      tooltipTitle="Reactivate user"
+      loading={isLoading}
+      disabled={isLoading}
+      tooltipTitle={isLoading ? "Reactivating..." : "Reactivate user status"}
       fallbackTooltip={
         currentUser._id === user._id
           ? "You cannot reactivate your own account"
@@ -129,7 +139,8 @@ export const ReactivateUserOnProfile = ({
       }
       className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-white/80 to-green-50/80 dark:from-green-900/30 dark:to-green-800/10 hover:from-green-50 hover:to-green-100/80 dark:hover:from-green-800/40 dark:hover:to-green-700/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-700/40 px-5 py-3 rounded-xl font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:border-green-300 dark:hover:border-green-600/60 group"
     >
-      Reactivate Account
+      <ShieldCheck className="w-5 h-5" />
+      {isLoading ? "Reactivating..." : "Reactivate Account"}
     </PermissionButton>
   );
 };
