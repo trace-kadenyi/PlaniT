@@ -102,7 +102,7 @@ const UserListItem = ({
         </div>
       </a>
 
-      <div className="flex items-center space-x-4 ml-10 flex-wrap sm:flex-nowrap gap-2 sm:ml-0">
+      <div className="flex items-center space-x-4 ml-10 flex-wrap sm:flex-nowrap gap-2 sm:ml-0 px-4">
         {/* Role Display/Selector */}
         {editable && canEditRole ? (
           <RoleSelector
