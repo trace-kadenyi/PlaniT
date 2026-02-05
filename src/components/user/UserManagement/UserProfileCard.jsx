@@ -30,6 +30,7 @@ export default function UserProfileCard({
   handleReactivateUser,
   deleteStatus,
   onLogout,
+  isInactive,
 }) {
   const roleColors = getRoleColors();
   const roleLabels = getRoleLabels();
@@ -152,7 +153,11 @@ export default function UserProfileCard({
         </div>
 
         {/* User Details */}
-        <div className="flex-1">
+        <div
+          className={`flex-1 transition ${
+            isInactive ? "opacity-60 pointer-events-none grayscale" : ""
+          }`}
+        >
           <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 break-words">
               {userData.firstName} {userData.lastName}
