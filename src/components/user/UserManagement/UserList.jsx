@@ -1,5 +1,6 @@
 import React from "react";
-import { Tooltip } from "@mui/material";
+import { useSelector } from "react-redux";
+import { Tooltip, CircularProgress } from "@mui/material";
 
 import {
   usePermissions,
@@ -133,7 +134,13 @@ const RoleDisplay = ({ user }) => (
 );
 
 const RoleSelector = ({ user, onRoleChange }) => {
+  const { updateRoleStatus, updatingUserId } = useSelector(
+    (state) => state.users,
+  );
   const { can, currentUser } = usePermissions();
+
+  const isUpdatingThisUser =
+    updateRoleStatus === "loading" && updatingUserId === user._id;
 
   // Check permissions again in the selector
   const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
@@ -167,22 +174,34 @@ const RoleSelector = ({ user, onRoleChange }) => {
   };
 
   const select = (
-    <select
-      value={user.role}
-      onChange={
-        canEditRole ? (e) => onRoleChange(user._id, e.target.value) : undefined
-      }
-      disabled={shouldDisable}
-      className={`min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-900 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300 ${
-        shouldDisable ? "opacity-60 cursor-not-allowed" : ""
-      }`}
-    >
-      {getAvailableRoles().map((role) => (
-        <option key={role.value} value={role.value}>
-          {role.label}
-        </option>
-      ))}
-    </select>
+    <div className="relative">
+      <select
+        value={user.role}
+        onChange={
+          canEditRole
+            ? (e) => onRoleChange(user._id, e.target.value)
+            : undefined
+        }
+        disabled={shouldDisable || isUpdatingThisUser}
+        className={`min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-900 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300 ${
+          shouldDisable || isUpdatingThisUser
+            ? "opacity-60 cursor-not-allowed"
+            : ""
+        }`}
+      >
+        {getAvailableRoles().map((role) => (
+          <option key={role.value} value={role.value}>
+            {role.label}
+          </option>
+        ))}
+      </select>
+
+      {isUpdatingThisUser && (
+        <span className="absolute right-2 top-1/2 -translate-y-1/2">
+          <CircularProgress size={16} />
+        </span>
+      )}
+    </div>
   );
 
   if (shouldDisable) {
