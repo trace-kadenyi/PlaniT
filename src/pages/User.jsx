@@ -15,7 +15,7 @@ import { fetchAllTasks } from "../redux/tasksSlice";
 
 import { usePermissions } from "../globalHooks/userPermissions";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
-import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
+import { createUserDeactivateHandler } from "../globalHandlers/createUserDeactivateHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
 import { useUserMemoizedData } from "../globalHooks/useUserMemoizedData";
@@ -90,7 +90,7 @@ export default function User() {
 
   // handle remove user
   const handleRemoveUser = (userId) => {
-    return createUserDeleteHandler(
+    return createUserDeactivateHandler(
       dispatch,
       userId,
       navigate,
