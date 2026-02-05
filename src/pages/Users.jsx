@@ -73,7 +73,6 @@ export default function Users() {
   const handleRoleChange = async (userId, newRole) => {
     try {
       await dispatch(updateUserRole({ userId, role: newRole })).unwrap();
-      dispatch(fetchUsers());
       toastWithProgress("User role updated successfully");
     } catch (err) {
       toast.error(err.message || "Failed to update role");
