@@ -198,7 +198,7 @@ export const DeactivateUserBtn = ({ onRemoveUser, user, currentUser }) => {
           ? "Cannot remove yourself from the system"
           : "You do not have permission to remove this user"
       }`}
-      className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-700"
+      className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-500"
     >
       Deactivate
     </PermissionButton>
@@ -221,7 +221,7 @@ export const ReactivateUserBtn = ({ onReactivateUser, user, currentUser }) => {
             ? "Only super admins can reactivate super admins"
             : "You do not have permission to reactivate this user"
       }
-      className="text-green-600 hover:text-green-800 px-3 py-1 rounded-lg border border-green-200 hover:border-green-300 transition-all duration-200 text-xs font-semibold dark:border-green-400 dark:hover:border-green-500 dark:hover:text-green-700"
+      className="text-green-600 dark:text-green-600 hover:text-green-700 px-3 py-1 rounded-lg border border-green-200 hover:border-green-300 transition-all duration-200 text-xs font-semibold dark:border-green-400 dark:hover:border-green-500 dark:hover:text-green-500"
     >
       Reactivate
     </PermissionButton>
