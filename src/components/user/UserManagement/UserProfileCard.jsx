@@ -111,14 +111,16 @@ export default function UserProfileCard({
                 )}
 
                 {/* edit btn */}
-                <EditUserBtn
-                  userId={userId}
-                  userData={userData}
-                  authUser={authUser}
-                />
+                {userData.isActive && (
+                  <EditUserBtn
+                    userId={userId}
+                    userData={userData}
+                    authUser={authUser}
+                  />
+                )}
 
                 {/* deactivate btn */}
-                {!userData.isDeactivated && (
+                {userData.isActive && (
                   <DeactivateUserOnProfile
                     userData={userData}
                     handleRemoveUser={handleRemoveUser}
