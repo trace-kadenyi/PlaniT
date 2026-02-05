@@ -1,10 +1,4 @@
-import {
-  Plus,
-  Edit2,
-  Save,
-  ShieldBan,
-  ShieldCheck,
-} from "lucide-react";
+import { Plus, Edit2, Save, ShieldBan, ShieldCheck } from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
