@@ -42,6 +42,7 @@ export default function User() {
     fetchDetailsStatus,
     fetchDetailsError,
     deleteStatus,
+    reactivateStatus,
   } = useSelector((state) => state.users);
 
   const {
@@ -194,6 +195,7 @@ export default function User() {
           handleRemoveUser={handleRemoveUser}
           handleReactivateUser={handleReactivateUser}
           deleteStatus={deleteStatus}
+          reactivateStatus={reactivateStatus}
           onLogout={handleLogout}
           isInactive={userData.isDeactivated}
         />
