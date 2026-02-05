@@ -148,7 +148,7 @@ export default function UserProfileCard({
                   {isSelf
                     ? "Note: You cannot edit or delete your own account"
                     : isInactive
-                      ? "Only active users can be edited"
+                      ? "Note: Only admins can reactivate deactivated users"
                       : "Only admins can modify user roles and permissions"}
                 </p>
               </div>
