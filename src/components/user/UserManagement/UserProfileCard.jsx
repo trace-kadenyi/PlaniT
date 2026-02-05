@@ -18,7 +18,7 @@ import {
 import {
   DeactivateUserOnProfile,
   EditUserBtn,
-  ReactivateUserBtn,
+  ReactivateUserOnProfile,
 } from "../../buttons/UserButtons";
 
 export default function UserProfileCard({
@@ -130,7 +130,7 @@ export default function UserProfileCard({
 
                 {/* reactivate btn */}
                 {userData.isDeactivated && (
-                  <ReactivateUserBtn
+                  <ReactivateUserOnProfile
                     onReactivateUser={handleReactivateUser}
                     user={userData}
                     currentUser={authUser}
