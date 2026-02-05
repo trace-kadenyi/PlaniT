@@ -5,7 +5,7 @@ import {
   formatDateTimeShort,
 } from "../utils/formatting";
 import BudgetOverview from "../budgeting/BudgetOverview";
-import { CreatedUpdatedData, getUserDisplayName } from "../../shared/Snippets";
+import { CreatedUpdatedData } from "../../shared/Snippets";
 
 export default function EventDetailsCard({
   event,
