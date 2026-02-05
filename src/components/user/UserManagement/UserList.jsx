@@ -174,32 +174,40 @@ const RoleSelector = ({ user, onRoleChange }) => {
   };
 
   const select = (
-    <div className="relative">
-      <select
-        value={user.role}
-        onChange={
-          canEditRole
-            ? (e) => onRoleChange(user._id, e.target.value)
-            : undefined
-        }
-        disabled={shouldDisable || isUpdatingThisUser}
-        className={`min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-900 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300 ${
-          shouldDisable || isUpdatingThisUser
-            ? "opacity-60 cursor-not-allowed"
-            : ""
-        }`}
-      >
-        {getAvailableRoles().map((role) => (
-          <option key={role.value} value={role.value}>
-            {role.label}
-          </option>
-        ))}
-      </select>
-
-      {isUpdatingThisUser && (
-        <span className="absolute right-2 top-1/2 -translate-y-1/2">
-          <CircularProgress size={16} />
-        </span>
+    <div className="relative min-w-[120px] h-[38px] flex items-center justify-center">
+      {isUpdatingThisUser ? (
+        <div
+          className="w-full h-full flex items-center justify-center
+    border border-[#9B2C62]/20 rounded-lg
+    bg-white shadow-sm
+    dark:bg-black dark:border-gray-800/60
+    animate-pulse"
+        >
+          <CircularProgress
+            size={18}
+            color="inherit"
+            className="text-[#9B2C62] dark:text-[#F59E0B]"
+          />
+        </div>
+      ) : (
+        <select
+          value={user.role}
+          onChange={
+            canEditRole
+              ? (e) => onRoleChange(user._id, e.target.value)
+              : undefined
+          }
+          disabled={shouldDisable}
+          className={`min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-800/60 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300 ${
+            shouldDisable ? "opacity-60 cursor-not-allowed" : ""
+          }`}
+        >
+          {getAvailableRoles().map((role) => (
+            <option key={role.value} value={role.value}>
+              {role.label}
+            </option>
+          ))}
+        </select>
       )}
     </div>
   );
