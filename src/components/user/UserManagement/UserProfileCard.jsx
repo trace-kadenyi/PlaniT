@@ -16,7 +16,7 @@ import {
   formatHourMinute,
 } from "../../../globalUtils/dateHelpers";
 import {
-  DeleteUserBtn,
+  DeactivateUserOnProfile,
   EditUserBtn,
   ReactivateUserBtn,
 } from "../../buttons/UserButtons";
@@ -33,9 +33,6 @@ export default function UserProfileCard({
 }) {
   const roleColors = getRoleColors();
   const roleLabels = getRoleLabels();
-
-  console.log(`authuser ${authUser.firstName}`);
-  console.log(`userData ${userData.firstName}`);
 
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-8 hover:shadow-xl transition-all duration-300 group">
@@ -122,7 +119,7 @@ export default function UserProfileCard({
 
                 {/* deactivate btn */}
                 {!userData.isDeactivated && (
-                  <DeleteUserBtn
+                  <DeactivateUserOnProfile
                     userData={userData}
                     handleRemoveUser={handleRemoveUser}
                     userId={userId}
