@@ -75,7 +75,7 @@ export const EditUserBtn = ({ userId, userData, authUser }) => {
   );
 };
 
-// delete user btn
+// deactivate user on profilebtn
 export const DeactivateUserOnProfile = ({
   userData,
   handleRemoveUser,
@@ -103,6 +103,33 @@ export const DeactivateUserOnProfile = ({
     >
       <Trash2 className="w-5 h-5" />
       {deleteStatus === "loading" ? "Deactivating..." : "Deactivate Account"}
+    </PermissionButton>
+  );
+};
+
+// reactivate user on profile
+export const ReactivateUserOnProfile = ({
+  onReactivateUser,
+  user,
+  currentUser,
+}) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.MANAGE_USERS}
+      resource={RESOURCES.USER}
+      target={user}
+      onClick={() => onReactivateUser(user._id)}
+      tooltipTitle="Reactivate user"
+      fallbackTooltip={
+        currentUser._id === user._id
+          ? "You cannot reactivate your own account"
+          : user.role === "super_admin" && currentUser.role !== "super_admin"
+            ? "Only super admins can reactivate super admins"
+            : "You do not have permission to reactivate this user"
+      }
+      className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-white/80 to-green-50/80 dark:from-green-900/30 dark:to-green-800/10 hover:from-green-50 hover:to-green-100/80 dark:hover:from-green-800/40 dark:hover:to-green-700/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-700/40 px-5 py-3 rounded-xl font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:border-green-300 dark:hover:border-green-600/60 group"
+    >
+      Reactivate
     </PermissionButton>
   );
 };
