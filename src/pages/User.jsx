@@ -195,6 +195,7 @@ export default function User() {
           handleReactivateUser={handleReactivateUser}
           deleteStatus={deleteStatus}
           onLogout={handleLogout}
+          isInactive={userData.isDeactivated}
         />
 
         {/* Details Grid */}
@@ -202,6 +203,7 @@ export default function User() {
           userData={userData}
           userEvents={userEvents}
           userTasks={userTasks}
+          isInactive={userData.isDeactivated}
         />
 
         {/* Update History Section */}
