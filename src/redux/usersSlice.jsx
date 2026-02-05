@@ -262,11 +262,21 @@ const usersSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.deleteStatus = "succeeded";
-        state.items = state.items.filter((user) => user._id !== action.payload);
-        if (state.currentUser && state.currentUser._id === action.payload) {
-          state.currentUser = null;
+
+        const userId = action.payload;
+        const user = state.items.find((u) => u._id === userId);
+
+        if (user) {
+          user.isDeactivated = true;
+          user.isActive = false;
+        }
+
+        if (state.currentUser && state.currentUser._id === userId) {
+          state.currentUser.isDeactivated = true;
+          state.currentUser.isActive = false;
         }
       })
+
       .addCase(deleteUser.rejected, (state, action) => {
         state.deleteStatus = "failed";
         state.deleteError = action.payload;
