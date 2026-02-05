@@ -2,11 +2,20 @@ import { Shield, Briefcase } from "lucide-react";
 
 import { getRoleDescriptions } from "../../../globalHooks/usePermissionHelpers";
 
-export function UserDetailsGrid({ userData, userEvents, userTasks }) {
+export function UserDetailsGrid({
+  userData,
+  userEvents,
+  userTasks,
+  isInactive,
+}) {
   const roleDescriptions = getRoleDescriptions();
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+    <div
+      className={`grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10 transition ${
+        isInactive ? "opacity-60 pointer-events-none grayscale" : ""
+      }`}
+    >
       {/* Role & Permissions Card */}
       <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 hover:shadow-xl transition-all duration-300 group">
         <div className="absolute top-0 right-0 w-20 h-20 opacity-10 group-hover:opacity-20 transition-opacity">
