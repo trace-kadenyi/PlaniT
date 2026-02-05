@@ -15,7 +15,11 @@ import {
   formatYearMonthDay,
   formatHourMinute,
 } from "../../../globalUtils/dateHelpers";
-import { DeleteUserBtn, EditUserBtn } from "../../buttons/UserButtons";
+import {
+  DeleteUserBtn,
+  EditUserBtn,
+  ReactivateUserBtn,
+} from "../../buttons/UserButtons";
 
 export default function UserProfileCard({
   userData,
@@ -23,11 +27,15 @@ export default function UserProfileCard({
   authUser,
   userId,
   handleRemoveUser,
+  handleReactivateUser,
   deleteStatus,
   onLogout,
 }) {
   const roleColors = getRoleColors();
   const roleLabels = getRoleLabels();
+
+  console.log(`authuser ${authUser.firstName}`);
+  console.log(`userData ${userData.firstName}`);
 
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-8 hover:shadow-xl transition-all duration-300 group">
@@ -112,14 +120,25 @@ export default function UserProfileCard({
                   authUser={authUser}
                 />
 
-                {/* delete btn */}
-                <DeleteUserBtn
-                  userData={userData}
-                  handleRemoveUser={handleRemoveUser}
-                  userId={userId}
-                  deleteStatus={deleteStatus}
-                  authUser={authUser}
-                />
+                {/* deactivate btn */}
+                {!userData.isDeactivated && (
+                  <DeleteUserBtn
+                    userData={userData}
+                    handleRemoveUser={handleRemoveUser}
+                    userId={userId}
+                    deleteStatus={deleteStatus}
+                    authUser={authUser}
+                  />
+                )}
+
+                {/* reactivate btn */}
+                {userData.isDeactivated && (
+                  <ReactivateUserBtn
+                    onReactivateUser={handleReactivateUser}
+                    user={userData}
+                    currentUser={authUser}
+                  />
+                )}
               </div>
 
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
