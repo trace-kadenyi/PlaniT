@@ -207,24 +207,23 @@ const usersSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.updateStatus = "succeeded";
-        // Update in items list
-        const index = state.items.findIndex(
-          (user) => user._id === action.payload.user.id,
-        );
+
+        const updatedUser = action.payload.user;
+        const userId = updatedUser._id || updatedUser.id;
+
+        const index = state.items.findIndex((u) => u._id === userId);
         if (index !== -1) {
           state.items[index] = {
             ...state.items[index],
-            ...action.payload.user,
+            ...updatedUser,
           };
         }
-        // Update current user if it's the same
-        if (
-          state.currentUser &&
-          state.currentUser._id === action.payload.user.id
-        ) {
-          state.currentUser = { ...state.currentUser, ...action.payload.user };
+
+        if (state.currentUser && state.currentUser._id === userId) {
+          state.currentUser = { ...state.currentUser, ...updatedUser };
         }
       })
+
       .addCase(updateUser.rejected, (state, action) => {
         state.updateStatus = "failed";
         state.updateError = action.payload;
