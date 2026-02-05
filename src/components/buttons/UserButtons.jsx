@@ -76,7 +76,7 @@ export const EditUserBtn = ({ userId, userData, authUser }) => {
 };
 
 // delete user btn
-export const DeleteUserBtn = ({
+export const DeactivateUserOnProfile = ({
   userData,
   handleRemoveUser,
   userId,
@@ -190,10 +190,9 @@ export const ReactivateUserBtn = ({ onReactivateUser, user, currentUser }) => {
       fallbackTooltip={
         currentUser._id === user._id
           ? "You cannot reactivate your own account"
-          : user.role === "super_admin" &&
-            currentUser.role !== "super_admin"
-          ? "Only super admins can reactivate super admins"
-          : "You do not have permission to reactivate this user"
+          : user.role === "super_admin" && currentUser.role !== "super_admin"
+            ? "Only super admins can reactivate super admins"
+            : "You do not have permission to reactivate this user"
       }
       className="text-green-600 hover:text-green-800 px-3 py-1 rounded-lg border border-green-200 hover:border-green-300 transition-all duration-200 text-xs font-semibold dark:border-green-400 dark:hover:border-green-500 dark:hover:text-green-700"
     >
