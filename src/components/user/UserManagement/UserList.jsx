@@ -9,9 +9,18 @@ import {
   ROLES,
 } from "../../../globalHooks/userPermissions";
 import { truncateText } from "../../taskManagerCollection/utils/formatting";
-import { DeactivateUserBtn } from "../../buttons/UserButtons";
+import {
+  DeactivateUserBtn,
+  ReactivateUserBtn,
+} from "../../buttons/UserButtons";
 
-const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
+const UserList = ({
+  users,
+  editable = false,
+  onRoleChange,
+  onRemoveUser,
+  onReactivateUser,
+}) => {
   const { can, currentUser } = usePermissions();
 
   return (
@@ -37,6 +46,7 @@ const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
               editable={editable}
               onRoleChange={onRoleChange}
               onRemoveUser={onRemoveUser}
+              onReactivateUser={onReactivateUser}
             />
           ))}
       </div>
@@ -44,7 +54,13 @@ const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
   );
 };
 
-const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
+const UserListItem = ({
+  user,
+  editable,
+  onRoleChange,
+  onRemoveUser,
+  onReactivateUser,
+}) => {
   const { can, currentUser } = usePermissions();
 
   // Check if user has EDIT permission for this specific user
@@ -90,9 +106,17 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
         )}
 
         {/* Delete Button */}
-        {editable && (
+        {editable && !user.isDeactivated && (
           <DeactivateUserBtn
             onRemoveUser={onRemoveUser}
+            user={user}
+            currentUser={currentUser}
+          />
+        )}
+
+        {editable && user.isDeactivated && (
+          <ReactivateUserBtn
+            onReactivateUser={onReactivateUser}
             user={user}
             currentUser={currentUser}
           />
