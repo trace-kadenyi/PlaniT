@@ -29,6 +29,7 @@ export default function UserProfileCard({
   handleRemoveUser,
   handleReactivateUser,
   deleteStatus,
+  reactivateStatus,
   onLogout,
   isInactive,
 }) {
@@ -137,6 +138,7 @@ export default function UserProfileCard({
                     onReactivateUser={handleReactivateUser}
                     user={userData}
                     currentUser={authUser}
+                    reactivateStatus={reactivateStatus}
                   />
                 )}
               </div>
@@ -145,7 +147,9 @@ export default function UserProfileCard({
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   {isSelf
                     ? "Note: You cannot edit or delete your own account"
-                    : "Only admins can modify user roles and permissions"}
+                    : isInactive
+                      ? "Only active users can be edited"
+                      : "Only admins can modify user roles and permissions"}
                 </p>
               </div>
             </div>
