@@ -63,6 +63,10 @@ const UserListItem = ({
   onReactivateUser,
 }) => {
   const { can, currentUser } = usePermissions();
+  const { deleteStatus, deletingUserId } = useSelector((state) => state.users);
+
+  const isDeletingUser =
+    deleteStatus === "loading" && deletingUserId === user._id;
 
   // Check if user has EDIT permission for this specific user
   const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
@@ -112,6 +116,7 @@ const UserListItem = ({
             onRemoveUser={onRemoveUser}
             user={user}
             currentUser={currentUser}
+            isLoading={isDeletingUser}
           />
         )}
 
