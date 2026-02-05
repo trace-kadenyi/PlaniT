@@ -15,7 +15,7 @@ import { fetchOrganizationDetails } from "../redux/organizationSlice";
 import UserList from "../components/user/UserManagement/UserList";
 import AddUserForm from "../components/user/forms/AddUserForm";
 import { AddNewMembersBtn } from "../components/buttons/UserButtons";
-import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
+import { createUserDeactivateHandler } from "../globalHandlers/createUserDeactivateHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenErrorState } from "../components/shared/ErrorStates";
 import { GenLoadingState } from "../components/shared/LoadingStates";
@@ -81,7 +81,7 @@ export default function Users() {
 
   // handle deactivate user
   const handleRemoveUser = (userId) => {
-    return createUserDeleteHandler(
+    return createUserDeactivateHandler(
       dispatch,
       userId,
       navigate,
