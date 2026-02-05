@@ -121,6 +121,8 @@ const usersSlice = createSlice({
     updatingUserId: null,
     deleteStatus: "idle",
     reactivateStatus: "idle",
+    deletingUserId: null,
+    reactivatingUserId: null,
     error: null,
     fetchDetailsError: null,
     fetchHistoryError: null,
@@ -262,13 +264,15 @@ const usersSlice = createSlice({
         state.updatingUserId = null;
       })
 
-      // Delete user
-      .addCase(deleteUser.pending, (state) => {
+      // Deactivate user
+      .addCase(deleteUser.pending, (state, action) => {
         state.deleteStatus = "loading";
+        state.deletingUserId = action.meta.arg;
         state.deleteError = null;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.deleteStatus = "succeeded";
+        state.deletingUserId = null;
 
         const userId = action.payload;
         const user = state.items.find((u) => u._id === userId);
@@ -286,16 +290,19 @@ const usersSlice = createSlice({
 
       .addCase(deleteUser.rejected, (state, action) => {
         state.deleteStatus = "failed";
+        state.deletingUserId = null;
         state.deleteError = action.payload;
       })
 
       // Reactivate user
-      .addCase(reactivateUser.pending, (state) => {
+      .addCase(reactivateUser.pending, (state, action) => {
         state.reactivateStatus = "loading";
+        state.reactivatingUserId = action.meta.arg;
         state.reactivateError = null;
       })
       .addCase(reactivateUser.fulfilled, (state, action) => {
         state.reactivateStatus = "succeeded";
+        state.reactivatingUserId = null;
 
         const updatedUser = action.payload.user;
 
@@ -315,6 +322,7 @@ const usersSlice = createSlice({
       })
       .addCase(reactivateUser.rejected, (state, action) => {
         state.reactivateStatus = "failed";
+        state.reactivatingUserId = null;
         state.reactivateError = action.payload;
       })
 
