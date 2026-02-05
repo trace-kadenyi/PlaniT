@@ -190,14 +190,16 @@ export const EditUserFormBtn = ({
 };
 
 // deactivate user from team list btn
-export const DeactivateUserBtn = ({ onRemoveUser, user, currentUser }) => {
+export const DeactivateUserBtn = ({ onRemoveUser, user, currentUser, isLoading }) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.USER}
       target={user}
       onClick={() => onRemoveUser(user._id)}
-      tooltipTitle="Remove user from organization"
+            loading={isLoading}
+      disabled={isLoading}
+      tooltipTitle={isLoading ? "Deactivating..." : "Remove user from organization"}
       fallbackTooltip={`${
         currentUser._id === user._id &&
         (currentUser.role === "super_admin" || currentUser.role === "admin")
@@ -206,7 +208,7 @@ export const DeactivateUserBtn = ({ onRemoveUser, user, currentUser }) => {
       }`}
       className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-500"
     >
-      Deactivate
+      {isLoading ? "Deactivating…" : "Deactivate"}
     </PermissionButton>
   );
 };
