@@ -178,25 +178,26 @@ export const DeactivateUserBtn = ({ onRemoveUser, user, currentUser }) => {
   );
 };
 
-// reactivate user
-// remove user from team list btn
-export const ReactivateUserBtn = ({ onRemoveUser, user, currentUser }) => {
+// reactivate user btn
+export const ReactivateUserBtn = ({ onReactivateUser, user, currentUser }) => {
   return (
     <PermissionButton
-      permission={PERMISSIONS.DELETE}
+      permission={PERMISSIONS.MANAGE_USERS}
       resource={RESOURCES.USER}
       target={user}
-      onClick={() => onRemoveUser(user._id)}
-      tooltipTitle="Remove user from organization"
-      fallbackTooltip={`${
-        currentUser._id === user._id &&
-        (currentUser.role === "super_admin" || currentUser.role === "admin")
-          ? "Cannot remove yourself from the system"
-          : "You do not have permission to remove this user"
-      }`}
-      className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-700"
+      onClick={() => onReactivateUser(user._id)}
+      tooltipTitle="Reactivate user"
+      fallbackTooltip={
+        currentUser._id === user._id
+          ? "You cannot reactivate your own account"
+          : user.role === "super_admin" &&
+            currentUser.role !== "super_admin"
+          ? "Only super admins can reactivate super admins"
+          : "You do not have permission to reactivate this user"
+      }
+      className="text-green-600 hover:text-green-800 px-3 py-1 rounded-lg border border-green-200 hover:border-green-300 transition-all duration-200 text-xs font-semibold dark:border-green-400 dark:hover:border-green-500 dark:hover:text-green-700"
     >
-      Deactivate
+      Reactivate
     </PermissionButton>
   );
 };
