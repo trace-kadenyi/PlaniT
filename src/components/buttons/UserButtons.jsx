@@ -190,16 +190,21 @@ export const EditUserFormBtn = ({
 };
 
 // deactivate user from team list btn
-export const DeactivateUserBtn = ({ onRemoveUser, user, currentUser, isLoading }) => {
+export const DeactivateUserBtn = ({
+  onRemoveUser,
+  user,
+  currentUser,
+  isLoading,
+}) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.USER}
       target={user}
       onClick={() => onRemoveUser(user._id)}
-            loading={isLoading}
+      loading={isLoading}
       disabled={isLoading}
-      tooltipTitle={isLoading ? "Deactivating..." : "Remove user from organization"}
+      tooltipTitle={isLoading ? "Deactivating..." : "Deactivate user"}
       fallbackTooltip={`${
         currentUser._id === user._id &&
         (currentUser.role === "super_admin" || currentUser.role === "admin")
@@ -214,14 +219,21 @@ export const DeactivateUserBtn = ({ onRemoveUser, user, currentUser, isLoading }
 };
 
 // reactivate user btn
-export const ReactivateUserBtn = ({ onReactivateUser, user, currentUser }) => {
+export const ReactivateUserBtn = ({
+  onReactivateUser,
+  user,
+  currentUser,
+  isLoading,
+}) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.MANAGE_USERS}
       resource={RESOURCES.USER}
       target={user}
       onClick={() => onReactivateUser(user._id)}
-      tooltipTitle="Reactivate user"
+      loading={isLoading}
+      disabled={isLoading}
+      tooltipTitle={isLoading ? "Reactivating..." : "Reactivate user"}
       fallbackTooltip={
         currentUser._id === user._id
           ? "You cannot reactivate your own account"
@@ -231,7 +243,7 @@ export const ReactivateUserBtn = ({ onReactivateUser, user, currentUser }) => {
       }
       className="text-green-600 dark:text-green-600 hover:text-green-700 px-3 py-1 rounded-lg border border-green-200 hover:border-green-300 transition-all duration-200 text-xs font-semibold dark:border-green-400 dark:hover:border-green-500 dark:hover:text-green-500"
     >
-      Reactivate
+      {isLoading ? "Reactivating…" : "Reactivate"}
     </PermissionButton>
   );
 };
