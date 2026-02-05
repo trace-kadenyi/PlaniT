@@ -15,7 +15,6 @@ import { fetchOrganizationDetails } from "../redux/organizationSlice";
 import UserList from "../components/user/UserManagement/UserList";
 import AddUserForm from "../components/user/forms/AddUserForm";
 import { AddNewMembersBtn } from "../components/buttons/UserButtons";
-import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenErrorState } from "../components/shared/ErrorStates";
