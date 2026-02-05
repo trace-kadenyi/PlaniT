@@ -1,25 +1,29 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import {
   fetchUsers,
   updateUserRole,
   deleteUser,
   addUser,
+  reactivateUser,
 } from "../redux/usersSlice";
 import { fetchOrganizationDetails } from "../redux/organizationSlice";
 
 import UserList from "../components/user/UserManagement/UserList";
 import AddUserForm from "../components/user/forms/AddUserForm";
 import { AddNewMembersBtn } from "../components/buttons/UserButtons";
-import toast from "react-hot-toast";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenErrorState } from "../components/shared/ErrorStates";
 import { GenLoadingState } from "../components/shared/LoadingStates";
 import { useToastLock } from "../globalUtils/useToastLock";
+import { createUserReactivateHandler } from "../globalHandlers/createUserReactivateHandler";
+import UserDeactivateConfirmationToast from "../globalUtils/userDeactivateConfirmationToast";
+import UserReactivateConfirmationToast from "../globalUtils/userReactivateConfirmationToast";
 
 export default function Users() {
   const dispatch = useDispatch();
@@ -77,7 +81,7 @@ export default function Users() {
     }
   };
 
-  // handle remove user
+  // handle deactivate user
   const handleRemoveUser = (userId) => {
     return createUserDeleteHandler(
       dispatch,
@@ -86,8 +90,22 @@ export default function Users() {
       deleteUser,
       toast,
       toastWithProgress,
-      DeleteConfirmationToast,
-      toastLock
+      UserDeactivateConfirmationToast,
+      toastLock,
+    )();
+  };
+
+  // handle reactivate user
+  const handleReactivateUser = (userId) => {
+    return createUserReactivateHandler(
+      dispatch,
+      userId,
+      navigate,
+      reactivateUser,
+      toast,
+      toastWithProgress,
+      UserReactivateConfirmationToast,
+      toastLock,
     )();
   };
 
@@ -165,6 +183,7 @@ export default function Users() {
                 editable={true}
                 onRoleChange={handleRoleChange}
                 onRemoveUser={handleRemoveUser}
+                onReactivateUser={handleReactivateUser}
               />
             )}
           </>
