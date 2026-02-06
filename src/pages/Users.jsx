@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -36,6 +36,7 @@ export default function Users() {
     addStatus,
   } = useSelector((state) => state.users);
   const { organization } = useSelector((state) => state.organization);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [showAddForm, setShowAddForm] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -49,6 +50,27 @@ export default function Users() {
     dispatch(fetchUsers());
     dispatch(fetchOrganizationDetails());
   }, [dispatch]);
+
+  // Filter users based on status
+  const filteredUsers = useMemo(() => {
+    if (!users || users.length === 0) return [];
+    if (statusFilter === "all") return users;
+    if (statusFilter === "active")
+      return users.filter((user) => !user.isDeactivated);
+    if (statusFilter === "inactive")
+      return users.filter((user) => user.isDeactivated);
+    return users;
+  }, [users, statusFilter]);
+
+  // Calculate counts
+  const activeCount = useMemo(
+    () => users?.filter((user) => !user.isDeactivated).length || 0,
+    [users],
+  );
+  const inactiveCount = useMemo(
+    () => users?.filter((user) => user.isDeactivated).length || 0,
+    [users],
+  );
 
   // Handle add user
   const handleAddUser = async (e) => {
@@ -176,13 +198,133 @@ export default function Users() {
                 </div>
               </div>
             ) : (
-              <UserList
-                users={users}
-                editable={true}
-                onRoleChange={handleRoleChange}
-                onRemoveUser={handleRemoveUser}
-                onReactivateUser={handleReactivateUser}
-              />
+              <>
+                {/* Status Filter */}
+                <div className="mb-6">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Filter by status:
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={() => setStatusFilter("all")}
+                        className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                          statusFilter === "all"
+                            ? "bg-[#9B2C62] dark:bg-[#D97706] text-white shadow-md"
+                            : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                        }`}
+                      >
+                        <span>All Users</span>
+                        <span
+                          className={`px-1.5 py-0.5 text-xs rounded-full ${
+                            statusFilter === "all"
+                              ? "bg-white/20"
+                              : "bg-gray-200 dark:bg-gray-700"
+                          }`}
+                        >
+                          {users.length}
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => setStatusFilter("active")}
+                        className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                          statusFilter === "active"
+                            ? "bg-[#9B2C62] dark:bg-[#D97706] text-white shadow-md"
+                            : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                        }`}
+                      >
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                          <span>Active</span>
+                        </div>
+                        <span
+                          className={`px-1.5 py-0.5 text-xs rounded-full ${
+                            statusFilter === "active"
+                              ? "bg-white/20"
+                              : "bg-gray-200 dark:bg-gray-700"
+                          }`}
+                        >
+                          {activeCount}
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => setStatusFilter("inactive")}
+                        className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                          statusFilter === "inactive"
+                            ? "bg-[#9B2C62] dark:bg-[#D97706] text-white shadow-md"
+                            : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                        }`}
+                      >
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                          <span>Inactive</span>
+                        </div>
+                        <span
+                          className={`px-1.5 py-0.5 text-xs rounded-full ${
+                            statusFilter === "inactive"
+                              ? "bg-white/20"
+                              : "bg-gray-200 dark:bg-gray-700"
+                          }`}
+                        >
+                          {inactiveCount}
+                        </span>
+                      </button>
+                    </div>
+
+                    {/* Reset filter button (shown when filter is active) */}
+                    {statusFilter !== "all" && (
+                      <button
+                        onClick={() => setStatusFilter("all")}
+                        className="text-sm text-[#9B2C62] dark:text-[#D97706] hover:underline ml-2"
+                      >
+                        Reset filter
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* User List with filtered users */}
+                {filteredUsers.length > 0 ? (
+                  <UserList
+                    users={filteredUsers}
+                    editable={true}
+                    onRoleChange={handleRoleChange}
+                    onRemoveUser={handleRemoveUser}
+                    onReactivateUser={handleReactivateUser}
+                  />
+                ) : (
+                  <div className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl border border-gray-200 dark:border-gray-700 text-center">
+                    <svg
+                      className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <h3 className="mt-4 text-lg font-medium text-gray-700 dark:text-gray-300">
+                      No {statusFilter === "active" ? "active" : "inactive"}{" "}
+                      users found
+                    </h3>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400 mb-4">
+                      {statusFilter === "active"
+                        ? "All users are currently inactive or deactivated"
+                        : "All users are currently active"}
+                    </p>
+                    <button
+                      onClick={() => setStatusFilter("all")}
+                      className="inline-flex items-center px-4 py-2 bg-[#9B2C62] dark:bg-[#D97706] text-white rounded-lg hover:opacity-90 transition-opacity font-medium"
+                    >
+                      View all users
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </>
         )}
