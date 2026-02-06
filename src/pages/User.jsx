@@ -59,19 +59,6 @@ export default function User() {
     }
   }, [dispatch, userId]);
 
-  useEffect(() => {
-    // Check if viewer/planner trying to view deactivated user
-    if (
-      userData?.isDeactivated &&
-      authUser &&
-      (authUser.role === ROLES.VIEWER || authUser.role === ROLES.PLANNER)
-    ) {
-      // Redirect to users list
-      navigate("/users");
-      toastWithProgress("You don't have permission to view this user");
-    }
-  }, [userData, authUser, navigate, toast]);
-
   // Fetch tasks when user data loads
   useEffect(() => {
     if (userData && userData._id) {
@@ -152,7 +139,6 @@ export default function User() {
   if (fetchDetailsError || !userData) {
     return (
       <UserNotFound
-        Shield={Shield}
         fetchDetailsError={fetchDetailsError}
         ArrowLeft={ArrowLeft}
         Link={Link}
