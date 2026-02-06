@@ -174,7 +174,8 @@ export default function Users() {
             ) : (
               <>
                 {/* Status Filter - Only show for Admin and Super Admin */}
-                {currentUser?.role === ROLES.ADMIN || (
+                {(currentUser?.role === ROLES.ADMIN ||
+                  currentUser?.role === ROLES.SUPER_ADMIN) && (
                   <UsersFilter
                     setStatusFilter={setStatusFilter}
                     statusFilter={statusFilter}
@@ -188,6 +189,7 @@ export default function Users() {
                 {filteredUsers.length > 0 ? (
                   <UserList
                     users={filteredUsers}
+                    totalUsersCount={users.length}
                     editable={true}
                     onRoleChange={handleRoleChange}
                     onRemoveUser={handleRemoveUser}
