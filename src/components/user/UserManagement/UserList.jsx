@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { Tooltip, CircularProgress } from "@mui/material";
 
@@ -22,18 +22,38 @@ const UserList = ({
   onRemoveUser,
   onReactivateUser,
 }) => {
-  const { can, currentUser } = usePermissions();
+  const { can, currentUser, isRole } = usePermissions();
+
+  // Filter users based on permissions
+  const filteredUsers = useMemo(() => {
+    if (!users || users.length === 0) return [];
+
+    // If current user is viewer or planner, filter out deactivated users
+    if (isRole(ROLES.VIEWER, ROLES.PLANNER)) {
+      return users.filter((user) => !user.isDeactivated);
+    }
+
+    // Admin and Super Admin can see all users
+    return users;
+  }, [users, isRole]);
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
       <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
-          Team Members ({users.length})
+          Team Members ({filteredUsers.length})
+          {/* Show indicator for filtered view */}
+          {isRole(ROLES.VIEWER, ROLES.PLANNER) &&
+            users.length !== filteredUsers.length && (
+              <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                (Showing only active users)
+              </span>
+            )}
         </h2>
       </div>
 
       <div className="divide-y divide-gray-200 dark:divide-gray-800">
-        {users
+        {filteredUsers
           .filter((user) => user && user._id)
           .sort((a, b) => {
             if (a._id === currentUser?._id) return -1;
