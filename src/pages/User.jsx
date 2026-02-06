@@ -13,7 +13,7 @@ import {
 import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
-import { usePermissions } from "../globalHooks/userPermissions";
+import { usePermissions, ROLES } from "../globalHooks/userPermissions";
 import { createUserDeactivateHandler } from "../globalHandlers/createUserDeactivateHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
@@ -58,6 +58,19 @@ export default function User() {
       dispatch(fetchUserDetails(userId));
     }
   }, [dispatch, userId]);
+
+  useEffect(() => {
+    // Check if viewer/planner trying to view deactivated user
+    if (
+      userData?.isDeactivated &&
+      authUser &&
+      (authUser.role === ROLES.VIEWER || authUser.role === ROLES.PLANNER)
+    ) {
+      // Redirect to users list
+      navigate("/users");
+      toastWithProgress("You don't have permission to view this user");
+    }
+  }, [userData, authUser, navigate, toast]);
 
   // Fetch tasks when user data loads
   useEffect(() => {
