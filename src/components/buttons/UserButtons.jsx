@@ -59,7 +59,7 @@ export const EditUserBtn = ({ userId, userData, authUser }) => {
       permission={PERMISSIONS.EDIT}
       resource={RESOURCES.USER}
       target={userData}
-      tooltipTitle="Edit user details"
+      tooltipTitle="Edit profile details"
       fallbackTooltip={`${
         authUser.firstName === userData.firstName &&
         authUser.lastName === userData.lastName &&
@@ -204,7 +204,7 @@ export const DeactivateUserBtn = ({
       onClick={() => onRemoveUser(user._id)}
       loading={isLoading}
       disabled={isLoading}
-      tooltipTitle={isLoading ? "Deactivating..." : "Deactivate user"}
+      tooltipTitle={isLoading ? "Deactivating..." : "Deactivate account"}
       fallbackTooltip={`${
         currentUser._id === user._id &&
         (currentUser.role === "super_admin" || currentUser.role === "admin")
@@ -233,7 +233,7 @@ export const ReactivateUserBtn = ({
       onClick={() => onReactivateUser(user._id)}
       loading={isLoading}
       disabled={isLoading}
-      tooltipTitle={isLoading ? "Reactivating..." : "Reactivate user"}
+      tooltipTitle={isLoading ? "Reactivating..." : "Reactivate account"}
       fallbackTooltip={
         currentUser._id === user._id
           ? "You cannot reactivate your own account"
