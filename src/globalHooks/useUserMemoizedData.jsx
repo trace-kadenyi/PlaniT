@@ -46,13 +46,24 @@ export function useUserMemoizedData(userId, userData) {
 export function useUserFilters(users, statusFilter = "all", userRole = null) {
   const filteredUsers = useMemo(() => {
     if (!users || users.length === 0) return [];
-    if (statusFilter === "all") return users;
-    if (statusFilter === "active")
-      return users.filter((user) => !user.isDeactivated);
-    if (statusFilter === "inactive")
-      return users.filter((user) => user.isDeactivated);
-    return users;
-  }, [users, statusFilter]);
+
+    let result = users;
+
+    // FIRST: Apply permission-based filtering (viewers/planners can't see deactivated users)
+    if (userRole && (userRole === "viewer" || userRole === "planner")) {
+      result = result.filter((user) => !user.isDeactivated);
+    }
+
+    // THEN: Apply status filter
+    if (statusFilter === "active") {
+      return result.filter((user) => !user.isDeactivated);
+    }
+    if (statusFilter === "inactive") {
+      return result.filter((user) => user.isDeactivated);
+    }
+
+    return result; // "all"
+  }, [users, statusFilter, userRole]); // Add userRole to dependencies
 
   const activeCount = useMemo(
     () => users?.filter((user) => !user.isDeactivated).length || 0,
