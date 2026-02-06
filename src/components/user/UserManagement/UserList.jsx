@@ -21,6 +21,7 @@ const UserList = ({
   onRoleChange,
   onRemoveUser,
   onReactivateUser,
+  totalUsersCount,
 }) => {
   const { can, currentUser, isRole } = usePermissions();
 
@@ -41,10 +42,10 @@ const UserList = ({
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
       <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
-          Team Members ({filteredUsers.length})
-          {/* Show indicator for filtered view */}
+          Team Members ({users.length}){/* Show indicator for filtered view */}
           {isRole(ROLES.VIEWER, ROLES.PLANNER) &&
-            users.length !== filteredUsers.length && (
+            totalUsersCount &&
+            totalUsersCount !== users.length && (
               <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
                 (Showing only active users)
               </span>
