@@ -82,7 +82,8 @@ const UserListItem = ({
   onRemoveUser,
   onReactivateUser,
 }) => {
-  const { can, currentUser } = usePermissions();
+  const { can, currentUser, isRole } = usePermissions();
+
   const { deleteStatus, deletingUserId, reactivateStatus, reactivatingUserId } =
     useSelector((state) => state.users);
 
@@ -94,9 +95,13 @@ const UserListItem = ({
 
   // Check if user has EDIT permission for this specific user
   const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
+
   // Combine with canModifyUser to ensure hierarchy rules are respected
   const canEditRole =
     hasEditPermission && canModifyUser(currentUser, user, PERMISSIONS.EDIT);
+
+  // Check if current user can see reactivate button
+  const canSeeReactivateButton = !isRole(ROLES.VIEWER, ROLES.PLANNER);
 
   return (
     <div className="px-6 py-4 flex flex-col gap-3 sm:items-center justify-between sm:flex-row">
@@ -144,7 +149,7 @@ const UserListItem = ({
           />
         )}
 
-        {editable && user.isDeactivated && (
+        {editable && user.isDeactivated && canSeeReactivateButton && (
           <ReactivateUserBtn
             onReactivateUser={onReactivateUser}
             user={user}
