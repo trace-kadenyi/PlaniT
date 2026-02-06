@@ -9,7 +9,7 @@ import {
 const AuthInitializer = () => {
   const dispatch = useDispatch();
   const { trustedDevice, isAuthenticated, isInitializing } = useSelector(
-    (state) => state.auth
+    (state) => state.auth,
   );
   const refreshAttempted = useRef(false);
 
@@ -22,7 +22,6 @@ const AuthInitializer = () => {
       if (trustedDevice && !isAuthenticated) {
         try {
           refreshAttempted.current = true; // Mark as attempted
-          console.log("Attempting token refresh...");
           await dispatch(refreshToken()).unwrap();
           console.log("Token refresh successful");
         } catch (error) {
