@@ -239,7 +239,7 @@ const RoleSelector = ({ user, onRoleChange }) => {
 
   if (user.isDeactivated) {
     return (
-      <Tooltip title={"Reactivate user to edit roles"} arrow>
+      <Tooltip title={"Reactivate user to update role"} arrow>
         <span className="inline-block">{select}</span>
       </Tooltip>
     );
