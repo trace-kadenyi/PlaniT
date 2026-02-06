@@ -70,7 +70,7 @@ const getBasePermissionsForRole = (role) => {
         PERMISSIONS.EDIT,
         PERMISSIONS.ARCHIVE,
         PERMISSIONS.UPDATE_STATUS,
-        PERMISSIONS.MANAGE_EVENT_STATUS
+        PERMISSIONS.MANAGE_EVENT_STATUS,
       );
     });
   }
@@ -84,7 +84,7 @@ const getBasePermissionsForRole = (role) => {
         PERMISSIONS.DELETE,
         PERMISSIONS.ARCHIVE,
         PERMISSIONS.DELETE_ALL,
-        PERMISSIONS.MANAGE_USERS
+        PERMISSIONS.MANAGE_USERS,
       );
     });
 
@@ -106,9 +106,18 @@ const checkPermission = (
   currentUser,
   permission,
   resource = null,
-  targetUser = null
+  targetUser = null,
 ) => {
   if (!currentUser?.role || !resource) return false;
+
+  // PREVENT VIEWERS/PLANNERS FROM VIEWING DEACTIVATED USERS
+  if (
+    resource === RESOURCES.USER &&
+    targetUser?.isDeactivated &&
+    (currentUser.role === ROLES.VIEWER || currentUser.role === ROLES.PLANNER)
+  ) {
+    return false;
+  }
 
   const userRole = currentUser.role;
 
