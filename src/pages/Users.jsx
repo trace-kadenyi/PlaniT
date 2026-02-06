@@ -282,36 +282,22 @@ export default function Users() {
                     onReactivateUser={handleReactivateUser}
                   />
                 ) : (
-                  <div className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl border border-gray-200 dark:border-gray-700 text-center">
-                    <svg
-                      className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-                      />
-                    </svg>
-                    <h3 className="mt-4 text-lg font-medium text-gray-700 dark:text-gray-300">
-                      No {statusFilter === "active" ? "active" : "inactive"}{" "}
-                      users found
-                    </h3>
-                    <p className="mt-2 text-gray-500 dark:text-gray-400 mb-4">
-                      {statusFilter === "active"
+                  <NoUsers
+                    message={`No ${statusFilter === "active" ? "active" : "inactive"} users found`}
+                    submessage={
+                      statusFilter === "active"
                         ? "All users are currently inactive or deactivated"
-                        : "All users are currently active"}
-                    </p>
-                    <button
-                      onClick={() => setStatusFilter("all")}
-                      className="inline-flex items-center px-4 py-2 bg-[#9B2C62] dark:bg-[#D97706] text-white rounded-lg hover:opacity-90 transition-opacity font-medium"
-                    >
-                      View all users
-                    </button>
-                  </div>
+                        : "All users are currently active"
+                    }
+                    cta={
+                      <button
+                        onClick={() => setStatusFilter("all")}
+                        className="inline-flex items-center px-4 py-2 bg-[#9B2C62] dark:bg-[#D97706] text-white rounded-lg hover:opacity-90 transition-opacity font-medium"
+                      >
+                        View all users
+                      </button>
+                    }
+                  />
                 )}
               </>
             )}
