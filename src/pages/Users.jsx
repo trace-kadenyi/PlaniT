@@ -26,6 +26,7 @@ import UserReactivateConfirmationToast from "../globalUtils/userReactivateConfir
 import { ROLES } from "../globalHooks/userPermissions";
 import NoUsers from "../components/shared/NoUsers";
 import UsersFilter from "../components/user/UserManagement/UsersFilter";
+import { useUserFilters } from "../globalHooks/useUserMemoizedData";
 
 export default function Users() {
   const dispatch = useDispatch();
@@ -58,24 +59,10 @@ export default function Users() {
   }, [dispatch]);
 
   // Filter users based on status
-  const filteredUsers = useMemo(() => {
-    if (!users || users.length === 0) return [];
-    if (statusFilter === "all") return users;
-    if (statusFilter === "active")
-      return users.filter((user) => !user.isDeactivated);
-    if (statusFilter === "inactive")
-      return users.filter((user) => user.isDeactivated);
-    return users;
-  }, [users, statusFilter]);
-
-  // Calculate counts
-  const activeCount = useMemo(
-    () => users?.filter((user) => !user.isDeactivated).length || 0,
-    [users],
-  );
-  const inactiveCount = useMemo(
-    () => users?.filter((user) => user.isDeactivated).length || 0,
-    [users],
+  const { filteredUsers, activeCount, inactiveCount } = useUserFilters(
+    users,
+    statusFilter,
+    currentUser?.role,
   );
 
   // Handle add user
