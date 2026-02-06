@@ -21,7 +21,6 @@ const UserList = ({
   onRoleChange,
   onRemoveUser,
   onReactivateUser,
-  totalUsersCount,
 }) => {
   const { can, currentUser, isRole } = usePermissions();
 

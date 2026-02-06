@@ -189,7 +189,6 @@ export default function Users() {
                 {filteredUsers.length > 0 ? (
                   <UserList
                     users={filteredUsers}
-                    totalUsersCount={users.length}
                     editable={true}
                     onRoleChange={handleRoleChange}
                     onRemoveUser={handleRemoveUser}
