@@ -207,11 +207,9 @@ const RoleSelector = ({ user, onRoleChange }) => {
               ? (e) => onRoleChange(user._id, e.target.value)
               : undefined
           }
-          disabled={shouldDisable}
+          disabled={shouldDisable || user.isDeactivated}
           className={`min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-800/60 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300 ${
-            shouldDisable || user.isDeactivated
-              ? "opacity-60 cursor-not-allowed"
-              : ""
+            shouldDisable || user.isDeactivated ? "opacity-60 cursor-help" : ""
           }`}
         >
           {getAvailableRoles().map((role) => (
@@ -234,7 +232,15 @@ const RoleSelector = ({ user, onRoleChange }) => {
         }
         arrow
       >
-        <span>{select}</span>
+        <span className="inline-block">{select}</span>
+      </Tooltip>
+    );
+  }
+
+  if (user.isDeactivated) {
+    return (
+      <Tooltip title={"Reactivate user to edit roles"} arrow>
+        <span className="inline-block">{select}</span>
       </Tooltip>
     );
   }
