@@ -43,13 +43,11 @@ const UserList = ({
       <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
           Team Members ({users.length}){/* Show indicator for filtered view */}
-          {isRole(ROLES.VIEWER, ROLES.PLANNER) &&
-            totalUsersCount &&
-            totalUsersCount !== users.length && (
-              <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
-                (Showing only active users)
-              </span>
-            )}
+          {isRole(ROLES.VIEWER, ROLES.PLANNER) && (
+            <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+              (Showing only active users)
+            </span>
+          )}
         </h2>
       </div>
 
