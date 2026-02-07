@@ -1,4 +1,11 @@
-import { Pencil, Trash2, Plus } from "lucide-react";
+import {
+  Pencil,
+  Trash2,
+  Plus,
+  Archive,
+  RotateCcw,
+  RefreshCcw,
+} from "lucide-react";
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 import PermissionLink from "./PermissionLink";
@@ -40,7 +47,11 @@ export const EditDeleteEventBtns = ({
   navigate,
   eventID,
   eventName,
+  isArchived,
   handleDelete,
+  isArchiving,
+  isRestoring,
+  handleArchiveToggle,
 }) => {
   return (
     <div className="px-5 pb-3 flex space-x-2 lg:opacity-0 lg:group-hover:opacity-100 transition">
@@ -58,6 +69,47 @@ export const EditDeleteEventBtns = ({
         <span>edit</span>
       </PermissionButton>
 
+      {/* archive / restore */}
+      <PermissionButton
+        permission={PERMISSIONS.ARCHIVE}
+        resource={RESOURCES.EVENT}
+        tooltipTitle={`${isArchived ? "Restore event" : "Archive event"}`}
+        fallbackTooltip={`${
+          isArchived
+            ? "Upgrade to Planner or Admin role to restore events"
+            : "Upgrade to Planner or Admin role to archive events"
+        }`}
+        onClick={() => handleArchiveToggle(eventID, isArchived)}
+        disabled={isArchiving || isRestoring}
+        className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs transition ${
+          isArchived
+            ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
+            : "bg-[#D97706]/10 text-[#D97706] hover:bg-[#D97706]/20 dark:bg-[#D97706]/20 dark:text-[#D97706] dark:hover:bg-[#D97706]/30"
+        } ${isArchiving || isRestoring ? "opacity-70 cursor-not-allowed" : ""}`}
+      >
+        {isArchiving ? (
+          <>
+            <RefreshCcw className="animate-spin w-3 h-3" />
+            <span>Archiving...</span>
+          </>
+        ) : isRestoring ? (
+          <>
+            <RefreshCcw className="animate-spin w-3 h-3" />
+            <span>Restoring...</span>
+          </>
+        ) : isArchived ? (
+          <>
+            <RotateCcw className="w-3 h-3" />
+            <span>restore</span>
+          </>
+        ) : (
+          <>
+            <Archive className="w-3 h-3" />
+            <span>archive</span>
+          </>
+        )}
+      </PermissionButton>
+
       {/* delete event */}
       <PermissionButton
         permission={PERMISSIONS.DELETE}
@@ -71,7 +123,7 @@ export const EditDeleteEventBtns = ({
             onSuccess: () => navigate("/events"),
           })
         }
-        className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-red-100/30 text-red-600 hover:bg-red-200 transition text-xs cursor-pointer dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50"
+        className="flex items-center space-x-1 text-sm px-2 py-1 rounded-full bg-red-100/80 text-red-600 hover:bg-red-200 transition text-xs cursor-pointer dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50"
         // title="Delete"
       >
         <Trash2 className="w-3 h-3" />
