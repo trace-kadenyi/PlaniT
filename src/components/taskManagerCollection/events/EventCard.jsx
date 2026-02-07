@@ -22,7 +22,7 @@ export default function EventCard({
           className="block text-left w-full space-y-3"
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-[#6B3B0F] font-medium tracking-wide">
+            <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-gray-700 dark:text-gray-900 font-medium tracking-wide">
               {event.type}
             </p>
             {event.client && (
@@ -46,7 +46,7 @@ export default function EventCard({
                   {event.client.name}
                   {event.client.isDeleted && (
                     <span className="ml-1 text-gray-400 dark:text-gray-500 text-xs">
-                      (Deleted)
+                      (Removed)
                     </span>
                   )}
                 </span>
@@ -87,7 +87,7 @@ export default function EventCard({
             {event.description || "No description provided."}
           </p>
 
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between flex-wrap mt-4 gap-2">
             <div className="flex items-center gap-1 text-gray-500 dark:text-gray-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
