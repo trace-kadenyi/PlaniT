@@ -54,7 +54,7 @@ export const EditDeleteEventBtns = ({
   handleArchiveToggle,
 }) => {
   return (
-    <div className="px-5 pb-3 flex space-x-2 lg:opacity-0 lg:group-hover:opacity-100 transition">
+    <div className="px-5 pb-3 flex flex-wrap gap-2 space-x-2 lg:opacity-0 lg:group-hover:opacity-100 transition">
       {/* edit event */}
       <PermissionButton
         permission={PERMISSIONS.EDIT}
