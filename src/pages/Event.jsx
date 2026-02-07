@@ -22,6 +22,7 @@ import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
 import EventDetailsCard from "../components/taskManagerCollection/events/EventDetailsCard";
 import { useSmoothScrollToTask } from "../components/taskManagerCollection/hooks/useSmoothScrollToTask";
 import { EventDetailsBtns } from "../components/buttons/EventButtons";
+import { GenNoEvent, NoPermissionEvent } from "../components/shared/NoEvent";
 
 export default function Event() {
   const { id } = useParams();
@@ -77,25 +78,12 @@ export default function Event() {
   }, [event?.vendors]);
 
   // handle event loading state
-  if (
-    eventsState.fetchOneStatus === "loading" ||
-    tasksState.status === "loading" ||
-    expensesState.status === "loading" ||
-    !event
-  ) {
-    return <EventLoadingState />;
+  // FIRST: Check for errors
+  if (eventsState.fetchOneStatus === "failed") {
+    return <NoPermissionEvent eventsState={eventsState} navigate={navigate} />;
   }
 
-  // For tasks loading
-  {
-    tasksState.status === "loading" && tasksState.items.length === 0 && (
-      <TasksLoadingState />
-    );
-  }
-  // handle failed state
-  if (eventsState.status === "failed")
-    return <p>Error loading event: {eventsState.error}</p>;
-  if (!event) return <p>Event not found.</p>;
+ 
 
   // handle event delete
   const handleDelete = createLockedDeleteHandler(
@@ -104,7 +92,7 @@ export default function Event() {
     toast,
     toastWithProgress,
     DeleteConfirmationToast,
-    deleteEventToastRef
+    deleteEventToastRef,
   );
 
   // handle task delete
@@ -113,7 +101,7 @@ export default function Event() {
     deleteTask,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
   );
 
   // handle delete expense
@@ -130,7 +118,7 @@ export default function Event() {
 
         // Check if vendor is used by other expenses
         const vendorUsageCount = safeExpenses.filter(
-          (e) => e.vendor?._id === vendorId || e.vendor === vendorId
+          (e) => e.vendor?._id === vendorId || e.vendor === vendorId,
         ).length;
 
         if (vendorUsageCount <= 1) {
@@ -139,7 +127,7 @@ export default function Event() {
       } catch (error) {
         console.error("Error in vendor removal logic:", error);
       }
-    }
+    },
   );
 
   return (
