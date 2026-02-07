@@ -33,3 +33,45 @@ export default function NoEvent() {
     </div>
   );
 }
+
+// permission denied to view archived events
+export function NoPermissionEvent({ eventsState, navigate }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black">
+      <div className="backdrop-blur-sm p-8 shadow-lg border border-red-200 max-w-md mx-4 dark:border-red-900 rounded-lg bg-gradient-to-br from-[#FFF8F2] to-[#FFF0E5] shadow-[0_2px_10px_rgba(0,0,0,0.03)]  dark:bg-gradient-to-br dark:from-gray-900 dark:to-black">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center dark:bg-red-900/30">
+            <svg
+              className="w-8 h-8 text-red-600 dark:text-red-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+            Access Denied
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
+            {eventsState.fetchOneError ||
+              "You don't have permission to view this event"}
+          </p>
+          <button
+            onClick={() => navigate("/events")}
+            className="px-6 py-3 bg-[#9B2C62] text-white rounded-lg font-medium hover:bg-[#7A1F4D] transition-colors dark:bg-[#D97706] dark:hover:bg-[#B45309]"
+          >
+            Back to Events
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
