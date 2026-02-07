@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
+import {
+  fetchEvents,
+  deleteEvent,
+  restoreEvent,
+  archiveEvent,
+} from "../redux/eventsSlice";
 
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
@@ -21,7 +26,13 @@ export default function Events() {
 
   const [expandedMonths, setExpandedMonths] = useState({});
 
-  const { items: events, status, error } = useSelector((state) => state.events);
+  const {
+    items: events,
+    status,
+    error,
+    archivingEvents,
+    restoringEvents,
+  } = useSelector((state) => state.events);
 
   // fetch events
   useEffect(() => {
@@ -30,7 +41,7 @@ export default function Events() {
 
   // Sort events by date in ascending order (earliest first)
   const sortedEvents = [...events].sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+    (a, b) => new Date(a.date) - new Date(b.date),
   );
 
   // handle delete event
@@ -42,10 +53,16 @@ export default function Events() {
         toast,
         toastWithProgress,
         DeleteConfirmationToast,
-        deleteToastRef
+        deleteToastRef,
       ),
-    [dispatch]
+    [dispatch],
   );
+
+  // handle archive toggle
+  const handleArchiveToggle = (eventId, isArchived) => {
+    const action = isArchived ? restoreEvent : archiveEvent;
+    dispatch(action(eventId));
+  };
 
   // Group events by month
   const eventsByMonth = sortedEvents.reduce((acc, event) => {
@@ -174,6 +191,9 @@ export default function Events() {
                           event={event}
                           navigate={navigate}
                           handleDelete={handleDelete}
+                          isArchiving={archivingEvents[event._id] || false}
+                          isRestoring={restoringEvents[event._id] || false}
+                          handleArchiveToggle={handleArchiveToggle}
                         />
                       ))}
                     </ul>
