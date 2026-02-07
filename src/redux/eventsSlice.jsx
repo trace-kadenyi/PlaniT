@@ -77,7 +77,7 @@ export const archiveEvent = createAsyncThunk(
   async (eventId, { rejectWithValue }) => {
     try {
       const res = await api.patch(`/api/events/${eventId}/archive`);
-      return res.data;
+      return res.data.event; // ← Return the event object, not the full response
     } catch (err) {
       const errorData = err.response?.data;
       return rejectWithValue(errorData?.message || err.message);
@@ -91,7 +91,7 @@ export const restoreEvent = createAsyncThunk(
   async (eventId, { rejectWithValue }) => {
     try {
       const res = await api.patch(`/api/events/${eventId}/restore`);
-      return res.data;
+      return res.data.event; // ← Return the event object, not the full response
     } catch (err) {
       const errorData = err.response?.data;
       return rejectWithValue(errorData?.message || err.message);
@@ -207,6 +207,9 @@ const eventsSlice = createSlice({
 
     restoreStatus: "idle",
     restoreError: null,
+
+    archivingEvents: {},
+    restoringEvents: {},
   },
 
   reducers: {
@@ -354,56 +357,67 @@ const eventsSlice = createSlice({
           "Failed to update event.";
       });
 
-    // Archive event
+    // archiveEvent cases:
     builder
-      .addCase(archiveEvent.pending, (state) => {
+      .addCase(archiveEvent.pending, (state, action) => {
         state.archiveStatus = "loading";
         state.archiveError = null;
+        const eventId = action.meta.arg;
+        state.archivingEvents[eventId] = true;
       })
       .addCase(archiveEvent.fulfilled, (state, action) => {
         state.archiveStatus = "succeeded";
+        const eventId = action.payload._id;
+        delete state.archivingEvents[eventId];
 
-        const index = state.items.findIndex(
-          (e) => e._id === action.payload._id,
-        );
+        // Update the event in items array
+        const index = state.items.findIndex((e) => e._id === eventId);
         if (index !== -1) {
-          state.items[index] = action.payload;
+          state.items[index] = { ...state.items[index], isArchived: true };
         }
 
-        if (state.selectedEventId === action.payload._id) {
-          state.selectedEvent = action.payload;
+        // Update selectedEvent if it's the current one
+        if (state.selectedEventId === eventId) {
+          state.selectedEvent = { ...state.selectedEvent, isArchived: true };
         }
       })
       .addCase(archiveEvent.rejected, (state, action) => {
         state.archiveStatus = "failed";
         state.archiveError = action.payload || action.error.message;
+        const eventId = action.meta.arg;
+        delete state.archivingEvents[eventId];
       });
 
-    // Restore event
+    // restoreEvent cases:
     builder
-      .addCase(restoreEvent.pending, (state) => {
+      .addCase(restoreEvent.pending, (state, action) => {
         state.restoreStatus = "loading";
         state.restoreError = null;
+        const eventId = action.meta.arg;
+        state.restoringEvents[eventId] = true;
       })
       .addCase(restoreEvent.fulfilled, (state, action) => {
         state.restoreStatus = "succeeded";
+        const eventId = action.payload._id;
+        delete state.restoringEvents[eventId];
 
-        const index = state.items.findIndex(
-          (e) => e._id === action.payload._id,
-        );
+        // Update the event in items array
+        const index = state.items.findIndex((e) => e._id === eventId);
         if (index !== -1) {
-          state.items[index] = action.payload;
+          state.items[index] = { ...state.items[index], isArchived: false };
         }
 
-        if (state.selectedEventId === action.payload._id) {
-          state.selectedEvent = action.payload;
+        // Update selectedEvent if it's the current one
+        if (state.selectedEventId === eventId) {
+          state.selectedEvent = { ...state.selectedEvent, isArchived: false };
         }
       })
       .addCase(restoreEvent.rejected, (state, action) => {
         state.restoreStatus = "failed";
         state.restoreError = action.payload || action.error.message;
+        const eventId = action.meta.arg;
+        delete state.restoringEvents[eventId];
       });
-
     // Delete
     builder
       .addCase(deleteEvent.pending, (state) => {
