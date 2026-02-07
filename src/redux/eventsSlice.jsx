@@ -317,6 +317,56 @@ const eventsSlice = createSlice({
           "Failed to update event.";
       });
 
+    // Archive event
+    builder
+      .addCase(archiveEvent.pending, (state) => {
+        state.archiveStatus = "loading";
+        state.archiveError = null;
+      })
+      .addCase(archiveEvent.fulfilled, (state, action) => {
+        state.archiveStatus = "succeeded";
+
+        const index = state.items.findIndex(
+          (e) => e._id === action.payload._id,
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+
+        if (state.selectedEventId === action.payload._id) {
+          state.selectedEvent = action.payload;
+        }
+      })
+      .addCase(archiveEvent.rejected, (state, action) => {
+        state.archiveStatus = "failed";
+        state.archiveError = action.payload || action.error.message;
+      });
+
+    // Restore event
+    builder
+      .addCase(restoreEvent.pending, (state) => {
+        state.restoreStatus = "loading";
+        state.restoreError = null;
+      })
+      .addCase(restoreEvent.fulfilled, (state, action) => {
+        state.restoreStatus = "succeeded";
+
+        const index = state.items.findIndex(
+          (e) => e._id === action.payload._id,
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
+
+        if (state.selectedEventId === action.payload._id) {
+          state.selectedEvent = action.payload;
+        }
+      })
+      .addCase(restoreEvent.rejected, (state, action) => {
+        state.restoreStatus = "failed";
+        state.restoreError = action.payload || action.error.message;
+      });
+
     // Delete
     builder
       .addCase(deleteEvent.pending, (state) => {
@@ -337,6 +387,7 @@ const eventsSlice = createSlice({
         state.deleteStatus = "failed";
         state.deleteError = action.payload || action.error.message;
       });
+
     // update budget
     builder
       .addCase(updateBudget.pending, (state) => {
@@ -372,6 +423,7 @@ const eventsSlice = createSlice({
           "Failed to update budget";
       });
 
+    // fetch events for dashboard
     builder
       .addCase(fetchEventsForDashboard.pending, (state) => {
         state.dashboardStatus = "loading";
