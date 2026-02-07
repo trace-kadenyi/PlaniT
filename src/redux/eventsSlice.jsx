@@ -71,6 +71,34 @@ export const updateEvent = createAsyncThunk(
   },
 );
 
+// archive event
+export const archiveEvent = createAsyncThunk(
+  "events/archiveEvent",
+  async (eventId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/events/${eventId}/archive`);
+      return res.data;
+    } catch (err) {
+      const errorData = err.response?.data;
+      return rejectWithValue(errorData?.message || err.message);
+    }
+  },
+);
+
+// restore event
+export const restoreEvent = createAsyncThunk(
+  "events/restoreEvent",
+  async (eventId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/events/${eventId}/restore`);
+      return res.data;
+    } catch (err) {
+      const errorData = err.response?.data;
+      return rejectWithValue(errorData?.message || err.message);
+    }
+  },
+);
+
 // delete event
 export const deleteEvent = createAsyncThunk(
   "events/deleteEvent",
