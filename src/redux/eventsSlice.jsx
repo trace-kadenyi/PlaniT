@@ -207,6 +207,15 @@ const eventsSlice = createSlice({
       state.selectedEvent = null;
       state.selectedEventId = null;
     },
+    resetArchiveState: (state) => {
+      state.archiveStatus = "idle";
+      state.archiveError = null;
+    },
+    resetRestoreState: (state) => {
+      state.restoreStatus = "idle";
+      state.restoreError = null;
+    },
+
     resetDeleteState: (state) => {
       state.deleteStatus = "idle";
       state.deleteError = null;
