@@ -2,7 +2,15 @@ import { EditDeleteEventBtns } from "../../buttons/EventButtons";
 import { EventStatusPill } from "../../shared/UIFragments";
 import { formatDateTime } from "../utils/formatting";
 
-export default function EventCard({ event, index, navigate, handleDelete }) {
+export default function EventCard({
+  event,
+  index,
+  navigate,
+  handleDelete,
+  isArchiving = false,
+  isRestoring = false,
+  handleArchiveToggle,
+}) {
   return (
     <li
       key={index}
@@ -115,6 +123,10 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
         navigate={navigate}
         eventID={event._id}
         eventName={event.name}
+        isArchived={event.isArchived || false}
+        isArchiving={isArchiving}
+        isRestoring={isRestoring}
+        handleArchiveToggle={handleArchiveToggle}
         handleDelete={handleDelete}
       />
     </li>
