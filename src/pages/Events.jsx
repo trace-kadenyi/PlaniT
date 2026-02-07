@@ -112,6 +112,9 @@ export default function Events() {
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] text-start mt-4 sm:mt-0">
                 Events Manager
+                <span className="text-xs whitespace-nowrap">
+                  ({events.length} active events)
+                </span>
               </h1>
               <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-lg">
                 Organize and track all your upcoming events in one place
