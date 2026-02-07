@@ -92,6 +92,10 @@ export default function Event() {
     return <EventLoadingState />;
   }
 
+  // THIRD: Check if event exists (after loading is complete)
+  if (!event) {
+    return <GenNoEvent navigate={navigate} />;
+  }
 
   // handle event delete
   const handleDelete = createLockedDeleteHandler(
