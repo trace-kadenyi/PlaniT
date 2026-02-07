@@ -74,4 +74,24 @@ export function NoPermissionEvent({ eventsState, navigate }) {
   );
 }
 
-
+// Nonexistent event
+export function GenNoEvent({ navigate }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black">
+      <div className="text-center px-3">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">
+          Event Not Found
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 mb-6">
+          The event you're looking for doesn't exist or has been deleted.
+        </p>
+        <button
+          onClick={() => navigate("/events")}
+          className="px-6 py-3 bg-[#9B2C62] text-white rounded-lg font-medium hover:bg-[#7A1F4D] transition-colors dark:bg-[#D97706] dark:hover:bg-[#B45309]"
+        >
+          Back to Events
+        </button>
+      </div>
+    </div>
+  );
+}
