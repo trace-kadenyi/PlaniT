@@ -83,7 +83,15 @@ export default function Event() {
     return <NoPermissionEvent eventsState={eventsState} navigate={navigate} />;
   }
 
- 
+  // SECOND: Check for loading
+  if (
+    eventsState.fetchOneStatus === "loading" ||
+    tasksState.status === "loading" ||
+    expensesState.status === "loading"
+  ) {
+    return <EventLoadingState />;
+  }
+
 
   // handle event delete
   const handleDelete = createLockedDeleteHandler(
