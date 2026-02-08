@@ -367,20 +367,21 @@ const eventsSlice = createSlice({
       })
       .addCase(archiveEvent.fulfilled, (state, action) => {
         state.archiveStatus = "succeeded";
+
         const eventId = action.payload._id;
         delete state.archivingEvents[eventId];
 
-        // Update the event in items array
         const index = state.items.findIndex((e) => e._id === eventId);
         if (index !== -1) {
-          state.items[index] = { ...state.items[index], isArchived: true };
+          state.items[index].isArchived = true;
         }
 
-        // Update selectedEvent if it's the current one
-        if (state.selectedEventId === eventId) {
-          state.selectedEvent = { ...state.selectedEvent, isArchived: true };
+        // ✅ robust check
+        if (state.selectedEvent?._id === eventId) {
+          state.selectedEvent.isArchived = true;
         }
       })
+
       .addCase(archiveEvent.rejected, (state, action) => {
         state.archiveStatus = "failed";
         state.archiveError = action.payload || action.error.message;
@@ -398,20 +399,20 @@ const eventsSlice = createSlice({
       })
       .addCase(restoreEvent.fulfilled, (state, action) => {
         state.restoreStatus = "succeeded";
+
         const eventId = action.payload._id;
         delete state.restoringEvents[eventId];
 
-        // Update the event in items array
         const index = state.items.findIndex((e) => e._id === eventId);
         if (index !== -1) {
-          state.items[index] = { ...state.items[index], isArchived: false };
+          state.items[index].isArchived = false;
         }
 
-        // Update selectedEvent if it's the current one
-        if (state.selectedEventId === eventId) {
-          state.selectedEvent = { ...state.selectedEvent, isArchived: false };
+        if (state.selectedEvent?._id === eventId) {
+          state.selectedEvent.isArchived = false;
         }
       })
+
       .addCase(restoreEvent.rejected, (state, action) => {
         state.restoreStatus = "failed";
         state.restoreError = action.payload || action.error.message;
