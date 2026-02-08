@@ -56,18 +56,20 @@ export const EditDeleteEventBtns = ({
   return (
     <div className="px-5 pb-3 flex flex-wrap gap-2 space-x-2 lg:opacity-0 lg:group-hover:opacity-100 transition">
       {/* edit event */}
-      <PermissionButton
-        permission={PERMISSIONS.EDIT}
-        resource={RESOURCES.EVENT}
-        tooltipTitle="Edit event"
-        fallbackTooltip="Upgrade to Planner or Admin role to edit events"
-        onClick={() => navigate(`/events/${eventID}/edit`)}
-        className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer dark:bg-[#F59E0B]/20 dark:text-[#E879C0] dark:hover:bg-[#F59E0B]/30"
-        // title="Edit"
-      >
-        <Pencil className="w-3 h-3" />
-        <span>edit</span>
-      </PermissionButton>
+      {!isArchived && (
+        <PermissionButton
+          permission={PERMISSIONS.EDIT}
+          resource={RESOURCES.EVENT}
+          tooltipTitle="Edit event"
+          fallbackTooltip="Upgrade to Planner or Admin role to edit events"
+          onClick={() => navigate(`/events/${eventID}/edit`)}
+          className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 text-[#BE3455] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer dark:bg-[#F59E0B]/20 dark:text-[#E879C0] dark:hover:bg-[#F59E0B]/30"
+          // title="Edit"
+        >
+          <Pencil className="w-3 h-3" />
+          <span>edit</span>
+        </PermissionButton>
+      )}
 
       {/* archive / restore */}
       <PermissionButton
