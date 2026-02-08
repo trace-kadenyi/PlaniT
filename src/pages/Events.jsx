@@ -24,6 +24,7 @@ import {
   PERMISSIONS,
   RESOURCES,
 } from "../globalHooks/userPermissions";
+import { useEventFilters } from "../components/taskManagerCollection/hooks/useEventFilters";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -50,24 +51,12 @@ export default function Events() {
     dispatch(fetchEvents());
   }, [dispatch]);
 
-  // Filter events based on archive filter
-  const filteredEvents = useMemo(() => {
-    if (!events || events.length === 0) return [];
-
-    switch (archiveFilter) {
-      case "active":
-        return events.filter((event) => !event.isArchived);
-      case "archived":
-        return events.filter((event) => event.isArchived);
-      case "all":
-      default:
-        return events;
-    }
-  }, [events, archiveFilter]);
-
-  // Count events by status
-  const activeCount = events.filter((event) => !event.isArchived).length;
-  const archivedCount = events.filter((event) => event.isArchived).length;
+  // Get filtered events and counts using the hook
+  const { filteredEvents, activeCount, archivedCount } = useEventFilters(
+    events,
+    archiveFilter,
+    canViewArchivedEvents,
+  );
 
   // Sort events by date in ascending order (earliest first)
   const sortedEvents = [...filteredEvents].sort(
