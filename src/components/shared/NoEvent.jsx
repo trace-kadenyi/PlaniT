@@ -96,7 +96,7 @@ export function GenNoEvent({ navigate }) {
   );
 }
 
-// NoFilteredEvents
+// NoFilteredEvents - archived/active
 export function NoFilteredEvents({ archiveFilter, totalEvents }) {
   const navigate = useNavigate();
 
