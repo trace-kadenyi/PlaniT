@@ -206,7 +206,7 @@ export const EventDetailsBtns = ({
         permission={PERMISSIONS.DELETE}
         resource={RESOURCES.EVENT}
         tooltipTitle="Delete event"
-        fallbackTooltip="Upgrade to Planner or Admin role to delete events"
+        fallbackTooltip="Upgrade to Admin role to delete events"
         onClick={() =>
           handleDelete(eventID, {
             type: "event",
