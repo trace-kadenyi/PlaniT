@@ -212,7 +212,7 @@ export function VendorInfo({ vendors, Link }) {
         {vendors.map((vendor, index) =>
           vendor.isDeleted ? (
             <div key={index} className="text-xs font-semibold">
-              <div className="border-2 border-[#F59E0B]/50 rounded-lg px-3 py-2 bg-[#F8D476]/30 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/50">
+              <div className="border-2 border-[#F59E0B]/50 rounded-lg px-3 py-2 bg-[#F8D476]/30 dark:bg-[#F8D476]/10 dark:border-[#F59E0B]/50 opacity-50 dark:opacity-60">
                 <span className="text-[#6B3B0F] dark:text-amber-600 line-through decoration-[#9B2C62] dark:decoration-[#F59E0B]">
                   {vendor.name}
                 </span>

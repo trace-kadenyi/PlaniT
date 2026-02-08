@@ -1,25 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import {
   fetchUsers,
   updateUserRole,
   deleteUser,
   addUser,
+  reactivateUser,
 } from "../redux/usersSlice";
 import { fetchOrganizationDetails } from "../redux/organizationSlice";
 
 import UserList from "../components/user/UserManagement/UserList";
 import AddUserForm from "../components/user/forms/AddUserForm";
 import { AddNewMembersBtn } from "../components/buttons/UserButtons";
-import toast from "react-hot-toast";
-import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
-import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
+import { createUserDeactivateHandler } from "../globalHandlers/createUserDeactivateHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenErrorState } from "../components/shared/ErrorStates";
 import { GenLoadingState } from "../components/shared/LoadingStates";
 import { useToastLock } from "../globalUtils/useToastLock";
+import { createUserReactivateHandler } from "../globalHandlers/createUserReactivateHandler";
+import UserDeactivateConfirmationToast from "../globalUtils/userDeactivateConfirmationToast";
+import UserReactivateConfirmationToast from "../globalUtils/userReactivateConfirmationToast";
+import { ROLES } from "../globalHooks/userPermissions";
+import NoUsers from "../components/shared/NoUsers";
+import UsersFilter from "../components/user/UserManagement/UsersFilter";
+import { useUserFilters } from "../globalHooks/useUserMemoizedData";
 
 export default function Users() {
   const dispatch = useDispatch();
@@ -32,8 +39,12 @@ export default function Users() {
     error,
     addStatus,
   } = useSelector((state) => state.users);
+  const currentUser = useSelector((state) => state.auth.user);
+
   const { organization } = useSelector((state) => state.organization);
+  const [statusFilter, setStatusFilter] = useState("all");
   const [showAddForm, setShowAddForm] = useState(false);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -46,6 +57,13 @@ export default function Users() {
     dispatch(fetchUsers());
     dispatch(fetchOrganizationDetails());
   }, [dispatch]);
+
+  // Filter users based on status
+  const { filteredUsers, activeCount, inactiveCount } = useUserFilters(
+    users,
+    statusFilter,
+    currentUser?.role,
+  );
 
   // Handle add user
   const handleAddUser = async (e) => {
@@ -70,24 +88,37 @@ export default function Users() {
   const handleRoleChange = async (userId, newRole) => {
     try {
       await dispatch(updateUserRole({ userId, role: newRole })).unwrap();
-      dispatch(fetchUsers());
       toastWithProgress("User role updated successfully");
     } catch (err) {
       toast.error(err.message || "Failed to update role");
     }
   };
 
-  // handle remove user
+  // handle deactivate user
   const handleRemoveUser = (userId) => {
-    return createUserDeleteHandler(
+    return createUserDeactivateHandler(
       dispatch,
       userId,
       navigate,
       deleteUser,
       toast,
       toastWithProgress,
-      DeleteConfirmationToast,
-      toastLock
+      UserDeactivateConfirmationToast,
+      toastLock,
+    )();
+  };
+
+  // handle reactivate user
+  const handleReactivateUser = (userId) => {
+    return createUserReactivateHandler(
+      dispatch,
+      userId,
+      navigate,
+      reactivateUser,
+      toast,
+      toastWithProgress,
+      UserReactivateConfirmationToast,
+      toastLock,
     )();
   };
 
@@ -133,39 +164,55 @@ export default function Users() {
         {status === "succeeded" && (
           <>
             {users.length === 0 ? (
-              <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-sm border border-[#F3EDE9] text-center dark:bg-gray-800/80 dark:border-gray-700">
-                <div className="mx-auto max-w-md flex flex-col items-center">
-                  <svg
-                    className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-                    />
-                  </svg>
-                  <h3 className="mt-4 text-lg font-medium text-[#9B2C62] dark:text-[#D97706]">
-                    No team members yet
-                  </h3>
-                  <p className="mt-2 text-gray-600 dark:text-gray-300 text-sm">
-                    Add your first team member to get started
-                  </p>
-                  <div className="mt-6">
-                    <AddNewMembersBtn onAddUser={() => setShowAddForm(true)} />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <UserList
-                users={users}
-                editable={true}
-                onRoleChange={handleRoleChange}
-                onRemoveUser={handleRemoveUser}
+              <NoUsers
+                message="No team members yet"
+                submessage="Add your first team member to get started"
+                cta={
+                  <AddNewMembersBtn onAddUser={() => setShowAddForm(true)} />
+                }
               />
+            ) : (
+              <>
+                {/* Status Filter - Only show for Admin and Super Admin */}
+                {(currentUser?.role === ROLES.ADMIN ||
+                  currentUser?.role === ROLES.SUPER_ADMIN) && (
+                  <UsersFilter
+                    setStatusFilter={setStatusFilter}
+                    statusFilter={statusFilter}
+                    users={users}
+                    activeCount={activeCount}
+                    inactiveCount={inactiveCount}
+                  />
+                )}
+
+                {/* User List with filtered users */}
+                {filteredUsers.length > 0 ? (
+                  <UserList
+                    users={filteredUsers}
+                    editable={true}
+                    onRoleChange={handleRoleChange}
+                    onRemoveUser={handleRemoveUser}
+                    onReactivateUser={handleReactivateUser}
+                  />
+                ) : (
+                  <NoUsers
+                    message={`No ${statusFilter === "active" ? "active" : "inactive"} users found`}
+                    submessage={
+                      statusFilter === "active"
+                        ? "All users are currently inactive or deactivated"
+                        : "All users are currently active"
+                    }
+                    cta={
+                      <button
+                        onClick={() => setStatusFilter("all")}
+                        className="inline-flex items-center px-4 py-2 bg-[#9B2C62] dark:bg-[#D97706] text-white rounded-lg hover:opacity-90 transition-opacity font-medium"
+                      >
+                        View all users
+                      </button>
+                    }
+                  />
+                )}
+              </>
             )}
           </>
         )}

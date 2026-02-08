@@ -16,12 +16,12 @@ export const fetchEvents = createAsyncThunk(
       if (err.response?.status === 429) {
         return rejectWithValue(
           errorData?.message ||
-            "Too many requests. Please wait 15 minutes before trying again."
+            "Too many requests. Please wait 15 minutes before trying again.",
         );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
-  }
+  },
 );
 
 // fetch event by id
@@ -37,12 +37,12 @@ export const fetchEventById = createAsyncThunk(
       if (err.response?.status === 429) {
         return rejectWithValue(
           errorData?.message ||
-            "Too many requests. Please wait 15 minutes before trying again."
+            "Too many requests. Please wait 15 minutes before trying again.",
         );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
-  }
+  },
 );
 
 // create event
@@ -55,7 +55,7 @@ export const createEvent = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response.data); // capture the backend's error message
     }
-  }
+  },
 );
 
 // update event
@@ -68,7 +68,35 @@ export const updateEvent = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response.data); // ← return proper backend error
     }
-  }
+  },
+);
+
+// archive event
+export const archiveEvent = createAsyncThunk(
+  "events/archiveEvent",
+  async (eventId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/events/${eventId}/archive`);
+      return res.data.event; // ← Return the event object, not the full response
+    } catch (err) {
+      const errorData = err.response?.data;
+      return rejectWithValue(errorData?.message || err.message);
+    }
+  },
+);
+
+// restore event
+export const restoreEvent = createAsyncThunk(
+  "events/restoreEvent",
+  async (eventId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/events/${eventId}/restore`);
+      return res.data.event; // ← Return the event object, not the full response
+    } catch (err) {
+      const errorData = err.response?.data;
+      return rejectWithValue(errorData?.message || err.message);
+    }
+  },
 );
 
 // delete event
@@ -84,12 +112,12 @@ export const deleteEvent = createAsyncThunk(
       if (err.response?.status === 429) {
         return rejectWithValue(
           errorData?.message ||
-            "Too many requests. Please wait 15 minutes before trying again."
+            "Too many requests. Please wait 15 minutes before trying again.",
         );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
-  }
+  },
 );
 
 // budget updates
@@ -102,7 +130,7 @@ export const updateBudget = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
-  }
+  },
 );
 
 // fetch events with budget for dashboard
@@ -134,12 +162,12 @@ export const fetchEventsForDashboard = createAsyncThunk(
       if (err.response?.status === 429) {
         return rejectWithValue(
           errorData?.message ||
-            "Too many requests. Please wait 15 minutes before trying again."
+            "Too many requests. Please wait 15 minutes before trying again.",
         );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
-  }
+  },
 );
 
 // --- Slice ---
@@ -173,6 +201,15 @@ const eventsSlice = createSlice({
     dashboardItems: [],
     dashboardStatus: "idle",
     dashboardError: null,
+
+    archiveStatus: "idle",
+    archiveError: null,
+
+    restoreStatus: "idle",
+    restoreError: null,
+
+    archivingEvents: {},
+    restoringEvents: {},
   },
 
   reducers: {
@@ -201,6 +238,15 @@ const eventsSlice = createSlice({
       state.selectedEvent = null;
       state.selectedEventId = null;
     },
+    resetArchiveState: (state) => {
+      state.archiveStatus = "idle";
+      state.archiveError = null;
+    },
+    resetRestoreState: (state) => {
+      state.restoreStatus = "idle";
+      state.restoreError = null;
+    },
+
     resetDeleteState: (state) => {
       state.deleteStatus = "idle";
       state.deleteError = null;
@@ -220,7 +266,7 @@ const eventsSlice = createSlice({
     updateDashboardItemStatus: (state, action) => {
       const updatedEvent = action.payload;
       const index = state.dashboardItems.findIndex(
-        (e) => e._id === updatedEvent._id
+        (e) => e._id === updatedEvent._id,
       );
       if (index !== -1) {
         state.dashboardItems[index].status = updatedEvent.status;
@@ -294,7 +340,7 @@ const eventsSlice = createSlice({
       .addCase(updateEvent.fulfilled, (state, action) => {
         state.updateStatus = "succeeded";
         const index = state.items.findIndex(
-          (e) => e._id === action.payload._id
+          (e) => e._id === action.payload._id,
         );
         if (index !== -1) {
           state.items[index] = action.payload;
@@ -311,6 +357,68 @@ const eventsSlice = createSlice({
           "Failed to update event.";
       });
 
+    // archiveEvent cases:
+    builder
+      .addCase(archiveEvent.pending, (state, action) => {
+        state.archiveStatus = "loading";
+        state.archiveError = null;
+        const eventId = action.meta.arg;
+        state.archivingEvents[eventId] = true;
+      })
+      .addCase(archiveEvent.fulfilled, (state, action) => {
+        state.archiveStatus = "succeeded";
+
+        const eventId = action.payload._id;
+        delete state.archivingEvents[eventId];
+
+        const index = state.items.findIndex((e) => e._id === eventId);
+        if (index !== -1) {
+          state.items[index].isArchived = true;
+        }
+
+        // ✅ robust check
+        if (state.selectedEvent?._id === eventId) {
+          state.selectedEvent.isArchived = true;
+        }
+      })
+
+      .addCase(archiveEvent.rejected, (state, action) => {
+        state.archiveStatus = "failed";
+        state.archiveError = action.payload || action.error.message;
+        const eventId = action.meta.arg;
+        delete state.archivingEvents[eventId];
+      });
+
+    // restoreEvent cases:
+    builder
+      .addCase(restoreEvent.pending, (state, action) => {
+        state.restoreStatus = "loading";
+        state.restoreError = null;
+        const eventId = action.meta.arg;
+        state.restoringEvents[eventId] = true;
+      })
+      .addCase(restoreEvent.fulfilled, (state, action) => {
+        state.restoreStatus = "succeeded";
+
+        const eventId = action.payload._id;
+        delete state.restoringEvents[eventId];
+
+        const index = state.items.findIndex((e) => e._id === eventId);
+        if (index !== -1) {
+          state.items[index].isArchived = false;
+        }
+
+        if (state.selectedEvent?._id === eventId) {
+          state.selectedEvent.isArchived = false;
+        }
+      })
+
+      .addCase(restoreEvent.rejected, (state, action) => {
+        state.restoreStatus = "failed";
+        state.restoreError = action.payload || action.error.message;
+        const eventId = action.meta.arg;
+        delete state.restoringEvents[eventId];
+      });
     // Delete
     builder
       .addCase(deleteEvent.pending, (state) => {
@@ -320,7 +428,7 @@ const eventsSlice = createSlice({
       .addCase(deleteEvent.fulfilled, (state, action) => {
         state.deleteStatus = "succeeded";
         state.items = state.items.filter(
-          (event) => event._id !== action.payload
+          (event) => event._id !== action.payload,
         );
         if (state.selectedEventId === action.payload) {
           state.selectedEventId = null;
@@ -331,6 +439,7 @@ const eventsSlice = createSlice({
         state.deleteStatus = "failed";
         state.deleteError = action.payload || action.error.message;
       });
+
     // update budget
     builder
       .addCase(updateBudget.pending, (state) => {
@@ -366,6 +475,7 @@ const eventsSlice = createSlice({
           "Failed to update budget";
       });
 
+    // fetch events for dashboard
     builder
       .addCase(fetchEventsForDashboard.pending, (state) => {
         state.dashboardStatus = "loading";

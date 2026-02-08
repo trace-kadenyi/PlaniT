@@ -89,9 +89,14 @@ export default function ArchiveConfirmationToast({
               : "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
           }  ${
             isLoading
-              ? "bg-red-400 cursor-not-allowed"
-              : "bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500"
-          }`}
+              ? action === "restore"
+                ? "bg-green-400 cursor-not-allowed"
+                : "bg-[#9B2C62]/70 cursor-not-allowed"
+              : action === "restore"
+                ? "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
+                : "bg-[#9B2C62] hover:bg-[#801f4f] dark:bg-[#9B2C62] dark:hover:bg-[#801f4f]"
+          }
+`}
         >
           {isLoading ? (
             <>

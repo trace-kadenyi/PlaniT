@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
-import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
+import {
+  archiveEvent,
+  deleteEvent,
+  fetchEventById,
+  restoreEvent,
+} from "../redux/eventsSlice";
 import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
 
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
@@ -22,6 +27,7 @@ import TabsBtns from "../components/taskManagerCollection/utils/tabBtns";
 import EventDetailsCard from "../components/taskManagerCollection/events/EventDetailsCard";
 import { useSmoothScrollToTask } from "../components/taskManagerCollection/hooks/useSmoothScrollToTask";
 import { EventDetailsBtns } from "../components/buttons/EventButtons";
+import { GenNoEvent, NoPermissionEvent } from "../components/shared/NoEvent";
 
 export default function Event() {
   const { id } = useParams();
@@ -77,25 +83,24 @@ export default function Event() {
   }, [event?.vendors]);
 
   // handle event loading state
+  // FIRST: Check for errors
+  if (eventsState.fetchOneStatus === "failed") {
+    return <NoPermissionEvent eventsState={eventsState} navigate={navigate} />;
+  }
+
+  // SECOND: Check for loading
   if (
     eventsState.fetchOneStatus === "loading" ||
     tasksState.status === "loading" ||
-    expensesState.status === "loading" ||
-    !event
+    expensesState.status === "loading"
   ) {
     return <EventLoadingState />;
   }
 
-  // For tasks loading
-  {
-    tasksState.status === "loading" && tasksState.items.length === 0 && (
-      <TasksLoadingState />
-    );
+  // THIRD: Check if event exists (after loading is complete)
+  if (!event) {
+    return <GenNoEvent navigate={navigate} />;
   }
-  // handle failed state
-  if (eventsState.status === "failed")
-    return <p>Error loading event: {eventsState.error}</p>;
-  if (!event) return <p>Event not found.</p>;
 
   // handle event delete
   const handleDelete = createLockedDeleteHandler(
@@ -104,7 +109,7 @@ export default function Event() {
     toast,
     toastWithProgress,
     DeleteConfirmationToast,
-    deleteEventToastRef
+    deleteEventToastRef,
   );
 
   // handle task delete
@@ -113,8 +118,14 @@ export default function Event() {
     deleteTask,
     toast,
     toastWithProgress,
-    DeleteConfirmationToast
+    DeleteConfirmationToast,
   );
+
+  // handle archive toggle
+  const handleArchiveToggle = (eventId, isArchived) => {
+    const action = isArchived ? restoreEvent : archiveEvent;
+    dispatch(action(eventId));
+  };
 
   // handle delete expense
   const handleExpenseDelete = createExpenseDeleteHandler(
@@ -130,7 +141,7 @@ export default function Event() {
 
         // Check if vendor is used by other expenses
         const vendorUsageCount = safeExpenses.filter(
-          (e) => e.vendor?._id === vendorId || e.vendor === vendorId
+          (e) => e.vendor?._id === vendorId || e.vendor === vendorId,
         ).length;
 
         if (vendorUsageCount <= 1) {
@@ -139,7 +150,7 @@ export default function Event() {
       } catch (error) {
         console.error("Error in vendor removal logic:", error);
       }
-    }
+    },
   );
 
   return (
@@ -149,9 +160,14 @@ export default function Event() {
         <div className="relative p-6 rounded-xl bg-[#FFF5EB] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:border-l-[#F59E0B]">
           {/* edit/delete btns */}
           <EventDetailsBtns
+            key={`event-btns-${event._id}-${event.isArchived}`}
             navigate={navigate}
             eventID={event._id}
             eventName={event.name}
+            isArchived={event.isArchived || false}
+            isArchiving={eventsState.archivingEvents[event._id] || false}
+            isRestoring={eventsState.restoringEvents[event._id] || false}
+            handleArchiveToggle={handleArchiveToggle}
             handleDelete={handleDelete}
           />
 

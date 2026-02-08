@@ -38,13 +38,13 @@ function Vend({ expense }) {
   return (
     <div
       className={`border border-[#F59E0B]/50 rounded-lg px-2 py-0.5 text-sm flex items-center ${
-        expense.vendor.isArchived
+        expense.vendor.isArchived || expense.vendor.isDeleted
           ? "bg-[#F8D476]/10"
           : "bg-[#F8D476]/30 dark:bg-[#F8D476]/20"
       }`}
     >
       {expense.vendor.isDeleted ? (
-        <span className="font-medium text-[#6B3C0F] dark:text-[#D97706]">
+        <span className="font-medium text-[#6B3C0F] dark:text-[#D97706] opacity-50">
           <span className="line-through">
             {expense.vendor.name}
             {expense.vendor.services && (

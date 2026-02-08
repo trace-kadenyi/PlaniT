@@ -1,4 +1,4 @@
-import { Plus, Edit2, Trash2, Save } from "lucide-react";
+import { Plus, Edit2, Save, ShieldBan, ShieldCheck } from "lucide-react";
 
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
@@ -12,7 +12,7 @@ export const AddNewMembersBtn = ({ onAddUser }) => {
       tooltipTitle="Add a new team member"
       fallbackTooltip="Upgrade to Admin role to add team members"
       onClick={onAddUser}
-      className="bg-[#9B2C62] hover:bg-[#801f4f] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 whitespace-nowrap"
+      className="bg-[#9B2C62] hover:bg-[#801f4f] text-white font-semibold px-5 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 sm:whitespace-nowrap w-full sm:w-auto text-sm sm:text-base"
     >
       <Plus className="w-5 h-5" />
       Add Team Member
@@ -59,7 +59,7 @@ export const EditUserBtn = ({ userId, userData, authUser }) => {
       permission={PERMISSIONS.EDIT}
       resource={RESOURCES.USER}
       target={userData}
-      tooltipTitle="Edit user details"
+      tooltipTitle="Edit profile details"
       fallbackTooltip={`${
         authUser.firstName === userData.firstName &&
         authUser.lastName === userData.lastName &&
@@ -75,22 +75,23 @@ export const EditUserBtn = ({ userId, userData, authUser }) => {
   );
 };
 
-// delete user btn
-export const DeleteUserBtn = ({
+// deactivate user on profilebtn
+export const DeactivateUserOnProfile = ({
   userData,
   handleRemoveUser,
   userId,
   deleteStatus,
   authUser,
 }) => {
+  const isLoading = deleteStatus === "loading";
   return (
     <PermissionButton
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.USER}
       target={userData}
       onClick={() => handleRemoveUser(userId)}
-      loading={deleteStatus === "loading"}
-      disabled={deleteStatus === "loading"}
+      loading={isLoading}
+      disabled={isLoading}
       tooltipTitle="Remove user from organization"
       fallbackTooltip={`${
         authUser.firstName === userData.firstName &&
@@ -101,8 +102,40 @@ export const DeleteUserBtn = ({
       }`}
       className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-white/80 to-rose-50/80 dark:from-gray-900/30 dark:to-[#9B2C62]/10 hover:from-rose-50 hover:to-rose-100/80 dark:hover:from-gray-800/40 dark:hover:to-[#9B2C62]/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-[#9B2C62]/30 px-5 py-3 rounded-xl font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:border-rose-300 dark:hover:border-[#9B2C62]/50 group"
     >
-      <Trash2 className="w-5 h-5" />
-      {deleteStatus === "loading" ? "Removing..." : "Remove User"}
+      {!isLoading && <ShieldBan className="w-5 h-5" />}
+      {isLoading ? "Deactivating..." : "Deactivate Account"}
+    </PermissionButton>
+  );
+};
+
+// reactivate user on profile
+export const ReactivateUserOnProfile = ({
+  onReactivateUser,
+  user,
+  currentUser,
+  reactivateStatus,
+}) => {
+  const isLoading = reactivateStatus === "loading";
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.MANAGE_USERS}
+      resource={RESOURCES.USER}
+      target={user}
+      onClick={() => onReactivateUser(user._id)}
+      loading={isLoading}
+      disabled={isLoading}
+      tooltipTitle={isLoading ? "Reactivating..." : "Reactivate user status"}
+      fallbackTooltip={
+        currentUser._id === user._id
+          ? "You cannot reactivate your own account"
+          : user.role === "super_admin" && currentUser.role !== "super_admin"
+            ? "Only super admins can reactivate super admins"
+            : "You do not have permission to reactivate this user"
+      }
+      className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-white/80 to-green-50/80 dark:from-green-900/30 dark:to-green-800/10 hover:from-green-50 hover:to-green-100/80 dark:hover:from-green-800/40 dark:hover:to-green-700/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-700/40 px-5 py-3 rounded-xl font-medium transition-all duration-300 shadow-sm hover:shadow-md hover:border-green-300 dark:hover:border-green-600/60 group"
+    >
+      {!isLoading && <ShieldCheck className="w-5 h-5" />}
+      {isLoading ? "Reactivating..." : "Reactivate Account"}
     </PermissionButton>
   );
 };
@@ -134,12 +167,12 @@ export const EditUserFormBtn = ({
         isSelf
           ? "You cannot edit your own profile"
           : updateStatus === "loading" || updateRoleStatus === "loading"
-          ? "Saving..."
-          : isEditConfirmActive
-          ? "Confirming..."
-          : canEditUser
-          ? "Save changes"
-          : "You don't have permission to edit this user"
+            ? "Saving..."
+            : isEditConfirmActive
+              ? "Confirming..."
+              : canEditUser
+                ? "Save changes"
+                : "You don't have permission to edit this user"
       }
       fallbackTooltip={`${
         isSelf && (authUser.role === "super_admin" || authUser.role === "admin")
@@ -156,24 +189,61 @@ export const EditUserFormBtn = ({
   );
 };
 
-// remove user from team list btn
-export const RemoveUserBtn = ({ onRemoveUser, user, currentUser }) => {
+// deactivate user from team list btn
+export const DeactivateUserBtn = ({
+  onRemoveUser,
+  user,
+  currentUser,
+  isLoading,
+}) => {
   return (
     <PermissionButton
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.USER}
       target={user}
       onClick={() => onRemoveUser(user._id)}
-      tooltipTitle="Remove user from organization"
+      loading={isLoading}
+      disabled={isLoading}
+      tooltipTitle={isLoading ? "Deactivating..." : "Deactivate account"}
       fallbackTooltip={`${
         currentUser._id === user._id &&
         (currentUser.role === "super_admin" || currentUser.role === "admin")
           ? "Cannot remove yourself from the system"
           : "You do not have permission to remove this user"
       }`}
-      className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-700"
+      className="text-red-600 hover:text-red-800 px-3 py-1 rounded-lg border border-red-200 hover:border-red-300 transition-all duration-200 text-xs font-semibold dark:border-red-400 dark:hover:border-red-500 dark:hover:text-red-500"
     >
-      Remove
+      {isLoading ? "Deactivating…" : "Deactivate"}
+    </PermissionButton>
+  );
+};
+
+// reactivate user btn
+export const ReactivateUserBtn = ({
+  onReactivateUser,
+  user,
+  currentUser,
+  isLoading,
+}) => {
+  return (
+    <PermissionButton
+      permission={PERMISSIONS.MANAGE_USERS}
+      resource={RESOURCES.USER}
+      target={user}
+      onClick={() => onReactivateUser(user._id)}
+      loading={isLoading}
+      disabled={isLoading}
+      tooltipTitle={isLoading ? "Reactivating..." : "Reactivate account"}
+      fallbackTooltip={
+        currentUser._id === user._id
+          ? "You cannot reactivate your own account"
+          : user.role === "super_admin" && currentUser.role !== "super_admin"
+            ? "Only super admins can reactivate super admins"
+            : "You do not have permission to reactivate this user"
+      }
+      className="text-green-600 dark:text-green-600 hover:text-green-700 px-3 py-1 rounded-lg border border-green-200 hover:border-green-300 transition-all duration-200 text-xs font-semibold dark:border-green-400 dark:hover:border-green-500 dark:hover:text-green-500"
+    >
+      {isLoading ? "Reactivating…" : "Reactivate"}
     </PermissionButton>
   );
 };

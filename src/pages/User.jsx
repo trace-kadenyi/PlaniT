@@ -8,13 +8,13 @@ import {
   fetchUserDetails,
   deleteUser,
   fetchUserUpdateHistory,
+  reactivateUser,
 } from "../redux/usersSlice";
 import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
-import { usePermissions } from "../globalHooks/userPermissions";
-import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
-import { createUserDeleteHandler } from "../globalHandlers/createUserDeleteHandler";
+import { usePermissions, ROLES } from "../globalHooks/userPermissions";
+import { createUserDeactivateHandler } from "../globalHandlers/createUserDeactivateHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
 import { useUserMemoizedData } from "../globalHooks/useUserMemoizedData";
@@ -23,6 +23,9 @@ import UserProfileCard from "../components/user/UserManagement/UserProfileCard";
 import { UserDetailsGrid } from "../components/user/UserManagement/UserDetailsGrid";
 import UserUpdateHistory from "../components/user/UserManagement/UserUpdateHistory";
 import { useToastLock } from "../globalUtils/useToastLock";
+import UserDeactivateConfirmationToast from "../globalUtils/userDeactivateConfirmationToast";
+import { createUserReactivateHandler } from "../globalHandlers/createUserReactivateHandler";
+import UserReactivateConfirmationToast from "../globalUtils/userReactivateConfirmationToast";
 
 export default function User() {
   const { userId } = useParams();
@@ -38,6 +41,7 @@ export default function User() {
     fetchDetailsStatus,
     fetchDetailsError,
     deleteStatus,
+    reactivateStatus,
   } = useSelector((state) => state.users);
 
   const {
@@ -86,15 +90,29 @@ export default function User() {
 
   // handle remove user
   const handleRemoveUser = (userId) => {
-    return createUserDeleteHandler(
+    return createUserDeactivateHandler(
       dispatch,
       userId,
       navigate,
       deleteUser,
       toast,
       toastWithProgress,
-      DeleteConfirmationToast,
-      toastLock
+      UserDeactivateConfirmationToast,
+      toastLock,
+    )();
+  };
+
+  // handle reactivate user
+  const handleReactivateUser = (userId) => {
+    return createUserReactivateHandler(
+      dispatch,
+      userId,
+      navigate,
+      reactivateUser,
+      toast,
+      toastWithProgress,
+      UserReactivateConfirmationToast,
+      toastLock,
     )();
   };
 
@@ -121,7 +139,6 @@ export default function User() {
   if (fetchDetailsError || !userData) {
     return (
       <UserNotFound
-        Shield={Shield}
         fetchDetailsError={fetchDetailsError}
         ArrowLeft={ArrowLeft}
         Link={Link}
@@ -174,8 +191,11 @@ export default function User() {
           authUser={authUser}
           userId={userId}
           handleRemoveUser={handleRemoveUser}
+          handleReactivateUser={handleReactivateUser}
           deleteStatus={deleteStatus}
+          reactivateStatus={reactivateStatus}
           onLogout={handleLogout}
+          isInactive={userData.isDeactivated}
         />
 
         {/* Details Grid */}
@@ -183,6 +203,7 @@ export default function User() {
           userData={userData}
           userEvents={userEvents}
           userTasks={userTasks}
+          isInactive={userData.isDeactivated}
         />
 
         {/* Update History Section */}

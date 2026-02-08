@@ -44,6 +44,8 @@ const UserUpdateHistory = ({
         return <Key className="w-3 h-3" />;
       case "role":
         return <Shield className="w-3 h-3" />;
+      case "status":
+        return <User className="w-3 h-3" />;
       default:
         return null;
     }
@@ -171,9 +173,11 @@ const UserUpdateHistory = ({
                           )}
                           <span className="text-gray-700 dark:text-gray-300">
                             <span className="font-medium capitalize">
-                              {change.field
-                                .replace(/([A-Z])/g, " $1")
-                                .toLowerCase()}
+                              {change.field === "status"
+                                ? "Account status"
+                                : change.field
+                                    .replace(/([A-Z])/g, " $1")
+                                    .toLowerCase()}
                               :
                             </span>{" "}
                             {change.field === "password" ? (

@@ -15,7 +15,11 @@ import {
   formatYearMonthDay,
   formatHourMinute,
 } from "../../../globalUtils/dateHelpers";
-import { DeleteUserBtn, EditUserBtn } from "../../buttons/UserButtons";
+import {
+  DeactivateUserOnProfile,
+  EditUserBtn,
+  ReactivateUserOnProfile,
+} from "../../buttons/UserButtons";
 
 export default function UserProfileCard({
   userData,
@@ -23,8 +27,11 @@ export default function UserProfileCard({
   authUser,
   userId,
   handleRemoveUser,
+  handleReactivateUser,
   deleteStatus,
+  reactivateStatus,
   onLogout,
+  isInactive,
 }) {
   const roleColors = getRoleColors();
   const roleLabels = getRoleLabels();
@@ -106,27 +113,43 @@ export default function UserProfileCard({
                 )}
 
                 {/* edit btn */}
-                <EditUserBtn
-                  userId={userId}
-                  userData={userData}
-                  authUser={authUser}
-                />
+                {userData.isActive && (
+                  <EditUserBtn
+                    userId={userId}
+                    userData={userData}
+                    authUser={authUser}
+                  />
+                )}
 
-                {/* delete btn */}
-                <DeleteUserBtn
-                  userData={userData}
-                  handleRemoveUser={handleRemoveUser}
-                  userId={userId}
-                  deleteStatus={deleteStatus}
-                  authUser={authUser}
-                />
+                {/* deactivate btn */}
+                {userData.isActive && (
+                  <DeactivateUserOnProfile
+                    userData={userData}
+                    handleRemoveUser={handleRemoveUser}
+                    userId={userId}
+                    deleteStatus={deleteStatus}
+                    authUser={authUser}
+                  />
+                )}
+
+                {/* reactivate btn */}
+                {userData.isDeactivated && (
+                  <ReactivateUserOnProfile
+                    onReactivateUser={handleReactivateUser}
+                    user={userData}
+                    currentUser={authUser}
+                    reactivateStatus={reactivateStatus}
+                  />
+                )}
               </div>
 
               <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   {isSelf
                     ? "Note: You cannot edit or delete your own account"
-                    : "Only admins can modify user roles and permissions"}
+                    : isInactive
+                      ? "Note: Only admins can reactivate deactivated users"
+                      : "Only admins can modify user roles and permissions"}
                 </p>
               </div>
             </div>
@@ -134,7 +157,11 @@ export default function UserProfileCard({
         </div>
 
         {/* User Details */}
-        <div className="flex-1">
+        <div
+          className={`flex-1 transition ${
+            isInactive ? "opacity-60 pointer-events-none grayscale" : ""
+          }`}
+        >
           <div className="mb-6">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-2 break-words">
               {userData.firstName} {userData.lastName}

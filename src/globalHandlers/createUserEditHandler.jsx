@@ -9,7 +9,7 @@ export const createUserEditHandler = (
   EditConfirmationToast,
   handleLogout,
   currentUserId,
-  setIsEditConfirmActive
+  setIsEditConfirmActive,
 ) => {
   return (updateData, originalUserData, fullFormData) => {
     setIsEditConfirmActive(true); // 🔒 lock form
@@ -61,8 +61,8 @@ export const createUserEditHandler = (
 
                 updates.push(
                   dispatch(
-                    updateUser({ userId, userData: userUpdateData })
-                  ).unwrap()
+                    updateUser({ userId, userData: userUpdateData }),
+                  ).unwrap(),
                 );
               }
 
@@ -70,8 +70,8 @@ export const createUserEditHandler = (
               if (hasRoleChanged && formDataForToast.role) {
                 updates.push(
                   dispatch(
-                    updateUserRole({ userId, role: formDataForToast.role })
-                  ).unwrap()
+                    updateUserRole({ userId, role: formDataForToast.role }),
+                  ).unwrap(),
                 );
               }
 
@@ -99,7 +99,7 @@ export const createUserEditHandler = (
               if (error.includes?.("Current password is incorrect")) {
                 // Show error but DON'T logout
                 toastWithProgress(
-                  "Current password is incorrect. Please try again."
+                  "Current password is incorrect. Please try again.",
                 );
                 // Stay on the edit page - don't navigate anywhere
               }
@@ -112,6 +112,8 @@ export const createUserEditHandler = (
                 // For other errors, use generic message
                 toastWithProgress(error || "Failed to update user");
               }
+            } finally {
+              setIsEditConfirmActive(false);
             }
           }}
           onCancel={() => {
@@ -120,7 +122,7 @@ export const createUserEditHandler = (
           }}
         />
       ),
-      { duration, position: "top-center" }
+      { duration, position: "top-center" },
     );
   };
 };

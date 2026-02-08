@@ -1,5 +1,6 @@
-import React from "react";
-import { Tooltip } from "@mui/material";
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
+import { Tooltip, CircularProgress } from "@mui/material";
 
 import {
   usePermissions,
@@ -9,21 +10,48 @@ import {
   ROLES,
 } from "../../../globalHooks/userPermissions";
 import { truncateText } from "../../taskManagerCollection/utils/formatting";
-import { RemoveUserBtn } from "../../buttons/UserButtons";
+import {
+  DeactivateUserBtn,
+  ReactivateUserBtn,
+} from "../../buttons/UserButtons";
 
-const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
-  const { can, currentUser } = usePermissions();
+const UserList = ({
+  users,
+  editable = false,
+  onRoleChange,
+  onRemoveUser,
+  onReactivateUser,
+}) => {
+  const { can, currentUser, isRole } = usePermissions();
+
+  // Filter users based on permissions
+  const filteredUsers = useMemo(() => {
+    if (!users || users.length === 0) return [];
+
+    // If current user is viewer or planner, filter out deactivated users
+    if (isRole(ROLES.VIEWER, ROLES.PLANNER)) {
+      return users.filter((user) => !user.isDeactivated);
+    }
+
+    // Admin and Super Admin can see all users
+    return users;
+  }, [users, isRole]);
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-x-auto dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-r dark:border-gray-900/10 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)]">
       <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
         <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-200">
-          Team Members ({users.length})
+          Team Members ({users.length}){/* Show indicator for filtered view */}
+          {isRole(ROLES.VIEWER, ROLES.PLANNER) && (
+            <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+              (Showing only active users)
+            </span>
+          )}
         </h2>
       </div>
 
       <div className="divide-y divide-gray-200 dark:divide-gray-800">
-        {users
+        {filteredUsers
           .filter((user) => user && user._id)
           .sort((a, b) => {
             if (a._id === currentUser?._id) return -1;
@@ -37,6 +65,7 @@ const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
               editable={editable}
               onRoleChange={onRoleChange}
               onRemoveUser={onRemoveUser}
+              onReactivateUser={onReactivateUser}
             />
           ))}
       </div>
@@ -44,14 +73,33 @@ const UserList = ({ users, editable = false, onRoleChange, onRemoveUser }) => {
   );
 };
 
-const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
-  const { can, currentUser } = usePermissions();
+const UserListItem = ({
+  user,
+  editable,
+  onRoleChange,
+  onRemoveUser,
+  onReactivateUser,
+}) => {
+  const { can, currentUser, isRole } = usePermissions();
+
+  const { deleteStatus, deletingUserId, reactivateStatus, reactivatingUserId } =
+    useSelector((state) => state.users);
+
+  const isDeletingUser =
+    deleteStatus === "loading" && deletingUserId === user._id;
+
+  const isReactivatingUser =
+    reactivateStatus === "loading" && reactivatingUserId === user._id;
 
   // Check if user has EDIT permission for this specific user
   const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
+
   // Combine with canModifyUser to ensure hierarchy rules are respected
   const canEditRole =
     hasEditPermission && canModifyUser(currentUser, user, PERMISSIONS.EDIT);
+
+  // Check if current user can see reactivate button
+  const canSeeReactivateButton = !isRole(ROLES.VIEWER, ROLES.PLANNER);
 
   return (
     <div className="px-6 py-4 flex flex-col gap-3 sm:items-center justify-between sm:flex-row">
@@ -77,7 +125,7 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
         </div>
       </a>
 
-      <div className="flex items-center space-x-4 ml-10 flex-wrap sm:flex-nowrap gap-2 sm:ml-0">
+      <div className="flex items-center space-x-4 ml-10 flex-wrap sm:flex-nowrap gap-2 sm:ml-0 px-4">
         {/* Role Display/Selector */}
         {editable && canEditRole ? (
           <RoleSelector
@@ -90,11 +138,21 @@ const UserListItem = ({ user, editable, onRoleChange, onRemoveUser }) => {
         )}
 
         {/* Delete Button */}
-        {editable && (
-          <RemoveUserBtn
+        {editable && !user.isDeactivated && (
+          <DeactivateUserBtn
             onRemoveUser={onRemoveUser}
             user={user}
             currentUser={currentUser}
+            isLoading={isDeletingUser}
+          />
+        )}
+
+        {editable && user.isDeactivated && canSeeReactivateButton && (
+          <ReactivateUserBtn
+            onReactivateUser={onReactivateUser}
+            user={user}
+            currentUser={currentUser}
+            isLoading={isReactivatingUser}
           />
         )}
       </div>
@@ -109,7 +167,13 @@ const RoleDisplay = ({ user }) => (
 );
 
 const RoleSelector = ({ user, onRoleChange }) => {
+  const { updateRoleStatus, updatingUserId } = useSelector(
+    (state) => state.users,
+  );
   const { can, currentUser } = usePermissions();
+
+  const isUpdatingThisUser =
+    updateRoleStatus === "loading" && updatingUserId === user._id;
 
   // Check permissions again in the selector
   const hasEditPermission = can(PERMISSIONS.EDIT, RESOURCES.USER, user);
@@ -143,22 +207,42 @@ const RoleSelector = ({ user, onRoleChange }) => {
   };
 
   const select = (
-    <select
-      value={user.role}
-      onChange={
-        canEditRole ? (e) => onRoleChange(user._id, e.target.value) : undefined
-      }
-      disabled={shouldDisable}
-      className={`min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-900 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300 ${
-        shouldDisable ? "opacity-60 cursor-not-allowed" : ""
-      }`}
-    >
-      {getAvailableRoles().map((role) => (
-        <option key={role.value} value={role.value}>
-          {role.label}
-        </option>
-      ))}
-    </select>
+    <div className="relative min-w-[120px] h-[38px] flex items-center justify-center">
+      {isUpdatingThisUser ? (
+        <div
+          className="w-full h-full flex items-center justify-center
+    border border-[#9B2C62]/20 rounded-lg
+    bg-white shadow-sm
+    dark:bg-black dark:border-gray-800/60
+    animate-pulse"
+        >
+          <CircularProgress
+            size={18}
+            color="inherit"
+            className="text-[#9B2C62] dark:text-[#F59E0B]"
+          />
+        </div>
+      ) : (
+        <select
+          value={user.role}
+          onChange={
+            canEditRole
+              ? (e) => onRoleChange(user._id, e.target.value)
+              : undefined
+          }
+          disabled={shouldDisable || user.isDeactivated}
+          className={`min-w-[120px] border border-[#9B2C62]/20 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-[#9B2C62] transition-all duration-200 bg-white shadow-sm hover:border-[#9B2C62]/40 text-gray-700 dark:bg-black dark:border-gray-800/60 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:text-gray-300 ${
+            shouldDisable || user.isDeactivated ? "opacity-60 cursor-help" : ""
+          }`}
+        >
+          {getAvailableRoles().map((role) => (
+            <option key={role.value} value={role.value}>
+              {role.label}
+            </option>
+          ))}
+        </select>
+      )}
+    </div>
   );
 
   if (shouldDisable) {
@@ -171,7 +255,15 @@ const RoleSelector = ({ user, onRoleChange }) => {
         }
         arrow
       >
-        <span>{select}</span>
+        <span className="inline-block">{select}</span>
+      </Tooltip>
+    );
+  }
+
+  if (user.isDeactivated) {
+    return (
+      <Tooltip title={"Reactivate user to update role"} arrow>
+        <span className="inline-block">{select}</span>
       </Tooltip>
     );
   }

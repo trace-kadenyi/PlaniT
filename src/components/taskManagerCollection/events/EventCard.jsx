@@ -1,8 +1,16 @@
-import { EditDeleteEventBtns } from "../../buttons/EventButtons";
+import { EditArchiveDeleteEventBtns } from "../../buttons/EventButtons";
 import { EventStatusPill } from "../../shared/UIFragments";
 import { formatDateTime } from "../utils/formatting";
 
-export default function EventCard({ event, index, navigate, handleDelete }) {
+export default function EventCard({
+  event,
+  index,
+  navigate,
+  handleDelete,
+  isArchiving = false,
+  isRestoring = false,
+  handleArchiveToggle,
+}) {
   return (
     <li
       key={index}
@@ -14,7 +22,7 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
           className="block text-left w-full space-y-3"
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-[#6B3B0F] font-medium tracking-wide">
+            <p className="inline-block text-xs px-2.5 py-1 rounded-full bg-gradient-to-r from-[#F8D476] to-[#F59E0B] text-gray-700 dark:text-gray-900 font-medium tracking-wide">
               {event.type}
             </p>
             {event.client && (
@@ -79,7 +87,7 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
             {event.description || "No description provided."}
           </p>
 
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between flex-wrap mt-4 gap-2">
             <div className="flex items-center gap-1 text-gray-500 dark:text-gray-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -111,10 +119,14 @@ export default function EventCard({ event, index, navigate, handleDelete }) {
       </div>
 
       {/* delete/edit buttons */}
-      <EditDeleteEventBtns
+      <EditArchiveDeleteEventBtns
         navigate={navigate}
         eventID={event._id}
         eventName={event.name}
+        isArchived={event.isArchived || false}
+        isArchiving={isArchiving}
+        isRestoring={isRestoring}
+        handleArchiveToggle={handleArchiveToggle}
         handleDelete={handleDelete}
       />
     </li>

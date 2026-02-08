@@ -5,10 +5,15 @@ import CustomToast from "../components/ui/CustomToast";
 // toast with progress
 export function toastWithProgress(message, duration = 4000) {
   toast.custom(
-    (t) => <CustomToast t={t} message={message} duration={duration} />,
-    {
-      duration,
-    }
+    (t) => (
+      <CustomToast
+        t={t}
+        message={message}
+        duration={duration}
+        onDone={() => toast.dismiss(t.id)}
+      />
+    ),
+    { duration: Infinity },
   );
 }
 
@@ -16,8 +21,6 @@ export function toastWithProgress(message, duration = 4000) {
 export function taskToastProgress(message, duration = 8000) {
   toast.custom(
     (t) => <CustomToast t={t} message={message} duration={duration} />,
-    {
-      duration,
-    }
+    { duration: Infinity },
   );
 }

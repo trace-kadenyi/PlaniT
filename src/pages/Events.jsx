@@ -4,33 +4,63 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-import { fetchEvents, deleteEvent } from "../redux/eventsSlice";
+import {
+  fetchEvents,
+  deleteEvent,
+  restoreEvent,
+  archiveEvent,
+} from "../redux/eventsSlice";
 
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import DeleteConfirmationToast from "../components/taskManagerCollection/utils/deleteConfirmationToast";
 import { LoadingPage } from "../components/shared/LoadingStates";
 import EventCard from "../components/taskManagerCollection/events/EventCard";
-import NoEvent from "../components/shared/NoEvent";
+import { NoFilteredEvents } from "../components/shared/NoEvent";
 import { CreateEventBtn } from "../components/buttons/EventButtons";
 import { createLockedDeleteHandler } from "../components/taskManagerCollection/utils/handlers/eventHandlers";
+import EventsFilter from "../components/taskManagerCollection/events/EventsFilter";
+import {
+  usePermissions,
+  PERMISSIONS,
+  RESOURCES,
+} from "../globalHooks/userPermissions";
+import { useEventFilters } from "../components/taskManagerCollection/hooks/useEventFilters";
 
 export default function Events() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const deleteToastRef = useRef(null);
+  const { can } = usePermissions();
 
   const [expandedMonths, setExpandedMonths] = useState({});
+  const [archiveFilter, setArchiveFilter] = useState("active");
 
-  const { items: events, status, error } = useSelector((state) => state.events);
+  const {
+    items: events,
+    status,
+    error,
+    archivingEvents,
+    restoringEvents,
+  } = useSelector((state) => state.events);
+
+  // Check if user can view archived events
+  const canViewArchivedEvents = can(PERMISSIONS.ARCHIVE, RESOURCES.EVENT);
 
   // fetch events
   useEffect(() => {
     dispatch(fetchEvents());
   }, [dispatch]);
 
+  // Get filtered events and counts using the hook
+  const { filteredEvents, activeCount, archivedCount } = useEventFilters(
+    events,
+    archiveFilter,
+    canViewArchivedEvents,
+  );
+
   // Sort events by date in ascending order (earliest first)
-  const sortedEvents = [...events].sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+  const sortedEvents = [...filteredEvents].sort(
+    (a, b) => new Date(a.date) - new Date(b.date),
   );
 
   // handle delete event
@@ -42,10 +72,16 @@ export default function Events() {
         toast,
         toastWithProgress,
         DeleteConfirmationToast,
-        deleteToastRef
+        deleteToastRef,
       ),
-    [dispatch]
+    [dispatch],
   );
+
+  // handle archive toggle
+  const handleArchiveToggle = (eventId, isArchived) => {
+    const action = isArchived ? restoreEvent : archiveEvent;
+    dispatch(action(eventId));
+  };
 
   // Group events by month
   const eventsByMonth = sortedEvents.reduce((acc, event) => {
@@ -95,6 +131,20 @@ export default function Events() {
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] text-start mt-4 sm:mt-0">
                 Events Manager
+                <span className="text-xs whitespace-nowrap">
+                  (
+                  {archiveFilter === "all"
+                    ? events.length
+                    : archiveFilter === "active"
+                      ? activeCount
+                      : archivedCount}
+                  {archiveFilter === "active"
+                    ? " active"
+                    : archiveFilter === "archived"
+                      ? " archived"
+                      : ""}{" "}
+                  events)
+                </span>
               </h1>
               <p className="text-gray-600 dark:text-gray-300 mt-2 max-w-lg">
                 Organize and track all your upcoming events in one place
@@ -103,6 +153,17 @@ export default function Events() {
             <CreateEventBtn navigate={navigate} />
           </div>
         </div>
+
+        {/* Archive Filter - Only show if user can view archived events */}
+        {canViewArchivedEvents && (
+          <EventsFilter
+            setArchiveFilter={setArchiveFilter}
+            archiveFilter={archiveFilter}
+            events={events}
+            activeCount={activeCount}
+            archivedCount={archivedCount}
+          />
+        )}
 
         {/* Status Messages */}
         {status === "loading" && (
@@ -123,10 +184,14 @@ export default function Events() {
           </div>
         )}
 
-        {status === "succeeded" && events.length === 0 && <NoEvent />}
-
+        {status === "succeeded" && sortedEvents.length === 0 && (
+          <NoFilteredEvents
+            archiveFilter={archiveFilter}
+            totalEvents={events.length}
+          />
+        )}
         {/* Events List */}
-        {status === "succeeded" && events.length > 0 && (
+        {status === "succeeded" && sortedEvents.length > 0 && (
           <div className="space-y-6">
             {Object.entries(eventsByMonth).map(([monthYear, monthEvents]) => (
               <section
@@ -174,6 +239,9 @@ export default function Events() {
                           event={event}
                           navigate={navigate}
                           handleDelete={handleDelete}
+                          isArchiving={archivingEvents[event._id] || false}
+                          isRestoring={restoringEvents[event._id] || false}
+                          handleArchiveToggle={handleArchiveToggle}
                         />
                       ))}
                     </ul>

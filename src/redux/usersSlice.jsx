@@ -12,7 +12,7 @@ export const fetchUsers = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Fetch single user details
@@ -25,7 +25,7 @@ export const fetchUserDetails = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Add new user
@@ -38,7 +38,7 @@ export const addUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Update user details
@@ -51,7 +51,7 @@ export const updateUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Update user role
@@ -64,7 +64,7 @@ export const updateUserRole = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 // Delete user
@@ -77,7 +77,20 @@ export const deleteUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
+);
+
+// Reactivate user
+export const reactivateUser = createAsyncThunk(
+  "users/reactivateUser",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(`/api/users/${userId}/reactivate`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  },
 );
 
 // Fetch user update history
@@ -90,7 +103,7 @@ export const fetchUserUpdateHistory = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
-  }
+  },
 );
 
 const usersSlice = createSlice({
@@ -105,15 +118,19 @@ const usersSlice = createSlice({
     addStatus: "idle",
     updateStatus: "idle",
     updateRoleStatus: "idle",
+    updatingUserId: null,
     deleteStatus: "idle",
+    reactivateStatus: "idle",
+    deletingUserId: null,
+    reactivatingUserId: null,
     error: null,
     fetchDetailsError: null,
     fetchHistoryError: null,
-
     addError: null,
     updateError: null,
     updateRoleError: null,
     deleteError: null,
+    reactivateError: null,
   },
   reducers: {
     resetUsersStatus: (state) => {
@@ -127,6 +144,8 @@ const usersSlice = createSlice({
       state.deleteError = null;
       state.fetchHistoryStatus = "idle";
       state.fetchHistoryError = null;
+      state.reactivateStatus = "idle";
+      state.reactivateError = null;
     },
     clearUsers: (state) => {
       state.items = [];
@@ -194,69 +213,117 @@ const usersSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.updateStatus = "succeeded";
-        // Update in items list
-        const index = state.items.findIndex(
-          (user) => user._id === action.payload.user.id
-        );
+
+        const updatedUser = action.payload.user;
+        const userId = updatedUser._id || updatedUser.id;
+
+        const index = state.items.findIndex((u) => u._id === userId);
         if (index !== -1) {
           state.items[index] = {
             ...state.items[index],
-            ...action.payload.user,
+            ...updatedUser,
           };
         }
-        // Update current user if it's the same
-        if (
-          state.currentUser &&
-          state.currentUser._id === action.payload.user.id
-        ) {
-          state.currentUser = { ...state.currentUser, ...action.payload.user };
+
+        if (state.currentUser && state.currentUser._id === userId) {
+          state.currentUser = { ...state.currentUser, ...updatedUser };
         }
       })
+
       .addCase(updateUser.rejected, (state, action) => {
         state.updateStatus = "failed";
         state.updateError = action.payload;
       })
 
       // Update user role
-      .addCase(updateUserRole.pending, (state) => {
+      .addCase(updateUserRole.pending, (state, action) => {
         state.updateRoleStatus = "loading";
         state.updateRoleError = null;
+        state.updatingUserId = action.meta.arg.userId;
       })
       .addCase(updateUserRole.fulfilled, (state, action) => {
         state.updateRoleStatus = "succeeded";
-        const index = state.items.findIndex(
-          (user) => user._id === action.payload.user.id
-        );
+        state.updatingUserId = null;
+
+        const updatedUser = action.payload.user;
+        const userId = updatedUser._id || updatedUser.id;
+
+        const index = state.items.findIndex((u) => u._id === userId);
         if (index !== -1) {
-          state.items[index].role = action.payload.user.role;
+          state.items[index].role = updatedUser.role;
         }
-        if (
-          state.currentUser &&
-          state.currentUser._id === action.payload.user.id
-        ) {
-          state.currentUser.role = action.payload.user.role;
+
+        if (state.currentUser && state.currentUser._id === userId) {
+          state.currentUser.role = updatedUser.role;
         }
       })
+
       .addCase(updateUserRole.rejected, (state, action) => {
         state.updateRoleStatus = "failed";
         state.updateRoleError = action.payload;
+        state.updatingUserId = null;
       })
 
-      // Delete user
-      .addCase(deleteUser.pending, (state) => {
+      // Deactivate user
+      .addCase(deleteUser.pending, (state, action) => {
         state.deleteStatus = "loading";
+        state.deletingUserId = action.meta.arg;
         state.deleteError = null;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.deleteStatus = "succeeded";
-        state.items = state.items.filter((user) => user._id !== action.payload);
-        if (state.currentUser && state.currentUser._id === action.payload) {
-          state.currentUser = null;
+        state.deletingUserId = null;
+
+        const userId = action.payload;
+        const user = state.items.find((u) => u._id === userId);
+
+        if (user) {
+          user.isDeactivated = true;
+          user.isActive = false;
+        }
+
+        if (state.currentUser && state.currentUser._id === userId) {
+          state.currentUser.isDeactivated = true;
+          state.currentUser.isActive = false;
         }
       })
+
       .addCase(deleteUser.rejected, (state, action) => {
         state.deleteStatus = "failed";
+        state.deletingUserId = null;
         state.deleteError = action.payload;
+      })
+
+      // Reactivate user
+      .addCase(reactivateUser.pending, (state, action) => {
+        state.reactivateStatus = "loading";
+        state.reactivatingUserId = action.meta.arg;
+        state.reactivateError = null;
+      })
+      .addCase(reactivateUser.fulfilled, (state, action) => {
+        state.reactivateStatus = "succeeded";
+        state.reactivatingUserId = null;
+
+        const updatedUser = action.payload.user;
+
+        // Update in items list
+        const index = state.items.findIndex(
+          (user) => user._id === updatedUser._id,
+        );
+
+        if (index !== -1) {
+          state.items[index] = updatedUser;
+        }
+
+        // Update current user if open
+        if (state.currentUser && state.currentUser._id === updatedUser._id) {
+          state.currentUser = updatedUser;
+        }
+      })
+      .addCase(reactivateUser.rejected, (state, action) => {
+        state.reactivateStatus = "failed";
+        state.reactivatingUserId = null;
+        state.reactivateError = action.payload;
       })
 
       // Fetch user update history
