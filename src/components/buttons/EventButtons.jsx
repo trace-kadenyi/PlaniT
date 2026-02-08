@@ -139,6 +139,10 @@ export const EventDetailsBtns = ({
   eventID,
   eventName,
   handleDelete,
+  isArchived,
+  isArchiving,
+  isRestoring,
+  handleArchiveToggle,
 }) => {
   return (
     <div className="absolute top-5 right-4 flex space-x-2">
@@ -154,6 +158,47 @@ export const EventDetailsBtns = ({
       >
         <Pencil className="w-3 h-3" />
         <span>Edit</span>
+      </PermissionButton>
+
+      {/* archive / restore button */}
+      <PermissionButton
+        permission={PERMISSIONS.ARCHIVE}
+        resource={RESOURCES.EVENT}
+        tooltipTitle={`${isArchived ? "Restore event" : "Archive event"}`}
+        fallbackTooltip={`${
+          isArchived
+            ? "Upgrade to Planner or Admin role to restore events"
+            : "Upgrade to Planner or Admin role to archive events"
+        }`}
+        onClick={() => handleArchiveToggle(eventID, isArchived)}
+        disabled={isArchiving || isRestoring}
+        className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs transition ${
+          isArchived
+            ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
+            : "bg-[#D97706]/10 text-[#D97706] hover:bg-[#D97706]/20 dark:bg-[#D97706]/20 dark:text-[#D97706] dark:hover:bg-[#D97706]/30"
+        } ${isArchiving || isRestoring ? "opacity-70 cursor-not-allowed" : ""}`}
+      >
+        {isArchiving ? (
+          <>
+            <RefreshCcw className="animate-spin w-3 h-3" />
+            <span>Archiving...</span>
+          </>
+        ) : isRestoring ? (
+          <>
+            <RefreshCcw className="animate-spin w-3 h-3" />
+            <span>Restoring...</span>
+          </>
+        ) : isArchived ? (
+          <>
+            <RotateCcw className="w-3 h-3" />
+            <span>Restore</span>
+          </>
+        ) : (
+          <>
+            <Archive className="w-3 h-3" />
+            <span>Archive</span>
+          </>
+        )}
       </PermissionButton>
 
       {/* delete event */}
