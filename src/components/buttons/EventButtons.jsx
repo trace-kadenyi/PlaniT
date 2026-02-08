@@ -43,7 +43,7 @@ export const NoEventBtn = ({ navigate }) => {
 };
 
 // edit/delete event btns
-export const EditDeleteEventBtns = ({
+export const EditDeleteArchiveEventBtns = ({
   navigate,
   eventID,
   eventName,

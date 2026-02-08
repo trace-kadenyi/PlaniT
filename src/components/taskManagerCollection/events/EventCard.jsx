@@ -1,4 +1,4 @@
-import { EditDeleteEventBtns } from "../../buttons/EventButtons";
+import { EditDeleteArchiveEventBtns } from "../../buttons/EventButtons";
 import { EventStatusPill } from "../../shared/UIFragments";
 import { formatDateTime } from "../utils/formatting";
 
@@ -119,7 +119,7 @@ export default function EventCard({
       </div>
 
       {/* delete/edit buttons */}
-      <EditDeleteEventBtns
+      <EditDeleteArchiveEventBtns
         navigate={navigate}
         eventID={event._id}
         eventName={event.name}
