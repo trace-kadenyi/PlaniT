@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 
 import { fetchTasks, clearTasks, deleteTask } from "../redux/tasksSlice";
-import { deleteEvent, fetchEventById } from "../redux/eventsSlice";
+import {
+  archiveEvent,
+  deleteEvent,
+  fetchEventById,
+  restoreEvent,
+} from "../redux/eventsSlice";
 import { fetchExpenses, deleteExpense } from "../redux/expensesSlice";
 
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
@@ -116,6 +121,12 @@ export default function Event() {
     DeleteConfirmationToast,
   );
 
+  // handle archive toggle
+  const handleArchiveToggle = (eventId, isArchived) => {
+    const action = isArchived ? restoreEvent : archiveEvent;
+    dispatch(action(eventId));
+  };
+
   // handle delete expense
   const handleExpenseDelete = createExpenseDeleteHandler(
     dispatch,
@@ -149,9 +160,14 @@ export default function Event() {
         <div className="relative p-6 rounded-xl bg-[#FFF5EB] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#F3EDE9] border-l-4 border-l-[#F59E0B] mb-8 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 dark:hover:shadow-[0_4px_15px_rgba(255,255,255,0.05)] dark:border-l-[#F59E0B]">
           {/* edit/delete btns */}
           <EventDetailsBtns
+            key={`event-btns-${event._id}-${event.isArchived}`}
             navigate={navigate}
             eventID={event._id}
             eventName={event.name}
+            isArchived={event.isArchived || false}
+            isArchiving={eventsState.archivingEvents[event._id] || false}
+            isRestoring={eventsState.restoringEvents[event._id] || false}
+            handleArchiveToggle={handleArchiveToggle}
             handleDelete={handleDelete}
           />
 
