@@ -46,7 +46,7 @@ export default function EventCard({
                   {event.client.name}
                   {event.client.isDeleted && (
                     <span className="ml-1 text-gray-400 dark:text-gray-500 text-xs">
-                      (Removed)
+                      (Deleted)
                     </span>
                   )}
                 </span>
