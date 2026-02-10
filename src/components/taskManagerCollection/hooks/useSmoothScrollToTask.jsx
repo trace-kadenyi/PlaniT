@@ -1,4 +1,3 @@
-// Simplified version without console logs
 import { useEffect, useId } from "react";
 
 export function useSmoothScrollToTask(scrollTaskId) {
