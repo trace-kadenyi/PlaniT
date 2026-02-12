@@ -265,6 +265,28 @@ const expensesSlice = createSlice({
         state.auditLogStatus = "failed";
         state.auditLogError = action.payload?.message || action.error.message;
       });
+
+    // Get expense audit logs for deleted events
+    builder
+      .addCase(fetchExpenseAuditLogsForDeletedEvent.pending, (state) => {
+        state.deletedEventAuditLogStatus = "loading";
+        state.deletedEventAuditLogError = null;
+      })
+      .addCase(
+        fetchExpenseAuditLogsForDeletedEvent.fulfilled,
+        (state, action) => {
+          state.deletedEventAuditLogStatus = "succeeded";
+          state.deletedEventAuditLogs = action.payload.auditLogs || [];
+        },
+      )
+      .addCase(
+        fetchExpenseAuditLogsForDeletedEvent.rejected,
+        (state, action) => {
+          state.deletedEventAuditLogStatus = "failed";
+          state.deletedEventAuditLogError =
+            action.payload?.message || action.error.message;
+        },
+      );
   },
 });
 
