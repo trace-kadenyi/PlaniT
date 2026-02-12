@@ -53,6 +53,8 @@ export const getActionIcon = (actionType) => {
       return <DollarSign className="w-3 h-3 dark:text-gray-300" />;
     case "STATUS_CHANGE":
       return <ArrowUpDown className="w-3 h-3 dark:text-gray-300" />;
+    case "EVENT_DELETE_CASCADE":
+      return <Archive className="w-3 h-3 dark:text-gray-300" />;
     default:
       return <History className="w-3 h-3 dark:text-gray-300" />;
   }
@@ -71,6 +73,8 @@ export const getActionColor = (actionType) => {
       return "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200";
     case "STATUS_CHANGE":
       return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+    case "EVENT_DELETE_CASCADE":
+      return "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200";
     default:
       return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
   }
@@ -87,6 +91,8 @@ export const getActionLabel = (actionType) => {
       return "Amount Changed";
     case "STATUS_CHANGE":
       return "Status Changed";
+    case "EVENT_DELETE_CASCADE":
+      return "Deleted with Event";
     default:
       return "Modified";
   }
@@ -102,5 +108,8 @@ export const getActionTypeCounts = (auditLogs = []) => {
       .length,
     STATUS_CHANGE: auditLogs.filter((log) => log.actionType === "STATUS_CHANGE")
       .length,
+    EVENT_DELETE_CASCADE: auditLogs.filter(
+      (log) => log.actionType === "EVENT_DELETE_CASCADE",
+    ).length,
   };
 };
