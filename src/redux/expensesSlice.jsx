@@ -8,7 +8,7 @@ export const fetchExpenses = createAsyncThunk(
   async (eventId) => {
     const res = await api.get(`/api/expenses/event/${eventId}`);
     return res.data;
-  }
+  },
 );
 
 // create expense
@@ -21,7 +21,7 @@ export const createExpense = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
-  }
+  },
 );
 
 // update expense
@@ -34,7 +34,7 @@ export const updateExpense = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
-  }
+  },
 );
 
 // delete expense
@@ -47,7 +47,7 @@ export const deleteExpense = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 // get expense audit logs with event filtering
@@ -86,7 +86,26 @@ export const fetchExpenseAuditLogs = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
+);
+
+// fetch audit logs for deleted events
+export const fetchExpenseAuditLogsForDeletedEvent = createAsyncThunk(
+  "expenses/fetchExpenseAuditLogsForDeletedEvent",
+  async (eventId, { rejectWithValue }) => {
+    try {
+      const params = new URLSearchParams();
+      params.append("eventId", eventId);
+      params.append("actionType", "EVENT_DELETE_CASCADE");
+
+      const res = await api.get(
+        `/api/expenses/audit-logs?${params.toString()}`,
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  },
 );
 
 const expensesSlice = createSlice({
@@ -179,7 +198,7 @@ const expensesSlice = createSlice({
       .addCase(updateExpense.fulfilled, (state, action) => {
         state.updateStatus = "succeeded";
         const index = state.items.findIndex(
-          (e) => e._id === action.payload.expense._id
+          (e) => e._id === action.payload.expense._id,
         );
         if (index !== -1) {
           state.items[index] = action.payload.expense;
@@ -201,7 +220,7 @@ const expensesSlice = createSlice({
 
         // Remove the deleted expense
         state.items = state.items.filter(
-          (expense) => expense._id !== action.payload.deletedExpense._id
+          (expense) => expense._id !== action.payload.deletedExpense._id,
         );
 
         // Update budget status with the fresh data from backend
