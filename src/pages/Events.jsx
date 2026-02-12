@@ -154,6 +154,11 @@ export default function Events() {
           </div>
         </div>
 
+        {/* deleted events logs */}
+        <div className="bg-red-500 my-4">
+          <button>Deleted Events Logs</button>
+        </div>
+
         {/* Archive Filter - Only show if user can view archived events */}
         {canViewArchivedEvents && (
           <EventsFilter
