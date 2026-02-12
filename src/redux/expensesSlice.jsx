@@ -134,6 +134,9 @@ const expensesSlice = createSlice({
     },
     auditLogCount: 0,
     paidExpensesCount: 0,
+    deletedEventAuditLogs: [],
+    deletedEventAuditLogStatus: "idle",
+    deletedEventAuditLogError: null,
   },
   reducers: {
     resetExpenseStatuses: (state) => {
