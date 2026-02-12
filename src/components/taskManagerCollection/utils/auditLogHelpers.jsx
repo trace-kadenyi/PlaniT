@@ -5,6 +5,7 @@ import {
   Tag,
   Edit,
   ArrowUpDown,
+  Archive,
 } from "lucide-react";
 
 // format currency
