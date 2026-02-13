@@ -20,7 +20,6 @@ import {
   getActionColor,
   getActionIcon,
   getActionLabel,
-  getActionTypeCounts,
 } from "../utils/auditLogHelpers";
 import { useFilteredAuditLogs } from "../hooks/useExpenseAuditLogs";
 import {
@@ -77,9 +76,6 @@ const DeletedEventsAuditPanel = () => {
 
   // Filter logs based on selected action type
   const filteredLogs = useFilteredAuditLogs(allLogs, filterActionType);
-
-  // Action type counts
-  const actionTypeCounts = getActionTypeCounts(allLogs);
 
   // Calculate totals
   const totalDeletedEvents = groupedByEvent?.length || 0;
