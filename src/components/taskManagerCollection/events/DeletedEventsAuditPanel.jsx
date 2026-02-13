@@ -84,6 +84,12 @@ const DeletedEventsAuditPanel = () => {
     groupedByEvent?.reduce((sum, event) => sum + (event.totalAmount || 0), 0) ||
     0;
 
+  const paidAmount = allLogs
+    .filter((log) => log.expenseData?.paymentStatus === "paid")
+    .reduce((sum, log) => sum + (log.expenseData?.amount || 0), 0);
+
+  const pendingAmount = totalDeletedAmount - paidAmount;
+
   const handleRefresh = () => {
     dispatch(fetchDeletedEventExpenses());
   };
@@ -114,7 +120,14 @@ const DeletedEventsAuditPanel = () => {
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Permanently deleted events with expense history •{" "}
             <span className="font-medium">
-              {formatCurrency(totalDeletedAmount)} in deleted expenses
+              {formatCurrency(totalDeletedAmount)} total
+              {paidAmount > 0 && (
+                <>
+                  {" "}
+                  ({formatCurrency(paidAmount)} paid,{" "}
+                  {formatCurrency(pendingAmount)} pending)
+                </>
+              )}
             </span>
           </p>
         </div>
