@@ -145,8 +145,8 @@ const DeletedEventsAuditPanel = () => {
             onClick={() => setIsExpanded(!isExpanded)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
               isExpanded
-                ? "bg-[#6B3B0F] text-white hover:bg-[#5a3210]"
-                : "bg-[#6B3B0F]/10 text-[#6B3B0F] hover:bg-[#6B3B0F]/20 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                ? "bg-gradient-to-r from-[#6B3B0F] to-[#8B4C1A] text-white hover:from-[#5a3210] hover:to-[#7A3E14] shadow-md hover:shadow-lg dark:from-amber-800 dark:to-amber-700 dark:hover:from-amber-900 dark:hover:to-amber-800"
+                : "bg-amber-50 text-[#6B3B0F] hover:bg-amber-100 border border-amber-200 dark:bg-gray-800 dark:text-amber-400 dark:hover:bg-gray-700 dark:border-gray-700"
             }`}
           >
             <History className="w-4 h-4" />
