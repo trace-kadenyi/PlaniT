@@ -25,6 +25,7 @@ import {
   RESOURCES,
 } from "../globalHooks/userPermissions";
 import { useEventFilters } from "../components/taskManagerCollection/hooks/useEventFilters";
+import DeletedEventsAuditPanel from "../components/taskManagerCollection/events/DeletedEventsAuditPanel";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -154,10 +155,8 @@ export default function Events() {
           </div>
         </div>
 
-        {/* deleted events logs */}
-        <div className="bg-red-500 my-4">
-          <button>Deleted Events Logs</button>
-        </div>
+        {/* deleted events audit panel */}
+        <DeletedEventsAuditPanel />
 
         {/* Archive Filter - Only show if user can view archived events */}
         {canViewArchivedEvents && (
