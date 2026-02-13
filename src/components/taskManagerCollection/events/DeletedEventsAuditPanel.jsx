@@ -118,17 +118,19 @@ const DeletedEventsAuditPanel = () => {
             )}
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Permanently deleted events with expense history •{" "}
-            <span className="font-medium">
-              {formatCurrency(totalDeletedAmount)} total
-              {paidAmount > 0 && (
-                <>
-                  {" "}
-                  ({formatCurrency(paidAmount)} paid,{" "}
-                  {formatCurrency(pendingAmount)} pending)
-                </>
-              )}
-            </span>
+            Permanently deleted events with expense history{" "}
+            {totalDeletedEvents > 0 && (
+              <span className="font-medium">
+                • {formatCurrency(totalDeletedAmount)} total
+                {paidAmount > 0 && (
+                  <>
+                    {" "}
+                    ({formatCurrency(paidAmount)} paid,{" "}
+                    {formatCurrency(pendingAmount)} pending)
+                  </>
+                )}
+              </span>
+            )}
           </p>
         </div>
         <div className="flex gap-2">
