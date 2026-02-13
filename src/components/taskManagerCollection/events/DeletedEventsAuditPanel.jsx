@@ -252,7 +252,6 @@ const DeletedEventsAuditPanel = () => {
                           setExpandedLogId={setExpandedLogId}
                           expandedLogId={expandedLogId}
                           log={log}
-                          formatCurrency={formatCurrency}
                           formatYearMonthDay={formatYearMonthDay}
                           isDeletedEvent={true}
                         />
