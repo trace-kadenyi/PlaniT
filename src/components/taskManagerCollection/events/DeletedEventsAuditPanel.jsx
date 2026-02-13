@@ -102,10 +102,12 @@ const DeletedEventsAuditPanel = () => {
       </div>
 
       {/* Header */}
-      <div className="flex items-start lg:items-center gap-3 mb-6 flex-col lg:flex-row">
+      <div
+        className={`flex  lg:items-center gap-3 mb-6 flex-col lg:flex-row ${!isExpanded && totalDeletedEvents === 0 ? "items-center" : "items-start"}`}
+      >
         <div className="flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center force-center gap-3">
               <div className="p-3 rounded-xl bg-gradient-to-br from-[#6B3B0F] to-[#9B2C62]">
                 <Archive className="w-6 h-6 text-white" />
               </div>
@@ -121,7 +123,9 @@ const DeletedEventsAuditPanel = () => {
             </div>
           </div>
 
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          <p
+            className={`text-sm text-gray-500 dark:text-gray-400 mt-2 ${!isExpanded && totalDeletedEvents === 0 ? "text-center lg:text-start" : "text-start"}`}
+          >
             Permanently deleted events with expense history{" "}
             {totalDeletedEvents > 0 && (
               <span className="font-medium">
