@@ -102,22 +102,26 @@ const DeletedEventsAuditPanel = () => {
       </div>
 
       {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-3 rounded-xl bg-gradient-to-br from-[#6B3B0F] to-[#9B2C62]">
-          <Archive className="w-6 h-6 text-white" />
-        </div>
+      <div className="flex items-start lg:items-center gap-3 mb-6 flex-col lg:flex-row">
         <div className="flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <h2 className="text-xl font-bold text-gray-800 dark:text-white">
-              Deleted Events Financial Trail
-            </h2>
-            {totalDeletedEvents > 0 && (
-              <span className="px-2.5 py-1 bg-[#6B3B0F]/10 text-[#6B3B0F] dark:bg-[#6B3B0F]/20 dark:text-[#F59E0B] rounded-full text-xs font-medium">
-                {totalDeletedEvents} event{totalDeletedEvents !== 1 ? "s" : ""}
-              </span>
-            )}
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-[#6B3B0F] to-[#9B2C62]">
+                <Archive className="w-6 h-6 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+                Deleted Events Financial Trail{" "}
+                {totalDeletedEvents > 0 && (
+                  <span className="px-2.5 py-1 bg-[#6B3B0F]/10 text-[#6B3B0F] dark:bg-[#6B3B0F]/20 dark:text-[#F59E0B] rounded-full text-xs font-medium whitespace-nowrap">
+                    ({totalDeletedEvents} event
+                    {totalDeletedEvents !== 1 ? "s" : ""})
+                  </span>
+                )}
+              </h2>
+            </div>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
             Permanently deleted events with expense history{" "}
             {totalDeletedEvents > 0 && (
               <span className="font-medium">
@@ -152,7 +156,7 @@ const DeletedEventsAuditPanel = () => {
             }`}
           >
             <History className="w-4 h-4" />
-            <span className="hidden sm:inline">
+            <span className="inline text-sm sm:text-md lg:text-lg">
               {isExpanded ? "Hide" : "View"} Audit Log
             </span>
           </button>
