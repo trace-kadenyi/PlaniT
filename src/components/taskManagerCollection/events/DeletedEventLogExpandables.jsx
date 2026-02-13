@@ -101,7 +101,10 @@ export default function DeletedEventLogExpandables({
                   </div>
                 </div>
               )}
+            </div>
 
+            {/* Right Column - Budget & Additional Info */}
+            <div className="space-y-2">
               {/* Event Name */}
               {log.event?.name && (
                 <div className="flex items-center gap-2">
@@ -119,10 +122,7 @@ export default function DeletedEventLogExpandables({
                   </div>
                 </div>
               )}
-            </div>
 
-            {/* Right Column - Budget & Additional Info */}
-            <div className="space-y-2">
               {/* Vendor */}
               {log.expenseData?.vendor && (
                 <div className="flex items-center gap-2">
