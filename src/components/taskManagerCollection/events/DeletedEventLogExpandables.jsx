@@ -13,7 +13,6 @@ export default function DeletedEventLogExpandables({
   setExpandedLogId,
   expandedLogId,
   log,
-  formatCurrency,
   formatYearMonthDay,
   isDeletedEvent = true,
 }) {
