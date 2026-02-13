@@ -124,34 +124,6 @@ export default function DeletedEventLogExpandables({
 
             {/* Right Column - Budget & Additional Info */}
             <div className="space-y-2">
-              {/* Budget Before/After */}
-              {log.metadata && (
-                <>
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="w-3 h-3 text-gray-500 dark:text-gray-400 flex-shrink-0" />
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-400 mr-1">
-                        Budget before:
-                      </span>
-                      <span className="font-medium text-gray-500 dark:text-gray-300">
-                        {formatCurrency(log.metadata.budgetRemainingBefore || 0)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="w-3 h-3 text-green-500 dark:text-green-400 flex-shrink-0" />
-                    <div>
-                      <span className="text-gray-600 dark:text-gray-400 mr-1">
-                        Budget after:
-                      </span>
-                      <span className="font-medium text-green-600 dark:text-green-400">
-                        {formatCurrency(log.metadata.budgetRemainingAfter || 0)}
-                      </span>
-                    </div>
-                  </div>
-                </>
-              )}
-
               {/* Vendor */}
               {log.expenseData?.vendor && (
                 <div className="flex items-center gap-2">
