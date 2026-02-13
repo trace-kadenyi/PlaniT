@@ -134,13 +134,15 @@ const DeletedEventsAuditPanel = () => {
           </p>
         </div>
         <div className="flex gap-2">
-          <button
-            onClick={handleRefresh}
-            className="p-2 rounded-lg bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 dark:bg-[#F59E0B]/10 dark:hover:bg-[#F59E0B]/20 transition"
-            title="Refresh"
-          >
-            <RefreshCw className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
-          </button>
+          {isExpanded && (
+            <button
+              onClick={handleRefresh}
+              className="p-2 rounded-lg bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 dark:bg-[#F59E0B]/10 dark:hover:bg-[#F59E0B]/20 transition"
+              title="Refresh"
+            >
+              <RefreshCw className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
+            </button>
+          )}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
@@ -151,7 +153,7 @@ const DeletedEventsAuditPanel = () => {
           >
             <History className="w-4 h-4" />
             <span className="hidden sm:inline">
-              {isExpanded ? "Hide" : "View"} Deleted Events
+              {isExpanded ? "Hide" : "View"} Audit Log
             </span>
           </button>
         </div>
