@@ -18,13 +18,13 @@ export default function DeletedEventLogExpandables({
   isDeletedEvent = true,
 }) {
   return (
-    <div className="mt-5">
+    <div>
       {/* Show Less/View Details Button */}
       <button
         onClick={() =>
           setExpandedLogId(expandedLogId === log._id ? null : log._id)
         }
-        className="text-xs hover:underline flex items-center gap-1 text-[#6B3B0F] dark:text-[#9B2C62]"
+        className="text-xs hover:underline flex items-center gap-1 text-[#6B3B0F] dark:text-[#F59E0B]"
       >
         {expandedLogId === log._id ? "Show less" : "View details"}
         <ChevronDown
