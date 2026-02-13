@@ -155,9 +155,6 @@ export default function Events() {
           </div>
         </div>
 
-        {/* deleted events audit panel */}
-        <DeletedEventsAuditPanel />
-
         {/* Archive Filter - Only show if user can view archived events */}
         {canViewArchivedEvents && (
           <EventsFilter
@@ -253,6 +250,13 @@ export default function Events() {
                 )}
               </section>
             ))}
+          </div>
+        )}
+
+        {/* deleted events audit panel */}
+        {status === "succeeded" && (
+          <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-900">
+            <DeletedEventsAuditPanel />
           </div>
         )}
       </div>
