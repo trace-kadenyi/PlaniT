@@ -209,15 +209,6 @@ const DeletedEventsAuditPanel = () => {
 
           {status === "succeeded" && allLogs.length > 0 && (
             <>
-              {/* Action Type Filter */}
-              <ActionTypeFilter
-                setFilterActionType={setFilterActionType}
-                filterActionType={filterActionType}
-                getActionIcon={getActionIcon}
-                getActionLabel={getActionLabel}
-                actionTypeCounts={actionTypeCounts}
-              />
-
               <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                 Showing {filteredLogs.length} of {allLogs.length} deleted
                 expense record
