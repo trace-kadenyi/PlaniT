@@ -136,10 +136,10 @@ const DeletedEventsAuditPanel = () => {
         <div className="flex gap-2">
           <button
             onClick={handleRefresh}
-            className="p-2 rounded-lg bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 dark:bg-gray-800 dark:hover:bg-gray-700 transition"
+            className="p-2 rounded-lg bg-[#9B2C62]/10 hover:bg-[#9B2C62]/20 dark:bg-[#F59E0B]/10 dark:hover:bg-[#F59E0B]/20 transition"
             title="Refresh"
           >
-            <RefreshCw className="w-4 h-4 text-[#9B2C62] dark:text-gray-300" />
+            <RefreshCw className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
           </button>
           <button
             onClick={() => setIsExpanded(!isExpanded)}
