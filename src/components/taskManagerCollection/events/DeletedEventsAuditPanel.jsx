@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Archive, RefreshCw, History, Trash2, DollarSign } from "lucide-react";
 
-import { fetchDeletedEventExpenses } from "../../../redux/deletedEventsAuditSlice";
+import {
+  fetchDeletedEventExpenses,
+  setExpandedEventId,
+  clearDeletedEventExpenses,
+} from "../../../redux/deletedEventsAuditSlice";
 
 import {
   usePermissions,
@@ -45,6 +49,13 @@ const DeletedEventsAuditPanel = () => {
     PERMISSIONS.VIEW_AUDIT_LOGS,
     RESOURCES.AUDIT_LOG,
   );
+
+  // 👇 Clear old data when component unmounts
+  useEffect(() => {
+    return () => {
+      dispatch(clearDeletedEventExpenses());
+    };
+  }, [dispatch]);
 
   // Fetch deleted event expense logs when panel is expanded
   useEffect(() => {
