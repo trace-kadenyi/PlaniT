@@ -246,7 +246,7 @@ export default function EventFormFields({
         </h2>
 
         {budgetError && (
-          <div className="mb-4 p-3 bg-red-50 dark:bg-red-200 text-red-600 rounded-md font-medium">
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-200 text-red-600 rounded-md font-medium text-sm">
             {budgetError}
           </div>
         )}
