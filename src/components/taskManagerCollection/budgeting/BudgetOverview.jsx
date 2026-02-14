@@ -6,7 +6,6 @@ import { NoBudget } from "../../shared/Snippets";
 
 export default function BudgetOverview({
   budgetStatus,
-  deletedPaidTotal = 0,
   eventID,
   notes,
   isArchived,
