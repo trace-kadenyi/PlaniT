@@ -199,7 +199,11 @@ export default function Event() {
 
         {/* tasks tab */}
         {activeTab === "tasks" && (
-          <TasksTab tasks={tasksState} handleTaskDelete={handleTaskDelete} />
+          <TasksTab
+            tasks={tasksState}
+            handleTaskDelete={handleTaskDelete}
+            isArchived={event.isArchived}
+          />
         )}
 
         {/* budget tab */}
