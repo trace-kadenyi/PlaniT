@@ -5,7 +5,7 @@ import CreateTaskForm from "../tasks/forms/CreateTaskForm";
 import TaskCard from "../tasks/TaskCard";
 import { CreateTaskBtn } from "../../buttons/TaskButtons";
 
-export default function TasksTab({ tasks, handleTaskDelete }) {
+export default function TasksTab({ tasks, handleTaskDelete, isArchived }) {
   const [showCreateTaskForm, setShowCreateTaskForm] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState(null);
   const [scrollToForm, setScrollToForm] = useState(false);
@@ -26,12 +26,14 @@ export default function TasksTab({ tasks, handleTaskDelete }) {
         <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706]">
           Tasks ({tasks.items.length})
         </h2>
-        <CreateTaskBtn
-          showCreateTaskForm={showCreateTaskForm}
-          setTaskToEdit={setTaskToEdit}
-          setScrollToForm={setScrollToForm}
-          setShowCreateTaskForm={setShowCreateTaskForm}
-        />
+        {!isArchived && (
+          <CreateTaskBtn
+            showCreateTaskForm={showCreateTaskForm}
+            setTaskToEdit={setTaskToEdit}
+            setScrollToForm={setScrollToForm}
+            setShowCreateTaskForm={setShowCreateTaskForm}
+          />
+        )}
       </div>
 
       {/* Task Form */}
