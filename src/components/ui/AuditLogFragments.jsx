@@ -34,7 +34,7 @@ export function ActionTypeFilter({
                 {actionTypeCounts[type] || 0}
               </span>
             </button>
-          )
+          ),
         )}
       </div>
     </div>
@@ -83,7 +83,7 @@ export function NoFilteredLogs({ filterActionType, getActionLabel }) {
           {filterActionType === "ALL"
             ? "No expense changes recorded yet"
             : `No ${getActionLabel(
-                filterActionType
+                filterActionType,
               ).toLowerCase()} records found`}
         </p>
       </div>
@@ -108,10 +108,10 @@ export function AuditLogsIntro({
           {getActionIcon(log.actionType)}
         </div>
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center flex-wrap gap-2">
             <span
               className={`px-2 py-0.5 rounded-full text-xs font-medium ${getActionColor(
-                log.actionType
+                log.actionType,
               )}`}
             >
               {getActionLabel(log.actionType)}
@@ -128,7 +128,7 @@ export function AuditLogsIntro({
           <div className="flex flex-wrap items-center gap-2 mt-1">
             <span
               className={`px-2 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(
-                log.expenseData?.category
+                log.expenseData?.category,
               )}`}
             >
               {log.expenseData?.category || "other"}
@@ -198,7 +198,7 @@ export function AuditLogsOverview({ log, formatYearMonthDay }) {
                   const formatDate = (dateStr) =>
                     dateStr ? formatYearMonthDay(dateStr) : "None";
                   displayText = `${change.field}: ${formatDate(
-                    change.oldValue
+                    change.oldValue,
                   )} → ${formatYearMonthDay(change.newValue)}`;
                 } else {
                   displayText = `${change.field}: ${

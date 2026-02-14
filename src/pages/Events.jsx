@@ -25,6 +25,7 @@ import {
   RESOURCES,
 } from "../globalHooks/userPermissions";
 import { useEventFilters } from "../components/taskManagerCollection/hooks/useEventFilters";
+import DeletedEventsAuditPanel from "../components/taskManagerCollection/events/DeletedEventsAuditPanel";
 
 export default function Events() {
   const dispatch = useDispatch();
@@ -249,6 +250,13 @@ export default function Events() {
                 )}
               </section>
             ))}
+          </div>
+        )}
+
+        {/* deleted events audit panel */}
+        {status === "succeeded" && (
+          <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-900">
+            <DeletedEventsAuditPanel />
           </div>
         )}
       </div>

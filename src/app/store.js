@@ -7,6 +7,7 @@ import vendorsReducer from "../redux/vendorsSlice";
 import authReducer from "../redux/authSlice";
 import organizationReducer from "../redux/organizationSlice";
 import usersReducer from "../redux/usersSlice";
+import deletedEventsAuditReducer from "../redux/deletedEventsAuditSlice";
 import { setStore } from "./api";
 
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
     vendors: vendorsReducer,
     organization: organizationReducer,
     users: usersReducer,
+    deletedEventsAudit: deletedEventsAuditReducer,
   },
 });
 
