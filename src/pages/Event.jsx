@@ -222,6 +222,7 @@ export default function Event() {
             onVendorRemoved={(vendorId) => {
               setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
             }}
+            isArchived={event.isArchived}
           />
         )}
       </div>
