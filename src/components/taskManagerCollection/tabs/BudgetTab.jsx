@@ -28,7 +28,6 @@ export default function BudgetTab({
   handleExpenseDelete,
   onVendorAdded,
   onVendorRemoved,
-  Link,
 }) {
   const { id } = useParams();
   const dispatch = useDispatch();
