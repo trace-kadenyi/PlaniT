@@ -28,6 +28,7 @@ export default function BudgetTab({
   handleExpenseDelete,
   onVendorAdded,
   onVendorRemoved,
+  isArchived,
 }) {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -47,7 +48,7 @@ export default function BudgetTab({
   // Check if user can view audit logs
   const canViewAuditLogs = can(
     PERMISSIONS.VIEW_AUDIT_LOGS,
-    RESOURCES.AUDIT_LOG
+    RESOURCES.AUDIT_LOG,
   );
 
   // scroll to form start
@@ -123,15 +124,17 @@ export default function BudgetTab({
             </button>
           )}
 
-          {hasNoBudget ? (
+          {hasNoBudget && !isArchived ? (
             <AddBudgetLink id={id} />
           ) : (
-            <AddExpenseBtn
-              showCreateExpenseForm={showCreateExpenseForm}
-              setExpenseToEdit={setExpenseToEdit}
-              setScrollToForm={setScrollToForm}
-              setShowCreateExpenseForm={setShowCreateExpenseForm}
-            />
+            !isArchived && (
+              <AddExpenseBtn
+                showCreateExpenseForm={showCreateExpenseForm}
+                setExpenseToEdit={setExpenseToEdit}
+                setScrollToForm={setScrollToForm}
+                setShowCreateExpenseForm={setShowCreateExpenseForm}
+              />
+            )
           )}
         </div>
       </div>
