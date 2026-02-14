@@ -6,16 +6,15 @@ import { NoBudget } from "../../shared/Snippets";
 
 export default function BudgetOverview({
   budgetStatus,
-  deletedPaidTotal = 0,
-  Link,
   eventID,
   notes,
+  isArchived,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // No budget
   if (!budgetStatus || budgetStatus.totalBudget === 0) {
-    return <NoBudget Link={Link} eventID={eventID} />;
+    return <NoBudget eventID={eventID} isArchived={isArchived} />;
   }
 
   const { totalBudget, totalExpenses, remainingBudget } = budgetStatus;

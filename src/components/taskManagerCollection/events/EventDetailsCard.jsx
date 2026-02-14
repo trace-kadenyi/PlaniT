@@ -97,10 +97,9 @@ export default function EventDetailsCard({
       {expensesState.budgetStatus && (
         <BudgetOverview
           budgetStatus={expensesState.budgetStatus}
-          deletedPaidTotal={expensesState.deletedPaidTotal}
-          Link={Link}
           eventID={id}
           notes={event?.budget?.notes}
+          isArchived={event?.isArchived}
         />
       )}
     </div>

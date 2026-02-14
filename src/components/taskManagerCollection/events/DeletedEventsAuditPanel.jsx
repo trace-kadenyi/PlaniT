@@ -5,6 +5,7 @@ import { Archive, RefreshCw, History, Trash2, DollarSign } from "lucide-react";
 import {
   fetchDeletedEventExpenses,
   setExpandedEventId,
+  clearDeletedEventExpenses,
 } from "../../../redux/deletedEventsAuditSlice";
 
 import {
@@ -48,6 +49,13 @@ const DeletedEventsAuditPanel = () => {
     PERMISSIONS.VIEW_AUDIT_LOGS,
     RESOURCES.AUDIT_LOG,
   );
+
+  // 👇 Clear old data when component unmounts
+  useEffect(() => {
+    return () => {
+      dispatch(clearDeletedEventExpenses());
+    };
+  }, [dispatch]);
 
   // Fetch deleted event expense logs when panel is expanded
   useEffect(() => {

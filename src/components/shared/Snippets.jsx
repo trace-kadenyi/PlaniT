@@ -3,7 +3,7 @@ import React from "react";
 import { EventAddBudgetLink } from "../buttons/ExpenseButtons";
 
 // No budget UI
-export function NoBudget({ Link, eventID }) {
+export function NoBudget({ eventID, isArchived }) {
   return (
     <div className="bg-white dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 p-6 rounded-xl shadow-sm border border-[#F3EDE9] my-6">
       <div className="flex items-center gap-3 mb-4">
@@ -47,7 +47,7 @@ export function NoBudget({ Link, eventID }) {
             </p>
           </div>
         </div>
-        <EventAddBudgetLink eventID={eventID} />
+        {!isArchived && <EventAddBudgetLink eventID={eventID} />}
       </div>
     </div>
   );

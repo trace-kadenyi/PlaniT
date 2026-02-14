@@ -246,7 +246,7 @@ export default function EventFormFields({
         </h2>
 
         {budgetError && (
-          <div className="mb-4 p-3 bg-red-50 dark:bg-red-200 font-semibold text-red-600 rounded-md">
+          <div className="mb-4 p-3 bg-red-50 dark:bg-red-200 text-red-600 rounded-md font-medium text-sm">
             {budgetError}
           </div>
         )}
@@ -273,8 +273,8 @@ export default function EventFormFields({
                   budgetError
                     ? "border-red-500"
                     : shouldDisable
-                    ? disabledClasses
-                    : "border-gray-300"
+                      ? disabledClasses
+                      : "border-gray-300"
                 }`}
                 placeholder="0.00"
               />

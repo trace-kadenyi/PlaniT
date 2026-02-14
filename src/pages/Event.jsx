@@ -199,7 +199,11 @@ export default function Event() {
 
         {/* tasks tab */}
         {activeTab === "tasks" && (
-          <TasksTab tasks={tasksState} handleTaskDelete={handleTaskDelete} />
+          <TasksTab
+            tasks={tasksState}
+            handleTaskDelete={handleTaskDelete}
+            isArchived={event.isArchived}
+          />
         )}
 
         {/* budget tab */}
@@ -209,7 +213,6 @@ export default function Event() {
             budgetStatus={expensesState.budgetStatus}
             handleExpenseDelete={handleExpenseDelete}
             setLocalVendors={setLocalVendors}
-            Link={Link}
             onVendorAdded={(newVendor) => {
               setLocalVendors((prev) => {
                 const vendorExists = prev.some((v) => v._id === newVendor._id);
@@ -219,6 +222,7 @@ export default function Event() {
             onVendorRemoved={(vendorId) => {
               setLocalVendors((prev) => prev.filter((v) => v._id !== vendorId));
             }}
+            isArchived={event.isArchived}
           />
         )}
       </div>
