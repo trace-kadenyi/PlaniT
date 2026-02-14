@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Archive, RefreshCw, History, Trash2, DollarSign } from "lucide-react";
 
-import {
-  fetchDeletedEventExpenses,
-  setExpandedEventId,
-} from "../../../redux/deletedEventsAuditSlice";
+import { fetchDeletedEventExpenses } from "../../../redux/deletedEventsAuditSlice";
 
 import {
   usePermissions,
