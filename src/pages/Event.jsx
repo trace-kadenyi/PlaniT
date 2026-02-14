@@ -213,7 +213,6 @@ export default function Event() {
             budgetStatus={expensesState.budgetStatus}
             handleExpenseDelete={handleExpenseDelete}
             setLocalVendors={setLocalVendors}
-            Link={Link}
             onVendorAdded={(newVendor) => {
               setLocalVendors((prev) => {
                 const vendorExists = prev.some((v) => v._id === newVendor._id);
