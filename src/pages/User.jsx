@@ -213,6 +213,7 @@ export default function User() {
           isSelf={isSelf}
           authUser={authUser}
           userRole={userData.role}
+          userId={userId}
         />
       </div>
     </main>
