@@ -101,7 +101,11 @@ export const fetchUserUpdateHistory = createAsyncThunk(
       const res = await api.get(`/api/users/${userId}/history`);
       return { userId, history: res.data };
     } catch (err) {
-      return rejectWithValue(err.response?.data?.message || err.message);
+      // Preserve the status code
+      return rejectWithValue({
+        status: err.response?.status,
+        message: err.response?.data?.message || err.message,
+      });
     }
   },
 );
@@ -341,6 +345,7 @@ const usersSlice = createSlice({
         // Don't throw error if it's just a 403 permission issue
         if (action.error?.status !== 403) {
           state.error = action.error.message;
+          state.isHistoryForbidden = true;
         }
       });
   },
