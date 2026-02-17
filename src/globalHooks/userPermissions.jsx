@@ -231,3 +231,62 @@ export const usePermissions = () => {
 
   return { can, isRole, currentUser };
 };
+
+
+
+
+// import { useMemo } from "react";
+// import { useSelector } from "react-redux";
+
+// // 1. Core permissions
+// export const PERMISSIONS = {
+//   VIEW: "view",
+//   CREATE: "create",
+//   EDIT: "edit",
+//   DELETE: "delete",
+//   ARCHIVE: "archive",
+//   DELETE_ALL: "delete_all",
+//   MANAGE_USERS: "manage_users",
+//   DRAG_CARD: "drag_card",
+//   UPDATE_STATUS: "update_status",
+//   MANAGE_EVENT_STATUS: "manage_event_status",
+//   VIEW_AUDIT_LOGS: "view_audit_logs",
+//   DELETE_PAID_EXPENSE: "delete_paid_expense",
+// };
+
+// export const RESOURCES = {
+//   VENDOR: "vendor",
+//   EVENT: "event",
+//   TASK: "task",
+//   CLIENT: "client",
+//   USER: "user",
+//   EXPENSE: "expense",
+//   AUDIT_LOG: "audit_log",
+// };
+
+// export const ROLES = {
+//   VIEWER: "viewer",
+//   PLANNER: "planner",
+//   ADMIN: "admin",
+//   SUPER_ADMIN: "super_admin",
+// };
+
+
+
+
+
+// // 6. Main hook - SIMPLE API
+// export const usePermissions = () => {
+//   const currentUser = useSelector((state) => state.auth.user);
+
+//   const can = (permission, resource) => {
+//     if (!currentUser?.permissions) return false;
+//     return currentUser.permissions[resource]?.includes(permission);
+//   };
+
+//   const isRole = (...roles) => {
+//     return currentUser?.role && roles.includes(currentUser.role);
+//   };
+
+//   return { can, isRole, currentUser };
+// };
