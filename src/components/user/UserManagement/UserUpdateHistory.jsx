@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   History,
   User,
@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 
 import { ViewUpdateHistory } from "../../ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserUpdateHistory } from "../../../redux/usersSlice";
 
 const UserUpdateHistory = ({
   updateHistory,
@@ -17,8 +19,25 @@ const UserUpdateHistory = ({
   isSelf,
   authUser,
   userRole,
+  userId,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const dispatch = useDispatch();
+  const isHistoryForbidden = useSelector(
+    (state) => state.users.isHistoryForbidden,
+  );
+
+  useEffect(() => {
+    if (fetchHistoryStatus === "idle" && !isHistoryForbidden) {
+      dispatch(fetchUserUpdateHistory(userId));
+    }
+  }, [dispatch, userId, fetchHistoryStatus, isHistoryForbidden]);
+
+  // If backend said we can't see it, render nothing
+  if (isHistoryForbidden) {
+    return null;
+  }
+
   // Function to get icon for update type
   const getUpdateIcon = (type) => {
     switch (type) {
@@ -52,21 +71,21 @@ const UserUpdateHistory = ({
   };
 
   // Check if user can view history (only self or admins)
-  const canViewHistory = () => {
-    if (isSelf) return true;
-    if (authUser?.role === "super_admin") return true;
+  // const canViewHistory = () => {
+  //   if (isSelf) return true;
+  //   if (authUser?.role === "super_admin") return true;
 
-    // Admins can only view non-super-admin history
-    if (authUser?.role === "admin") {
-      return userRole !== "super_admin";
-    }
+  //   // Admins can only view non-super-admin history
+  //   if (authUser?.role === "admin") {
+  //     return userRole !== "super_admin";
+  //   }
 
-    return false;
-  };
+  //   return false;
+  // };
 
-  if (!canViewHistory()) {
-    return null; // Don't show history section
-  }
+  // if (!canViewHistory()) {
+  //   return null; // Don't show history section
+  // }
 
   //   IP/Browser info check
   const canViewIpInfo = () => {
