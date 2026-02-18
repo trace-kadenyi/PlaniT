@@ -70,23 +70,6 @@ const UserUpdateHistory = ({
     }
   };
 
-  // Check if user can view history (only self or admins)
-  // const canViewHistory = () => {
-  //   if (isSelf) return true;
-  //   if (authUser?.role === "super_admin") return true;
-
-  //   // Admins can only view non-super-admin history
-  //   if (authUser?.role === "admin") {
-  //     return userRole !== "super_admin";
-  //   }
-
-  //   return false;
-  // };
-
-  // if (!canViewHistory()) {
-  //   return null; // Don't show history section
-  // }
-
   //   IP/Browser info check
   const canViewIpInfo = () => {
     // Only super admins can see IP info for super admins
