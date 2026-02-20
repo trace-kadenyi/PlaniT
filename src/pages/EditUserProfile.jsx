@@ -7,6 +7,7 @@ import { ArrowLeft, AlertCircle } from "lucide-react";
 
 import {
   fetchUserDetails,
+  setCurrentUser,
   updateUser,
   updateUserRole,
 } from "../redux/usersSlice";
@@ -53,6 +54,11 @@ export default function EditUserProfile() {
     if (userId) {
       dispatch(fetchUserDetails(userId));
     }
+
+    // Cleanup: clear currentUser when leaving edit page
+    return () => {
+      dispatch(setCurrentUser(null));
+    };
   }, [dispatch, userId]);
 
   useEffect(() => {
