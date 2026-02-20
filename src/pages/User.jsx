@@ -52,41 +52,61 @@ export default function User() {
     tasksState,
   } = useUserMemoizedData(userId, userData);
 
-  // fetch user details
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchUserDetails(userId));
-    }
+    if (!userId) return;
+
+    dispatch(fetchUserDetails(userId))
+      .unwrap()
+      .then((user) => {
+        dispatch(fetchAllTasks());
+
+        const isSelf = user._id === authUser?._id;
+        const isAdminViewingSuperAdmin =
+          authUser?.role === "admin" && user.role === "super_admin";
+        const canViewHistory =
+          isSelf ||
+          authUser?.role === "super_admin" ||
+          (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
+
+        if (canViewHistory) dispatch(fetchUserUpdateHistory(userId));
+      });
   }, [dispatch, userId]);
 
-  // Fetch tasks when user data loads
-  useEffect(() => {
-    if (userData && userData._id) {
-      dispatch(fetchAllTasks());
-    }
-  }, [userData, dispatch]);
+  // // fetch user details
+  // useEffect(() => {
+  //   if (userId) {
+  //     dispatch(fetchUserDetails(userId));
+  //   }
+  // }, [dispatch, userId]);
 
-  // Fetch update history when user data loads if authorized
-  useEffect(() => {
-    const isSelf = userData?._id === authUser?._id;
+  // // Fetch tasks when user data loads
+  // useEffect(() => {
+  //   if (userData && userData._id) {
+  //     dispatch(fetchAllTasks());
+  //   }
+  // }, [userData, dispatch]);
 
-    // Check if user is admin trying to view super admin
-    const isAdminViewingSuperAdmin =
-      authUser?.role === "admin" && userData?.role === "super_admin";
+  // // Fetch update history when user data loads if authorized
+  // useEffect(() => {
+  //   const isSelf = userData?._id === authUser?._id;
 
-    // Can view history if:
-    // 1. It's themselves (isSelf), OR
-    // 2. They're a super admin, OR
-    // 3. They're an admin AND the target user is NOT a super admin
-    const canViewHistory =
-      isSelf ||
-      authUser?.role === "super_admin" ||
-      (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
+  //   // Check if user is admin trying to view super admin
+  //   const isAdminViewingSuperAdmin =
+  //     authUser?.role === "admin" && userData?.role === "super_admin";
 
-    if (userData && userData._id && canViewHistory) {
-      dispatch(fetchUserUpdateHistory(userId));
-    }
-  }, [dispatch, userId, userData, authUser]);
+  //   // Can view history if:
+  //   // 1. It's themselves (isSelf), OR
+  //   // 2. They're a super admin, OR
+  //   // 3. They're an admin AND the target user is NOT a super admin
+  //   const canViewHistory =
+  //     isSelf ||
+  //     authUser?.role === "super_admin" ||
+  //     (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
+
+  //   if (userData && userData._id && canViewHistory) {
+  //     dispatch(fetchUserUpdateHistory(userId));
+  //   }
+  // }, [dispatch, userId, userData, authUser]);
 
   // handle remove user
   const handleRemoveUser = (userId) => {
@@ -157,7 +177,7 @@ export default function User() {
         <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-[#9B2C62]/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
         {/* Header Section */}
         <div className="relative mb-8">
           <div className="absolute -top-4 -left-4 w-20 h-20 bg-[#F59E0B]/10 rounded-full blur-lg dark:bg-[#F59E0B]/20"></div>
