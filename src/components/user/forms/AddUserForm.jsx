@@ -242,7 +242,7 @@ const AddUserForm = ({
                 <select
                   name="role"
                   value={formData.role}
-                  onChange={handleInputChange}
+                  onChange={(e) => setFormData({...formData, role: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:bg-black"
                 >
                   <option value="viewer">Viewer</option>
