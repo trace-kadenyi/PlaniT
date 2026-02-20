@@ -68,7 +68,7 @@ export default function EditUserProfile() {
   const { canEdit, isSelf, canEditRole } = canEditUser(
     authUser,
     userDetails,
-    can
+    can,
   );
 
   // Check if fields should be disabled
@@ -101,7 +101,7 @@ export default function EditUserProfile() {
     EditConfirmationToast,
     handleLogout,
     authUser._id,
-    setIsEditConfirmActive
+    setIsEditConfirmActive,
   );
 
   // Auto-show password fields for self or admins
@@ -198,7 +198,7 @@ export default function EditUserProfile() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:p-10 pb-15">
+    <main className="min-h-screen bg-[#FFF7ED] dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-4 sm:px-10 py-15">
       {/* Back Navigation */}
       <div className="max-w-4xl mx-auto mb-6">
         <Link
