@@ -15,7 +15,9 @@ export default function ArchiveEditDeleteVendor({
     <div className="flex sm:justify-end mb-4">
       <div className="flex gap-4 flex-wrap">
         {/* edit vendor */}
-        <EditVendorBtn vendor={vendor} navigate={navigate} />
+        {!vendor.isArchived && (
+          <EditVendorBtn vendor={vendor} navigate={navigate} />
+        )}
 
         {/* toggle archive vendor */}
         <ArchiveVendorBtn
