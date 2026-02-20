@@ -72,42 +72,6 @@ export default function User() {
       });
   }, [dispatch, userId]);
 
-  // // fetch user details
-  // useEffect(() => {
-  //   if (userId) {
-  //     dispatch(fetchUserDetails(userId));
-  //   }
-  // }, [dispatch, userId]);
-
-  // // Fetch tasks when user data loads
-  // useEffect(() => {
-  //   if (userData && userData._id) {
-  //     dispatch(fetchAllTasks());
-  //   }
-  // }, [userData, dispatch]);
-
-  // // Fetch update history when user data loads if authorized
-  // useEffect(() => {
-  //   const isSelf = userData?._id === authUser?._id;
-
-  //   // Check if user is admin trying to view super admin
-  //   const isAdminViewingSuperAdmin =
-  //     authUser?.role === "admin" && userData?.role === "super_admin";
-
-  //   // Can view history if:
-  //   // 1. It's themselves (isSelf), OR
-  //   // 2. They're a super admin, OR
-  //   // 3. They're an admin AND the target user is NOT a super admin
-  //   const canViewHistory =
-  //     isSelf ||
-  //     authUser?.role === "super_admin" ||
-  //     (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
-
-  //   if (userData && userData._id && canViewHistory) {
-  //     dispatch(fetchUserUpdateHistory(userId));
-  //   }
-  // }, [dispatch, userId, userData, authUser]);
-
   // handle remove user
   const handleRemoveUser = (userId) => {
     return createUserDeactivateHandler(
