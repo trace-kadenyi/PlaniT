@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -32,6 +32,7 @@ export default function Users() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toastLock = useToastLock();
+   const isAddFormOpen = useRef(false);
 
   const {
     items: users,
@@ -71,6 +72,7 @@ export default function Users() {
     try {
       await dispatch(addUser(formData)).unwrap();
       setShowAddForm(false);
+      isAddFormOpen.current = false;
       setFormData({
         firstName: "",
         lastName: "",
@@ -84,8 +86,25 @@ export default function Users() {
     }
   };
 
+  // Custom function to handle showing the form
+  const handleShowAddForm = () => {
+    setShowAddForm(true);
+    isAddFormOpen.current = true; // Set ref when form opens
+  };
+
+  // Custom function to handle hiding the form
+  const handleHideAddForm = () => {
+    setShowAddForm(false);
+    isAddFormOpen.current = false; // Clear ref when form closes
+  };
+
   // handle role change
   const handleRoleChange = async (userId, newRole) => {
+    // CRITICAL: Don't allow role changes when add form is open
+    if (isAddFormOpen.current) {
+      return; 
+    }
+    
     try {
       await dispatch(updateUserRole({ userId, role: newRole })).unwrap();
       toastWithProgress("User role updated successfully");
@@ -131,7 +150,7 @@ export default function Users() {
       {/* add user form */}
       <AddUserForm
         showAddForm={showAddForm}
-        setShowAddForm={setShowAddForm}
+         setShowAddForm={handleHideAddForm}
         handleAddUser={handleAddUser}
         formData={formData}
         setFormData={setFormData}
@@ -149,7 +168,7 @@ export default function Users() {
               Manage your organization's team members and permissions
             </p>
           </div>
-          <AddNewMembersBtn onAddUser={() => setShowAddForm(true)} />
+          <AddNewMembersBtn onAddUser={handleShowAddForm} />
         </div>
 
         {/* Error State */}
@@ -168,7 +187,7 @@ export default function Users() {
                 message="No team members yet"
                 submessage="Add your first team member to get started"
                 cta={
-                  <AddNewMembersBtn onAddUser={() => setShowAddForm(true)} />
+                  <AddNewMembersBtn onAddUser={ handleShowAddForm} />
                 }
               />
             ) : (
