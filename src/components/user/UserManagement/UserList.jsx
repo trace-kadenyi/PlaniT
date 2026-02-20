@@ -14,6 +14,7 @@ import {
   DeactivateUserBtn,
   ReactivateUserBtn,
 } from "../../buttons/UserButtons";
+import { useAvailableRoles } from "../../../globalHooks/useAvailableRoles";
 
 const UserList = ({
   users,
@@ -181,30 +182,8 @@ const RoleSelector = ({ user, onRoleChange }) => {
   const canEditRole = hasEditPermission && canModifyThisUser;
   const shouldDisable = !canEditRole;
 
-  const getAvailableRoles = () => {
-    const roles = [
-      { value: ROLES.VIEWER, label: "Viewer" },
-      { value: ROLES.PLANNER, label: "Planner" },
-    ];
-
-    // Check if current user can assign ADMIN role
-    const canAssignAdmin = can(PERMISSIONS.EDIT, RESOURCES.USER, {
-      role: ROLES.ADMIN,
-    });
-    if (canAssignAdmin) {
-      roles.push({ value: ROLES.ADMIN, label: "Admin" });
-    }
-
-    // Check if current user can assign SUPER_ADMIN role
-    const canAssignSuperAdmin = can(PERMISSIONS.EDIT, RESOURCES.USER, {
-      role: ROLES.SUPER_ADMIN,
-    });
-    if (canAssignSuperAdmin) {
-      roles.push({ value: ROLES.SUPER_ADMIN, label: "Super Admin" });
-    }
-
-    return roles;
-  };
+  // use available roles
+  const availableRoles = useAvailableRoles(user);
 
   const select = (
     <div className="relative min-w-[120px] h-[38px] flex items-center justify-center">
@@ -235,7 +214,7 @@ const RoleSelector = ({ user, onRoleChange }) => {
             shouldDisable || user.isDeactivated ? "opacity-60 cursor-help" : ""
           }`}
         >
-          {getAvailableRoles().map((role) => (
+          {availableRoles.map((role) => (
             <option key={role.value} value={role.value}>
               {role.label}
             </option>
