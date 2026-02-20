@@ -135,7 +135,7 @@ export default function VendorFormFields({
         </p>
       </div>
 
-      {/* Archive Toggle (for edit form) */}
+      {/* Archive Toggle (for edit form)
       {formData.isArchived !== undefined && (
         <div className="flex items-center">
           <input
@@ -160,7 +160,7 @@ export default function VendorFormFields({
             Archived Vendor
           </label>
         </div>
-      )}
+      )} */}
 
       {/* Error Message */}
       {formStatus === "failed" && (
