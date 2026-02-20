@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 
 import Password, { generateRandomPassword } from "../../shared/Password";
 import { AddMemberFormBtn } from "../../buttons/UserButtons";
+import { usePermissions } from "../../../globalHooks/userPermissions";
+import { getAvailableRoles } from "../../../globalHooks/useAvailableRoles";
 
 const AddUserForm = ({
   showAddForm,
@@ -30,6 +32,11 @@ const AddUserForm = ({
     useState(false);
 
   const { addError } = useSelector((state) => state.users);
+  // Get permissions for role options
+  const permissions = usePermissions();
+
+  // Get available roles for new user (no target user needed)
+  const availableRoles = getAvailableRoles(permissions);
 
   // Prevent background scrolling when modal is open
   useEffect(() => {
@@ -242,12 +249,16 @@ const AddUserForm = ({
                 <select
                   name="role"
                   value={formData.role}
-                  onChange={(e) => setFormData({...formData, role: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9B2C62] focus:border-transparent dark:text-gray-400 dark:focus:ring-[#F59E0B] dark:bg-black"
                 >
-                  <option value="viewer">Viewer</option>
-                  <option value="planner">Planner</option>
-                  <option value="admin">Admin</option>
+                  {availableRoles.map((role) => (
+                    <option key={role.value} value={role.value}>
+                      {role.label}
+                    </option>
+                  ))}
                 </select>
               </div>
 
