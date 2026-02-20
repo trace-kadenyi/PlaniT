@@ -32,7 +32,7 @@ export default function Users() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toastLock = useToastLock();
-   const isAddFormOpen = useRef(false);
+  const isAddFormOpen = useRef(false);
 
   const {
     items: users,
@@ -102,9 +102,9 @@ export default function Users() {
   const handleRoleChange = async (userId, newRole) => {
     // CRITICAL: Don't allow role changes when add form is open
     if (isAddFormOpen.current) {
-      return; 
+      return;
     }
-    
+
     try {
       await dispatch(updateUserRole({ userId, role: newRole })).unwrap();
       toastWithProgress("User role updated successfully");
@@ -150,7 +150,7 @@ export default function Users() {
       {/* add user form */}
       <AddUserForm
         showAddForm={showAddForm}
-         setShowAddForm={handleHideAddForm}
+        setShowAddForm={handleHideAddForm}
         handleAddUser={handleAddUser}
         formData={formData}
         setFormData={setFormData}
@@ -186,9 +186,7 @@ export default function Users() {
               <NoUsers
                 message="No team members yet"
                 submessage="Add your first team member to get started"
-                cta={
-                  <AddNewMembersBtn onAddUser={ handleShowAddForm} />
-                }
+                cta={<AddNewMembersBtn onAddUser={handleShowAddForm} />}
               />
             ) : (
               <>
