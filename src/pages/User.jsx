@@ -109,7 +109,6 @@ export default function User() {
       })
       .catch((error) => {
         console.log("Logout error:", error);
-        // Still redirect to login even if API call fails
         navigate("/login");
       });
   };
