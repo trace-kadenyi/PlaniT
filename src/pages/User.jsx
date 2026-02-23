@@ -85,6 +85,20 @@ export default function User() {
     };
   }, [dispatch, userId]);
 
+  // Refresh history after deactivation
+  useEffect(() => {
+    if (deleteStatus === "succeeded") {
+      dispatch(fetchUserUpdateHistory(userId));
+    }
+  }, [deleteStatus]);
+
+  // Refresh history after reactivation
+  useEffect(() => {
+    if (reactivateStatus === "succeeded") {
+      dispatch(fetchUserUpdateHistory(userId));
+    }
+  }, [reactivateStatus]);
+
   // handle remove user
   const handleRemoveUser = (userId) => {
     return createUserDeactivateHandler(
