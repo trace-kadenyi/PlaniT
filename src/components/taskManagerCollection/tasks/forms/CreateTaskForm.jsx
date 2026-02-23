@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { addTask, resetTaskStatus } from "../../../../redux/tasksSlice";
-import { fetchOrganizationUsers } from "../../../../redux/organizationSlice";
+import { fetchUsers } from "../../../../redux/usersSlice";
 
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import TaskFormFields from "./TaskFormFields";
@@ -14,8 +14,8 @@ export default function CreateTaskForm({ onClose }) {
   const taskStatus = useSelector((state) => state.tasks.createStatus);
   const taskError = useSelector((state) => state.tasks.createError);
   const event = useSelector((state) => state.events.selectedEvent);
-  const organizationUsers = useSelector((state) => state.organization.users);
-  const organizationStatus = useSelector((state) => state.organization.status);
+  const organizationUsers = useSelector((state) => state.users.items);
+  const organizationStatus = useSelector((state) => state.users.status);
 
   const [form, setForm] = useState({
     title: "",
@@ -28,7 +28,7 @@ export default function CreateTaskForm({ onClose }) {
 
   // Fetch organization users when component mounts
   useEffect(() => {
-    dispatch(fetchOrganizationUsers());
+    dispatch(fetchUsers());
   }, [dispatch]);
 
   // Handle form submission
