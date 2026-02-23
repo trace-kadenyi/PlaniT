@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { updateTask, resetTaskStatus } from "../../../../redux/tasksSlice";
-import { fetchOrganizationUsers } from "../../../../redux/organizationSlice";
+import { fetchUsers } from "../../../../redux/usersSlice";
 
 import { toastWithProgress } from "../../../../globalHooks/useToastWithProgress";
 import TaskFormFields from "./TaskFormFields";
@@ -12,8 +12,8 @@ export default function EditTaskForm({ task, onClose }) {
   const taskStatus = useSelector((state) => state.tasks.updateStatus);
   const taskError = useSelector((state) => state.tasks.updateError);
   const event = useSelector((state) => state.events.selectedEvent);
-  const organizationUsers = useSelector((state) => state.organization.users);
-  const organizationStatus = useSelector((state) => state.organization.status);
+  const organizationUsers = useSelector((state) => state.users.items);
+  const organizationStatus = useSelector((state) => state.users.status);
 
   // initialize form
   const [form, setForm] = useState({
@@ -27,7 +27,7 @@ export default function EditTaskForm({ task, onClose }) {
 
   // Fetch organization users when component mounts
   useEffect(() => {
-    dispatch(fetchOrganizationUsers());
+    dispatch(fetchUsers());
   }, [dispatch]);
 
   // Reset status when task changes (when opening a different task)
@@ -84,7 +84,7 @@ export default function EditTaskForm({ task, onClose }) {
         updateTask({
           taskId: task._id,
           updatedData: submitData,
-        })
+        }),
       );
 
       if (updateTask.fulfilled.match(result)) {
