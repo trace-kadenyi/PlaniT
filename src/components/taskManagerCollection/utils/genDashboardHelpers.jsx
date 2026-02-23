@@ -25,7 +25,7 @@ export const UpdateDashboardError = ({ updateError, dispatch, clearError }) => (
       onClick={() => dispatch(clearError())}
       className="text-[#9B2C62] font-medium"
     >
-      Retry
+      Cancel
     </button>
   </div>
 );
