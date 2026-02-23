@@ -207,9 +207,6 @@ export default function User() {
           updateHistory={updateHistory}
           fetchHistoryStatus={fetchHistoryStatus}
           isSelf={isSelf}
-          authUser={authUser}
-          userRole={userData.role}
-          userId={userId}
         />
       </div>
     </main>
