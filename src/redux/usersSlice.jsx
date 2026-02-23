@@ -135,6 +135,7 @@ const usersSlice = createSlice({
     updateRoleError: null,
     deleteError: null,
     reactivateError: null,
+    isHistoryPermitted: false,
   },
   reducers: {
     resetUsersStatus: (state) => {
@@ -150,6 +151,7 @@ const usersSlice = createSlice({
       state.fetchHistoryError = null;
       state.reactivateStatus = "idle";
       state.reactivateError = null;
+      state.isHistoryForbidden = false;
     },
     clearUsers: (state) => {
       state.items = [];
@@ -164,6 +166,9 @@ const usersSlice = createSlice({
       if (state.updateHistory[userId]) {
         delete state.updateHistory[userId];
       }
+    },
+    setHistoryPermitted: (state, action) => {
+      state.isHistoryPermitted = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -356,6 +361,7 @@ export const {
   clearUsers,
   setCurrentUser,
   clearUserHistory,
+  setHistoryPermitted,
 } = usersSlice.actions;
 export const selectUserUpdateHistory = (state, userId) => {
   return state.users.updateHistory[userId] || [];
