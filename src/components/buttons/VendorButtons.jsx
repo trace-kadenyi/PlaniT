@@ -209,7 +209,7 @@ export const DeleteVendorBtn = ({ handleDelete, vendor }) => {
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.VENDOR}
       tooltipTitle="Delete vendor"
-      fallbackTooltip="Upgrade to Planner or Admin role to delete vendors"
+      fallbackTooltip="Upgrade to Admin role to delete vendors"
       onClick={() => handleDelete(vendor._id)}
       disabled={vendor?.isDeleting}
       className="flex items-center bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-red-900/60 dark:hover:bg-red-900/50 dark:text-white justify-center border border-red-200 dark:border-red-700/50"
