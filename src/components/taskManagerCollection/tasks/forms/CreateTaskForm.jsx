@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -14,8 +14,13 @@ export default function CreateTaskForm({ onClose }) {
   const taskStatus = useSelector((state) => state.tasks.createStatus);
   const taskError = useSelector((state) => state.tasks.createError);
   const event = useSelector((state) => state.events.selectedEvent);
-  const organizationUsers = useSelector((state) => state.users.items);
+  const allUsers = useSelector((state) => state.users.items);
   const organizationStatus = useSelector((state) => state.users.status);
+
+  const organizationUsers = useMemo(
+    () => allUsers.filter((user) => !user.isDeactivated),
+    [allUsers],
+  );
 
   const [form, setForm] = useState({
     title: "",
