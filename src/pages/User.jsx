@@ -9,11 +9,14 @@ import {
   deleteUser,
   fetchUserUpdateHistory,
   reactivateUser,
+  setCurrentUser,
+  resetUsersStatus,
+  setHistoryPermitted,
 } from "../redux/usersSlice";
 import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
-import { usePermissions, ROLES } from "../globalHooks/userPermissions";
+import { usePermissions } from "../globalHooks/userPermissions";
 import { createUserDeactivateHandler } from "../globalHandlers/createUserDeactivateHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
@@ -68,8 +71,18 @@ export default function User() {
           authUser?.role === "super_admin" ||
           (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
 
-        if (canViewHistory) dispatch(fetchUserUpdateHistory(userId));
+        if (canViewHistory) {
+          dispatch(setHistoryPermitted(true));
+          dispatch(fetchUserUpdateHistory(userId));
+        } else {
+          dispatch(setHistoryPermitted(false));
+        }
       });
+
+    return () => {
+      dispatch(setCurrentUser(null));
+      dispatch(resetUsersStatus());
+    };
   }, [dispatch, userId]);
 
   // handle remove user
