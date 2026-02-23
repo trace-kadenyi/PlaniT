@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { updateTask, resetTaskStatus } from "../../../../redux/tasksSlice";
@@ -12,8 +12,13 @@ export default function EditTaskForm({ task, onClose }) {
   const taskStatus = useSelector((state) => state.tasks.updateStatus);
   const taskError = useSelector((state) => state.tasks.updateError);
   const event = useSelector((state) => state.events.selectedEvent);
-  const organizationUsers = useSelector((state) => state.users.items);
+  const allUsers = useSelector((state) => state.users.items);
   const organizationStatus = useSelector((state) => state.users.status);
+
+  const organizationUsers = useMemo(
+    () => allUsers.filter((user) => !user.isDeactivated),
+    [allUsers],
+  );
 
   // initialize form
   const [form, setForm] = useState({
