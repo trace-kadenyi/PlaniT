@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   History,
   User,
@@ -10,28 +10,23 @@ import {
 } from "lucide-react";
 
 import { ViewUpdateHistory } from "../../ui/Button";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserUpdateHistory } from "../../../redux/usersSlice";
+import { useSelector } from "react-redux";
+import {
+  PERMISSIONS,
+  RESOURCES,
+  usePermissions,
+} from "../../../globalHooks/userPermissions";
 
-const UserUpdateHistory = ({
-  updateHistory,
-  fetchHistoryStatus,
-  isSelf,
-  authUser,
-  userRole,
-  userId,
-}) => {
+const UserUpdateHistory = ({ updateHistory, fetchHistoryStatus, isSelf }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const dispatch = useDispatch();
   const isHistoryForbidden = useSelector(
     (state) => state.users.isHistoryForbidden,
   );
+  const isHistoryPermitted = useSelector(
+    (state) => state.users.isHistoryPermitted,
+  );
 
-  useEffect(() => {
-    if (fetchHistoryStatus === "idle" && !isHistoryForbidden) {
-      dispatch(fetchUserUpdateHistory(userId));
-    }
-  }, [dispatch, userId, fetchHistoryStatus, isHistoryForbidden]);
+  if (!isHistoryPermitted) return null;
 
   // If backend said we can't see it, render nothing
   if (isHistoryForbidden) {
@@ -71,14 +66,16 @@ const UserUpdateHistory = ({
   };
 
   //   IP/Browser info check
-  const canViewIpInfo = () => {
-    // Only super admins can see IP info for super admins
-    if (userRole === "super_admin" && authUser?.role !== "super_admin") {
-      return false;
-    }
+  const { can } = usePermissions();
+  const canSeeIpInfo = can(PERMISSIONS.VIEW_AUDIT_LOGS, RESOURCES.AUDIT_LOG);
+  // const canViewIpInfo = () => {
+  //   // Only super admins can see IP info for super admins
+  //   if (userRole === "super_admin" && authUser?.role !== "super_admin") {
+  //     return false;
+  //   }
 
-    return ["super_admin", "admin"].includes(authUser?.role);
-  };
+  //   return ["super_admin", "admin"].includes(authUser?.role);
+  // };
 
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F3EDE9] shadow-lg p-6 dark:bg-gradient-to-br dark:from-gray-900 dark:to-black dark:border-gray-800 mb-6 hover:shadow-xl transition-all duration-300 group">
@@ -213,7 +210,7 @@ const UserUpdateHistory = ({
                 )}
 
                 {/* IP and Browser info (for admins) */}
-                {canViewIpInfo() && (
+                {canSeeIpInfo && (
                   <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                     <div className="text-xs text-gray-500 dark:text-gray-400">
                       <span className="font-medium">From IP:</span>{" "}
