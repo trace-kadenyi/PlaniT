@@ -151,7 +151,6 @@ const usersSlice = createSlice({
       state.fetchHistoryError = null;
       state.reactivateStatus = "idle";
       state.reactivateError = null;
-      state.isHistoryForbidden = false;
     },
     clearUsers: (state) => {
       state.items = [];
@@ -350,7 +349,6 @@ const usersSlice = createSlice({
         // Don't throw error if it's just a 403 permission issue
         if (action.error?.status !== 403) {
           state.error = action.error.message;
-          state.isHistoryForbidden = true;
         }
       });
   },
