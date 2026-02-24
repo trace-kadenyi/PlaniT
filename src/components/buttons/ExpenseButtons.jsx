@@ -192,7 +192,7 @@ export const EditDeleteExpenseBtns = ({
         fallbackTooltip={
           expense.paymentStatus === "paid"
             ? "Only Super Administrators can delete paid expenses"
-            : "Upgrade to Planner or Admin role to delete expenses"
+            : "Upgrade to Admin role to delete expenses"
         }
         disabled={isDeletePending}
         className={`flex items-center px-2 py-1 rounded-md transition-all duration-200 bg-[#BE3455]/10 text-[#BE3455] hover:bg-[#BE3455] hover:text-white text-xs dark:bg-[#BE3455]/40 dark:hover:bg-[#BE3455]/30 dark:text-white ${

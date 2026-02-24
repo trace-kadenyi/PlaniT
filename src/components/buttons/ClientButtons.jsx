@@ -146,10 +146,10 @@ export const ArchiveClientBtn = ({
       {client?.isArchiving
         ? "Archiving..."
         : client?.isRestoring
-        ? "Restoring..."
-        : localIsArchived
-        ? "Restore"
-        : "Archive"}
+          ? "Restoring..."
+          : localIsArchived
+            ? "Restore"
+            : "Archive"}
     </PermissionButton>
   );
 };
@@ -161,7 +161,7 @@ export const DeleteClientBtn = ({ handleDelete, id, client }) => {
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.CLIENT}
       tooltipTitle="Delete client"
-      fallbackTooltip="Upgrade to Planner or Admin role to delete clients"
+      fallbackTooltip="Upgrade to Admin role to delete clients"
       onClick={() => handleDelete(id)}
       disabled={client?.isDeleting}
       className="flex items-center bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-red-900/60 dark:hover:bg-red-900/50 dark:text-white justify-center border border-red-200 dark:border-red-700/50"

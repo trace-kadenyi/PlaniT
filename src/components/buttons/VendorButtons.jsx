@@ -70,10 +70,11 @@ export const EditTBVendorBtn = ({ navigate, vendor }) => {
     <PermissionButton
       permission={PERMISSIONS.EDIT}
       resource={RESOURCES.VENDOR}
-      tooltipTitle="Edit vendor"
+      tooltipTitle={`${vendor.isArchived ? "Cannot edit archived vendors" : "Edit vendor"}`}
       fallbackTooltip="Upgrade to Planner or Admin role to edit vendors"
+      disabled={vendor.isArchived}
       onClick={() => navigate(`/vendors/${vendor._id}/edit`)}
-      className="flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/30 text-[#BE3455] dark:text-[#F59E0B] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer"
+      className={`flex items-center space-x-1 text-sm px-1 py-1 rounded-full bg-[#F59E0B]/10 dark:bg-[#F59E0B]/30 text-[#BE3455] dark:text-[#F59E0B] hover:bg-[#F59E0B]/20 transition text-xs cursor-pointer`}
     >
       <Pencil className="w-3 h-3" />
       <span>edit</span>
@@ -103,8 +104,8 @@ export const ArchiveTBVendorBtn = ({
         archiveStatus === "loading"
           ? "please wait..."
           : vendor.isArchived
-          ? "Restore vendor"
-          : "Archive vendor"
+            ? "Restore vendor"
+            : "Archive vendor"
       }`}
       fallbackTooltip={`${
         vendor.isArchived
@@ -123,7 +124,7 @@ export const ArchiveTBVendorBtn = ({
         filterMode,
         toastWithProgress,
         ArchiveConfirmationToast,
-        toastLock
+        toastLock,
       )}
       className={`flex items-center space-x-1 text-sm px-2 py-1 rounded-full transition text-xs ${
         vendor.isArchived
@@ -173,8 +174,8 @@ export const ArchiveVendorBtn = ({ vendor, handleArchive, archiveStatus }) => {
         archiveStatus === "loading"
           ? "please wait..."
           : vendor.isArchived
-          ? "Restore vendor"
-          : "Archive vendor"
+            ? "Restore vendor"
+            : "Archive vendor"
       }`}
       fallbackTooltip={`${
         vendor.isArchived
@@ -208,7 +209,7 @@ export const DeleteVendorBtn = ({ handleDelete, vendor }) => {
       permission={PERMISSIONS.DELETE}
       resource={RESOURCES.VENDOR}
       tooltipTitle="Delete vendor"
-      fallbackTooltip="Upgrade to Planner or Admin role to delete vendors"
+      fallbackTooltip="Upgrade to Admin role to delete vendors"
       onClick={() => handleDelete(vendor._id)}
       disabled={vendor?.isDeleting}
       className="flex items-center bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg font-medium text-sm transition-colors duration-200 dark:bg-red-900/60 dark:hover:bg-red-900/50 dark:text-white justify-center border border-red-200 dark:border-red-700/50"

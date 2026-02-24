@@ -77,7 +77,7 @@ export const handleDragEnd = async (
   if (can && !can("update_status", "task", originalTask)) {
     taskToastProgress(
       <span className="text-[#9B2C62] dark:text-[#F59E0B] font-semibold">
-        You don't have permission to update event status. Upgrade to planner.
+        You don't have permission to update task status. Upgrade to planner.
       </span>
     );
     return;

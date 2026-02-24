@@ -9,11 +9,14 @@ import {
   deleteUser,
   fetchUserUpdateHistory,
   reactivateUser,
+  setCurrentUser,
+  resetUsersStatus,
+  setHistoryPermitted,
 } from "../redux/usersSlice";
 import { logoutUser } from "../redux/authSlice";
 import { fetchAllTasks } from "../redux/tasksSlice";
 
-import { usePermissions, ROLES } from "../globalHooks/userPermissions";
+import { usePermissions } from "../globalHooks/userPermissions";
 import { createUserDeactivateHandler } from "../globalHandlers/createUserDeactivateHandler";
 import { toastWithProgress } from "../globalHooks/useToastWithProgress";
 import { GenLoadingState } from "../components/shared/LoadingStates";
@@ -52,41 +55,49 @@ export default function User() {
     tasksState,
   } = useUserMemoizedData(userId, userData);
 
-  // fetch user details
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchUserDetails(userId));
-    }
+    if (!userId) return;
+
+    dispatch(fetchUserDetails(userId))
+      .unwrap()
+      .then((user) => {
+        dispatch(fetchAllTasks());
+
+        const isSelf = user._id === authUser?._id;
+        const isAdminViewingSuperAdmin =
+          authUser?.role === "admin" && user.role === "super_admin";
+        const canViewHistory =
+          isSelf ||
+          authUser?.role === "super_admin" ||
+          (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
+
+        if (canViewHistory) {
+          dispatch(setHistoryPermitted(true));
+          dispatch(fetchUserUpdateHistory(userId));
+        } else {
+          dispatch(setHistoryPermitted(false));
+        }
+      });
+
+    return () => {
+      dispatch(setCurrentUser(null));
+      dispatch(resetUsersStatus());
+    };
   }, [dispatch, userId]);
 
-  // Fetch tasks when user data loads
+  // Refresh history after deactivation
   useEffect(() => {
-    if (userData && userData._id) {
-      dispatch(fetchAllTasks());
-    }
-  }, [userData, dispatch]);
-
-  // Fetch update history when user data loads if authorized
-  useEffect(() => {
-    const isSelf = userData?._id === authUser?._id;
-
-    // Check if user is admin trying to view super admin
-    const isAdminViewingSuperAdmin =
-      authUser?.role === "admin" && userData?.role === "super_admin";
-
-    // Can view history if:
-    // 1. It's themselves (isSelf), OR
-    // 2. They're a super admin, OR
-    // 3. They're an admin AND the target user is NOT a super admin
-    const canViewHistory =
-      isSelf ||
-      authUser?.role === "super_admin" ||
-      (authUser?.role === "admin" && !isAdminViewingSuperAdmin);
-
-    if (userData && userData._id && canViewHistory) {
+    if (deleteStatus === "succeeded") {
       dispatch(fetchUserUpdateHistory(userId));
     }
-  }, [dispatch, userId, userData, authUser]);
+  }, [deleteStatus]);
+
+  // Refresh history after reactivation
+  useEffect(() => {
+    if (reactivateStatus === "succeeded") {
+      dispatch(fetchUserUpdateHistory(userId));
+    }
+  }, [reactivateStatus]);
 
   // handle remove user
   const handleRemoveUser = (userId) => {
@@ -125,7 +136,6 @@ export default function User() {
       })
       .catch((error) => {
         console.log("Logout error:", error);
-        // Still redirect to login even if API call fails
         navigate("/login");
       });
   };
@@ -157,7 +167,7 @@ export default function User() {
         <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-[#9B2C62]/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
         {/* Header Section */}
         <div className="relative mb-8">
           <div className="absolute -top-4 -left-4 w-20 h-20 bg-[#F59E0B]/10 rounded-full blur-lg dark:bg-[#F59E0B]/20"></div>
@@ -211,8 +221,6 @@ export default function User() {
           updateHistory={updateHistory}
           fetchHistoryStatus={fetchHistoryStatus}
           isSelf={isSelf}
-          authUser={authUser}
-          userRole={userData.role}
         />
       </div>
     </main>

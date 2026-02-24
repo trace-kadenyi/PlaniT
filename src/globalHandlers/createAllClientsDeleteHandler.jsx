@@ -5,7 +5,7 @@ export const createAllClientsDeleteHandler = (
   toast,
   toastWithProgress,
   DeleteConfirmationToast,
-  toastLock
+  toastLock,
 ) => {
   return () => {
     if (toastLock.isLocked()) return; // 🔒 BLOCK MULTI-CLICK
@@ -23,13 +23,13 @@ export const createAllClientsDeleteHandler = (
               const result = await dispatch(deleteAllClients()).unwrap();
               toast.dismiss(t.id);
 
-              const deletedCount = result?.deletedCount ?? 0;
+              const deletedCount = result?.summary?.deleteCount ?? 0;
 
               if (deletedCount > 0) {
                 toastWithProgress(
                   `${deletedCount} client${
                     deletedCount > 1 ? "s" : ""
-                  } deleted successfully`
+                  } deleted successfully`,
                 );
               } else {
                 toastWithProgress("No clients to delete");
@@ -48,7 +48,7 @@ export const createAllClientsDeleteHandler = (
           }}
         />
       ),
-      { duration, position: "top-center" }
+      { duration, position: "top-center" },
     );
 
     toastLock.lock(toastId); // 🔒 LOCK AFTER TOAST SPAWNS
