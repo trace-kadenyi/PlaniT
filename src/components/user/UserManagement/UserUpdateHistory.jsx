@@ -19,19 +19,12 @@ import {
 
 const UserUpdateHistory = ({ updateHistory, fetchHistoryStatus, isSelf }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const isHistoryForbidden = useSelector(
-    (state) => state.users.isHistoryForbidden,
-  );
+
   const isHistoryPermitted = useSelector(
     (state) => state.users.isHistoryPermitted,
   );
 
   if (!isHistoryPermitted) return null;
-
-  // If backend said we can't see it, render nothing
-  if (isHistoryForbidden) {
-    return null;
-  }
 
   // Function to get icon for update type
   const getUpdateIcon = (type) => {
