@@ -18,6 +18,7 @@ import {
   staggerContainer,
 } from "../components/ui/FramerMotion";
 import { quickAccess, quickStepGuide } from "../data/homeData";
+import ProductLogo from "../components/productOverview/ProductLogo";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -62,14 +63,26 @@ export default function HomePage() {
               </motion.div>
 
               {/* 2. Platform identity — gives context after the greeting */}
+
               <motion.div
                 variants={fadeUp}
                 className="mb-8 pl-0.5 border-l-2 border-[#9B2C62]/20 dark:border-[#F59E0B]/20 ml-0.5 pl-4"
               >
-                <p className="text-sm font-bold tracking-widest text-[#9B2C62] dark:text-[#F59E0B] mb-1">
+                <div
+                  className="mb-1 w-fit mx-auto lg:mx-0"
+                  style={{
+                    transform: "scale(0.7)",
+                    transformOrigin: "left center",
+                    height: "10px",
+                  }}
+                >
+                  <ProductLogo />
+                </div>
+
+                {/* <p className="text-sm font-bold tracking-widest text-[#9B2C62] dark:text-[#F59E0B] mb-1">
                   PlaniT
-                </p>
-                <p className="text-base text-gray-500 dark:text-gray-400 leading-relaxed">
+                </p> */}
+                <p className="text-base text-gray-500 dark:text-gray-400 leading-relaxed pl-3 mt-5">
                   Your all-in-one platform for seamless event planning, team
                   collaboration, and budget management.
                 </p>
@@ -78,7 +91,7 @@ export default function HomePage() {
               {/* 3. Call to action — now they know where they are and what to do */}
               <motion.p
                 variants={fadeUp}
-                className="text-lg text-gray-600 dark:text-gray-300 mb-8"
+                className="text-base text-gray-600 dark:text-gray-300 mb-8"
               >
                 Ready to plan your next event?
               </motion.p>
@@ -104,7 +117,7 @@ export default function HomePage() {
                   className="px-8 py-3 bg-white dark:bg-transparent border-2 border-[#9B2C62]/20 dark:border-gray-800 text-gray-900 dark:text-white font-semibold rounded-xl hover:border-[#9B2C62] dark:hover:border-[#F59E0B] hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 group"
                 >
                   <Plus className="w-5 h-5 text-[#9B2C62] dark:text-[#F59E0B]" />
-                  Create New Event
+                  New Event
                 </button>
               </motion.div>
 
@@ -162,11 +175,11 @@ export default function HomePage() {
       >
         {/* Section header */}
         <div className="flex items-center gap-4 mb-8">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#9B2C62]/30 dark:to-[#F59E0B]/30" />
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#9B2C62]/20 dark:to-[#F59E0B]/20" />
           <span className="text-xs font-bold tracking-widest uppercase text-[#9B2C62] dark:text-[#F59E0B]  px-2">
             Quick Start Guide
           </span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#9B2C62]/30 dark:to-[#F59E0B]/30" />
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#9B2C62]/20 dark:to-[#F59E0B]/20" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
