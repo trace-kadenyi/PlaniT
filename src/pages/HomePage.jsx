@@ -167,31 +167,6 @@ export default function HomePage() {
                   </Link>
                 ))}
               </motion.div>
-
-              {/* Feature Pills
-              <motion.div
-                variants={fadeUp}
-                className="flex flex-wrap gap-3 justify-center lg:justify-start"
-              >
-                {features.map((feature, index) => {
-                  const Icon = feature.icon;
-                  return (
-                    <Link
-                      key={index}
-                      to={feature.link}
-                      className="group relative px-4 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-full border border-gray-200 dark:border-gray-700 hover:border-[#9B2C62]/30 dark:hover:border-[#F59E0B]/30 transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Icon className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                          {feature.title}
-                        </span>
-                      </div>
-                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-[#9B2C62] dark:bg-[#F59E0B] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
-                    </Link>
-                  );
-                })}
-              </motion.div> */}
             </motion.div>
 
             {/* Hero Image */}
