@@ -17,7 +17,7 @@ import {
   delayedFadeUp,
   staggerContainer,
 } from "../components/ui/FramerMotion";
-import { features, quickAccess, quickStepGuide } from "../data/homeData";
+import { quickAccess, quickStepGuide } from "../data/homeData";
 
 export default function HomePage() {
   const navigate = useNavigate();
