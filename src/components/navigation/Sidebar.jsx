@@ -20,7 +20,9 @@ import { BarLogo, UserProfile, SecondaryLinks } from "../ui/Bar";
 import { SidebarCreateEventLink } from "../buttons/EventButtons";
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(
+    () => localStorage.getItem("sidebarCollapsed") === "true",
+  );
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isExpanding, setIsExpanding] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -68,6 +70,7 @@ export default function Sidebar() {
 
   // Handle logout
   const handleLogout = () => {
+    localStorage.removeItem("sidebarCollapsed");
     dispatch(logoutUser())
       .unwrap()
       .then(() => {
@@ -89,13 +92,12 @@ export default function Sidebar() {
   // toggle sidebar
   const toggleSidebar = () => {
     if (!collapsed) {
-      // Immediately collapse
       setCollapsed(true);
+      localStorage.setItem("sidebarCollapsed", "true");
     } else {
-      // Start expanding
       setIsExpanding(true);
       setCollapsed(false);
-      // Set timeout to match the transition duration (500ms in this case)
+      localStorage.setItem("sidebarCollapsed", "false");
       setTimeout(() => setIsExpanding(false), 500);
     }
   };
