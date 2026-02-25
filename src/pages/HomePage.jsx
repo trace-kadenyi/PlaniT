@@ -149,7 +149,7 @@ export default function HomePage() {
                 className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50"
               >
                 <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
-                  {step.title}
+                  {step.step}. {step.title}
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   {step.description}
