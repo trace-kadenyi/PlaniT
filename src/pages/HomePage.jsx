@@ -1,7 +1,15 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ArrowRight, Sparkles, Plus } from "lucide-react";
+import {
+  ArrowRight,
+  Sparkles,
+  Plus,
+  LayoutDashboard,
+  CheckSquare,
+  Calendar,
+  Users,
+} from "lucide-react";
 
 import HeroImg from "../components/landing/HeroAnimation";
 import {
@@ -9,7 +17,7 @@ import {
   delayedFadeUp,
   staggerContainer,
 } from "../components/ui/FramerMotion";
-import { features, quickStepGuide } from "../data/homeData";
+import { features, quickAccess, quickStepGuide } from "../data/homeData";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -100,7 +108,34 @@ export default function HomePage() {
                 </button>
               </motion.div>
 
-              {/* Feature Pills */}
+              {/* Quick access grid */}
+              <motion.div
+                variants={fadeUp}
+                className="mt-10 grid grid-cols-2 gap-3"
+              >
+                {quickAccess.map(({ to, icon: Icon, label, sub, accent }) => (
+                  <Link
+                    key={to}
+                    to={to}
+                    className="group flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700/50 hover:border-[#9B2C62]/30 dark:hover:border-[#F59E0B]/30 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+                  >
+                    <div
+                      className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
+                      style={{ backgroundColor: `${accent}18` }}
+                    >
+                      <Icon size={16} style={{ color: accent }} />
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+                        {label}
+                      </div>
+                      <div className="text-xs text-gray-400">{sub}</div>
+                    </div>
+                  </Link>
+                ))}
+              </motion.div>
+
+              {/* Feature Pills
               <motion.div
                 variants={fadeUp}
                 className="flex flex-wrap gap-3 justify-center lg:justify-start"
@@ -123,7 +158,7 @@ export default function HomePage() {
                     </Link>
                   );
                 })}
-              </motion.div>
+              </motion.div> */}
             </motion.div>
 
             {/* Hero Image */}
