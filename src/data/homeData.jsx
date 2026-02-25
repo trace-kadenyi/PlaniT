@@ -42,30 +42,6 @@ export const features = [
   },
 ];
 
-// process sect data
-export const steps = [
-  {
-    Icon: User,
-    title: "1. Create a Client",
-    text: "Add client details so you always know who the event is for.",
-  },
-  {
-    Icon: LayoutDashboard,
-    title: "2. Add an Event",
-    text: "Set event dates, status, and link it to your client.",
-  },
-  {
-    Icon: ClipboardList,
-    title: "3. Plan Tasks",
-    text: "Break down the event into actionable tasks and assign them.",
-  },
-  {
-    Icon: BarChart4,
-    title: "4. Track Progress",
-    text: "Monitor task completion, budgets, and overall event status.",
-  },
-];
-
 // quick step guide data
 export const quickStepGuide = [
   {
