@@ -24,39 +24,6 @@ export default function HomePage() {
   const currentUser = useSelector((state) => state.auth.user);
   const firstName = currentUser?.firstName || "";
 
-  const guide = [
-    {
-      step: "01",
-      title: "Add Team Members",
-      desc: "Invite your organization team and assign roles with appropriate permissions.",
-    },
-    {
-      step: "02",
-      title: "Create an Event",
-      desc: "Start by creating your first event with budget, timeline, and details.",
-    },
-    {
-      step: "03",
-      title: "Create & Assign Tasks",
-      desc: "Break down events into manageable tasks and assign them to team members.",
-    },
-    {
-      step: "04",
-      title: "Add Expenses",
-      desc: "Track event expenses with receipts and budget allocations.",
-    },
-    {
-      step: "05",
-      title: "Add Clients",
-      desc: "Create client profiles and assign them to relevant events.",
-    },
-    {
-      step: "06",
-      title: "Add Vendors",
-      desc: "Create vendor contacts and assign them to event expenses.",
-    },
-  ];
-
   return (
     <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 pb-4 md:pb-10 px-3">
       {/* Hero Section with Enhanced Visuals */}
