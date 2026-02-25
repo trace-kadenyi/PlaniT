@@ -24,6 +24,39 @@ export default function HomePage() {
   const currentUser = useSelector((state) => state.auth.user);
   const firstName = currentUser?.firstName || "";
 
+  const guide = [
+    {
+      step: "01",
+      title: "Add Team Members",
+      desc: "Invite your organization team and assign roles with appropriate permissions.",
+    },
+    {
+      step: "02",
+      title: "Create an Event",
+      desc: "Start by creating your first event with budget, timeline, and details.",
+    },
+    {
+      step: "03",
+      title: "Create & Assign Tasks",
+      desc: "Break down events into manageable tasks and assign them to team members.",
+    },
+    {
+      step: "04",
+      title: "Add Expenses",
+      desc: "Track event expenses with receipts and budget allocations.",
+    },
+    {
+      step: "05",
+      title: "Add Clients",
+      desc: "Create client profiles and assign them to relevant events.",
+    },
+    {
+      step: "06",
+      title: "Add Vendors",
+      desc: "Create vendor contacts and assign them to event expenses.",
+    },
+  ];
+
   return (
     <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 pb-4 md:pb-10 px-3">
       {/* Hero Section with Enhanced Visuals */}
@@ -179,7 +212,7 @@ export default function HomePage() {
       </section>
 
       {/* Quick Start Guide Section stays mostly fine */}
-      <motion.section
+      {/* <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
@@ -204,6 +237,46 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </motion.section> */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="relative px-4 sm:px-6 pb-12 max-w-7xl mx-auto z-10"
+      >
+        {/* Section header */}
+        <div className="flex items-center gap-4 mb-8">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#9B2C62]/20" />
+          <span className="text-xs font-bold tracking-widest uppercase text-[#9B2C62]/60 dark:text-[#F59E0B]  px-2">
+            Quick Start Guide
+          </span>
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#9B2C62]/20" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {quickStepGuide.map(({ step, title, description }, i) => (
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55 + i * 0.07 }}
+              className="group relative p-5 rounded-xl bg-white dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/40 hover:border-[#9B2C62]/25 dark:hover:border-[#F59E0B]/25 hover:shadow-md transition-all duration-200"
+            >
+              {/* Step number — large background */}
+              <span className="absolute top-3 right-4 text-5xl font-black text-gray-100 dark:text-gray-700/60 select-none leading-none group-hover:text-[#9B2C62]/10 dark:group-hover:text-[#F59E0B]/10 transition-colors duration-300">
+                {step}
+              </span>
+              {/* Accent bar */}
+              <div className="w-6 h-1 rounded-full bg-gradient-to-r from-[#9B2C62] to-[#F59E0B] mb-4" />
+              <h3 className="text-sm font-bold text-gray-800 dark:text-gray-100 mb-1.5 relative">
+                {title}
+              </h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed relative">
+                {description}
+              </p>
+            </motion.div>
+          ))}
         </div>
       </motion.section>
     </main>
