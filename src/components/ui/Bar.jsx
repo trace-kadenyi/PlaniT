@@ -15,7 +15,7 @@ export function BarLogo({
         collapsed ? "justify-center" : "justify-center"
       }`}
     >
-      <Link to="/" className="focus-visible:outline-none group relative">
+      <Link to="/home" className="focus-visible:outline-none group relative">
         {/* Initial 'P' logo that fades out */}
         {(collapsed || isExpanding) && (
           <div
