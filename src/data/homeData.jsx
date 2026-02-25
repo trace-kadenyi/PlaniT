@@ -1,13 +1,4 @@
-import {
-  ClipboardList,
-  LayoutDashboard,
-  User,
-  BarChart4,
-  LayoutDashboard,
-  CalendarCheck,
-  Target,
-  Users,
-} from "lucide-react";
+import { LayoutDashboard, CalendarCheck, Target, Users } from "lucide-react";
 
 // features sect data
 export const features = [
