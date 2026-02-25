@@ -20,13 +20,13 @@ const Login = () => {
   const navigate = useNavigate();
 
   const { loginStatus, loginError, isAuthenticated } = useSelector(
-    (state) => state.auth,
+    (state) => state.auth
   );
 
   // if auth, navigate to dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/home");
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
