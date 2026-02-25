@@ -62,52 +62,7 @@ export default function HomePage() {
     },
   ];
 
-  const quickStartSteps = [
-    {
-      step: 1,
-      title: "Add Team Members",
-      description:
-        "Invite your team and assign roles with appropriate permissions",
-      icon: Users,
-      color: "from-blue-500 to-blue-600",
-    },
-    {
-      step: 2,
-      title: "Create an Event",
-      description:
-        "Start by creating your first event with budget, timeline, and details.",
-      icon: CalendarCheck,
-      color: "from-purple-500 to-purple-600",
-    },
-    {
-      step: 3,
-      title: "Create Tasks",
-      description: "Break down events into manageable tasks",
-      icon: Target,
-      color: "from-orange-500 to-orange-600",
-    },
-    {
-      step: 4,
-      title: "Track Expenses",
-      description: "Log expenses with receipts and budget allocation",
-      icon: PieChart,
-      color: "from-green-500 to-green-600",
-    },
-    {
-      step: 5,
-      title: "Manage Clients",
-      description: "Create client profiles and assign to events",
-      icon: Users,
-      color: "from-pink-500 to-pink-600",
-    },
-    {
-      step: 6,
-      title: "Add Vendors",
-      description: "Build your vendor network for future events",
-      icon: Shield,
-      color: "from-indigo-500 to-indigo-600",
-    },
-  ];
+ 
 
   return (
     <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 pb-4 md:pb-10 px-3">
