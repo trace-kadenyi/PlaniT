@@ -1,27 +1,15 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  ArrowRight,
-  Sparkles,
-  CalendarCheck,
-  Users,
-  Target,
-  PieChart,
-  Clock,
-  Zap,
-  Shield,
-  LayoutDashboard,
-} from "lucide-react";
+import { ArrowRight, Sparkles, Zap } from "lucide-react";
 
 import HeroImg from "../components/landing/HeroAnimation";
 import {
-  heroVariants,
   fadeUp,
   delayedFadeUp,
   staggerContainer,
 } from "../components/ui/FramerMotion";
-import { quickStepGuide } from "../data/homeData";
+import { features, quickStepGuide } from "../data/homeData";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -29,40 +17,6 @@ export default function HomePage() {
   const userDetails = currentUser
     ? `${currentUser.firstName || ""} ${currentUser.lastName || ""}`.trim()
     : "";
-
-  const features = [
-    {
-      icon: LayoutDashboard,
-      title: "Dashboard",
-      description: "View insights and analytics",
-      color: "from-[#8B5CF6] to-[#7C3AED]",
-      link: "/dashboards",
-    },
-    {
-      icon: CalendarCheck,
-      title: "Event Management",
-      description: "Create and manage multiple events with ease",
-      color: "from-[#9B2C62] to-[#9B2C62]/80",
-      link: "/events/board",
-    },
-    {
-      icon: Target,
-      title: "Task Tracking",
-      description: "Kanban boards for seamless task organization",
-      color: "from-[#F59E0B] to-[#F97316]",
-      link: "/tasks/board",
-    },
-
-    {
-      icon: Users,
-      title: "Team Collaboration",
-      description: "Invite team members and assign roles",
-      color: "from-[#3B82F6] to-[#2563EB]",
-      link: "/team",
-    },
-  ];
-
- 
 
   return (
     <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 pb-4 md:pb-10 px-3">
