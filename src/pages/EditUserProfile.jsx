@@ -83,6 +83,7 @@ export default function EditUserProfile() {
 
   // Handle logout
   const handleLogout = () => {
+    localStorage.removeItem("sidebarCollapsed");
     dispatch(logoutUser())
       .unwrap()
       .then(() => {
