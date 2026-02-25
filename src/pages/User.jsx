@@ -129,6 +129,7 @@ export default function User() {
 
   // Handle logout
   const handleLogout = () => {
+    localStorage.removeItem("sidebarCollapsed");
     dispatch(logoutUser())
       .unwrap()
       .then(() => {
