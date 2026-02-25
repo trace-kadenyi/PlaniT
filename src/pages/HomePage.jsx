@@ -1,15 +1,7 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  ArrowRight,
-  Sparkles,
-  Plus,
-  LayoutDashboard,
-  CheckSquare,
-  Calendar,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Sparkles, Plus } from "lucide-react";
 
 import HeroImg from "../components/landing/HeroAnimation";
 import {
@@ -38,7 +30,7 @@ export default function HomePage() {
               animate="visible"
               className="flex-1 max-w-2xl text-center lg:text-left z-10"
             >
-              {/* 1. Personal greeting — first thing they see */}
+              {/* 1. Personal greeting  */}
               <motion.div variants={fadeUp} className="mb-2">
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#9B2C62]/10 to-[#F59E0B]/10 dark:from-[#9B2C62]/20 dark:to-[#F59E0B]/20 px-4 py-2 rounded-full mb-6">
                   <Sparkles className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
@@ -57,12 +49,12 @@ export default function HomePage() {
                       .
                     </>
                   ) : (
-                    "Hello there."
+                    "Hello,"
                   )}
                 </h1>
               </motion.div>
 
-              {/* 2. Platform identity — gives context after the greeting */}
+              {/* 2. Platform identity  */}
 
               <motion.div
                 variants={fadeUp}
@@ -88,7 +80,7 @@ export default function HomePage() {
                 </p>
               </motion.div>
 
-              {/* 3. Call to action — now they know where they are and what to do */}
+              {/* 3. Call to action */}
               <motion.p
                 variants={fadeUp}
                 className="text-base text-gray-600 dark:text-gray-300 mb-8"
@@ -124,13 +116,13 @@ export default function HomePage() {
               {/* Quick access grid */}
               <motion.div
                 variants={fadeUp}
-                className="mt-10 grid grid-cols-2 gap-3"
+                className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-3"
               >
                 {quickAccess.map(({ to, icon: Icon, label, sub, accent }) => (
                   <Link
                     key={to}
                     to={to}
-                    className="group flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700/50 hover:border-[#9B2C62]/30 dark:hover:border-[#F59E0B]/30 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
+                    className="group flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-gray-800/60 border border-gray-100 dark:border-gray-700/50 hover:border-[#9B2C62]/30 dark:hover:border-[#F59E0B]/30 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 justify-center sm:justify-start"
                   >
                     <div
                       className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-110"
