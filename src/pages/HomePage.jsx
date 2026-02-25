@@ -29,40 +29,50 @@ export default function HomePage() {
               animate="visible"
               className="flex-1 max-w-2xl text-center lg:text-left z-10"
             >
-              {/* Welcome Badge */}
-              <motion.div
-                variants={fadeUp}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-[#9B2C62]/10 to-[#F59E0B]/10 dark:from-[#9B2C62]/20 dark:to-[#F59E0B]/20 px-4 py-2 rounded-full mb-6"
-              >
-                <Sparkles className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
-                <span className="text-xs font-semibold tracking-widest uppercase text-[#9B2C62] dark:text-[#F59E0B]">
-                  Your Workspace
-                </span>
+              {/* 1. Personal greeting — first thing they see */}
+              <motion.div variants={fadeUp} className="mb-2">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#9B2C62]/10 to-[#F59E0B]/10 dark:from-[#9B2C62]/20 dark:to-[#F59E0B]/20 px-4 py-2 rounded-full mb-6">
+                  <Sparkles className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
+                  <span className="text-xs font-semibold tracking-widest uppercase text-[#9B2C62] dark:text-[#F59E0B]">
+                    Your Workspace
+                  </span>
+                </div>
+
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white mb-4">
+                  {firstName ? (
+                    <>
+                      Hello,{" "}
+                      <span className="text-[#9B2C62] dark:text-[#F59E0B]">
+                        {firstName}
+                      </span>
+                      .
+                    </>
+                  ) : (
+                    "Hello there."
+                  )}
+                </h1>
               </motion.div>
 
-              {/* Main Heading */}
-              <motion.h1
+              {/* 2. Platform identity — gives context after the greeting */}
+              <motion.div
                 variants={fadeUp}
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-white"
+                className="mb-8 pl-0.5 border-l-2 border-[#9B2C62]/20 dark:border-[#F59E0B]/20 ml-0.5 pl-4"
               >
-                Hello,{" "}
-                {firstName && (
-                  <>
-                    <span className="text-[#9B2C62] dark:text-[#F59E0B]">
-                      {firstName}
-                    </span>
-                    <span>.</span>
-                  </>
-                )}
-              </motion.h1>
+                <p className="text-sm font-bold tracking-widest text-[#9B2C62] dark:text-[#F59E0B] mb-1">
+                  PlaniT
+                </p>
+                <p className="text-base text-gray-500 dark:text-gray-400 leading-relaxed">
+                  Your all-in-one platform for seamless event planning, team
+                  collaboration, and budget management.
+                </p>
+              </motion.div>
 
-              {/* Description */}
+              {/* 3. Call to action — now they know where they are and what to do */}
               <motion.p
                 variants={fadeUp}
-                className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-xl mx-auto lg:mx-0"
+                className="text-lg text-gray-600 dark:text-gray-300 mb-8"
               >
-                Your all-in-one platform for seamless event planning, team
-                collaboration, and budget management.
+                Ready to plan your next event?
               </motion.p>
 
               {/* CTA Buttons */}
