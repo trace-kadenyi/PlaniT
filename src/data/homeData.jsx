@@ -1,4 +1,10 @@
-import { LayoutDashboard, CalendarCheck, Target, Group } from "lucide-react";
+import {
+  LayoutDashboard,
+  CalendarCheck,
+  Target,
+  CheckSquare,
+  Group,
+} from "lucide-react";
 
 // features sect data
 export const features = [
@@ -30,6 +36,38 @@ export const features = [
     description: "Invite team members and assign roles",
     color: "from-[#3B82F6] to-[#2563EB]",
     link: "/team",
+  },
+];
+
+// quick access data
+export const quickAccess = [
+  {
+    to: "/dashboards",
+    icon: LayoutDashboard,
+    label: "Dashboard",
+    sub: "View insights",
+    accent: "#9B2C62",
+  },
+  {
+    to: "/events/board",
+    icon: CalendarCheck,
+    label: "Events",
+    sub: "Manage all events",
+    accent: "#B83280",
+  },
+  {
+    to: "/tasks/board",
+    icon: CheckSquare,
+    label: "Tasks",
+    sub: "Kanban board",
+    accent: "#F59E0B",
+  },
+  {
+    to: "/team",
+    icon: Group,
+    label: "Team",
+    sub: "Manage members",
+    accent: "#D97706",
   },
 ];
 
