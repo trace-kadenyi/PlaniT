@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ArrowRight, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, Sparkles, Plus } from "lucide-react";
 
 import HeroImg from "../components/landing/HeroAnimation";
 import {
@@ -83,7 +83,7 @@ export default function HomePage() {
                   onClick={() => navigate("/events/new")}
                   className="px-8 py-3 bg-white dark:bg-transparent border-2 border-[#9B2C62]/20 dark:border-gray-800 text-gray-900 dark:text-white font-semibold rounded-xl hover:border-[#9B2C62] dark:hover:border-[#F59E0B] hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 group"
                 >
-                  <Zap className="w-5 h-5 text-[#9B2C62] dark:text-[#F59E0B]" />
+                  <Plus className="w-5 h-5 text-[#9B2C62] dark:text-[#F59E0B]" />
                   Create New Event
                 </button>
               </motion.div>
