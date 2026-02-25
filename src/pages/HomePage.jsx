@@ -14,9 +14,7 @@ import { features, quickStepGuide } from "../data/homeData";
 export default function HomePage() {
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.auth.user);
-  const userDetails = currentUser
-    ? `${currentUser.firstName || ""} ${currentUser.lastName || ""}`.trim()
-    : "";
+  const firstName = currentUser?.firstName || "";
 
   return (
     <main className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black text-gray-900 dark:text-gray-100 pb-4 md:pb-10 px-3">
@@ -37,8 +35,8 @@ export default function HomePage() {
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-[#9B2C62]/10 to-[#F59E0B]/10 dark:from-[#9B2C62]/20 dark:to-[#F59E0B]/20 px-4 py-2 rounded-full mb-6"
               >
                 <Sparkles className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
-                <span className="text-sm font-medium text-[#9B2C62] dark:text-[#F59E0B]">
-                  Welcome {userDetails ? `, ${userDetails.split(" ")[0]}` : ""}!
+                <span className="text-xs font-semibold tracking-widest uppercase text-[#9B2C62] dark:text-[#F59E0B]">
+                  Your Workspace
                 </span>
               </motion.div>
 
@@ -47,11 +45,15 @@ export default function HomePage() {
                 variants={fadeUp}
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-white"
               >
-                Ready to plan your next{" "}
-                <span className="text-[#9B2C62] dark:text-[#F59E0B]">
-                  successful
-                </span>{" "}
-                event?
+                Hello,{" "}
+                {firstName && (
+                  <>
+                    <span className="text-[#9B2C62] dark:text-[#F59E0B]">
+                      {firstName}
+                    </span>
+                    <span>.</span>
+                  </>
+                )}
               </motion.h1>
 
               {/* Description */}
