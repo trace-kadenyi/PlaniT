@@ -51,3 +51,37 @@ export const steps = [
     text: "Monitor task completion, budgets, and overall event status.",
   },
 ];
+
+// quick step guide data
+export const quickStepGuide = [
+  {
+    step: 1,
+    title: "Add team members",
+    description: "Invite your organization team and assign roles with appropriate permissions."
+  },
+  {
+    step: 2,
+    title: "Create an event",
+    description: "Start by creating your first event with budget, timeline, and other details."
+  },
+  {
+    step: 3,
+    title: "Create & assign tasks",
+    description: "Break down events into manageable tasks and assign them to team members."
+  },
+  {
+    step: 4,
+    title: "Add expenses",
+    description: "Track event expenses with receipts and budget allocations."
+  },
+  {
+    step: 5,
+    title: "Add clients",
+    description: "Create client profiles and assign them to relevant events."
+  },
+  {
+    step: 6,
+    title: "Add vendors",
+    description: "Create vendor contacts and assign them to event expenses."
+  },
+]
