@@ -212,33 +212,6 @@ export default function HomePage() {
       </section>
 
       {/* Quick Start Guide Section stays mostly fine */}
-      {/* <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="relative px-4 sm:px-6 pb-12 max-w-7xl mx-auto z-10"
-      >
-        <div className="bg-gradient-to-br from-[#FFF8F2]/80 to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 border border-[#F3EDE9] dark:border-gray-700/50 backdrop-blur-sm">
-          <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B] mb-4">
-            Quick Start Guide
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {quickStepGuide.map((step, index) => (
-              <div
-                key={index}
-                className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50"
-              >
-                <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
-                  {step.step}. {step.title}
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </motion.section> */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
