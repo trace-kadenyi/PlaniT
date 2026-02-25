@@ -195,11 +195,11 @@ export default function HomePage() {
       >
         {/* Section header */}
         <div className="flex items-center gap-4 mb-8">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#9B2C62]/20" />
-          <span className="text-xs font-bold tracking-widest uppercase text-[#9B2C62]/60 dark:text-[#F59E0B]  px-2">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#9B2C62]/30 dark:to-[#F59E0B]/30" />
+          <span className="text-xs font-bold tracking-widest uppercase text-[#9B2C62] dark:text-[#F59E0B]  px-2">
             Quick Start Guide
           </span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#9B2C62]/20" />
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#9B2C62]/30 dark:to-[#F59E0B]/30" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
