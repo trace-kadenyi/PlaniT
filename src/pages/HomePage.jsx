@@ -179,7 +179,7 @@ export default function HomePage() {
               className="group relative p-5 rounded-xl bg-white dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700/40 hover:border-[#9B2C62]/25 dark:hover:border-[#F59E0B]/25 hover:shadow-md transition-all duration-200"
             >
               {/* Step number — large background */}
-              <span className="absolute top-3 right-4 text-5xl font-black text-gray-100 dark:text-gray-700/60 select-none leading-none group-hover:text-[#9B2C62]/10 dark:group-hover:text-[#F59E0B]/10 transition-colors duration-300">
+              <span className="absolute top-3 right-4 text-5xl font-black text-gray-200 dark:text-gray-700/60 select-none leading-none group-hover:text-[#9B2C62]/10 dark:group-hover:text-[#F59E0B]/10 transition-colors duration-300">
                 {step}
               </span>
               {/* Accent bar */}
