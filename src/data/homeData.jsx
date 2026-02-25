@@ -1,4 +1,4 @@
-import { LayoutDashboard, CalendarCheck, Target, Users } from "lucide-react";
+import { LayoutDashboard, CalendarCheck, Target, Group } from "lucide-react";
 
 // features sect data
 export const features = [
@@ -25,7 +25,7 @@ export const features = [
   },
 
   {
-    icon: Users,
+    icon: Group,
     title: "Team Collaboration",
     description: "Invite team members and assign roles",
     color: "from-[#3B82F6] to-[#2563EB]",
