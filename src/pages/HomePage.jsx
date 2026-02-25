@@ -107,7 +107,7 @@ export default function HomePage() {
                           {feature.title}
                         </span>
                       </div>
-                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-[#9B2C62] to-[#F59E0B] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
+                      <div className="absolute inset-x-0 bottom-0 h-0.5 bg-[#9B2C62] dark:bg-[#F59E0B] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
                     </Link>
                   );
                 })}
@@ -139,7 +139,7 @@ export default function HomePage() {
         className="relative px-4 sm:px-6 pb-12 max-w-7xl mx-auto z-10"
       >
         <div className="bg-gradient-to-br from-[#FFF8F2]/80 to-white/60 dark:from-gray-800/50 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 border border-[#F3EDE9] dark:border-gray-700/50 backdrop-blur-sm">
-          <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#D97706] mb-4">
+          <h2 className="text-xl font-bold text-[#9B2C62] dark:text-[#F59E0B] mb-4">
             Quick Start Guide
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
