@@ -143,8 +143,11 @@ export default function HomePage() {
             Quick Start Guide
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {quickStepGuide.map((step) => (
-              <div className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50">
+            {quickStepGuide.map((step, index) => (
+              <div
+                key={index}
+                className="p-4 bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 rounded-lg border border-[#F3EDE9] dark:border-gray-700/50"
+              >
                 <div className="text-sm font-semibold text-[#9B2C62] dark:text-[#F59E0B] mb-2">
                   {step.title}
                 </div>
