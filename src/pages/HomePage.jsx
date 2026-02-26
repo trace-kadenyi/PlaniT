@@ -158,7 +158,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Quick Start Guide Section stays mostly fine */}
+      {/* Quick Start Guide Section */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
