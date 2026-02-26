@@ -1,53 +1,109 @@
-import { ClipboardList, LayoutDashboard, User, BarChart4 } from "lucide-react";
+import {
+  LayoutDashboard,
+  CalendarCheck,
+  Target,
+  CheckSquare,
+  Group,
+} from "lucide-react";
 
 // features sect data
 export const features = [
   {
-    title: "Task Management",
-    desc: "Create, assign, and track tasks with deadlines and priorities.",
+    icon: LayoutDashboard,
+    title: "Dashboard",
+    description: "View insights and analytics",
+    color: "from-[#8B5CF6] to-[#7C3AED]",
+    link: "/dashboards",
   },
   {
-    title: "Event Dashboard",
-    desc: "Get a clear overview of each event with statuses and progress stats.",
+    icon: CalendarCheck,
+    title: "Event Management",
+    description: "Create and manage multiple events with ease",
+    color: "from-[#9B2C62] to-[#9B2C62]/80",
+    link: "/events/board",
   },
   {
-    title: "Client Details",
-    desc: "Store client preferences, notes, and view their event history.",
+    icon: Target,
+    title: "Task Tracking",
+    description: "Kanban boards for seamless task organization",
+    color: "from-[#F59E0B] to-[#F97316]",
+    link: "/tasks/board",
   },
+
   {
-    title: "Budgeting Tools",
-    desc: "Add expenses, categorize costs, and track remaining budgets.",
-  },
-  {
-    title: "Vendor & Resource Management (Coming Soon)",
-    desc: "Manage caterers, venues, and suppliers in one place.",
-  },
-  {
-    title: "Calendar & Scheduling (Coming Soon)",
-    desc: "View deadlines and sync events to Google Calendar.",
+    icon: Group,
+    title: "Team Collaboration",
+    description: "Invite team members and assign roles",
+    color: "from-[#3B82F6] to-[#2563EB]",
+    link: "/team",
   },
 ];
 
-// process sect data
-export const steps = [
+// quick access data
+export const quickAccess = [
   {
-    Icon: User,
-    title: "1. Create a Client",
-    text: "Add client details so you always know who the event is for.",
+    to: "/dashboards",
+    icon: LayoutDashboard,
+    label: "Dashboard",
+    sub: "View insights",
+    accent: "#9B2C62",
   },
   {
-    Icon: LayoutDashboard,
-    title: "2. Add an Event",
-    text: "Set event dates, status, and link it to your client.",
+    to: "/events/board",
+    icon: CalendarCheck,
+    label: "Events",
+    sub: "Manage all events",
+    accent: "#B83280",
   },
   {
-    Icon: ClipboardList,
-    title: "3. Plan Tasks",
-    text: "Break down the event into actionable tasks and assign them.",
+    to: "/tasks/board",
+    icon: CheckSquare,
+    label: "Tasks",
+    sub: "Kanban board",
+    accent: "#F59E0B",
   },
   {
-    Icon: BarChart4,
-    title: "4. Track Progress",
-    text: "Monitor task completion, budgets, and overall event status.",
+    to: "/team",
+    icon: Group,
+    label: "Team",
+    sub: "Manage members",
+    accent: "#D97706",
+  },
+];
+
+// quick step guide data
+export const quickStepGuide = [
+  {
+    step: 1,
+    title: "Add team members",
+    description:
+      "Invite your organization team and assign roles with appropriate permissions.",
+  },
+  {
+    step: 2,
+    title: "Create an event",
+    description:
+      "Start by creating your first event with budget, timeline, and other details.",
+  },
+  {
+    step: 3,
+    title: "Create & assign tasks",
+    description:
+      "Break down events into manageable tasks and assign them to team members.",
+  },
+  {
+    step: 4,
+    title: "Add expenses",
+    description: "Track event expenses with receipts and budget allocations.",
+  },
+  {
+    step: 5,
+    title: "Add clients",
+    description: "Create client profiles and assign them to relevant events.",
+  },
+  {
+    step: 6,
+    title: "Add vendors",
+    description: "Create vendor contacts and assign them to event expenses.",
   },
 ];

@@ -16,7 +16,7 @@ import {
 
 // navlinks data
 export const navLinks = [
-  { icon: Home, label: "Home", path: "/" },
+  { icon: Home, label: "Home", path: "/home" },
   {
     icon: Calendar,
     label: "Events Manager",

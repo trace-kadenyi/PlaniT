@@ -1,7 +1,12 @@
 import { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { initializeAuth } from "./redux/authSlice";
 
 import "./App.css";
@@ -34,18 +39,67 @@ import Dashboards from "./pages/Dashboards";
 import ProductOverview from "./pages/ProductOverview";
 import PublicProductLayout from "./components/navigation/PublicProductLayout";
 
+// Sends first-time unauthed visitors to product overview, returning visitors to login, authed users to dashboard
+const RootRedirect = () => {
+  const { isAuthenticated, isInitializing } = useSelector(
+    (state) => state.auth,
+  );
+  const hasSeenOverview = localStorage.getItem("hasSeenProductOverview");
+
+  if (isInitializing)
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9B2C62]"></div>
+      </div>
+    );
+
+  if (isAuthenticated) return <Navigate to="/home" replace />;
+  if (!hasSeenOverview) return <Navigate to="/product-overview" replace />;
+  return <Navigate to="/login" replace />;
+};
+
 function App() {
   const dispatch = useDispatch();
+  const { isInitializing } = useSelector((state) => state.auth);
+  const isSmallScreen = useIsSmallScreen();
 
   //  initialize auth
   useEffect(() => {
     dispatch(initializeAuth());
   }, [dispatch]);
 
-  const isSmallScreen = useIsSmallScreen();
   return (
     <>
       <AuthInitializer />
+
+      {/* Full-screen preloader — covers the footer flash during auth resolution */}
+      {isInitializing && (
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white">
+          <div className="flex flex-col items-center gap-6">
+            {/* Animated logo mark */}
+            <div className="relative w-16 h-16">
+              <div className="absolute inset-0 rounded-full border-4 border-[#9B2C62]/20"></div>
+              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#9B2C62] animate-spin"></div>
+              <div
+                className="absolute inset-2 rounded-full border-4 border-transparent border-t-[#F59E0B] animate-spin"
+                style={{
+                  animationDirection: "reverse",
+                  animationDuration: "0.8s",
+                }}
+              ></div>
+            </div>
+            {/* Brand name */}
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-2xl font-bold tracking-tight text-[#9B2C62]">
+                PlaniT
+              </span>
+              <span className="text-xs text-gray-400 tracking-widest uppercase">
+                Loading your workspace
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {isSmallScreen ? (
         <Toaster position="top-center" />
@@ -55,13 +109,32 @@ function App() {
       <Router>
         <Routes>
           {/* Public routes (no layout, no sidebar) */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Login />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <>
+                <Signup />
+                <Footer />
+              </>
+            }
+          />
 
-          {/* Product Overview - special handling */}
+          {/* Product Overview - public or with sidebar if authed */}
           <Route path="/product-overview" element={<PublicProductLayout />}>
             <Route index element={<ProductOverview />} />
           </Route>
+
+          {/* Root: smart redirect based on auth + first-visit flag */}
+          <Route path="/" element={<RootRedirect />} />
 
           {/* Protected routes with Layout (includes sidebar) */}
           <Route
@@ -73,7 +146,7 @@ function App() {
             }
           >
             {/* All nested routes are automatically protected by the parent ProtectedRoute */}
-            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/events" element={<Events />} />
             <Route path="/events/:id" element={<Event />} />
             <Route path="/clients" element={<Clients />} />
@@ -96,9 +169,8 @@ function App() {
           </Route>
 
           {/* Catch all route - redirect to home */}
-          <Route path="*" element={<HomePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-        <Footer />
       </Router>
     </>
   );
