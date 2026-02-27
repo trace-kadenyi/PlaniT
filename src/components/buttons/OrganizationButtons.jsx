@@ -36,10 +36,12 @@ export const SaveOrgNameBtn = ({ onSave, updateStatus }) => {
       disabled={isLoading}
       tooltipTitle={isLoading ? "Saving..." : "Save organization name"}
       fallbackTooltip="Only Super Admins can edit the organization name"
-      className="inline-flex items-center justify-center rounded-md p-2 
-bg-emerald-50 text-emerald-600 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-900/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      className="inline-flex items-center justify-center rounded-lg p-2 
+text-emerald-500 hover:bg-emerald-100/60 
+dark:text-emerald-400 dark:hover:bg-emerald-900/40
+transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      <Check className="w-4 h-4" />
+      <Check className="w-5 h-5" />
     </PermissionButton>
   );
 };
@@ -48,11 +50,13 @@ export const CancelOrgNameBtn = ({ onCancel }) => {
   return (
     <button
       onClick={onCancel}
-      className="inline-flex items-center justify-center rounded-md p-2 
-bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+      className="inline-flex items-center justify-center rounded-lg p-2 
+text-gray-500 hover:bg-gray-100 
+dark:text-gray-400 dark:hover:bg-gray-800
+transition-colors"
       title="Cancel"
     >
-      <X className="w-4 h-4" />
+      <X className="w-5 h-5" />
     </button>
   );
 };
