@@ -1,12 +1,5 @@
-import {
-  Pencil,
-  Check,
-  X,
-  XCircle,
-  FileCheck,
-  Save,
-  CheckCircle2,
-} from "lucide-react";
+import { Pencil, Check, X } from "lucide-react";
+
 import PermissionButton from "./PermissionButton";
 import { PERMISSIONS, RESOURCES } from "../../globalHooks/userPermissions";
 
