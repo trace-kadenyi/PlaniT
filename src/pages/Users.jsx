@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Pencil } from "lucide-react";
 
 import {
   fetchUsers,
@@ -10,7 +11,10 @@ import {
   addUser,
   reactivateUser,
 } from "../redux/usersSlice";
-import { fetchOrganizationDetails } from "../redux/organizationSlice";
+import {
+  fetchOrganizationDetails,
+  updateOrganizationName,
+} from "../redux/organizationSlice";
 
 import UserList from "../components/user/UserManagement/UserList";
 import AddUserForm from "../components/user/forms/AddUserForm";
@@ -27,6 +31,13 @@ import { ROLES } from "../globalHooks/userPermissions";
 import NoUsers from "../components/shared/NoUsers";
 import UsersFilter from "../components/user/UserManagement/UsersFilter";
 import { useUserFilters } from "../globalHooks/useUserMemoizedData";
+import { createOrgNameUpdateHandler } from "../globalHandlers/createOrgNameUpdateHandler";
+import {
+  EditOrgNameBtn,
+  SaveOrgNameBtn,
+  CancelOrgNameBtn,
+} from "../components/buttons/OrganizationButtons";
+import OrgNameUpdateConfirmationToast from "../globalUtils/OrgNameUpdateConfirmationToast";
 
 export default function Users() {
   const dispatch = useDispatch();
@@ -42,9 +53,13 @@ export default function Users() {
   } = useSelector((state) => state.users);
   const currentUser = useSelector((state) => state.auth.user);
 
-  const { organization } = useSelector((state) => state.organization);
+  const { organization, updateStatus } = useSelector(
+    (state) => state.organization,
+  );
   const [statusFilter, setStatusFilter] = useState("all");
   const [showAddForm, setShowAddForm] = useState(false);
+  const [isEditingOrgName, setIsEditingOrgName] = useState(false);
+  const [orgNameInput, setOrgNameInput] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -141,6 +156,27 @@ export default function Users() {
     )();
   };
 
+  const handleEditOrgName = () => {
+    setOrgNameInput(organization?.name || "");
+    setIsEditingOrgName(true);
+  };
+
+  const handleCancelOrgName = () => {
+    setIsEditingOrgName(false);
+    setOrgNameInput("");
+  };
+  // handle org update
+  const handleSaveOrgName = createOrgNameUpdateHandler(
+    dispatch,
+    orgNameInput.trim(),
+    organization?.name,
+    updateOrganizationName,
+    toast,
+    toastWithProgress,
+    OrgNameUpdateConfirmationToast,
+    toastLock,
+  );
+
   // loading state
   if (status === "loading")
     return <GenLoadingState message="Loading team members..." />;
@@ -161,9 +197,40 @@ export default function Users() {
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 sm:text-center lg:text-start sm:mt-2">
-              {organization?.name} Team Directory
-            </h1>
+            {isEditingOrgName ? (
+              <div className="flex items-center gap-2 mt-12 sm:mt-2">
+                <input
+                  type="text"
+                  value={orgNameInput}
+                  onChange={(e) => setOrgNameInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") handleCancelOrgName();
+                  }}
+                  autoFocus
+                  className="text-2xl font-bold bg-transparent border-b-2 border-[#9B2C62] dark:border-[#D97706] text-[#9B2C62] dark:text-[#D97706] focus:outline-none"
+                />
+                <SaveOrgNameBtn
+                  onSave={() => {
+                    if (!orgNameInput.trim()) return;
+                    if (orgNameInput.trim() === organization?.name) {
+                      setIsEditingOrgName(false);
+                      return;
+                    }
+                    handleSaveOrgName();
+                    setIsEditingOrgName(false);
+                  }}
+                  updateStatus={updateStatus}
+                />
+                <CancelOrgNameBtn onCancel={handleCancelOrgName} />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 mt-12 sm:mt-2">
+                <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] sm:text-center lg:text-start">
+                  {organization?.name} Team Directory
+                </h1>
+                <EditOrgNameBtn onEdit={handleEditOrgName} />
+              </div>
+            )}
             <p className="text-gray-600 dark:text-gray-400 mt-2">
               Manage your organization's team members and permissions
             </p>
