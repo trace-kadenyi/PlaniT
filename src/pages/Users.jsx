@@ -37,6 +37,7 @@ import {
   CancelOrgNameBtn,
 } from "../components/buttons/OrganizationButtons";
 import OrgNameUpdateConfirmationToast from "../globalUtils/OrgNameUpdateConfirmationToast";
+import OrgHeader from "../components/user/UserManagement/OrgHeader";
 
 export default function Users() {
   const dispatch = useDispatch();
@@ -195,45 +196,12 @@ export default function Users() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <div>
-            {isEditingOrgName ? (
-              <div className="flex items-center gap-2 mt-12 sm:mt-2">
-                <input
-                  type="text"
-                  value={orgNameInput}
-                  onChange={(e) => setOrgNameInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Escape") handleCancelOrgName();
-                  }}
-                  autoFocus
-                  className="text-2xl font-bold bg-transparent border-b-2 border-[#9B2C62] dark:border-[#D97706] text-[#9B2C62] dark:text-[#D97706] focus:outline-none"
-                />
-                <SaveOrgNameBtn
-                  onSave={() => {
-                    if (!orgNameInput.trim()) return;
-                    if (orgNameInput.trim() === organization?.name) {
-                      setIsEditingOrgName(false);
-                      return;
-                    }
-                    handleSaveOrgName();
-                    setIsEditingOrgName(false);
-                  }}
-                  updateStatus={updateStatus}
-                />
-                <CancelOrgNameBtn onCancel={handleCancelOrgName} />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2 mt-12 sm:mt-2">
-                <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] sm:text-center lg:text-start">
-                  {organization?.name} Team Directory
-                </h1>
-                <EditOrgNameBtn onEdit={handleEditOrgName} />
-              </div>
-            )}
-            <p className="text-gray-600 dark:text-gray-400 mt-2">
-              Manage your organization's team members and permissions
-            </p>
-          </div>
+          <OrgHeader
+            dispatch={dispatch}
+            organization={organization}
+            updateOrganizationName={updateOrganizationName}
+            updateStatus={updateStatus}
+          />
           <AddNewMembersBtn onAddUser={handleShowAddForm} />
         </div>
 
