@@ -49,6 +49,7 @@ const organizationSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // fetch org details
       .addCase(fetchOrganizationDetails.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -60,6 +61,20 @@ const organizationSlice = createSlice({
       .addCase(fetchOrganizationDetails.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+
+      // update org name
+      .addCase(updateOrganizationName.pending, (state) => {
+        state.updateStatus = "loading";
+        state.updateError = null;
+      })
+      .addCase(updateOrganizationName.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+        state.organization = action.payload.organization;
+      })
+      .addCase(updateOrganizationName.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.updateError = action.payload;
       });
   },
 });
