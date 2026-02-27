@@ -1,11 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../app/api";
 
+// fetch org details
 export const fetchOrganizationDetails = createAsyncThunk(
   "organization/fetchDetails",
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.get("/api/organization");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  },
+);
+
+// update org name
+export const updateOrganizationName = createAsyncThunk(
+  "organization/updateName",
+  async (name, { rejectWithValue }) => {
+    try {
+      const res = await api.patch("/api/organization", { name });
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || err.message);
