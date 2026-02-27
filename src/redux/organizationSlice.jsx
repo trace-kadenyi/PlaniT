@@ -33,6 +33,8 @@ const organizationSlice = createSlice({
     organization: null,
     status: "idle",
     error: null,
+    updateStatus: "idle",
+    updateError: null,
   },
   reducers: {
     resetOrganizationStatus: (state) => {
