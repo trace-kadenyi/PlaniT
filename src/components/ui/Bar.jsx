@@ -70,19 +70,19 @@ export function UserProfile({ collapsed, User, LogOut, onLogout, user, Link }) {
           className="flex items-center gap-2 focus-visible:outline-none group"
           title={collapsed ? "Profile" : undefined}
         >
-          <div className="w-8 h-8 rounded-full bg-[#FFB866]/30 flex items-center justify-center group-hover:bg-[#FF9933]/40 transition-colors">
+          <div className="w-8 h-8 rounded-full bg-[#FFB866]/30 flex items-center justify-center group-hover:bg-[#9B2C62]/40 dark:group-hover:bg-[#FF9933]/40 transition-colors">
             <User
               size={16}
-              className="text-[#E07C24] group-hover:text-[#FF9933]"
+              className="text-[#E07C24] group-hover:text-[#9B2C62] dark:group-hover:text-[#FF9933]"
               aria-hidden="true"
             />
           </div>
           {!collapsed && (
             <div>
-              <p className="text-sm dark:text-gray-200 font-medium group-hover:text-[#FF9933] transition-colors">
+              <p className="text-sm dark:text-gray-200 font-medium group-hover:text-[#9B2C62] dark:group-hover:text-[#FF9933] transition-colors">
                 {user?.firstName} {user?.lastName}
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-[#FFB866] transition-colors">
+              <p className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-[#9B2C62] dark:group-hover:text-[#FFB866] transition-colors">
                 {user?.role || "undefined role"}
               </p>
             </div>
@@ -91,7 +91,7 @@ export function UserProfile({ collapsed, User, LogOut, onLogout, user, Link }) {
         {!collapsed && (
           <button
             onClick={onLogout}
-            className="p-1 rounded-full hover:bg-[#FFB866]/10 text-gray-500 dark:text-gray-400 hover:text-[#E07C24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866] transition-colors"
+            className="p-1 rounded-full hover:bg-[#9B2C62]/10 dark:hover:bg-[#FFB866]/10 text-gray-500 dark:text-gray-400 hover:text-[#9B2C62] dark:hover:text-[#E07C24] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB866] transition-colors"
             aria-label="Logout"
           >
             <LogOut size={18} aria-hidden="true" />
