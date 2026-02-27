@@ -30,13 +30,6 @@ import { ROLES } from "../globalHooks/userPermissions";
 import NoUsers from "../components/shared/NoUsers";
 import UsersFilter from "../components/user/UserManagement/UsersFilter";
 import { useUserFilters } from "../globalHooks/useUserMemoizedData";
-import { createOrgNameUpdateHandler } from "../globalHandlers/createOrgNameUpdateHandler";
-import {
-  EditOrgNameBtn,
-  SaveOrgNameBtn,
-  CancelOrgNameBtn,
-} from "../components/buttons/OrganizationButtons";
-import OrgNameUpdateConfirmationToast from "../globalUtils/OrgNameUpdateConfirmationToast";
 import OrgHeader from "../components/user/UserManagement/OrgHeader";
 
 export default function Users() {
