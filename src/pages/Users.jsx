@@ -58,8 +58,6 @@ export default function Users() {
   );
   const [statusFilter, setStatusFilter] = useState("all");
   const [showAddForm, setShowAddForm] = useState(false);
-  const [isEditingOrgName, setIsEditingOrgName] = useState(false);
-  const [orgNameInput, setOrgNameInput] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
