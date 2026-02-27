@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -10,7 +10,10 @@ import {
   addUser,
   reactivateUser,
 } from "../redux/usersSlice";
-import { fetchOrganizationDetails } from "../redux/organizationSlice";
+import {
+  fetchOrganizationDetails,
+  updateOrganizationName,
+} from "../redux/organizationSlice";
 
 import UserList from "../components/user/UserManagement/UserList";
 import AddUserForm from "../components/user/forms/AddUserForm";
@@ -27,6 +30,7 @@ import { ROLES } from "../globalHooks/userPermissions";
 import NoUsers from "../components/shared/NoUsers";
 import UsersFilter from "../components/user/UserManagement/UsersFilter";
 import { useUserFilters } from "../globalHooks/useUserMemoizedData";
+import OrgHeader from "../components/user/UserManagement/OrgHeader";
 
 export default function Users() {
   const dispatch = useDispatch();
@@ -42,7 +46,9 @@ export default function Users() {
   } = useSelector((state) => state.users);
   const currentUser = useSelector((state) => state.auth.user);
 
-  const { organization } = useSelector((state) => state.organization);
+  const { organization, updateStatus } = useSelector(
+    (state) => state.organization,
+  );
   const [statusFilter, setStatusFilter] = useState("all");
   const [showAddForm, setShowAddForm] = useState(false);
 
@@ -160,14 +166,12 @@ export default function Users() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] mt-12 sm:text-center lg:text-start sm:mt-2">
-              {organization?.name} Team Directory
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">
-              Manage your organization's team members and permissions
-            </p>
-          </div>
+          <OrgHeader
+            dispatch={dispatch}
+            organization={organization}
+            updateOrganizationName={updateOrganizationName}
+            updateStatus={updateStatus}
+          />
           <AddNewMembersBtn onAddUser={handleShowAddForm} />
         </div>
 
