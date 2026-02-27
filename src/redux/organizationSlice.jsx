@@ -40,6 +40,8 @@ const organizationSlice = createSlice({
     resetOrganizationStatus: (state) => {
       state.status = "idle";
       state.error = null;
+      state.updateStatus = "idle";
+      state.updateError = null;
     },
     setOrganization: (state, action) => {
       state.organization = action.payload;
