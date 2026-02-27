@@ -73,7 +73,7 @@ export default function OrgHeader({
       ) : (
         <div className="flex items-center gap-2 mt-12 sm:mt-2">
           <h1 className="text-3xl md:text-4xl font-bold text-[#9B2C62] dark:text-[#D97706] sm:text-center lg:text-start">
-            {organization?.name} Team Directory
+            {organization?.name}
           </h1>
           <EditOrgNameBtn onEdit={handleEditOrgName} />
         </div>
