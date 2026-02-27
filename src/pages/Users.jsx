@@ -156,27 +156,6 @@ export default function Users() {
     )();
   };
 
-  const handleEditOrgName = () => {
-    setOrgNameInput(organization?.name || "");
-    setIsEditingOrgName(true);
-  };
-
-  const handleCancelOrgName = () => {
-    setIsEditingOrgName(false);
-    setOrgNameInput("");
-  };
-  // handle org update
-  const handleSaveOrgName = createOrgNameUpdateHandler(
-    dispatch,
-    orgNameInput.trim(),
-    organization?.name,
-    updateOrganizationName,
-    toast,
-    toastWithProgress,
-    OrgNameUpdateConfirmationToast,
-    toastLock,
-  );
-
   // loading state
   if (status === "loading")
     return <GenLoadingState message="Loading team members..." />;
