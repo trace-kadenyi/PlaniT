@@ -70,10 +70,10 @@ export function UserProfile({ collapsed, User, LogOut, onLogout, user, Link }) {
           className="flex items-center gap-2 focus-visible:outline-none group"
           title={collapsed ? "Profile" : undefined}
         >
-          <div className="w-8 h-8 rounded-full bg-[#FFB866]/30 flex items-center justify-center group-hover:bg-[#9B2C62]/40 dark:group-hover:bg-[#FF9933]/40 transition-colors">
+          <div className="w-8 h-8 rounded-full bg-[#9B2C62]/30 dark:bg-[#FFB866]/30 flex items-center justify-center group-hover:bg-[#9B2C62]/40 dark:group-hover:bg-[#FF9933]/40 transition-colors">
             <User
               size={16}
-              className="text-[#E07C24] group-hover:text-[#9B2C62] dark:group-hover:text-[#FF9933]"
+              className="text-[#9B2C62] dark:text-[#E07C24] group-hover:text-[#9B2C62] dark:group-hover:text-[#FF9933]"
               aria-hidden="true"
             />
           </div>
