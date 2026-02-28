@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ArrowRight, Sparkles, Plus } from "lucide-react";
+import { ArrowRight, Plus, Layers } from "lucide-react";
 
 import HeroImg from "../components/landing/HeroAnimation";
 import {
@@ -33,7 +33,7 @@ export default function HomePage() {
               {/* 1. Personal greeting  */}
               <motion.div variants={fadeUp} className="mb-2">
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#9B2C62]/10 to-[#F59E0B]/10 dark:from-[#9B2C62]/20 dark:to-[#F59E0B]/20 px-4 py-2 rounded-full mb-6">
-                  <Sparkles className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
+                  <Layers className="w-4 h-4 text-[#9B2C62] dark:text-[#F59E0B]" />
                   <span className="text-xs font-semibold tracking-widest uppercase text-[#9B2C62] dark:text-[#F59E0B]">
                     Your Workspace
                   </span>
