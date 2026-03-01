@@ -36,7 +36,6 @@ PlaniT is a comprehensive event planning management system built with the MERN s
    ```
 
 2. **Install dependencies**
-
    - Frontend
      ```bash
      cd client
@@ -70,7 +69,6 @@ PlaniT is a comprehensive event planning management system built with the MERN s
      npm start
      ```
 4. **Run the application**
-
    - Start backend:
      ```bash
      cd server
@@ -90,17 +88,15 @@ PlaniT is a comprehensive event planning management system built with the MERN s
 
 ```
 planit/
-├── client/          # React frontend
-│   ├── src/
-│   └── public/
-├── server/          # Node.js backend
-│   ├── models/
-│   ├── routes/
-│   ├── controllers/
-│   └── server.js
+├── public/
+├── src/
+├── .env
 ├── .gitignore
+├── index.html
+├── eslint.config.js
 ├── package.json
 └── README.md
+├── vite.config.js
 ```
 
 ## Usage
@@ -139,5 +135,5 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ## Contact
 
-- **Author**: Tracey Kadenyi  
-- **Email**: treykadenyi@gmail.com  
+- **Author**: Tracey Kadenyi
+- **Email**: treykadenyi@gmail.com
