@@ -5,7 +5,7 @@
 
 PlaniT is a SaaS event management platform built on the MERN stack.
 
-It enables organizations to manage events, vendors, budgets, tasks, and operational workflows within a secure, role-based architecture, while delivering scalable system design, financial integrity enforcement, and granular access control across multi-organization environments.
+It enables organizations to manage events, vendors, budgets, tasks, and operational workflows within a secure, role-based architecture, while delivering scalable system design, financial integrity enforcement through audit logs, and granular access control across multi-organization environments.
 
 ------------------------------------------------------------------------
 
