@@ -17,8 +17,7 @@ PlaniT is split into two independent repositories:
 -   **Frontend (React + Redux Toolkit)**
 -   **Backend API (Node.js + Express + MongoDB)**
 
-This separation mirrors real-world production environments where
-frontend and backend are deployed independently.
+The frontend and backend are maintained as separate repositories, enabling independent development, deployment, and scalability.
 
 ------------------------------------------------------------------------
 
