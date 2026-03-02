@@ -22,7 +22,7 @@ PlaniT is a comprehensive event planning management system built with the MERN s
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **State Management**: Redux Toolkit
-- **Authentication & Authorization**: JWT (planned for future release)
+- **Authentication & Authorization**: JWT
 
 ---
 
