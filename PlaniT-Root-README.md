@@ -1,14 +1,11 @@
 > 🎨 This repository contains the Frontend application for PlaniT.  
 > For backend implementation and full API documentation, see: https://github.com/trace-kadenyi/PlaniT-API.git
 
-# PlaniT -- Full Stack Event Management System
+# PlaniT - Full Stack Event Management System
 
-PlaniT is a production-style full stack MERN application designed to
-simulate a real-world SaaS event management platform.
+PlaniT is a SaaS event management platform built on the MERN stack.
 
-It demonstrates scalable architecture, financial logic enforcement,
-role-based access control, and structured workflow management across
-organizations.
+It enables organizations to manage events, vendors, budgets, tasks, and operational workflows within a secure, role-based architecture, while delivering scalable system design, financial integrity enforcement, and granular access control across multi-organization environments.
 
 ------------------------------------------------------------------------
 
