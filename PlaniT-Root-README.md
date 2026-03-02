@@ -1,3 +1,6 @@
+> 🎨 This repository contains the Frontend application for PlaniT.  
+> For backend implementation and full API documentation, see: https://github.com/trace-kadenyi/PlaniT-API.git
+
 # PlaniT -- Full Stack Event Management System
 
 PlaniT is a production-style full stack MERN application designed to
@@ -8,6 +11,7 @@ role-based access control, and structured workflow management across
 organizations.
 
 ------------------------------------------------------------------------
+
 
 ## 🌍 Live Architecture Overview
 
