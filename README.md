@@ -33,7 +33,6 @@ PlaniT was built to demonstrate:
 -   Modular frontend architecture with scalable state management
 -   Clean layered backend architecture
 
-This is not a CRUD tutorial project.\
 It is structured intentionally to resemble a production SaaS system.
 
 ------------------------------------------------------------------------
