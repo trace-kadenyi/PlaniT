@@ -21,19 +21,19 @@ The frontend and backend are maintained as separate repositories, enabling indep
 
 ------------------------------------------------------------------------
 
-# 🚀 Why PlaniT Exists
+# 🚀 System Architecture Principles
 
-PlaniT was built to demonstrate:
+PlaniT is engineered around production-grade architectural principles:
 
--   Real-world relational data modeling in MongoDB
--   Secure JWT authentication and RBAC authorization
--   Financial constraint enforcement (budget vs expenses)
--   Soft vs hard deletion strategies
--   Audit logging for accountability
--   Modular frontend architecture with scalable state management
--   Clean layered backend architecture
+- Real-world relational data modeling in MongoDB  
+- Secure JWT-based authentication with granular RBAC authorization  
+- Financial constraint enforcement (budget vs expense validation)  
+- Soft and hard deletion strategies for data integrity  
+- Comprehensive audit logging for accountability and traceability  
+- Modular frontend architecture with scalable state management  
+- Clean, layered backend service architecture  
 
-It is structured intentionally to resemble a production SaaS system.
+The platform is structured for maintainability, security, and long-term scalability.
 
 ------------------------------------------------------------------------
 
