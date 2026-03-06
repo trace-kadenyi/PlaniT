@@ -46,6 +46,9 @@ The platform is structured for maintainability, security, and long-term scalabil
 -   React Router
 -   Axios
 -   Framer Motion
+-   Tailwind CSS
+-   Supabase
+
 
 ### Backend
 
@@ -55,6 +58,7 @@ The platform is structured for maintainability, security, and long-term scalabil
 -   Mongoose
 -   JWT Authentication
 -   Middleware-based RBAC
+-   Supabase
 
 ------------------------------------------------------------------------
 
@@ -69,6 +73,7 @@ The platform is structured for maintainability, security, and long-term scalabil
 -   Budgets
 -   Expenses
 -   Audit Logs
+-   User Update History
 
 ------------------------------------------------------------------------
 
