@@ -362,6 +362,8 @@ The platform architecture prioritizes clarity, reliability, and extensibility, e
 
 📧 [Email](mailto:treykadenyi@gmail.com) • 💻 [GitHub](https://github.com/trace-kadenyi) • 🔗 [LinkedIn](https://www.linkedin.com/in/tracey-kadenyi/) • ✍🏽 [Medium](https://medium.com/@tracekadenyi) • 🌐 [Website](https://tracey-kadenyi.vercel.app/)
 
+---
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
