@@ -285,19 +285,19 @@ Delete a task.
 
 Frontend:
 
-    git clone <frontend-repo-url>
+    git clone https://github.com/trace-kadenyi/PlaniT.git
 
 Backend:
 
-    git clone <backend-repo-url>
+    git clone https://github.com/trace-kadenyi/PlaniT-API.git
 
 ---
 
 ## Backend Setup
 
-    cd planit-backend
+    cd PlaniT-API
     npm install
-    npm run dev
+    npm start
 
 Create `.env` file:
 
@@ -310,13 +310,15 @@ Create `.env` file:
 
 ## Frontend Setup
 
-    cd planit-frontend
+    cd PlaniT
     npm install
     npm run dev
 
 Create `.env` file:
 
-    VITE_API_BASE_URL=http://localhost:5000/api
+VITE_API_BASE_URL=http://localhost:4000
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ---
 
