@@ -349,12 +349,17 @@ The platform architecture prioritizes clarity, reliability, and extensibility, e
 
 # 📎 Repositories
 
-- **Frontend:** https://github.com/trace-kadenyi/PlaniT
-- **Backend API:** https://github.com/trace-kadenyi/PlaniT-API
+- **Frontend:** [PlaniT](https://github.com/trace-kadenyi/PlaniT)
+- **Backend API:** [PlaniT-API](https://github.com/trace-kadenyi/PlaniT-API)
 
 ---
 
 # 👤 Author
 
-Built as a full-stack portfolio project to demonstrate professional
-engineering standards across both frontend and backend systems.
+**Tracey Kadenyi**
+
+- Email: treykadenyi@gmail.com
+- GitHub: [trace-kadenyi](https://github.com/trace-kadenyi)
+- LinkedIn: [tracey-kadenyi](https://www.linkedin.com/in/tracey-kadenyi/)
+- Medium: [@tracekadenyi](https://medium.com/@tracekadenyi)
+- Portfolio: [tracey-kadenyi.vercel.app](https://tracey-kadenyi.vercel.app/)
