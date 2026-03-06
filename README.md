@@ -347,11 +347,10 @@ The platform architecture prioritizes clarity, reliability, and extensibility, e
 
 ---
 
-# 📎 Repository Links
+# 📎 Repositories
 
-Frontend Repository: `https://github.com/trace-kadenyi/PlaniT.git`{=html}
-
-Backend Repository: `https://github.com/trace-kadenyi/PlaniT-API.git`{=html}
+- **Frontend:** [PlaniT](https://github.com/trace-kadenyi/PlaniT)
+- **Backend API:** [PlaniT-API](https://github.com/trace-kadenyi/PlaniT-API)
 
 ---
 
