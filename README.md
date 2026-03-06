@@ -335,16 +335,15 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # 🧠 Engineering Philosophy
 
-PlaniT was designed with:
+PlaniT is built around core engineering principles that support long-term system reliability and maintainability:
 
-- Separation of concerns
-- Maintainable architecture
-- Production-oriented thinking
-- Defensive programming practices
-- Scalability in mind
+- Clear separation of concerns across services and modules
+- Maintainable, modular architecture
+- Defensive programming and strict validation
+- Scalable data modeling and service design
+- Operational traceability through audit logging
 
-It reflects how a real-world internal operations platform would be
-structured.
+The platform architecture prioritizes clarity, reliability, and extensibility, enabling the system to evolve as operational requirements grow.
 
 ---
 
