@@ -358,8 +358,8 @@ The platform architecture prioritizes clarity, reliability, and extensibility, e
 
 **Tracey Kadenyi**
 
-- Email: treykadenyi@gmail.com
-- GitHub: [trace-kadenyi](https://github.com/trace-kadenyi)
-- LinkedIn: [tracey-kadenyi](https://www.linkedin.com/in/tracey-kadenyi/)
-- Medium: [@tracekadenyi](https://medium.com/@tracekadenyi)
-- Portfolio: [tracey-kadenyi.vercel.app](https://tracey-kadenyi.vercel.app/)
+💻 [GitHub](https://github.com/trace-kadenyi) •  
+🔗 [LinkedIn](https://www.linkedin.com/in/tracey-kadenyi/) •  
+✍🏽 [Medium](https://medium.com/@tracekadenyi) •  
+🌐 [Website](https://tracey-kadenyi.vercel.app/) •  
+📧 [Email](mailto:treykadenyi@gmail.com)
