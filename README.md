@@ -1,4 +1,4 @@
-![License](https://img.shields.io/badge/license-MIT-blue)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 > 🎨 This repository contains the Frontend application for PlaniT.  
 > For backend implementation and full API documentation, see: https://github.com/trace-kadenyi/PlaniT-API.git
