@@ -119,17 +119,27 @@ This enables traceability and production-grade accountability.
 
 ---
 
-# 📡 API Documentation (Swagger-Style Overview)
+# 📡 API Overview
 
 Base URL:
 
     /api
 
+The backend exposes a RESTful API for managing authentication, events, clients, vendors, tasks, and expenses.
+
+Most routes require authentication via a JWT access token.
+
+Authorization header:
+
+    Authorization: Bearer <token>
+
+---
+
 ## 🔑 Authentication
 
 ### POST /auth/login
 
-Authenticates user and returns JWT.
+Authenticates a user and returns a JWT access token.
 
 Request:
 
@@ -150,23 +160,24 @@ Response:
 
 ### POST /events
 
-Create new event.
+Create a new event.
 
 ### GET /events
 
-Retrieve all accessible events.
+Retrieve all events accessible to the authenticated user.
 
 ### GET /events/:id
 
-Retrieve specific event.
+Retrieve a specific event.
 
 ### PATCH /events/:id
 
-Update event.
+Update event details.
 
 ### DELETE /events/:id
 
-Soft delete (hard delete for elevated roles).
+Delete an event.  
+Supports soft deletion, with hard deletion restricted to elevated roles.
 
 ---
 
@@ -174,11 +185,19 @@ Soft delete (hard delete for elevated roles).
 
 ### POST /clients
 
+Create a client.
+
 ### GET /clients
+
+Retrieve clients.
 
 ### PATCH /clients/:id
 
+Update a client.
+
 ### DELETE /clients/:id
+
+Delete a client.
 
 ---
 
@@ -186,11 +205,19 @@ Soft delete (hard delete for elevated roles).
 
 ### POST /vendors
 
+Create a vendor.
+
 ### GET /vendors
+
+Retrieve vendors.
 
 ### PATCH /vendors/:id
 
+Update a vendor.
+
 ### DELETE /vendors/:id
+
+Delete a vendor.
 
 ---
 
@@ -198,11 +225,11 @@ Soft delete (hard delete for elevated roles).
 
 ### POST /expenses
 
-Creates expense and validates budget limit.
+Create an expense and validate it against the event's allocated budget.
 
 ### GET /expenses?eventId=
 
-Retrieve expenses for event.
+Retrieve expenses associated with an event.
 
 ---
 
@@ -210,11 +237,23 @@ Retrieve expenses for event.
 
 ### POST /tasks
 
+Create a task.
+
 ### GET /tasks?eventId=
+
+Retrieve tasks associated with an event.
 
 ### PATCH /tasks/:id
 
+Update task status or details.
+
 ### DELETE /tasks/:id
+
+Delete a task.
+
+---
+
+📄 Detailed API documentation can be found in `docs/API.md`.
 
 ---
 
