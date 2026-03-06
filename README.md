@@ -7,119 +7,117 @@ PlaniT is a SaaS event management platform built on the MERN stack.
 
 It enables organizations to manage events, vendors, budgets, tasks, and operational workflows within a secure, role-based architecture, while delivering scalable system design, financial integrity enforcement through audit logs, and granular access control across multi-organization environments.
 
-------------------------------------------------------------------------
-
+---
 
 ## 🌍 Live Architecture Overview
 
 PlaniT is split into two independent repositories:
 
--   **Frontend (React + Redux Toolkit)**
--   **Backend API (Node.js + Express + MongoDB)**
+- **Frontend (React + Redux Toolkit)**
+- **Backend API (Node.js + Express + MongoDB)**
 
 The frontend and backend are maintained as separate repositories, enabling independent development, deployment, and scalability.
 
-------------------------------------------------------------------------
+---
 
 # 🚀 System Architecture Principles
 
 PlaniT is engineered around production-grade architectural principles:
 
-- Real-world relational data modeling in MongoDB  
-- Secure JWT-based authentication with granular RBAC authorization  
-- Financial constraint enforcement (budget vs expense validation)  
-- Soft and hard deletion strategies for data integrity  
-- Comprehensive audit logging for accountability and traceability  
-- Modular frontend architecture with scalable state management  
-- Clean, layered backend service architecture  
+- Real-world relational data modeling in MongoDB
+- Secure JWT-based authentication with granular RBAC authorization
+- Financial constraint enforcement (budget vs expense validation)
+- Soft and hard deletion strategies for data integrity
+- Comprehensive audit logging for accountability and traceability
+- Modular frontend architecture with scalable state management
+- Clean, layered backend service architecture
 
 The platform is structured for maintainability, security, and long-term scalability.
 
-------------------------------------------------------------------------
+---
 
 # 🧱 Tech Stack
 
 ### Frontend
 
--   React
--   Redux Toolkit
--   React Router
--   Axios
--   Framer Motion
--   Tailwind CSS
--   Supabase
-
+- React
+- Redux Toolkit
+- React Router
+- Axios
+- Framer Motion
+- Tailwind CSS
+- Supabase
 
 ### Backend
 
--   Node.js
--   Express.js
--   MongoDB
--   Mongoose
--   JWT Authentication
--   Middleware-based RBAC
--   Supabase
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- Middleware-based RBAC
+- Supabase
 
-------------------------------------------------------------------------
+---
 
 # 🗂 System Modules
 
--   Organizations
--   Users
--   Events
--   Clients
--   Vendors
--   Tasks
--   Budgets
--   Expenses
--   Audit Logs
--   User Update History
+- Organizations
+- Users
+- Events
+- Clients
+- Vendors
+- Tasks
+- Budgets
+- Expenses
+- Audit Logs
+- User Update History
 
-------------------------------------------------------------------------
+---
 
 # 🔐 Authentication & Authorization
 
 ### Authentication
 
--   JWT issued at login
--   Token-based API access
--   Secure middleware verification
+- JWT issued at login
+- Token-based API access
+- Secure middleware verification
 
 ### Authorization
 
--   Role-Based Access Control
--   Resource-level permission checks
--   Action-based enforcement (create, read, update, delete)
--   Defense-in-depth (validated both frontend & backend)
+- Role-Based Access Control
+- Resource-level permission checks
+- Action-based enforcement (create, read, update, delete)
+- Defense-in-depth (validated both frontend & backend)
 
-------------------------------------------------------------------------
+---
 
 # 💰 Financial Logic Enforcement
 
 PlaniT enforces financial constraints server-side:
 
--   Expenses cannot exceed allocated event budget
--   Aggregation queries calculate total expenses
--   Remaining budget is derived dynamically
--   Validation occurs in service layer (not controller)
+- Expenses cannot exceed allocated event budget
+- Aggregation queries calculate total expenses
+- Remaining budget is derived dynamically
+- Validation occurs in service layer (not controller)
 
 This ensures financial data integrity.
 
-------------------------------------------------------------------------
+---
 
 # 🧾 Audit Logging
 
 Every critical mutation logs:
 
--   User ID
--   Resource affected
--   Action performed
--   Timestamp
--   Optional metadata
+- User ID
+- Resource affected
+- Action performed
+- Timestamp
+- Optional metadata
 
 This enables traceability and production-grade accountability.
 
-------------------------------------------------------------------------
+---
 
 # 📡 API Documentation (Swagger-Style Overview)
 
@@ -146,7 +144,7 @@ Response:
       "token": "<jwt_token>"
     }
 
-------------------------------------------------------------------------
+---
 
 ## 📅 Events
 
@@ -170,7 +168,7 @@ Update event.
 
 Soft delete (hard delete for elevated roles).
 
-------------------------------------------------------------------------
+---
 
 ## 👥 Clients
 
@@ -182,7 +180,7 @@ Soft delete (hard delete for elevated roles).
 
 ### DELETE /clients/:id
 
-------------------------------------------------------------------------
+---
 
 ## 🏢 Vendors
 
@@ -194,7 +192,7 @@ Soft delete (hard delete for elevated roles).
 
 ### DELETE /vendors/:id
 
-------------------------------------------------------------------------
+---
 
 ## 💵 Expenses
 
@@ -206,7 +204,7 @@ Creates expense and validates budget limit.
 
 Retrieve expenses for event.
 
-------------------------------------------------------------------------
+---
 
 ## 📝 Tasks
 
@@ -218,7 +216,7 @@ Retrieve expenses for event.
 
 ### DELETE /tasks/:id
 
-------------------------------------------------------------------------
+---
 
 # 📸 Screenshots
 
@@ -240,7 +238,7 @@ Retrieve expenses for event.
 
 ![Vendor Screenshot](./screenshots/vendors.png)
 
-------------------------------------------------------------------------
+---
 
 # 🛠 Local Development
 
@@ -254,7 +252,7 @@ Backend:
 
     git clone <backend-repo-url>
 
-------------------------------------------------------------------------
+---
 
 ## Backend Setup
 
@@ -269,7 +267,7 @@ Create `.env` file:
     JWT_SECRET=your_secret
     CLIENT_URL=http://localhost:5173
 
-------------------------------------------------------------------------
+---
 
 ## Frontend Setup
 
@@ -281,33 +279,33 @@ Create `.env` file:
 
     VITE_API_BASE_URL=http://localhost:5000/api
 
-------------------------------------------------------------------------
+---
 
 # 🧪 Future Improvements
 
--   Docker containerization
--   CI/CD pipeline
--   Full test coverage (unit + integration)
--   API documentation via Swagger UI
--   Role hierarchy expansion
--   Real-time updates via WebSockets
+- Docker containerization
+- CI/CD pipeline
+- Full test coverage (unit + integration)
+- API documentation via Swagger UI
+- Role hierarchy expansion
+- Real-time updates via WebSockets
 
-------------------------------------------------------------------------
+---
 
 # 🧠 Engineering Philosophy
 
 PlaniT was designed with:
 
--   Separation of concerns
--   Maintainable architecture
--   Production-oriented thinking
--   Defensive programming practices
--   Scalability in mind
+- Separation of concerns
+- Maintainable architecture
+- Production-oriented thinking
+- Defensive programming practices
+- Scalability in mind
 
 It reflects how a real-world internal operations platform would be
 structured.
 
-------------------------------------------------------------------------
+---
 
 # 📎 Repository Links
 
@@ -315,7 +313,7 @@ Frontend Repository: `<link-to-frontend>`{=html}
 
 Backend Repository: `<link-to-backend>`{=html}
 
-------------------------------------------------------------------------
+---
 
 # 👤 Author
 
