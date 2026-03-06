@@ -1,7 +1,7 @@
+![License](https://img.shields.io/badge/license-MIT-blue)
+
 > 🎨 This repository contains the Frontend application for PlaniT.  
 > For backend implementation and full API documentation, see: https://github.com/trace-kadenyi/PlaniT-API.git
-
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 # PlaniT - Full Stack Event Management System
 
