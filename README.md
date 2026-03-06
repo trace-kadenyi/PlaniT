@@ -1,6 +1,8 @@
 > 🎨 This repository contains the Frontend application for PlaniT.  
 > For backend implementation and full API documentation, see: https://github.com/trace-kadenyi/PlaniT-API.git
 
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
 # PlaniT - Full Stack Event Management System
 
 PlaniT is a SaaS event management platform built on the MERN stack.
@@ -359,3 +361,7 @@ The platform architecture prioritizes clarity, reliability, and extensibility, e
 ## Tracey Kadenyi
 
 📧 [Email](mailto:treykadenyi@gmail.com) • 💻 [GitHub](https://github.com/trace-kadenyi) • 🔗 [LinkedIn](https://www.linkedin.com/in/tracey-kadenyi/) • ✍🏽 [Medium](https://medium.com/@tracekadenyi) • 🌐 [Website](https://tracey-kadenyi.vercel.app/)
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
