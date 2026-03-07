@@ -286,7 +286,6 @@ Delete a task.
   <img src="./public/screenshots/expense audit log - dark mode.PNG" width="48%" />
 </p>
 
-
 ---
 
 # 🛠 Local Development
