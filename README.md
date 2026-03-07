@@ -269,6 +269,7 @@ Delete a task.
   <img src="./public/screenshots/dashboard-dark.png" width="48%" />
   <img src="./public/screenshots/dashboard-light.png" width="48%" />
   <img src="./public/screenshots/eventsboard-darkmode.png" width="48%" />
+  <img src="./public/screenshots/eventsboard-lightmode.png" width="48%" />
   <img src="./public/screenshots/taskboard-lightmode.PNG" width="48%" />
   <img src="./public/screenshots/taskboard-darkmode.png" width="48%" />
 </p>
