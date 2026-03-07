@@ -266,6 +266,7 @@ Delete a task.
 ### Dashboard
 
 <p align="center">
+  <img src="./public/screenshots/dashboard.png" width="48%" />
   <img src="./public/screenshots/eventsboard-darkmode.png" width="48%" />
   <img src="./public/screenshots/taskboard-lightmode.PNG" width="48%" />
   <img src="./public/screenshots/taskboard-darkmode.png" width="48%" />
