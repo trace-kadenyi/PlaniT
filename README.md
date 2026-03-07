@@ -281,7 +281,11 @@ Delete a task.
 
 ### Audit Log View
 
-![Expense Audit Log Screenshot](./public/screenshots//expenseauditlog-lightmode.PNG)
+<p align="center">
+  <img src="./public/screenshots/expenseauditlog-lightmode.PNG" width="48%" />
+  <img src="./public/screenshots/expense audit log - dark mode.PNG" width="48%" />
+</p>
+
 
 ---
 
