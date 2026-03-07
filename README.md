@@ -273,11 +273,15 @@ Delete a task.
 
 ### Budget & Expense View
 
-![Budget Screenshot](./screenshots/budget.png)
+![Budget Screenshot](./public/screenshots//expenseauditlog-lightmode.PNG)
 
 ### Vendor Management
 
 ![Vendor Screenshot](./screenshots/vendors.png)
+
+### Audit Log View
+
+![Expense Audit Log Screenshot](./public/screenshots//expenseauditlog-lightmode.PNG)
 
 ---
 
