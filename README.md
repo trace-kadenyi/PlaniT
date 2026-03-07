@@ -265,11 +265,18 @@ Delete a task.
 
 ### Dashboard
 
-![Dashboard Screenshot](./screenshots/dashboard.png)
+<p align="center">
+  <img src="./public/screenshots/eventsboard-darkmode.png" width="48%" />
+  <img src="./public/screenshots/taskboard-lightmode.PNG" width="48%" />
+  <img src="./public/screenshots/taskboard-darkmode.png" width="48%" />
+</p>
 
 ### Event Detail View
 
-![Event Detail Screenshot](./screenshots/event-detail.png)
+<p align="center">
+  <img src="./public/screenshots/events board.png" width="48%" />
+  <img src="./public/screenshots/tasks board.png" width="48%" />
+</p>
 
 ### Budget & Expense View
 
