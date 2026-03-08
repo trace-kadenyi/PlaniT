@@ -289,6 +289,10 @@ Delete a task.
 
 ![Vendor Screenshot](./screenshots/vendors.png)
 
+### Client Management
+
+![Client Screenshot](./screenshots/clients.png)
+
 ### Audit Log View
 
 <p align="center">
