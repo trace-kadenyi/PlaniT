@@ -1,224 +1,231 @@
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev)
+[![Redux](https://img.shields.io/badge/Redux_Toolkit-2.x-764ABC?logo=redux)](https://redux-toolkit.js.org)
+[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-3.x-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 
-> 🎨 This repository contains the Frontend application for PlaniT.  
-> For backend implementation and full API documentation, see: https://github.com/trace-kadenyi/PlaniT-API.git
+> 🎨 This repository contains the Frontend application for PlaniT.
+> For backend implementation and full API documentation, see: https://github.com/trace-kadenyi/PlaniT-API
 
-# PlaniT - Full Stack Event Management System
+# PlaniT — Full Stack Event Management System
 
-PlaniT is a SaaS event management platform built on the MERN stack.
-
-It enables organizations to manage events, vendors, budgets, tasks, and operational workflows within a secure, role-based architecture, while delivering scalable system design, financial integrity enforcement through audit logs, and granular access control across multi-organization environments.
-
----
-
-## 🌍 Live Architecture Overview
-
-PlaniT is split into two independent repositories:
-
-- **Frontend (React + Redux Toolkit)**
-- **Backend API (Node.js + Express + MongoDB)**
-
-The frontend and backend are maintained as separate repositories, enabling independent development, deployment, and scalability.
+PlaniT is a SaaS event management platform that gives organizations a clean, role-aware interface for managing events, vendors, budgets, and tasks — with real-time financial tracking, expense audit logs, and team collaboration built in. The UI supports both dark and light mode across all views.
 
 ---
 
-# 🚀 System Architecture Principles
+## 🌍 Architecture Overview
 
-PlaniT is engineered around production-grade architectural principles:
+PlaniT is split into two independent repositories, enabling separate development, deployment, and scaling:
 
-- Real-world relational data modeling in MongoDB
-- Secure JWT-based authentication with granular RBAC authorization
-- Financial constraint enforcement (budget vs expense validation)
-- Soft and hard deletion strategies for data integrity
-- Comprehensive audit logging for accountability and traceability
-- Modular frontend architecture with scalable state management
-- Clean, layered backend service architecture
-
-The platform is structured for maintainability, security, and long-term scalability.
+| Repository | Stack |
+|---|---|
+| **Frontend** (this repo) | React, Redux Toolkit, React Router, Tailwind CSS |
+| **Backend API** | Node.js, Express.js, MongoDB, Mongoose, JWT |
 
 ---
 
-# 🧱 Tech Stack
+## 🧱 Tech Stack
 
-### Frontend
-
-- React
-- Redux Toolkit
-- React Router
-- Axios
-- Framer Motion
-- Tailwind CSS
-- Supabase
-
----
-
-# 🔐 Authentication & Authorization
-
-### Authentication
-
-- JWT issued at login
-- Token-based API access
-- Secure middleware verification
-
-### Authorization
-
-- Role-Based Access Control
-- Resource-level permission checks
-- Action-based enforcement (create, read, update, delete)
-- Defense-in-depth (validated both frontend & backend)
+| Technology | Role |
+|---|---|
+| **React** | UI component library and rendering |
+| **Redux Toolkit** | Global state management — auth, events, users, expenses |
+| **React Router** | Client-side routing and protected route handling |
+| **Axios** | HTTP client for all API communication |
+| **Tailwind CSS** | Utility-first styling with dark/light mode support |
+| **Framer Motion** | Page transitions and UI animations |
+| **Supabase** | File and asset storage (e.g. profile images) |
 
 ---
 
-# 💰 Financial Logic Enforcement
+## ✨ Features
 
-PlaniT enforces financial constraints server-side:
-
-- Expenses cannot exceed allocated event budget
-- Aggregation queries calculate total expenses
-- Remaining budget is derived dynamically
-- Validation occurs in service layer (not controller)
-
-This ensures financial data integrity.
-
----
-
-# 🧾 Audit Logging
-
-Every critical mutation logs:
-
-- User ID
-- Resource affected
-- Action performed
-- Timestamp
-- Optional metadata
-
-This enables traceability and production-grade accountability.
+- **Role-based UI** — components and actions render conditionally based on the authenticated user's role and permissions
+- **Dark & light mode** — full theme support across all views
+- **Financial tracking** — live budget vs. expense status per event with over-budget warnings
+- **Expense audit log** — full history of expense mutations with user attribution
+- **Team management** — invite, update roles, deactivate and reactivate users
+- **Archive & restore** — soft deletion flow for events, clients, and vendors
+- **Protected routes** — unauthenticated users are redirected; unauthorized roles see restricted views
 
 ---
 
-# 📸 Screenshots
+## 🔐 Auth & State Management
 
-### Dashboards View
+### Client-side Auth Flow
+
+- JWT access token stored in memory; refresh token handled via httpOnly cookie
+- Silent token renewal runs automatically via Axios interceptors on 401 responses
+- Auth state is managed in a dedicated Redux slice and persisted across page refreshes via the refresh token flow
+- Protected routes check auth state before rendering; unauthorized roles are redirected
+
+### State Structure
+
+Redux Toolkit slices are organized by domain:
+
+- `authSlice` — user session, role, and token state
+- `eventsSlice` — event list, selected event, loading/error states
+- `expensesSlice` — expenses per event, budget status, audit logs
+- `usersSlice` — organization members and role management
+- `clientsSlice` / `vendorsSlice` / `tasksSlice` — respective resource state
+
+---
+
+## 📸 Screenshots
+
+### Dashboard
 
 <p align="center">
   <img src="./public/screenshots/dashboard-dark.png" width="48%" />
   <img src="./public/screenshots/dashboard-light.png" width="48%" />
+</p>
+
+Overview of active events, upcoming tasks, and key metrics at a glance.
+
+### Events Board
+
+<p align="center">
   <img src="./public/screenshots/eventsboard-darkmode.png" width="48%" />
   <img src="./public/screenshots/eventsboard-lightmode.png" width="48%" />
+</p>
+
+Browse, filter, archive, and manage all organization events.
+
+### Task Board
+
+<p align="center">
   <img src="./public/screenshots/taskboard-darkmode.png" width="48%" />
   <img src="./public/screenshots/taskboard-light.png" width="48%" />
 </p>
 
-### Event Details View
+Create and track tasks tied to specific events with status updates.
+
+### Event Details
 
 <p align="center">
   <img src="./public/screenshots/event-details-darkmode.png" width="48%" />
   <img src="./public/screenshots/event-details-lightmode.png" width="48%" />
 </p>
 
-### Budget & Expenses View
+Deep-dive into a single event — linked clients, vendors, budget, and tasks in one view.
+
+### Budget & Expenses
 
 <p align="center">
   <img src="./public/screenshots/budget_&_expenses-dark.png" width="48%" />
   <img src="./public/screenshots/budget_&_expenses-light.png" width="48%" />
 </p>
 
-### Expense Audit Log View
+Live budget tracking with running totals, remaining budget, and over-budget alerts.
+
+### Expense Audit Log
 
 <p align="center">
   <img src="./public/screenshots/expenseauditlog-lightmode.PNG" width="48%" />
   <img src="./public/screenshots/expense audit log - dark mode.PNG" width="48%" />
 </p>
 
-### Team Management View
+Full mutation history for expenses — who changed what and when.
+
+### Team Management
 
 <p align="center">
   <img src="./public/screenshots/user-management-dark.png" width="48%" />
   <img src="./public/screenshots/user-management-light.png" width="48%" />
 </p>
 
-### User Profile View
+Invite team members, assign roles, and manage account status.
+
+### User Profile
 
 <p align="center">
   <img src="./public/screenshots/user-profile-dark.png" width="48%" />
   <img src="./public/screenshots/user-profile-light.png" width="48%" />
 </p>
 
-### Client Directory View
+Personal profile management with update history.
+
+### Client Directory
 
 <p align="center">
   <img src="./public/screenshots/client-darkmode.png" width="48%" />
   <img src="./public/screenshots/client-lightmode.png" width="48%" />
 </p>
 
-### Vendor Directory View
+Searchable client directory with linked event history per client.
+
+### Vendor Directory
 
 <p align="center">
   <img src="./public/screenshots/vendor-darkmode.png" width="48%" />
   <img src="./public/screenshots/vendor-lightmode.png" width="48%" />
 </p>
 
----
-
-# 🛠 Local Development
-
-## Clone Repository
-
-    git clone https://github.com/trace-kadenyi/PlaniT.git
+Manage vendors, view stats, and archive inactive records.
 
 ---
 
-## Frontend Setup
+## 🛠 Local Development
 
-    cd PlaniT
-    npm install
-    npm run dev
+### Prerequisites
 
-Create `.env` file:
+- Node.js v18+
+- PlaniT backend API running locally on port 4000
 
-    VITE_API_BASE_URL=http://localhost:4000
-    VITE_SUPABASE_URL=your_supabase_project_url
-    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+### Setup
 
----
+```bash
+git clone https://github.com/trace-kadenyi/PlaniT.git
+cd PlaniT
+npm install
+npm run dev
+```
 
-# 🧪 Future Improvements
+### Environment Variables
 
-- Docker containerization
-- CI/CD pipeline
-- Full test coverage (unit + integration)
-- API documentation via Swagger UI
-- Role hierarchy expansion
-- Real-time updates via WebSockets
+Create a `.env` file in the project root:
 
----
-
-# 🧠 Engineering Philosophy
-
-PlaniT is built around core engineering principles that support long-term system reliability and maintainability:
-
-- Clear separation of concerns across services and modules
-- Maintainable, modular architecture
-- Defensive programming and strict validation
-- Scalable data modeling and service design
-- Operational traceability through audit logging
-
-The platform architecture prioritizes clarity, reliability, and extensibility, enabling the system to evolve as operational requirements grow.
+```env
+VITE_API_BASE_URL=http://localhost:4000
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
 ---
 
-# 📎 Repositories
+## 🧪 Roadmap
+
+- [ ] Skeleton loading states for improved perceived performance
+- [ ] Mobile-responsive layouts
+- [ ] E2E test coverage with Cypress
+- [ ] CI/CD pipeline (GitHub Actions)
+- [ ] Real-time updates via WebSockets
+- [ ] Role hierarchy expansion for more granular UI permissions
+- [ ] Notification system for budget alerts and task deadlines
+
+---
+
+## 🧠 Engineering Philosophy
+
+- Component-driven architecture with clear separation between UI and state logic
+- Auth and permission checks co-located with routing, not scattered across components
+- Financial validation enforced on the server — the UI reflects state, never trusts it
+- Modular Redux slices designed to scale with new resource types
+- Consistent UX patterns across all CRUD flows regardless of resource type
+
+---
+
+## 📎 Repositories
 
 - **Frontend:** [PlaniT](https://github.com/trace-kadenyi/PlaniT)
 - **Backend API:** [PlaniT-API](https://github.com/trace-kadenyi/PlaniT-API)
 
 ---
 
-# 👤 Author
+## 👤 Author
 
-## Tracey Kadenyi
+### Tracey Kadenyi
 
-📧 [Email](mailto:treykadenyi@gmail.com) • 💻 [GitHub](https://github.com/trace-kadenyi) • 🔗 [LinkedIn](https://www.linkedin.com/in/tracey-kadenyi/) • ✍🏽 [Medium](https://medium.com/@tracekadenyi) • 🌐 [Website](https://tracey-kadenyi.vercel.app/)
+📧 [treykadenyi@gmail.com](mailto:treykadenyi@gmail.com) &nbsp;•&nbsp; 💻 [GitHub](https://github.com/trace-kadenyi) &nbsp;•&nbsp; 🔗 [LinkedIn](https://www.linkedin.com/in/tracey-kadenyi/) &nbsp;•&nbsp; ✍🏽 [Medium](https://medium.com/@tracekadenyi) &nbsp;•&nbsp; 🌐 [Website](https://tracey-kadenyi.vercel.app/)
 
 ---
 
