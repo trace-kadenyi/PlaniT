@@ -309,6 +309,20 @@ Delete a task.
   <img src="./public/screenshots/expense audit log - dark mode.PNG" width="48%" />
 </p>
 
+### Team Management
+
+<p align="center">
+  <img src="./public/screenshots/user-management-dark.png" width="48%" />
+  <img src="./public/screenshots/user-management-light.png" width="48%" />
+</p>
+
+### User Profile
+
+<p align="center">
+  <img src="./public/screenshots/user-profile-dark.png" width="48%" />
+  <img src="./public/screenshots/user-profile-light.png" width="48%" />
+</p>
+
 ---
 
 # 🛠 Local Development
