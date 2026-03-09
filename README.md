@@ -261,9 +261,7 @@ Delete a task.
 
 # 📸 Screenshots
 
-> Add application screenshots below.
-
-### Dashboard
+### Dashboards View
 
 <p align="center">
   <img src="./public/screenshots/dashboard-dark.png" width="48%" />
@@ -288,39 +286,39 @@ Delete a task.
   <img src="./public/screenshots/budget_&_expenses-light.png" width="48%" />
 </p>
 
-### Vendor Management
-
-<p align="center">
-  <img src="./public/screenshots/vendor-darkmode.png" width="48%" />
-  <img src="./public/screenshots/vendor-lightmode.png" width="48%" />
-</p>
-
-### Client Management
-
-<p align="center">
-  <img src="./public/screenshots/client-darkmode.png" width="48%" />
-  <img src="./public/screenshots/client-lightmode.png" width="48%" />
-</p>
-
-### Audit Log View
+### Expense Audit Log View
 
 <p align="center">
   <img src="./public/screenshots/expenseauditlog-lightmode.PNG" width="48%" />
   <img src="./public/screenshots/expense audit log - dark mode.PNG" width="48%" />
 </p>
 
-### Team Management
+### Team Management View
 
 <p align="center">
   <img src="./public/screenshots/user-management-dark.png" width="48%" />
   <img src="./public/screenshots/user-management-light.png" width="48%" />
 </p>
 
-### User Profile
+### User Profile View
 
 <p align="center">
   <img src="./public/screenshots/user-profile-dark.png" width="48%" />
   <img src="./public/screenshots/user-profile-light.png" width="48%" />
+</p>
+
+### Vendor Management View
+
+<p align="center">
+  <img src="./public/screenshots/vendor-darkmode.png" width="48%" />
+  <img src="./public/screenshots/vendor-lightmode.png" width="48%" />
+</p>
+
+### Client Management View
+
+<p align="center">
+  <img src="./public/screenshots/client-darkmode.png" width="48%" />
+  <img src="./public/screenshots/client-lightmode.png" width="48%" />
 </p>
 
 ---
