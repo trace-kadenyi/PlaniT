@@ -277,8 +277,8 @@ Delete a task.
 ### Event Detail View
 
 <p align="center">
-  <img src="./public/screenshots/events board.png" width="48%" />
-  <img src="./public/screenshots/tasks board.png" width="48%" />
+  <img src="./public/screenshots/event-details-dark.png" width="48%" />
+  <img src="./public/screenshots/event-details-light.png" width="48%" />
 </p>
 
 ### Budget & Expense View
