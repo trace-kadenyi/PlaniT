@@ -134,7 +134,9 @@ export function ExpenseListView({ expense, children }) {
               View receipt ↗
             </a>
           ) : (
-            <p className="text-sm text-gray-400 italic mt-1">No receipt</p>
+            expense.paymentStatus === "paid" && (
+              <p className="text-xs text-gray-400 italic mt-1">No receipt</p>
+            )
           )}
 
           {/* created on/by details */}

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export function getBudgetStatus(budget, expenses) {
   const totalExpenses = expenses.reduce(
     (sum, expense) => sum + expense.amount,
-    0
+    0,
   );
   const remainingBudget = budget.totalBudget - totalExpenses;
 
@@ -172,7 +172,7 @@ export function ExpenseListView({ expense, children }) {
               View receipt ↗
             </a>
           ) : (
-            <p className="text-sm text-gray-400 italic mt-1">No receipt</p>
+            <p className="text-xs text-gray-400 italic mt-1">No receipt</p>
           )}
         </div>
 

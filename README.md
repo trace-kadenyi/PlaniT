@@ -1,139 +1,234 @@
-# PlaniT
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev)
+[![Redux](https://img.shields.io/badge/Redux_Toolkit-2.x-764ABC?logo=redux)](https://redux-toolkit.js.org)
+[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-3.x-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 
-PlaniT is a comprehensive event planning management system built with the MERN stack (MongoDB, Express, React, Node.js). It is designed to help event planners manage tasks, clients, budgets, and events efficiently, all in one platform.
+> 🎨 This repository contains the Frontend application for PlaniT.
+> For backend implementation and full API documentation, see: https://github.com/trace-kadenyi/PlaniT-API
 
----
+# PlaniT — Full Stack Event Management System
 
-## Features
-
-- **Event Management**: Create, update, and track events with detailed information.
-- **Task Management**: Assign, monitor, and complete tasks related to events.
-- **Budgeting Tools**: Track expenses and budgets for events.
-- **Client Management**: Store client information and link clients to specific events.
-- **Redux State Management**: Centralized state for a scalable, maintainable application.
-- **Responsive Frontend**: User-friendly interface built with React.
-- **Backend API**: RESTful API built with Express and Node.js, connected to MongoDB.
+PlaniT is a SaaS event management platform that gives organizations a clean, role-aware interface for managing events, vendors, budgets, and tasks — with real-time financial tracking, expense audit logs, and team collaboration built in. The UI supports both dark and light mode across all views.
 
 ---
 
-## Tech Stack
+## 🌍 Architecture Overview
 
-- **Frontend**: React, Redux, Tailwind CSS
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **State Management**: Redux Toolkit
-- **Authentication & Authorization**: JWT (planned for future release)
+PlaniT is split into two independent repositories, enabling separate development, deployment, and scaling:
 
----
-
-## Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/trace-kadenyi/planit.git
-   cd planit
-   ```
-
-2. **Install dependencies**
-   - Frontend
-     ```bash
-     cd client
-     npm install
-     ```
-   - Backend
-
-     ```bash
-     cd server
-     npm install
-     ```
-
-     3. **Setup environment variables**
-
-   - Create a `.env` file in the `server` folder:
-     ```env
-     MONGO_URI=your_mongodb_connection_string
-     JWT_SECRET=your_jwt_secret
-     PORT=5000
-     ```
-
-3. **Run the application**
-   - Start backend:
-     ```bash
-     cd server
-     npm run dev
-     ```
-   - Start frontend:
-     ```bash
-     cd client
-     npm start
-     ```
-4. **Run the application**
-   - Start backend:
-     ```bash
-     cd server
-     npm start
-     ```
-   - Start frontend:
-     ```bash
-     cd client
-     npm run dev
-     ```
-
-5. Open your browser at `http://localhost:4000`.
+| Repository | Stack |
+|---|---|
+| **Frontend** (this repo) | React, Redux Toolkit, React Router, Tailwind CSS |
+| **Backend API** | Node.js, Express.js, MongoDB, Mongoose, JWT |
 
 ---
 
-## Folder Structure
+## 🧱 Tech Stack
 
+| Technology | Role |
+|---|---|
+| **React** | UI component library and rendering |
+| **Redux Toolkit** | Global state management — auth, events, users, expenses |
+| **React Router** | Client-side routing and protected route handling |
+| **Axios** | HTTP client for all API communication |
+| **Tailwind CSS** | Utility-first styling with dark/light mode support |
+| **Framer Motion** | Page transitions and UI animations |
+| **Supabase** | Expense receipt storage |
+
+---
+
+## ✨ Features
+
+- **Role-based UI** — components and actions render conditionally based on the authenticated user's role and permissions
+- **Dark & light mode** — full theme support across all views
+- **Financial tracking** — live budget vs. expense status per event with over-budget warnings
+- **Expense audit log** — full history of expense mutations with user attribution
+- **Team management** — invite, update roles, deactivate and reactivate users
+- **Archive & restore** — soft deletion flow for events, clients, and vendors
+- **Protected routes** — unauthenticated users are redirected; unauthorized roles see restricted views
+
+---
+
+## 🔐 Auth & State Management
+
+### Client-side Auth Flow
+
+- JWT access token stored in memory; refresh token handled via httpOnly cookie
+- Silent token renewal runs automatically via Axios interceptors on 401 responses
+- Auth state is managed in a dedicated Redux slice and persisted across page refreshes via the refresh token flow
+- Protected routes check auth state before rendering; unauthorized roles are redirected
+
+### State Structure
+
+Redux Toolkit slices are organized by domain:
+
+- `authSlice` — user session, role, and token state
+- `eventsSlice` — event list, selected event, loading/error states
+- `expensesSlice` — expenses per event, budget status, audit logs
+- `usersSlice` — organization members and role management
+- `clientsSlice` / `vendorsSlice` / `tasksSlice` — respective resource state
+
+---
+
+## 📸 Screenshots
+
+### Dashboard
+
+<p align="center">
+  <img src="./public/screenshots/dashboard-dark.png" width="48%" />
+  <img src="./public/screenshots/dashboard-light.png" width="48%" />
+</p>
+
+Overview of active events, upcoming tasks, and key metrics at a glance.
+
+### Events Board
+
+<p align="center">
+  <img src="./public/screenshots/eventsboard-darkmode.png" width="48%" />
+  <img src="./public/screenshots/eventsboard-lightmode.png" width="48%" />
+</p>
+
+Browse, filter, archive, and manage all organization events.
+
+### Task Board
+
+<p align="center">
+  <img src="./public/screenshots/taskboard-darkmode.png" width="48%" />
+  <img src="./public/screenshots/taskboard-light.png" width="48%" />
+</p>
+
+Track tasks tied to specific events with status updates.
+
+### Event Details
+
+<p align="center">
+  <img src="./public/screenshots/event-details-darkmode.png" width="48%" />
+  <img src="./public/screenshots/event-details-lightmode.png" width="48%" />
+</p>
+
+Deep-dive into a single event — linked clients, vendors, budget, and tasks in one view.
+
+### Budget & Expenses
+
+<p align="center">
+  <img src="./public/screenshots/budget_&_expenses-dark.png" width="48%" />
+  <img src="./public/screenshots/budget_&_expenses-light.png" width="48%" />
+</p>
+
+Live budget tracking with running totals, remaining budget, and over-budget alerts.
+
+### Expense Audit Log
+
+<p align="center">
+  <img src="./public/screenshots/expenseauditlog-lightmode.PNG" width="48%" />
+  <img src="./public/screenshots/expense audit log - dark mode.PNG" width="48%" />
+</p>
+
+Full mutation history for expenses — who changed what and when.
+
+### Team Management
+
+<p align="center">
+  <img src="./public/screenshots/user-management-dark.png" width="48%" />
+  <img src="./public/screenshots/user-management-light.png" width="48%" />
+</p>
+
+Invite team members, assign roles, and manage account status.
+
+### User Profile
+
+<p align="center">
+  <img src="./public/screenshots/user-profile-dark.png" width="48%" />
+  <img src="./public/screenshots/user-profile-light.png" width="48%" />
+</p>
+
+Personal profile management with update history.
+
+### Client Directory
+
+<p align="center">
+  <img src="./public/screenshots/client-darkmode.png" width="48%" />
+  <img src="./public/screenshots/client-lightmode.png" width="48%" />
+</p>
+
+Searchable client directory with linked event history per client.
+
+### Vendor Directory
+
+<p align="center">
+  <img src="./public/screenshots/vendor-darkmode.png" width="48%" />
+  <img src="./public/screenshots/vendor-lightmode.png" width="48%" />
+</p>
+
+Manage vendors, view stats, and archive inactive records.
+
+---
+
+## 🛠 Local Development
+
+### Prerequisites
+
+- Node.js v18+
+- PlaniT backend API running locally on port 4000
+
+### Setup
+
+```bash
+git clone https://github.com/trace-kadenyi/PlaniT.git
+cd PlaniT
+npm install
+npm run dev
 ```
-planit/
-├── public/
-├── src/
-├── .env
-├── .gitignore
-├── index.html
-├── eslint.config.js
-├── package.json
-└── README.md
-├── vite.config.js
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+VITE_API_BASE_URL=http://localhost:4000
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-## Usage
+---
 
-- **Dashboard**: View all upcoming events and tasks.
-- **Events**: Add or edit events with details such as date, location, client, and status.
-- **Tasks**: Assign tasks to events, track progress, and mark completion.
-- **Clients**: Maintain client information and view associated events.
-- **Budgeting**: Monitor and manage event budgets efficiently.
+## 🧪 Roadmap
+
+- [ ] Skeleton loading states for improved perceived performance
+- [ ] Mobile-responsive layouts
+- [ ] E2E test coverage with Cypress
+- [ ] CI/CD pipeline (GitHub Actions)
+- [ ] Real-time updates via WebSockets
+- [ ] Role hierarchy expansion for more granular UI permissions
+- [ ] Notification system for budget alerts and task deadlines
 
 ---
 
-## Future Enhancements
+## 🧠 Engineering Philosophy
 
-- User authentication and roles (admin, planner, guest)
-- Email notifications and reminders
-- Analytics and reporting dashboards
-- File uploads for event-related documents
-- Enhanced mobile responsiveness
-
----
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/NewFeature`)
-3. Commit your changes (`git commit -m 'Add new feature'`)
-4. Push to the branch (`git push origin feature/NewFeature`)
-5. Open a pull request
+- Component-driven architecture with clear separation between UI and state logic
+- Auth and permission checks co-located with routing, not scattered across components
+- Financial validation enforced on the server — the UI reflects state, never trusts it
+- Modular Redux slices designed to scale with new resource types
+- Consistent UX patterns across all CRUD flows regardless of resource type
 
 ---
 
-## License
+## 📎 Repositories
 
-This project is open-source and available under the [MIT License](LICENSE).
+- **Frontend:** [PlaniT](https://github.com/trace-kadenyi/PlaniT)
+- **Backend API:** [PlaniT-API](https://github.com/trace-kadenyi/PlaniT-API)
 
-## Contact
+---
 
-- **Author**: Tracey Kadenyi
-- **Email**: treykadenyi@gmail.com
+## 👤 Author
+
+### Tracey Kadenyi
+
+📧 [treykadenyi@gmail.com](mailto:treykadenyi@gmail.com) &nbsp;•&nbsp; 💻 [GitHub](https://github.com/trace-kadenyi) &nbsp;•&nbsp; 🔗 [LinkedIn](https://www.linkedin.com/in/tracey-kadenyi/) &nbsp;•&nbsp; ✍🏽 [Medium](https://medium.com/@tracekadenyi) &nbsp;•&nbsp; 🌐 [Website](https://tracey-kadenyi.vercel.app/)
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
