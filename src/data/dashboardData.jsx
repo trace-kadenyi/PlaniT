@@ -14,6 +14,7 @@ export const createQuickStats = ({
   completedTasks,
   totalExpenses,
   totalBudget,
+  eventsByStatus,
 }) => {
   return [
     {
@@ -26,7 +27,7 @@ export const createQuickStats = ({
     },
     {
       label: "Completed Events",
-      value: (totalEvents - activeUpcomingEventsCount).toString(),
+      value: eventsByStatus.completed.length,
       change: `+${activeUpcomingEventsCount} pending`,
       icon: CalendarCheck2,
       color: "bg-[#9B2C62]/10 dark:bg-[#9B2C62]/20",
