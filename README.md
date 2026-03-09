@@ -50,16 +50,6 @@ The platform is structured for maintainability, security, and long-term scalabil
 - Tailwind CSS
 - Supabase
 
-### Backend
-
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
-- Middleware-based RBAC
-- Supabase
-
 ---
 
 # 🔐 Authentication & Authorization
@@ -172,7 +162,7 @@ This enables traceability and production-grade accountability.
 
 # 🛠 Local Development
 
-## Clone Repositories
+## Clone Repository
 
     git clone https://github.com/trace-kadenyi/PlaniT.git
 
