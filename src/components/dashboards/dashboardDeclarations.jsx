@@ -24,31 +24,47 @@ export const getActiveUpcomingEventsCount = (dashboardItems) => {
 // Calculate tasks statistics
 export const getTotalTasks = (tasks) => tasks.length;
 
-export const getPendingTasks = (tasks) => {
+export const getPendingTasks = (tasks, dashboardItems) => {
+  const activeEventIds = new Set(dashboardItems.map((e) => e._id));
   return Array.isArray(tasks)
     ? tasks.filter((task) => {
         const status = task?.status?.toLowerCase();
+        const eventId =
+          typeof task.eventId === "object" ? task.eventId._id : task.eventId;
         return (
-          status === "to do" ||
-          status === "in review" ||
-          status === "in progress"
+          activeEventIds.has(eventId) &&
+          (status === "to do" ||
+            status === "in review" ||
+            status === "in progress")
         );
       }).length
     : 0;
 };
 
-export const getCompletedTasks = (tasks) => {
+export const getCompletedTasks = (tasks, dashboardItems) => {
+  const activeEventIds = new Set(dashboardItems.map((e) => e._id));
   return Array.isArray(tasks)
     ? tasks.filter((task) => {
         const status = task?.status?.toLowerCase();
-        return status === "completed";
+        const eventId =
+          typeof task.eventId === "object" ? task.eventId._id : task.eventId;
+        return activeEventIds.has(eventId) && status === "completed";
       }).length
     : 0;
 };
 
-export const getSortedRecentTasks = (tasks) => {
+export const getSortedRecentTasks = (tasks, dashboardItems) => {
+  const activeEventIds = new Set(dashboardItems.map((e) => e._id));
   return [...tasks]
-    .filter((task) => task.status !== "Completed" && task.deadline)
+    .filter((task) => {
+      const eventId =
+        typeof task.eventId === "object" ? task.eventId._id : task.eventId;
+      return (
+        activeEventIds.has(eventId) &&
+        task.status !== "Completed" &&
+        task.deadline
+      );
+    })
     .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
     .slice(0, 3);
 };
@@ -81,11 +97,17 @@ export const groupEventByStatus = (dashboardItems) => {
 };
 
 // Group tasks by status
-export const groupTasksByStatus = (tasks) => {
+export const groupTasksByStatus = (tasks, dashboardItems) => {
+  const activeEventIds = new Set(dashboardItems.map((e) => e._id));
+  const activeTasks = tasks.filter((task) => {
+    const eventId =
+      typeof task.eventId === "object" ? task.eventId._id : task.eventId;
+    return activeEventIds.has(eventId);
+  });
   return {
-    "To Do": tasks.filter((task) => task.status === "To Do"),
-    "In Progress": tasks.filter((task) => task.status === "In Progress"),
-    Completed: tasks.filter((task) => task.status === "Completed"),
-    "In Review": tasks.filter((task) => task.status === "In Review"),
+    "To Do": activeTasks.filter((task) => task.status === "To Do"),
+    "In Progress": activeTasks.filter((task) => task.status === "In Progress"),
+    Completed: activeTasks.filter((task) => task.status === "Completed"),
+    "In Review": activeTasks.filter((task) => task.status === "In Review"),
   };
 };
