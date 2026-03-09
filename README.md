@@ -33,7 +33,7 @@ PlaniT is split into two independent repositories, enabling separate development
 | **Axios** | HTTP client for all API communication |
 | **Tailwind CSS** | Utility-first styling with dark/light mode support |
 | **Framer Motion** | Page transitions and UI animations |
-| **Supabase** | File and asset storage (e.g. profile images) |
+| **Supabase** | Expense receipt storage |
 
 ---
 
@@ -97,7 +97,7 @@ Browse, filter, archive, and manage all organization events.
   <img src="./public/screenshots/taskboard-light.png" width="48%" />
 </p>
 
-Create and track tasks tied to specific events with status updates.
+Track tasks tied to specific events with status updates.
 
 ### Event Details
 
