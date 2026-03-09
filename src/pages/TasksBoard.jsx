@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DragDropContext } from "@hello-pangea/dnd";
 
 import { fetchAllTasks, clearUpdateError } from "../redux/tasksSlice";
+import { fetchEvents } from "../redux/eventsSlice";
 
 import {
   mapTaskToCard,
@@ -52,11 +53,24 @@ export default function TasksBoard() {
     error: fetchError,
     updateError,
   } = useSelector((state) => state.tasks);
+  const { items: eventsItems, status: eventsStatus } = useSelector(
+    (state) => state.events,
+  );
+
+  const activeEventIds = new Set(
+    eventsItems.filter((e) => !e.isArchived).map((e) => e._id),
+  );
+
+  const activeTasks = tasks.filter((task) => {
+    const eventId =
+      typeof task.eventId === "object" ? task.eventId._id : task.eventId;
+    return activeEventIds.has(eventId);
+  });
 
   // Memoize task-to-card mapping to prevent unnecessary recalculations
   const mapTaskToCardMemoized = useCallback(mapTaskToCard, []);
-  const filteredTasks = useTaskFilters(tasks, filters, customDateRange);
-  const assignees = useAssignees(tasks);
+  const filteredTasks = useTaskFilters(activeTasks, filters, customDateRange);
+  const assignees = useAssignees(activeTasks);
 
   // Memoize columns generation to optimize performance
   const getColumnsFromTasksMemoized = useCallback(() => {
@@ -69,6 +83,7 @@ export default function TasksBoard() {
   // Fetch tasks on initial render
   useEffect(() => {
     dispatch(fetchAllTasks());
+    dispatch(fetchEvents());
   }, [dispatch]);
 
   // Update columns when tasks load or search filter changes
@@ -92,9 +107,15 @@ export default function TasksBoard() {
   // Handle drag-and-drop reordering
   const onDragEnd = useCallback(
     (result) => {
-      handleDragEnd(result, { tasks, columns, setColumns, dispatch, can });
+      handleDragEnd(result, {
+        tasks: activeTasks,
+        columns,
+        setColumns,
+        dispatch,
+        can,
+      });
     },
-    [tasks, columns, setColumns, dispatch, can]
+    [tasks, columns, setColumns, dispatch, can],
   );
 
   // Refresh tasks and reset column state
@@ -148,7 +169,7 @@ export default function TasksBoard() {
       )}
 
       {/* Main content */}
-      {fetchStatus === "loading" ? (
+      {fetchStatus === "loading" || eventsStatus === "loading" ? (
         <LoadingDashboard />
       ) : (
         <DragDropContext onDragEnd={onDragEnd}>
