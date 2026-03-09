@@ -58,7 +58,7 @@ export default function TasksBoard() {
   );
 
   const activeEventIds = new Set(
-    eventsItems.filter((e) => !e.isArchived).map((e) => e._id),
+    eventsItems.filter((e) => !e.isArchived && !e.isDeleted).map((e) => e._id),
   );
 
   const activeTasks = tasks.filter((task) => {
