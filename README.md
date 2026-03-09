@@ -283,7 +283,10 @@ Delete a task.
 
 ### Budget & Expense View
 
-![Budget Screenshot](./public/screenshots/expense%20audit%20log%20-%20dark%20mode.PNG)
+<p align="center">
+  <img src="./public/screenshots/budget_&_expenses-dark.png" width="48%" />
+  <img src="./public/screenshots/budget_&_expenses-light.png" width="48%" />
+</p>
 
 ### Vendor Management
 
