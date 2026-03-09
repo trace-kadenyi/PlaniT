@@ -287,11 +287,17 @@ Delete a task.
 
 ### Vendor Management
 
-![Vendor Screenshot](./screenshots/vendors.png)
+<p align="center">
+  <img src="./public/screenshots/vendor-darkmode.png" width="48%" />
+  <img src="./public/screenshots/vendor-lightmode.png" width="48%" />
+</p>
 
 ### Client Management
 
-![Client Screenshot](./screenshots/clients.png)
+<p align="center">
+  <img src="./public/screenshots/client-darkmode.png" width="48%" />
+  <img src="./public/screenshots/client-lightmode.png" width="48%" />
+</p>
 
 ### Audit Log View
 
