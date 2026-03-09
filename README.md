@@ -272,14 +272,14 @@ Delete a task.
   <img src="./public/screenshots/taskboard-light.png" width="48%" />
 </p>
 
-### Event Detail View
+### Event Details View
 
 <p align="center">
   <img src="./public/screenshots/event-details-darkmode.png" width="48%" />
   <img src="./public/screenshots/event-details-lightmode.png" width="48%" />
 </p>
 
-### Budget & Expense View
+### Budget & Expenses View
 
 <p align="center">
   <img src="./public/screenshots/budget_&_expenses-dark.png" width="48%" />
@@ -307,18 +307,18 @@ Delete a task.
   <img src="./public/screenshots/user-profile-light.png" width="48%" />
 </p>
 
-### Vendor Management View
-
-<p align="center">
-  <img src="./public/screenshots/vendor-darkmode.png" width="48%" />
-  <img src="./public/screenshots/vendor-lightmode.png" width="48%" />
-</p>
-
-### Client Management View
+### Client Directory View
 
 <p align="center">
   <img src="./public/screenshots/client-darkmode.png" width="48%" />
   <img src="./public/screenshots/client-lightmode.png" width="48%" />
+</p>
+
+### Vendor Directory View
+
+<p align="center">
+  <img src="./public/screenshots/vendor-darkmode.png" width="48%" />
+  <img src="./public/screenshots/vendor-lightmode.png" width="48%" />
 </p>
 
 ---
