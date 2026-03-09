@@ -88,18 +88,28 @@ export default function TasksBoard() {
 
   // Update columns when tasks load or search filter changes
   useEffect(() => {
-    if (fetchStatus === "succeeded") {
+    if (fetchStatus === "succeeded" && eventsStatus === "succeeded") {
       // Only update columns if not initialized OR if search filter changes
       if (!columnsInitialized || filters.search) {
         setColumns(getColumnsFromTasksMemoized());
       }
       if (!columnsInitialized) setColumnsInitialized(true);
     }
-  }, [fetchStatus, filteredTasks, columnsInitialized, filters.search]);
+  }, [
+    fetchStatus,
+    eventsStatus,
+    filteredTasks,
+    columnsInitialized,
+    filters.search,
+  ]);
 
   // Recalculate columns when priority/assignee/date filters change
   useEffect(() => {
-    if (columnsInitialized && fetchStatus === "succeeded") {
+    if (
+      columnsInitialized &&
+      fetchStatus === "succeeded" &&
+      eventsStatus === "succeeded"
+    ) {
       setColumns(getColumnsFromTasksMemoized());
     }
   }, [filters.priority, filters.assignee, filters.dateRange, customDateRange]);
