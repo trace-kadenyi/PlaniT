@@ -46,13 +46,14 @@ export default function TasksBoard() {
   const dispatch = useDispatch();
   const { can } = usePermissions();
 
-  // Get tasks from Redux store
+  // Get tasks and events from Redux store
   const {
     items: tasks,
     status: fetchStatus,
     error: fetchError,
     updateError,
   } = useSelector((state) => state.tasks);
+
   const { items: eventsItems, status: eventsStatus } = useSelector(
     (state) => state.events,
   );
