@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
   loginUser,
@@ -18,17 +18,20 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { loginStatus, loginError, isAuthenticated } = useSelector(
-    (state) => state.auth
+    (state) => state.auth,
   );
 
-  // if auth, navigate to dashboard
+  // if auth, navigate to redirect path or default to dashboard
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      const params = new URLSearchParams(location.search);
+      const redirectTo = params.get("redirect") || "/";
+      navigate(redirectTo);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, location.search]);
 
   // Clear errors when component unmounts
   useEffect(() => {
