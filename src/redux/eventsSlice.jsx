@@ -483,7 +483,9 @@ const eventsSlice = createSlice({
       })
       .addCase(fetchEventsForDashboard.fulfilled, (state, action) => {
         state.dashboardStatus = "succeeded";
-        state.dashboardItems = action.payload;
+        state.dashboardItems = action.payload.filter(
+          (event) => !event.isArchived,
+        );
       })
       .addCase(fetchEventsForDashboard.rejected, (state, action) => {
         state.dashboardStatus = "failed";

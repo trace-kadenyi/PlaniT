@@ -34,12 +34,12 @@ const Dashboards = () => {
 
   // Get events data from Redux store
   const { dashboardItems, dashboardStatus: eventsStatus } = useSelector(
-    (state) => state.events
+    (state) => state.events,
   );
 
   // Get tasks data from Redux store
   const { items: tasks, status: tasksStatus } = useSelector(
-    (state) => state.tasks
+    (state) => state.tasks,
   );
 
   // Fetch events and tasks data when component mounts
@@ -67,9 +67,9 @@ const Dashboards = () => {
 
   // tasks statistics
   const totalTasks = getTotalTasks(tasks);
-  const pendingTasks = getPendingTasks(tasks);
-  const completedTasks = getCompletedTasks(tasks);
-  const sortedRecentTasks = getSortedRecentTasks(tasks);
+  const pendingTasks = getPendingTasks(tasks, dashboardItems);
+  const completedTasks = getCompletedTasks(tasks, dashboardItems);
+  const sortedRecentTasks = getSortedRecentTasks(tasks, dashboardItems);
 
   // budget stats
   const totalBudget = getTotalBudget(dashboardItems);
@@ -77,7 +77,7 @@ const Dashboards = () => {
 
   // Group events and tasks by status
   const eventsByStatus = groupEventByStatus(dashboardItems);
-  const tasksByStatus = groupTasksByStatus(tasks);
+  const tasksByStatus = groupTasksByStatus(tasks, dashboardItems);
 
   // quick stats
   const quickStats = createQuickStats({
@@ -87,6 +87,7 @@ const Dashboards = () => {
     completedTasks,
     totalExpenses,
     totalBudget,
+    eventsByStatus,
   });
 
   // dashboard cards
