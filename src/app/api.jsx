@@ -1,14 +1,13 @@
 import axios from "axios";
+import { refreshToken, logout } from "../redux/authSlice";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000", // backend base URL
+  baseURL: "http://localhost:4000",
   withCredentials: true,
 });
 
-// Store reference - import it dynamically to avoid circular dependencies
 let store;
 
-// Function to set the store reference (call this in the store setup)
 export const setStore = (storeInstance) => {
   store = storeInstance;
 };
@@ -24,7 +23,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor - handles token expiration
@@ -52,28 +51,27 @@ api.interceptors.response.use(
 
       try {
         // Try to refresh the token
-        await store.dispatch(refreshToken());
-        const newToken = store.getState()?.auth?.accessToken;
+        const result = await store.dispatch(refreshToken()).unwrap();
+        const newToken =
+          result?.accessToken || store.getState()?.auth?.accessToken;
 
         if (newToken) {
-          // Retry the original request with new token
+          // Silently retry the original request — no redirect needed
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
           return api(originalRequest);
         }
       } catch (refreshError) {
-        // Refresh failed, logout user
-        if (store.dispatch && store.dispatch.logout) {
-          store.dispatch(logout());
-        }
-        // Redirect to login page
+        // Refresh genuinely failed — log out and preserve current path for redirect after login
+        store.dispatch(logout());
+        const currentPath = window.location.pathname + window.location.search;
         if (window.location.pathname !== "/login") {
-          window.location.href = "/login";
+          window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
         }
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
