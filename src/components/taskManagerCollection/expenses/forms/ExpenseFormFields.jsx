@@ -30,6 +30,12 @@ export default function ExpenseFormFields({
     onFieldChange({ target: { name, value: value || undefined } }); // Send undefined if empty
   };
 
+  // Handle category change — clear vendor if it no longer matches
+  const handleCategoryChange = (e) => {
+    onFieldChange(e); // update category
+    onFieldChange({ target: { name: "vendor", value: null } }); // clear vendor
+  };
+
   // Handle payment status change
   const handlePaymentStatusChange = (e) => {
     const { value } = e.target;
@@ -99,7 +105,7 @@ export default function ExpenseFormFields({
           name="category"
           required
           value={form.category || "other"}
-          onChange={onFieldChange}
+          onChange={handleCategoryChange}
           className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#9B2C62] dark:border-gray-500 dark:focus:ring-[#D97706] dark:focus:border-none dark:text-gray-300 dark:bg-gray-900"
         >
           <option value="venue">Venue</option>
