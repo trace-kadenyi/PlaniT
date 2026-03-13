@@ -21,7 +21,10 @@ export default function DashEventCard({ event }) {
   const isBudgetWarning = hasBudget && remainingBudget < totalBudget * 0.1;
 
   return (
-    <div className="relative z-20" style={{ pointerEvents: "none" }}>
+    <div
+      className={`relative z-20 ${event.status === "Cancelled" ? "opacity-50" : "opacity-100"}`}
+      style={{ pointerEvents: "none" }}
+    >
       <div className="flex justify-between items-start gap-1">
         <Link
           to={`/events/${event.id}`}
