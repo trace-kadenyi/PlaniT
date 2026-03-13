@@ -6,6 +6,7 @@ import { truncateText } from "../../utils/formatting";
 import { EventStatusPill } from "../../../shared/UIFragments";
 
 // get event urgency
+// get event urgency
 const getUrgency = (date, status) => {
   if (status === "Completed" || status === "Cancelled") return null;
 
@@ -17,17 +18,31 @@ const getUrgency = (date, status) => {
   const eventDate = normalize(date);
   const now = normalize(new Date());
 
-  if (eventDate < now) return "overdue";
+  const diffDays = Math.round((eventDate - now) / (1000 * 60 * 60 * 24));
 
-  const endOfWeek = new Date(now);
-  endOfWeek.setDate(now.getDate() + (6 - now.getDay()));
-  if (eventDate <= endOfWeek) return "thisWeek";
+  if (diffDays < 0) return "overdue";
+  if (diffDays === 0) return "today";
+  if (diffDays === 1) return "tomorrow";
+  if (diffDays <= 7) return `days:${diffDays}`;
 
+  return null;
+};
+
+const getUrgencyDisplay = (urgency) => {
+  if (!urgency) return null;
+  if (urgency === "overdue") return { label: "Overdue", color: "red" };
+  if (urgency === "today") return { label: "Due today", color: "red" };
+  if (urgency === "tomorrow") return { label: "Tomorrow", color: "amber" };
+  if (urgency.startsWith("days:")) {
+    const days = urgency.split(":")[1];
+    return { label: `Due in ${days} days`, color: "amber" };
+  }
   return null;
 };
 
 export default function DashEventCard({ event }) {
   const urgency = getUrgency(event.date, event.status);
+  const urgencyDisplay = getUrgencyDisplay(urgency);
   // Safely access budget data
   const {
     totalBudget = 0,
@@ -48,15 +63,15 @@ export default function DashEventCard({ event }) {
       style={{ pointerEvents: "none" }}
     >
       {/* Urgency badge */}
-      {urgency && (
+      {urgencyDisplay && (
         <span
           className={`text-xs px-2 py-0.5 rounded-full font-semibold mb-2 ${
-            urgency === "overdue"
+            urgencyDisplay.color === "red"
               ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
               : "bg-amber-100 text-[#9B2C62] dark:bg-amber-900/20 dark:text-amber-500"
           }`}
         >
-          {urgency === "overdue" ? "Overdue" : "This week"}
+          {urgencyDisplay.label}
         </span>
       )}
 
@@ -78,9 +93,23 @@ export default function DashEventCard({ event }) {
       <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 space-y-1">
         {/* date */}
         <div className="flex items-center">
-          <span className="font-medium mr-1">Date:</span>
           <span
-            className={`font-semibold ${urgency && "text-red-600 dark:text-red-500"}`}
+            className={`w-2 h-2 rounded-full flex-shrink-0 mr-2 ${
+              urgencyDisplay?.color === "red"
+                ? "bg-red-500"
+                : urgencyDisplay?.color === "amber"
+                  ? "bg-[#9B2C62] dark:bg-[#F59E0B]"
+                  : "bg-gray-500 dark:bg-gray-400"
+            }`}
+          />
+          <span
+            className={`font-semibold ${
+              urgencyDisplay?.color === "red"
+                ? "text-red-600 dark:text-red-500"
+                : urgencyDisplay?.color === "amber"
+                  ? "text-[#9B2C62] dark:text-[#F59E0B]"
+                  : ""
+            }`}
           >
             {formatDateTime(event.date)}
           </span>
