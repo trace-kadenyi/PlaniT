@@ -93,15 +93,20 @@ export default function DashEventCard({ event }) {
       <div className="mt-2 text-xs text-gray-600 dark:text-gray-400 space-y-1">
         {/* date */}
         <div className="flex items-center">
-          <span
-            className={`w-2 h-2 rounded-full flex-shrink-0 mr-2 ${
-              urgencyDisplay?.color === "red"
-                ? "bg-red-500"
-                : urgencyDisplay?.color === "amber"
-                  ? "bg-[#9B2C62] dark:bg-[#F59E0B]"
-                  : "bg-gray-500 dark:bg-gray-400"
-            }`}
-          />
+          <span className="relative flex mr-2 flex-shrink-0 w-2 h-2">
+            {urgencyDisplay?.color === "red" && (
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
+            )}
+            <span
+              className={`relative inline-flex rounded-full w-2 h-2 ${
+                urgencyDisplay?.color === "red"
+                  ? "bg-red-500"
+                  : urgencyDisplay?.color === "amber"
+                    ? "bg-[#9B2C62] dark:bg-[#F59E0B]"
+                    : "bg-gray-500 dark:bg-gray-400"
+              }`}
+            />
+          </span>
           <span
             className={`font-semibold ${
               urgencyDisplay?.color === "red"
