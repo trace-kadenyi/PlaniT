@@ -6,6 +6,28 @@ import { truncateText } from "../../utils/formatting";
 import { EventStatusPill } from "../../../shared/UIFragments";
 
 export default function DashEventCard({ event }) {
+
+  // get event urgency
+const getUrgency = (date, status) => {
+  if (status === "Completed" || status === "Cancelled") return null;
+
+  const normalize = (d) => {
+    const n = new Date(d);
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  };
+
+  const eventDate = normalize(date);
+  const now = normalize(new Date());
+
+  if (eventDate < now) return "overdue";
+
+  const endOfWeek = new Date(now);
+  endOfWeek.setDate(now.getDate() + (6 - now.getDay()));
+  if (eventDate <= endOfWeek) return "thisWeek";
+
+  return null;
+};
+
   // Safely access budget data
   const {
     totalBudget = 0,
