@@ -29,3 +29,13 @@ export const UpdateDashboardError = ({ updateError, dispatch, clearError }) => (
     </button>
   </div>
 );
+
+// urgency helpers
+const normalize = (d) => {
+  const n = new Date(d);
+  return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+};
+
+
+
+
