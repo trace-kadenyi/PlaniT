@@ -22,7 +22,7 @@ export default function DashEventCard({ event }) {
 
   return (
     <div
-      className={`relative z-20 ${event.status === "Cancelled" ? "opacity-50" : "opacity-100"}`}
+      className={`relative z-20 ${event.status === "Cancelled" ? "opacity-70" : "opacity-100"}`}
       style={{ pointerEvents: "none" }}
     >
       <div className="flex justify-between items-start gap-1">
