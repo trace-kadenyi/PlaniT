@@ -129,8 +129,8 @@ Full mutation history for expenses — who changed what and when.
 ### Team Management
 
 <p align="center">
-  <img src="./public/screenshots/user-management-dark.png" width="48%" />
-  <img src="./public/screenshots/user-management-light.png" width="48%" />
+  <img src="./public/screenshots/teammanagement-dark.png" width="48%" />
+  <img src="./public/screenshots/teammanagement-light.png" width="48%" />
 </p>
 
 Invite team members, assign roles, and manage account status.
