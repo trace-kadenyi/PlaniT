@@ -36,6 +36,24 @@ const normalize = (d) => {
   return new Date(n.getFullYear(), n.getMonth(), n.getDate());
 };
 
+export const getUrgency = (
+  date,
+  status,
+  inactiveStatuses = ["Completed", "Cancelled"],
+) => {
+  if (inactiveStatuses.includes(status)) return null;
 
+  const eventDate = normalize(date);
+  const now = normalize(new Date());
+
+  const diffDays = Math.round((eventDate - now) / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) return "overdue";
+  if (diffDays === 0) return "today";
+  if (diffDays === 1) return "tomorrow";
+  if (diffDays <= 7) return `days:${diffDays}`;
+
+  return null;
+};
 
 
