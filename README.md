@@ -138,8 +138,8 @@ Invite team members, assign roles, and manage account status.
 ### User Profile
 
 <p align="center">
-  <img src="./public/screenshots/user-profile-dark.png" width="48%" />
-  <img src="./public/screenshots/user-profile-light.png" width="48%" />
+  <img src="./public/screenshots/userprofile-dark.png" width="48%" />
+  <img src="./public/screenshots/userprofile-light.png" width="48%" />
 </p>
 
 Personal profile management with update history.
