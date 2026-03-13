@@ -84,8 +84,8 @@ Overview of active events, upcoming tasks, and key metrics at a glance.
 ### Events Board
 
 <p align="center">
-  <img src="./public/screenshots/eventsboard-darkmode.png" width="48%" />
-  <img src="./public/screenshots/eventsboard-lightmode.png" width="48%" />
+  <img src="./public/screenshots/eventsboard-dark.png" width="48%" />
+  <img src="./public/screenshots/eventsboard-light.png" width="48%" />
 </p>
 
 Browse, filter, archive, and manage all organization events.
@@ -93,7 +93,7 @@ Browse, filter, archive, and manage all organization events.
 ### Task Board
 
 <p align="center">
-  <img src="./public/screenshots/taskboard-darkmode.png" width="48%" />
+  <img src="./public/screenshots/taskboard-dark.png" width="48%" />
   <img src="./public/screenshots/taskboard-light.png" width="48%" />
 </p>
 
@@ -102,8 +102,8 @@ Track tasks tied to specific events with status updates.
 ### Event Details
 
 <p align="center">
-  <img src="./public/screenshots/event-details-darkmode.png" width="48%" />
-  <img src="./public/screenshots/event-details-lightmode.png" width="48%" />
+  <img src="./public/screenshots/eventdetails-dark.png" width="48%" />
+  <img src="./public/screenshots/eventdetails-light.png" width="48%" />
 </p>
 
 Deep-dive into a single event — linked clients, vendors, budget, and tasks in one view.
@@ -129,8 +129,8 @@ Full mutation history for expenses — who changed what and when.
 ### Team Management
 
 <p align="center">
-  <img src="./public/screenshots/user-management-dark.png" width="48%" />
-  <img src="./public/screenshots/user-management-light.png" width="48%" />
+  <img src="./public/screenshots/teammanagement-dark.png" width="48%" />
+  <img src="./public/screenshots/teammanagement-light.png" width="48%" />
 </p>
 
 Invite team members, assign roles, and manage account status.
@@ -138,8 +138,8 @@ Invite team members, assign roles, and manage account status.
 ### User Profile
 
 <p align="center">
-  <img src="./public/screenshots/user-profile-dark.png" width="48%" />
-  <img src="./public/screenshots/user-profile-light.png" width="48%" />
+  <img src="./public/screenshots/userprofile-dark.png" width="48%" />
+  <img src="./public/screenshots/userprofile-light.png" width="48%" />
 </p>
 
 Personal profile management with update history.
