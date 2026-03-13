@@ -56,4 +56,14 @@ export const getUrgency = (
   return null;
 };
 
-
+export const getUrgencyDisplay = (urgency) => {
+  if (!urgency) return null;
+  if (urgency === "overdue") return { label: "Overdue", color: "red" };
+  if (urgency === "today") return { label: "Due today", color: "red" };
+  if (urgency === "tomorrow") return { label: "Tomorrow", color: "amber" };
+  if (urgency.startsWith("days:")) {
+    const days = urgency.split(":")[1];
+    return { label: `Due in ${days} days`, color: "amber" };
+  }
+  return null;
+};
