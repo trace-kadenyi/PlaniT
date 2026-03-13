@@ -93,7 +93,7 @@ Browse, filter, archive, and manage all organization events.
 ### Task Board
 
 <p align="center">
-  <img src="./public/screenshots/taskboard-darkmode.png" width="48%" />
+  <img src="./public/screenshots/taskboard-dark.png" width="48%" />
   <img src="./public/screenshots/taskboard-light.png" width="48%" />
 </p>
 
