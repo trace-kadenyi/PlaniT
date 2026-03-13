@@ -84,8 +84,8 @@ Overview of active events, upcoming tasks, and key metrics at a glance.
 ### Events Board
 
 <p align="center">
-  <img src="./public/screenshots/eventboard-dark.png" width="48%" />
-  <img src="./public/screenshots/eventboard-light.png" width="48%" />
+  <img src="./public/screenshots/eventsboard-dark.png" width="48%" />
+  <img src="./public/screenshots/eventsboard-light.png" width="48%" />
 </p>
 
 Browse, filter, archive, and manage all organization events.
