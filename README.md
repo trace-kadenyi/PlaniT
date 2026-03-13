@@ -102,8 +102,8 @@ Track tasks tied to specific events with status updates.
 ### Event Details
 
 <p align="center">
-  <img src="./public/screenshots/event-details-darkmode.png" width="48%" />
-  <img src="./public/screenshots/event-details-lightmode.png" width="48%" />
+  <img src="./public/screenshots/eventdetails-dark.png" width="48%" />
+  <img src="./public/screenshots/eventdetails-light.png" width="48%" />
 </p>
 
 Deep-dive into a single event — linked clients, vendors, budget, and tasks in one view.
