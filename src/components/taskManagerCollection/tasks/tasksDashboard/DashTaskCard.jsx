@@ -91,6 +91,8 @@ export default function DashTaskCard({ task }) {
             ? `${task.assignee.firstName} ${task.assignee.lastName}`
             : "Unassigned"}
         </span>
+
+        {/* priority */}
         <TasksPriorityPill priority={task.priority} />
       </div>
     </div>
