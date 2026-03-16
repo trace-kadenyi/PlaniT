@@ -7,6 +7,7 @@ export default function ClientEventsUI({ event, Link }) {
         <h3 className="font-bold text-[#9B2C62] text-lg mb-1 transition-colors dark:text-[#F59E0B]">
           {event.name}
           {event.isDeleted && <span className="ml-2 text-xs">(deleted)</span>}
+          {event.isArchived && <span className="ml-2 text-xs">(archived)</span>}
         </h3>
         <div className="flex flex-wrap items-center gap-3 text-sm mt-2">
           <div className="flex items-center gap-1.5">
