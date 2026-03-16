@@ -40,6 +40,10 @@ export default function Client() {
     deleteError,
   } = useSelector((state) => state.clients);
 
+  // filter out viewers
+  const notAuthorized =
+    useSelector((state) => state.auth.user).role === "viewer";
+
   // fetch client
   useEffect(() => {
     dispatch(fetchClientWithEvents(id));
@@ -51,6 +55,11 @@ export default function Client() {
       setLocalIsArchived(client.isArchived);
     }
   }, [client]);
+
+  // visible events
+  const visibleEvents = notAuthorized
+    ? events.filter((e) => !e.isDeleted && !e.isArchived)
+    : events;
 
   // handle archive toggle
   const handleArchiveToggle = async (clientId, isArchived) => {
@@ -74,7 +83,7 @@ export default function Client() {
     toast,
     toastWithProgress,
     DeleteConfirmationToast,
-    toastLock
+    toastLock,
   );
 
   return (
@@ -157,7 +166,7 @@ export default function Client() {
               </div>
 
               {/* no events handling */}
-              {events.length === 0 ? (
+              {visibleEvents.length === 0 ? (
                 <div className="bg-white dark:bg-gradient-to-b dark:from-[#1a1026] dark:to-black p-8 rounded-xl border-2 border-dashed border-[#F3E8FF] dark:border-[#9B2C62]/30 text-center hover:border-[#9B2C62]/30 transition-colors">
                   <svg
                     className="mx-auto h-12 w-12 text-gray-400"
@@ -183,8 +192,8 @@ export default function Client() {
               ) : (
                 // events list
                 <ul className="space-y-4">
-                  {events.map((event) => (
-                    <ClientEventsUI key={event.id} event={event} Link={Link} />
+                  {visibleEvents.map((event) => (
+                    <ClientEventsUI key={event._id} event={event} Link={Link} />
                   ))}
                 </ul>
               )}
