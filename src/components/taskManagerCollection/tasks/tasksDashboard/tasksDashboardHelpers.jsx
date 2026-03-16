@@ -6,7 +6,10 @@ export const mapTaskToCard = (task) => ({
   id: task._id,
   title: task.title,
   event: task.eventName || task.eventId?.name || "Unassigned",
-  eventId: task.eventId?._id || null,
+  eventId:
+    typeof task.eventId === "object"
+      ? task.eventId?._id || null
+      : task.eventId || null,
   due: task.deadline
     ? new Date(task.deadline).toLocaleDateString()
     : "No deadline",
@@ -55,7 +58,7 @@ export const getColumnsFromTasks = (tasks, mapTaskToCardFn) => {
 // on drag end func
 export const handleDragEnd = async (
   result,
-  { tasks, columns, setColumns, dispatch, can }
+  { tasks, columns, setColumns, dispatch, can },
 ) => {
   const { source, destination, draggableId } = result;
 
@@ -78,7 +81,7 @@ export const handleDragEnd = async (
     taskToastProgress(
       <span className="text-[#9B2C62] dark:text-[#F59E0B] font-semibold">
         You don't have permission to update task status. Upgrade to planner.
-      </span>
+      </span>,
     );
     return;
   }
@@ -99,7 +102,7 @@ export const handleDragEnd = async (
 
       // Find and remove the task
       const taskIndex = sourceColumn.tasks.findIndex(
-        (t) => t.id === draggableId
+        (t) => t.id === draggableId,
       );
       if (taskIndex === -1) return prevColumns;
 
@@ -123,7 +126,7 @@ export const handleDragEnd = async (
       updateTask({
         taskId: draggableId,
         updatedData: { status: newStatus },
-      })
+      }),
     ).unwrap();
 
     taskToastProgress(
@@ -138,7 +141,7 @@ export const handleDragEnd = async (
           {newStatus}
         </span>
         .
-      </span>
+      </span>,
     );
   } catch (err) {
     setColumns(currentColumns);
@@ -179,7 +182,7 @@ export const filterTasks = (
   tasks,
   filters,
   filterByDateRange,
-  customDateRange = null
+  customDateRange = null,
 ) => {
   const searchTerm = filters.search?.toLowerCase() || "";
 
@@ -194,14 +197,14 @@ export const filterTasks = (
       (filters.assignee === "Unassigned"
         ? !task.assignedTo
         : task.assignedTo && typeof task.assignedTo === "object"
-        ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}` ===
-          filters.assignee
-        : task.assignedTo === filters.assignee);
+          ? `${task.assignedTo.firstName} ${task.assignedTo.lastName}` ===
+            filters.assignee
+          : task.assignedTo === filters.assignee);
     // date filter
     const matchesDate = filterByDateRange(
       task,
       filters.dateRange,
-      filters.dateRange === "custom" ? customDateRange : null
+      filters.dateRange === "custom" ? customDateRange : null,
     );
     // search filter
     const matchesSearch =

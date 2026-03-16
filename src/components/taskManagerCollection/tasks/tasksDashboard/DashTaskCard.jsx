@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { truncateText } from "../../utils/formatting";
 import { TasksPriorityPill } from "../../../shared/UIFragments";
 import { getUrgency, getUrgencyDisplay } from "../../utils/genDashboardHelpers";
+import { navigateToTask } from "../../utils/handlers/taskHandlers";
 
 export default function DashTaskCard({ task }) {
+  const navigate = useNavigate();
   const urgency = getUrgency(task.due, task.status, ["Completed"]);
   const urgencyDisplay = getUrgencyDisplay(urgency);
 
@@ -27,7 +29,14 @@ export default function DashTaskCard({ task }) {
 
       {/* title and priority */}
       <div className="flex justify-between items-start mt-1">
-        <h3 className="font-medium text-gray-800 dark:text-gray-200">
+        <h3
+          className="font-medium text-gray-800 dark:text-gray-200 hover:underline cursor-pointer"
+          style={{ pointerEvents: "auto" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigateToTask(navigate, { ...task, _id: task._id || task.id });
+          }}
+        >
           {truncateText(task.title, 25)}
         </h3>
         {task.priority === "high" && (
