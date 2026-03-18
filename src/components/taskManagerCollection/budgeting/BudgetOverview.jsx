@@ -116,8 +116,8 @@ export default function BudgetOverview({
         {budgetStatus.deletedPaidTotal > 0 && (
           <p className="mt-2 text-xs text-gray-500 italic">
             Note: ${budgetStatus.deletedPaidTotal.toLocaleString()} in paid
-            expenses were deleted. Deleting paid expenses does not restore the remaining
-            budget.
+            expenses were deleted. Deleting paid expenses does not restore the
+            remaining budget.
           </p>
         )}
 
