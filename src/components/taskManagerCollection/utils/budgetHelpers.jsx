@@ -34,9 +34,10 @@ export function BudgetStatus({ budgetStatus, paidExpensesCount = 0 }) {
     totalBudget = 0,
     totalExpenses = 0,
     remainingBudget = 0,
+    deletedPaidTotal = 0,
   } = budgetStatus ?? {};
 
-  const showPaidDeletionNotice = paidExpensesCount > 0;
+  const showPaidDeletionNotice = deletedPaidTotal > 0;
 
   return (
     <div className="bg-white p-4 rounded-xl shadow-sm border border-[#F3EDE9] dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 dark:border-gray-900 mb-6">
@@ -78,10 +79,8 @@ export function BudgetStatus({ budgetStatus, paidExpensesCount = 0 }) {
       {/* Explanation */}
       {showPaidDeletionNotice && (
         <p className="mt-3 text-xs text-gray-600 dark:text-gray-400 italic">
-          Note: {paidExpensesCount} paid expense
-          {paidExpensesCount > 1 ? "s were" : " was"} deleted. Paid expenses do
-          not restore remaining budget, which may cause totals to appear
-          different.
+          Note: ${deletedPaidTotal} in paid expenses were deleted. Deleting paid
+          expenses does not restore the remaining budget.
         </p>
       )}
     </div>
