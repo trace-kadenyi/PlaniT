@@ -70,108 +70,112 @@ function App() {
 
   return (
     <>
-      <AuthInitializer />
-
-      {/* Full-screen preloader — covers the footer flash during auth resolution */}
-      {isInitializing && (
-        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white">
-          <div className="flex flex-col items-center gap-6">
-            {/* Animated logo mark */}
-            <div className="relative w-16 h-16">
-              <div className="absolute inset-0 rounded-full border-4 border-[#9B2C62]/20"></div>
-              <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#9B2C62] animate-spin"></div>
-              <div
-                className="absolute inset-2 rounded-full border-4 border-transparent border-t-[#F59E0B] animate-spin"
-                style={{
-                  animationDirection: "reverse",
-                  animationDuration: "0.8s",
-                }}
-              ></div>
-            </div>
-            {/* Brand name */}
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-2xl font-bold tracking-tight text-[#9B2C62]">
-                PlaniT
-              </span>
-              <span className="text-xs text-gray-400 tracking-widest uppercase">
-                Loading your workspace
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
-
       {isSmallScreen ? (
         <Toaster position="top-center" />
       ) : (
         <Toaster position="top-right" />
       )}
-      <Router>
-        <Routes>
-          {/* Public routes (no layout, no sidebar) */}
-          <Route
-            path="/login"
-            element={
-              <>
-                <Login />
-                <Footer />
-              </>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <>
-                <Signup />
-                <Footer />
-              </>
-            }
-          />
 
-          {/* Product Overview - public or with sidebar if authed */}
-          <Route path="/product-overview" element={<PublicProductLayout />}>
-            <Route index element={<ProductOverview />} />
-          </Route>
+      <AuthInitializer>
+        {/* Full-screen preloader — covers the footer flash during auth resolution */}
+        {isInitializing ? (
+          <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white">
+            <div className="flex flex-col items-center gap-6">
+              {/* Animated logo mark */}
+              <div className="relative w-16 h-16">
+                <div className="absolute inset-0 rounded-full border-4 border-[#9B2C62]/20"></div>
+                <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#9B2C62] animate-spin"></div>
+                <div
+                  className="absolute inset-2 rounded-full border-4 border-transparent border-t-[#F59E0B] animate-spin"
+                  style={{
+                    animationDirection: "reverse",
+                    animationDuration: "0.8s",
+                  }}
+                ></div>
+              </div>
+              {/* Brand name */}
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-2xl font-bold tracking-tight text-[#9B2C62]">
+                  PlaniT
+                </span>
+                <span className="text-xs text-gray-400 tracking-widest uppercase">
+                  Loading your workspace
+                </span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <Router>
+            <Routes>
+              {/* Public routes (no layout, no sidebar) */}
+              <Route
+                path="/login"
+                element={
+                  <>
+                    <Login />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <>
+                    <Signup />
+                    <Footer />
+                  </>
+                }
+              />
 
-          {/* Root: smart redirect based on auth + first-visit flag */}
-          <Route path="/" element={<RootRedirect />} />
+              {/* Product Overview - public or with sidebar if authed */}
+              <Route path="/product-overview" element={<PublicProductLayout />}>
+                <Route index element={<ProductOverview />} />
+              </Route>
 
-          {/* Protected routes with Layout (includes sidebar) */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }
-          >
-            {/* All nested routes are automatically protected by the parent ProtectedRoute */}
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/events/:id" element={<Event />} />
-            <Route path="/clients" element={<Clients />} />
-            <Route path="/clients/:id" element={<Client />} />
-            <Route path="/vendors" element={<Vendors />} />
-            <Route path="/vendors/:id" element={<Vendor />} />
-            <Route path="/events/:id/edit" element={<EditEventForm />} />
-            <Route path="/events/new" element={<CreateEventForm />} />
-            <Route path="/clients/:id/edit" element={<EditClientForm />} />
-            <Route path="/clients/new" element={<CreateClientForm />} />
-            <Route path="/vendors/:id/edit" element={<EditVendorForm />} />
-            <Route path="/vendors/new" element={<CreateVendorForm />} />
-            <Route path="/tasks/board" element={<TasksBoard />} />
-            <Route path="/events/board" element={<EventsBoard />} />
-            <Route path="/dashboards" element={<Dashboards />} />
-            <Route path="/team" element={<Users />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/users/:userId" element={<User />} />
-            <Route path="/users/:userId/edit" element={<EditUserProfile />} />
-          </Route>
+              {/* Root: smart redirect based on auth + first-visit flag */}
+              <Route path="/" element={<RootRedirect />} />
 
-          {/* Catch all route - redirect to home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
+              {/* Protected routes with Layout (includes sidebar) */}
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Layout />
+                  </ProtectedRoute>
+                }
+              >
+                {/* All nested routes are automatically protected by the parent ProtectedRoute */}
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/events/:id" element={<Event />} />
+                <Route path="/clients" element={<Clients />} />
+                <Route path="/clients/:id" element={<Client />} />
+                <Route path="/vendors" element={<Vendors />} />
+                <Route path="/vendors/:id" element={<Vendor />} />
+                <Route path="/events/:id/edit" element={<EditEventForm />} />
+                <Route path="/events/new" element={<CreateEventForm />} />
+                <Route path="/clients/:id/edit" element={<EditClientForm />} />
+                <Route path="/clients/new" element={<CreateClientForm />} />
+                <Route path="/vendors/:id/edit" element={<EditVendorForm />} />
+                <Route path="/vendors/new" element={<CreateVendorForm />} />
+                <Route path="/tasks/board" element={<TasksBoard />} />
+                <Route path="/events/board" element={<EventsBoard />} />
+                <Route path="/dashboards" element={<Dashboards />} />
+                <Route path="/team" element={<Users />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/users/:userId" element={<User />} />
+                <Route
+                  path="/users/:userId/edit"
+                  element={<EditUserProfile />}
+                />
+              </Route>
+
+              {/* Catch all route - redirect to home */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Router>
+        )}
+      </AuthInitializer>
     </>
   );
 }
