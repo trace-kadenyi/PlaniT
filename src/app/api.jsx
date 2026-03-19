@@ -2,7 +2,8 @@ import axios from "axios";
 import { refreshToken, logout } from "../redux/authSlice";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000",
+  // baseURL: "http://localhost:4000",
+  baseURL: "https://planit-api.vercel.app",
   withCredentials: true,
 });
 
