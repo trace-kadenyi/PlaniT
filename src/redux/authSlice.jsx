@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 import api from "../app/api";
 
@@ -16,12 +17,12 @@ export const loginUser = createAsyncThunk(
       if (err.response?.status === 429) {
         return rejectWithValue(
           errorData?.message ||
-            "Too many login attempts. Please wait 15 minutes before trying again."
+            "Too many login attempts. Please wait 15 minutes before trying again.",
         );
       }
       return rejectWithValue(errorData?.message || err.message);
     }
-  }
+  },
 );
 
 // Signup user
@@ -37,34 +38,51 @@ export const signupUser = createAsyncThunk(
       // Handle validation errors specifically
       if (err.response?.status === 400 && errorData?.validationErrors) {
         return rejectWithValue(
-          errorData.message || "Please check your input fields"
+          errorData.message || "Please check your input fields",
         );
       }
 
       if (err.response?.status === 429) {
         return rejectWithValue(
           errorData?.message ||
-            "Too many signup attempts. Please wait 15 minutes before trying again."
+            "Too many signup attempts. Please wait 15 minutes before trying again.",
         );
       }
 
       // Return the backend error message
       return rejectWithValue(errorData?.message || err.message);
     }
-  }
+  },
 );
 
 // Refresh token
+// export const refreshToken = createAsyncThunk(
+//   "auth/refreshToken",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const res = await api.post("/api/auth/refresh-token"); // No body needed
+//       return res.data;
+//     } catch (err) {
+//       return rejectWithValue(err.response?.data || err.message);
+//     }
+//   }
+// );
+
 export const refreshToken = createAsyncThunk(
   "auth/refreshToken",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.post("/api/auth/refresh-token"); // No body needed
+      // Use plain axios, not the api instance
+      const res = await axios.post(
+        "https://planit-api.vercel.app/api/auth/refresh-token",
+        {},
+        { withCredentials: true },
+      );
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 // Forgot password
@@ -77,7 +95,7 @@ export const forgotPassword = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 // Reset password
@@ -92,7 +110,7 @@ export const resetPassword = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 // Logout user
@@ -105,7 +123,7 @@ export const logoutUser = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
     }
-  }
+  },
 );
 
 // --- Slice ---
