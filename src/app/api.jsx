@@ -13,17 +13,22 @@ export const setStore = (storeInstance) => {
   store = storeInstance;
 };
 
+// Blocks interceptor until AuthInitializer finishes its startup refresh
+let resolveAppReady;
+export const appReady = new Promise((resolve) => {
+  resolveAppReady = resolve;
+});
+export const markAppReady = () => resolveAppReady();
+
 // Refresh lock — prevents multiple simultaneous refresh calls
 let isRefreshing = false;
 let refreshSubscribers = [];
 
-// Once a new token is obtained, retry all queued requests
 const onRefreshed = (token) => {
   refreshSubscribers.forEach((cb) => cb(token));
   refreshSubscribers = [];
 };
 
-// Queue a request to be retried after refresh completes
 const addRefreshSubscriber = (cb) => {
   refreshSubscribers.push(cb);
 };
@@ -46,11 +51,13 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
+    // Wait for startup refresh to settle before handling any 401s
+    await appReady;
+
     const originalRequest = error.config;
     const errorMessage = error.response?.data?.message || "";
     const status = error.response?.status;
 
-    // Routes that should never trigger a token refresh
     const isAuthRoute =
       originalRequest.url.includes("/auth/login") ||
       originalRequest.url.includes("/auth/signup") ||
@@ -59,19 +66,16 @@ api.interceptors.response.use(
       originalRequest.url.includes("/auth/reset-password") ||
       originalRequest.url.includes("/auth/logout");
 
-    // Error messages that are credential failures, not token failures
     const isCredentialError = [
       "Current password is incorrect",
       "Invalid credentials",
       "Password is incorrect",
     ].some((msg) => errorMessage.includes(msg));
 
-    // Only attempt refresh for 401s on protected routes
     if (status !== 401 || isAuthRoute || isCredentialError || !store) {
       return Promise.reject(error);
     }
 
-    // If a refresh is already in flight, queue this request
     if (isRefreshing) {
       return new Promise((resolve) => {
         addRefreshSubscriber((newToken) => {
@@ -81,7 +85,6 @@ api.interceptors.response.use(
       });
     }
 
-    // First 401 — attempt the refresh
     originalRequest._retry = true;
     isRefreshing = true;
 
@@ -96,7 +99,6 @@ api.interceptors.response.use(
         return api(originalRequest);
       }
     } catch (refreshError) {
-      // Refresh failed — clear queue, log out, redirect
       refreshSubscribers = [];
       store.dispatch(logout());
       const currentPath = window.location.pathname + window.location.search;
