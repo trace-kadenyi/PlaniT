@@ -60,7 +60,6 @@ const RootRedirect = () => {
 
 function App() {
   const dispatch = useDispatch();
-  const { isInitializing } = useSelector((state) => state.auth);
   const isSmallScreen = useIsSmallScreen();
 
   //  initialize auth
@@ -77,7 +76,6 @@ function App() {
       )}
 
       <AuthInitializer>
-       
         <Router>
           <Routes>
             {/* Public routes (no layout, no sidebar) */}
