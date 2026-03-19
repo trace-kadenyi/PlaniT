@@ -76,7 +76,7 @@ export function BudgetStatus({ budgetStatus, paidExpensesCount = 0 }) {
         </div>
       </div>
 
-      {/* Explanation */}
+      {/* explanation - show paid deletion notice */}
       {showPaidDeletionNotice && (
         <p className="mt-3 text-xs text-gray-600 dark:text-gray-400 italic">
           Note: ${deletedPaidTotal} in paid expenses were deleted. Deleting paid
