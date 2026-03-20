@@ -7,8 +7,8 @@ import {
   CheckSquare,
 } from "lucide-react";
 
-import eventsBoard from "../../assets/eventsboard.png";
-import tasksBoard from "../../assets/tasksboard.png";
+import eventsBoard from "../../../public/screenshots/eventsboard-dark.png";
+import tasksBoard from "../../../public/screenshots/taskboard-dark.png";
 
 export default function VisualBoards() {
   return (
