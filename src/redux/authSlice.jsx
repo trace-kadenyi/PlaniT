@@ -62,7 +62,7 @@ export const refreshToken = createAsyncThunk(
     try {
       // Use plain axios, not the api instance
       const res = await axios.post(
-        "https://planit-api.vercel.app/api/auth/refresh-token",
+        "https://api.planit.traceykadenyi.com/api/auth/refresh-token",
         {},
         { withCredentials: true },
       );
