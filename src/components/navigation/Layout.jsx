@@ -14,7 +14,12 @@ export default function Layout() {
     if (!channel) return;
 
     channel.bind("notification", (data) => {
-      toastWithProgress(data.message);
+      toastWithProgress(
+        <span>
+          <span>{data.message}</span>{" "}
+          <span className="font-bold">{data.task.title}</span>
+        </span>,
+      );
     });
 
     return () => channel.unbind("notification");
