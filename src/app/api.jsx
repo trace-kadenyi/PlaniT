@@ -2,8 +2,7 @@ import axios from "axios";
 import { refreshToken, logout } from "../redux/authSlice";
 
 const api = axios.create({
-  // baseURL: "http://localhost:4000",
-  baseURL: "https://api.planit.traceykadenyi.com",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
