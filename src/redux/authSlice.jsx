@@ -62,7 +62,7 @@ export const refreshToken = createAsyncThunk(
     try {
       // Use plain axios, not the api instance
       const res = await axios.post(
-        "https://api.planit.traceykadenyi.com/api/auth/refresh-token",
+        `${import.meta.env.VITE_API_URL}/api/auth/refresh-token`,
         {},
         { withCredentials: true },
       );
